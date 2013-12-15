@@ -4,6 +4,7 @@ import org.bubblecloud.zigbee.network.SynchrounsCommandListener;
 import org.bubblecloud.zigbee.network.packet.ZToolException;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.network.packet.ZToolPacketHandler;
+import org.bubblecloud.zigbee.serial.SerialPort;
 import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.network.AsynchrounsCommandListener;
 import org.slf4j.Logger;
