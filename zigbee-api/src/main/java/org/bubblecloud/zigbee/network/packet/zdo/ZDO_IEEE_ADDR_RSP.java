@@ -32,6 +32,8 @@ import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -40,6 +42,7 @@ import org.bubblecloud.zigbee.util.DoubleByte;
  * @since 0.1.0
  */
 public class ZDO_IEEE_ADDR_RSP extends ZToolPacket /*implements IRESPONSE_CALLBACK_IZDO*/ {
+    private static final Logger logger = LoggerFactory.getLogger(ZDO_IEEE_ADDR_RSP.class);
     /// <name>TI.ZPI1.ZDO_IEEE_ADDR_RSP.AssocDevList</name>
     /// <summary>Dynamic array, array of 16 bit short addresses - list of network address for associated devices.  This list can be a partial list if the entire list doesn't fit into a packet.  If it is a partial list, the starting index is StartIndex.</summary>
     public ZToolAddress16[] AssocDevList;
@@ -155,6 +158,7 @@ public class ZDO_IEEE_ADDR_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
 	public int[] getAssociatedDeviceList() {
 		int[] values = new int[AssocDevList.length];
 		for (int i = 0; i < AssocDevList.length; i++) {
+            logger.info("Associated node - msb: " + AssocDevList[i].getMsb() + " lsb: " + AssocDevList[i].getLsb());
 			values[i] = ((int) AssocDevList[i].get16BitValue() & 0xFFFF);
 		}
 		return values;

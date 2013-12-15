@@ -153,6 +153,12 @@ public class DeviceBuilderThread implements Stoppable{
         }
 		try {
 			ZigBeeDeviceImpl device = new ZigBeeDeviceImpl(driver, node, ep);
+            if (device.getPhysicalNode().getNetworkAddress() ==0 && device.getInputClusters().length == 0) {
+                logger.info("Sender end point {} found with profile ID: " + device.getProfileId());
+                ApplicationFrameworkLayer.getAFLayer(driver).registerSenderEndPoint(
+                        ep, device.getProfileId(), device.getOutputClusters());
+                return;
+            }
 			if ( !network.addDevice(device) ) {
 			    logger.error( "Failed to add endpoint {} to the network map for node {}", ep, node );
 			}

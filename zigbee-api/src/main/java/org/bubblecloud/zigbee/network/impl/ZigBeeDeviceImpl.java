@@ -261,7 +261,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         final byte transaction = af.getNextTransactionId(sender);
         the next line is a workaround for the problem
         */
-        final byte transaction = 0;
+        final byte transaction = af.getNextTransactionId(sender);
         final byte[] msg = input.getClusterMsg();
 
         m_addAFMessageListener();

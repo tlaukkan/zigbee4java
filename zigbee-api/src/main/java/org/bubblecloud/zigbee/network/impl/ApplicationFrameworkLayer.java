@@ -186,31 +186,38 @@ public class ApplicationFrameworkLayer {
 				break;
 			}
 		} while( true );
-		logger.info("Registered endpoint {} with clusters: {}", endPoint, clusters);
-		final List<Integer> list;
-		synchronized (profile2Cluster) {
-			if( profile2Cluster.containsKey(si.profileId)){
-				list = profile2Cluster.get(si.profileId);
-			}else{
-				list = new ArrayList<Integer>();
-				profile2Cluster.put(si.profileId, list);
-			}
-		}
-		synchronized (sender2EndPoint) {
-			for (int i = 0; i < clusters.length; i++) {
-				list.add(clusters[i]);
-				SenderIdentifier adding = new SenderIdentifier(si.profileId, clusters[i]);
-				if( sender2EndPoint.containsKey(adding) ) {
-					logger.warn("Overriding a valid <profileId,clusterId> endpoint with this {}",adding);
-				}
-				logger.debug("Adding <profileId,clusterId> <{},{}> to sender2EndPoint hashtable", adding.profileId, adding.clusterId);
-				sender2EndPoint.put(adding, endPoint);
-			}
-		}
+        final int profileId = si.profileId;
+
+        logger.info("Registered endpoint {} with clusters: {}", endPoint, clusters);
+
+        registerSenderEndPoint(endPoint, profileId, clusters);
 		return endPoint;
 	}
 
-	private Set<Integer> collectClusterForProfile(int profileId) {
+    public void registerSenderEndPoint(byte endPoint, int profileId, int[] clusters) {
+        final List<Integer> list;
+        synchronized (profile2Cluster) {
+            if(profile2Cluster.containsKey(profileId)){
+                list = profile2Cluster.get(profileId);
+            } else {
+                list = new ArrayList<Integer>();
+                profile2Cluster.put(profileId, list);
+            }
+        }
+        synchronized (sender2EndPoint) {
+            for (int i = 0; i < clusters.length; i++) {
+                list.add(clusters[i]);
+                SenderIdentifier adding = new SenderIdentifier(profileId, clusters[i]);
+                if (sender2EndPoint.containsKey(adding) ) {
+                    logger.warn("Overriding a valid <profileId,clusterId> endpoint with this {}",adding);
+                }
+                logger.debug("Adding <profileId,clusterId> <{},{}> to sender2EndPoint hashtable", adding.profileId, adding.clusterId);
+                sender2EndPoint.put(adding, endPoint);
+            }
+        }
+    }
+
+    private Set<Integer> collectClusterForProfile(int profileId) {
 		final HashSet<Integer> clusters = new HashSet<Integer>();
 		final Collection<ZigBeeDevice> devices = network.getDevices(profileId);
 		logger.debug("Found {} devices belonging to profile {}", devices.size(), profileId);
