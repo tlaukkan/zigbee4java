@@ -623,19 +623,23 @@ public class ZigbeeNetworkManager implements Runnable, SimpleDriver {
         public WaitForCommand(int waitFor, ZigbeeSerialInterface driver) {
             this.waitFor = waitFor;
             this.driver = driver;
+            logger4Waiter.debug("Waiting for asynchronous response message {}.", waitFor);
             driver.addAsynchrounsCommandListener(this);
         }
 
 
 
         public void receivedAsynchrounsCommand(ZToolPacket packet) {
-            logger4Waiter.debug("received a packet {} and waiting for {}", packet.getCMD(), waitFor);
+            logger4Waiter.debug("Received a packet {} and waiting for {}", packet.getCMD().get16BitValue(), waitFor);
             logger4Waiter.debug("received {} {}", packet.getClass(), packet.toString());
             if( packet.isError() ) return;
-            if( packet.getCMD().get16BitValue() != waitFor) return;
+            if( packet.getCMD().get16BitValue() != waitFor) {
+                logger4Waiter.debug("Received unexpected packet: " + packet.getClass().getSimpleName());
+                return;
+            }
             synchronized (result) {
                 result[0]=packet;
-                logger4Waiter.info("received packet that we were waiting for");
+                logger4Waiter.info(packet.getClass().getSimpleName() + " message received.");
                 cleanup();
             }
         }
@@ -1111,12 +1115,12 @@ public class ZigbeeNetworkManager implements Runnable, SimpleDriver {
 //		final int TIMEOUT = 1000, MAX_SEND = 3;
         int sending = 1;
 
-        logger.debug("Sending Synchrouns {}", request.getClass().getSimpleName());
+        logger.debug("{} sending as synchronous command.", request.getClass().getSimpleName());
 
         SynchrounsCommandListner listener = new SynchrounsCommandListner() {
 
             public void receivedCommandResponse(ZToolPacket packet) {
-                logger.info("Received Synchrouns Response {}", packet.getClass().getSimpleName());
+                logger.debug(" {} received as synchronous command.", packet.getClass().getSimpleName());
                 synchronized (response) {
                     response[0] = packet;
                     response.notify();
@@ -1131,7 +1135,7 @@ public class ZigbeeNetworkManager implements Runnable, SimpleDriver {
                 }catch(Exception ex){
                     ex.printStackTrace();
                 }
-                logger.info("Sent {} during the {}-th tentative", request.getClass().getSimpleName(),sending);
+                logger.debug("{} sent (synchronous command, retry: {}).", request.getClass().getSimpleName(), sending);
                 synchronized (response) {
                     long wakeUpTime = System.currentTimeMillis() + RESEND_TIMEOUT;
                     while(response[0] == null && wakeUpTime > System.currentTimeMillis()){
@@ -1147,9 +1151,11 @@ public class ZigbeeNetworkManager implements Runnable, SimpleDriver {
                     }
                 }
                 if ( response[0] != null ) {
-                    logger.debug("Received synchronous command {} before timeout", response[0]);
+                    logger.info("{} -> {}",
+                            request.getClass().getSimpleName(), response[0].getClass().getSimpleName());
                 } else {
-                    logger.debug("Timeout fired and no synchronous command received", response[0]);
+                    logger.warn("{} executed and timed out while waiting for response.",
+                            request.getClass().getSimpleName());
                 }
                 if ( RESEND_ONLY_EXCEPTION ) {
                     break;

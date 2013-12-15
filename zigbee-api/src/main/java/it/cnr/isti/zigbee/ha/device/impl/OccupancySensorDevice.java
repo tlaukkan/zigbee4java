@@ -47,7 +47,7 @@ public class OccupancySensorDevice extends HADeviceBase implements OccupancySens
 	
 	public  OccupancySensorDevice(BundleContext ctx,ZigBeeDevice zbDevice) throws ZigBeeHAException {
 		super(ctx,zbDevice);
-		occupancySensing = (OccupacySensing) addCluster(HAProfile.OCCUPANCY_SENSING);
+		occupancySensing = (OccupacySensing) getCluster(HAProfile.OCCUPANCY_SENSING);
 	}
 
 	public OccupacySensing getOccupacySensing() {

@@ -45,7 +45,7 @@ public class LevelControlSwitchDevice extends HADeviceBase implements LevelContr
 
 	public LevelControlSwitchDevice(BundleContext ctx,ZigBeeDevice zbDevice) throws ZigBeeHAException{
 		super(ctx, zbDevice);
-		onOffSwitchConfiguration = (OnOffSwitchConfiguration) addCluster(HAProfile.ON_OFF_SWITCH_CONFIGURATION);
+		onOffSwitchConfiguration = (OnOffSwitchConfiguration) getCluster(HAProfile.ON_OFF_SWITCH_CONFIGURATION);
 	}
 
 	final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){

@@ -105,12 +105,12 @@ public abstract class HADeviceBase implements HADevice  {
             }
 		}
 
-        basic = (Basic) addCluster(HAProfile.BASIC);
-        identify = (Identify) addCluster(HAProfile.IDENTIFY);
+        basic = (Basic) getCluster(HAProfile.BASIC);
+        identify = (Identify) getCluster(HAProfile.IDENTIFY);
 
-        powerConfiguration = (PowerConfiguration) addCluster(HAProfile.POWER_CONFIGURATION);
-        deviceTemperature = (DeviceTemperatureConfiguration) addCluster(HAProfile.DEVICE_TEMPERATURE_CONFIGURATION);
-        alarms = (Alarms) addCluster(HAProfile.ALARMS);
+        powerConfiguration = (PowerConfiguration) getCluster(HAProfile.POWER_CONFIGURATION);
+        deviceTemperature = (DeviceTemperatureConfiguration) getCluster(HAProfile.DEVICE_TEMPERATURE_CONFIGURATION);
+        alarms = (Alarms) getCluster(HAProfile.ALARMS);
     }
 
     public  int getDeviceType(){
@@ -250,11 +250,23 @@ public abstract class HADeviceBase implements HADevice  {
         Cluster cluster = factory.getInstance(key,zbDevice);
         if (index >= clusters.length) {
             logger.error(
-                    "ZigBeeDevice with DeviceId={} has cluster {} and is this many clusters are not expected to exist.",
+                    "Device {} cluster {}. More than expected number of clusters. Skipping.",
                     zbDevice.getDeviceId(), clusterId
             );
             return null;
         }
+        if (cluster == null) {
+            logger.error(
+                    "Cluster {} for device {} not constructed by factory.",
+                    Integer.toHexString(clusterId), zbDevice.getDeviceId()
+            );
+            return null;
+        }
+        logger.info(
+                "Cluster {}/{} added to {} device proxy.",
+                cluster.getName(), Integer.toHexString(clusterId), zbDevice.getDeviceId()
+        );
+
         clusters[index++] = cluster;
         return cluster;
     }

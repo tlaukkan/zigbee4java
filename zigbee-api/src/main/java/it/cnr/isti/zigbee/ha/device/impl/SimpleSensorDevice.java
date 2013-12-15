@@ -46,7 +46,7 @@ public class SimpleSensorDevice extends HADeviceBase implements SimpleSensor {
 
     public SimpleSensorDevice(BundleContext ctx,ZigBeeDevice zbDevice) throws ZigBeeHAException{
         super(ctx,zbDevice);
-        binaryInput = (BinaryInput) addCluster(HAProfile.BINARY_INPUT);
+        binaryInput = (BinaryInput) getCluster(HAProfile.BINARY_INPUT);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){

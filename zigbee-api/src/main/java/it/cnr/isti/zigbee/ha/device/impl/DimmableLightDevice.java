@@ -54,11 +54,11 @@ public class DimmableLightDevice extends HADeviceBase implements DimmableLight {
 	
 	public DimmableLightDevice(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
 		super(ctx,zbDevice);
-		levelControl = (LevelControl) addCluster(HAProfile.LEVEL_CONTROL);
-		onOff = (OnOff) addCluster(HAProfile.ON_OFF);
-		groups = (Groups) addCluster(HAProfile.GROUPS);
-		scenes = (Scenes) addCluster(HAProfile.SCENES);
-		occupancySensing = (OccupacySensing) addCluster(HAProfile.OCCUPANCY_SENSING);
+		levelControl = (LevelControl) getCluster(HAProfile.LEVEL_CONTROL);
+		onOff = (OnOff) getCluster(HAProfile.ON_OFF);
+		groups = (Groups) getCluster(HAProfile.GROUPS);
+		scenes = (Scenes) getCluster(HAProfile.SCENES);
+		occupancySensing = (OccupacySensing) getCluster(HAProfile.OCCUPANCY_SENSING);
 	}
 	
 	final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){

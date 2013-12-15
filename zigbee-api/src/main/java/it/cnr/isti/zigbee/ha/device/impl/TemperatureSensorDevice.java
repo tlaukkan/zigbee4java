@@ -46,7 +46,7 @@ public class TemperatureSensorDevice extends HADeviceBase implements Temperature
 
 	public TemperatureSensorDevice(BundleContext ctx,ZigBeeDevice zbDevice) throws ZigBeeHAException {
 		super(ctx,zbDevice);
-		temperature = (TemperatureMeasurement) addCluster(HAProfile.TEMPERATURE_MEASUREMENT);
+		temperature = (TemperatureMeasurement) getCluster(HAProfile.TEMPERATURE_MEASUREMENT);
 	}
 
 	public String getName() {

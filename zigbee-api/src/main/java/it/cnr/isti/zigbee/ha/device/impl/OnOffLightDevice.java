@@ -52,10 +52,10 @@ public class OnOffLightDevice extends HADeviceBase implements OnOffLight {
 	
 	public  OnOffLightDevice(BundleContext ctx,ZigBeeDevice zbDevice) throws ZigBeeHAException {
 		super(ctx,zbDevice);
-		onOff = (OnOff) addCluster(HAProfile.ON_OFF);
-		groups = (Groups) addCluster(HAProfile.GROUPS);
-		scenes = (Scenes) addCluster(HAProfile.SCENES);
-		occupancySensing = (OccupacySensing) addCluster(HAProfile.OCCUPANCY_SENSING);
+		onOff = (OnOff) getCluster(HAProfile.ON_OFF);
+		groups = (Groups) getCluster(HAProfile.GROUPS);
+		scenes = (Scenes) getCluster(HAProfile.SCENES);
+		occupancySensing = (OccupacySensing) getCluster(HAProfile.OCCUPANCY_SENSING);
 	}
 
 

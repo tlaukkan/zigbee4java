@@ -54,11 +54,11 @@ public class PumpDevice extends HADeviceBase implements Pump {
     public PumpDevice(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
         super(ctx, zbDevice);
 
-        levelControlCluster = (LevelControl) addCluster(HAProfile.LEVEL_CONTROL);
-        onOffCluster = (OnOff) addCluster(HAProfile.ON_OFF);
-        scenesCluster = (Scenes) addCluster(HAProfile.SCENES);
-        groupsCluster = (Groups) addCluster(HAProfile.GROUPS);
-        temperatureMeasurementCluster = (TemperatureMeasurement) addCluster(HAProfile.TEMPERATURE_MEASUREMENT);
+        levelControlCluster = (LevelControl) getCluster(HAProfile.LEVEL_CONTROL);
+        onOffCluster = (OnOff) getCluster(HAProfile.ON_OFF);
+        scenesCluster = (Scenes) getCluster(HAProfile.SCENES);
+        groupsCluster = (Groups) getCluster(HAProfile.GROUPS);
+        temperatureMeasurementCluster = (TemperatureMeasurement) getCluster(HAProfile.TEMPERATURE_MEASUREMENT);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){

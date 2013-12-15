@@ -145,12 +145,12 @@ public class DeviceBuilderThread implements Stoppable{
         synchronized (network) {
             if( network.containsDevice(node.getIEEEAddress(), ep) ){
                 logger.info(
-                    "Skipping service creation for endpoint {} on node {} it is already registered as a Service", ep, node
+                    "Skipping device creation for endpoint {} on node {} it is already registered as a Service", ep, node
                 );
                 return ;
             }else{
                 logger.info(
-                        "Creating {} service for endpoint {} on node {}",
+                        "Creating device for {} endpoint {} on node {}",
                         new Object[]{ ZigBeeDevice.class, ep, node }
                     );
             }

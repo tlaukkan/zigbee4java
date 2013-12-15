@@ -53,11 +53,11 @@ public class IAS_Warning_Device extends HADeviceBase implements IAS_Warning{
 
         super(ctx, zbDevice);
 
-        iasZoneCluster = (IASZone) addCluster(HAProfile.IAS_ZONE);
-        iasWD = (IASWD) addCluster(HAProfile.IAS_WD);
+        iasZoneCluster = (IASZone) getCluster(HAProfile.IAS_ZONE);
+        iasWD = (IASWD) getCluster(HAProfile.IAS_WD);
 
-        scenes = (Scenes) addCluster(HAProfile.SCENES);
-        groups = (Groups) addCluster(HAProfile.GROUPS);
+        scenes = (Scenes) getCluster(HAProfile.SCENES);
+        groups = (Groups) getCluster(HAProfile.GROUPS);
     }
 
     public IASZone getIASZone() {

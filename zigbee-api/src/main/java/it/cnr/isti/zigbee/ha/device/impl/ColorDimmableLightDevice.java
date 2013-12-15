@@ -58,12 +58,12 @@ public class ColorDimmableLightDevice extends HADeviceBase implements ColorDimma
 
         super(ctx, zbDevice);
 
-        onOff = (OnOff) addCluster(HAProfile.ON_OFF);
-        scenes = (Scenes) addCluster(HAProfile.SCENES);
-        groups = (Groups) addCluster(HAProfile.GROUPS);
-        levelControl = (LevelControl) addCluster(HAProfile.LEVELCONTROL);
-        occupancySensing = (OccupacySensing) addCluster(HAProfile.OCCUPANCY_SENSING);
-        colorControl = (ColorControl) addCluster(HAProfile.COLOR_CONTROL);
+        onOff = (OnOff) getCluster(HAProfile.ON_OFF);
+        scenes = (Scenes) getCluster(HAProfile.SCENES);
+        groups = (Groups) getCluster(HAProfile.GROUPS);
+        levelControl = (LevelControl) getCluster(HAProfile.LEVELCONTROL);
+        occupancySensing = (OccupacySensing) getCluster(HAProfile.OCCUPANCY_SENSING);
+        colorControl = (ColorControl) getCluster(HAProfile.COLOR_CONTROL);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){

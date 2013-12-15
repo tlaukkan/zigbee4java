@@ -229,7 +229,7 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
 				 * for instance we a LowLevel driver and HighLevel driver
 				 * are working on same port
 				 */
-                LOGGER.warn("Recieved {} synchronous command response but no listeners were registered", id);
+                LOGGER.warn("Received {} synchronous command response but no listeners were registered", id);
             }
 
         }

@@ -50,9 +50,9 @@ public class IASAncillaryControlEquipmentDevice extends HADeviceBase implements 
     public IASAncillaryControlEquipmentDevice(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
-        iasAce = (IASACE) addCluster(HAProfile.IAS_ACE);
-        iasZone = (IASZone) addCluster(HAProfile.IAS_ZONE);
-        identify = (Identify) addCluster(HAProfile.IDENTIFY);
+        iasAce = (IASACE) getCluster(HAProfile.IAS_ACE);
+        iasZone = (IASZone) getCluster(HAProfile.IAS_ZONE);
+        identify = (Identify) getCluster(HAProfile.IDENTIFY);
     }
 
     public IASACE getIASACE() {

@@ -57,12 +57,12 @@ public class IASControlAndIndicatingEquipmentDevice extends HADeviceBase impleme
 
         super(ctx, zbDevice);
 
-        iasAce = (IASACE) addCluster(HAProfile.IAS_ACE);
-        iasZone = (IASZone) addCluster(HAProfile.IAS_ZONE);
-        identify = (Identify) addCluster(HAProfile.IDENTIFY);
-        iasWD = (IASWD) addCluster(HAProfile.IAS_WD);
-        scenes = (Scenes) addCluster(HAProfile.SCENES);
-        groups = (Groups) addCluster(HAProfile.GROUPS);
+        iasAce = (IASACE) getCluster(HAProfile.IAS_ACE);
+        iasZone = (IASZone) getCluster(HAProfile.IAS_ZONE);
+        identify = (Identify) getCluster(HAProfile.IDENTIFY);
+        iasWD = (IASWD) getCluster(HAProfile.IAS_WD);
+        scenes = (Scenes) getCluster(HAProfile.SCENES);
+        groups = (Groups) getCluster(HAProfile.GROUPS);
     }
 
     public IASACE getIASACE() {

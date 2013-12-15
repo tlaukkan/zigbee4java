@@ -49,8 +49,8 @@ public class LightSensorDevice extends HADeviceBase implements LightSensor {
 
         super(ctx, zbDevice);
 
-        illuminanceMeasurement = (IlluminanceMeasurement) addCluster(HAProfile.ILLUMINANCE_MEASUREMENT);
-        groups = (Groups) addCluster(HAProfile.GROUPS);
+        illuminanceMeasurement = (IlluminanceMeasurement) getCluster(HAProfile.ILLUMINANCE_MEASUREMENT);
+        groups = (Groups) getCluster(HAProfile.GROUPS);
     }
 
     public IlluminanceMeasurement getIlluminanceMeasurement() {

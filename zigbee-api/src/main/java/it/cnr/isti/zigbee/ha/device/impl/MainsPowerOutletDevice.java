@@ -49,9 +49,9 @@ public class MainsPowerOutletDevice extends HADeviceBase implements MainsPowerOu
     public MainsPowerOutletDevice(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
-        onOff = (OnOff) addCluster(HAProfile.ON_OFF);
-        groups = (Groups) addCluster(HAProfile.GROUPS);
-        scenes = (Scenes) addCluster(HAProfile.SCENES);
+        onOff = (OnOff) getCluster(HAProfile.ON_OFF);
+        groups = (Groups) getCluster(HAProfile.GROUPS);
+        scenes = (Scenes) getCluster(HAProfile.SCENES);
     }
 
     public OnOff getOnOff() {

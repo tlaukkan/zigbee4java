@@ -47,7 +47,7 @@ public class IAS_ZoneDevice extends HADeviceBase implements IAS_Zone {
 
         super(ctx, zbDevice);
 
-        iasZoneCluster = (IASZone) addCluster(HAProfile.IAS_ZONE);
+        iasZoneCluster = (IASZone) getCluster(HAProfile.IAS_ZONE);
     }
 
     public IASZone getIASZone() {
