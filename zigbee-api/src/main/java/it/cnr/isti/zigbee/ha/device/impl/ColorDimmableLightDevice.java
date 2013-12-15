@@ -22,7 +22,7 @@
 
 package it.cnr.isti.zigbee.ha.device.impl;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.Groups;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.LevelControl;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.OnOff;
@@ -34,7 +34,7 @@ import it.cnr.isti.zigbee.ha.driver.core.HAProfile;
 import it.cnr.isti.zigbee.ha.driver.core.ZigBeeHAException;
 import it.cnr.isti.zigbee.ha.driver.core.reflection.AbstractDeviceDescription;
 import it.cnr.isti.zigbee.ha.driver.core.reflection.DeviceDescription;
-import it.cnr.isti.zigbee.zcl.library.api.lighting.ColorControl;
+import org.bubblecloud.zigbee.proxy.cluster.api.lighting.ColorControl;
 
 import org.bubblecloud.zigbee.BundleContext;
 

@@ -24,10 +24,10 @@ package it.cnr.isti.zigbee.ha.cluster.glue.security_safety;
 
 import it.cnr.isti.zigbee.ha.cluster.glue.Cluster;
 import it.cnr.isti.zigbee.ha.driver.core.ZigBeeHAException;
-import it.cnr.isti.zigbee.zcl.library.api.core.Response;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_ace.BypassPayload;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_ace.ZoneIDMapResponse;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_ace.ZoneInformationResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_ace.BypassPayload;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_ace.ZoneIDMapResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_ace.ZoneInformationResponse;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>

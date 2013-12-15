@@ -22,14 +22,14 @@
 
 package it.cnr.isti.zigbee.ha.cluster.impl;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing.OccupacySensing;
 import it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing.event.OccupancyListener;
 import it.cnr.isti.zigbee.ha.cluster.impl.event.OccupancyBridgeListeners;
 import it.cnr.isti.zigbee.ha.driver.core.ReportingConfiguration;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
-import it.cnr.isti.zigbee.zcl.library.impl.measureament_sensing.OccupacySensingCluster;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.impl.measureament_sensing.OccupacySensingCluster;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

@@ -22,9 +22,7 @@
 
 package it.cnr.isti.zigbee.ha.driver.core;
 
-import java.util.Arrays;
-
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.Cluster;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.Alarms;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.Basic;
@@ -32,8 +30,8 @@ import it.cnr.isti.zigbee.ha.cluster.glue.general.DeviceTemperatureConfiguration
 import it.cnr.isti.zigbee.ha.cluster.glue.general.Identify;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.PowerConfiguration;
 import it.cnr.isti.zigbee.ha.driver.core.reflection.DeviceDescription;
-import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
-import it.cnr.isti.zigbee.zcl.library.api.core.ZCLCluster;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
 
 import org.bubblecloud.zigbee.BundleContext;
 import org.bubblecloud.zigbee.model.ProvidedClusterMode;

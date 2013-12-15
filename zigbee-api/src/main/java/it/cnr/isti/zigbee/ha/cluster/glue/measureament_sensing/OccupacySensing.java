@@ -24,7 +24,7 @@ package it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing;
 
 import it.cnr.isti.zigbee.ha.cluster.glue.Cluster;
 import it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing.event.OccupancyListener;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 
 /**
  * This class represent the <b>Occupancy sensing</b> Cluster as defined by the document:<br>

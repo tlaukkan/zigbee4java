@@ -22,15 +22,15 @@
 
 package it.cnr.isti.zigbee.ha.cluster.impl;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.security_safety.IASWD;
 import it.cnr.isti.zigbee.ha.driver.core.ZigBeeHAException;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
-import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_wd.SquawkPayload;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_wd.StartWarningPayload;
-import it.cnr.isti.zigbee.zcl.library.impl.security_safety.IASWDCluster;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_wd.SquawkPayload;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_wd.StartWarningPayload;
+import org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.IASWDCluster;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>

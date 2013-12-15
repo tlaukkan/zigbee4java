@@ -31,10 +31,10 @@ import org.bubblecloud.zigbee.packet.zdo.ZDO_MGMT_LQI_RSP.NeighborLqiListItemCla
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.util.RunnableThread;
 import org.bubblecloud.zigbee.util.ThreadUtils;
-import it.cnr.isti.zigbee.api.ZigBeeNode;
+import org.bubblecloud.zigbee.core.ZigBeeNode;
 import org.bubblecloud.zigbee.AFLayer;
-import org.bubblecloud.zigbee.impl.ZigBeeNetwork;
-import org.bubblecloud.zigbee.impl.ZigBeeNodeImpl;
+import org.bubblecloud.zigbee.core.ZigBeeNetwork;
+import org.bubblecloud.zigbee.core.ZigBeeNodeImpl;
 import org.bubblecloud.zigbee.model.SimpleDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

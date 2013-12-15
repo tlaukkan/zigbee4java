@@ -22,19 +22,19 @@
 
 package it.cnr.isti.zigbee.ha.cluster.impl;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.Groups;
 import it.cnr.isti.zigbee.ha.driver.core.ZigBeeHAException;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.core.Status;
-import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
-import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
-import it.cnr.isti.zigbee.zcl.library.api.general.groups.AddGroupResponse;
-import it.cnr.isti.zigbee.zcl.library.api.general.groups.GetGroupMembershipResponse;
-import it.cnr.isti.zigbee.zcl.library.api.general.groups.RemoveGroupResponse;
-import it.cnr.isti.zigbee.zcl.library.api.general.groups.ViewGroupResponse;
-import it.cnr.isti.zigbee.zcl.library.api.global.DefaultResponse;
-import it.cnr.isti.zigbee.zcl.library.impl.general.GroupsCluster;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.AddGroupResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.GetGroupMembershipResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.RemoveGroupResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.ViewGroupResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.global.DefaultResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.general.GroupsCluster;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

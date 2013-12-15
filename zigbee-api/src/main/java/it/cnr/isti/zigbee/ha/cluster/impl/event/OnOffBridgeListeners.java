@@ -26,9 +26,9 @@ import it.cnr.isti.zigbee.ha.cluster.glue.Cluster;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.event.OnOffEvent;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.event.OnOffListener;
 import it.cnr.isti.zigbee.ha.driver.core.ReportingConfiguration;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.core.ReportListener;
-import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.ReportListener;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
 
 import java.util.ArrayList;
 import java.util.Dictionary;

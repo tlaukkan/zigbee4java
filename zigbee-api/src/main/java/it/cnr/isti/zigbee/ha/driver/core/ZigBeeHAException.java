@@ -22,7 +22,7 @@
 
 package it.cnr.isti.zigbee.ha.driver.core;
 
-import it.cnr.isti.zigbee.api.ZigBeeException;
+import org.bubblecloud.zigbee.core.ZigBeeException;
 
 /**
  *

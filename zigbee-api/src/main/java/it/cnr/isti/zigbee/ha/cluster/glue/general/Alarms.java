@@ -24,9 +24,9 @@ package it.cnr.isti.zigbee.ha.cluster.glue.general;
 
 import it.cnr.isti.zigbee.ha.cluster.glue.Cluster;
 import it.cnr.isti.zigbee.ha.driver.core.ZigBeeHAException;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.general.alarms.AlarmListener;
-import it.cnr.isti.zigbee.zcl.library.api.general.alarms.GetAlarmResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.alarms.AlarmListener;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.alarms.GetAlarmResponse;
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

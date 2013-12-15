@@ -30,7 +30,7 @@ import it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 import it.cnr.isti.zigbee.ha.driver.core.HADevice;
 import it.cnr.isti.zigbee.ha.driver.core.HAProfile;
-import it.cnr.isti.zigbee.zcl.library.api.lighting.ColorControl;
+import org.bubblecloud.zigbee.proxy.cluster.api.lighting.ColorControl;
 
 /**
  * 

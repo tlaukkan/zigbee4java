@@ -25,7 +25,7 @@ package it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing;
 import it.cnr.isti.zigbee.ha.cluster.glue.Cluster;
 import it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing.event.MeasuredValueListener;
 import it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing.event.ToleranceListener;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

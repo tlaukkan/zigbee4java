@@ -1,6 +1,5 @@
 package org.bubblecloud.zigbee.model;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.driver.core.HADeviceBase;
 
 /**

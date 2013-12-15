@@ -22,21 +22,21 @@
 
 package it.cnr.isti.zigbee.ha.cluster.impl;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.security_safety.IASZone;
 import it.cnr.isti.zigbee.ha.driver.core.ZigBeeHAException;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.core.Response;
-import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
-import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
-import it.cnr.isti.zigbee.zcl.library.api.general.alarms.GetAlarmResponse;
-import it.cnr.isti.zigbee.zcl.library.api.global.DefaultResponse;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_zone.ZoneEnrollRequestPayload;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_zone.ZoneEnrollResponse;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_zone.ZoneStatusChangeNotificationListener;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_zone.ZoneStatusChangeNotificationPayload;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_zone.ZoneStatusChangeNotificationResponse;
-import it.cnr.isti.zigbee.zcl.library.impl.security_safety.IASZoneCluster;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.alarms.GetAlarmResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.global.DefaultResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneEnrollRequestPayload;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneEnrollResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneStatusChangeNotificationListener;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneStatusChangeNotificationPayload;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneStatusChangeNotificationResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.IASZoneCluster;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>

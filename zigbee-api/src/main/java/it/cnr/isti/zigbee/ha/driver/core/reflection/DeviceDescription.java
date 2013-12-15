@@ -23,7 +23,7 @@
 package it.cnr.isti.zigbee.ha.driver.core.reflection;
 
 import it.cnr.isti.zigbee.ha.driver.core.HADeviceBase;
-import it.cnr.isti.zigbee.zcl.library.api.core.ZCLCluster;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
 
 /**
  * This class represent static description associated to a generic <b>Home Automation Device</b><br> 

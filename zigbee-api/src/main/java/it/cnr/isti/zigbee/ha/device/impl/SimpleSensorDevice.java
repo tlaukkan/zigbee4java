@@ -21,7 +21,7 @@
 */
 package it.cnr.isti.zigbee.ha.device.impl;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.BinaryInput;
 import it.cnr.isti.zigbee.ha.device.api.generic.SimpleSensor;
 import it.cnr.isti.zigbee.ha.driver.core.HADeviceBase;

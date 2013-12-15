@@ -21,7 +21,7 @@
 */
 package it.cnr.isti.zigbee.ha.cluster.glue.protocol_interfaces;
 
-import it.cnr.isti.zigbee.zcl.library.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 
 
 /**

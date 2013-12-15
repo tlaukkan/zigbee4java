@@ -24,11 +24,11 @@ package it.cnr.isti.zigbee.ha.cluster.glue.general;
 
 import it.cnr.isti.zigbee.ha.cluster.glue.Cluster;
 import it.cnr.isti.zigbee.ha.driver.core.ZigBeeHAException;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.general.groups.AddGroupResponse;
-import it.cnr.isti.zigbee.zcl.library.api.general.groups.GetGroupMembershipResponse;
-import it.cnr.isti.zigbee.zcl.library.api.general.groups.RemoveGroupResponse;
-import it.cnr.isti.zigbee.zcl.library.api.general.groups.ViewGroupResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.AddGroupResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.GetGroupMembershipResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.RemoveGroupResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.ViewGroupResponse;
 
 /**
  * 

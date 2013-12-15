@@ -23,8 +23,8 @@
 package it.cnr.isti.zigbee.ha.cluster.glue.general;
 
 import it.cnr.isti.zigbee.ha.cluster.glue.Cluster;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

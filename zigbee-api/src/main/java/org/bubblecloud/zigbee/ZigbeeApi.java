@@ -1,6 +1,6 @@
 package org.bubblecloud.zigbee;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.factory.HAClustersFactory;
 import it.cnr.isti.zigbee.ha.device.api.generic.*;
 import it.cnr.isti.zigbee.ha.device.api.hvac.Pump;
@@ -15,8 +15,7 @@ import it.cnr.isti.zigbee.ha.driver.core.ClusterFactory;
 import it.cnr.isti.zigbee.ha.driver.core.GenericHADeviceFactory;
 import it.cnr.isti.zigbee.ha.driver.core.HADeviceBase;
 import it.cnr.isti.zigbee.ha.driver.core.HADeviceFactory;
-import org.bubblecloud.zigbee.discovery.*;
-import org.bubblecloud.zigbee.impl.ZigBeeNetwork;
+import org.bubblecloud.zigbee.core.ZigBeeNetwork;
 import org.bubblecloud.zigbee.model.DeviceListener;
 import org.bubblecloud.zigbee.model.HaDeviceListener;
 import org.bubblecloud.zigbee.model.SimpleDriver;

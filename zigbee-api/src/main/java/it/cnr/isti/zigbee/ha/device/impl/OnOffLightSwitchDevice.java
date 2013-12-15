@@ -22,7 +22,7 @@
 
 package it.cnr.isti.zigbee.ha.device.impl;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.OnOffSwitchConfiguration;
 import it.cnr.isti.zigbee.ha.device.api.generic.OnOffSwitch;
 import it.cnr.isti.zigbee.ha.device.api.lighting.OnOffLightSwitch;

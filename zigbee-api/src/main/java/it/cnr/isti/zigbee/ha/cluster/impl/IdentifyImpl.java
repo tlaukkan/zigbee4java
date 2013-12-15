@@ -22,16 +22,16 @@
 
 package it.cnr.isti.zigbee.ha.cluster.impl;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.Identify;
 import it.cnr.isti.zigbee.ha.driver.core.ZigBeeHAException;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.core.Status;
-import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
-import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
-import it.cnr.isti.zigbee.zcl.library.api.general.identify.IdentifyQueryResponse;
-import it.cnr.isti.zigbee.zcl.library.api.global.DefaultResponse;
-import it.cnr.isti.zigbee.zcl.library.impl.general.IdentifyCluster;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.identify.IdentifyQueryResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.global.DefaultResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.general.IdentifyCluster;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

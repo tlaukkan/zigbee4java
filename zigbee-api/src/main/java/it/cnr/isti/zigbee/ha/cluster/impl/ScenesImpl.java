@@ -22,20 +22,20 @@
 
 package it.cnr.isti.zigbee.ha.cluster.impl;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.Scenes;
 import it.cnr.isti.zigbee.ha.driver.core.ZigBeeHAException;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
-import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
-import it.cnr.isti.zigbee.zcl.library.api.general.scenes.AddScenePayload;
-import it.cnr.isti.zigbee.zcl.library.api.general.scenes.AddSceneResponse;
-import it.cnr.isti.zigbee.zcl.library.api.general.scenes.GetSceneMembershipResponse;
-import it.cnr.isti.zigbee.zcl.library.api.general.scenes.RemoveAllScenesResponse;
-import it.cnr.isti.zigbee.zcl.library.api.general.scenes.RemoveSceneResponse;
-import it.cnr.isti.zigbee.zcl.library.api.general.scenes.StoreSceneResponse;
-import it.cnr.isti.zigbee.zcl.library.api.general.scenes.ViewSceneResponse;
-import it.cnr.isti.zigbee.zcl.library.impl.general.ScenesCluster;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.AddScenePayload;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.AddSceneResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.GetSceneMembershipResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.RemoveAllScenesResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.RemoveSceneResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.StoreSceneResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.ViewSceneResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.general.ScenesCluster;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

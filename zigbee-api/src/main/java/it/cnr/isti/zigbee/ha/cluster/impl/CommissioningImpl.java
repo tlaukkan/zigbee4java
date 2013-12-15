@@ -25,9 +25,9 @@ package it.cnr.isti.zigbee.ha.cluster.impl;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.Commissioning;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.NetworkKeyType;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.StartupControl;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.core.Status;
-import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
 /**
  * PLACEHOLDER TO IMPLEMENT
  *

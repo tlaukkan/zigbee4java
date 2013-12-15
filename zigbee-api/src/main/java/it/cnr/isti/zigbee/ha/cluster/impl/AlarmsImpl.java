@@ -22,18 +22,18 @@
 
 package it.cnr.isti.zigbee.ha.cluster.impl;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.Alarms;
 import it.cnr.isti.zigbee.ha.driver.core.ZigBeeHAException;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.core.Response;
-import it.cnr.isti.zigbee.zcl.library.api.core.Status;
-import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
-import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
-import it.cnr.isti.zigbee.zcl.library.api.general.alarms.AlarmListener;
-import it.cnr.isti.zigbee.zcl.library.api.general.alarms.GetAlarmResponse;
-import it.cnr.isti.zigbee.zcl.library.api.global.DefaultResponse;
-import it.cnr.isti.zigbee.zcl.library.impl.general.AlarmsCluster;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.alarms.AlarmListener;
+import org.bubblecloud.zigbee.proxy.cluster.api.general.alarms.GetAlarmResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.global.DefaultResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.general.AlarmsCluster;
 
 
 /**

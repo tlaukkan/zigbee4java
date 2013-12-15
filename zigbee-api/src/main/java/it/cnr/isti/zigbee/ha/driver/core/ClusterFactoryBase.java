@@ -22,7 +22,7 @@
 
 package it.cnr.isti.zigbee.ha.driver.core;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.Cluster;
 import org.bubblecloud.zigbee.BundleContext;
 

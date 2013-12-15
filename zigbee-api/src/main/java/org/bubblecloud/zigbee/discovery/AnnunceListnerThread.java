@@ -24,9 +24,9 @@ package org.bubblecloud.zigbee.discovery;
 
 import org.bubblecloud.zigbee.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.packet.ZToolAddress64;
-import it.cnr.isti.zigbee.api.ZigBeeNode;
+import org.bubblecloud.zigbee.core.ZigBeeNode;
 import org.bubblecloud.zigbee.AFLayer;
-import org.bubblecloud.zigbee.impl.ZigBeeNodeImpl;
+import org.bubblecloud.zigbee.core.ZigBeeNodeImpl;
 import org.bubblecloud.zigbee.model.AnnunceListner;
 import org.bubblecloud.zigbee.model.SimpleDriver;
 import org.slf4j.Logger;

@@ -22,16 +22,16 @@
 
 package it.cnr.isti.zigbee.ha.cluster.impl;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing.RelativeHumidityMeasurement;
 import it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing.event.MeasuredValueListener;
 import it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing.event.ToleranceListener;
 import it.cnr.isti.zigbee.ha.cluster.impl.event.MeasuredValueBridgeListeners;
 import it.cnr.isti.zigbee.ha.cluster.impl.event.ToleranceBridgeListeners;
 import it.cnr.isti.zigbee.ha.driver.core.ReportingConfiguration;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
-import it.cnr.isti.zigbee.zcl.library.impl.measureament_sensing.RelativeHumidityMeasurementCluster;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.impl.measureament_sensing.RelativeHumidityMeasurementCluster;
 
 /**
  * Implementation of the {@link RelativeHumidityMeasurement} interface, that wraps the

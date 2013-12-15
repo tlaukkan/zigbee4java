@@ -28,13 +28,13 @@ import org.bubblecloud.zigbee.packet.zdo.ZDO_ACTIVE_EP_REQ;
 import org.bubblecloud.zigbee.packet.zdo.ZDO_ACTIVE_EP_RSP;
 import org.bubblecloud.zigbee.util.Stoppable;
 import org.bubblecloud.zigbee.util.ThreadUtils;
-import it.cnr.isti.zigbee.api.ZigBeeBasedriverException;
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
-import it.cnr.isti.zigbee.api.ZigBeeNode;
+import org.bubblecloud.zigbee.core.ZigBeeBasedriverException;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeNode;
 import org.bubblecloud.zigbee.AFLayer;
-import org.bubblecloud.zigbee.impl.ZigBeeDeviceImpl;
-import org.bubblecloud.zigbee.impl.ZigBeeNetwork;
-import org.bubblecloud.zigbee.impl.ZigBeeNodeImpl;
+import org.bubblecloud.zigbee.core.ZigBeeDeviceImpl;
+import org.bubblecloud.zigbee.core.ZigBeeNetwork;
+import org.bubblecloud.zigbee.core.ZigBeeNodeImpl;
 import org.bubblecloud.zigbee.model.IEEEAddress;
 import org.bubblecloud.zigbee.model.SimpleDriver;
 import org.slf4j.Logger;
@@ -49,7 +49,7 @@ import java.util.Map.Entry;
  * This class implements the {@link Thread} that completes the discovery of the node<br>
  * found either by {@link NetworkBrowserThread} or {@link AnnunceListnerThread} by<br>
  * inspecting the <i>End Point</i> on the node.<br>
- * The inspection of each <i>End Point</i> lead to the creation {@link it.cnr.isti.zigbee.api.ZigBeeDevice}<br>
+ * The inspection of each <i>End Point</i> lead to the creation {@link org.bubblecloud.zigbee.core.ZigBeeDevice}<br>
  * service, that is registered on the OSGi framework.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.model;
 
-import it.cnr.isti.zigbee.api.ZigBeeNode;
+import org.bubblecloud.zigbee.core.ZigBeeNode;
 
 /**
  * 

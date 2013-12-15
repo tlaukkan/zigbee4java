@@ -28,9 +28,9 @@ import it.cnr.isti.zigbee.ha.cluster.glue.general.LocationType;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.RSSILocation;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.RSSIPingListener;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.ReportRSSIMeasurementsListener;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.core.Response;
-import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
 
 import java.util.EnumSet;
 /**

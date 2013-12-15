@@ -21,7 +21,7 @@
 */
 package it.cnr.isti.zigbee.ha.cluster.glue.general;
 
-import it.cnr.isti.zigbee.zcl.library.api.core.Status;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
 
 
 /**

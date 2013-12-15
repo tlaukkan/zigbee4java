@@ -22,7 +22,7 @@
 
 package it.cnr.isti.zigbee.ha.device.impl;
 
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing.OccupacySensing;
 import it.cnr.isti.zigbee.ha.device.api.lighting.OccupancySensor;
 import it.cnr.isti.zigbee.ha.driver.core.HADeviceBase;

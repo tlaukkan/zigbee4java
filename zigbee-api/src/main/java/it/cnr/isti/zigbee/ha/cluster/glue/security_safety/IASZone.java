@@ -24,12 +24,12 @@ package it.cnr.isti.zigbee.ha.cluster.glue.security_safety;
 
 import it.cnr.isti.zigbee.ha.cluster.glue.Cluster;
 import it.cnr.isti.zigbee.ha.driver.core.ZigBeeHAException;
-import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
-import it.cnr.isti.zigbee.zcl.library.api.core.Response;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_zone.ZoneEnrollRequestPayload;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_zone.ZoneEnrollResponse;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_zone.ZoneStatusChangeNotificationListener;
-import it.cnr.isti.zigbee.zcl.library.api.security_safety.ias_zone.ZoneStatusChangeNotificationPayload;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneEnrollRequestPayload;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneEnrollResponse;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneStatusChangeNotificationListener;
+import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneStatusChangeNotificationPayload;
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

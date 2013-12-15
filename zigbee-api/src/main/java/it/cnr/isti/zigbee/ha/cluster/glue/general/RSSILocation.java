@@ -23,7 +23,7 @@
 package it.cnr.isti.zigbee.ha.cluster.glue.general;
 
 import it.cnr.isti.zigbee.ha.cluster.glue.Cluster;
-import it.cnr.isti.zigbee.zcl.library.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 
 import java.util.EnumSet;
 /**
