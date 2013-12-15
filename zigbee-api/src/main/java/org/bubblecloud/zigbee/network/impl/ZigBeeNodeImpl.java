@@ -95,7 +95,7 @@ public class ZigBeeNodeImpl implements ZigBeeNode {
     }
 
     public String toString() {
-        return nwkAddress + "(" + ieeeAddress + ") ";
+        return "#" + nwkAddress + " (" + ieeeAddress + ")";
     }
 
     public boolean equals(Object obj) {

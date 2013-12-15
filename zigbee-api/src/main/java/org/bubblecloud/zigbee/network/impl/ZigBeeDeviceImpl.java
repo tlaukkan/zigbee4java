@@ -112,8 +112,8 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
      */
     private String generateUUID() {
         StringBuffer sb_uuid = new StringBuffer()
-            .append(profileId).append(":")
-            .append(deviceId).append(":")
+            .append(deviceId).append("-")
+            .append(profileId).append("-")
             .append(deviceVersion).append("@")
             .append(node.getIEEEAddress()).append(":")
             .append(endPointAddress);
@@ -165,9 +165,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         ZDO_SIMPLE_DESC_RSP result = null;
 
         while (i < 3) {
-            logger.info(
-                    "Inspecting ZigBee EndPoint <{},{}>", nwk, endPointAddress
-            );
+            logger.debug("Inspecting node {} / end point {}.", n, endPointAddress);
 
             result = driver.sendZDOSimpleDescriptionRequest(
                     new ZDO_SIMPLE_DESC_REQ((short) nwk, endPointAddress )

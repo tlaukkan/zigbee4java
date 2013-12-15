@@ -119,19 +119,19 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
 
     @Override
     public void deviceAdded(DeviceProxyBase device) {
-        logger.info("Device proxy added: " + device.getZBDevice().getUniqueIdenfier()
-                + " (" + device.getClass().getSimpleName() + ")");
+        logger.info(device.getClass().getSimpleName() +
+                " added: " + device.getZBDevice().getUniqueIdenfier());
     }
 
     @Override
     public void deviceUpdated(DeviceProxyBase device) {
-        logger.info("Device proxy updated: " + device.getZBDevice().getUniqueIdenfier()
-                + " (" + device.getClass().getSimpleName() + ")");
+        logger.info(device.getClass().getSimpleName() +
+                " updated: " + device.getZBDevice().getUniqueIdenfier());
     }
 
     @Override
     public void deviceRemoved(DeviceProxyBase device) {
-        logger.info("Device proxy removed: " + device.getZBDevice().getUniqueIdenfier()
-                + " (" + device.getClass().getSimpleName() + ")");
+        logger.info(device.getClass().getSimpleName() +
+                " removed: " + device.getZBDevice().getUniqueIdenfier());
     }
 }

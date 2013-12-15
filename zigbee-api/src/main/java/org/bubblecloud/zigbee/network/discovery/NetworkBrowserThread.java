@@ -101,18 +101,18 @@ public class NetworkBrowserThread extends RunnableThread {
                     final NetworkAddressNodeItem inspecting = toInspect.remove( toInspect.size()-1 );
 
                     alreadyInspected.put((int) inspecting.address, inspecting);
-                    logger.info("Inspecting node #{}", inspecting.address, ((int) inspecting.address & 0xFFFF));
+                    logger.info("Inspecting node #{}.", inspecting.address);
                     ZDO_IEEE_ADDR_RSP result = driver.sendZDOIEEEAddressRequest(
                             new ZDO_IEEE_ADDR_REQ((short) inspecting.address,ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED,(byte) 0)
                     );
 
                     if( result == null) {
-                        logger.debug("No answer from #{} ({})", inspecting.address, ((int) inspecting.address & 0xFFFF));
+                        logger.debug("No answer from #{}.", inspecting.address);
                         continue;
                     } else if ( result.Status == 0 ){
-                        logger.debug(
-                                "Answer from {} with {} associated",
-                                result.getIEEEAddress(), result.getAssociatedDeviceCount()
+                        logger.info(
+                                "Inspection result from #{} with {} associated nodes.",
+                                inspecting.address, result.getAssociatedDeviceCount()
                         );
                         inspecting.node = new ZigBeeNodeImpl(inspecting.address, result.getIEEEAddress(),
                                 (short) driver.getCurrentPanId());
@@ -149,7 +149,7 @@ public class NetworkBrowserThread extends RunnableThread {
         do{
             int[] toAdd = result.getAssociatedDeviceList();
             for (int i = 0; i < toAdd.length; i++) {
-                logger.info( "Found node #{} associated to node #{}", toAdd[i], inspecting.address );
+                logger.info( "Found node #{} associated to node #{}.", toAdd[i], inspecting.address );
                 final NetworkAddressNodeItem next = new NetworkAddressNodeItem( inspecting, toAdd[i] );
                 final NetworkAddressNodeItem found = alreadyInspected.get( (int) toAdd[i] );
                 if ( found != null ) {

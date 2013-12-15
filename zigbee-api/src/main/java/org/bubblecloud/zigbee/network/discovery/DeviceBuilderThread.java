@@ -93,8 +93,7 @@ public class DeviceBuilderThread implements Stoppable{
 
 
 	private ZDO_ACTIVE_EP_RSP doInspectDeviceOfNode(final int nwkAddress, final ZigBeeNode node){
-		//TODO Move into ZigbeeNetworkManagementInterface?!?!?
-		logger.info("Inspecting device on node #{} by issuing ZDO_ACTIVE_EP_REQ", nwkAddress);
+		logger.info("Listing end points on node #{} to find devices.", nwkAddress);
 
 		int i = 0;
 		ZDO_ACTIVE_EP_RSP result = null;
@@ -128,7 +127,7 @@ public class DeviceBuilderThread implements Stoppable{
 		}
 
 		byte[] endPoints = result.getActiveEndPointList();
-		logger.info("ZDO_ACTIVE_EP_REQ SUCCESS with {} from {}", endPoints.length, node);
+		logger.info("Found {} end points on #{}.", endPoints.length, nwkAddress);
 		for (int i = 0; i < endPoints.length; i++) {
 			doCreateZigBeeDevice(node, endPoints[i]);
 		}
@@ -146,8 +145,8 @@ public class DeviceBuilderThread implements Stoppable{
                 return ;
             }else{
                 logger.info(
-                        "Creating device for {} endpoint {} on node {}",
-                        new Object[]{ ZigBeeDevice.class, ep, node }
+                        "Adding device for node {} / endpoint {}.",
+                        new Object[]{ node, ep }
                     );
             }
 
@@ -189,7 +188,7 @@ public class DeviceBuilderThread implements Stoppable{
 			}
 		}
 		if( isNew ){
-            logger.info("Creating a new set of services for ZigBee Node {} ({})", nwk, ieee);
+            //logger.info("Inspecting node #{} devices.", nwk);
 			correctlyInspected = inspectDeviceOfNode(nwk, node);
 			if(correctlyInspected) {
 				return;
@@ -255,17 +254,15 @@ public class DeviceBuilderThread implements Stoppable{
     }
 
 
-    private void inspectNewlyDevice(){
+    private void inspectNewDevice(){
         nextInspectionSlot = 3 * 1000 + System.currentTimeMillis();
         final ImportingQueue.ZigBeeNodeAddress dev = queue.pop();
         if ( dev == null ) return ;
-        logger.info("Trying to register a node extracted from ImportingQueue");
         final ZToolAddress16 nwk = dev.getNetworkAddress();
         final ZToolAddress64 ieee = dev.getIEEEAddress();
-        logger.info("Creating device for ZigBee Node {} ({})",nwk,ieee);
+        logger.debug("Popped new node for inspection #{}.", nwk.get16BitValue());
         inspectNode(nwk, ieee);
-        logger.debug(
-        		"Devices inspection completed, next inspetciont slot in {}",
+        logger.debug("Devices inspection completed, next inspetciont slot in {}",
         		Math.max( nextInspectionSlot - System.currentTimeMillis() , 0 )
         );
 	}
@@ -317,14 +314,14 @@ public class DeviceBuilderThread implements Stoppable{
                     if( sel > 0.6 ) {
 						inspectFailedDevice();
                     } else {
-                        inspectNewlyDevice();
+                        inspectNewDevice();
                     }
                 } else if ( queue.size() == 0 && failedDevice.size() > 0 ){
 					inspectFailedDevice();
                 } else if ( queue.size() > 0 && failedDevice.size() == 0 ){
-                    inspectNewlyDevice();
+                    inspectNewDevice();
                 } else if ( queue.size() == 0  && failedDevice.size() == 0 ){
-                    inspectNewlyDevice();
+                    inspectNewDevice();
                 }
 
 			}catch(Exception e){
