@@ -107,7 +107,7 @@ public class GenericHADeviceFactory extends HADeviceFactoryBase {
     }
 
     @Override
-    public HADeviceBase getInstance(ZigBeeDevice zbd) throws ZigBeeHAException {
+    public HADeviceBase getInstance(ZigBeeDevice zbd) {
 		try {
 		    Constructor builder = impl.getConstructor(BundleContext.class, ZigBeeDevice.class);
 		    HADeviceBase device = (HADeviceBase) builder.newInstance(ctx, zbd);

@@ -32,7 +32,7 @@ import it.cnr.isti.zigbee.api.ZigBeeNode;
  */
 public interface ZigBeeDiscoveryMonitor {
 	
-	public void browsedNode(ZigBeeNode parent, ZigBeeNode child);
+	public void browsedNode(ZigBeeNode node);
 	
 	public void annuncedNode(ZigBeeNode node);	
 	

@@ -78,6 +78,7 @@ public class ZigBeeNetwork {
             while(it.hasNext()){
                 final ZigBeeDevice device = it.next();
                 if (device != null){
+                    notifyDeviceRemoved(device);
                     it.remove();
                     removeDeviceFromProfiles(device);
                 }
@@ -102,7 +103,10 @@ public class ZigBeeNetwork {
 	}
 	
 	public synchronized boolean removeDevice(ZigBeeDevice device){
-		final String ieee = device.getPhysicalNode().getIEEEAddress();
+
+        notifyDeviceRemoved(device);
+
+        final String ieee = device.getPhysicalNode().getIEEEAddress();
 		
 		ZigBeeNode node = null;
 		node = nodes.get(ieee);
@@ -147,7 +151,8 @@ public class ZigBeeNetwork {
 			profiles.put(profileId, list);
 		}
 		list.add(device);
-		
+
+        notifyDeviceAdded(device);
 		return true;
 	}
 	
@@ -227,13 +232,12 @@ public class ZigBeeNetwork {
     /**
      * Notifies discovery listeners that node has been browsed.
      *
-     * @param parent the parent
-     * @param child the child
+     * @param node the node
      */
-    public void notifyNodeBrowsed(ZigBeeNode parent, ZigBeeNode child) {
+    public void notifyNodeBrowsed(ZigBeeNode node) {
         synchronized (discoveryMonitors) {
             for (final ZigBeeDiscoveryMonitor discoveryMonitor : discoveryMonitors) {
-                discoveryMonitor.browsedNode(parent, child);
+                discoveryMonitor.browsedNode(node);
             }
         }
     }

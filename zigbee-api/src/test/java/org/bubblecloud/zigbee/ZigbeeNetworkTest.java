@@ -1,7 +1,9 @@
 package org.bubblecloud.zigbee;
 
+import org.apache.log4j.BasicConfigurator;
 import org.bubblecloud.zigbee.model.DriverStatus;
 import org.bubblecloud.zigbee.model.NetworkMode;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -9,6 +11,11 @@ import org.junit.Test;
  * Test for ZigbeeNetworkManager.
  */
 public class ZigbeeNetworkTest {
+
+    @Before
+    public void setup() {
+        BasicConfigurator.configure();
+    }
 
     @Test
     @Ignore
@@ -30,6 +37,7 @@ public class ZigbeeNetworkTest {
     }
 
     @Test
+    @Ignore
     public void testDiscoverNetwork() throws Exception {
 
         final ZigbeeNetworkManager zigbeeNetworkManager = new ZigbeeNetworkManager(
@@ -54,5 +62,34 @@ public class ZigbeeNetworkTest {
 
         zigbeeNetworkManager.close();
     }
+
+    @Test
+    public void testZigbeeApi() throws Exception {
+
+        final ZigbeeNetworkManager zigbeeNetworkManager = new ZigbeeNetworkManager(
+                "/dev/ttyACM0", 115200, NetworkMode.Coordinator, 4951, 22,
+                false, 2500L);
+        final ZigbeeDiscoveryManager zigbeeDiscoveryManager = new ZigbeeDiscoveryManager(zigbeeNetworkManager);
+        final ZigbeeApi zigbeeApi = new ZigbeeApi(zigbeeNetworkManager);
+
+        zigbeeApi.startup();
+        zigbeeDiscoveryManager.startup();
+
+        zigbeeNetworkManager.open();
+
+        while (true) {
+            if (zigbeeNetworkManager.getDriverStatus() == DriverStatus.NETWORK_READY) {
+                break;
+            }
+            Thread.sleep(1000);
+        }
+
+        Thread.sleep(60000);
+
+        zigbeeApi.shutdown();
+        zigbeeDiscoveryManager.shutdown();
+        zigbeeNetworkManager.close();
+    }
+
 
 }

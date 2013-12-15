@@ -139,7 +139,8 @@ public class LQINetworkBrowserThread extends RunnableThread {
 
     private List<NetworkAddressNodeItem> lqiRequestToNode(NetworkAddressNodeItem node, int index){
 
-        if(alreadyInspected.get(node.address) == null){
+        if(alreadyInspected.get((int) node.address) == null){
+            alreadyInspected.put( (int) node.address, node );
 
             if(index == 0)
                 connectedNodesFound.clear();
@@ -189,8 +190,6 @@ public class LQINetworkBrowserThread extends RunnableThread {
                             " restarting from index {}", node.address, lqi_resp.getNeighborLQICount() + index + 1 );
                     lqiRequestToNode( node, lqi_resp.getNeighborLQICount() + index + 1 );
                 }
-
-                alreadyInspected.put( (int) node.address, node );
 
                 return connectedNodesFound;
             }
@@ -363,18 +362,7 @@ public class LQINetworkBrowserThread extends RunnableThread {
      */
     private void notifyBrowsedNode(NetworkAddressNodeItem item) {
         final ZigBeeNode child = item.node;
-        final ZigBeeNode parent;
-        if ( item.parent == null ){
-            //Notifying the root node
-            parent = null;
-        } else if( item.parent.node == null ) {
-            //This should not happen
-            logger.error("BROKEN CODE: Found a parent node that is null, but it has a parent");
-            parent = null;
-        } else {
-            parent = item.parent.node;
-        }
         final ZigBeeNetwork network = AFLayer.getAFLayer(driver).getZigBeeNetwork();
-        network.notifyNodeBrowsed(parent, child);
+        network.notifyNodeBrowsed(child);
     }
 }

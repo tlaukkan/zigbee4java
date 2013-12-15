@@ -13,9 +13,12 @@ import it.cnr.isti.zigbee.ha.device.api.security_safety.IAS_Zone;
 import it.cnr.isti.zigbee.ha.device.impl.*;
 import it.cnr.isti.zigbee.ha.driver.core.ClusterFactory;
 import it.cnr.isti.zigbee.ha.driver.core.GenericHADeviceFactory;
+import it.cnr.isti.zigbee.ha.driver.core.HADeviceBase;
+import it.cnr.isti.zigbee.ha.driver.core.HADeviceFactory;
 import org.bubblecloud.zigbee.discovery.*;
 import org.bubblecloud.zigbee.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.model.DeviceListener;
+import org.bubblecloud.zigbee.model.HaDeviceListener;
 import org.bubblecloud.zigbee.model.SimpleDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,20 +34,22 @@ import java.util.Map;
  * Time: 8:43 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ZigbeeApi implements DeviceListener {
+public class ZigbeeApi implements DeviceListener, HaDeviceListener {
     private final static Logger logger = LoggerFactory.getLogger(ZigbeeDiscoveryManager.class);
 
     private final SimpleDriver simpleDriver;
+    private BundleContext context;
+    private ZigBeeNetwork network;
 
     public ZigbeeApi(final SimpleDriver simpleDriver){
         this.simpleDriver = simpleDriver;
     }
 
     public void startup() {
-        final ZigBeeNetwork network = AFLayer.getAFLayer(simpleDriver).getZigBeeNetwork();
+        network = AFLayer.getAFLayer(simpleDriver).getZigBeeNetwork();
         network.addDeviceListener(this);
 
-        final BundleContext context = new BundleContext();
+        context = new BundleContext();
 
         final ClusterFactory clusterFactory = new HAClustersFactory(context);
 
@@ -75,13 +80,14 @@ public class ZigbeeApi implements DeviceListener {
             Map.Entry<Class<?>, Class<?>> refining = i.next();
             try {
                 context.getDeviceFactories().add(
-                        new GenericHADeviceFactory(context, refining.getKey(), refining.getValue() ).register());
+                        new GenericHADeviceFactory(context, refining.getKey(), refining.getValue()).register());
             } catch ( Exception ex) {
                 logger.error( "Failed to register GenericHADeviceFactory for " + refining.getKey(), ex );
             }
         }
 
-        /*try {
+        context.addDeviceListener(this);
+                /*try {
             factories.add( new UnknowHADeviceFactory( bc ).register() );
         } catch ( Exception ex) {
             logger.error( "Failed to register UnknowHADeviceFactory", ex );
@@ -89,15 +95,46 @@ public class ZigbeeApi implements DeviceListener {
 
     }
 
-    public void deviceAdded(ZigBeeDevice device) {
+    public void shutdown() {
+        context.removeDeviceListener(this);
+        network.removeDeviceListener(this);
+    }
 
+    public void deviceAdded(ZigBeeDevice device) {
+        final HADeviceFactory factory = context.getBestDeviceFactory(device);
+        if ( factory == null) { // pending services
+            logger.warn("No refinement for ZigbeeDevice {} found.", device.getPhysicalNode().getIEEEAddress());
+            return;
+        }
+
+        final HADeviceBase haDevice = factory.getInstance(device);
+        context.addHaDevice(haDevice);
+        logger.info("Device added: " + device.getUniqueIdenfier());
     }
 
     public void deviceUpdated(ZigBeeDevice device) {
-
+        logger.info("Device updated: " + device.getUniqueIdenfier());
     }
 
     public void deviceRemoved(ZigBeeDevice device) {
+        logger.info("Device removed: " + device.getUniqueIdenfier());
+    }
 
+    @Override
+    public void deviceAdded(HADeviceBase device) {
+        logger.info("Device proxy added: " + device.getZBDevice().getUniqueIdenfier()
+                + " (" + device.getClass().getSimpleName() + ")");
+    }
+
+    @Override
+    public void deviceUpdated(HADeviceBase device) {
+        logger.info("Device proxy updated: " + device.getZBDevice().getUniqueIdenfier()
+                + " (" + device.getClass().getSimpleName() + ")");
+    }
+
+    @Override
+    public void deviceRemoved(HADeviceBase device) {
+        logger.info("Device proxy removed: " + device.getZBDevice().getUniqueIdenfier()
+                + " (" + device.getClass().getSimpleName() + ")");
     }
 }

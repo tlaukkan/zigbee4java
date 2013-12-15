@@ -151,7 +151,7 @@ public class NetworkBrowserThread extends RunnableThread {
             for (int i = 0; i < toAdd.length; i++) {
                 logger.info( "Found node #{} associated to node #{}", toAdd[i], inspecting.address );
                 final NetworkAddressNodeItem next = new NetworkAddressNodeItem( inspecting, toAdd[i] );
-                final NetworkAddressNodeItem found = alreadyInspected.get( toAdd[i] );
+                final NetworkAddressNodeItem found = alreadyInspected.get( (int) toAdd[i] );
                 if ( found != null ) {
                     //NOTE Logging this wrong behavior but doing nothing
                     logger.error(
@@ -186,20 +186,9 @@ public class NetworkBrowserThread extends RunnableThread {
     }
 
     private void notifyBrowsedNode(NetworkAddressNodeItem item) {
-        final ZigBeeNode child = item.node;
-        final ZigBeeNode parent;
-        if ( item.parent == null ){
-            //Notifying the root node
-            parent = null;
-        } else if( item.parent.node == null ){
-            //This should not happen
-            logger.error("BROKEN CODE: Found a parent node that is null, but it has a parent");
-            parent = null;
-        } else {
-            parent = item.parent.node;
-        }
+        final ZigBeeNode node = item.node;
 
         final ZigBeeNetwork network = AFLayer.getAFLayer(driver).getZigBeeNetwork();
-        network.notifyNodeBrowsed(parent, child);
+        network.notifyNodeBrowsed(node);
     }
 }

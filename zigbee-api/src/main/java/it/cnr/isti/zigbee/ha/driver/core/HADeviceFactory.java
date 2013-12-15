@@ -70,7 +70,7 @@ public interface HADeviceFactory {
 	 * 
 	 * @throws ZigBeeHAException
 	 */
-	public HADeviceBase getInstance(ZigBeeDevice zbd) throws ZigBeeHAException;
+	public HADeviceBase getInstance(ZigBeeDevice zbd);
 	
 	/**
 	 */

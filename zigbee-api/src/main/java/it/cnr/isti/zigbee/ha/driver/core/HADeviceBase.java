@@ -88,7 +88,7 @@ public abstract class HADeviceBase implements HADevice  {
         this.ctx = ctx;
 
         final int size;
-        clusterMode = ProvidedClusterMode.EitherInputAndOutput;
+        clusterMode = ProvidedClusterMode.HomeAutomationProfileStrict;
         if( clusterMode == ProvidedClusterMode.HomeAutomationProfileStrict ){
             size = zbDevice.getInputClusters().length;
         }else{
@@ -248,6 +248,13 @@ public abstract class HADeviceBase implements HADevice  {
         String key = HAProfile.ID + ":"+String.valueOf(clusterId);
         ClusterFactory factory = (ClusterFactory) ctx.getClusterFactory();
         Cluster cluster = factory.getInstance(key,zbDevice);
+        if (index >= clusters.length) {
+            logger.error(
+                    "ZigBeeDevice with DeviceId={} has cluster {} and is this many clusters are not expected to exist.",
+                    zbDevice.getDeviceId(), clusterId
+            );
+            return null;
+        }
         clusters[index++] = cluster;
         return cluster;
     }

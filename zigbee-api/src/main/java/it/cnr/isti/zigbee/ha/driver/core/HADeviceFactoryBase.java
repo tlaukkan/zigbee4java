@@ -88,7 +88,7 @@ public abstract class HADeviceFactoryBase implements HADeviceFactory {
 
     public abstract String[] getRefinedInterfaces();
 
-    public abstract HADeviceBase getInstance(ZigBeeDevice zbDevice) throws ZigBeeHAException;
+    public abstract HADeviceBase getInstance(ZigBeeDevice zbDevice);
 
     public void addProperty(String key, Object value) {
         dictionary.put(key, value);
