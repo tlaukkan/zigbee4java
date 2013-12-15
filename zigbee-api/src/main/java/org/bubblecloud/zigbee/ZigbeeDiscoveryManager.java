@@ -59,7 +59,7 @@ public class ZigbeeDiscoveryManager {
     }
 
     public void startup() {
-        logger.info("Setting up all the importer data and threads");
+        logger.debug("Setting up all the importer data and threads");
         importingQueue.clear();
         AFLayer.getAFLayer(driverService);
         final EnumSet<DiscoveryMode> enabledDiscoveries = DiscoveryMode.ALL;

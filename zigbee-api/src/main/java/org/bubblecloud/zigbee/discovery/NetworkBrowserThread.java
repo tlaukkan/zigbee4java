@@ -88,13 +88,13 @@ public class NetworkBrowserThread extends RunnableThread {
     public void task(){
         final String threadName = Thread.currentThread().getName();
 
-        logger.info("{} STARTED Succesfully", threadName);
+        logger.debug("{} STARTED Succesfully", threadName);
 
         while( ! isDone() ){
             long wakeUpTime = System.currentTimeMillis() + 15 * 60 * 1000;
             cleanUpWalkingTree();
 
-            logger.info("Inspecting ZigBee network for new nodes");
+            logger.debug("Inspecting ZigBee network for new nodes.");
             toInspect.add(new NetworkAddressNodeItem(null, COORDINATOR_NWK_ADDRESS) );
             try{
                 while(toInspect.size() != 0){
@@ -134,7 +134,7 @@ public class NetworkBrowserThread extends RunnableThread {
             logger.info("Network browsing completed, waiting until {}", wakeUpTime);
             if ( ! isDone() ) ThreadUtils.waitingUntil( wakeUpTime );
         }
-        logger.info("{} TERMINATED Succesfully", threadName);
+        logger.debug("{} TERMINATED Succesfully", threadName);
     }
 
 

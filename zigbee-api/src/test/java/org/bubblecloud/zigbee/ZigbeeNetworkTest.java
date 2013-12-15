@@ -14,7 +14,6 @@ public class ZigbeeNetworkTest {
 
     @Before
     public void setup() {
-        BasicConfigurator.configure();
     }
 
     @Test
@@ -72,9 +71,6 @@ public class ZigbeeNetworkTest {
         final ZigbeeDiscoveryManager zigbeeDiscoveryManager = new ZigbeeDiscoveryManager(zigbeeNetworkManager);
         final ZigbeeApi zigbeeApi = new ZigbeeApi(zigbeeNetworkManager);
 
-        zigbeeApi.startup();
-        zigbeeDiscoveryManager.startup();
-
         zigbeeNetworkManager.open();
 
         while (true) {
@@ -84,7 +80,10 @@ public class ZigbeeNetworkTest {
             Thread.sleep(1000);
         }
 
-        Thread.sleep(60000);
+        zigbeeApi.startup();
+        zigbeeDiscoveryManager.startup();
+
+        Thread.sleep(10000);
 
         zigbeeApi.shutdown();
         zigbeeDiscoveryManager.shutdown();

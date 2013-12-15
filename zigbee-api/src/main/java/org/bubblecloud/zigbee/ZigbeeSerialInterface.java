@@ -56,7 +56,9 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
      * Closes connection ot Zigbee Network.
      */
     public void close() {
-        serialPort.close();
+        synchronized (serialPort) {
+            serialPort.close();
+        }
     }
 
     // ZToolPacketHandler ------------------------------------------------------------------
@@ -90,20 +92,17 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
     private void sendPacket( ZToolPacket packet )
             throws IOException {
 
+
         //FIX Sending byte instead of int
         LOGGER.debug( "Sending Packet {} {} ", packet.getClass(), packet.toString() );
 
         final int[] pck = packet.getPacket();
-        final OutputStream out = serialPort.getOutputStream();
-
-        if (out == null) {
-            // Socket has not been opened or is already closed.
-            return;
-        }
-
-        //Only a packet at the time can be sent, otherwise link communication will be mess up
-        synchronized ( out ) {
-
+        synchronized (serialPort) {
+            final OutputStream out = serialPort.getOutputStream();
+            if (out == null) {
+                // Socket has not been opened or is already closed.
+                return;
+            }
             for ( int i = 0; i < pck.length; i++ ) {
                 out.write( pck[i] );
             }

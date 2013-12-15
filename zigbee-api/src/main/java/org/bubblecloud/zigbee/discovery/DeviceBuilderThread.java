@@ -299,7 +299,7 @@ public class DeviceBuilderThread implements Stoppable{
     }
 
 	public void run() {
-		logger.info("{} STARTED Successfully", Thread.currentThread().getName() );
+		logger.debug("{} STARTED Successfully", Thread.currentThread().getName() );
 
 		while(!isEnd()){
 			try{
@@ -336,7 +336,7 @@ public class DeviceBuilderThread implements Stoppable{
 			}
 		}
 
-		logger.info("{} TERMINATED Successfully", Thread.currentThread().getName());
+		logger.debug("{} TERMINATED Successfully", Thread.currentThread().getName());
 	}
 
 	public synchronized boolean isEnd() {

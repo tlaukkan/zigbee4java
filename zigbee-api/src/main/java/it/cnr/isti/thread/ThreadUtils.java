@@ -45,7 +45,7 @@ public class ThreadUtils {
 		do{
 			try {
 			    final long delta = Math.max( end - System.currentTimeMillis(), 0 ); 
-			    logger.info( "{} waiting for {}ms", Thread.currentThread(), delta );
+			    logger.debug( "{} waiting for {}ms", Thread.currentThread(), delta );
 				Thread.sleep( delta );
 			} catch (InterruptedException ignored) {
 			}
@@ -62,7 +62,7 @@ public class ThreadUtils {
         do{
             try {
                 final long delta = Math.max( time - System.currentTimeMillis(), 0 ); 
-                logger.info( "{} waiting for {}ms", Thread.currentThread(), delta );
+                logger.debug( "{} waiting for {}ms", Thread.currentThread(), delta );
                 Thread.sleep( delta );
             } catch (InterruptedException ignored) {
                 break;

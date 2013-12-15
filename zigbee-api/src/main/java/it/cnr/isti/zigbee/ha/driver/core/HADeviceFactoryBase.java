@@ -116,7 +116,7 @@ public abstract class HADeviceFactoryBase implements HADeviceFactory {
         dictionary.put(ZigBeeDevice.DEVICE_ID, getDeviceId());
         dictionary.put(ZigBeeDevice.CLUSTERS_INPUT_ID, getDeviceClusters());
         if( logger.isInfoEnabled() ) {
-            logger.info(
+            logger.debug(
                 "Registering a HADeviceFactory ( a refinement driver ) whose refines service with deviceId={} and clusters={}",
                 getDeviceId(), Arrays.toString( getDeviceClusters() )
             );

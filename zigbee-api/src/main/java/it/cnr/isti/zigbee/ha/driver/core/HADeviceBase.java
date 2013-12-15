@@ -166,7 +166,7 @@ public abstract class HADeviceBase implements HADevice  {
          */
         if ( ! zbDevice.providesInputCluster(clusterId) && getDescription().isOptional(clusterId) ){
             logger.warn(
-                    "[WARNING] ZigBeeDevice with DeviceId={} of Home Automation profile " +
+                    "ZigBeeDevice with DeviceId={} of Home Automation profile " +
                     "implements the OPTINAL cluster {} ONLY AS OUTPUT instead of input " +
                     "it may identify an error either on the Driver description or in " +
                     "in the implementation of firmware of the physical device",
@@ -181,7 +181,7 @@ public abstract class HADeviceBase implements HADevice  {
         if (! zbDevice.providesInputCluster(clusterId) && getDescription().isCustom(clusterId)){
             //TODO check if exists custom add-on by using ProfileModule interface
             logger.warn(
-                    "[WARNING] ZigBeeDevice with DeviceId={} of Home Automation profile " +
+                    "ZigBeeDevice with DeviceId={} of Home Automation profile " +
                     "implements a CUSTOM cluster {} but HA Driver does not support them yet",
                     zbDevice.getDeviceId(), clusterId
             );

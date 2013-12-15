@@ -19,7 +19,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.aaloa.zb4osgi.api.monitor;
+package org.bubblecloud.zigbee.model;
 
 import it.cnr.isti.zigbee.api.ZigBeeNode;
 

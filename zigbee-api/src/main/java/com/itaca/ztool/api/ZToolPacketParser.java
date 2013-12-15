@@ -71,7 +71,7 @@ public class ZToolPacketParser implements Runnable {
 		if ( inputStream.markSupported() ) {
 			this.inputStream = inputStream;
 		} else {
-			logger.warn(
+			logger.debug(
 					"Provided InputStream {} doesn't provide the mark()/reset() feature, " +
 					"wrapping it up as BufferedInputStream", inputStream.getClass()
 			);

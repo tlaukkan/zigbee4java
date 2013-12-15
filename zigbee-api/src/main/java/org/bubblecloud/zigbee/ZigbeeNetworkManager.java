@@ -475,7 +475,7 @@ public class ZigbeeNetworkManager implements Runnable, SimpleDriver {
     }
 
     public void run() {
-        logger.info("Initializing");
+        logger.debug("Initializing hardware.");
         setState(DriverStatus.HARDWARE_INITIALIZING);
         if (initializeHardware() == true) {
             setState(DriverStatus.HARDWARE_READY);
@@ -484,6 +484,7 @@ public class ZigbeeNetworkManager implements Runnable, SimpleDriver {
             return;
         }
 
+        logger.debug("Initializing network.");
         setState(DriverStatus.NETWORK_INITIALIZING);
         if(initializeZigBeeNetwork() == true){
             setState(DriverStatus.NETWORK_READY);
@@ -628,7 +629,7 @@ public class ZigbeeNetworkManager implements Runnable, SimpleDriver {
 
 
         public void receivedAsynchrounsCommand(ZToolPacket packet) {
-            logger4Waiter.info("received a packet {} and waiting for {}", packet.getCMD(), waitFor);
+            logger4Waiter.debug("received a packet {} and waiting for {}", packet.getCMD(), waitFor);
             logger4Waiter.debug("received {} {}", packet.getClass(), packet.toString());
             if( packet.isError() ) return;
             if( packet.getCMD().get16BitValue() != waitFor) return;
@@ -1110,12 +1111,12 @@ public class ZigbeeNetworkManager implements Runnable, SimpleDriver {
 //		final int TIMEOUT = 1000, MAX_SEND = 3;
         int sending = 1;
 
-        logger.info("Sending Synchrouns {}", request.getClass().getName());
+        logger.debug("Sending Synchrouns {}", request.getClass().getSimpleName());
 
         SynchrounsCommandListner listener = new SynchrounsCommandListner() {
 
             public void receivedCommandResponse(ZToolPacket packet) {
-                logger.info("Received Synchrouns Response {}", packet.getClass().getName());
+                logger.info("Received Synchrouns Response {}", packet.getClass().getSimpleName());
                 synchronized (response) {
                     response[0] = packet;
                     response.notify();
@@ -1130,7 +1131,7 @@ public class ZigbeeNetworkManager implements Runnable, SimpleDriver {
                 }catch(Exception ex){
                     ex.printStackTrace();
                 }
-                logger.info("Sent {} during the {}-th tentative", request.getClass().getName(),sending);
+                logger.info("Sent {} during the {}-th tentative", request.getClass().getSimpleName(),sending);
                 synchronized (response) {
                     long wakeUpTime = System.currentTimeMillis() + RESEND_TIMEOUT;
                     while(response[0] == null && wakeUpTime > System.currentTimeMillis()){

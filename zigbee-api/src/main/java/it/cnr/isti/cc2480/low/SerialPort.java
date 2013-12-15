@@ -91,11 +91,11 @@ public class SerialPort implements SerialHandler {
         }
 
         final SerialComm[] ports = SerialComm.getCommPorts();
-        logger.info("Serial ports:");
+        logger.debug("Serial ports:");
 
         final Map<String, SerialComm> portMap = new HashMap<String, SerialComm>();
         for (int i = 0; i < ports.length; ++i) {
-            logger.info(i + ") '" + ports[i].getSystemPortName() + "': " + ports[i].getDescriptivePortName());
+            logger.debug(i + ") '" + ports[i].getSystemPortName() + "': " + ports[i].getDescriptivePortName());
 
 
             portMap.put(ports[i].getSystemPortName(), ports[i]);

@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.impl;
 
 import it.cnr.isti.zigbee.api.ZigBeeDevice;
 import it.cnr.isti.zigbee.api.ZigBeeNode;
-import org.aaloa.zb4osgi.api.monitor.ZigBeeDiscoveryMonitor;
+import org.bubblecloud.zigbee.model.ZigBeeDiscoveryMonitor;
 import org.bubblecloud.zigbee.model.DeviceListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

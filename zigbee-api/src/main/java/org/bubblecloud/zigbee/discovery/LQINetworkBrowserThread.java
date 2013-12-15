@@ -116,7 +116,9 @@ public class LQINetworkBrowserThread extends RunnableThread {
                     Integers.getByteAsInteger(node.address, 0)
                     );
 
-            queue.push(nwk, ieee_addr_resp.getIEEEAddress());
+            if (!alreadyInspected.containsKey((int) node.address)) {
+                queue.push(nwk, ieee_addr_resp.getIEEEAddress());
+            }
             announceNode(node);
 
             return node;
@@ -219,12 +221,12 @@ public class LQINetworkBrowserThread extends RunnableThread {
 
         final String threadName = Thread.currentThread().getName();
 
-        logger.info("{} STARTED Succesfully", threadName);
+        logger.debug("{} STARTED Succesfully", threadName);
 
         while( ! isDone() ){
             cleanUpWalkingTree();
 
-            logger.info("Inspecting ZigBee network for new nodes");
+            logger.debug("Inspecting ZigBee network for new nodes.");
 
             try{
                 NetworkAddressNodeItem coordinator = getIEEEAddress(COORDINATOR_NWK_ADDRESS);
@@ -261,7 +263,7 @@ public class LQINetworkBrowserThread extends RunnableThread {
         }
 
         //gt.end();
-        logger.info("{} TERMINATED Succesfully", threadName);
+        logger.debug("{} TERMINATED Succesfully", threadName);
     }
 
     private void cleanUpWalkingTree() {
