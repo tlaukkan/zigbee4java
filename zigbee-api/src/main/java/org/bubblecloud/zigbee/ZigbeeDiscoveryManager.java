@@ -45,7 +45,7 @@ public class ZigbeeDiscoveryManager {
 
     private final static Logger logger = LoggerFactory.getLogger(ZigbeeDiscoveryManager.class);
 
-    private ZigbeeNetworkManagementInterface driverService;
+    private ZigbeeNetworkManagementInterface managementInterface;
     private AnnounceListenerThread annunceListener;
 
     private NetworkBrowserThread networkBrowser = null ;
@@ -56,45 +56,45 @@ public class ZigbeeDiscoveryManager {
 
     public ZigbeeDiscoveryManager(ZigbeeNetworkManagementInterface simpleDriver){
         importingQueue = new ImportingQueue();
-        driverService = simpleDriver;
+        managementInterface = simpleDriver;
     }
 
     public void startup() {
         logger.debug("Setting up all the importer data and threads");
         importingQueue.clear();
-        ApplicationFrameworkLayer.getAFLayer(driverService);
+        ApplicationFrameworkLayer.getAFLayer(managementInterface);
         final EnumSet<DiscoveryMode> enabledDiscoveries = DiscoveryMode.ALL;
         if ( enabledDiscoveries.contains( DiscoveryMode.Announce ) ) {
-            annunceListener = new AnnounceListenerThread(importingQueue, driverService);
-            driverService.addAnnunceListener(annunceListener);
+            annunceListener = new AnnounceListenerThread(importingQueue, managementInterface);
+            managementInterface.addAnnunceListener(annunceListener);
         } else {
             logger.debug( "ANNUNCE discovery disabled.");
         }
 
         if ( enabledDiscoveries .contains( DiscoveryMode.Addressing ) ) {
-            networkBrowser = new NetworkBrowserThread(importingQueue,  driverService );
-            new Thread(networkBrowser, "NetworkBrowser["+driverService+"]").start();
+            networkBrowser = new NetworkBrowserThread(importingQueue, managementInterface);
+            new Thread(networkBrowser, "NetworkBrowser["+ managementInterface +"]").start();
         } else {
             logger.debug( "{} discovery disabled.",
                     NetworkBrowserThread.class);
         }
 
         if ( enabledDiscoveries .contains( DiscoveryMode.LinkQuality ) ) {
-            networkLQIBrowser = new LQINetworkBrowserThread(importingQueue,  driverService );
-            new Thread(networkLQIBrowser, "LQINetworkBrowser["+driverService+"]").start();
+            networkLQIBrowser = new LQINetworkBrowserThread(importingQueue, managementInterface);
+            new Thread(networkLQIBrowser, "LQINetworkBrowser["+ managementInterface +"]").start();
         } else {
             logger.debug( "{} discovery disabled.",
                     LQINetworkBrowserThread.class);
         }
 
-        deviceBuilder = new DeviceBuilderThread( importingQueue, driverService);
-        new Thread(deviceBuilder, "DeviceBuilder["+driverService+"]").start();
+        deviceBuilder = new DeviceBuilderThread( importingQueue, managementInterface);
+        new Thread(deviceBuilder, "DeviceBuilder["+ managementInterface +"]").start();
     }
 
     public void shutdown() {
         //logger.info("Driver used left:clean up all the data and closing all the threads");
 
-        driverService.removeAnnunceListener(annunceListener);
+        managementInterface.removeAnnunceListener(annunceListener);
 
         if ( networkBrowser != null ) {
             networkBrowser.end();

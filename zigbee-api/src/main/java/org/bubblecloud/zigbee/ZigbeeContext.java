@@ -7,6 +7,7 @@ import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 import org.bubblecloud.zigbee.proxy.DeviceProxyFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -114,4 +115,7 @@ public class ZigbeeContext {
         }
     }
 
+    public List<DeviceProxyBase> getDeviceProxies() {
+        return Collections.unmodifiableList(deviceProxies);
+    }
 }

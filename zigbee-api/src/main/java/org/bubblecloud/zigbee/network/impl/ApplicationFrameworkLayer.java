@@ -169,10 +169,10 @@ public class ApplicationFrameworkLayer {
 		do {
 			result = driver.sendAFRegister(new AF_REGISTER(
 				endPoint, si.profileId, (short)0, (byte)0,
-				clusters,clusters						
+				new int[0],clusters
 			));
 			//FIX We should retry only when Status != 0xb8  ( ZApsDuplicateEntry )
-			if( result.getStatus() != 0 ){
+			if( result.getStatus() != 0){
 				if ( retry < 1 ) {
 					endPoint = getFreeEndPoint();
 				} else {
@@ -186,7 +186,7 @@ public class ApplicationFrameworkLayer {
 				break;
 			}
 		} while( true );
-		logger.debug("Registered endpoint {} with clusters: {}", endPoint, clusters);
+		logger.info("Registered endpoint {} with clusters: {}", endPoint, clusters);
 		final List<Integer> list;
 		synchronized (profile2Cluster) {
 			if( profile2Cluster.containsKey(si.profileId)){

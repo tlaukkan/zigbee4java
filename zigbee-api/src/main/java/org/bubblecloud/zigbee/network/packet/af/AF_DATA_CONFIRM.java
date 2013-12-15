@@ -74,12 +74,12 @@ public class AF_DATA_CONFIRM extends ZToolPacket/* implements ICONFIRMATION, IAF
         
         public AF_DATA_CONFIRM(int[] framedata)
         {
-        	profiler.info("AF_DATA_CONFIRM: creating object");
+        	profiler.debug("AF_DATA_CONFIRM: creating object");
             this.Status=framedata[0];
             this.Endpoint=framedata[1];
             this.TransID=framedata[2];
             super.buildPacket(new DoubleByte(ZToolCMD.AF_DATA_CONFIRM), framedata);
-        	profiler.info("AF_DATA_CONFIRM: object created");
+        	profiler.debug("AF_DATA_CONFIRM: object created");
         }
 
         /// <name>TI.ZPI2.AF_DATA_CONFIRM.AF_STATUS</name>

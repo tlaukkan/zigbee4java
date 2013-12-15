@@ -332,7 +332,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
         }
     }
 
-    public ZigBeeDevice getZBDevice(){
+    public ZigBeeDevice getDevice(){
         return zbDevice;
     }
 

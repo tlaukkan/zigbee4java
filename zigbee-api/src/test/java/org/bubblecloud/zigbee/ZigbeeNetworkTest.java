@@ -2,14 +2,20 @@ package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
+import org.bubblecloud.zigbee.proxy.DeviceProxy;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.Basic;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Test for ZigbeeNetworkManager.
  */
 public class ZigbeeNetworkTest {
+    private final static Logger logger = LoggerFactory.getLogger(ZigbeeNetworkTest.class);
 
     @Before
     public void setup() {
@@ -76,13 +82,28 @@ public class ZigbeeNetworkTest {
             if (zigbeeNetworkManager.getDriverStatus() == DriverStatus.NETWORK_READY) {
                 break;
             }
-            Thread.sleep(1000);
+            Thread.sleep(100);
         }
 
         zigbeeApi.startup();
         zigbeeDiscoveryManager.startup();
 
-        Thread.sleep(10000);
+        Thread.sleep(2000);
+
+        for (final DeviceProxy proxy : zigbeeApi.getContext().getDeviceProxies()) {
+            logger.info(proxy.getDevice().getUniqueIdenfier());
+        }
+
+        for (final DeviceProxy proxy : zigbeeApi.getContext().getDeviceProxies()) {
+            try {
+                final Basic basic = (Basic) proxy.getCluster(ProxyConstants.BASIC);
+                logger.info("Reading manufacturer info for: " + proxy.getDevice().getUniqueIdenfier());
+                logger.info("" + basic.getManufacturerName().getValue());
+                Thread.sleep(3000);
+            } catch (final Throwable t) {
+                logger.error("Error getting information for device.", t);
+            }
+        }
 
         zigbeeApi.shutdown();
         zigbeeDiscoveryManager.shutdown();

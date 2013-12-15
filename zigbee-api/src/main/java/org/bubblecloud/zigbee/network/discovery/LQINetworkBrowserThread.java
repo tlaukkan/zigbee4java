@@ -252,7 +252,7 @@ public class LQINetworkBrowserThread extends RunnableThread {
                     toInspect.clear();
                 }
 
-                long wakeUpTime = System.currentTimeMillis() + 10000;
+                long wakeUpTime = System.currentTimeMillis() + 20000;
                 if ( ! isDone() ) ThreadUtils.waitingUntil( wakeUpTime );
                 logger.info("Network browsing completed, waiting until {}", wakeUpTime);
                 //gt.run();

@@ -271,7 +271,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
                 this, transaction, input.getId(), TIMEOUT
         );
 
-        logger.debug("---> SENDING TO: " + node.getNetworkAddress() + " with"
+        logger.info("---> SENDING TO: " + node.getNetworkAddress() + " with"
                 + " byte 0 " + Integers.getByteAsInteger(node.getNetworkAddress(), 0)
                 + " byte 1 " + Integers.getByteAsInteger(node.getNetworkAddress(), 1)
                 + " byte 2 " + Integers.getByteAsInteger(node.getNetworkAddress(), 2)

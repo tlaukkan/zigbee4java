@@ -130,7 +130,6 @@ public interface DeviceProxy {
 	 * 
 	 * @return return {@link ZigBeeDevice} service that has been refined has {@link DeviceProxy}
 	 * @since 0.2.0
-	 * @deprecated The method should be avoided because it cause Service Reference Leak
 	 */
-	public ZigBeeDevice getZBDevice(); 
+	public ZigBeeDevice getDevice();
 }

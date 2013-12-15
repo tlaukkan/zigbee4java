@@ -34,16 +34,16 @@ import java.util.Map;
 public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
     private final static Logger logger = LoggerFactory.getLogger(ZigbeeDiscoveryManager.class);
 
-    private final ZigbeeNetworkManagementInterface simpleDriver;
+    private final ZigbeeNetworkManagementInterface managementInterface;
     private ZigbeeContext context;
     private ZigBeeNetwork network;
 
     public ZigbeeApi(final ZigbeeNetworkManagementInterface simpleDriver){
-        this.simpleDriver = simpleDriver;
+        this.managementInterface = simpleDriver;
     }
 
     public void startup() {
-        network = ApplicationFrameworkLayer.getAFLayer(simpleDriver).getZigBeeNetwork();
+        network = ApplicationFrameworkLayer.getAFLayer(managementInterface).getZigBeeNetwork();
         network.addDeviceListener(this);
 
         context = new ZigbeeContext();
@@ -120,18 +120,26 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
     @Override
     public void deviceAdded(DeviceProxyBase device) {
         logger.info(device.getClass().getSimpleName() +
-                " added: " + device.getZBDevice().getUniqueIdenfier());
+                " added: " + device.getDevice().getUniqueIdenfier());
     }
 
     @Override
     public void deviceUpdated(DeviceProxyBase device) {
         logger.info(device.getClass().getSimpleName() +
-                " updated: " + device.getZBDevice().getUniqueIdenfier());
+                " updated: " + device.getDevice().getUniqueIdenfier());
     }
 
     @Override
     public void deviceRemoved(DeviceProxyBase device) {
         logger.info(device.getClass().getSimpleName() +
-                " removed: " + device.getZBDevice().getUniqueIdenfier());
+                " removed: " + device.getDevice().getUniqueIdenfier());
+    }
+
+    public ZigbeeContext getContext() {
+        return context;
+    }
+
+    public ZigBeeNetwork getNetwork() {
+        return network;
     }
 }

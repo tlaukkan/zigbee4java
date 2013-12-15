@@ -99,7 +99,7 @@ public class AF_INCOMING_MSG extends ZToolPacket /*implements IINDICATION,IAF*/{
 
         public AF_INCOMING_MSG(int[] framedata)
         {
-        	profiler.info("AF_INCOMING_MSG: creating object");
+        	profiler.debug("AF_INCOMING_MSG: creating object");
             this.GroupID = new DoubleByte(framedata[1],framedata[0]);
             this.ClusterID = new DoubleByte(framedata[3],framedata[2]);
             this.SrcAddr = new ZToolAddress16(framedata[5],framedata[4]);
@@ -121,7 +121,7 @@ public class AF_INCOMING_MSG extends ZToolPacket /*implements IINDICATION,IAF*/{
                 this.Data[i]=framedata[17+i];
             }
             super.buildPacket(new DoubleByte(ZToolCMD.AF_INCOMING_MSG), framedata);
-        	profiler.info("AF_INCOMING_MSG: object created");
+        	profiler.debug("AF_INCOMING_MSG: object created");
         }
 
         /// <name>TI.ZPI2.AF_INCOMING_MSG.SECURITY_STATUS</name>

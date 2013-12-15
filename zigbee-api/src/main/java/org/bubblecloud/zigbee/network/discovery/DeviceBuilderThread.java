@@ -255,7 +255,7 @@ public class DeviceBuilderThread implements Stoppable{
 
 
     private void inspectNewDevice(){
-        nextInspectionSlot = 3 * 1000 + System.currentTimeMillis();
+        nextInspectionSlot = 500 + System.currentTimeMillis();
         final ImportingQueue.ZigBeeNodeAddress dev = queue.pop();
         if ( dev == null ) return ;
         final ZToolAddress16 nwk = dev.getNetworkAddress();

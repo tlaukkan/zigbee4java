@@ -182,7 +182,7 @@ public class ZigBeeNetwork {
 		if ( values == null ) {
 			logger.warn("No devices found implemting the profile={}", profileId);
 		} else {
-			logger.error("We found {} implementing the profile={}", values.size(), profileId);
+			logger.info("We found {} implementing the profile={}", values.size(), profileId);
 			result.addAll(values);
 		}				
 		return result;
