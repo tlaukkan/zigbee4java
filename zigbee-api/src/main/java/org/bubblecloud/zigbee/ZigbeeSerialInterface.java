@@ -4,9 +4,8 @@ import com.itaca.ztool.api.ZToolException;
 import com.itaca.ztool.api.ZToolPacket;
 import com.itaca.ztool.api.ZToolPacketHandler;
 import com.itaca.ztool.util.DoubleByte;
-import it.cnr.isti.cc2480.high.AsynchrounsCommandListener;
-import it.cnr.isti.cc2480.high.SynchrounsCommandListner;
-import it.cnr.isti.cc2480.low.SerialPort;
+import org.bubblecloud.zigbee.model.AsynchrounsCommandListener;
+import org.bubblecloud.zigbee.model.SynchrounsCommandListner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -20,18 +20,21 @@
    limitations under the License.
 */
 
-package it.cnr.isti.cc2480.low;
+package org.bubblecloud.zigbee.model;
 
 import com.itaca.ztool.api.ZToolPacket;
 
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  *
  */
-public interface PacketListener {
+public interface AsynchrounsCommandListener {
 
-	void packetReceived(ZToolPacket packet);
+	void receivedAsynchrounsCommand(ZToolPacket packet);
+
+
 }

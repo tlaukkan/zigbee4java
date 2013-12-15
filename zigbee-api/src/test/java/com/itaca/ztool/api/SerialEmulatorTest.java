@@ -18,13 +18,14 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package it.cnr.isti.cc2480.virtual;
+package com.itaca.ztool.api;
 
+import com.itaca.ztool.api.SerialEmulator;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class EmulatorTest {
+public class SerialEmulatorTest {
 
     @Test
     public void testExtractTimeMillis() {
@@ -41,7 +42,7 @@ public class EmulatorTest {
                 0l, "Answer: 06/08/2010 17:03:12.46464 (+0.0000 seconds)"
             }
         };
-        final Emulator e = new Emulator( );
+        final SerialEmulator e = new SerialEmulator( );
         for ( int i = 0; i < lines.length; i++ ) {
             assertEquals( ( (Long) lines[i][0] ).longValue(), e.extractTimeMillis( (String) lines[i][1] ) );
         }
@@ -63,7 +64,7 @@ public class EmulatorTest {
             }
 
         };
-        final Emulator e = new Emulator( );
+        final SerialEmulator e = new SerialEmulator( );
         for ( int i = 0; i < lines.length; i++ ) {
             final byte[] parsed = e.extractBytes( (String) lines[i][1] );
             //System.out.println( Arrays.toString( (byte[]) lines[i][0] ) );
@@ -75,7 +76,7 @@ public class EmulatorTest {
     @Test
     public void testSimulate(){
         try {
-            final Emulator e = new Emulator( this.getClass().getResourceAsStream( "session.fsm" ) );
+            final SerialEmulator e = new SerialEmulator( this.getClass().getResourceAsStream( "session.fsm" ) );
         }
         catch ( Exception ex ) {
             ex.printStackTrace( );
@@ -85,15 +86,15 @@ public class EmulatorTest {
 
     @Test
     public void testParsing(){
-        Emulator e;
+        SerialEmulator e;
         try {
-            e = new Emulator( this.getClass().getResourceAsStream( "session.size.0.fsm" ) );
+            e = new SerialEmulator( this.getClass().getResourceAsStream( "session.size.0.fsm" ) );
             assertEquals(
                     "The number of input byte parsed is wrong",
                     0,
                     e.getEmulatorInputStream().getFullInputStream().available()
             );
-            e = new Emulator( this.getClass().getResourceAsStream( "session.size.27.fsm" ) );
+            e = new SerialEmulator( this.getClass().getResourceAsStream( "session.size.27.fsm" ) );
             assertEquals(
                     "The number of input byte parsed is wrong",
                     27,

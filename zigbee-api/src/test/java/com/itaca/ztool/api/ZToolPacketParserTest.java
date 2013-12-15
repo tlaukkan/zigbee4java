@@ -22,7 +22,6 @@ package com.itaca.ztool.api;
 
 import com.itaca.ztool.api.simple.ZB_GET_DEVICE_INFO_RSP;
 import com.itaca.ztool.util.ByteUtils;
-import it.cnr.isti.cc2480.virtual.Emulator;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,9 +68,9 @@ public class ZToolPacketParserTest {
     public void testOverwrittenPacketHandling() {
         final ZToolPacket[] packets = new ZToolPacket[1];
         final int TOTAL_GOD_PACKET = 26;
-        Emulator serial;
+        SerialEmulator serial;
         try {
-            serial = new Emulator( ZToolPacketParserTest.class.getResourceAsStream( "overwritten.packet.fsm" ), false );
+            serial = new SerialEmulator( ZToolPacketParserTest.class.getResourceAsStream( "overwritten.packet.fsm" ), false );
             serial.open("VIRTUAL", 19200, new ZToolPacketHandler(){
 
                 public void error(Throwable th) {

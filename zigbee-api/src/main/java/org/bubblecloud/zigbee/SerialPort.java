@@ -19,11 +19,12 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package it.cnr.isti.cc2480.low;
+package org.bubblecloud.zigbee;
 
 import com.itaca.ztool.api.ZToolException;
 import com.itaca.ztool.api.ZToolPacketHandler;
 import com.itaca.ztool.api.ZToolPacketParser;
+import com.itaca.ztool.api.SerialHandler;
 import j.extensions.comm.SerialComm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

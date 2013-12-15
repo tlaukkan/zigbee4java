@@ -19,11 +19,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package it.cnr.isti.cc2480.virtual;
+package com.itaca.ztool.api;
 
-import com.itaca.ztool.api.ZToolPacketHandler;
-import com.itaca.ztool.api.ZToolPacketParser;
-import it.cnr.isti.cc2480.low.SerialHandler;
 import it.cnr.isti.thread.ThreadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,9 +35,9 @@ import java.util.ArrayList;
  * @since 0.6.0
  * 
  */
-public class Emulator implements SerialHandler {
+public class SerialEmulator implements SerialHandler {
 
-    private final static Logger logger = LoggerFactory.getLogger(Emulator.class);
+    private final static Logger logger = LoggerFactory.getLogger(SerialEmulator.class);
     
     private static final int INDEX_OF_END_OF_HEX_DATA = 50;
     private static final int INDEX_OF_START_OF_HEX_DATA = 1;
@@ -185,7 +182,7 @@ public class Emulator implements SerialHandler {
     /**
      * Only for JUnit purpose
      */
-    Emulator( ) {
+    SerialEmulator() {
         eis = new EmulatorInputStream();
         eos = new EmulatorOutputStream();
     }
@@ -206,15 +203,15 @@ public class Emulator implements SerialHandler {
     	return eos;
     }
     
-    public Emulator( String log ) throws IOException {
+    public SerialEmulator(String log) throws IOException {
         this(new FileInputStream( log ) , false);
     }    
 
-    public Emulator( InputStream in ) throws IOException {
+    public SerialEmulator(InputStream in) throws IOException {
         this( in, true );
     }
     
-    public Emulator( InputStream in, boolean useTiming ) throws IOException {
+    public SerialEmulator(InputStream in, boolean useTiming) throws IOException {
         reader = new BufferedReader( new InputStreamReader( in ) );
         status = State.Loaded;
         simulate();

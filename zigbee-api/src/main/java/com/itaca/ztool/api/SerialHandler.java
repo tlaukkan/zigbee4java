@@ -18,21 +18,23 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
+ */
+package com.itaca.ztool.api;
 
-package it.cnr.isti.cc2480.high;
+import com.itaca.ztool.api.ZToolException;
+import com.itaca.ztool.api.ZToolPacketHandler;
 
-import com.itaca.ztool.api.ZToolPacket;
+import java.io.OutputStream;
 
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.1.0
- *
+ * @since 0.6.0
+ * 
  */
-public interface SynchrounsCommandListner {
-	
-	public void receivedCommandResponse(ZToolPacket packet);
-	
+public interface SerialHandler {
+    public void open(String port, int rate, ZToolPacketHandler handler) throws ZToolException;
+    public OutputStream getOutputStream();
+    public void close();
 }
