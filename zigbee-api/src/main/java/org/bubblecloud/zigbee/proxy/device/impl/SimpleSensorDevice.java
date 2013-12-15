@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.proxy.device.impl;
 
-import org.bubblecloud.zigbee.core.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.BinaryInput;
 import org.bubblecloud.zigbee.proxy.device.api.generic.SimpleSensor;
 import org.bubblecloud.zigbee.proxy.HADeviceBase;

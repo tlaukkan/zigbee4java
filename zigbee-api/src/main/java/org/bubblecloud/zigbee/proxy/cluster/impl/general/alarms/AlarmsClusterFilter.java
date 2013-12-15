@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general.alarms;
 
-import org.bubblecloud.zigbee.core.ClusterMessage;
-import org.bubblecloud.zigbee.core.ClusterFilter;
+import org.bubblecloud.zigbee.network.glue.ClusterMessage;
+import org.bubblecloud.zigbee.network.glue.ClusterFilter;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.alarms.AlarmResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLFrame;

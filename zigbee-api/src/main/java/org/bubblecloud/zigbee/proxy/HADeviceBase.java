@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.core.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Basic;
@@ -33,7 +33,7 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
 
 import org.bubblecloud.zigbee.BundleContext;
-import org.bubblecloud.zigbee.model.ProvidedClusterMode;
+import org.bubblecloud.zigbee.network.model.ProvidedClusterMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

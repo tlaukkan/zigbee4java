@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.core.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Basic;

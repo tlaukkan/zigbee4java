@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.core.ZigBeeException;
+import org.bubblecloud.zigbee.network.ZigBeeException;
 
 /**
  *

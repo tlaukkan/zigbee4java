@@ -21,8 +21,8 @@
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.ias_zone;
 
-import org.bubblecloud.zigbee.core.ClusterMessage;
-import org.bubblecloud.zigbee.core.ClusterFilter;
+import org.bubblecloud.zigbee.network.glue.ClusterMessage;
+import org.bubblecloud.zigbee.network.glue.ClusterFilter;
 import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.IASZone;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLFrame;
 

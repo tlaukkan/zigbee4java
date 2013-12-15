@@ -1,11 +1,11 @@
 package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.network.glue.SynchrounsCommandListener;
 import org.bubblecloud.zigbee.packet.ZToolException;
 import org.bubblecloud.zigbee.packet.ZToolPacket;
 import org.bubblecloud.zigbee.packet.ZToolPacketHandler;
 import org.bubblecloud.zigbee.util.DoubleByte;
-import org.bubblecloud.zigbee.model.AsynchrounsCommandListener;
-import org.bubblecloud.zigbee.model.SynchrounsCommandListner;
+import org.bubblecloud.zigbee.network.glue.AsynchrounsCommandListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,23 +109,23 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
         }
     }
 
-    private final Hashtable<Short, SynchrounsCommandListner> pendingSREQ
-            = new Hashtable<Short, SynchrounsCommandListner>();
+    private final Hashtable<Short, SynchrounsCommandListener> pendingSREQ
+            = new Hashtable<Short, SynchrounsCommandListener>();
 
     private final HashSet<AsynchrounsCommandListener> listeners
             = new HashSet<AsynchrounsCommandListener>();
 
     private final boolean supportMultipleSynchrounsCommand = false;
 
-    private final HashMap<SynchrounsCommandListner, Long> timouts = new HashMap<SynchrounsCommandListner, Long>();
+    private final HashMap<SynchrounsCommandListener, Long> timouts = new HashMap<SynchrounsCommandListener, Long>();
 
     private void cleanExpiredListener(){
         final long now = System.currentTimeMillis();
         final ArrayList<Short> expired = new ArrayList<Short>();
         synchronized (pendingSREQ) {
-            Iterator<Map.Entry<Short, SynchrounsCommandListner>> i = pendingSREQ.entrySet().iterator();
+            Iterator<Map.Entry<Short, SynchrounsCommandListener>> i = pendingSREQ.entrySet().iterator();
             while (i.hasNext()) {
-                Map.Entry<Short, SynchrounsCommandListner> entry = i.next();
+                Map.Entry<Short, SynchrounsCommandListener> entry = i.next();
 
                 final long expiration = timouts.get(entry.getValue());
                 if ( expiration != -1L && expiration < now ) {
@@ -140,7 +140,7 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
         }
     }
 
-    public void sendSynchrounsCommand(ZToolPacket packet, SynchrounsCommandListner listener, long timeout) throws IOException {
+    public void sendSynchrounsCommand(ZToolPacket packet, SynchrounsCommandListener listener, long timeout) throws IOException {
         if ( timeout == -1L ) {
             timouts.put(listener, -1L);
         } else {
@@ -150,7 +150,7 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
         m_sendSynchrounsCommand(packet, listener);
     }
 
-    private void m_sendSynchrounsCommand(ZToolPacket packet, SynchrounsCommandListner listner) throws IOException{
+    private void m_sendSynchrounsCommand(ZToolPacket packet, SynchrounsCommandListener listner) throws IOException{
         final DoubleByte cmdId = packet.getCMD();
         final int value = (cmdId.getMsb() & 0xE0);
         if ( value != 0x20  ) {
@@ -216,7 +216,7 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
         synchronized (pendingSREQ) {
             final short id = (short) (cmdId.get16BitValue() & 0x1FFF);
             //TODO Invoke in a separated Thread?!?!
-            final SynchrounsCommandListner listener = pendingSREQ.get(id);
+            final SynchrounsCommandListener listener = pendingSREQ.get(id);
             if(listener != null){
                 listener.receivedCommandResponse(packet);
                 pendingSREQ.remove(id);

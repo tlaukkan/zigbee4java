@@ -1,6 +1,8 @@
 package org.bubblecloud.zigbee;
 
-import org.bubblecloud.zigbee.core.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.glue.ZigbeeNetworkManagementInterface;
+import org.bubblecloud.zigbee.network.ApplicationFrameworkLayer;
+import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.HAClustersFactory;
 import org.bubblecloud.zigbee.proxy.device.api.generic.*;
 import org.bubblecloud.zigbee.proxy.device.api.hvac.Pump;
@@ -15,10 +17,9 @@ import org.bubblecloud.zigbee.proxy.ClusterFactory;
 import org.bubblecloud.zigbee.proxy.GenericHADeviceFactory;
 import org.bubblecloud.zigbee.proxy.HADeviceBase;
 import org.bubblecloud.zigbee.proxy.HADeviceFactory;
-import org.bubblecloud.zigbee.core.ZigBeeNetwork;
-import org.bubblecloud.zigbee.model.DeviceListener;
-import org.bubblecloud.zigbee.model.HaDeviceListener;
-import org.bubblecloud.zigbee.model.SimpleDriver;
+import org.bubblecloud.zigbee.network.ZigBeeNetwork;
+import org.bubblecloud.zigbee.network.glue.DeviceListener;
+import org.bubblecloud.zigbee.network.glue.HaDeviceListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,16 +37,16 @@ import java.util.Map;
 public class ZigbeeApi implements DeviceListener, HaDeviceListener {
     private final static Logger logger = LoggerFactory.getLogger(ZigbeeDiscoveryManager.class);
 
-    private final SimpleDriver simpleDriver;
+    private final ZigbeeNetworkManagementInterface simpleDriver;
     private BundleContext context;
     private ZigBeeNetwork network;
 
-    public ZigbeeApi(final SimpleDriver simpleDriver){
+    public ZigbeeApi(final ZigbeeNetworkManagementInterface simpleDriver){
         this.simpleDriver = simpleDriver;
     }
 
     public void startup() {
-        network = AFLayer.getAFLayer(simpleDriver).getZigBeeNetwork();
+        network = ApplicationFrameworkLayer.getAFLayer(simpleDriver).getZigBeeNetwork();
         network.addDeviceListener(this);
 
         context = new BundleContext();

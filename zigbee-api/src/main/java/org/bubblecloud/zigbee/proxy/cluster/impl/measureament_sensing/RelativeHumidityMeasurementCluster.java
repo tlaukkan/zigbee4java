@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.measureament_sensing;
 
-import org.bubblecloud.zigbee.core.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.measureament_sensing.RelativeHumidityMeasurement;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.Attributes;

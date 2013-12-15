@@ -21,7 +21,11 @@
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety;
 
-import org.bubblecloud.zigbee.core.*;
+import org.bubblecloud.zigbee.network.*;
+import org.bubblecloud.zigbee.network.glue.ClusterFilter;
+import org.bubblecloud.zigbee.network.glue.ClusterListener;
+import org.bubblecloud.zigbee.network.glue.ClusterMessage;
+import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;

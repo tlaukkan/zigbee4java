@@ -22,16 +22,17 @@
 
 package org.bubblecloud.zigbee;
 
-import org.bubblecloud.zigbee.discovery.*;
-import org.bubblecloud.zigbee.model.DiscoveryMode;
-import org.bubblecloud.zigbee.model.SimpleDriver;
+import org.bubblecloud.zigbee.network.glue.ZigbeeNetworkManagementInterface;
+import org.bubblecloud.zigbee.network.ApplicationFrameworkLayer;
+import org.bubblecloud.zigbee.network.discovery.*;
+import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.EnumSet;
 
 /**
- * This class is tracks the {@link SimpleDriver} service avaialable on the OSGi framework<br>
+ * This class is tracks the {@link org.bubblecloud.zigbee.network.glue.ZigbeeNetworkManagementInterface} service avaialable on the OSGi framework<br>
  * and it creates all the resources required by this implementation of the <i>ZigBee Base Driver</i>
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -44,8 +45,8 @@ public class ZigbeeDiscoveryManager {
 
     private final static Logger logger = LoggerFactory.getLogger(ZigbeeDiscoveryManager.class);
 
-    private SimpleDriver driverService;
-    private AnnunceListnerThread annunceListener;
+    private ZigbeeNetworkManagementInterface driverService;
+    private AnnounceListenerThread annunceListener;
 
     private NetworkBrowserThread networkBrowser = null ;
     private LQINetworkBrowserThread networkLQIBrowser = null;
@@ -53,7 +54,7 @@ public class ZigbeeDiscoveryManager {
     private DeviceBuilderThread deviceBuilder;
     private final ImportingQueue importingQueue;
 
-    public ZigbeeDiscoveryManager(SimpleDriver simpleDriver){
+    public ZigbeeDiscoveryManager(ZigbeeNetworkManagementInterface simpleDriver){
         importingQueue = new ImportingQueue();
         driverService = simpleDriver;
     }
@@ -61,10 +62,10 @@ public class ZigbeeDiscoveryManager {
     public void startup() {
         logger.debug("Setting up all the importer data and threads");
         importingQueue.clear();
-        AFLayer.getAFLayer(driverService);
+        ApplicationFrameworkLayer.getAFLayer(driverService);
         final EnumSet<DiscoveryMode> enabledDiscoveries = DiscoveryMode.ALL;
         if ( enabledDiscoveries.contains( DiscoveryMode.Announce ) ) {
-            annunceListener = new AnnunceListnerThread(importingQueue, driverService);
+            annunceListener = new AnnounceListenerThread(importingQueue, driverService);
             driverService.addAnnunceListener(annunceListener);
         } else {
             logger.debug( "ANNUNCE discovery disabled.");

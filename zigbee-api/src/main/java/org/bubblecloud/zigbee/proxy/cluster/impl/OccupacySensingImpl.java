@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.core.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.event.OccupancyListener;
 import org.bubblecloud.zigbee.proxy.cluster.impl.event.OccupancyBridgeListeners;

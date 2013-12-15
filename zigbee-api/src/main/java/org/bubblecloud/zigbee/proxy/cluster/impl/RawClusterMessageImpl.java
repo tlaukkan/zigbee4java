@@ -20,7 +20,7 @@
    limitations under the License.
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl;
-import org.bubblecloud.zigbee.core.ClusterMessage;
+import org.bubblecloud.zigbee.network.glue.ClusterMessage;
 /**
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

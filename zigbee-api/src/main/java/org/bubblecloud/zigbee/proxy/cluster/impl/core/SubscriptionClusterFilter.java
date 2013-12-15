@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 
-import org.bubblecloud.zigbee.core.ClusterMessage;
-import org.bubblecloud.zigbee.core.ClusterFilter;
+import org.bubblecloud.zigbee.network.glue.ClusterMessage;
+import org.bubblecloud.zigbee.network.glue.ClusterFilter;
 import org.bubblecloud.zigbee.proxy.cluster.impl.global.reporting.ReportAttributesCommand;
 
 /**

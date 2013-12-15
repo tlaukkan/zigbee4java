@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.core.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 import org.bubblecloud.zigbee.BundleContext;
 import org.slf4j.Logger;

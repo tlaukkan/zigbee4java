@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.api.core;
 
-import org.bubblecloud.zigbee.core.ZigBeeBasedriverException;
+import org.bubblecloud.zigbee.network.ZigBeeBasedriverException;
 
 import java.io.IOException;
 

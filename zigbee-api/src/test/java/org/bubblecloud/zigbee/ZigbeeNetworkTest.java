@@ -1,8 +1,7 @@
 package org.bubblecloud.zigbee;
 
-import org.apache.log4j.BasicConfigurator;
-import org.bubblecloud.zigbee.model.DriverStatus;
-import org.bubblecloud.zigbee.model.NetworkMode;
+import org.bubblecloud.zigbee.network.model.DriverStatus;
+import org.bubblecloud.zigbee.network.model.NetworkMode;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

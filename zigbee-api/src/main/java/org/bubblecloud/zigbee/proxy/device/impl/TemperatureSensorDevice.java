@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.device.impl;
 
-import org.bubblecloud.zigbee.core.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.proxy.device.api.hvac.TemperatureSensor;
 import org.bubblecloud.zigbee.proxy.HADeviceBase;
