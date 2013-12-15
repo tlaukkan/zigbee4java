@@ -52,8 +52,8 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
 
     private final int[] inputs;
     private final int[] outputs;
-    private final short deviceId;
-    private final short profileId;
+    private final int deviceId;
+    private final int profileId;
     private final byte deviceVersion;
 
     private ZigBeeNode node = null;
@@ -88,8 +88,8 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         }
         Arrays.sort(outputs);
 
-        deviceId = result.getDeviceId();
-        profileId = result.getProfileId();
+        deviceId = (int) result.getDeviceId() & 0xFFFF;
+        profileId = (int) result.getProfileId() & 0xFFFF;
         deviceVersion = result.getDeviceVersion();
 
         setPhysicalNode( n );
@@ -160,18 +160,17 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
 
     private ZDO_SIMPLE_DESC_RSP doRetrieveSimpleDescription(ZigBeeNode n) throws ZigBeeBasedriverException {
         //TODO Move into ZigbeeNetworkManagementInterface?!?!?
-        final short nwk = (short) n.getNetworkAddress();
+        final int nwk = n.getNetworkAddress();
         int i = 0;
-        final String nwkAddress = NetworkAddress.toString(nwk);
         ZDO_SIMPLE_DESC_RSP result = null;
 
         while (i < 3) {
             logger.info(
-                    "Inspecting ZigBee EndPoint <{},{}>", nwkAddress, endPointAddress
+                    "Inspecting ZigBee EndPoint <{},{}>", nwk, endPointAddress
             );
 
             result = driver.sendZDOSimpleDescriptionRequest(
-                    new ZDO_SIMPLE_DESC_REQ( nwk, endPointAddress )
+                    new ZDO_SIMPLE_DESC_REQ((short) nwk, endPointAddress )
             );
             if( result == null) {
                 //long waiting = (long) (Math.random() * (double) Activator.getCurrentConfiguration().getMessageRetryDelay())
@@ -181,7 +180,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
                 logger.debug(
                         "Inspecting ZigBee EndPoint <{},{}> failed during it {}-th attempts. " +
                         "Waiting for {}ms before retrying",
-                        new Object[]{nwkAddress, endPointAddress, i, waiting}
+                        new Object[]{nwk, endPointAddress, i, waiting}
                 );
 
             } else {
@@ -192,7 +191,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         if( result == null ){
             logger.error(
                     "Unable to receive a ZDO_SIMPLE_DESC_RSP for endpoint {} on node {}",
-                    NetworkAddress.toString(nwk),endPointAddress
+                    nwk, endPointAddress
             );
             throw new ZigBeeBasedriverException("Unable to receive a ZDO_SIMPLE_DESC_RSP from endpoint");
         }

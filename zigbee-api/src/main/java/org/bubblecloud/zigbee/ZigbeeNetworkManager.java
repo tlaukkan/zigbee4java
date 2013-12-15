@@ -1323,7 +1323,8 @@ public class ZigbeeNetworkManager implements Runnable, ZigbeeNetworkManagementIn
             return -1;
         } else {
             return Integers.shortFromInts(result, 7, 0);
-        }	}
+        }
+    }
 
     /**
      *

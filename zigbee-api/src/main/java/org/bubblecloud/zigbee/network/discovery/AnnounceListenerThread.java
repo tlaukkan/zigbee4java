@@ -68,7 +68,7 @@ public class AnnounceListenerThread implements AnnounceListener {
             ZToolAddress64 ieeeAddress, ZToolAddress16 destinationAddress,
             int capabilitiesBitmask) {
 
-        logger.info("received an ANNUNCE from {} {}", senderAddress, ieeeAddress);
+        logger.info("Received an ANNOUNCE from {} {}", senderAddress, ieeeAddress);
         queue.push(senderAddress, ieeeAddress);
         ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork().notifyNodeAnnounced(
                 new ZigBeeNodeImpl( senderAddress.get16BitValue(), ieeeAddress,

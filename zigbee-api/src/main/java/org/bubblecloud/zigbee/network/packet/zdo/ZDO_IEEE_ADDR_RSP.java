@@ -152,10 +152,10 @@ public class ZDO_IEEE_ADDR_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
 		return IEEEAddr;
 	}
 	
-	public short[] getAssociatedDeviceList() {
-		short[] values = new short[AssocDevList.length];
+	public int[] getAssociatedDeviceList() {
+		int[] values = new int[AssocDevList.length];
 		for (int i = 0; i < AssocDevList.length; i++) {
-			values[i] = (short) AssocDevList[i].get16BitValue();
+			values[i] = ((int) AssocDevList[i].get16BitValue() & 0xFFFF);
 		}
 		return values;
 	}

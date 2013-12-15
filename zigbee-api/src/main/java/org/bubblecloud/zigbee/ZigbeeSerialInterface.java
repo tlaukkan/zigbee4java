@@ -19,7 +19,7 @@ import java.util.*;
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZigbeeSerialInterface implements ZToolPacketHandler {
+public class  ZigbeeSerialInterface implements ZToolPacketHandler {
     /** The logger. */
     private final static Logger LOGGER = LoggerFactory.getLogger(ZigbeeSerialInterface.class);
     /** The serial port name. */

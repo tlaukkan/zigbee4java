@@ -126,8 +126,9 @@ public class ZigBeeNetwork {
 	    final ZigBeeNode deviceNode = device.getPhysicalNode();
 		final String ieee = deviceNode.getIEEEAddress();
 		final short endPoint = device.getId();
-		logger.debug( "Adding device {} on node {} the network", endPoint, device.getPhysicalNode() );
-		final ZigBeeNode node = nodes.get(ieee);
+		logger.info( "Adding device {} end point {} on node {} the network", device.getUniqueIdenfier(),
+                endPoint, device.getPhysicalNode() );
+        final ZigBeeNode node = nodes.get(ieee);
 		if( node == null ){
 		    logger.debug( "No node {} found" );
 			return false;

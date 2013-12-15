@@ -130,13 +130,13 @@ public class DeviceBuilderThread implements Stoppable{
 		byte[] endPoints = result.getActiveEndPointList();
 		logger.info("ZDO_ACTIVE_EP_REQ SUCCESS with {} from {}", endPoints.length, node);
 		for (int i = 0; i < endPoints.length; i++) {
-			doCreateZigBeeDeviceService(node, endPoints[i]);
+			doCreateZigBeeDevice(node, endPoints[i]);
 		}
 
 		return true;
 	}
 
-	private void doCreateZigBeeDeviceService(ZigBeeNode node, byte ep) {
+	private void doCreateZigBeeDevice(ZigBeeNode node, byte ep) {
         final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         synchronized (network) {
             if( network.containsDevice(node.getIEEEAddress(), ep) ){
@@ -262,7 +262,7 @@ public class DeviceBuilderThread implements Stoppable{
         logger.info("Trying to register a node extracted from ImportingQueue");
         final ZToolAddress16 nwk = dev.getNetworkAddress();
         final ZToolAddress64 ieee = dev.getIEEEAddress();
-        logger.info("Creating a new set of services for ZigBee Node {} ({})",nwk,ieee);
+        logger.info("Creating device for ZigBee Node {} ({})",nwk,ieee);
         inspectNode(nwk, ieee);
         logger.debug(
         		"Devices inspection completed, next inspetciont slot in {}",
@@ -275,7 +275,7 @@ public class DeviceBuilderThread implements Stoppable{
         logger.info("Trying to register a node extracted from FailedQueue");
 		final ZigBeeDeviceReference failed = failedDevice.get(0);
         nextInspectionSlot = 10 * 1000 + System.currentTimeMillis();
-        doCreateZigBeeDeviceService(failed.node, failed.endPoint);
+        doCreateZigBeeDevice(failed.node, failed.endPoint);
 	}
 
 	/**

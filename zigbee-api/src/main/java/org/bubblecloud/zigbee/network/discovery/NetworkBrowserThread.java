@@ -63,12 +63,12 @@ public class NetworkBrowserThread extends RunnableThread {
 
     private class NetworkAddressNodeItem {
         final NetworkAddressNodeItem parent;
-        final short address;
+        final int address;
         ZigBeeNodeImpl node = null;
 
-        NetworkAddressNodeItem(NetworkAddressNodeItem addressTreeParent, short networkAddress){
-            parent = addressTreeParent;
-            address = networkAddress;
+        NetworkAddressNodeItem(NetworkAddressNodeItem parent, int address){
+            this.parent = parent;
+            this.address = address;
         }
 
         public String toString(){
@@ -101,9 +101,9 @@ public class NetworkBrowserThread extends RunnableThread {
                     final NetworkAddressNodeItem inspecting = toInspect.remove( toInspect.size()-1 );
 
                     alreadyInspected.put((int) inspecting.address, inspecting);
-                    logger.info("Inspecting node #{} ({})", inspecting.address, ((int) inspecting.address & 0xFFFF));
+                    logger.info("Inspecting node #{}", inspecting.address, ((int) inspecting.address & 0xFFFF));
                     ZDO_IEEE_ADDR_RSP result = driver.sendZDOIEEEAddressRequest(
-                            new ZDO_IEEE_ADDR_REQ(inspecting.address,ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED,(byte) 0)
+                            new ZDO_IEEE_ADDR_REQ((short) inspecting.address,ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED,(byte) 0)
                     );
 
                     if( result == null) {
@@ -147,7 +147,7 @@ public class NetworkBrowserThread extends RunnableThread {
         int start = 0;
         final ArrayList<NetworkAddressNodeItem> adding = new ArrayList<NetworkAddressNodeItem>();
         do{
-            short[] toAdd = result.getAssociatedDeviceList();
+            int[] toAdd = result.getAssociatedDeviceList();
             for (int i = 0; i < toAdd.length; i++) {
                 logger.info( "Found node #{} associated to node #{}", toAdd[i], inspecting.address );
                 final NetworkAddressNodeItem next = new NetworkAddressNodeItem( inspecting, toAdd[i] );
@@ -175,7 +175,7 @@ public class NetworkBrowserThread extends RunnableThread {
                     inspecting.address, toAdd.length, result.getAssociatedDeviceCount()
             });
             result = driver.sendZDOIEEEAddressRequest(
-                    new ZDO_IEEE_ADDR_REQ(inspecting.address,ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED,(byte) start )
+                    new ZDO_IEEE_ADDR_REQ((short) inspecting.address,ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED,(byte) start )
             );
             if ( result == null ){
                 logger.error("Faild to further inspect connected device to node #{}", inspecting.address);
