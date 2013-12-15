@@ -260,8 +260,8 @@ public abstract class DeviceProxyBase implements DeviceProxy {
             return null;
         }
         logger.info(
-                "Cluster {}/{} added to {} device proxy.",
-                cluster.getName(), Integer.toHexString(clusterId), zbDevice.getDeviceId()
+                "Cluster {} - {} added to {} device proxy.",
+                Integer.toHexString(clusterId), cluster.getName(), zbDevice.getDeviceId()
         );
 
         clusters[index++] = cluster;

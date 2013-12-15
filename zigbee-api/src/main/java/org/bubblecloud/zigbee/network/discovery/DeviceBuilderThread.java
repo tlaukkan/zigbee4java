@@ -145,7 +145,7 @@ public class DeviceBuilderThread implements Stoppable{
                 return ;
             }else{
                 logger.info(
-                        "Adding device for node {} / endpoint {}.",
+                        "Inspecting node {} / endpoint {}.",
                         new Object[]{ node, ep }
                     );
             }
