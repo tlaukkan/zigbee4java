@@ -22,9 +22,9 @@
 
 package it.cnr.isti.zigbee.zcl.library.impl.core;
 
-import com.itaca.ztool.util.ByteUtils;
+import org.bubblecloud.zigbee.util.ByteUtils;
 
-import it.cnr.isti.zigbee.api.Cluster;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.zcl.library.api.core.Response;
 import it.cnr.isti.zigbee.zcl.library.api.core.ZCLHeader;
 import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
@@ -42,11 +42,11 @@ public class ResponseImpl implements Response {
     protected ZCLHeader header;
     private byte[] payload;
 
-    public ResponseImpl(Cluster cluster, short expectedClusterId) throws ZigBeeClusterException{
-        if (expectedClusterId != cluster.getId()){
-            throw new ZigBeeClusterException("Expected Response for cluster Id: " + expectedClusterId + " but received message for cluster Id: "+cluster.getId());
+    public ResponseImpl(ClusterMessage clusterMessage, short expectedClusterId) throws ZigBeeClusterException{
+        if (expectedClusterId != clusterMessage.getId()){
+            throw new ZigBeeClusterException("Expected Response for cluster Id: " + expectedClusterId + " but received message for cluster Id: "+ clusterMessage.getId());
         }
-        ZCLFrame frame = new ZCLFrame(cluster);
+        ZCLFrame frame = new ZCLFrame(clusterMessage);
         header = frame.getHeader();
         payload = frame.getPayload();
     }

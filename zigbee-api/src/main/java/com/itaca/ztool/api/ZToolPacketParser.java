@@ -29,8 +29,8 @@
 
 package com.itaca.ztool.api;
 
-import com.itaca.ztool.util.ByteUtils;
-import it.cnr.isti.io.MarkableInputStream;
+import org.bubblecloud.zigbee.util.ByteUtils;
+import org.bubblecloud.zigbee.util.MarkableInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

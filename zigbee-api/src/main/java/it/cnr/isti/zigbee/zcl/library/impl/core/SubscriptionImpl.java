@@ -22,7 +22,7 @@
 
 package it.cnr.isti.zigbee.zcl.library.impl.core;
 
-import it.cnr.isti.zigbee.api.Cluster;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.api.ZigBeeBasedriverException;
 import it.cnr.isti.zigbee.api.ZigBeeDevice;
 import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
@@ -32,7 +32,7 @@ import it.cnr.isti.zigbee.zcl.library.api.core.ZCLCluster;
 import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
 import it.cnr.isti.zigbee.zcl.library.api.global.AttributeReportingConfigurationRecord;
 import it.cnr.isti.zigbee.zcl.library.api.global.AttributeStatusRecord;
-import it.cnr.isti.zigbee.zcl.library.impl.ClusterImpl;
+import it.cnr.isti.zigbee.zcl.library.impl.ClusterMessageImpl;
 import it.cnr.isti.zigbee.zcl.library.impl.global.reporting.AttributeReportingConfigurationRecordImpl;
 import it.cnr.isti.zigbee.zcl.library.impl.global.reporting.ConfigureReportingCommand;
 import it.cnr.isti.zigbee.zcl.library.impl.global.reporting.ConfigureReportingResponseImpl;
@@ -70,12 +70,12 @@ public class SubscriptionImpl extends SubscriptionBase implements Subscription {
 		);
 
 		final ZCLFrame frame = new ZCLFrame(cmd, true);
-		final ClusterImpl input = new ClusterImpl(cluster.getId(),frame);
-		Cluster cluster = null;
+		final ClusterMessageImpl input = new ClusterMessageImpl(cluster.getId(),frame);
+		ClusterMessage clusterMessage = null;
 		try {
-			cluster = device.invoke(input);
+			clusterMessage = device.invoke(input);
 			final ConfigureReportingResponseImpl response = new ConfigureReportingResponseImpl(
-					new ResponseImpl(cluster,cluster.getId()), new Attribute[]{attribute}
+					new ResponseImpl(clusterMessage, clusterMessage.getId()), new Attribute[]{attribute}
 			);
 			final AttributeStatusRecord results = response.getAttributeStatusRecord()[0];
 			if ( results.getStatus() != 0 ) {

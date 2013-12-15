@@ -29,8 +29,8 @@ package com.itaca.ztool.api.af;
 
 import com.itaca.ztool.api.ZToolCMD;
 import com.itaca.ztool.api.ZToolPacket;
-import com.itaca.ztool.util.DoubleByte;
-import it.cnr.isti.primitvetypes.util.Integers;
+import org.bubblecloud.zigbee.util.DoubleByte;
+import org.bubblecloud.zigbee.util.Integers;
 
 /**
  * 

@@ -20,7 +20,9 @@
    limitations under the License.
 */
 
-package it.cnr.isti.zigbee.api;
+package org.bubblecloud.zigbee.impl;
+
+import it.cnr.isti.zigbee.api.ClusterMessage;
 
 /**
  * 
@@ -30,10 +32,23 @@ package it.cnr.isti.zigbee.api;
  * @since 0.1.0
  *
  */
-public interface Cluster {
+public class ClusterMessageImpl implements ClusterMessage {
 
-	public short getId();
+	private final byte[] msg;
+	private final short id;
 	
-	public byte[] getClusterMsg();
+	
+	public ClusterMessageImpl(byte[] msg, short id) {
+		this.msg = msg;
+		this.id = id;
+	}
+
+	public byte[] getClusterMsg() {
+		return msg;
+	}
+
+	public short getId() {
+		return id;
+	}
 	
 }

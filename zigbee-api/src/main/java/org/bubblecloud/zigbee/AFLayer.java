@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee;
 
 import com.itaca.ztool.api.af.AF_REGISTER;
 import com.itaca.ztool.api.af.AF_REGISTER_SRSP;
-import it.cnr.isti.zigbee.api.Cluster;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.api.ZigBeeDevice;
 import org.bubblecloud.zigbee.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.model.SimpleDriver;
@@ -126,7 +126,7 @@ public class AFLayer {
 		}
 	}
 	
-	public byte getSendingEndpoint(ZigBeeDevice device, Cluster input) {
+	public byte getSendingEndpoint(ZigBeeDevice device, ClusterMessage input) {
 		return getSendingEndpoint(device, input.getId());
 	}
 

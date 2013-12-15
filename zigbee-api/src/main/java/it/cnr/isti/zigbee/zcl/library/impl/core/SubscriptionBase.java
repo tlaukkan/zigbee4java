@@ -22,11 +22,8 @@
 
 package it.cnr.isti.zigbee.zcl.library.impl.core;
 
-import it.cnr.isti.zigbee.api.Cluster;
-import it.cnr.isti.zigbee.api.ClusterFilter;
-import it.cnr.isti.zigbee.api.ClusterListner;
-import it.cnr.isti.zigbee.api.ZigBeeBasedriverException;
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import it.cnr.isti.zigbee.api.*;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
 import it.cnr.isti.zigbee.zcl.library.api.core.ReportListener;
 import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
@@ -66,7 +63,7 @@ public abstract class SubscriptionBase implements Subscription {
 
     protected class ReportListenerNotifier implements ClusterListner {
 
-        public void handleCluster(ZigBeeDevice device, Cluster c) {
+        public void handleCluster(ZigBeeDevice device, ClusterMessage c) {
             try {
                 if ( c.getId() != cluster.getId() ) return;
                 ResponseImpl response = new ResponseImpl(c, cluster.getId());

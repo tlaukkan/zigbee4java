@@ -22,7 +22,7 @@
 
 package it.cnr.isti.zigbee.zcl.library.impl.core;
 
-import it.cnr.isti.zigbee.api.Cluster;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.api.ZigBeeBasedriverException;
 import it.cnr.isti.zigbee.api.ZigBeeDevice;
 import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
@@ -31,7 +31,7 @@ import it.cnr.isti.zigbee.zcl.library.api.core.Response;
 import it.cnr.isti.zigbee.zcl.library.api.core.Subscription;
 import it.cnr.isti.zigbee.zcl.library.api.core.ZCLCluster;
 import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
-import it.cnr.isti.zigbee.zcl.library.impl.ClusterImpl;
+import it.cnr.isti.zigbee.zcl.library.impl.ClusterMessageImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,7 +102,7 @@ public abstract class ZCLClusterBase implements ZCLCluster {
 
 	public Response invoke(Command cmd, boolean suppressResponse) throws ZigBeeClusterException  {
 		ZCLFrame inFrame = new ZCLFrame(cmd, isDefaultResponseEnabled);
-		Cluster input = new ClusterImpl(getId(),inFrame);
+		ClusterMessage input = new ClusterMessageImpl(getId(),inFrame);
 		if (suppressResponse) {
 			try {
 				logger.debug("Sending ZCLFrame {} without expecting an answer", inFrame);
@@ -112,11 +112,11 @@ public abstract class ZCLClusterBase implements ZCLCluster {
 				throw new ZigBeeClusterException(e);
 			}
 		} else{
-			Cluster cluster;
+			ClusterMessage clusterMessage;
 			try {
 				logger.debug("Sending ZCLFrame {} and waiting for response", inFrame);
-				cluster = zbDevice.invoke(input);
-				Response response = new ResponseImpl(cluster,getId());
+				clusterMessage = zbDevice.invoke(input);
+				Response response = new ResponseImpl(clusterMessage,getId());
 				logger.debug("Received response {} to request {}", response, inFrame);
 				return response;
 			} catch (ZigBeeBasedriverException e) {

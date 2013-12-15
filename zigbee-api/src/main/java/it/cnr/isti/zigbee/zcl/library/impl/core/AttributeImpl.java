@@ -22,7 +22,7 @@
 
 package it.cnr.isti.zigbee.zcl.library.impl.core;
 
-import it.cnr.isti.zigbee.api.Cluster;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.api.ZigBeeBasedriverException;
 import it.cnr.isti.zigbee.api.ZigBeeDevice;
 import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
@@ -38,7 +38,7 @@ import it.cnr.isti.zigbee.zcl.library.api.global.ReadAttributesStatus;
 import it.cnr.isti.zigbee.zcl.library.api.global.WriteAttributeRecord;
 import it.cnr.isti.zigbee.zcl.library.api.global.WriteAttributesResponse;
 import it.cnr.isti.zigbee.zcl.library.api.global.WriteAttributesStatus;
-import it.cnr.isti.zigbee.zcl.library.impl.ClusterImpl;
+import it.cnr.isti.zigbee.zcl.library.impl.ClusterMessageImpl;
 import it.cnr.isti.zigbee.zcl.library.impl.attribute.AttributeDescriptor;
 import it.cnr.isti.zigbee.zcl.library.impl.global.DefaultResponseImpl;
 import it.cnr.isti.zigbee.zcl.library.impl.global.read.ReadAttributeCommand;
@@ -132,12 +132,12 @@ public class AttributeImpl implements Attribute{
 		
 		ReadAttributeCommand readAttrCom = new ReadAttributeCommand(new int[]{getId()});
 		ZCLFrame frame = new ZCLFrame(readAttrCom,zclCluster.isDefaultResponseEnabled());
-		ClusterImpl input;
-		input = new ClusterImpl(zclCluster.getId(),frame);
-		Cluster cluster = null;
+		ClusterMessageImpl input;
+		input = new ClusterMessageImpl(zclCluster.getId(),frame);
+		ClusterMessage clusterMessage = null;
 		try {
-			cluster = zbDevice.invoke(input);
-			Response response = new ResponseImpl(cluster,zclCluster.getId());
+			clusterMessage = zbDevice.invoke(input);
+			Response response = new ResponseImpl(clusterMessage,zclCluster.getId());
 			if ( response.getZCLHeader().getTransactionId() != frame.getHeader().getTransactionId() ){
 				logger.error(
 						"Received mismatching transaction response, " +
@@ -186,10 +186,10 @@ public class AttributeImpl implements Attribute{
 		WriteAttributeRecord writeAttrComRec = new WriteAttributeRecordImpl(this,o);
 		WriteAttributeCommand writeAttrCom = new WriteAttributeCommand(new WriteAttributeRecord[]{writeAttrComRec});
 		ZCLFrame frame = new ZCLFrame(writeAttrCom,zclCluster.isDefaultResponseEnabled());
-		ClusterImpl input = new ClusterImpl(zclCluster.getId(),frame);
+		ClusterMessageImpl input = new ClusterMessageImpl(zclCluster.getId(),frame);
 		try {
-			Cluster cluster = zbDevice.invoke(input);
-			Response response = new ResponseImpl(cluster,zclCluster.getId());
+			ClusterMessage clusterMessage = zbDevice.invoke(input);
+			Response response = new ResponseImpl(clusterMessage,zclCluster.getId());
 			AttributeDescriptor[] requestedAttributes = new AttributeDescriptor[]{descriptor};
 			WriteAttributesResponse writeResposne = new WriteAttributesResponseImpl(response,requestedAttributes);
 			WriteAttributesStatus attributeStatus = writeResposne.getWriteAttributesStatus()[0];

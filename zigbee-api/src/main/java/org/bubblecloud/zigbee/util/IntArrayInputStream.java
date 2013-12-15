@@ -23,13 +23,9 @@
    limitations under the License.
 */
 
-package com.itaca.ztool.util;
+package org.bubblecloud.zigbee.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
-// TODO replace with nio.IntBuffer
-
+//TODO replace with nio.IntBuffer
 /**
  * 
  * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
@@ -37,35 +33,28 @@ import java.util.List;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  *
  */
-public class IntArrayOutputStream {
+public class IntArrayInputStream implements IIntArrayInputStream {
 
-	private List<Integer> intList = new ArrayList<Integer>();
+	private int[] source;
+	private int pos;
 	
-	public IntArrayOutputStream() {
-
+	public IntArrayInputStream(int[] source) {
+		this.source = source;
 	}
 	
-	public void write (int val) {
-		intList.add(val);
+	public int read() {
+		return source[pos++];
 	}
 	
-	public void write(int[] val) {
-		for (int i = 0; i < val.length; i++) {
-			this.write(val[i]);
-		}
+	public int[] read(int size) {
+		int[] block = new int[size];
+		System.arraycopy(source, pos, block, 0, size);
+		// index pos
+		pos+=size;
+		return block;
 	}
 	
-	public int[] getIntArray() {
-		//int[] integer = (int[]) intList.toArray(new int[0]);
-		// TODO there has got to be a better way -- how to convert list to int[] array?
-		int[] intArr = new int[intList.size()];
-		
-		int i = 0;
-		
-		for (Integer integer : intList) {
-			intArr[i++] = integer.intValue();
-		}
-		
-		return intArr;
+	public int read(String s) {
+		return read();
 	}
 }

@@ -24,7 +24,7 @@ package it.cnr.isti.zigbee.ha.device.api.lighting;
 
 import it.cnr.isti.zigbee.ha.cluster.glue.general.Groups;
 import it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing.IlluminanceMeasurement;
-import it.cnr.isti.zigbee.ha.driver.ArraysUtil;
+import org.bubblecloud.zigbee.util.ArraysUtil;
 import it.cnr.isti.zigbee.ha.driver.core.HADevice;
 import it.cnr.isti.zigbee.ha.driver.core.HAProfile;
 

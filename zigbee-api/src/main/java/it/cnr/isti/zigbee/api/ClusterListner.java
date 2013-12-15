@@ -53,11 +53,11 @@ public interface ClusterListner {
 	public ClusterFilter getClusterFilter();
 	
 	/**
-	 * The callback invoked by the ZigBee Base Driver to notify for a new {@link Cluster}
+	 * The callback invoked by the ZigBee Base Driver to notify for a new {@link ClusterMessage}
 	 * 
-	 * @param device reference to the {@link ZigBeeDevice} receiving the {@link Cluster}
-	 * @param cluster reference to the received {@link Cluster}
+	 * @param device reference to the {@link ZigBeeDevice} receiving the {@link ClusterMessage}
+	 * @param clusterMessage reference to the received {@link ClusterMessage}
 	 */
-	public void handleCluster(ZigBeeDevice device, Cluster cluster);
+	public void handleCluster(ZigBeeDevice device, ClusterMessage clusterMessage);
 	
 }

@@ -35,9 +35,9 @@ import com.itaca.ztool.api.util.UTIL_GET_DEVICE_INFO_RESPONSE;
 import com.itaca.ztool.api.util.UTIL_SET_CHANNELS_RESPONSE;
 import com.itaca.ztool.api.util.UTIL_SET_PANID_RESPONSE;
 import com.itaca.ztool.api.zdo.*;
-import com.itaca.ztool.util.ByteUtils;
-import com.itaca.ztool.util.DoubleByte;
-import com.itaca.ztool.util.IIntArrayInputStream;
+import org.bubblecloud.zigbee.util.ByteUtils;
+import org.bubblecloud.zigbee.util.DoubleByte;
+import org.bubblecloud.zigbee.util.IIntArrayInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

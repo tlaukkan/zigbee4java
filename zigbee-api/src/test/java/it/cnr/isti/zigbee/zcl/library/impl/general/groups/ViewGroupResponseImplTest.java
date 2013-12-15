@@ -22,12 +22,11 @@
 package it.cnr.isti.zigbee.zcl.library.impl.general.groups;
 
 import static org.junit.Assert.*;
-import it.cnr.isti.zigbee.api.Cluster;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.zcl.library.api.core.Response;
 import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
 import it.cnr.isti.zigbee.zcl.library.api.general.Groups;
-import it.cnr.isti.zigbee.zcl.library.api.general.groups.ViewGroupResponse;
-import it.cnr.isti.zigbee.zcl.library.impl.RawClusterImpl;
+import it.cnr.isti.zigbee.zcl.library.impl.RawClusterMessageImpl;
 import it.cnr.isti.zigbee.zcl.library.impl.core.ResponseImpl;
 
 import org.junit.Test;
@@ -43,9 +42,9 @@ public class ViewGroupResponseImplTest {
 
     @Test
     public void testViewGroupResponseImpl() {
-        Cluster c;
+        ClusterMessage c;
         Response r;
-        c = new RawClusterImpl((short) 0x04, new byte[]{
+        c = new RawClusterMessageImpl((short) 0x04, new byte[]{
                 0x19,
                 0x15,
                 0x01,
@@ -64,7 +63,7 @@ public class ViewGroupResponseImplTest {
         }
 
 
-        c = new RawClusterImpl((short) 0x04, new byte[]{
+        c = new RawClusterMessageImpl((short) 0x04, new byte[]{
                 0x19,
                 0x29,
                 0x01,

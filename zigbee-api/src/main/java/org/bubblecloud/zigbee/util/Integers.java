@@ -20,7 +20,7 @@
    limitations under the License.
 */
 
-package it.cnr.isti.primitvetypes.util;
+package org.bubblecloud.zigbee.util;
 
 
 /**

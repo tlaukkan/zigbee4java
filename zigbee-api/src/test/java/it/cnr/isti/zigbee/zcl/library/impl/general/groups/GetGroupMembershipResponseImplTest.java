@@ -25,7 +25,7 @@ package it.cnr.isti.zigbee.zcl.library.impl.general.groups;
 import static org.junit.Assert.*;
 import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
 import it.cnr.isti.zigbee.zcl.library.api.general.Groups;
-import it.cnr.isti.zigbee.zcl.library.impl.RawClusterImpl;
+import it.cnr.isti.zigbee.zcl.library.impl.RawClusterMessageImpl;
 import it.cnr.isti.zigbee.zcl.library.impl.core.ResponseImpl;
 
 import org.junit.Test;
@@ -44,7 +44,7 @@ public class GetGroupMembershipResponseImplTest {
         try {
             GetGroupMembershipResponseImpl response = new GetGroupMembershipResponseImpl(
                 new ResponseImpl(
-                        new RawClusterImpl(
+                        new RawClusterMessageImpl(
                                 Groups.ID,
                                 new byte[]{0x09, 0x18, 0x02, 0x07, 0x01, 0x0f, 0x00}
                         ),
@@ -62,7 +62,7 @@ public class GetGroupMembershipResponseImplTest {
         try {
             GetGroupMembershipResponseImpl response = new GetGroupMembershipResponseImpl(
                 new ResponseImpl(
-                        new RawClusterImpl(
+                        new RawClusterMessageImpl(
                                 Groups.ID,
                                 new byte[]{0x09, 0x18, 0x02, (byte) 0xF0, 0x03, 0x0f, 0x00, 0x00, (byte) 0xf0, 0x34, 0x12}
                         ),

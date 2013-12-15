@@ -24,7 +24,7 @@ package it.cnr.isti.zigbee.ha.device.api.security_safety;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.Identify;
 import it.cnr.isti.zigbee.ha.cluster.glue.security_safety.IASACE;
 import it.cnr.isti.zigbee.ha.cluster.glue.security_safety.IASZone;
-import it.cnr.isti.zigbee.ha.driver.ArraysUtil;
+import org.bubblecloud.zigbee.util.ArraysUtil;
 import it.cnr.isti.zigbee.ha.driver.core.HADevice;
 import it.cnr.isti.zigbee.ha.driver.core.HAProfile;
 

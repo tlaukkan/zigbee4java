@@ -23,7 +23,7 @@
 package it.cnr.isti.zigbee.ha.device.api.hvac;
 
 import it.cnr.isti.zigbee.ha.cluster.glue.measureament_sensing.TemperatureMeasurement;
-import it.cnr.isti.zigbee.ha.driver.ArraysUtil;
+import org.bubblecloud.zigbee.util.ArraysUtil;
 import it.cnr.isti.zigbee.ha.driver.core.HADevice;
 import it.cnr.isti.zigbee.ha.driver.core.HAProfile;
 

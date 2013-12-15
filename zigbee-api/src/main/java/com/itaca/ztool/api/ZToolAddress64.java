@@ -25,7 +25,7 @@
 
 package com.itaca.ztool.api;
 
-import it.cnr.isti.primitvetypes.util.Integers;
+import org.bubblecloud.zigbee.util.Integers;
 
 import java.util.Arrays;
 import java.util.StringTokenizer;

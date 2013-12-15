@@ -21,7 +21,7 @@
 package com.itaca.ztool.api;
 
 import com.itaca.ztool.api.simple.ZB_GET_DEVICE_INFO_RSP;
-import com.itaca.ztool.util.ByteUtils;
+import org.bubblecloud.zigbee.util.ByteUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

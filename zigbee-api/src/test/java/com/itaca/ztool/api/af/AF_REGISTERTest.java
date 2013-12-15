@@ -22,7 +22,7 @@
 package com.itaca.ztool.api.af;
 
 import com.itaca.ztool.api.test.ZToolPacketUtil;
-import com.itaca.ztool.util.DoubleByte;
+import org.bubblecloud.zigbee.util.DoubleByte;
 import org.junit.Test;
 
 import java.util.Arrays;

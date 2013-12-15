@@ -19,7 +19,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package com.itaca.ztool.util;
+package org.bubblecloud.zigbee.util;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -62,9 +62,9 @@ public class ByteUtilsTest {
 	/**
 	 * Test methods for coherance among the following group:<br>
 	 * <ul>
-	 * <li>{@link com.itaca.ztool.util.ByteUtils#fromBase16(String)}</li>
-	 * <li>{@link com.itaca.ztool.util.ByteUtils#toBase16(byte[])}</li>
-	 * <li>{@link com.itaca.ztool.util.ByteUtils#toBase16(int[])}</li>
+	 * <li>{@link org.bubblecloud.zigbee.util.ByteUtils#fromBase16(String)}</li>
+	 * <li>{@link org.bubblecloud.zigbee.util.ByteUtils#toBase16(byte[])}</li>
+	 * <li>{@link org.bubblecloud.zigbee.util.ByteUtils#toBase16(int[])}</li>
 	 * </ul>
 	 */
 	@Test

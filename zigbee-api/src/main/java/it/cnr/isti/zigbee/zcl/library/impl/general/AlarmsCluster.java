@@ -22,7 +22,7 @@
 
 package it.cnr.isti.zigbee.zcl.library.impl.general;
 
-import it.cnr.isti.zigbee.api.Cluster;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.api.ClusterFilter;
 import it.cnr.isti.zigbee.api.ClusterListner;
 import it.cnr.isti.zigbee.api.ZigBeeBasedriverException;
@@ -88,7 +88,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms{
 
 	private class AlarmsListenerNotifier implements ClusterListner {
 
-		public void handleCluster(ZigBeeDevice device, Cluster c) {
+		public void handleCluster(ZigBeeDevice device, ClusterMessage c) {
 			try {
 				ResponseImpl response = new ResponseImpl(c, ID);
 				AlarmResponse alarm = new AlarmResponseImpl(response);

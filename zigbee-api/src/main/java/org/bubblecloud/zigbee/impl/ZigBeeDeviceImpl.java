@@ -26,8 +26,8 @@ import com.itaca.ztool.api.af.AF_DATA_CONFIRM;
 import com.itaca.ztool.api.af.AF_DATA_REQUEST;
 import com.itaca.ztool.api.af.AF_INCOMING_MSG;
 import com.itaca.ztool.api.zdo.*;
-import it.cnr.isti.primitvetypes.util.Integers;
-import it.cnr.isti.thread.ThreadUtils;
+import org.bubblecloud.zigbee.util.Integers;
+import org.bubblecloud.zigbee.util.ThreadUtils;
 import it.cnr.isti.zigbee.api.*;
 import org.bubblecloud.zigbee.AFLayer;
 import org.bubblecloud.zigbee.model.AFMessageListner;
@@ -240,7 +240,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, AFMessageListner, AFMessa
         return node;
     }
 
-    public void send(Cluster input) throws ZigBeeBasedriverException {
+    public void send(ClusterMessage input) throws ZigBeeBasedriverException {
         final AFLayer af = AFLayer.getAFLayer(driver);
         final byte sender = af.getSendingEndpoint(this, input);
         final byte transaction = af.getNextTransactionId(sender);
@@ -259,7 +259,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, AFMessageListner, AFMessa
         }
     }
 
-    public Cluster invoke(Cluster input) throws ZigBeeBasedriverException {
+    public ClusterMessage invoke(ClusterMessage input) throws ZigBeeBasedriverException {
         final AFLayer af = AFLayer.getAFLayer(driver);
         final byte sender = af.getSendingEndpoint(this, input);
         /*
@@ -305,7 +305,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, AFMessageListner, AFMessa
             if(incoming == null){
                 throw new ZigBeeBasedriverTimeOutException();
             }
-            Cluster result = new ClusterImpl(incoming.getData(), incoming.getClusterId());
+            ClusterMessage result = new ClusterMessageImpl(incoming.getData(), incoming.getClusterId());
             return result;
         }
     }
@@ -449,7 +449,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, AFMessageListner, AFMessa
         return result;
     }
 
-    private void notifyClusterListner(Cluster c){
+    private void notifyClusterListner(ClusterMessage c){
         ArrayList<ClusterListner> localCopy;
         synchronized (listeners) {
             localCopy = new ArrayList<ClusterListner>(listeners);
@@ -496,7 +496,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, AFMessageListner, AFMessa
         if ( msg.getSrcAddr() != node.getNetworkAddress() ) return;
         if ( msg.getSrcEndpoint() != endPointAddress ) return;
         logger.debug("Notifying cluster listener for received by {}", uuid);
-        notifyClusterListner(new ClusterImpl(msg.getData(), msg.getClusterId()));
+        notifyClusterListner(new ClusterMessageImpl(msg.getData(), msg.getClusterId()));
     }
 
     public boolean addAFMessageConsumer(AFMessageConsumer consumer) {

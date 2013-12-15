@@ -22,7 +22,7 @@
 
 package com.itaca.ztool.api.zdo;
 
-import com.itaca.ztool.util.DoubleByte;
+import org.bubblecloud.zigbee.util.DoubleByte;
 import org.junit.Before;
 import org.junit.Test;
 

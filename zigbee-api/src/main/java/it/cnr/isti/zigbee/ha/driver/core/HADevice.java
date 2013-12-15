@@ -29,7 +29,7 @@ import it.cnr.isti.zigbee.ha.cluster.glue.general.Basic;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.DeviceTemperatureConfiguration;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.Identify;
 import it.cnr.isti.zigbee.ha.cluster.glue.general.PowerConfiguration;
-import it.cnr.isti.zigbee.ha.driver.ArraysUtil;
+import org.bubblecloud.zigbee.util.ArraysUtil;
 import it.cnr.isti.zigbee.ha.driver.core.reflection.DeviceDescription;
 
 /**

@@ -21,7 +21,7 @@
 */
 package it.cnr.isti.zigbee.zcl.library.impl.security_safety.ias_zone;
 
-import it.cnr.isti.zigbee.api.Cluster;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.zcl.library.api.core.Response;
 import it.cnr.isti.zigbee.zcl.library.api.core.ZBDeserializer;
 import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
@@ -45,9 +45,9 @@ public class ZoneEnrollResponseImpl extends ResponseImpl implements ZoneEnrollRe
         zoneID = (Integer) deserializer.readZigBeeType(ZigBeeType.UnsignedInteger8bit);
     }
 
-    public ZoneEnrollResponseImpl(Cluster cluster, short expectedClusterId) throws ZigBeeClusterException {
+    public ZoneEnrollResponseImpl(ClusterMessage clusterMessage, short expectedClusterId) throws ZigBeeClusterException {
 
-        super(cluster, expectedClusterId);
+        super(clusterMessage, expectedClusterId);
 
         //ResponseImpl.checkGeneralCommandFrame(response, ZoneEnrollResponse.ID);
         ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);

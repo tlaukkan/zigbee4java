@@ -20,7 +20,7 @@
    limitations under the License.
 */
 
-package it.cnr.isti.thread;
+package org.bubblecloud.zigbee.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

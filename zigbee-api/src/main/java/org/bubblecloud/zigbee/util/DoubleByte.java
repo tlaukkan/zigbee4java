@@ -23,7 +23,7 @@
    limitations under the License.
 */
 
-package com.itaca.ztool.util;
+package org.bubblecloud.zigbee.util;
 
 
 /**

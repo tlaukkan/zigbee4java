@@ -20,30 +20,20 @@
    limitations under the License.
 */
 
-package it.cnr.isti.zigbee.ha.driver;
+package org.bubblecloud.zigbee.util;
+
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- * 
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.4.0
- * 
+ * @since 0.1.0
+ *
  */
-public class ArraysUtil {
-
+public interface Stoppable extends Runnable {
+	
     /**
-     * Create a new <code>int[]</code> by concatenating prefix and postfix
-     *   
-     * @param prefix the first the <code>int[]</code> to join
-     * @param postfix the second the <code>int[]</code> to join
-     * @return the new <code>int[]</code> obtained by concatenating prefix and postfix
+     * This method when invoked will ask the {@link Runnable} to terminate
      */
-    public static final int[] append(int[] prefix, int[] postfix){
-		int[] result = new int[prefix.length+postfix.length];
-		System.arraycopy(prefix, 0, result, 0, prefix.length);
-		System.arraycopy(postfix, 0, result, prefix.length, postfix.length);
-		return result;
-    }
-    
+    public void end();
+	
 }

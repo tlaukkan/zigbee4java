@@ -21,7 +21,7 @@
 */
 package it.cnr.isti.zigbee.zcl.library.impl.security_safety.ias_zone;
 
-import it.cnr.isti.zigbee.api.Cluster;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.api.ClusterFilter;
 import it.cnr.isti.zigbee.zcl.library.api.security_safety.IASZone;
 import it.cnr.isti.zigbee.zcl.library.impl.core.ZCLFrame;
@@ -34,10 +34,10 @@ public class IAS_ZoneZoneStatusChangeNotificationFilter implements ClusterFilter
 
     }
 
-    public boolean match(Cluster cluster) {
-        if( cluster.getId() != IASZone.ID )  return false;
+    public boolean match(ClusterMessage clusterMessage) {
+        if( clusterMessage.getId() != IASZone.ID )  return false;
 
-        ZCLFrame frame = new ZCLFrame(cluster);
+        ZCLFrame frame = new ZCLFrame(clusterMessage);
         return frame.getHeader().getCommandId() == IASZone.ZONE_STATUS_CHANGE_NOTIFICATION_ID
                 && frame.getHeader().getFramecontrol().isClusterSpecificCommand();
     }

@@ -23,7 +23,7 @@
 package it.cnr.isti.zigbee.ha.driver.core;
 
 import it.cnr.isti.zigbee.api.ZigBeeDevice;
-import it.cnr.isti.zigbee.ha.driver.ArraysUtil;
+import org.bubblecloud.zigbee.util.ArraysUtil;
 import org.bubblecloud.zigbee.BundleContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,8 +117,8 @@ public abstract class HADeviceFactoryBase implements HADeviceFactory {
         dictionary.put(ZigBeeDevice.CLUSTERS_INPUT_ID, getDeviceClusters());
         if( logger.isInfoEnabled() ) {
             logger.debug(
-                "Registering a HADeviceFactory ( a refinement driver ) whose refines service with deviceId={} and clusters={}",
-                getDeviceId(), Arrays.toString( getDeviceClusters() )
+                    "Registering a HADeviceFactory ( a refinement driver ) whose refines service with deviceId={} and clusters={}",
+                    getDeviceId(), Arrays.toString(getDeviceClusters())
             );
         }
         //registration = ctx.registerService(HADeviceFactory.class.getName(), this, dictionary);

@@ -27,16 +27,14 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.*;
-import it.cnr.isti.zigbee.api.Cluster;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.api.ZigBeeBasedriverException;
 import it.cnr.isti.zigbee.api.ZigBeeDevice;
 import it.cnr.isti.zigbee.zcl.library.api.core.Status;
 import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
 import it.cnr.isti.zigbee.zcl.library.api.general.Alarms;
-import it.cnr.isti.zigbee.zcl.library.api.general.Groups;
-import it.cnr.isti.zigbee.zcl.library.api.general.groups.AddGroupResponse;
 import it.cnr.isti.zigbee.zcl.library.api.global.DefaultResponse;
-import it.cnr.isti.zigbee.zcl.library.impl.RawClusterImpl;
+import it.cnr.isti.zigbee.zcl.library.impl.RawClusterMessageImpl;
 
 import org.junit.Test;
 
@@ -52,8 +50,8 @@ public class AlarmsClusterTest {
     private ZigBeeDevice createMockDevice() throws ZigBeeBasedriverException {
         ZigBeeDevice mock = createMock(ZigBeeDevice.class);
 
-        expect(mock.invoke( (Cluster) anyObject()))
-            .andReturn( new RawClusterImpl(
+        expect(mock.invoke( (ClusterMessage) anyObject()))
+            .andReturn( new RawClusterMessageImpl(
                             Alarms.ID,
                             new byte[]{0x28, 0x0A, 0x0B, 0x00, 0x00 }
             ) );

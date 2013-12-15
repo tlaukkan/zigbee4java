@@ -1,10 +1,7 @@
 /*
-   Copyright 2008-2013 Andrew Rapp, http://code.google.com/p/xbee-api/
-
-   Copyright 2008-2013 ITACA-TSB, http://www.tsb.upv.es/
-   Instituto Tecnologico de Aplicaciones de Comunicacion 
-   Avanzadas - Grupo Tecnologias para la Salud y el 
-   Bienestar (TSB)
+   Copyright 2008-2013 CNR-ISTI, http://isti.cnr.it
+   Institute of Information Science and Technologies 
+   of the Italian National Research Council 
 
 
    See the NOTICE file distributed with this work for additional 
@@ -23,18 +20,20 @@
    limitations under the License.
 */
 
-package com.itaca.ztool.util;
-
-import java.io.IOException;
+package it.cnr.isti.zigbee.api;
 
 /**
  * 
- * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
- * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.1.0
  *
  */
-public interface IIntArrayInputStream {
-	public int read() throws IOException;
-	public int read(String s) throws IOException;
+public interface ClusterMessage {
+
+	public short getId();
+	
+	public byte[] getClusterMsg();
+	
 }

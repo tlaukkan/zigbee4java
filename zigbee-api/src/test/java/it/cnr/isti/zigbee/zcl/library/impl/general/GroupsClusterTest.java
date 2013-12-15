@@ -26,14 +26,14 @@ package it.cnr.isti.zigbee.zcl.library.impl.general;
 import static org.easymock.EasyMock.*;
 
 import static org.junit.Assert.*;
-import it.cnr.isti.zigbee.api.Cluster;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.api.ZigBeeBasedriverException;
 import it.cnr.isti.zigbee.api.ZigBeeDevice;
 import it.cnr.isti.zigbee.zcl.library.api.core.Status;
 import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
 import it.cnr.isti.zigbee.zcl.library.api.general.Groups;
 import it.cnr.isti.zigbee.zcl.library.api.general.groups.AddGroupResponse;
-import it.cnr.isti.zigbee.zcl.library.impl.RawClusterImpl;
+import it.cnr.isti.zigbee.zcl.library.impl.RawClusterMessageImpl;
 import it.cnr.isti.zigbee.zcl.library.api.general.groups.GetGroupMembershipResponse;
 
 import org.junit.Test;
@@ -50,8 +50,8 @@ public class GroupsClusterTest {
     private ZigBeeDevice createMockDevice(final byte[] response) throws ZigBeeBasedriverException {
         ZigBeeDevice mock = createMock(ZigBeeDevice.class);
 
-        expect(mock.invoke( (Cluster) anyObject()))
-            .andReturn( new RawClusterImpl( Groups.ID, response ) );
+        expect(mock.invoke( (ClusterMessage) anyObject()))
+            .andReturn( new RawClusterMessageImpl( Groups.ID, response ) );
         replay( mock );
         return mock;
     }

@@ -21,11 +21,8 @@
 */
 package it.cnr.isti.zigbee.zcl.library.impl.security_safety;
 
-import it.cnr.isti.zigbee.api.Cluster;
-import it.cnr.isti.zigbee.api.ClusterFilter;
-import it.cnr.isti.zigbee.api.ClusterListner;
-import it.cnr.isti.zigbee.api.ZigBeeBasedriverException;
-import it.cnr.isti.zigbee.api.ZigBeeDevice;
+import it.cnr.isti.zigbee.api.*;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.zcl.library.api.core.Attribute;
 import it.cnr.isti.zigbee.zcl.library.api.core.Response;
 import it.cnr.isti.zigbee.zcl.library.api.core.ZigBeeClusterException;
@@ -186,7 +183,7 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
             return IAS_ZoneZoneStatusChangeNotificationFilter.FILTER;
         }
 
-        public void handleCluster(ZigBeeDevice device, Cluster c) {
+        public void handleCluster(ZigBeeDevice device, ClusterMessage c) {
             try {
                 ResponseImpl response = new ResponseImpl(c, ID);
                 ZoneStatusChangeNotificationResponse zscnr = new ZoneStatusChangeNotificationResponseImpl(response);

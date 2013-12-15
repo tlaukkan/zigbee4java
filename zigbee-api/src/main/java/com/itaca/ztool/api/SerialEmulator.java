@@ -21,7 +21,7 @@
  */
 package com.itaca.ztool.api;
 
-import it.cnr.isti.thread.ThreadUtils;
+import org.bubblecloud.zigbee.util.ThreadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

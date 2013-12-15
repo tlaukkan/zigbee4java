@@ -20,7 +20,7 @@
    limitations under the License.
 */
 package it.cnr.isti.zigbee.zcl.library.impl;
-import it.cnr.isti.zigbee.api.Cluster;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 /**
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -28,12 +28,12 @@ import it.cnr.isti.zigbee.api.Cluster;
  * @since 0.8.0
  *
  */
-public class RawClusterImpl implements Cluster {
+public class RawClusterMessageImpl implements ClusterMessage {
 
     private byte[] frame;
     private short id;
 
-    public RawClusterImpl(short id, byte[] frame) {
+    public RawClusterMessageImpl(short id, byte[] frame) {
         this.frame = frame;
         this.id = id;
     }

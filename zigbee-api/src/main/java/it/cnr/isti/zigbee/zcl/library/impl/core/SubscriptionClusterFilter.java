@@ -22,7 +22,7 @@
 
 package it.cnr.isti.zigbee.zcl.library.impl.core;
 
-import it.cnr.isti.zigbee.api.Cluster;
+import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.api.ClusterFilter;
 import it.cnr.isti.zigbee.zcl.library.impl.global.reporting.ReportAttributesCommand;
 
@@ -48,8 +48,8 @@ public class SubscriptionClusterFilter implements ClusterFilter {
 	
 	private SubscriptionClusterFilter() {}
 		
-	public boolean match(Cluster cluster) {
-		ZCLFrame frame = new ZCLFrame(cluster);
+	public boolean match(ClusterMessage clusterMessage) {
+		ZCLFrame frame = new ZCLFrame(clusterMessage);
 		return frame.getHeader().getCommandId() == ReportAttributesCommand.ID
 		&& !frame.getHeader().getFramecontrol().isClusterSpecificCommand();
 	}

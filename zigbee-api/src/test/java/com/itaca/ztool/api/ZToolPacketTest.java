@@ -30,7 +30,7 @@ import com.itaca.ztool.api.system.SYS_VERSION;
 import com.itaca.ztool.api.zdo.ZDO_ACTIVE_EP_REQ;
 import com.itaca.ztool.api.zdo.ZDO_ACTIVE_EP_REQ_SRSP;
 import com.itaca.ztool.api.zdo.ZDO_ACTIVE_EP_RSP;
-import com.itaca.ztool.util.DoubleByte;
+import org.bubblecloud.zigbee.util.DoubleByte;
 import junit.framework.TestCase;
 
 /**

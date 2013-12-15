@@ -22,9 +22,9 @@
 
 package it.cnr.isti.zigbee.zcl.library.impl.core;
 
-import com.itaca.ztool.util.ByteUtils;
+import it.cnr.isti.zigbee.api.ClusterMessage;
+import org.bubblecloud.zigbee.util.ByteUtils;
 
-import it.cnr.isti.zigbee.api.Cluster;
 import it.cnr.isti.zigbee.zcl.library.api.core.Command;
  /**
  * 
@@ -39,8 +39,8 @@ public class ZCLFrame {
 	private byte[] payload;
 	private byte[] frame;
 	
-	public ZCLFrame(Cluster cluster) {
-		byte[] frame = cluster.getClusterMsg();
+	public ZCLFrame(ClusterMessage clusterMessage) {
+		byte[] frame = clusterMessage.getClusterMsg();
 		header = new ZCLHeaderImpl(frame);
 		
 		int srcPos = header.size(); 

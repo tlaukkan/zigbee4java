@@ -19,36 +19,32 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-
-package org.bubblecloud.zigbee.impl;
-
-import it.cnr.isti.zigbee.api.Cluster;
-
+package it.cnr.isti.zigbee.zcl.library.impl;
+import it.cnr.isti.zigbee.api.ClusterMessage;
+import it.cnr.isti.zigbee.zcl.library.impl.core.ZCLFrame;
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.1.0
  *
  */
-public class ClusterImpl implements Cluster {
+public class ClusterMessageImpl implements ClusterMessage {
+	
+	private ZCLFrame frame;
+	private short id;
 
-	private final byte[] msg;
-	private final short id;
-	
-	
-	public ClusterImpl(byte[] msg, short id) {
-		this.msg = msg;
+	public ClusterMessageImpl(short id, ZCLFrame frame) {
+		this.frame = frame;
 		this.id = id;
 	}
 
 	public byte[] getClusterMsg() {
-		return msg;
+		return frame.toByte();
 	}
 
 	public short getId() {
 		return id;
 	}
-	
+
 }

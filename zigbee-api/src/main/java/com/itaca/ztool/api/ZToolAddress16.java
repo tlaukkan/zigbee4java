@@ -25,7 +25,7 @@
 
 package com.itaca.ztool.api;
 
-import com.itaca.ztool.util.DoubleByte;
+import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
  * Represents a double byte XBeeApi Address.

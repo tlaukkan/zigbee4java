@@ -24,11 +24,11 @@ package it.cnr.isti.zigbee.api;
 
 /**
  * This class represent the filter used by the {@link ZigBeeDevice} to identifies<br>
- * if the {@link ClusterListner} has to handle or not the {@link Cluster}.<br> 
- * In fact, the {@link ClusterListner#handleCluster(ZigBeeDevice, Cluster)} must be invoked<br>
+ * if the {@link ClusterListner} has to handle or not the {@link ClusterMessage}.<br>
+ * In fact, the {@link ClusterListner#handleCluster(ZigBeeDevice, ClusterMessage)} must be invoked<br>
  * if and only if either<br> 
  *  - the {@link ClusterFilter} returned by {@link ClusterListner#getClusterFilter()} is <code>null</code>, or<br>
- *  - the {@link ClusterFilter#match(Cluster)} on the cluster return <code>true</code>
+ *  - the {@link ClusterFilter#match(ClusterMessage)} on the cluster return <code>true</code>
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
@@ -39,13 +39,13 @@ package it.cnr.isti.zigbee.api;
 public interface ClusterFilter {
 	
 	/**
-	 * This method is invoked to check if the  {@link ZigBeeDevice} to check if {@link Cluster}<br>
+	 * This method is invoked to check if the  {@link ZigBeeDevice} to check if {@link ClusterMessage}<br>
 	 * can be handled by the {@link ClusterListner} associated to this {@link ClusterFilter}
 	 *  
-	 * @param cluster the {@link Cluster} to match
-	 * @return true if the {@link Cluster} match the {@link ClusterFilter}
+	 * @param clusterMessage the {@link ClusterMessage} to match
+	 * @return true if the {@link ClusterMessage} match the {@link ClusterFilter}
 	 */
-	boolean match(Cluster cluster);
+	boolean match(ClusterMessage clusterMessage);
 	
 	
 }

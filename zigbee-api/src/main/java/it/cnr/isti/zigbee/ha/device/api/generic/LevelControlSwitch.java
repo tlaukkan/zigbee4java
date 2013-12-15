@@ -23,7 +23,7 @@
 package it.cnr.isti.zigbee.ha.device.api.generic;
 
 import it.cnr.isti.zigbee.ha.cluster.glue.general.OnOffSwitchConfiguration;
-import it.cnr.isti.zigbee.ha.driver.ArraysUtil;
+import org.bubblecloud.zigbee.util.ArraysUtil;
 import it.cnr.isti.zigbee.ha.driver.core.HADevice;
 import it.cnr.isti.zigbee.ha.driver.core.HAProfile;
 

@@ -29,7 +29,7 @@ package com.itaca.ztool.api.af;
 
 import com.itaca.ztool.api.ZToolCMD;
 import com.itaca.ztool.api.ZToolPacket;
-import com.itaca.ztool.util.DoubleByte;
+import org.bubblecloud.zigbee.util.DoubleByte;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

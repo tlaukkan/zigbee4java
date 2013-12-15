@@ -26,8 +26,8 @@ import com.itaca.ztool.api.ZToolAddress16;
 import com.itaca.ztool.api.ZToolAddress64;
 import com.itaca.ztool.api.zdo.ZDO_ACTIVE_EP_REQ;
 import com.itaca.ztool.api.zdo.ZDO_ACTIVE_EP_RSP;
-import it.cnr.isti.thread.Stoppable;
-import it.cnr.isti.thread.ThreadUtils;
+import org.bubblecloud.zigbee.util.Stoppable;
+import org.bubblecloud.zigbee.util.ThreadUtils;
 import it.cnr.isti.zigbee.api.ZigBeeBasedriverException;
 import it.cnr.isti.zigbee.api.ZigBeeDevice;
 import it.cnr.isti.zigbee.api.ZigBeeNode;
@@ -299,7 +299,7 @@ public class DeviceBuilderThread implements Stoppable{
     }
 
 	public void run() {
-		logger.debug("{} STARTED Successfully", Thread.currentThread().getName() );
+		logger.debug("{} STARTED Successfully", Thread.currentThread().getName());
 
 		while(!isEnd()){
 			try{

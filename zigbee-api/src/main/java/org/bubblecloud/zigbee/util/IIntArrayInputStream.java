@@ -1,7 +1,10 @@
 /*
-   Copyright 2008-2013 CNR-ISTI, http://isti.cnr.it
-   Institute of Information Science and Technologies 
-   of the Italian National Research Council 
+   Copyright 2008-2013 Andrew Rapp, http://code.google.com/p/xbee-api/
+
+   Copyright 2008-2013 ITACA-TSB, http://www.tsb.upv.es/
+   Instituto Tecnologico de Aplicaciones de Comunicacion 
+   Avanzadas - Grupo Tecnologias para la Salud y el 
+   Bienestar (TSB)
 
 
    See the NOTICE file distributed with this work for additional 
@@ -19,32 +22,19 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package it.cnr.isti.zigbee.zcl.library.impl;
-import it.cnr.isti.zigbee.api.Cluster;
-import it.cnr.isti.zigbee.zcl.library.impl.core.ZCLFrame;
+
+package org.bubblecloud.zigbee.util;
+
+import java.io.IOException;
+
 /**
  * 
- * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
+ * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
+ * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  *
  */
-public class ClusterImpl implements Cluster {
-	
-	private ZCLFrame frame;
-	private short id;
-
-	public ClusterImpl(short id, ZCLFrame frame) {
-		this.frame = frame;
-		this.id = id;
-	}
-
-	public byte[] getClusterMsg() {
-		return frame.toByte();
-	}
-
-	public short getId() {
-		return id;
-	}
-
+public interface IIntArrayInputStream {
+	public int read() throws IOException;
+	public int read(String s) throws IOException;
 }

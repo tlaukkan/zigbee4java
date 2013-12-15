@@ -25,7 +25,7 @@ package com.itaca.ztool.api.system;
 
 import com.itaca.ztool.api.ZToolCMD;
 import com.itaca.ztool.api.ZToolPacket;
-import com.itaca.ztool.util.DoubleByte;
+import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
  *

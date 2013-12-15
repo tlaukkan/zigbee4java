@@ -20,7 +20,7 @@
    limitations under the License.
 */
 
-package it.cnr.isti.thread;
+package org.bubblecloud.zigbee.util;
 
 
 /**
@@ -29,15 +29,47 @@ package it.cnr.isti.thread;
  * @since 0.6.0
  *
  */
-public interface Threaded extends Runnable {
+public abstract class RunnableThread implements Stoppable,Threaded {
 
-    /**
-     * @return the {@link Thread} if any that is executing this {@link Runnable} object
-     */
-    public Thread getExecutorThread();
+    private final Object threadLock = new Object();
+    private boolean done = false;
 
-    /**
-     * Sent an {@link InterruptedException} to the {@link Thread} executing the {@link Runnable} if any
-     */
-    public void interrupt();
+    private Thread executor = null;
+
+    public Thread getExecutorThread() {
+        synchronized ( threadLock ) {
+            return executor;
+        }
+    }
+
+    public void end(){
+        synchronized ( threadLock ) {
+            done = true;
+        }
+    }
+
+    protected boolean isDone() {
+        synchronized ( threadLock ) {
+            return done;
+        }
+    }
+
+    public void run(){
+        synchronized ( threadLock ) {
+            executor = Thread.currentThread();
+        }
+        task();
+        synchronized ( threadLock ) {
+            executor = null;
+        }
+    }
+
+    public void interrupt() {
+        synchronized ( threadLock ) {
+            if ( executor == null ) return;
+            executor.interrupt();
+        }
+    }
+
+    protected abstract void task();
 }

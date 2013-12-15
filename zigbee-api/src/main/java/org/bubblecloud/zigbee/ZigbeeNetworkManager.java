@@ -31,7 +31,7 @@ import com.itaca.ztool.api.util.UTIL_GET_DEVICE_INFO_RESPONSE;
 import com.itaca.ztool.api.zdo.*;
 import org.bubblecloud.zigbee.model.AsynchrounsCommandListener;
 import org.bubblecloud.zigbee.model.SynchrounsCommandListner;
-import it.cnr.isti.primitvetypes.util.Integers;
+import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

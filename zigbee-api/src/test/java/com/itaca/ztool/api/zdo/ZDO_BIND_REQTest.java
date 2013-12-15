@@ -25,7 +25,7 @@ package com.itaca.ztool.api.zdo;
 import com.itaca.ztool.api.ZToolAddress16;
 import com.itaca.ztool.api.ZToolAddress64;
 import com.itaca.ztool.api.test.ZToolPacketUtil;
-import com.itaca.ztool.util.DoubleByte;
+import org.bubblecloud.zigbee.util.DoubleByte;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
