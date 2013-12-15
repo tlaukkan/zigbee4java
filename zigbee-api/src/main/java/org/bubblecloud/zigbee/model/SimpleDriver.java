@@ -22,11 +22,11 @@
 
 package org.bubblecloud.zigbee.model;
 
-import com.itaca.ztool.api.af.AF_DATA_CONFIRM;
-import com.itaca.ztool.api.af.AF_DATA_REQUEST;
-import com.itaca.ztool.api.af.AF_REGISTER;
-import com.itaca.ztool.api.af.AF_REGISTER_SRSP;
-import com.itaca.ztool.api.zdo.*;
+import org.bubblecloud.zigbee.packet.af.AF_DATA_CONFIRM;
+import org.bubblecloud.zigbee.packet.af.AF_DATA_REQUEST;
+import org.bubblecloud.zigbee.packet.af.AF_REGISTER;
+import org.bubblecloud.zigbee.packet.af.AF_REGISTER_SRSP;
+import org.bubblecloud.zigbee.packet.zdo.*;
 
 /**
  * 

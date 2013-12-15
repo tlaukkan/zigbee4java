@@ -22,12 +22,12 @@
 
 package org.bubblecloud.zigbee.discovery;
 
-import com.itaca.ztool.api.ZToolAddress16;
-import com.itaca.ztool.api.zdo.ZDO_IEEE_ADDR_REQ;
-import com.itaca.ztool.api.zdo.ZDO_IEEE_ADDR_RSP;
-import com.itaca.ztool.api.zdo.ZDO_MGMT_LQI_REQ;
-import com.itaca.ztool.api.zdo.ZDO_MGMT_LQI_RSP;
-import com.itaca.ztool.api.zdo.ZDO_MGMT_LQI_RSP.NeighborLqiListItemClass;
+import org.bubblecloud.zigbee.packet.ZToolAddress16;
+import org.bubblecloud.zigbee.packet.zdo.ZDO_IEEE_ADDR_REQ;
+import org.bubblecloud.zigbee.packet.zdo.ZDO_IEEE_ADDR_RSP;
+import org.bubblecloud.zigbee.packet.zdo.ZDO_MGMT_LQI_REQ;
+import org.bubblecloud.zigbee.packet.zdo.ZDO_MGMT_LQI_RSP;
+import org.bubblecloud.zigbee.packet.zdo.ZDO_MGMT_LQI_RSP.NeighborLqiListItemClass;
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.util.RunnableThread;
 import org.bubblecloud.zigbee.util.ThreadUtils;

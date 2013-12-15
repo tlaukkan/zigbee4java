@@ -22,10 +22,10 @@
 
 package org.bubblecloud.zigbee.impl;
 
-import com.itaca.ztool.api.af.AF_DATA_CONFIRM;
-import com.itaca.ztool.api.af.AF_DATA_REQUEST;
-import com.itaca.ztool.api.af.AF_INCOMING_MSG;
-import com.itaca.ztool.api.zdo.*;
+import org.bubblecloud.zigbee.packet.af.AF_DATA_CONFIRM;
+import org.bubblecloud.zigbee.packet.af.AF_DATA_REQUEST;
+import org.bubblecloud.zigbee.packet.af.AF_INCOMING_MSG;
+import org.bubblecloud.zigbee.packet.zdo.*;
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.util.ThreadUtils;
 import it.cnr.isti.zigbee.api.*;

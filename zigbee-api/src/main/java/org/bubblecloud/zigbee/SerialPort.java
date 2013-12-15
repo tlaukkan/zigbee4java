@@ -21,10 +21,10 @@
  */
 package org.bubblecloud.zigbee;
 
-import com.itaca.ztool.api.ZToolException;
-import com.itaca.ztool.api.ZToolPacketHandler;
-import com.itaca.ztool.api.ZToolPacketParser;
-import com.itaca.ztool.api.SerialHandler;
+import org.bubblecloud.zigbee.packet.ZToolException;
+import org.bubblecloud.zigbee.packet.ZToolPacketHandler;
+import org.bubblecloud.zigbee.packet.ZToolPacketParser;
+import org.bubblecloud.zigbee.packet.SerialHandler;
 import j.extensions.comm.SerialComm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +61,7 @@ public class SerialPort implements SerialHandler {
      * @param port the port
      * @param baudRate the baud rate
      * @param packetHandler the packet handler
-     * @throws com.itaca.ztool.api.ZToolException if serial port can not be opened.
+     * @throws org.bubblecloud.zigbee.packet.ZToolException if serial port can not be opened.
      */
     public void open(final String port, final int baudRate, final ZToolPacketHandler packetHandler) throws ZToolException {
         try {

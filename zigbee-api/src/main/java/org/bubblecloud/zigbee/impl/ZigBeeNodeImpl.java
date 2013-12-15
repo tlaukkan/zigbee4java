@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.impl;
 
-import com.itaca.ztool.api.ZToolAddress64;
+import org.bubblecloud.zigbee.packet.ZToolAddress64;
 import it.cnr.isti.zigbee.api.ZigBeeNode;
 import org.bubblecloud.zigbee.model.IEEEAddress;
 

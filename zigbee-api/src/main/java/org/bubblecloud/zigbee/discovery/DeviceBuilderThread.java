@@ -22,10 +22,10 @@
 
 package org.bubblecloud.zigbee.discovery;
 
-import com.itaca.ztool.api.ZToolAddress16;
-import com.itaca.ztool.api.ZToolAddress64;
-import com.itaca.ztool.api.zdo.ZDO_ACTIVE_EP_REQ;
-import com.itaca.ztool.api.zdo.ZDO_ACTIVE_EP_RSP;
+import org.bubblecloud.zigbee.packet.ZToolAddress16;
+import org.bubblecloud.zigbee.packet.ZToolAddress64;
+import org.bubblecloud.zigbee.packet.zdo.ZDO_ACTIVE_EP_REQ;
+import org.bubblecloud.zigbee.packet.zdo.ZDO_ACTIVE_EP_RSP;
 import org.bubblecloud.zigbee.util.Stoppable;
 import org.bubblecloud.zigbee.util.ThreadUtils;
 import it.cnr.isti.zigbee.api.ZigBeeBasedriverException;

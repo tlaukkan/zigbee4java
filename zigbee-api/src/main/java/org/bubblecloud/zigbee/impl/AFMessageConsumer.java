@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.impl;
 
-import com.itaca.ztool.api.af.AF_INCOMING_MSG;
+import org.bubblecloud.zigbee.packet.af.AF_INCOMING_MSG;
 
 /**
  * 

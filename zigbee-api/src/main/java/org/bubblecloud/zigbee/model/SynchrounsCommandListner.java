@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.model;
 
-import com.itaca.ztool.api.ZToolPacket;
+import org.bubblecloud.zigbee.packet.ZToolPacket;
 
 /**
  * 

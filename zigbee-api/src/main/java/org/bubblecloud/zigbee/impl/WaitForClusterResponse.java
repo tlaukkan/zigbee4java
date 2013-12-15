@@ -22,14 +22,14 @@
 
 package org.bubblecloud.zigbee.impl;
 
-import com.itaca.ztool.api.af.AF_INCOMING_MSG;
+import org.bubblecloud.zigbee.packet.af.AF_INCOMING_MSG;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 
  * This class register itself as {@link AFMessageConsumer} to the given {@link AFMessageProducer}<br>
- * and it wait for a matching {@link com.itaca.ztool.api.af.AF_INCOMING_MSG}. As soon as the matching {@link com.itaca.ztool.api.af.AF_INCOMING_MSG}<br>
+ * and it wait for a matching {@link org.bubblecloud.zigbee.packet.af.AF_INCOMING_MSG}. As soon as the matching {@link org.bubblecloud.zigbee.packet.af.AF_INCOMING_MSG}<br>
  * is received or the timeout expires the the object unregister itself from {@link AFMessageProducer}<br>
  *
  *
@@ -108,11 +108,11 @@ public class WaitForClusterResponse implements AFMessageConsumer{
 	}
 
 	/**
-	 * Wait until an {@link com.itaca.ztool.api.af.AF_INCOMING_MSG} arrives from the <i>ZigBee Network</i>. The message<br>
+	 * Wait until an {@link org.bubblecloud.zigbee.packet.af.AF_INCOMING_MSG} arrives from the <i>ZigBee Network</i>. The message<br>
 	 * has to match the specified parameters and has to arrive before a timout otherwise <code>null</code><br>
 	 * will be returned.
 	 *
-	 * @return {@link com.itaca.ztool.api.af.AF_INCOMING_MSG} that match the filter used with the constructor<br>
+	 * @return {@link org.bubblecloud.zigbee.packet.af.AF_INCOMING_MSG} that match the filter used with the constructor<br>
 	 * 		{@link #WaitForClusterResponse(byte, short)} 
 	 */ 	
 	public AF_INCOMING_MSG getResponse(){

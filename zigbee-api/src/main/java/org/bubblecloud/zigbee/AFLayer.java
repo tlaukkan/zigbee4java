@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee;
 
-import com.itaca.ztool.api.af.AF_REGISTER;
-import com.itaca.ztool.api.af.AF_REGISTER_SRSP;
+import org.bubblecloud.zigbee.packet.af.AF_REGISTER;
+import org.bubblecloud.zigbee.packet.af.AF_REGISTER_SRSP;
 import it.cnr.isti.zigbee.api.ClusterMessage;
 import it.cnr.isti.zigbee.api.ZigBeeDevice;
 import org.bubblecloud.zigbee.impl.ZigBeeNetwork;

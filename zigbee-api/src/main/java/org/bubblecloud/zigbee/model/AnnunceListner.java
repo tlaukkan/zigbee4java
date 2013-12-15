@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.model;
 
-import com.itaca.ztool.api.ZToolAddress16;
-import com.itaca.ztool.api.ZToolAddress64;
+import org.bubblecloud.zigbee.packet.ZToolAddress16;
+import org.bubblecloud.zigbee.packet.ZToolAddress64;
 
 /**
  * 

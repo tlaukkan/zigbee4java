@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.discovery;
 
-import com.itaca.ztool.api.ZToolAddress16;
-import com.itaca.ztool.api.ZToolAddress64;
+import org.bubblecloud.zigbee.packet.ZToolAddress16;
+import org.bubblecloud.zigbee.packet.ZToolAddress64;
 import it.cnr.isti.zigbee.api.ZigBeeNode;
 import org.bubblecloud.zigbee.AFLayer;
 import org.bubblecloud.zigbee.impl.ZigBeeNodeImpl;
@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  *
  * <b>NOTE:</b>This class doesn't implement a real {@link Thread}, anyway<br>
  * because it is a {@link AnnunceListner} a different thread then the application will call
- * the {@link #notify(com.itaca.ztool.api.ZToolAddress16, com.itaca.ztool.api.ZToolAddress64, com.itaca.ztool.api.ZToolAddress16, int)} method.
+ * the {@link #notify(org.bubblecloud.zigbee.packet.ZToolAddress16, org.bubblecloud.zigbee.packet.ZToolAddress64, org.bubblecloud.zigbee.packet.ZToolAddress16, int)} method.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>

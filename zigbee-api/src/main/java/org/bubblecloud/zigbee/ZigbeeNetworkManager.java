@@ -21,14 +21,17 @@
 */
 package org.bubblecloud.zigbee;
 
-import com.itaca.ztool.api.*;
-import com.itaca.ztool.api.af.*;
-import com.itaca.ztool.api.simple.*;
-import com.itaca.ztool.api.system.SYS_RESET;
-import com.itaca.ztool.api.system.SYS_RESET_RESPONSE;
-import com.itaca.ztool.api.util.UTIL_GET_DEVICE_INFO;
-import com.itaca.ztool.api.util.UTIL_GET_DEVICE_INFO_RESPONSE;
-import com.itaca.ztool.api.zdo.*;
+import org.bubblecloud.zigbee.packet.ZToolAddress16;
+import org.bubblecloud.zigbee.packet.ZToolAddress64;
+import org.bubblecloud.zigbee.packet.ZToolCMD;
+import org.bubblecloud.zigbee.packet.ZToolPacket;
+import org.bubblecloud.zigbee.packet.af.*;
+import org.bubblecloud.zigbee.packet.simple.*;
+import org.bubblecloud.zigbee.packet.system.SYS_RESET;
+import org.bubblecloud.zigbee.packet.system.SYS_RESET_RESPONSE;
+import org.bubblecloud.zigbee.packet.util.UTIL_GET_DEVICE_INFO;
+import org.bubblecloud.zigbee.packet.util.UTIL_GET_DEVICE_INFO_RESPONSE;
+import org.bubblecloud.zigbee.packet.zdo.*;
 import org.bubblecloud.zigbee.model.AsynchrounsCommandListener;
 import org.bubblecloud.zigbee.model.SynchrounsCommandListner;
 import org.bubblecloud.zigbee.util.Integers;
