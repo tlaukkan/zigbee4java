@@ -24,8 +24,8 @@ package org.bubblecloud.zigbee.proxy.device.api.lighting;
 
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguration;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.core.HADevice;
-import org.bubblecloud.zigbee.proxy.core.HAProfile;
+import org.bubblecloud.zigbee.proxy.HADevice;
+import org.bubblecloud.zigbee.proxy.HAProfile;
 
 
 

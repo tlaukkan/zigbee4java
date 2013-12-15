@@ -18,9 +18,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.bubblecloud.zigbee.packet;
+package org.bubblecloud.zigbee;
 
-import org.bubblecloud.zigbee.packet.SerialEmulator;
+import org.bubblecloud.zigbee.SerialEmulator;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

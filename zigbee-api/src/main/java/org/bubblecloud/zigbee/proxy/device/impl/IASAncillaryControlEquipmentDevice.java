@@ -27,11 +27,11 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASACE;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
 import org.bubblecloud.zigbee.proxy.device.api.security_safety.IASAncillaryControlEquipment;
-import org.bubblecloud.zigbee.proxy.core.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.core.HAProfile;
-import org.bubblecloud.zigbee.proxy.core.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.core.reflection.AbstractDeviceDescription;
-import org.bubblecloud.zigbee.proxy.core.reflection.DeviceDescription;
+import org.bubblecloud.zigbee.proxy.HADeviceBase;
+import org.bubblecloud.zigbee.proxy.HAProfile;
+import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
+import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
+import org.bubblecloud.zigbee.proxy.DeviceDescription;
 import org.bubblecloud.zigbee.BundleContext;
 
 /**

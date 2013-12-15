@@ -29,8 +29,8 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.core.HADevice;
-import org.bubblecloud.zigbee.proxy.core.HAProfile;
+import org.bubblecloud.zigbee.proxy.HADevice;
+import org.bubblecloud.zigbee.proxy.HAProfile;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>

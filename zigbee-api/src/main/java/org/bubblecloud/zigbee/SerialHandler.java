@@ -18,24 +18,23 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
+ */
+package org.bubblecloud.zigbee;
 
-package org.bubblecloud.zigbee.proxy.core;
+import org.bubblecloud.zigbee.packet.ZToolException;
+import org.bubblecloud.zigbee.packet.ZToolPacketHandler;
 
-import org.bubblecloud.zigbee.core.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
+import java.io.OutputStream;
 
 /**
- *
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- *         
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.4.0
- *
+ * @since 0.6.0
+ * 
  */
-public interface ClusterFactory {
-	
-	public Cluster getInstance(String key, ZigBeeDevice zbDevice) throws ZigBeeHAException;	
-
+public interface SerialHandler {
+    public void open(String port, int rate, ZToolPacketHandler handler) throws ZToolException;
+    public OutputStream getOutputStream();
+    public void close();
 }

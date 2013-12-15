@@ -26,7 +26,7 @@ import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.event.OccupancyListener;
 import org.bubblecloud.zigbee.proxy.cluster.impl.event.OccupancyBridgeListeners;
-import org.bubblecloud.zigbee.proxy.core.ReportingConfiguration;
+import org.bubblecloud.zigbee.proxy.ReportingConfiguration;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
 import org.bubblecloud.zigbee.proxy.cluster.impl.measureament_sensing.OccupacySensingCluster;

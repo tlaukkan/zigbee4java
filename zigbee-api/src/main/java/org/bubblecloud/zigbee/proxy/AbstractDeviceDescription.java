@@ -20,33 +20,51 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.proxy.core;
-
-import org.bubblecloud.zigbee.core.ZigBeeException;
-
+package org.bubblecloud.zigbee.proxy;
 /**
- *
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- *         
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.1.0
  *
  */
-public class ZigBeeHAException extends ZigBeeException {
+public abstract class AbstractDeviceDescription implements DeviceDescription{
 
-	public ZigBeeHAException(String msg) {
-		super(msg);
+	public abstract int[] getCustomClusters();
+	public abstract int[] getMandatoryCluster();
+	public abstract int[] getOptionalCluster() ;
+	public abstract int[] getStandardClusters() ;
+
+	public boolean isCustom(int clusterId) {
+		int[] array = getCustomClusters();
+		for (int i = 0; i < array.length; i++) {
+			if (array[i]==clusterId) return true;
+		}
+		return false;
 	}
 
-	public ZigBeeHAException(Throwable ex) {
-		super(ex);
+	public boolean isMandatory(int clusterId) {
+		int[] array = getMandatoryCluster();
+		for (int i = 0; i < array.length; i++) {
+			if (array[i]==clusterId) return true;
+		}
+		return false;
 	}
-	
-	/**
-	 * @since 0.4.0
-	 */
-	public ZigBeeHAException(String msg,Throwable ex) {
-		super(msg,ex);
+
+	public boolean isOptional(int clusterId) {
+		int[] array = getOptionalCluster();
+		for (int i = 0; i < array.length; i++) {
+			if (array[i]==clusterId) return true;
+		}
+		return false;
 	}
+
+	public boolean isStandard(int clusterId) {
+		int[] array = getStandardClusters();
+		for (int i = 0; i < array.length; i++) {
+			if (array[i]==clusterId) return true;
+		}
+		return false;
+	}
+
 }

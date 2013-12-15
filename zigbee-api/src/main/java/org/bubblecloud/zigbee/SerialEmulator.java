@@ -19,8 +19,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package org.bubblecloud.zigbee.packet;
+package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.packet.ZToolPacketHandler;
+import org.bubblecloud.zigbee.packet.ZToolPacketParser;
 import org.bubblecloud.zigbee.util.ThreadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

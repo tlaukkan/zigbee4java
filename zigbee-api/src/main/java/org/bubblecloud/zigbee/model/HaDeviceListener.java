@@ -1,6 +1,6 @@
 package org.bubblecloud.zigbee.model;
 
-import org.bubblecloud.zigbee.proxy.core.HADeviceBase;
+import org.bubblecloud.zigbee.proxy.HADeviceBase;
 
 /**
  * Created with IntelliJ IDEA.

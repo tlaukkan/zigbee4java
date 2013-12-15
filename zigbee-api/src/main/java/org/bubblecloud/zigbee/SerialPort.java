@@ -24,7 +24,6 @@ package org.bubblecloud.zigbee;
 import org.bubblecloud.zigbee.packet.ZToolException;
 import org.bubblecloud.zigbee.packet.ZToolPacketHandler;
 import org.bubblecloud.zigbee.packet.ZToolPacketParser;
-import org.bubblecloud.zigbee.packet.SerialHandler;
 import j.extensions.comm.SerialComm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

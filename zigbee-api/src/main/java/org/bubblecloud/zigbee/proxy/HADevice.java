@@ -20,7 +20,7 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.proxy.core;
+package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
@@ -30,7 +30,6 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.general.DeviceTemperatureConfig
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.PowerConfiguration;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.core.reflection.DeviceDescription;
 
 /**
  * 

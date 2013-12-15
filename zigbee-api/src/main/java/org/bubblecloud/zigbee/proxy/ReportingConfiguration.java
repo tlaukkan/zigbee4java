@@ -20,16 +20,42 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.packet;
+package org.bubblecloud.zigbee.proxy;
 
 /**
  * 
+ * The interface of the service registered by the <b>Home Automation Driver</b> architecture<br>
+ * which is used to provides among all the bundles composing the <b>Home Automation Driver</b>,<br>
+ * (i.e.: core drivers and driver extension) the default configuration of the reporting<br>
+ * <br>
+ * Interfaces that contains the definition of all the properties key and default values,<br>
+ * that affects the reporting behavior of the <b>Home Automation Driver</b> architecture
+ * 
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
+ * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.1.0
+ * @since 0.6.0
  *
  */
-public interface PacketListener {
+public class ReportingConfiguration {
 
-	void packetReceived(ZToolPacket packet);
+	
+	public int getReportingMinimum() {
+        return 60;
+    }
+
+	public int getReportingMaximum() {
+        return 0;
+    }
+
+	public double getReportingChange() {
+        return 0.0d;
+    }
+
+	public boolean getReportingOverwrite() {
+        return true;
+    }
+
 }

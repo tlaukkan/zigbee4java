@@ -20,7 +20,7 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.proxy.core;
+package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.proxy.cluster.impl.*;
 import org.bubblecloud.zigbee.BundleContext;

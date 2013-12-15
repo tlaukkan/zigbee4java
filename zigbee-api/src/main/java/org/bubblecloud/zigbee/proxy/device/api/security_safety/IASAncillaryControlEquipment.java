@@ -25,8 +25,8 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASACE;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.core.HADevice;
-import org.bubblecloud.zigbee.proxy.core.HAProfile;
+import org.bubblecloud.zigbee.proxy.HADevice;
+import org.bubblecloud.zigbee.proxy.HAProfile;
 
 /**
  *

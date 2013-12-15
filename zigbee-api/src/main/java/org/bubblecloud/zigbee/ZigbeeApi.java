@@ -1,7 +1,7 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.core.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.core.HAClustersFactory;
+import org.bubblecloud.zigbee.proxy.HAClustersFactory;
 import org.bubblecloud.zigbee.proxy.device.api.generic.*;
 import org.bubblecloud.zigbee.proxy.device.api.hvac.Pump;
 import org.bubblecloud.zigbee.proxy.device.api.hvac.TemperatureSensor;
@@ -11,10 +11,10 @@ import org.bubblecloud.zigbee.proxy.device.api.security_safety.IASControlAndIndi
 import org.bubblecloud.zigbee.proxy.device.api.security_safety.IAS_Warning;
 import org.bubblecloud.zigbee.proxy.device.api.security_safety.IAS_Zone;
 import org.bubblecloud.zigbee.proxy.device.impl.*;
-import org.bubblecloud.zigbee.proxy.core.ClusterFactory;
-import org.bubblecloud.zigbee.proxy.core.GenericHADeviceFactory;
-import org.bubblecloud.zigbee.proxy.core.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.core.HADeviceFactory;
+import org.bubblecloud.zigbee.proxy.ClusterFactory;
+import org.bubblecloud.zigbee.proxy.GenericHADeviceFactory;
+import org.bubblecloud.zigbee.proxy.HADeviceBase;
+import org.bubblecloud.zigbee.proxy.HADeviceFactory;
 import org.bubblecloud.zigbee.core.ZigBeeNetwork;
 import org.bubblecloud.zigbee.model.DeviceListener;
 import org.bubblecloud.zigbee.model.HaDeviceListener;

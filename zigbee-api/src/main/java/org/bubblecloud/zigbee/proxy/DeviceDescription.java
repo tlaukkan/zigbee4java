@@ -20,9 +20,8 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.proxy.core.reflection;
+package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.proxy.core.HADeviceBase;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
 
 /**

@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.proxy.cluster.impl;
 
 import org.bubblecloud.zigbee.core.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Alarms;
-import org.bubblecloud.zigbee.proxy.core.ZigBeeHAException;
+import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;

@@ -1,10 +1,7 @@
 /*
-   Copyright 2008-2013 Andrew Rapp, http://code.google.com/p/xbee-api/
-   
-   Copyright 2008-2013 ITACA-TSB, http://www.tsb.upv.es/
-   Instituto Tecnologico de Aplicaciones de Comunicacion 
-   Avanzadas - Grupo Tecnologias para la Salud y el 
-   Bienestar (TSB)
+   Copyright 2008-2013 CNR-ISTI, http://isti.cnr.it
+   Institute of Information Science and Technologies 
+   of the Italian National Research Council 
 
 
    See the NOTICE file distributed with this work for additional 
@@ -23,19 +20,33 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.packet;
+package org.bubblecloud.zigbee.proxy;
+
+import org.bubblecloud.zigbee.core.ZigBeeException;
+
 /**
- * 
- * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
- * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
+ *
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
+ *         
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.1.0
  *
  */
-public class ZToolTimeoutException extends ZToolException {
+public class ZigBeeHAException extends ZigBeeException {
 
-	private static final long serialVersionUID = 1045336675379821890L;
+	public ZigBeeHAException(String msg) {
+		super(msg);
+	}
 
-	public ZToolTimeoutException() {
-		super();
+	public ZigBeeHAException(Throwable ex) {
+		super(ex);
+	}
+	
+	/**
+	 * @since 0.4.0
+	 */
+	public ZigBeeHAException(String msg,Throwable ex) {
+		super(msg,ex);
 	}
 }

@@ -25,8 +25,8 @@ package org.bubblecloud.zigbee.proxy.device.api.lighting;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.IlluminanceMeasurement;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.core.HADevice;
-import org.bubblecloud.zigbee.proxy.core.HAProfile;
+import org.bubblecloud.zigbee.proxy.HADevice;
+import org.bubblecloud.zigbee.proxy.HAProfile;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>

@@ -25,7 +25,7 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.event;
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.event.OnOffEvent;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.event.OnOffListener;
-import org.bubblecloud.zigbee.proxy.core.ReportingConfiguration;
+import org.bubblecloud.zigbee.proxy.ReportingConfiguration;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ReportListener;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;

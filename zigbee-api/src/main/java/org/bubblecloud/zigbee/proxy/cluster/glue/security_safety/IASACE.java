@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy.cluster.glue.security_safety;
 
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
-import org.bubblecloud.zigbee.proxy.core.ZigBeeHAException;
+import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_ace.BypassPayload;
 import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_ace.ZoneIDMapResponse;

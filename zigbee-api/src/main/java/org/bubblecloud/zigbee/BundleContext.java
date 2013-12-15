@@ -1,9 +1,9 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.core.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.core.ClusterFactory;
-import org.bubblecloud.zigbee.proxy.core.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.core.HADeviceFactory;
+import org.bubblecloud.zigbee.proxy.ClusterFactory;
+import org.bubblecloud.zigbee.proxy.HADeviceBase;
+import org.bubblecloud.zigbee.proxy.HADeviceFactory;
 import org.bubblecloud.zigbee.model.HaDeviceListener;
 
 import java.util.ArrayList;

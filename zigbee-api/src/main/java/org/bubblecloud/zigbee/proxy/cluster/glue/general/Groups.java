@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy.cluster.glue.general;
 
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
-import org.bubblecloud.zigbee.proxy.core.ZigBeeHAException;
+import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.AddGroupResponse;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.GetGroupMembershipResponse;

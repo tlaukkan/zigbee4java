@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy.cluster.glue.general;
 
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
-import org.bubblecloud.zigbee.proxy.core.ZigBeeHAException;
+import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

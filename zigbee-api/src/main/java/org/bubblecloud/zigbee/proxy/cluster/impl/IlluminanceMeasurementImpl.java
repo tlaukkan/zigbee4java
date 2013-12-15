@@ -28,7 +28,7 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.event.Meas
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.event.ToleranceListener;
 import org.bubblecloud.zigbee.proxy.cluster.impl.event.MeasuredValueBridgeListeners;
 import org.bubblecloud.zigbee.proxy.cluster.impl.event.ToleranceBridgeListeners;
-import org.bubblecloud.zigbee.proxy.core.ReportingConfiguration;
+import org.bubblecloud.zigbee.proxy.ReportingConfiguration;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
 import org.bubblecloud.zigbee.proxy.cluster.impl.measureament_sensing.IlluminanceMeasurementCluster;

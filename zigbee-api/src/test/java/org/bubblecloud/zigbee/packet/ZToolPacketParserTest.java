@@ -20,6 +20,7 @@
 */
 package org.bubblecloud.zigbee.packet;
 
+import org.bubblecloud.zigbee.SerialEmulator;
 import org.bubblecloud.zigbee.packet.simple.ZB_GET_DEVICE_INFO_RSP;
 import org.bubblecloud.zigbee.util.ByteUtils;
 import org.junit.Test;
