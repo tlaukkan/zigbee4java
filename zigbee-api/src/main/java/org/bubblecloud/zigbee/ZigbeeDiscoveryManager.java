@@ -92,7 +92,7 @@ public class ZigbeeDiscoveryManager {
     }
 
     public void shutdown() {
-        logger.info("Driver used left:clean up all the data and closing all the threads");
+        //logger.info("Driver used left:clean up all the data and closing all the threads");
 
         driverService.removeAnnunceListener(annunceListener);
 

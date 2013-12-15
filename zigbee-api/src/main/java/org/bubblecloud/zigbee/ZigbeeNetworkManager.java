@@ -305,7 +305,7 @@ public class ZigbeeNetworkManager implements Runnable, ZigbeeNetworkManagementIn
             logger.debug("Already CLOSED");
             return;
         }
-        logger.info("Closing");
+        //logger.info("Closing");
         if( Thread.currentThread() != driver ){
             logger.debug("Waiting for initialization operation to complete before closing.");
             try {
@@ -327,7 +327,7 @@ public class ZigbeeNetworkManager implements Runnable, ZigbeeNetworkManagementIn
         if(state == DriverStatus.CREATED){
             setState(DriverStatus.CLOSED);
         }
-        logger.info("Closed");
+        //logger.info("Closed");
     }
 
     public ZDO_MGMT_LQI_RSP sendLQIRequest(ZDO_MGMT_LQI_REQ request) {
