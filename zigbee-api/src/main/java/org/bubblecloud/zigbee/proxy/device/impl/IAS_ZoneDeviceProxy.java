@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.device.impl;
 
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
 import org.bubblecloud.zigbee.proxy.device.api.security_safety.IAS_Zone;
 import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
@@ -30,7 +30,7 @@ import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
 import org.bubblecloud.zigbee.proxy.DeviceDescription;
-import org.bubblecloud.zigbee.BundleContext;
+import org.bubblecloud.zigbee.ZigbeeContext;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
@@ -43,7 +43,7 @@ public class IAS_ZoneDeviceProxy extends DeviceProxyBase implements IAS_Zone {
 
     private IASZone iasZoneCluster;
 
-    public IAS_ZoneDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public IAS_ZoneDeviceProxy(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
 

@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy.cluster.api.core;
 //TODO discuss about the Exception Hierarchy from the basedriver to the refinement drivers
 
-import org.bubblecloud.zigbee.network.ZigBeeException;
+import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

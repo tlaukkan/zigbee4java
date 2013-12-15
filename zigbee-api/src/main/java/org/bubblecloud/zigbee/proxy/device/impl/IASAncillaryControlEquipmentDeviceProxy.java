@@ -22,14 +22,14 @@
 
 package org.bubblecloud.zigbee.proxy.device.impl;
 
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.ZigbeeContext;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASACE;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
 import org.bubblecloud.zigbee.proxy.device.api.security_safety.IASAncillaryControlEquipment;
 import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
-import org.bubblecloud.zigbee.BundleContext;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
@@ -44,7 +44,7 @@ public class IASAncillaryControlEquipmentDeviceProxy extends DeviceProxyBase imp
     private IASZone iasZone;
     private IASACE iasAce;
 
-    public IASAncillaryControlEquipmentDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public IASAncillaryControlEquipmentDeviceProxy(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
         iasAce = (IASACE) getCluster(ProxyConstants.IAS_ACE);

@@ -19,20 +19,19 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-
-package org.bubblecloud.zigbee.network.glue;
+package org.bubblecloud.zigbee.network;
 
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.5.1
  *
  */
-public interface ApplicationFrameworkMessageProducer {
-
-	public boolean addAFMessageConsumer(ApplicationFrameworkMessageConsumer consumer);
+public interface ZigBeeDiscoveryMonitor {
 	
-	public boolean removeAFMessageConsumer(ApplicationFrameworkMessageConsumer consumer);
+	public void browsedNode(ZigBeeNode node);
+	
+	public void announcedNode(ZigBeeNode node);
 	
 }

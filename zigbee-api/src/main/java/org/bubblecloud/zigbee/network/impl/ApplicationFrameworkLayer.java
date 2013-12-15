@@ -20,11 +20,11 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.network;
+package org.bubblecloud.zigbee.network.impl;
 
-import org.bubblecloud.zigbee.network.glue.ClusterMessage;
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
-import org.bubblecloud.zigbee.network.glue.ZigbeeNetworkManagementInterface;
+import org.bubblecloud.zigbee.network.ClusterMessage;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface;
 import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER;
 import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER_SRSP;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ import java.util.*;
 
 /**
  * This class is a <i>singelton</i> aimed at share the <b>the Application Framework Layer</b><br>
- * status of the <b>ZigBee Base Drier</b> among all the {@link org.bubblecloud.zigbee.network.glue.ZigBeeDevice} register by it.<br>
+ * status of the <b>ZigBee Base Drier</b> among all the {@link org.bubblecloud.zigbee.network.ZigBeeDevice} register by it.<br>
  * <br>
  * In particular, this class tracks the <i>Transaction Id</i> and the <i>Active End Point</i><br>
  * on the hardware providing access to <i>ZigBee Network</i> (currently the <b>Texas Instrument CC2480</b>)<br>

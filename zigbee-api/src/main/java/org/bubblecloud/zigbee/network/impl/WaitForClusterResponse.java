@@ -20,19 +20,19 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.network;
+package org.bubblecloud.zigbee.network.impl;
 
-import org.bubblecloud.zigbee.network.glue.ApplicationFrameworkMessageConsumer;
-import org.bubblecloud.zigbee.network.glue.ApplicationFrameworkMessageProducer;
+import org.bubblecloud.zigbee.network.ApplicationFrameworkMessageConsumer;
+import org.bubblecloud.zigbee.network.ApplicationFrameworkMessageProducer;
 import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 
- * This class register itself as {@link org.bubblecloud.zigbee.network.glue.ApplicationFrameworkMessageConsumer} to the given {@link org.bubblecloud.zigbee.network.glue.ApplicationFrameworkMessageProducer}<br>
+ * This class register itself as {@link org.bubblecloud.zigbee.network.ApplicationFrameworkMessageConsumer} to the given {@link org.bubblecloud.zigbee.network.ApplicationFrameworkMessageProducer}<br>
  * and it wait for a matching {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG}. As soon as the matching {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG}<br>
- * is received or the timeout expires the the object unregister itself from {@link org.bubblecloud.zigbee.network.glue.ApplicationFrameworkMessageProducer}<br>
+ * is received or the timeout expires the the object unregister itself from {@link org.bubblecloud.zigbee.network.ApplicationFrameworkMessageProducer}<br>
  *
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

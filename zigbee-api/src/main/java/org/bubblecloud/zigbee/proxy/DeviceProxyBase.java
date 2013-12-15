@@ -22,7 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.ZigbeeContext;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Basic;
@@ -32,7 +33,6 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.general.PowerConfiguration;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
 
-import org.bubblecloud.zigbee.BundleContext;
 import org.bubblecloud.zigbee.network.model.ProvidedClusterMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +59,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     private final static Logger logger = LoggerFactory.getLogger(DeviceProxyBase.class);
 
     protected ZigBeeDevice zbDevice;
-    private BundleContext ctx;
+    private ZigbeeContext ctx;
 
 
     private Cluster[] clusters;
@@ -80,7 +80,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     private final ProvidedClusterMode clusterMode;
 
 
-    public DeviceProxyBase(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
+    public DeviceProxyBase(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
         this.zbDevice = zbDevice;
         this.ctx = ctx;
 

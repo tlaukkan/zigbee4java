@@ -22,17 +22,16 @@
 
 package org.bubblecloud.zigbee.network.discovery;
 
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
-import org.bubblecloud.zigbee.network.glue.ZigBeeNode;
-import org.bubblecloud.zigbee.network.glue.ZigbeeNetworkManagementInterface;
-import org.bubblecloud.zigbee.network.*;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigBeeNode;
+import org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface;
+import org.bubblecloud.zigbee.network.impl.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_ACTIVE_EP_REQ;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_ACTIVE_EP_RSP;
 import org.bubblecloud.zigbee.util.Stoppable;
 import org.bubblecloud.zigbee.util.ThreadUtils;
-import org.bubblecloud.zigbee.network.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +45,7 @@ import java.util.Map.Entry;
  * This class implements the {@link Thread} that completes the discovery of the node<br>
  * found either by {@link NetworkBrowserThread} or {@link AnnounceListenerThread} by<br>
  * inspecting the <i>End Point</i> on the node.<br>
- * The inspection of each <i>End Point</i> lead to the creation {@link org.bubblecloud.zigbee.network.glue.ZigBeeDevice}<br>
+ * The inspection of each <i>End Point</i> lead to the creation {@link org.bubblecloud.zigbee.network.ZigBeeDevice}<br>
  * service, that is registered on the OSGi framework.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

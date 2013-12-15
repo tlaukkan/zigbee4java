@@ -1,3 +1,4 @@
+package org.bubblecloud.zigbee.network;
 /*
    Copyright 2008-2013 CNR-ISTI, http://isti.cnr.it
    Institute of Information Science and Technologies 
@@ -17,10 +18,8 @@
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
-   limitations under the License.
-*/
+   limitations under the Liit.cnr.isti.zigbee.apiit.cnr.isti.zigbee.api;
 
-package org.bubblecloud.zigbee.network.glue;
 
 /**
  * 
@@ -30,10 +29,13 @@ package org.bubblecloud.zigbee.network.glue;
  * @since 0.1.0
  *
  */
-public interface ClusterMessage {
+public interface Constants {
 
-	public short getId();
-	
-	public byte[] getClusterMsg();
-	
+	/**
+	 * Constants that contains the value of the <b>Service Persistent Identification (PID)</b> of the<br>
+	 * service used for configuring the behavior of the <i>ZigBee Base Driver</i> 
+	 * @since 0.2.0
+	 */
+	public static final String MANAGED_SERVICE_PID = "it.cnr.isti.zigbee.driver.configuration";	
+
 }

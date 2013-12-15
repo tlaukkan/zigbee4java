@@ -22,13 +22,13 @@
 
 package org.bubblecloud.zigbee.proxy.device.impl;
 
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.ZigbeeContext;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.IlluminanceMeasurement;
 import org.bubblecloud.zigbee.proxy.device.api.lighting.LightSensor;
 import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
-import org.bubblecloud.zigbee.BundleContext;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
@@ -42,7 +42,7 @@ public class LightSensorDeviceProxy extends DeviceProxyBase implements LightSens
     private IlluminanceMeasurement illuminanceMeasurement;
     private Groups groups;
 
-    public LightSensorDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public LightSensorDeviceProxy(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
 

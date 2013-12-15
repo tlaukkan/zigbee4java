@@ -20,7 +20,7 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.network.glue;
+package org.bubblecloud.zigbee.network;
 
 import java.util.Dictionary;
 

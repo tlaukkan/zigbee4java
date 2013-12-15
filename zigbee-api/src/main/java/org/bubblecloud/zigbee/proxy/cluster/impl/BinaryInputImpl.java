@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.BinaryInput;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.event.PresentValueListener;
 import org.bubblecloud.zigbee.proxy.cluster.impl.event.PresentValueBridgeListeners;

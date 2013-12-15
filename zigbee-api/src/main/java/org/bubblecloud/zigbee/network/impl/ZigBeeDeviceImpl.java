@@ -20,9 +20,9 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.network;
+package org.bubblecloud.zigbee.network.impl;
 
-import org.bubblecloud.zigbee.network.glue.*;
+import org.bubblecloud.zigbee.network.*;
 import org.bubblecloud.zigbee.network.packet.af.AF_DATA_CONFIRM;
 import org.bubblecloud.zigbee.network.packet.af.AF_DATA_REQUEST;
 import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;

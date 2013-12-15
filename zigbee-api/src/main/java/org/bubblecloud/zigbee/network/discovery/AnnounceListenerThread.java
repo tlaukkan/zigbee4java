@@ -22,20 +22,20 @@
 
 package org.bubblecloud.zigbee.network.discovery;
 
-import org.bubblecloud.zigbee.network.glue.ZigbeeNetworkManagementInterface;
-import org.bubblecloud.zigbee.network.glue.AnnounceListener;
+import org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface;
+import org.bubblecloud.zigbee.network.AnnounceListener;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
-import org.bubblecloud.zigbee.network.glue.ZigBeeNode;
-import org.bubblecloud.zigbee.network.ApplicationFrameworkLayer;
-import org.bubblecloud.zigbee.network.ZigBeeNodeImpl;
+import org.bubblecloud.zigbee.network.ZigBeeNode;
+import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  *
  * <b>NOTE:</b>This class doesn't implement a real {@link Thread}, anyway<br>
- * because it is a {@link org.bubblecloud.zigbee.network.glue.AnnounceListener} a different thread then the application will call
+ * because it is a {@link org.bubblecloud.zigbee.network.AnnounceListener} a different thread then the application will call
  * the {@link #notify(org.bubblecloud.zigbee.network.packet.ZToolAddress16, org.bubblecloud.zigbee.network.packet.ZToolAddress64, org.bubblecloud.zigbee.network.packet.ZToolAddress16, int)} method.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -53,11 +53,11 @@ public class AnnounceListenerThread implements AnnounceListener {
     private final ZigbeeNetworkManagementInterface driver;
 
     /**
-     * Created the {@link AnnounceListenerThread} object and register itself to the {@link org.bubblecloud.zigbee.network.glue.ZigbeeNetworkManagementInterface}<br>
+     * Created the {@link AnnounceListenerThread} object and register itself to the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface}<br>
      * as {@link ImportingQueue}
      *
      * @param queue the {@link ImportingQueue} used to add the discovered devices
-     * @param driver the {@link org.bubblecloud.zigbee.network.glue.ZigbeeNetworkManagementInterface} to use for subscription
+     * @param driver the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface} to use for subscription
      */
     public AnnounceListenerThread(final ImportingQueue queue, final ZigbeeNetworkManagementInterface driver) {
         this.queue = queue;

@@ -20,7 +20,7 @@
    limitations under the License.
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl;
-import org.bubblecloud.zigbee.network.glue.ClusterMessage;
+import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLFrame;
 /**
  * 

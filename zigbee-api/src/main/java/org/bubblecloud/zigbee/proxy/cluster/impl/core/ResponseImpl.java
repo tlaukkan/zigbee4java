@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 
 import org.bubblecloud.zigbee.util.ByteUtils;
 
-import org.bubblecloud.zigbee.network.glue.ClusterMessage;
+import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLHeader;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;

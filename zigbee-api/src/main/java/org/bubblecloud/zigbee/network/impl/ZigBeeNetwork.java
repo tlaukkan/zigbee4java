@@ -20,12 +20,12 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.network;
+package org.bubblecloud.zigbee.network.impl;
 
-import org.bubblecloud.zigbee.network.glue.DeviceListener;
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
-import org.bubblecloud.zigbee.network.glue.ZigBeeDiscoveryMonitor;
-import org.bubblecloud.zigbee.network.glue.ZigBeeNode;
+import org.bubblecloud.zigbee.network.DeviceListener;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigBeeDiscoveryMonitor;
+import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -250,7 +250,7 @@ public class ZigBeeNetwork {
     public void notifyNodeAnnounced(ZigBeeNode node) {
         synchronized (discoveryMonitors) {
             for (final ZigBeeDiscoveryMonitor discoveryMonitor : discoveryMonitors) {
-                discoveryMonitor.annuncedNode(node);
+                discoveryMonitor.announcedNode(node);
             }
         }
     }

@@ -1,4 +1,4 @@
-package org.bubblecloud.zigbee.network.glue;
+package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 
@@ -9,7 +9,7 @@ import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
  * Time: 8:48 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface HaDeviceListener {
+public interface DeviceProxyListener {
 
     public void deviceAdded(final DeviceProxyBase device);
 

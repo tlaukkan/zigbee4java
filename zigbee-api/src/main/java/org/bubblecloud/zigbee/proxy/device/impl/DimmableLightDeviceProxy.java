@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.device.impl;
 
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.LevelControl;
@@ -32,7 +32,7 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySe
 import org.bubblecloud.zigbee.proxy.device.api.lighting.DimmableLight;
 import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 
-import org.bubblecloud.zigbee.BundleContext;
+import org.bubblecloud.zigbee.ZigbeeContext;
 
 /**
  * 
@@ -49,7 +49,7 @@ public class DimmableLightDeviceProxy extends DeviceProxyBase implements Dimmabl
 	private Groups groups;
 	private OccupacySensing occupancySensing;
 	
-	public DimmableLightDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
+	public DimmableLightDeviceProxy(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
 		super(ctx,zbDevice);
 		levelControl = (LevelControl) getCluster(ProxyConstants.LEVEL_CONTROL);
 		onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);

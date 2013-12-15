@@ -22,9 +22,9 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 
-import org.bubblecloud.zigbee.network.glue.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigBeeBasedriverException;
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ClusterMessage;
+import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Command;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;

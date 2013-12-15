@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee;
 
-import org.bubblecloud.zigbee.network.glue.*;
+import org.bubblecloud.zigbee.network.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;

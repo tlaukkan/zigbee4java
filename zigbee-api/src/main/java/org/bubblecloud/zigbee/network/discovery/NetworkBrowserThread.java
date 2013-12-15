@@ -22,17 +22,17 @@
 
 package org.bubblecloud.zigbee.network.discovery;
 
-import org.bubblecloud.zigbee.network.glue.ZigbeeNetworkManagementInterface;
-import org.bubblecloud.zigbee.network.ApplicationFrameworkLayer;
+import org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface;
+import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_IEEE_ADDR_REQ;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_IEEE_ADDR_RSP;
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.util.RunnableThread;
 import org.bubblecloud.zigbee.util.ThreadUtils;
-import org.bubblecloud.zigbee.network.glue.ZigBeeNode;
-import org.bubblecloud.zigbee.network.ZigBeeNetwork;
-import org.bubblecloud.zigbee.network.ZigBeeNodeImpl;
+import org.bubblecloud.zigbee.network.ZigBeeNode;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

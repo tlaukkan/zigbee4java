@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.proxy.cluster.impl.*;
-import org.bubblecloud.zigbee.BundleContext;
+import org.bubblecloud.zigbee.ZigbeeContext;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -63,7 +63,7 @@ public class ClusterFactoryImpl extends ClusterFactoryBase {
     final static String IAS_WD_KEY = ProxyConstants.ID + ":"+ ProxyConstants.IAS_WD;
     final static String IAS_ACE_KEY = ProxyConstants.ID + ":"+ ProxyConstants.IAS_ACE;
 
-    public ClusterFactoryImpl(BundleContext ctx){
+    public ClusterFactoryImpl(ZigbeeContext ctx){
         super(ctx);
 
         //General

@@ -21,7 +21,8 @@
 */
 package org.bubblecloud.zigbee.proxy.device.impl;
 
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.ZigbeeContext;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.BinaryInput;
 import org.bubblecloud.zigbee.proxy.device.api.generic.SimpleSensor;
 import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
@@ -29,7 +30,6 @@ import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
 import org.bubblecloud.zigbee.proxy.DeviceDescription;
-import org.bubblecloud.zigbee.BundleContext;
 
 
 /**
@@ -44,7 +44,7 @@ public class SimpleSensorDeviceProxy extends DeviceProxyBase implements SimpleSe
 
     private BinaryInput binaryInput;
 
-    public SimpleSensorDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
+    public SimpleSensorDeviceProxy(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
         super(ctx,zbDevice);
         binaryInput = (BinaryInput) getCluster(ProxyConstants.BINARY_INPUT);
     }

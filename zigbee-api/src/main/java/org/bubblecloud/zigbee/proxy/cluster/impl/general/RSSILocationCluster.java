@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general;
 
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.RSSILocation;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;

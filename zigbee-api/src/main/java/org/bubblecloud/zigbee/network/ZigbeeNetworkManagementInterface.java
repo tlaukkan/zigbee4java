@@ -20,7 +20,7 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.network.glue;
+package org.bubblecloud.zigbee.network;
 
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;

@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.event.MeasuredValueListener;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.event.ToleranceListener;

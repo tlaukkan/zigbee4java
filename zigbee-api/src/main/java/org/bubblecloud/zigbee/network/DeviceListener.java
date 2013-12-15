@@ -1,4 +1,4 @@
-package org.bubblecloud.zigbee.network.glue;
+package org.bubblecloud.zigbee.network;
 
 /**
  * Created with IntelliJ IDEA.

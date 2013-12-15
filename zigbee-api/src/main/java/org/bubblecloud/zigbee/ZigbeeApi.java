@@ -1,8 +1,9 @@
 package org.bubblecloud.zigbee;
 
-import org.bubblecloud.zigbee.network.glue.ZigbeeNetworkManagementInterface;
-import org.bubblecloud.zigbee.network.ApplicationFrameworkLayer;
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.proxy.DeviceProxyListener;
+import org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface;
+import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.device.api.generic.*;
 import org.bubblecloud.zigbee.proxy.device.api.hvac.Pump;
@@ -14,9 +15,8 @@ import org.bubblecloud.zigbee.proxy.device.api.security_safety.IAS_Warning;
 import org.bubblecloud.zigbee.proxy.device.api.security_safety.IAS_Zone;
 import org.bubblecloud.zigbee.proxy.device.impl.*;
 import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
-import org.bubblecloud.zigbee.network.ZigBeeNetwork;
-import org.bubblecloud.zigbee.network.glue.DeviceListener;
-import org.bubblecloud.zigbee.network.glue.HaDeviceListener;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
+import org.bubblecloud.zigbee.network.DeviceListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,11 +31,11 @@ import java.util.Map;
  * Time: 8:43 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ZigbeeApi implements DeviceListener, HaDeviceListener {
+public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
     private final static Logger logger = LoggerFactory.getLogger(ZigbeeDiscoveryManager.class);
 
     private final ZigbeeNetworkManagementInterface simpleDriver;
-    private BundleContext context;
+    private ZigbeeContext context;
     private ZigBeeNetwork network;
 
     public ZigbeeApi(final ZigbeeNetworkManagementInterface simpleDriver){
@@ -46,7 +46,7 @@ public class ZigbeeApi implements DeviceListener, HaDeviceListener {
         network = ApplicationFrameworkLayer.getAFLayer(simpleDriver).getZigBeeNetwork();
         network.addDeviceListener(this);
 
-        context = new BundleContext();
+        context = new ZigbeeContext();
 
         final ClusterFactory clusterFactory = new ClusterFactoryImpl(context);
 
@@ -76,14 +76,14 @@ public class ZigbeeApi implements DeviceListener, HaDeviceListener {
         while ( i.hasNext() ) {
             Map.Entry<Class<?>, Class<?>> refining = i.next();
             try {
-                context.getDeviceFactories().add(
+                context.getDeviceProxyFactories().add(
                         new DeviceProxyFactoryImpl(context, refining.getKey(), refining.getValue()).register());
             } catch ( Exception ex) {
                 logger.error( "Failed to register DeviceProxyFactoryImpl for " + refining.getKey(), ex );
             }
         }
 
-        context.addDeviceListener(this);
+        context.addDeviceProxyListener(this);
                 /*try {
             factories.add( new UnknowHADeviceFactory( bc ).register() );
         } catch ( Exception ex) {
@@ -93,19 +93,19 @@ public class ZigbeeApi implements DeviceListener, HaDeviceListener {
     }
 
     public void shutdown() {
-        context.removeDeviceListener(this);
+        context.removeDeviceProxyListener(this);
         network.removeDeviceListener(this);
     }
 
     public void deviceAdded(ZigBeeDevice device) {
-        final DeviceProxyFactory factory = context.getBestDeviceFactory(device);
+        final DeviceProxyFactory factory = context.getBestDeviceProxyFactory(device);
         if ( factory == null) { // pending services
             logger.warn("No refinement for ZigbeeDevice {} found.", device.getPhysicalNode().getIEEEAddress());
             return;
         }
 
         final DeviceProxyBase haDevice = factory.getInstance(device);
-        context.addHaDevice(haDevice);
+        context.addDeviceProxy(haDevice);
         logger.info("Device added: " + device.getUniqueIdenfier());
     }
 

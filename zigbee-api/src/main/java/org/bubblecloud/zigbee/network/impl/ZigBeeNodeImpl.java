@@ -20,9 +20,9 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.network;
+package org.bubblecloud.zigbee.network.impl;
 
-import org.bubblecloud.zigbee.network.glue.ZigBeeNode;
+import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 

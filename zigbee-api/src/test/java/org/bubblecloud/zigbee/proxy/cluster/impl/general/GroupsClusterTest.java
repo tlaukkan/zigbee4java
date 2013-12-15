@@ -26,9 +26,9 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.general;
 import static org.easymock.EasyMock.*;
 
 import static org.junit.Assert.*;
-import org.bubblecloud.zigbee.network.glue.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigBeeBasedriverException;
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ClusterMessage;
+import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.Groups;

@@ -20,9 +20,9 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.network.glue;
+package org.bubblecloud.zigbee.network;
 
-import org.bubblecloud.zigbee.network.ZigBeeBasedriverException;
+import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
 
 import java.util.Dictionary;
 

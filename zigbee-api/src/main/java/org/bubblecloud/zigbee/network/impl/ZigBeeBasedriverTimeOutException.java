@@ -1,10 +1,10 @@
 /*
-   Copyright 2008-2013 CNR-ISTI, http://isti.cnr.it
-   Institute of Information Science and Technologies 
-   of the Italian National Research Council 
+   Copyright 2013-2013 CNR-ISTI, http://isti.cnr.it
+   Institute of Information Science and Technologies
+   of the Italian National Research Council
 
 
-   See the NOTICE file distributed with this work for additional 
+   See the NOTICE file distributed with this work for additional
    information regarding copyright ownership
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,19 +20,25 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.network.glue;
-
-import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
+package org.bubblecloud.zigbee.network.impl;
 
 /**
- * 
- * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  *
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.6.0
  */
-public interface ApplicationFrameworkMessageConsumer {
+public class ZigBeeBasedriverTimeOutException extends ZigBeeBasedriverException {
 
-	public boolean consume(AF_INCOMING_MSG msg);
-	
+    public ZigBeeBasedriverTimeOutException() {
+        super("Timeout expired before receiving any data");
+    }
+
+    public ZigBeeBasedriverTimeOutException(String msg) {
+        super(msg);
+    }
+    public ZigBeeBasedriverTimeOutException(Throwable ex) {
+        super(ex);
+    }
+
 }

@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
 import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;

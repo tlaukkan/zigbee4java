@@ -20,32 +20,29 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.network.glue;
+package org.bubblecloud.zigbee.network;
 
-import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
-import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
 
 /**
+ * This class reppresent the callback invoked by the {@link ZigbeeNetworkManagementInterface} whenever a message<br>
+ * that belongs to the <i>Application Framework</i> arrives from the <i>ZigBee Network</i>
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi - ISTI-CNR
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  *
  */
-public interface AnnounceListener {
+public interface ApplicationFrameworkMessageListener {
 
 	/**
-	 * Callback invoked when an <i>Annunce</i> message arrives
-	 * 
-	 * @param senderAddress	the network address of the node which sent the <i>Annunce</i> message
-	 * @param ieeeAddress the 64-bit address of the node that is the subject of the 
-	 * 			<i>Annunce</i> message 
-	 * @param networkAddress the network address assigned to the node that is the subject 
-	 * 			of the <i>Annunce</i> message
-	 * @param capabilitiesBitmask the bitmask identifying the network capibility of the 
-	 * 			node that is the subject of the <i>Annunce</i> message
+	 * This method is invoked by the {@link ZigbeeNetworkManagementInterface} on all the {@link ApplicationFrameworkMessageListener}<br>
+	 * when a {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG} command arrive from the ZigBee NIC
+	 *
+	 * @param msg the {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG} arrived that has to be handled
 	 */
-	void notify(ZToolAddress16 senderAddress, ZToolAddress64 ieeeAddress,
-                ZToolAddress16 networkAddress, int capabilitiesBitmask);
+	void notify(AF_INCOMING_MSG msg);
+	
 
 }

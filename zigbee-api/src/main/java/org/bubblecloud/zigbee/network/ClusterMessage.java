@@ -20,19 +20,20 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.network.glue;
-
-import org.bubblecloud.zigbee.network.packet.ZToolPacket;
+package org.bubblecloud.zigbee.network;
 
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  *
  */
-public interface SynchrounsCommandListener {
+public interface ClusterMessage {
+
+	public short getId();
 	
-	public void receivedCommandResponse(ZToolPacket packet);
+	public byte[] getClusterMsg();
 	
 }

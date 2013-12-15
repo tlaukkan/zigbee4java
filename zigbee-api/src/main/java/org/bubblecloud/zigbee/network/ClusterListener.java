@@ -22,8 +22,6 @@
 
 package org.bubblecloud.zigbee.network;
 
-import org.bubblecloud.zigbee.network.glue.ClusterMessage;
-
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -32,23 +30,34 @@ import org.bubblecloud.zigbee.network.glue.ClusterMessage;
  * @since 0.1.0
  *
  */
-public class ClusterMessageImpl implements ClusterMessage {
+public interface ClusterListener {
 
-	private final byte[] msg;
-	private final short id;
+	/**
+	 * Set the {@link ClusterListener}  of this ClusterListener.<br>
+	 * A <code>null</code> values means no filtering  
+	 * 
+	 * @param filter the {@link ClusterListener} to associates to this ClusterListener.<br>
+	 * 				<code>null</code> to disable the filtering
+	 * @since 0.4.0
+	 */
+	public void setClusterFilter(ClusterFilter filter);
+
+	/**
+	 * Return the {@link ClusterListener}  associated to this ClusterListener.<br>
+	 * A <code>null</code> values means no filtering  
+	 * 
+	 * @return the {@link ClusterListener} associated to this ClusterListener
+	 * 
+	 * @since 0.4.0
+	 */
+	public ClusterFilter getClusterFilter();
 	
-	
-	public ClusterMessageImpl(byte[] msg, short id) {
-		this.msg = msg;
-		this.id = id;
-	}
-
-	public byte[] getClusterMsg() {
-		return msg;
-	}
-
-	public short getId() {
-		return id;
-	}
+	/**
+	 * The callback invoked by the ZigBee Base Driver to notify for a new {@link ClusterMessage}
+	 * 
+	 * @param device reference to the {@link ZigBeeDevice} receiving the {@link ClusterMessage}
+	 * @param clusterMessage reference to the received {@link ClusterMessage}
+	 */
+	public void handleCluster(ZigBeeDevice device, ClusterMessage clusterMessage);
 	
 }
