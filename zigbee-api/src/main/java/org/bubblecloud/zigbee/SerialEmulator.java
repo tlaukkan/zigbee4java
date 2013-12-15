@@ -21,8 +21,8 @@
  */
 package org.bubblecloud.zigbee;
 
-import org.bubblecloud.zigbee.packet.ZToolPacketHandler;
-import org.bubblecloud.zigbee.packet.ZToolPacketParser;
+import org.bubblecloud.zigbee.network.packet.ZToolPacketHandler;
+import org.bubblecloud.zigbee.network.packet.ZToolPacketParser;
 import org.bubblecloud.zigbee.util.ThreadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

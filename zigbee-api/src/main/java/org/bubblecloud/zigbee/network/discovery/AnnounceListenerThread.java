@@ -24,8 +24,8 @@ package org.bubblecloud.zigbee.network.discovery;
 
 import org.bubblecloud.zigbee.network.glue.ZigbeeNetworkManagementInterface;
 import org.bubblecloud.zigbee.network.glue.AnnounceListener;
-import org.bubblecloud.zigbee.packet.ZToolAddress16;
-import org.bubblecloud.zigbee.packet.ZToolAddress64;
+import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
+import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.glue.ZigBeeNode;
 import org.bubblecloud.zigbee.network.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.network.ZigBeeNodeImpl;
@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  *
  * <b>NOTE:</b>This class doesn't implement a real {@link Thread}, anyway<br>
  * because it is a {@link org.bubblecloud.zigbee.network.glue.AnnounceListener} a different thread then the application will call
- * the {@link #notify(org.bubblecloud.zigbee.packet.ZToolAddress16, org.bubblecloud.zigbee.packet.ZToolAddress64, org.bubblecloud.zigbee.packet.ZToolAddress16, int)} method.
+ * the {@link #notify(org.bubblecloud.zigbee.network.packet.ZToolAddress16, org.bubblecloud.zigbee.network.packet.ZToolAddress64, org.bubblecloud.zigbee.network.packet.ZToolAddress16, int)} method.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>

@@ -25,8 +25,8 @@ package org.bubblecloud.zigbee.network;
 import org.bubblecloud.zigbee.network.glue.ClusterMessage;
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
 import org.bubblecloud.zigbee.network.glue.ZigbeeNetworkManagementInterface;
-import org.bubblecloud.zigbee.packet.af.AF_REGISTER;
-import org.bubblecloud.zigbee.packet.af.AF_REGISTER_SRSP;
+import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER;
+import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER_SRSP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

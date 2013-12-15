@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.network.glue;
 
-import org.bubblecloud.zigbee.packet.ZToolPacket;
+import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 
 /**
  * 

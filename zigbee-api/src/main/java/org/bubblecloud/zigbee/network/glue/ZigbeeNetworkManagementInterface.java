@@ -24,11 +24,11 @@ package org.bubblecloud.zigbee.network.glue;
 
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
-import org.bubblecloud.zigbee.packet.af.AF_DATA_CONFIRM;
-import org.bubblecloud.zigbee.packet.af.AF_DATA_REQUEST;
-import org.bubblecloud.zigbee.packet.af.AF_REGISTER;
-import org.bubblecloud.zigbee.packet.af.AF_REGISTER_SRSP;
-import org.bubblecloud.zigbee.packet.zdo.*;
+import org.bubblecloud.zigbee.network.packet.af.AF_DATA_CONFIRM;
+import org.bubblecloud.zigbee.network.packet.af.AF_DATA_REQUEST;
+import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER;
+import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER_SRSP;
+import org.bubblecloud.zigbee.network.packet.zdo.*;
 
 /**
  * 

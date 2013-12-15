@@ -21,8 +21,8 @@
  */
 package org.bubblecloud.zigbee;
 
-import org.bubblecloud.zigbee.packet.ZToolException;
-import org.bubblecloud.zigbee.packet.ZToolPacketHandler;
+import org.bubblecloud.zigbee.network.packet.ZToolException;
+import org.bubblecloud.zigbee.network.packet.ZToolPacketHandler;
 
 import java.io.OutputStream;
 

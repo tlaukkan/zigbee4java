@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.network.glue;
 
-import org.bubblecloud.zigbee.packet.af.AF_INCOMING_MSG;
+import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
 
 /**
  * 

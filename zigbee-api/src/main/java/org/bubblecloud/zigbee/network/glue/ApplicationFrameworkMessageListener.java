@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.network.glue;
 
 
-import org.bubblecloud.zigbee.packet.af.AF_INCOMING_MSG;
+import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
 
 /**
  * This class reppresent the callback invoked by the {@link ZigbeeNetworkManagementInterface} whenever a message<br>
@@ -38,9 +38,9 @@ public interface ApplicationFrameworkMessageListener {
 
 	/**
 	 * This method is invoked by the {@link ZigbeeNetworkManagementInterface} on all the {@link ApplicationFrameworkMessageListener}<br>
-	 * when a {@link org.bubblecloud.zigbee.packet.af.AF_INCOMING_MSG} command arrive from the ZigBee NIC
+	 * when a {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG} command arrive from the ZigBee NIC
 	 *
-	 * @param msg the {@link org.bubblecloud.zigbee.packet.af.AF_INCOMING_MSG} arrived that has to be handled
+	 * @param msg the {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG} arrived that has to be handled
 	 */
 	void notify(AF_INCOMING_MSG msg);
 	
