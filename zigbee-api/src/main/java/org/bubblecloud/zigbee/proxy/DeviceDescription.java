@@ -31,7 +31,7 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
  * <br>
  * In particular, this class can be used for inspecting by code the <i>ZigBee Home Automation</i><br>
  * definition. In fact, all the device belonging to the same <b>DeviceId</b> have a common definition.<br>
- * Hence, a Singelton implementation that shares a {@link DeviceDescription} among all the {@link HADeviceBase}<br>
+ * Hence, a Singelton implementation that shares a {@link DeviceDescription} among all the {@link DeviceProxyBase}<br>
  * objects belonging to the <b>DeviceId</b> is adviced.
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

@@ -1,6 +1,6 @@
 package org.bubblecloud.zigbee.network.glue;
 
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
+import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,10 +11,10 @@ import org.bubblecloud.zigbee.proxy.HADeviceBase;
  */
 public interface HaDeviceListener {
 
-    public void deviceAdded(final HADeviceBase device);
+    public void deviceAdded(final DeviceProxyBase device);
 
-    public void deviceUpdated(final HADeviceBase device);
+    public void deviceUpdated(final DeviceProxyBase device);
 
-    public void deviceRemoved(final HADeviceBase device);
+    public void deviceRemoved(final DeviceProxyBase device);
 
 }

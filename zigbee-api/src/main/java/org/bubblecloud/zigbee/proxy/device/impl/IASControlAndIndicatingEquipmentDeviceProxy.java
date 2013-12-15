@@ -23,6 +23,7 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
@@ -30,11 +31,7 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASACE;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASWD;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
 import org.bubblecloud.zigbee.proxy.device.api.security_safety.IASControlAndIndicatingEquipment;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.HAProfile;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
-import org.bubblecloud.zigbee.proxy.DeviceDescription;
+import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 import org.bubblecloud.zigbee.BundleContext;
 
 /**
@@ -44,7 +41,7 @@ import org.bubblecloud.zigbee.BundleContext;
  * @since 0.7.0
  *
  */
-public class IASControlAndIndicatingEquipmentDevice extends HADeviceBase implements IASControlAndIndicatingEquipment {
+public class IASControlAndIndicatingEquipmentDeviceProxy extends DeviceProxyBase implements IASControlAndIndicatingEquipment {
 
     private Identify identify;
     private IASZone iasZone;
@@ -53,16 +50,16 @@ public class IASControlAndIndicatingEquipmentDevice extends HADeviceBase impleme
     private Scenes scenes;
     private Groups groups;
 
-    public IASControlAndIndicatingEquipmentDevice(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public IASControlAndIndicatingEquipmentDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
 
-        iasAce = (IASACE) getCluster(HAProfile.IAS_ACE);
-        iasZone = (IASZone) getCluster(HAProfile.IAS_ZONE);
-        identify = (Identify) getCluster(HAProfile.IDENTIFY);
-        iasWD = (IASWD) getCluster(HAProfile.IAS_WD);
-        scenes = (Scenes) getCluster(HAProfile.SCENES);
-        groups = (Groups) getCluster(HAProfile.GROUPS);
+        iasAce = (IASACE) getCluster(ProxyConstants.IAS_ACE);
+        iasZone = (IASZone) getCluster(ProxyConstants.IAS_ZONE);
+        identify = (Identify) getCluster(ProxyConstants.IDENTIFY);
+        iasWD = (IASWD) getCluster(ProxyConstants.IAS_WD);
+        scenes = (Scenes) getCluster(ProxyConstants.SCENES);
+        groups = (Groups) getCluster(ProxyConstants.GROUPS);
     }
 
     public IASACE getIASACE() {

@@ -23,13 +23,10 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.proxy.device.api.lighting.OccupancySensor;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.HAProfile;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
-import org.bubblecloud.zigbee.proxy.DeviceDescription;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.BundleContext;
 
 /**
@@ -41,13 +38,13 @@ import org.bubblecloud.zigbee.BundleContext;
  * @since 0.2.0
  *
  */
-public class OccupancySensorDevice extends HADeviceBase implements OccupancySensor {
+public class OccupancySensorDeviceProxy extends DeviceProxyBase implements OccupancySensor {
 	
 	private OccupacySensing occupancySensing;
 	
-	public  OccupancySensorDevice(BundleContext ctx,ZigBeeDevice zbDevice) throws ZigBeeHAException {
+	public OccupancySensorDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 		super(ctx,zbDevice);
-		occupancySensing = (OccupacySensing) getCluster(HAProfile.OCCUPANCY_SENSING);
+		occupancySensing = (OccupacySensing) getCluster(ProxyConstants.OCCUPANCY_SENSING);
 	}
 
 	public OccupacySensing getOccupacySensing() {

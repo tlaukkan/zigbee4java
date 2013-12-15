@@ -22,14 +22,14 @@
 
 package org.bubblecloud.zigbee.proxy.device.api.lighting;
 
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.HADevice;
-import org.bubblecloud.zigbee.proxy.HAProfile;
+import org.bubblecloud.zigbee.proxy.DeviceProxy;
 
 /**
  * 
@@ -38,15 +38,15 @@ import org.bubblecloud.zigbee.proxy.HAProfile;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  *
  */
-public interface DimmableLight extends HADevice{
+public interface DimmableLight extends DeviceProxy {
 	
 	public static final int DEVICE_ID = 0x0101;
 	public static final String NAME = "Dimmable Light";
-	public static final int[] MANDATORY = ArraysUtil.append(HADevice.MANDATORY, new int[]{
-		HAProfile.ON_OFF,HAProfile.LEVEL_CONTROL,HAProfile.SCENES,HAProfile.GROUPS
+	public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
+		ProxyConstants.ON_OFF, ProxyConstants.LEVEL_CONTROL, ProxyConstants.SCENES, ProxyConstants.GROUPS
 	});
-	public static final int[] OPTIONAL = ArraysUtil.append(HADevice.OPTIONAL, new int[]{
-		HAProfile.OCCUPANCY_SENSING
+	public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
+		ProxyConstants.OCCUPANCY_SENSING
 	});
 	public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
 	public static final int[] CUSTOM = {};

@@ -2,8 +2,8 @@ package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.ClusterFactory;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.HADeviceFactory;
+import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
+import org.bubblecloud.zigbee.proxy.DeviceProxyFactory;
 import org.bubblecloud.zigbee.network.glue.HaDeviceListener;
 
 import java.util.ArrayList;
@@ -19,9 +19,9 @@ import java.util.List;
 public class BundleContext {
     private ClusterFactory clusterFactory;
 
-    private List<HADeviceFactory> deviceFactories = new ArrayList<HADeviceFactory>();
+    private List<DeviceProxyFactory> deviceFactories = new ArrayList<DeviceProxyFactory>();
 
-    private List<HADeviceBase> devices = new ArrayList<HADeviceBase>();
+    private List<DeviceProxyBase> devices = new ArrayList<DeviceProxyBase>();
 
     private final List<HaDeviceListener> deviceListeners = new ArrayList<HaDeviceListener>();
 
@@ -33,11 +33,11 @@ public class BundleContext {
         this.clusterFactory = clusterFactory;
     }
 
-    public List<HADeviceFactory> getDeviceFactories() {
+    public List<DeviceProxyFactory> getDeviceFactories() {
         return deviceFactories;
     }
 
-    public void setDeviceFactories(List<HADeviceFactory> deviceFactories) {
+    public void setDeviceFactories(List<DeviceProxyFactory> deviceFactories) {
         this.deviceFactories = deviceFactories;
     }
 
@@ -46,12 +46,12 @@ public class BundleContext {
      * @param device the zigbee device
      * @return the best matching device factory.
      */
-    public HADeviceFactory getBestDeviceFactory(final ZigBeeDevice device) {
+    public DeviceProxyFactory getBestDeviceFactory(final ZigBeeDevice device) {
         synchronized (deviceFactories) {
-            HADeviceFactory bestMatchingFactory = null;
+            DeviceProxyFactory bestMatchingFactory = null;
             int bestMatching = -1;
 
-            for (final HADeviceFactory factory : deviceFactories) {
+            for (final DeviceProxyFactory factory : deviceFactories) {
                 final int matching = factory.hasMatch(device);
                 if ( matching > bestMatching ) {
                     bestMatchingFactory = factory;
@@ -63,16 +63,16 @@ public class BundleContext {
         }
     }
 
-    public void addHaDevice(final HADeviceBase device) {
+    public void addHaDevice(final DeviceProxyBase device) {
         devices.add(device);
         notifyDeviceAdded(device);
     }
 
-    public void updateHaDevice(final HADeviceBase device) {
+    public void updateHaDevice(final DeviceProxyBase device) {
         notifyDeviceUpdated(device);
     }
 
-    public void removeHaDevice(final HADeviceBase device) {
+    public void removeHaDevice(final DeviceProxyBase device) {
         notifyDeviceRemoved(device);
         devices.remove(device);
     }
@@ -89,7 +89,7 @@ public class BundleContext {
         }
     }
 
-    public void notifyDeviceAdded(final HADeviceBase device) {
+    public void notifyDeviceAdded(final DeviceProxyBase device) {
         synchronized (deviceListeners) {
             for (final HaDeviceListener deviceListener : deviceListeners) {
                 deviceListener.deviceAdded(device);
@@ -97,7 +97,7 @@ public class BundleContext {
         }
     }
 
-    public void notifyDeviceUpdated(final HADeviceBase device) {
+    public void notifyDeviceUpdated(final DeviceProxyBase device) {
         synchronized (deviceListeners) {
             for (final HaDeviceListener deviceListener : deviceListeners) {
                 deviceListener.deviceUpdated(device);
@@ -105,7 +105,7 @@ public class BundleContext {
         }
     }
 
-    public void notifyDeviceRemoved(final HADeviceBase device) {
+    public void notifyDeviceRemoved(final DeviceProxyBase device) {
         synchronized (deviceListeners) {
             for (final HaDeviceListener deviceListener : deviceListeners) {
                 deviceListener.deviceRemoved(device);

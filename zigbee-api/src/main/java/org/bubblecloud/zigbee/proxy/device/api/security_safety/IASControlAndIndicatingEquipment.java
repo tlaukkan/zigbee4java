@@ -21,6 +21,8 @@
 */
 package org.bubblecloud.zigbee.proxy.device.api.security_safety;
 
+import org.bubblecloud.zigbee.proxy.DeviceProxy;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
@@ -28,8 +30,6 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASACE;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASWD;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.HADevice;
-import org.bubblecloud.zigbee.proxy.HAProfile;
 
 /**
  *
@@ -38,15 +38,15 @@ import org.bubblecloud.zigbee.proxy.HAProfile;
  * @since 0.8.0
  *
  */
-public interface IASControlAndIndicatingEquipment extends HADevice {
+public interface IASControlAndIndicatingEquipment extends DeviceProxy {
 
     public static final int DEVICE_ID = 0x0400;
     public static final String NAME = "IAS Control and Indicating Equipment";
-    public static final int[] MANDATORY = ArraysUtil.append(HADevice.MANDATORY, new int[]{
-            HAProfile.IAS_ZONE, HAProfile.IDENTIFY, HAProfile.IAS_ACE, HAProfile.IAS_WD
+    public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
+            ProxyConstants.IAS_ZONE, ProxyConstants.IDENTIFY, ProxyConstants.IAS_ACE, ProxyConstants.IAS_WD
     });
-    public static final int[] OPTIONAL =  ArraysUtil.append(HADevice.OPTIONAL, new int[]{
-            HAProfile.SCENES, HAProfile.GROUPS
+    public static final int[] OPTIONAL =  ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
+            ProxyConstants.SCENES, ProxyConstants.GROUPS
     });
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

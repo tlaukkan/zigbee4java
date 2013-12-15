@@ -19,19 +19,15 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
-import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASACE;
-import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
-import org.bubblecloud.zigbee.proxy.device.api.security_safety.IASAncillaryControlEquipment;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.HAProfile;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
-import org.bubblecloud.zigbee.proxy.DeviceDescription;
+import org.bubblecloud.zigbee.proxy.*;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
+import org.bubblecloud.zigbee.proxy.device.api.generic.MainsPowerOutlet;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.BundleContext;
 
 /**
@@ -41,35 +37,39 @@ import org.bubblecloud.zigbee.BundleContext;
  * @since 0.7.0
  *
  */
-public class IASAncillaryControlEquipmentDevice extends HADeviceBase implements IASAncillaryControlEquipment{
+public class MainsPowerOutletDeviceProxy extends DeviceProxyBase implements MainsPowerOutlet {
 
-    private Identify identify;
-    private IASZone iasZone;
-    private IASACE iasAce;
+    private OnOff onOff;
+    private Scenes scenes;
+    private Groups groups;
 
-    public IASAncillaryControlEquipmentDevice(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public MainsPowerOutletDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
-        iasAce = (IASACE) getCluster(HAProfile.IAS_ACE);
-        iasZone = (IASZone) getCluster(HAProfile.IAS_ZONE);
-        identify = (Identify) getCluster(HAProfile.IDENTIFY);
+        onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);
+        groups = (Groups) getCluster(ProxyConstants.GROUPS);
+        scenes = (Scenes) getCluster(ProxyConstants.SCENES);
     }
 
-    public IASACE getIASACE() {
-        return iasAce;
+    public OnOff getOnOff() {
+
+        return onOff;
     }
 
-    public IASZone getIASZone() {
-        return iasZone;
+    public Scenes getScenes() {
+
+        return scenes;
     }
 
-    /*public Identify getIdentify(){
-        return identify;
-    }*/
+    public Groups getGroups() {
+
+        return groups;
+    }
 
     @Override
     public String getName() {
-        return IASAncillaryControlEquipment.NAME;
+
+        return MainsPowerOutlet.NAME;
     }
 
     @Override
@@ -81,19 +81,20 @@ public class IASAncillaryControlEquipmentDevice extends HADeviceBase implements 
     final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
 
         public int[] getCustomClusters() {
-            return IASAncillaryControlEquipment.CUSTOM;
+            return MainsPowerOutlet.CUSTOM;
         }
 
         public int[] getMandatoryCluster() {
-            return IASAncillaryControlEquipment.MANDATORY;
+            return MainsPowerOutlet.MANDATORY;
         }
 
         public int[] getOptionalCluster() {
-            return IASAncillaryControlEquipment.OPTIONAL;
+            return MainsPowerOutlet.OPTIONAL;
         }
 
         public int[] getStandardClusters() {
-            return IASAncillaryControlEquipment.STANDARD;
+            return MainsPowerOutlet.STANDARD;
         }
+
     };
 }

@@ -22,10 +22,10 @@
 
 package org.bubblecloud.zigbee.proxy.device.api.generic;
 
+import org.bubblecloud.zigbee.proxy.DeviceProxy;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguration;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.HADevice;
-import org.bubblecloud.zigbee.proxy.HAProfile;
 
 /**
  *
@@ -35,13 +35,13 @@ import org.bubblecloud.zigbee.proxy.HAProfile;
  * @since 0.1.0
  *
  */
-public interface OnOffSwitch extends HADevice{
+public interface OnOffSwitch extends DeviceProxy {
 
     public static final int DEVICE_ID = 0x0000;
     public static final String NAME = "OnOff Switch";
-    public static final int[] MANDATORY = HADevice.MANDATORY;
-    public static final int[] OPTIONAL = ArraysUtil.append(HADevice.OPTIONAL, new int[]{
-        HAProfile.ON_OFF_SWITCH_CONFIGURATION
+    public static final int[] MANDATORY = DeviceProxy.MANDATORY;
+    public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
+        ProxyConstants.ON_OFF_SWITCH_CONFIGURATION
     });
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

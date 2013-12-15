@@ -3,7 +3,7 @@ package org.bubblecloud.zigbee;
 import org.bubblecloud.zigbee.network.glue.ZigbeeNetworkManagementInterface;
 import org.bubblecloud.zigbee.network.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.HAClustersFactory;
+import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.device.api.generic.*;
 import org.bubblecloud.zigbee.proxy.device.api.hvac.Pump;
 import org.bubblecloud.zigbee.proxy.device.api.hvac.TemperatureSensor;
@@ -13,10 +13,7 @@ import org.bubblecloud.zigbee.proxy.device.api.security_safety.IASControlAndIndi
 import org.bubblecloud.zigbee.proxy.device.api.security_safety.IAS_Warning;
 import org.bubblecloud.zigbee.proxy.device.api.security_safety.IAS_Zone;
 import org.bubblecloud.zigbee.proxy.device.impl.*;
-import org.bubblecloud.zigbee.proxy.ClusterFactory;
-import org.bubblecloud.zigbee.proxy.GenericHADeviceFactory;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.HADeviceFactory;
+import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 import org.bubblecloud.zigbee.network.ZigBeeNetwork;
 import org.bubblecloud.zigbee.network.glue.DeviceListener;
 import org.bubblecloud.zigbee.network.glue.HaDeviceListener;
@@ -51,38 +48,38 @@ public class ZigbeeApi implements DeviceListener, HaDeviceListener {
 
         context = new BundleContext();
 
-        final ClusterFactory clusterFactory = new HAClustersFactory(context);
+        final ClusterFactory clusterFactory = new ClusterFactoryImpl(context);
 
         context.setClusterFactory(clusterFactory);
 
         Map< Class<?>, Class<?> > refinedAvailables = new HashMap< Class<?>, Class<?> >();
-        refinedAvailables.put(ColorDimmableLight.class, ColorDimmableLightDevice.class);
-        refinedAvailables.put( DimmableLight.class, DimmableLightDevice.class );
-        refinedAvailables.put( IAS_Zone.class, IAS_ZoneDevice.class );
-        refinedAvailables.put( IASAncillaryControlEquipment.class, IASAncillaryControlEquipmentDevice.class );
-        refinedAvailables.put( IASControlAndIndicatingEquipment.class, IASControlAndIndicatingEquipmentDevice.class );
-        refinedAvailables.put( LevelControlSwitch.class, LevelControlSwitchDevice.class );
-        refinedAvailables.put( LightSensor.class, LightSensorDevice.class );
-        refinedAvailables.put( MainsPowerOutlet.class, MainsPowerOutletDevice.class );
-        refinedAvailables.put( OccupancySensor.class, OccupancySensorDevice.class );
-        refinedAvailables.put( OnOffLight.class, OnOffLightDevice.class );
-        refinedAvailables.put( OnOffLightSwitch.class, OnOffLightSwitchDevice.class );
-        refinedAvailables.put( OnOffOutput.class, OnOffOutputDevice.class );
-        refinedAvailables.put( OnOffSwitch.class, OnOffSwitchDevice.class );
-        refinedAvailables.put( OnOffLight.class, OnOffLightDevice.class );
-        refinedAvailables.put( Pump.class, PumpDevice.class );
-        refinedAvailables.put( TemperatureSensor.class, TemperatureSensorDevice.class );
-        refinedAvailables.put( IAS_Warning.class, IAS_Warning_Device.class );
-        refinedAvailables.put( SimpleSensor.class, SimpleSensorDevice.class );
+        refinedAvailables.put(ColorDimmableLight.class, ColorDimmableLightDeviceProxy.class);
+        refinedAvailables.put( DimmableLight.class, DimmableLightDeviceProxy.class );
+        refinedAvailables.put( IAS_Zone.class, IAS_ZoneDeviceProxy.class );
+        refinedAvailables.put( IASAncillaryControlEquipment.class, IASAncillaryControlEquipmentDeviceProxy.class );
+        refinedAvailables.put( IASControlAndIndicatingEquipment.class, IASControlAndIndicatingEquipmentDeviceProxy.class );
+        refinedAvailables.put( LevelControlSwitch.class, LevelControlSwitchDeviceProxy.class );
+        refinedAvailables.put( LightSensor.class, LightSensorDeviceProxy.class );
+        refinedAvailables.put( MainsPowerOutlet.class, MainsPowerOutletDeviceProxy.class );
+        refinedAvailables.put( OccupancySensor.class, OccupancySensorDeviceProxy.class );
+        refinedAvailables.put( OnOffLight.class, OnOffLightDeviceProxy.class );
+        refinedAvailables.put( OnOffLightSwitch.class, OnOffLightSwitchDeviceProxy.class );
+        refinedAvailables.put( OnOffOutput.class, OnOffOutputDeviceProxy.class );
+        refinedAvailables.put( OnOffSwitch.class, OnOffSwitchDeviceProxy.class );
+        refinedAvailables.put( OnOffLight.class, OnOffLightDeviceProxy.class );
+        refinedAvailables.put( Pump.class, PumpDeviceProxy.class );
+        refinedAvailables.put( TemperatureSensor.class, TemperatureSensorDeviceProxy.class );
+        refinedAvailables.put( IAS_Warning.class, IAS_Warning_DeviceProxy.class );
+        refinedAvailables.put( SimpleSensor.class, SimpleSensorDeviceProxy.class );
 
         final Iterator<Map.Entry<Class<?>, Class<?>>> i = refinedAvailables.entrySet().iterator();
         while ( i.hasNext() ) {
             Map.Entry<Class<?>, Class<?>> refining = i.next();
             try {
                 context.getDeviceFactories().add(
-                        new GenericHADeviceFactory(context, refining.getKey(), refining.getValue()).register());
+                        new DeviceProxyFactoryImpl(context, refining.getKey(), refining.getValue()).register());
             } catch ( Exception ex) {
-                logger.error( "Failed to register GenericHADeviceFactory for " + refining.getKey(), ex );
+                logger.error( "Failed to register DeviceProxyFactoryImpl for " + refining.getKey(), ex );
             }
         }
 
@@ -101,13 +98,13 @@ public class ZigbeeApi implements DeviceListener, HaDeviceListener {
     }
 
     public void deviceAdded(ZigBeeDevice device) {
-        final HADeviceFactory factory = context.getBestDeviceFactory(device);
+        final DeviceProxyFactory factory = context.getBestDeviceFactory(device);
         if ( factory == null) { // pending services
             logger.warn("No refinement for ZigbeeDevice {} found.", device.getPhysicalNode().getIEEEAddress());
             return;
         }
 
-        final HADeviceBase haDevice = factory.getInstance(device);
+        final DeviceProxyBase haDevice = factory.getInstance(device);
         context.addHaDevice(haDevice);
         logger.info("Device added: " + device.getUniqueIdenfier());
     }
@@ -121,19 +118,19 @@ public class ZigbeeApi implements DeviceListener, HaDeviceListener {
     }
 
     @Override
-    public void deviceAdded(HADeviceBase device) {
+    public void deviceAdded(DeviceProxyBase device) {
         logger.info("Device proxy added: " + device.getZBDevice().getUniqueIdenfier()
                 + " (" + device.getClass().getSimpleName() + ")");
     }
 
     @Override
-    public void deviceUpdated(HADeviceBase device) {
+    public void deviceUpdated(DeviceProxyBase device) {
         logger.info("Device proxy updated: " + device.getZBDevice().getUniqueIdenfier()
                 + " (" + device.getClass().getSimpleName() + ")");
     }
 
     @Override
-    public void deviceRemoved(HADeviceBase device) {
+    public void deviceRemoved(DeviceProxyBase device) {
         logger.info("Device proxy removed: " + device.getZBDevice().getUniqueIdenfier()
                 + " (" + device.getClass().getSimpleName() + ")");
     }

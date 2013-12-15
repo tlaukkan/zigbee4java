@@ -23,17 +23,14 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.proxy.device.api.lighting.DimmableLight;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.HAProfile;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
-import org.bubblecloud.zigbee.proxy.DeviceDescription;
+import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 
 import org.bubblecloud.zigbee.BundleContext;
 
@@ -44,7 +41,7 @@ import org.bubblecloud.zigbee.BundleContext;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  *
  */
-public class DimmableLightDevice extends HADeviceBase implements DimmableLight {
+public class DimmableLightDeviceProxy extends DeviceProxyBase implements DimmableLight {
 
 	private OnOff onOff;
 	private LevelControl levelControl;
@@ -52,13 +49,13 @@ public class DimmableLightDevice extends HADeviceBase implements DimmableLight {
 	private Groups groups;
 	private OccupacySensing occupancySensing;
 	
-	public DimmableLightDevice(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
+	public DimmableLightDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
 		super(ctx,zbDevice);
-		levelControl = (LevelControl) getCluster(HAProfile.LEVEL_CONTROL);
-		onOff = (OnOff) getCluster(HAProfile.ON_OFF);
-		groups = (Groups) getCluster(HAProfile.GROUPS);
-		scenes = (Scenes) getCluster(HAProfile.SCENES);
-		occupancySensing = (OccupacySensing) getCluster(HAProfile.OCCUPANCY_SENSING);
+		levelControl = (LevelControl) getCluster(ProxyConstants.LEVEL_CONTROL);
+		onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);
+		groups = (Groups) getCluster(ProxyConstants.GROUPS);
+		scenes = (Scenes) getCluster(ProxyConstants.SCENES);
+		occupancySensing = (OccupacySensing) getCluster(ProxyConstants.OCCUPANCY_SENSING);
 	}
 	
 	final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){

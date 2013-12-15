@@ -20,14 +20,9 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.proxy.device.api.lighting;
+package org.bubblecloud.zigbee.network;
 
-import org.bubblecloud.zigbee.proxy.DeviceProxy;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguration;
-import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.ProxyConstants;
-
-
+import org.bubblecloud.zigbee.network.glue.ClusterMessage;
 
 /**
  * 
@@ -37,23 +32,23 @@ import org.bubblecloud.zigbee.proxy.ProxyConstants;
  * @since 0.1.0
  *
  */
-public interface OnOffLightSwitch extends DeviceProxy {
+public class ClusterMessageImpl implements ClusterMessage {
 
-	public static final int DEVICE_ID = 0x0103;
-	public static final String NAME = "OnOff Switch";
-	public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-		ProxyConstants.ON_OFF_SWITCH_CONFIGURATION
-	});
-	public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
-	public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
-	public static final int[] CUSTOM = {};
+	private final byte[] msg;
+	private final short id;
 	
-		
-	/**
-	 * Access method for the <b>Mandatory</b> cluster: {@link OnOffSwitchConfiguration} 
-	 *  
-	 * @return the {@link OnOffSwitchConfiguration} cluster object
-	 */
-	public OnOffSwitchConfiguration getOnOffSwitchConfiguration();
+	
+	public ClusterMessageImpl(byte[] msg, short id) {
+		this.msg = msg;
+		this.id = id;
+	}
 
+	public byte[] getClusterMsg() {
+		return msg;
+	}
+
+	public short getId() {
+		return id;
+	}
+	
 }

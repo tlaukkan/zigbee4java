@@ -23,90 +23,67 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
+import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguration;
+import org.bubblecloud.zigbee.proxy.device.api.generic.OnOffSwitch;
 import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
 import org.bubblecloud.zigbee.proxy.DeviceDescription;
 import org.bubblecloud.zigbee.BundleContext;
 
-import java.util.ArrayList;
-
 /**
- * 
- * This class should be used by the refinment driver when there is no device matching the DeviceId<br>
- * of the service
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.1.0
  *
  */
-public class GenericHADevice extends HADeviceBase {
+public class OnOffSwitchDeviceProxy extends DeviceProxyBase implements OnOffSwitch {
 	
-	private int[] mandatory;
-	private int[] optional;
-	private int[] standard;
-	private int[] custom;
-	public GenericHADevice(BundleContext ctx,ZigBeeDevice zbDevice) throws ZigBeeHAException{
+	private OnOffSwitchConfiguration onOffSwitchConfiguration;
+	
+	public OnOffSwitchDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
 		super(ctx,zbDevice);
-		
-		mandatory = new int[0]; // we don't know the device so we cannot distinuish
-		optional = new int[0];
-		
-		int[] clusterIDs = zbDevice.getInputClusters();
-		ArrayList<Integer> standardList = new ArrayList<Integer>();
-		ArrayList<Integer> customList = new ArrayList<Integer>();
-		for (int i = 0; i < clusterIDs.length; i++) {
-//			if (HAProfile.clusters.containsKey(clusterIDs[i])){
-//				standardList.add(clusterIDs[i]);
-//			} else {
-//				customList.add(clusterIDs[i]);
-//			}
-		}
-		standard = new int[standardList.size()];
-		for (int i = 0; i < standard.length; i++) {
-			standard[i] = standardList.get(i).intValue();
-		}
-		custom = new int[customList.size()];
-		for (int i = 0; i < custom.length; i++) {
-			custom[i] = customList.get(i).intValue();
-		}
-		
-		for (int i = 0; i < standard.length; i++) {
-			addCluster(standard[i]);
-		}
 	}
-	
-	
-	final DeviceDescription descriptor =  new AbstractDeviceDescription(){
+
+	final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
 
 		public int[] getCustomClusters() {
-			return custom;
+			return OnOffSwitch.CUSTOM;
 		}
 
 		public int[] getMandatoryCluster() {
-			return mandatory;
+			return OnOffSwitch.MANDATORY;
 		}
 
 		public int[] getOptionalCluster() {
-			return optional;
+			return OnOffSwitch.OPTIONAL;
 		}
 
 		public int[] getStandardClusters() {
-			return standard;
+			return OnOffSwitch.STANDARD;
 		}
 		
 	};
 	
 	@Override
 	public DeviceDescription getDescription() {
-		return descriptor;
+		return DEVICE_DESCRIPTOR;
 	}
 
 	@Override
 	public String getName() {
-		return "Generic HA Device";
+		return OnOffSwitch.NAME;
+	}
+
+	public OnOffSwitchConfiguration getOnOffSwitchConfiguration() {
+		return onOffSwitchConfiguration;
+	}
+
+	public Identify getIdentify() {
+		return identify;
 	}
 
 }

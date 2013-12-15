@@ -23,13 +23,13 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.proxy.*;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
+import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASWD;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
-import org.bubblecloud.zigbee.proxy.device.api.security_safety.IAS_Zone;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.HAProfile;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
-import org.bubblecloud.zigbee.proxy.DeviceDescription;
+import org.bubblecloud.zigbee.proxy.device.api.security_safety.IAS_Warning;
+import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 import org.bubblecloud.zigbee.BundleContext;
 
 /**
@@ -39,15 +39,22 @@ import org.bubblecloud.zigbee.BundleContext;
  * @since 0.7.0
  *
  */
-public class IAS_ZoneDevice extends HADeviceBase implements IAS_Zone {
+public class IAS_Warning_DeviceProxy extends DeviceProxyBase implements IAS_Warning{
 
     private IASZone iasZoneCluster;
+    private IASWD iasWD;
+    private Scenes scenes;
+    private Groups groups;
 
-    public IAS_ZoneDevice(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public IAS_Warning_DeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
 
-        iasZoneCluster = (IASZone) getCluster(HAProfile.IAS_ZONE);
+        iasZoneCluster = (IASZone) getCluster(ProxyConstants.IAS_ZONE);
+        iasWD = (IASWD) getCluster(ProxyConstants.IAS_WD);
+
+        scenes = (Scenes) getCluster(ProxyConstants.SCENES);
+        groups = (Groups) getCluster(ProxyConstants.GROUPS);
     }
 
     public IASZone getIASZone() {
@@ -55,10 +62,25 @@ public class IAS_ZoneDevice extends HADeviceBase implements IAS_Zone {
         return iasZoneCluster;
     }
 
+    public IASWD getIASWD() {
+
+        return iasWD;
+    }
+
+    public Scenes getScenes() {
+
+        return scenes;
+    }
+
+    public Groups getGroups() {
+
+        return groups;
+    }
+
     @Override
     public String getName() {
 
-        return IAS_Zone.NAME;
+        return IAS_Warning_DeviceProxy.NAME;
     }
 
     @Override
@@ -70,19 +92,19 @@ public class IAS_ZoneDevice extends HADeviceBase implements IAS_Zone {
     final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
 
         public int[] getCustomClusters() {
-            return IAS_Zone.CUSTOM;
+            return IAS_Warning.CUSTOM;
         }
 
         public int[] getMandatoryCluster() {
-            return IAS_Zone.MANDATORY;
+            return IAS_Warning.MANDATORY;
         }
 
         public int[] getOptionalCluster() {
-            return IAS_Zone.OPTIONAL;
+            return IAS_Warning.OPTIONAL;
         }
 
         public int[] getStandardClusters() {
-            return IAS_Zone.STANDARD;
+            return IAS_Warning.STANDARD;
         }
     };
 }

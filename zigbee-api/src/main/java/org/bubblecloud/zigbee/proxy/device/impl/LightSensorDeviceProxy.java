@@ -19,18 +19,15 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
-import org.bubblecloud.zigbee.proxy.device.api.generic.MainsPowerOutlet;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.HAProfile;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
-import org.bubblecloud.zigbee.proxy.DeviceDescription;
+import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.IlluminanceMeasurement;
+import org.bubblecloud.zigbee.proxy.device.api.lighting.LightSensor;
+import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 import org.bubblecloud.zigbee.BundleContext;
 
 /**
@@ -40,39 +37,28 @@ import org.bubblecloud.zigbee.BundleContext;
  * @since 0.7.0
  *
  */
-public class MainsPowerOutletDevice extends HADeviceBase implements MainsPowerOutlet {
+public class LightSensorDeviceProxy extends DeviceProxyBase implements LightSensor {
 
-    private OnOff onOff;
-    private Scenes scenes;
+    private IlluminanceMeasurement illuminanceMeasurement;
     private Groups groups;
 
-    public MainsPowerOutletDevice(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public LightSensorDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
-        onOff = (OnOff) getCluster(HAProfile.ON_OFF);
-        groups = (Groups) getCluster(HAProfile.GROUPS);
-        scenes = (Scenes) getCluster(HAProfile.SCENES);
+
+        illuminanceMeasurement = (IlluminanceMeasurement) getCluster(ProxyConstants.ILLUMINANCE_MEASUREMENT);
+        groups = (Groups) getCluster(ProxyConstants.GROUPS);
     }
 
-    public OnOff getOnOff() {
+    public IlluminanceMeasurement getIlluminanceMeasurement() {
 
-        return onOff;
-    }
-
-    public Scenes getScenes() {
-
-        return scenes;
-    }
-
-    public Groups getGroups() {
-
-        return groups;
+        return illuminanceMeasurement;
     }
 
     @Override
     public String getName() {
 
-        return MainsPowerOutlet.NAME;
+        return LightSensor.NAME;
     }
 
     @Override
@@ -84,20 +70,24 @@ public class MainsPowerOutletDevice extends HADeviceBase implements MainsPowerOu
     final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
 
         public int[] getCustomClusters() {
-            return MainsPowerOutlet.CUSTOM;
+            return LightSensor.CUSTOM;
         }
 
         public int[] getMandatoryCluster() {
-            return MainsPowerOutlet.MANDATORY;
+            return LightSensor.MANDATORY;
         }
 
         public int[] getOptionalCluster() {
-            return MainsPowerOutlet.OPTIONAL;
+            return LightSensor.OPTIONAL;
         }
 
         public int[] getStandardClusters() {
-            return MainsPowerOutlet.STANDARD;
+            return LightSensor.STANDARD;
         }
 
     };
+
+    public Groups getGroups() {
+        return groups;
+    }
 }

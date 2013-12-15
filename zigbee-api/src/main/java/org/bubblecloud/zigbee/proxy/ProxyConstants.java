@@ -69,7 +69,7 @@ import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.IASZone;
  * @since 0.4.0
  *
  */
-public class  HAProfile {
+public class ProxyConstants {
 
     public static final int ID = 260;
 
@@ -143,34 +143,34 @@ public class  HAProfile {
         try{
             String id = Integer.toHexString((Integer.parseInt(deviceID)));
 
-            if(id.equals(Integer.toHexString(HAProfile.ONOFF_SWITCH)))
+            if(id.equals(Integer.toHexString(ProxyConstants.ONOFF_SWITCH)))
                 return OnOffSwitch.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.LEVELCONTROL)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.LEVELCONTROL)))
                 return LevelControlSwitch.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.ONOFF_OUTPUT)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.ONOFF_OUTPUT)))
                 return OnOffOutput.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.MAINS_POWER_OUTLET)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.MAINS_POWER_OUTLET)))
                 return MainsPowerOutlet.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.SIMPLE_SENSOR)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.SIMPLE_SENSOR)))
                 return SimpleSensor.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.ONOFF_LIGHT)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.ONOFF_LIGHT)))
                 return OnOffLight.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.DIMMABLE_LIGHT)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.DIMMABLE_LIGHT)))
                 return DimmableLight.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.ONOFF_LIGHT_SWITCH)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.ONOFF_LIGHT_SWITCH)))
                 return OnOffLightSwitch.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.LIGHT_SENSOR)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.LIGHT_SENSOR)))
                 return LightSensor.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.OCCUPANCY_SENSOR)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.OCCUPANCY_SENSOR)))
                 return OccupancySensor.NAME;
 
-            else if(id.equals(Integer.toHexString(HAProfile.TEMPERATURE_SENSOR)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.TEMPERATURE_SENSOR)))
                 return TemperatureSensor.NAME;
 
-            else if(id.equals(Integer.toHexString(HAProfile.IAS_CONTROL_INDICATING_EQUIPMENT)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.IAS_CONTROL_INDICATING_EQUIPMENT)))
                 return IASControlAndIndicatingEquipment.NAME;
 
-            else if(id.equals(Integer.toHexString(HAProfile.IASZONE)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.IASZONE)))
                 return IAS_Zone.NAME;
 
             else return null;
@@ -185,50 +185,50 @@ public class  HAProfile {
         try{
             String id = Integer.toHexString((Integer.parseInt(clusterID)));
 
-            if(id.equals(Integer.toHexString(HAProfile.BASIC)))
+            if(id.equals(Integer.toHexString(ProxyConstants.BASIC)))
                 return Basic.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.POWER_CONFIGURATION)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.POWER_CONFIGURATION)))
                 return PowerConfiguration.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.DEVICE_TEMPERATURE_CONFIGURATION)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.DEVICE_TEMPERATURE_CONFIGURATION)))
                 return DeviceTemperatureConfiguration.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.IDENTIFY)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.IDENTIFY)))
                 return Identify.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.GROUPS)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.GROUPS)))
                 return Groups.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.SCENES)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.SCENES)))
                 return Scenes.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.ON_OFF)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.ON_OFF)))
                 return OnOff.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.ON_OFF_SWITCH_CONFIGURATION)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.ON_OFF_SWITCH_CONFIGURATION)))
                 return OnOffSwitchConfiguration.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.LEVEL_CONTROL)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.LEVEL_CONTROL)))
                 return LevelControl.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.ALARMS)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.ALARMS)))
                 return Alarms.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.TIME)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.TIME)))
                 return Time.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.BINARY_INPUT)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.BINARY_INPUT)))
                 return BinaryInput.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.COMMISSIONING)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.COMMISSIONING)))
                 return Commissioning.NAME;
 
-            else if(id.equals(Integer.toHexString(HAProfile.COLOR_CONTROL)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.COLOR_CONTROL)))
                 return ColorControl.NAME;
 
-            else if(id.equals(Integer.toHexString(HAProfile.ILLUMINANCE_MEASUREMENT)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.ILLUMINANCE_MEASUREMENT)))
                 return IlluminanceMeasurement.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.TEMPERATURE_MEASUREMENT)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.TEMPERATURE_MEASUREMENT)))
                 return TemperatureMeasurement.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.RELATIVE_HUMIDITY_MEASUREMENT)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.RELATIVE_HUMIDITY_MEASUREMENT)))
                 return RelativeHumidityMeasurement.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.OCCUPANCY_SENSING)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.OCCUPANCY_SENSING)))
                 return OccupacySensing.NAME;
 
-            else if(id.equals(Integer.toHexString(HAProfile.IAS_ZONE)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.IAS_ZONE)))
                 return IASZone.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.IAS_ACE)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.IAS_ACE)))
                 return IASACE.NAME;
-            else if(id.equals(Integer.toHexString(HAProfile.IAS_WD)))
+            else if(id.equals(Integer.toHexString(ProxyConstants.IAS_WD)))
                 return IASWD.NAME;
 
             else return null;

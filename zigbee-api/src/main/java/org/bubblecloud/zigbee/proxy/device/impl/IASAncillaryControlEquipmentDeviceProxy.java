@@ -23,14 +23,12 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
-import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.IlluminanceMeasurement;
-import org.bubblecloud.zigbee.proxy.device.api.lighting.LightSensor;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.HAProfile;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
-import org.bubblecloud.zigbee.proxy.DeviceDescription;
+import org.bubblecloud.zigbee.proxy.*;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
+import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASACE;
+import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
+import org.bubblecloud.zigbee.proxy.device.api.security_safety.IASAncillaryControlEquipment;
+import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 import org.bubblecloud.zigbee.BundleContext;
 
 /**
@@ -40,28 +38,35 @@ import org.bubblecloud.zigbee.BundleContext;
  * @since 0.7.0
  *
  */
-public class LightSensorDevice extends HADeviceBase implements LightSensor {
+public class IASAncillaryControlEquipmentDeviceProxy extends DeviceProxyBase implements IASAncillaryControlEquipment{
 
-    private IlluminanceMeasurement illuminanceMeasurement;
-    private Groups groups;
+    private Identify identify;
+    private IASZone iasZone;
+    private IASACE iasAce;
 
-    public LightSensorDevice(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public IASAncillaryControlEquipmentDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
-
-        illuminanceMeasurement = (IlluminanceMeasurement) getCluster(HAProfile.ILLUMINANCE_MEASUREMENT);
-        groups = (Groups) getCluster(HAProfile.GROUPS);
+        iasAce = (IASACE) getCluster(ProxyConstants.IAS_ACE);
+        iasZone = (IASZone) getCluster(ProxyConstants.IAS_ZONE);
+        identify = (Identify) getCluster(ProxyConstants.IDENTIFY);
     }
 
-    public IlluminanceMeasurement getIlluminanceMeasurement() {
-
-        return illuminanceMeasurement;
+    public IASACE getIASACE() {
+        return iasAce;
     }
+
+    public IASZone getIASZone() {
+        return iasZone;
+    }
+
+    /*public Identify getIdentify(){
+        return identify;
+    }*/
 
     @Override
     public String getName() {
-
-        return LightSensor.NAME;
+        return IASAncillaryControlEquipment.NAME;
     }
 
     @Override
@@ -73,24 +78,19 @@ public class LightSensorDevice extends HADeviceBase implements LightSensor {
     final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
 
         public int[] getCustomClusters() {
-            return LightSensor.CUSTOM;
+            return IASAncillaryControlEquipment.CUSTOM;
         }
 
         public int[] getMandatoryCluster() {
-            return LightSensor.MANDATORY;
+            return IASAncillaryControlEquipment.MANDATORY;
         }
 
         public int[] getOptionalCluster() {
-            return LightSensor.OPTIONAL;
+            return IASAncillaryControlEquipment.OPTIONAL;
         }
 
         public int[] getStandardClusters() {
-            return LightSensor.STANDARD;
+            return IASAncillaryControlEquipment.STANDARD;
         }
-
     };
-
-    public Groups getGroups() {
-        return groups;
-    }
 }

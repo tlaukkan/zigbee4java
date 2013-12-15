@@ -22,10 +22,10 @@
 
 package org.bubblecloud.zigbee.proxy.device.api.generic;
 
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguration;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.HADevice;
-import org.bubblecloud.zigbee.proxy.HAProfile;
+import org.bubblecloud.zigbee.proxy.DeviceProxy;
 
 /**
  *
@@ -34,16 +34,16 @@ import org.bubblecloud.zigbee.proxy.HAProfile;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  *
  */
-public interface LevelControlSwitch extends HADevice {
+public interface LevelControlSwitch extends DeviceProxy {
 
 	public static final int DEVICE_ID = 0x0001;
 	public static final String NAME = "Level Control Switch";
 
 
-	public static final int[] MANDATORY = ArraysUtil.append(HADevice.MANDATORY, new int[]{
-		HAProfile.ON_OFF_SWITCH_CONFIGURATION
+	public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
+		ProxyConstants.ON_OFF_SWITCH_CONFIGURATION
 	});
-	public static final int[] OPTIONAL = HADevice.OPTIONAL;
+	public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
 	public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
 	public static final int[] CUSTOM = {};
 

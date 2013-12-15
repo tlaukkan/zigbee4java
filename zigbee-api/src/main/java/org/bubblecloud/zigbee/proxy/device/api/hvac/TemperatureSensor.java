@@ -22,10 +22,10 @@
 
 package org.bubblecloud.zigbee.proxy.device.api.hvac;
 
+import org.bubblecloud.zigbee.proxy.DeviceProxy;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.HADevice;
-import org.bubblecloud.zigbee.proxy.HAProfile;
 
 /**
  * This class represent the <b>On/off Light</b> Cluster as defined by the document:<br>
@@ -38,16 +38,16 @@ import org.bubblecloud.zigbee.proxy.HAProfile;
  * @since 0.6.0
  *
  */
-public interface TemperatureSensor extends HADevice {
+public interface TemperatureSensor extends DeviceProxy {
 
 	public static final int DEVICE_ID = 0x0302;
 	public static final String NAME = "Temperature Sensor";
 	
-	public static final int[] MANDATORY = ArraysUtil.append(HADevice.MANDATORY, new int[]{
-		HAProfile.TEMPERATURE_MEASUREMENT
+	public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
+		ProxyConstants.TEMPERATURE_MEASUREMENT
 	});
 	
-	public static final int[] OPTIONAL = ArraysUtil.append(HADevice.OPTIONAL, new int[]{
+	public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
 	});
 	
 	public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);

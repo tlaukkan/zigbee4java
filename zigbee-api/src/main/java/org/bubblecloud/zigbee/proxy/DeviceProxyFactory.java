@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
 /**
  *
  * This class represent the main interface for the extendable architecture of the<br>
- * refinement driver. Each refinement driver from {@link ZigBeeDevice} to {@link HADevice}<br>
+ * refinement driver. Each refinement driver from {@link ZigBeeDevice} to {@link DeviceProxy}<br>
  * has to implement this interface as OSGi Service and register it on OSGi platform. 
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -37,7 +37,7 @@ import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
  * @since 0.4.0
  *
  */
-public interface HADeviceFactory {
+public interface DeviceProxyFactory {
 	
 	//TODO Allow the creation of multi-device factory
 	
@@ -65,12 +65,12 @@ public interface HADeviceFactory {
 	/**
 	 * 
 	 * @param zbd the {@link ZigBeeDevice} to refine
-	 * @return the {@link HADeviceBase} refined from {@link ZigBeeDevice} from this<br>
+	 * @return the {@link DeviceProxyBase} refined from {@link ZigBeeDevice} from this<br>
 	 * 			refinement driver
 	 * 
 	 * @throws ZigBeeHAException
 	 */
-	public HADeviceBase getInstance(ZigBeeDevice zbd);
+	public DeviceProxyBase getInstance(ZigBeeDevice zbd);
 	
 	/**
 	 */

@@ -22,13 +22,13 @@
 
 package org.bubblecloud.zigbee.proxy.device.api.lighting;
 
+import org.bubblecloud.zigbee.proxy.DeviceProxy;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.HADevice;
-import org.bubblecloud.zigbee.proxy.HAProfile;
 
 
 /**
@@ -43,16 +43,16 @@ import org.bubblecloud.zigbee.proxy.HAProfile;
  * @since 0.1.0
  *
  */
-public interface OnOffLight extends HADevice{
+public interface OnOffLight extends DeviceProxy {
 	
 	public static final int DEVICE_ID = 0x0100;
 	public static final String NAME = "OnOff Light";
 	
-	public static final int[] MANDATORY = ArraysUtil.append(HADevice.MANDATORY, new int[]{
-		HAProfile.ON_OFF,HAProfile.GROUPS,HAProfile.SCENES
+	public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
+		ProxyConstants.ON_OFF, ProxyConstants.GROUPS, ProxyConstants.SCENES
 	});
-	public static final int[] OPTIONAL = ArraysUtil.append(HADevice.OPTIONAL, new int[]{
-		HAProfile.OCCUPANCY_SENSING
+	public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
+		ProxyConstants.OCCUPANCY_SENSING
 	});
 	public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
 	public static final int[] CUSTOM = {};

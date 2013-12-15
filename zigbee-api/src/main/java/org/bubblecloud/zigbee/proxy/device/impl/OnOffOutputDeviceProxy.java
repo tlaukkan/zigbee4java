@@ -23,16 +23,13 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.device.api.generic.OnOffOutput;
 import org.bubblecloud.zigbee.proxy.device.api.lighting.OnOffLight;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.HAProfile;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
-import org.bubblecloud.zigbee.proxy.DeviceDescription;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.BundleContext;
 
 /**
@@ -44,17 +41,17 @@ import org.bubblecloud.zigbee.BundleContext;
  * @since 0.2.0
  *
  */
-public class OnOffOutputDevice extends HADeviceBase implements OnOffOutput {
+public class OnOffOutputDeviceProxy extends DeviceProxyBase implements OnOffOutput {
 
     private OnOff onOff;
     private Scenes scenes;
     private Groups groups;
 
-    public  OnOffOutputDevice(BundleContext ctx,ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public OnOffOutputDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
         super(ctx,zbDevice);
-        onOff = (OnOff) getCluster(HAProfile.ON_OFF);
-        groups = (Groups) getCluster(HAProfile.GROUPS);
-        scenes = (Scenes) getCluster(HAProfile.SCENES);
+        onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);
+        groups = (Groups) getCluster(ProxyConstants.GROUPS);
+        scenes = (Scenes) getCluster(ProxyConstants.SCENES);
     }
 
 

@@ -1,10 +1,10 @@
 /*
    Copyright 2008-2013 CNR-ISTI, http://isti.cnr.it
-   Institute of Information Science and Technologies
-   of the Italian National Research Council
+   Institute of Information Science and Technologies 
+   of the Italian National Research Council 
 
 
-   See the NOTICE file distributed with this work for additional
+   See the NOTICE file distributed with this work for additional 
    information regarding copyright ownership
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,62 +23,59 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguration;
-import org.bubblecloud.zigbee.proxy.device.api.generic.LevelControlSwitch;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.HAProfile;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
-import org.bubblecloud.zigbee.proxy.DeviceDescription;
+import org.bubblecloud.zigbee.proxy.*;
+import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.TemperatureMeasurement;
+import org.bubblecloud.zigbee.proxy.device.api.hvac.TemperatureSensor;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.BundleContext;
 
 /**
- *
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.6.0
  *
  */
-public class LevelControlSwitchDevice extends HADeviceBase implements LevelControlSwitch {
+public class TemperatureSensorDeviceProxy extends DeviceProxyBase implements TemperatureSensor {
+	
+	private final TemperatureMeasurement temperature;
 
-	private OnOffSwitchConfiguration onOffSwitchConfiguration;
+	public TemperatureSensorDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+		super(ctx,zbDevice);
+		temperature = (TemperatureMeasurement) getCluster(ProxyConstants.TEMPERATURE_MEASUREMENT);
+	}
 
-	public LevelControlSwitchDevice(BundleContext ctx,ZigBeeDevice zbDevice) throws ZigBeeHAException{
-		super(ctx, zbDevice);
-		onOffSwitchConfiguration = (OnOffSwitchConfiguration) getCluster(HAProfile.ON_OFF_SWITCH_CONFIGURATION);
+	public String getName() {
+		return TemperatureSensor.NAME;
+	}
+
+	public TemperatureMeasurement getTemperatureMeasurement() {
+		return temperature;
 	}
 
 	final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
 
 		public int[] getCustomClusters() {
-			return LevelControlSwitch.CUSTOM;
+			return TemperatureSensor.CUSTOM;
 		}
 
 		public int[] getMandatoryCluster() {
-			return LevelControlSwitch.MANDATORY;
+			return TemperatureSensor.MANDATORY;
 		}
 
 		public int[] getOptionalCluster() {
-			return LevelControlSwitch.OPTIONAL;
+			return TemperatureSensor.OPTIONAL;
 		}
 
 		public int[] getStandardClusters() {
-			return LevelControlSwitch.STANDARD;
+			return TemperatureSensor.STANDARD;
 		}
-
+		
 	};
-
-	@Override
+	
 	public DeviceDescription getDescription() {
 		return DEVICE_DESCRIPTOR;
 	}
 
-	@Override
-	public String getName() {
-		return LevelControlSwitch.NAME;
-	}
-
-	public OnOffSwitchConfiguration getOnOffSwitchConfiguration() {
-		return onOffSwitchConfiguration;
-	}
 }

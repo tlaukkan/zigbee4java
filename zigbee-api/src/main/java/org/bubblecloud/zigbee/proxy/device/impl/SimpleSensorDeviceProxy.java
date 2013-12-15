@@ -19,55 +19,52 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-
-package org.bubblecloud.zigbee.proxy;
+package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.BinaryInput;
+import org.bubblecloud.zigbee.proxy.device.api.generic.SimpleSensor;
+import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
+import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
+import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
+import org.bubblecloud.zigbee.proxy.DeviceDescription;
 import org.bubblecloud.zigbee.BundleContext;
 
+
 /**
- *
- * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.7.0
- *
- */
-public class UnknowHADevice extends HADeviceBase  {
+*
+* @author <a href="mailto:h.alink1@chello.nl">Han Alink</a>
+* @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+* @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+* @since 0.7.0
+*
+*/
+public class SimpleSensorDeviceProxy extends DeviceProxyBase implements SimpleSensor {
 
-    public  UnknowHADevice(BundleContext ctx,ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    private BinaryInput binaryInput;
+
+    public SimpleSensorDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
         super(ctx,zbDevice);
-        int[] inputClusters = zbDevice.getInputClusters();
-        for (int i = 0; i < inputClusters.length; i++) {
-            addCluster( inputClusters[i] );
-        }
-
-        int[] outputClusters = zbDevice.getOutputClusters();
-        for (int i = 0; i < inputClusters.length; i++) {
-            addCluster( outputClusters[i] );
-        }
-    }
-
-    @Override
-    public String getName() {
-        return "Unknow HA Device";
+        binaryInput = (BinaryInput) getCluster(ProxyConstants.BINARY_INPUT);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
 
         public int[] getCustomClusters() {
-            return new int[]{};
+            return SimpleSensor.CUSTOM;
         }
 
         public int[] getMandatoryCluster() {
-            return MANDATORY;
+            return SimpleSensor.MANDATORY;
         }
 
         public int[] getOptionalCluster() {
-            return OPTIONAL;
+            return SimpleSensor.OPTIONAL;
         }
 
         public int[] getStandardClusters() {
-            return STANDARD;
+            return SimpleSensor.STANDARD;
         }
 
     };
@@ -77,5 +74,13 @@ public class UnknowHADevice extends HADeviceBase  {
         return DEVICE_DESCRIPTOR;
     }
 
+    @Override
+    public String getName() {
+        return SimpleSensor.NAME;
+    }
+
+    public BinaryInput getBinaryInput() {
+        return binaryInput;
+    }
 
 }

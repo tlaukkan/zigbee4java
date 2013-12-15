@@ -23,17 +23,14 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.proxy.device.api.lighting.ColorDimmableLight;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.HAProfile;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
-import org.bubblecloud.zigbee.proxy.DeviceDescription;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.proxy.cluster.api.lighting.ColorControl;
 
 import org.bubblecloud.zigbee.BundleContext;
@@ -45,7 +42,7 @@ import org.bubblecloud.zigbee.BundleContext;
  * @since 0.7.0
  *
  */
-public class ColorDimmableLightDevice extends HADeviceBase implements ColorDimmableLight {
+public class ColorDimmableLightDeviceProxy extends DeviceProxyBase implements ColorDimmableLight {
 
     private OnOff onOff;
     private Scenes scenes;
@@ -54,16 +51,16 @@ public class ColorDimmableLightDevice extends HADeviceBase implements ColorDimma
     private OccupacySensing occupancySensing;
     private ColorControl colorControl;
 
-    public ColorDimmableLightDevice(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public ColorDimmableLightDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
 
-        onOff = (OnOff) getCluster(HAProfile.ON_OFF);
-        scenes = (Scenes) getCluster(HAProfile.SCENES);
-        groups = (Groups) getCluster(HAProfile.GROUPS);
-        levelControl = (LevelControl) getCluster(HAProfile.LEVELCONTROL);
-        occupancySensing = (OccupacySensing) getCluster(HAProfile.OCCUPANCY_SENSING);
-        colorControl = (ColorControl) getCluster(HAProfile.COLOR_CONTROL);
+        onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);
+        scenes = (Scenes) getCluster(ProxyConstants.SCENES);
+        groups = (Groups) getCluster(ProxyConstants.GROUPS);
+        levelControl = (LevelControl) getCluster(ProxyConstants.LEVELCONTROL);
+        occupancySensing = (OccupacySensing) getCluster(ProxyConstants.OCCUPANCY_SENSING);
+        colorControl = (ColorControl) getCluster(ProxyConstants.COLOR_CONTROL);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){

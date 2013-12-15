@@ -22,10 +22,10 @@
 package org.bubblecloud.zigbee.proxy.device.api.generic;
 
 
+import org.bubblecloud.zigbee.proxy.DeviceProxy;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.BinaryInput;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.HADevice;
-import org.bubblecloud.zigbee.proxy.HAProfile;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 
 
 /**
@@ -35,12 +35,12 @@ import org.bubblecloud.zigbee.proxy.HAProfile;
  * @since 0.7.0
  *
  */
-public interface SimpleSensor extends HADevice {
+public interface SimpleSensor extends DeviceProxy {
 
     public static final int DEVICE_ID = 0x000C;
     public static final String NAME = "Simple Sensor";
-    public static final int[] MANDATORY = ArraysUtil.append( HADevice.MANDATORY, new int[] { HAProfile.BINARY_INPUT } );
-    public static final int[] OPTIONAL = HADevice.OPTIONAL;
+    public static final int[] MANDATORY = ArraysUtil.append( DeviceProxy.MANDATORY, new int[] { ProxyConstants.BINARY_INPUT } );
+    public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};
 

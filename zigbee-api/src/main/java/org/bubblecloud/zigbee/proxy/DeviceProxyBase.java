@@ -54,9 +54,9 @@ import org.slf4j.LoggerFactory;
  * @since 0.1.0
  *
  */
-public abstract class HADeviceBase implements HADevice  {
+public abstract class DeviceProxyBase implements DeviceProxy {
 
-    private final static Logger logger = LoggerFactory.getLogger(HADeviceBase.class);
+    private final static Logger logger = LoggerFactory.getLogger(DeviceProxyBase.class);
 
     protected ZigBeeDevice zbDevice;
     private BundleContext ctx;
@@ -80,7 +80,7 @@ public abstract class HADeviceBase implements HADevice  {
     private final ProvidedClusterMode clusterMode;
 
 
-    public HADeviceBase(BundleContext ctx, ZigBeeDevice zbDevice ) throws ZigBeeHAException{
+    public DeviceProxyBase(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
         this.zbDevice = zbDevice;
         this.ctx = ctx;
 
@@ -102,12 +102,12 @@ public abstract class HADeviceBase implements HADevice  {
             }
 		}
 
-        basic = (Basic) getCluster(HAProfile.BASIC);
-        identify = (Identify) getCluster(HAProfile.IDENTIFY);
+        basic = (Basic) getCluster(ProxyConstants.BASIC);
+        identify = (Identify) getCluster(ProxyConstants.IDENTIFY);
 
-        powerConfiguration = (PowerConfiguration) getCluster(HAProfile.POWER_CONFIGURATION);
-        deviceTemperature = (DeviceTemperatureConfiguration) getCluster(HAProfile.DEVICE_TEMPERATURE_CONFIGURATION);
-        alarms = (Alarms) getCluster(HAProfile.ALARMS);
+        powerConfiguration = (PowerConfiguration) getCluster(ProxyConstants.POWER_CONFIGURATION);
+        deviceTemperature = (DeviceTemperatureConfiguration) getCluster(ProxyConstants.DEVICE_TEMPERATURE_CONFIGURATION);
+        alarms = (Alarms) getCluster(ProxyConstants.ALARMS);
     }
 
     public  int getDeviceType(){
@@ -132,19 +132,19 @@ public abstract class HADeviceBase implements HADevice  {
     }
 
     /**
-     * This method create a cluster for the HADevice if and only if the cluster is actually supported by the device.
+     * This method create a cluster for the DeviceProxy if and only if the cluster is actually supported by the device.
      * Depending on the current value of cluster mode it add or not the cluster
      * to the set of cluster which will be returned by executing the method {@link #getAvailableCluster()}
      *
      * @param clusterId the id of the cluster
-     * @return {@link Cluster} if it is already present or if it has been added to the {@link HADeviceBase}
+     * @return {@link Cluster} if it is already present or if it has been added to the {@link DeviceProxyBase}
      * @throws ZigBeeHAException
      */
     protected Cluster addCluster(int clusterId) throws ZigBeeHAException {
         /*
          * Verify if the cluster has already been added. For example, when the HA Driver is working with
          * ProvidedClusterMode.EitherInputAndOutput mode the HA Driver adds either inputs and outputs cluster
-         * to the HADeviceBase
+         * to the DeviceProxyBase
          */
         final Cluster duplicated = getCluster( clusterId );
         if ( duplicated != null ) {
@@ -242,7 +242,7 @@ public abstract class HADeviceBase implements HADevice  {
             }
         }
 
-        String key = HAProfile.ID + ":"+String.valueOf(clusterId);
+        String key = ProxyConstants.ID + ":"+String.valueOf(clusterId);
         ClusterFactory factory = (ClusterFactory) ctx.getClusterFactory();
         Cluster cluster = factory.getInstance(key,zbDevice);
         if (index >= clusters.length) {

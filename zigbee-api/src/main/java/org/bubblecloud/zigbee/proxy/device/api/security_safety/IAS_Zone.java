@@ -21,10 +21,10 @@
 */
 package org.bubblecloud.zigbee.proxy.device.api.security_safety;
 
+import org.bubblecloud.zigbee.proxy.DeviceProxy;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.HADevice;
-import org.bubblecloud.zigbee.proxy.HAProfile;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 
 /**
  *
@@ -33,14 +33,14 @@ import org.bubblecloud.zigbee.proxy.HAProfile;
  * @since 0.8.0
  *
  */
-public interface IAS_Zone extends HADevice {
+public interface IAS_Zone extends DeviceProxy {
 
     public static final int DEVICE_ID = 0x0402;
     public static final String NAME = "IAS Zone";
-    public static final int[] MANDATORY = ArraysUtil.append(HADevice.MANDATORY, new int[]{
-            HAProfile.IAS_ZONE
+    public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
+            ProxyConstants.IAS_ZONE
     });
-    public static final int[] OPTIONAL = HADevice.OPTIONAL;
+    public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};
 

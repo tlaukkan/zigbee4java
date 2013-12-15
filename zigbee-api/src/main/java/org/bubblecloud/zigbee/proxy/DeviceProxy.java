@@ -39,7 +39,7 @@ import org.bubblecloud.zigbee.util.ArraysUtil;
  * @since 0.1.0
  *
  */
-public interface HADevice {
+public interface DeviceProxy {
 	
 	public static final String ZIGBEE_DEVICE_SERVICE = "zigbee.service.id";
 	public static final String ZIGBEE_DEVICE_UUID = "zigbee.device.uuid";
@@ -48,8 +48,8 @@ public interface HADevice {
 	public static final String HA_DEVICE_GROUP = "zigbee.ha.group";
 	public static final String HA_DEVICE_STANDARD = "zigbee.ha.standard";
 	
-	public static final int[] MANDATORY = {HAProfile.BASIC,HAProfile.IDENTIFY};
-	public static final int[] OPTIONAL = {HAProfile.POWER_CONFIGURATION, HAProfile.DEVICE_TEMPERATURE_CONFIGURATION, HAProfile.ALARMS};
+	public static final int[] MANDATORY = {ProxyConstants.BASIC, ProxyConstants.IDENTIFY};
+	public static final int[] OPTIONAL = {ProxyConstants.POWER_CONFIGURATION, ProxyConstants.DEVICE_TEMPERATURE_CONFIGURATION, ProxyConstants.ALARMS};
 	public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
 	
 	public String getName();	
@@ -103,7 +103,7 @@ public interface HADevice {
 	/**
 	 * Access method to the {@link DeviceDescription}.<br>
 	 * 
-	 * <b>NOTE</b>: The {@link DeviceDescription} <b>should</b> be shared among all {@link HADeviceBase}<br>
+	 * <b>NOTE</b>: The {@link DeviceDescription} <b>should</b> be shared among all {@link DeviceProxyBase}<br>
 	 * sharing the same <b>DeviceId</b>
 	 * 
 	 * @return the {@link DeviceDescription}
@@ -128,7 +128,7 @@ public interface HADevice {
 	
 	/**
 	 * 
-	 * @return return {@link ZigBeeDevice} service that has been refined has {@link HADevice} 
+	 * @return return {@link ZigBeeDevice} service that has been refined has {@link DeviceProxy}
 	 * @since 0.2.0
 	 * @deprecated The method should be avoided because it cause Service Reference Leak
 	 */

@@ -22,10 +22,10 @@
 
 package org.bubblecloud.zigbee.proxy.device.api.lighting;
 
+import org.bubblecloud.zigbee.proxy.DeviceProxy;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.HADevice;
-import org.bubblecloud.zigbee.proxy.HAProfile;
 
 
 /**
@@ -39,15 +39,15 @@ import org.bubblecloud.zigbee.proxy.HAProfile;
  * @since 0.2.0
  *
  */
-public interface OccupancySensor extends HADevice{
+public interface OccupancySensor extends DeviceProxy {
 	
 	public static final int DEVICE_ID = 0x0107;
 	public static final String NAME = "Occupancy Sensor";
 	
-	public static final int[] MANDATORY = ArraysUtil.append(HADevice.MANDATORY, new int[]{
-			HAProfile.OCCUPANCY_SENSING
+	public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
+			ProxyConstants.OCCUPANCY_SENSING
 	});
-	public static final int[] OPTIONAL = HADevice.OPTIONAL;
+	public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
 	public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
 	public static final int[] CUSTOM = {};
 	

@@ -40,9 +40,9 @@ import java.lang.reflect.Constructor;
  * @since 0.4.0
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $) *
  */
-public class GenericHADeviceFactory extends HADeviceFactoryBase {
+public class DeviceProxyFactoryImpl extends DeviceProxyFactoryBase {
 
-    static final Logger logger = LoggerFactory.getLogger(GenericHADeviceFactory.class);
+    static final Logger logger = LoggerFactory.getLogger(DeviceProxyFactoryImpl.class);
 
     final protected int deviceId;
     final protected Class<?> inter, impl;
@@ -51,28 +51,28 @@ public class GenericHADeviceFactory extends HADeviceFactoryBase {
     
     
     /**
-     * Build an {@link HADeviceFactory} that refine {@link ZigBeeDevice} by means of <code>cImplementation</code>,<br>
+     * Build an {@link DeviceProxyFactory} that refine {@link ZigBeeDevice} by means of <code>cImplementation</code>,<br>
      * into a <code>cInterface</code> service. This factory build the instance of the new service by invoking<br>
      * the constructor  <code>cImplementation(BundleContext, ZigBeeDevice)</code>.<br>
      * By default the {@link #getRefinedInterfaces()} is built to return the values:<br>
      * <pre>
      * cInterface.getName()
-     * HADevice.class.getName()
+     * DeviceProxy.class.getName()
      * </pre>
      * 
      *  
-     * @param ctx {@link BundleContext} to use for registering the {@link HADeviceFactory} service
+     * @param ctx {@link BundleContext} to use for registering the {@link DeviceProxyFactory} service
      * @param cInterface {@link Class} representing the refined service that this factory will install
      * @param cImplementation {@link Class} representing the implementation of the refinement service that will be created by the factory
      * 
      * @throws ZigBeeHAException
      */
-    public GenericHADeviceFactory(BundleContext ctx, Class<?> cInterface, Class<?> cImplementation) throws ZigBeeHAException {
+    public DeviceProxyFactoryImpl(BundleContext ctx, Class<?> cInterface, Class<?> cImplementation) throws ZigBeeHAException {
 		super(ctx, cInterface);
 		
 		this.inter = cInterface;
 		this.impl = cImplementation;
-		classes = new String[]{ cInterface.getName(), HADevice.class.getName() };
+		classes = new String[]{ cInterface.getName(), DeviceProxy.class.getName() };
 		
 		try {
 		    deviceId = (Integer) cInterface.getField("DEVICE_ID").get(null);
@@ -83,9 +83,9 @@ public class GenericHADeviceFactory extends HADeviceFactoryBase {
 			    + "field DEVICE_ID.\n"
 			    + "Please modify the source code of the class by adding such static field or"
 			    + "implement a proper {} class", 
-			    cInterface.getName(), HADeviceFactory.class.getName()
+			    cInterface.getName(), DeviceProxyFactory.class.getName()
 		    );
-		    logger.debug("Stack exception of the GenericHADeviceFactory() error", e);
+		    logger.debug("Stack exception of the DeviceProxyFactoryImpl() error", e);
 		    
 			throw new ZigBeeHAException("Unable to retrieve DEVICE_ID by means of reflection", e);
 		}
@@ -96,7 +96,7 @@ public class GenericHADeviceFactory extends HADeviceFactoryBase {
 		return deviceId;
     }
 
-    public GenericHADeviceFactory setRefinedInterfaces(String[] classNames) {
+    public DeviceProxyFactoryImpl setRefinedInterfaces(String[] classNames) {
 		classes = classNames;
 		return this;
     }
@@ -107,10 +107,10 @@ public class GenericHADeviceFactory extends HADeviceFactoryBase {
     }
 
     @Override
-    public HADeviceBase getInstance(ZigBeeDevice zbd) {
+    public DeviceProxyBase getInstance(ZigBeeDevice zbd) {
 		try {
 		    Constructor builder = impl.getConstructor(BundleContext.class, ZigBeeDevice.class);
-		    HADeviceBase device = (HADeviceBase) builder.newInstance(ctx, zbd);
+		    DeviceProxyBase device = (DeviceProxyBase) builder.newInstance(ctx, zbd);
 		    return device;
 		} catch (Exception e) {
 		    logger.error("Unable to create an instance of the refined device due to:", e);

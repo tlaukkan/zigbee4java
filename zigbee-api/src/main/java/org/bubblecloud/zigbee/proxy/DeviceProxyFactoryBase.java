@@ -41,9 +41,9 @@ import java.util.Properties;
  * @since 0.4.0
  *
  */
-public abstract class HADeviceFactoryBase implements HADeviceFactory {
+public abstract class DeviceProxyFactoryBase implements DeviceProxyFactory {
 
-    private static final Logger logger = LoggerFactory.getLogger(HADeviceFactoryBase.class);
+    private static final Logger logger = LoggerFactory.getLogger(DeviceProxyFactoryBase.class);
 
     protected BundleContext ctx;
 
@@ -56,11 +56,11 @@ public abstract class HADeviceFactoryBase implements HADeviceFactory {
      * @param ctx {@link BundleContext} of the bundle extending the refinement capabilities
      * @param refinement {@link Class} of the most refined interfaces provided by this factory
      */
-    public HADeviceFactoryBase(BundleContext ctx, Class<?> refinement) {
+    public DeviceProxyFactoryBase(BundleContext ctx, Class<?> refinement) {
         this.ctx = ctx;
         this.refinement = refinement;
         dictionary = new Properties();
-        dictionary.put(ZigBeeDevice.PROFILE_ID, Integer.toString(HAProfile.ID));
+        dictionary.put(ZigBeeDevice.PROFILE_ID, Integer.toString(ProxyConstants.ID));
     }
 
     public abstract int getDeviceId();
@@ -88,7 +88,7 @@ public abstract class HADeviceFactoryBase implements HADeviceFactory {
 
     public abstract String[] getRefinedInterfaces();
 
-    public abstract HADeviceBase getInstance(ZigBeeDevice zbDevice);
+    public abstract DeviceProxyBase getInstance(ZigBeeDevice zbDevice);
 
     public void addProperty(String key, Object value) {
         dictionary.put(key, value);
@@ -97,7 +97,7 @@ public abstract class HADeviceFactoryBase implements HADeviceFactory {
     public int hasMatch(ZigBeeDevice device) {
         int[] inputClusterIDs = device.getInputClusters();
         int[] refinedClusterIds = (int[]) getDeviceClusters();
-        int score = device.getProfileId() == HAProfile.ID
+        int score = device.getProfileId() == ProxyConstants.ID
                 ? ZigBeeDevice.MATCH_PROFILE_ID : 0;
 
         for (int i = 0; i < inputClusterIDs.length; i++) {
@@ -112,20 +112,20 @@ public abstract class HADeviceFactoryBase implements HADeviceFactory {
         return score;
     }
 
-    public HADeviceFactoryBase register() {
+    public DeviceProxyFactoryBase register() {
         dictionary.put(ZigBeeDevice.DEVICE_ID, getDeviceId());
         dictionary.put(ZigBeeDevice.CLUSTERS_INPUT_ID, getDeviceClusters());
         if( logger.isInfoEnabled() ) {
             logger.debug(
-                    "Registering a HADeviceFactory ( a refinement driver ) whose refines service with deviceId={} and clusters={}",
+                    "Registering a DeviceProxyFactory ( a refinement driver ) whose refines service with deviceId={} and clusters={}",
                     getDeviceId(), Arrays.toString(getDeviceClusters())
             );
         }
-        //registration = ctx.registerService(HADeviceFactory.class.getName(), this, dictionary);
+        //registration = ctx.registerService(DeviceProxyFactory.class.getName(), this, dictionary);
         return this;
     }
 
-    public HADeviceFactoryBase unregister() {
+    public DeviceProxyFactoryBase unregister() {
         //registration.unregister();
         return this;
     }

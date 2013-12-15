@@ -23,17 +23,14 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
+import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.proxy.device.api.hvac.Pump;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.HAProfile;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
-import org.bubblecloud.zigbee.proxy.DeviceDescription;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.BundleContext;
 
 /**
@@ -43,7 +40,7 @@ import org.bubblecloud.zigbee.BundleContext;
  * @since 0.7.0
  *
  */
-public class PumpDevice extends HADeviceBase implements Pump {
+public class PumpDeviceProxy extends DeviceProxyBase implements Pump {
 
     private OnOff onOffCluster;
     private Scenes scenesCluster;
@@ -51,14 +48,14 @@ public class PumpDevice extends HADeviceBase implements Pump {
     private LevelControl levelControlCluster;
     private TemperatureMeasurement temperatureMeasurementCluster;
 
-    public PumpDevice(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
+    public PumpDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
         super(ctx, zbDevice);
 
-        levelControlCluster = (LevelControl) getCluster(HAProfile.LEVEL_CONTROL);
-        onOffCluster = (OnOff) getCluster(HAProfile.ON_OFF);
-        scenesCluster = (Scenes) getCluster(HAProfile.SCENES);
-        groupsCluster = (Groups) getCluster(HAProfile.GROUPS);
-        temperatureMeasurementCluster = (TemperatureMeasurement) getCluster(HAProfile.TEMPERATURE_MEASUREMENT);
+        levelControlCluster = (LevelControl) getCluster(ProxyConstants.LEVEL_CONTROL);
+        onOffCluster = (OnOff) getCluster(ProxyConstants.ON_OFF);
+        scenesCluster = (Scenes) getCluster(ProxyConstants.SCENES);
+        groupsCluster = (Groups) getCluster(ProxyConstants.GROUPS);
+        temperatureMeasurementCluster = (TemperatureMeasurement) getCluster(ProxyConstants.TEMPERATURE_MEASUREMENT);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){

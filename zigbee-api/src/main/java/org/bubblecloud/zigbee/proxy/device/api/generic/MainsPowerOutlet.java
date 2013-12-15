@@ -21,13 +21,13 @@
 */
 package org.bubblecloud.zigbee.proxy.device.api.generic;
 
+import org.bubblecloud.zigbee.proxy.DeviceProxy;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguration;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.HADevice;
-import org.bubblecloud.zigbee.proxy.HAProfile;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
@@ -37,14 +37,14 @@ import org.bubblecloud.zigbee.proxy.HAProfile;
  * @since 0.7.0
  *
  */
-public interface MainsPowerOutlet extends HADevice {
+public interface MainsPowerOutlet extends DeviceProxy {
 
     public static final int DEVICE_ID = 0x0009;
     public static final String NAME = "Mains Power Outlet";
-    public static final int[] MANDATORY = ArraysUtil.append(HADevice.MANDATORY, new int[]{
-            HAProfile.ON_OFF, HAProfile.SCENES, HAProfile.GROUPS
+    public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
+            ProxyConstants.ON_OFF, ProxyConstants.SCENES, ProxyConstants.GROUPS
     });
-    public static final int[] OPTIONAL = HADevice.OPTIONAL;
+    public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};
 

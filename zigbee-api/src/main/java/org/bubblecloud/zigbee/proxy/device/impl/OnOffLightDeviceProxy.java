@@ -23,13 +23,13 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.glue.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguration;
-import org.bubblecloud.zigbee.proxy.device.api.generic.OnOffSwitch;
-import org.bubblecloud.zigbee.proxy.HADeviceBase;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
-import org.bubblecloud.zigbee.proxy.DeviceDescription;
+import org.bubblecloud.zigbee.proxy.*;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
+import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
+import org.bubblecloud.zigbee.proxy.device.api.lighting.OnOffLight;
+import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.BundleContext;
 
 /**
@@ -40,50 +40,69 @@ import org.bubblecloud.zigbee.BundleContext;
  * @since 0.1.0
  *
  */
-public class OnOffSwitchDevice extends HADeviceBase implements OnOffSwitch {
+public class OnOffLightDeviceProxy extends DeviceProxyBase implements OnOffLight {
 	
-	private OnOffSwitchConfiguration onOffSwitchConfiguration;
+	private OnOff onOff;
+	private Scenes scenes;
+	private Groups groups;
+	private OccupacySensing occupancySensing;
 	
-	public OnOffSwitchDevice(BundleContext ctx,ZigBeeDevice zbDevice) throws ZigBeeHAException{
+	public OnOffLightDeviceProxy(BundleContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 		super(ctx,zbDevice);
+		onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);
+		groups = (Groups) getCluster(ProxyConstants.GROUPS);
+		scenes = (Scenes) getCluster(ProxyConstants.SCENES);
+		occupancySensing = (OccupacySensing) getCluster(ProxyConstants.OCCUPANCY_SENSING);
+	}
+
+
+	public Groups getGroups() {
+		return groups;
+	}
+
+	public OccupacySensing getOccupacySensing() {
+		return occupancySensing;
+	}
+
+	public OnOff getOnOff() {
+		return onOff;
+	}
+
+	public Scenes getScenes() {
+		return scenes;
+	}
+
+	
+
+	@Override
+	public String getName() {
+		return OnOffLight.NAME;
 	}
 
 	final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
 
 		public int[] getCustomClusters() {
-			return OnOffSwitch.CUSTOM;
+			return OnOffLight.CUSTOM;
 		}
 
 		public int[] getMandatoryCluster() {
-			return OnOffSwitch.MANDATORY;
+			return OnOffLight.MANDATORY;
 		}
 
 		public int[] getOptionalCluster() {
-			return OnOffSwitch.OPTIONAL;
+			return OnOffLight.OPTIONAL;
 		}
 
 		public int[] getStandardClusters() {
-			return OnOffSwitch.STANDARD;
+			return OnOffLight.STANDARD;
 		}
 		
 	};
-	
+
 	@Override
 	public DeviceDescription getDescription() {
 		return DEVICE_DESCRIPTOR;
 	}
 
-	@Override
-	public String getName() {
-		return OnOffSwitch.NAME;
-	}
-
-	public OnOffSwitchConfiguration getOnOffSwitchConfiguration() {
-		return onOffSwitchConfiguration;
-	}
-
-	public Identify getIdentify() {
-		return identify;
-	}
 
 }
