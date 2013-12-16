@@ -69,24 +69,8 @@ public class ZigbeeNetworkTest {
 
     @Test
     public void testZigbeeApi() throws Exception {
-
-        final ZigbeeNetworkManager zigbeeNetworkManager = new ZigbeeNetworkManager(
-                "/dev/ttyACM0", 115200, NetworkMode.Coordinator, 4951, 22,
-                false, 2500L);
-        final ZigbeeDiscoveryManager zigbeeDiscoveryManager = new ZigbeeDiscoveryManager(zigbeeNetworkManager);
-        final ZigbeeApi zigbeeApi = new ZigbeeApi(zigbeeNetworkManager);
-
-        zigbeeNetworkManager.open();
-
-        while (true) {
-            if (zigbeeNetworkManager.getDriverStatus() == DriverStatus.NETWORK_READY) {
-                break;
-            }
-            Thread.sleep(100);
-        }
-
+        final ZigbeeApi zigbeeApi = new ZigbeeApi("/dev/ttyACM0");
         zigbeeApi.startup();
-        zigbeeDiscoveryManager.startup();
 
         Thread.sleep(2000);
 
@@ -106,8 +90,6 @@ public class ZigbeeNetworkTest {
         }
 
         zigbeeApi.shutdown();
-        zigbeeDiscoveryManager.shutdown();
-        zigbeeNetworkManager.close();
     }
 
 

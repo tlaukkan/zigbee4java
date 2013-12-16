@@ -1,7 +1,8 @@
 package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.network.model.DriverStatus;
+import org.bubblecloud.zigbee.network.model.NetworkMode;
 import org.bubblecloud.zigbee.proxy.DeviceProxyListener;
-import org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
@@ -34,16 +35,34 @@ import java.util.Map;
 public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
     private final static Logger logger = LoggerFactory.getLogger(ZigbeeDiscoveryManager.class);
 
-    private final ZigbeeNetworkManagementInterface managementInterface;
+    private final ZigbeeNetworkManager networkManager;
+    private final ZigbeeDiscoveryManager discoveryManager;
+
     private ZigbeeContext context;
     private ZigBeeNetwork network;
 
-    public ZigbeeApi(final ZigbeeNetworkManagementInterface simpleDriver){
-        this.managementInterface = simpleDriver;
+    public ZigbeeApi(final String serialPortName){
+       networkManager = new ZigbeeNetworkManager(serialPortName, 115200,
+               NetworkMode.Coordinator, 4951, 22, false, 2500L);
+
+        discoveryManager = new ZigbeeDiscoveryManager(networkManager);
     }
 
-    public void startup() {
-        network = ApplicationFrameworkLayer.getAFLayer(managementInterface).getZigBeeNetwork();
+    public boolean startup() {
+        networkManager.open();
+
+        while (true) {
+            if (networkManager.getDriverStatus() == DriverStatus.NETWORK_READY) {
+                break;
+            }
+            try {
+                Thread.sleep(100);
+            } catch (final InterruptedException e) {
+                return false;
+            }
+        }
+
+        network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
         network.addDeviceListener(this);
 
         context = new ZigbeeContext();
@@ -83,18 +102,26 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
             }
         }
 
-        context.addDeviceProxyListener(this);
-                /*try {
+        /*try {
             factories.add( new UnknowHADeviceFactory( bc ).register() );
         } catch ( Exception ex) {
             logger.error( "Failed to register UnknowHADeviceFactory", ex );
         }*/
 
+        context.addDeviceProxyListener(this);
+
+        discoveryManager.startup();
+
+        return true;
     }
 
     public void shutdown() {
         context.removeDeviceProxyListener(this);
         network.removeDeviceListener(this);
+
+        discoveryManager.shutdown();
+        networkManager.close();
+
     }
 
     public void deviceAdded(ZigBeeDevice device) {
@@ -133,6 +160,14 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
     public void deviceRemoved(DeviceProxyBase device) {
         logger.info(device.getClass().getSimpleName() +
                 " removed: " + device.getDevice().getUniqueIdenfier());
+    }
+
+    public ZigbeeNetworkManager getNetworkManager() {
+        return networkManager;
+    }
+
+    public ZigbeeDiscoveryManager getDiscoveryManager() {
+        return discoveryManager;
     }
 
     public ZigbeeContext getContext() {
