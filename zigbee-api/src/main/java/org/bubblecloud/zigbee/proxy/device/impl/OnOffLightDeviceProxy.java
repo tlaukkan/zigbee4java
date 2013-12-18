@@ -30,7 +30,7 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.proxy.device.api.lighting.OnOffLight;
 import org.bubblecloud.zigbee.proxy.ProxyConstants;
-import org.bubblecloud.zigbee.ZigbeeContext;
+import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
 /**
  * 
@@ -47,7 +47,7 @@ public class OnOffLightDeviceProxy extends DeviceProxyBase implements OnOffLight
 	private Groups groups;
 	private OccupacySensing occupancySensing;
 	
-	public OnOffLightDeviceProxy(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+	public OnOffLightDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 		super(ctx,zbDevice);
 		onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);
 		groups = (Groups) getCluster(ProxyConstants.GROUPS);

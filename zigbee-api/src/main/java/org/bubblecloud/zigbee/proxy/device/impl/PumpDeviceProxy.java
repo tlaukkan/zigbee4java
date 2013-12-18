@@ -31,7 +31,7 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.proxy.device.api.hvac.Pump;
 import org.bubblecloud.zigbee.proxy.ProxyConstants;
-import org.bubblecloud.zigbee.ZigbeeContext;
+import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
@@ -48,7 +48,7 @@ public class PumpDeviceProxy extends DeviceProxyBase implements Pump {
     private LevelControl levelControlCluster;
     private TemperatureMeasurement temperatureMeasurementCluster;
 
-    public PumpDeviceProxy(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
+    public PumpDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
         super(ctx, zbDevice);
 
         levelControlCluster = (LevelControl) getCluster(ProxyConstants.LEVEL_CONTROL);

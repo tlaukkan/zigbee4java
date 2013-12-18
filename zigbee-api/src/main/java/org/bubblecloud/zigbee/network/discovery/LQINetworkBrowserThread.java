@@ -22,6 +22,7 @@
 
 package org.bubblecloud.zigbee.network.discovery;
 
+import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_IEEE_ADDR_REQ;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_IEEE_ADDR_RSP;
@@ -35,7 +36,6 @@ import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
-import org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +61,7 @@ public class LQINetworkBrowserThread extends RunnableThread {
     private static final short LQI_START_INDEX = 0;
 
     private final ImportingQueue queue;
-    final ZigbeeNetworkManagementInterface driver;
+    final ZigbeeNetworkManager driver;
 
     final ArrayList<NetworkAddressNodeItem> toInspect = new ArrayList<NetworkAddressNodeItem>();
     final HashMap<Integer, NetworkAddressNodeItem> alreadyInspected = new HashMap<Integer, NetworkAddressNodeItem>();
@@ -86,7 +86,7 @@ public class LQINetworkBrowserThread extends RunnableThread {
         }
     }
 
-    public LQINetworkBrowserThread(ImportingQueue queue, ZigbeeNetworkManagementInterface driver) {
+    public LQINetworkBrowserThread(ImportingQueue queue, ZigbeeNetworkManager driver) {
         this.queue = queue;
         this.driver = driver;
     }

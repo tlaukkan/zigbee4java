@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.device.impl;
 
-import org.bubblecloud.zigbee.ZigbeeContext;
+import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
@@ -44,7 +44,7 @@ public class OnOffSwitchDeviceProxy extends DeviceProxyBase implements OnOffSwit
 	
 	private OnOffSwitchConfiguration onOffSwitchConfiguration;
 	
-	public OnOffSwitchDeviceProxy(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
+	public OnOffSwitchDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
 		super(ctx,zbDevice);
 	}
 

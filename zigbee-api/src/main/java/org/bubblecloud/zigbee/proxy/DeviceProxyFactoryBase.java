@@ -22,9 +22,9 @@
 
 package org.bubblecloud.zigbee.proxy;
 
+import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.ZigbeeContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +45,7 @@ public abstract class DeviceProxyFactoryBase implements DeviceProxyFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(DeviceProxyFactoryBase.class);
 
-    protected ZigbeeContext ctx;
+    protected ZigbeeProxyContext ctx;
 
     private Dictionary dictionary;
     private Class<?> refinement;
@@ -53,10 +53,10 @@ public abstract class DeviceProxyFactoryBase implements DeviceProxyFactory {
 
     /**
      *
-     * @param ctx {@link org.bubblecloud.zigbee.ZigbeeContext} of the bundle extending the refinement capabilities
+     * @param ctx {@link org.bubblecloud.zigbee.ZigbeeProxyContext} of the bundle extending the refinement capabilities
      * @param refinement {@link Class} of the most refined interfaces provided by this factory
      */
-    public DeviceProxyFactoryBase(ZigbeeContext ctx, Class<?> refinement) {
+    public DeviceProxyFactoryBase(ZigbeeProxyContext ctx, Class<?> refinement) {
         this.ctx = ctx;
         this.refinement = refinement;
         dictionary = new Properties();

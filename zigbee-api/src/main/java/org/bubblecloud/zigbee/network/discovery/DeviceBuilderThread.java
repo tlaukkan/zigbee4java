@@ -22,9 +22,8 @@
 
 package org.bubblecloud.zigbee.network.discovery;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
-import org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface;
+import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
 import org.bubblecloud.zigbee.network.impl.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
@@ -69,7 +68,7 @@ public class DeviceBuilderThread implements Stoppable{
 	private Map<ZigBeeDeviceReference, Long> delayedReattempts = new HashMap<ZigBeeDeviceReference, Long>();
 	private final long delay = 30000;
 
-	private final ZigbeeNetworkManagementInterface driver;
+	private final ZigbeeNetworkManager driver;
 	private boolean end;
 
     private long nextInspectionSlot = 0;
@@ -86,7 +85,7 @@ public class DeviceBuilderThread implements Stoppable{
 		}
 	}
 
-	public DeviceBuilderThread(ImportingQueue queue, ZigbeeNetworkManagementInterface driver) {
+	public DeviceBuilderThread(ImportingQueue queue, ZigbeeNetworkManager driver) {
 		this.queue = queue;
 		this.driver = driver;
 	}
@@ -261,7 +260,7 @@ public class DeviceBuilderThread implements Stoppable{
 
 
     private void inspectNewDevice(){
-        nextInspectionSlot = 500 + System.currentTimeMillis();
+        nextInspectionSlot = 100 + System.currentTimeMillis();
         final ImportingQueue.ZigBeeNodeAddress dev = queue.pop();
         if ( dev == null ) return ;
         final ZToolAddress16 nwk = dev.getNetworkAddress();

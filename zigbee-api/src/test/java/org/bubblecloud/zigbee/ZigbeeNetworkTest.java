@@ -4,7 +4,7 @@ import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
 import org.bubblecloud.zigbee.proxy.ProxyConstants;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Basic;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Test for ZigbeeNetworkManager.
+ * Test for ZigbeeNetworkManagerSerialImpl.
  */
 public class ZigbeeNetworkTest {
     private final static Logger logger = LoggerFactory.getLogger(ZigbeeNetworkTest.class);
@@ -25,7 +25,7 @@ public class ZigbeeNetworkTest {
     @Ignore
     public void testOpenNetwork() throws Exception {
 
-        final ZigbeeNetworkManager zigbeeNetwork = new ZigbeeNetworkManager(
+        final ZigbeeNetworkManagerSerialImpl zigbeeNetwork = new ZigbeeNetworkManagerSerialImpl(
                 "/dev/ttyACM0", 115200, NetworkMode.Coordinator, 4951, 22,
                 false, 2500L);
         zigbeeNetwork.open();
@@ -44,7 +44,7 @@ public class ZigbeeNetworkTest {
     @Ignore
     public void testDiscoverNetwork() throws Exception {
 
-        final ZigbeeNetworkManager zigbeeNetworkManager = new ZigbeeNetworkManager(
+        final ZigbeeNetworkManagerSerialImpl zigbeeNetworkManager = new ZigbeeNetworkManagerSerialImpl(
                 "/dev/ttyACM0", 115200, NetworkMode.Coordinator, 4951, 22,
                 false, 2500L);
 
@@ -72,24 +72,34 @@ public class ZigbeeNetworkTest {
         final ZigbeeApi zigbeeApi = new ZigbeeApi("/dev/ttyACM0");
         zigbeeApi.startup();
 
-        Thread.sleep(2000);
+        Thread.sleep(500);
 
-        for (final DeviceProxy proxy : zigbeeApi.getContext().getDeviceProxies()) {
-            logger.info(proxy.getDevice().getUniqueIdenfier());
+        logger.info("Listing proxies:");
+        for (final DeviceProxy proxy : zigbeeApi.getZigbeeProxyContext().getDeviceProxies()) {
+            logger.info(proxy.getClass().getSimpleName() + " : " + proxy.getDevice().getUniqueIdenfier());
         }
 
-        for (final DeviceProxy proxy : zigbeeApi.getContext().getDeviceProxies()) {
+
+
+        while (true) {
             try {
-                final Basic basic = (Basic) proxy.getCluster(ProxyConstants.BASIC);
-                logger.info("Reading manufacturer info for: " + proxy.getDevice().getUniqueIdenfier());
-                logger.info("" + basic.getManufacturerName().getValue());
-                Thread.sleep(3000);
+                final DeviceProxy proxy = zigbeeApi.getZigbeeProxyContext().getDeviceProxy(528);
+                /*if (proxy != null) {
+                    final Basic basic = (Basic) proxy.getCluster(ProxyConstants.BASIC);
+                    logger.info("Reading manufacturer information for: " + proxy.getDevice().getUniqueIdenfier());
+                    logger.info("" + basic.getManufacturerName().getValue());
+                }*/
+                if (proxy != null) {
+                    final OnOff onOff = (OnOff) proxy.getCluster(ProxyConstants.ON_OFF);
+                    onOff.off();
+                }
             } catch (final Throwable t) {
                 logger.error("Error getting information for device.", t);
             }
+            Thread.sleep(100);
         }
 
-        zigbeeApi.shutdown();
+        //zigbeeApi.shutdown();
     }
 
 

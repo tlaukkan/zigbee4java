@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.network.impl;
 
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface;
+import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
 import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER;
 import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER_SRSP;
 import org.slf4j.Logger;
@@ -80,19 +80,19 @@ public class ApplicationFrameworkLayer {
 	final HashMap<Integer, List<Integer>> profile2Cluster = new HashMap<Integer, List<Integer>>();
 	final HashMap<Byte, Byte> endPoint2Transaction = new HashMap<Byte, Byte>();
 	
-	private final ZigbeeNetworkManagementInterface driver;
+	private final ZigbeeNetworkManager driver;
 	private final ZigBeeNetwork network;
 	
 	private byte firstFreeEndPoint;
 
 	
-	private ApplicationFrameworkLayer(ZigbeeNetworkManagementInterface driver){
+	private ApplicationFrameworkLayer(ZigbeeNetworkManager driver){
 		this.driver = driver;
 		firstFreeEndPoint = 2;
 		network = new ZigBeeNetwork();
 	}
 		
-	public static ApplicationFrameworkLayer getAFLayer(ZigbeeNetworkManagementInterface driver){
+	public static ApplicationFrameworkLayer getAFLayer(ZigbeeNetworkManager driver){
 		synchronized (LOCK) {
 			if( singelton == null ){
 				singelton = new ApplicationFrameworkLayer(driver);

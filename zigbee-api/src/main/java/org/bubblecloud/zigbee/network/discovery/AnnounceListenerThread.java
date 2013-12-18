@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.network.discovery;
 
-import org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface;
+import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
 import org.bubblecloud.zigbee.network.AnnounceListener;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
@@ -50,16 +50,16 @@ public class AnnounceListenerThread implements AnnounceListener {
 
     private final ImportingQueue queue;
 
-    private final ZigbeeNetworkManagementInterface driver;
+    private final ZigbeeNetworkManager driver;
 
     /**
-     * Created the {@link AnnounceListenerThread} object and register itself to the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface}<br>
+     * Created the {@link AnnounceListenerThread} object and register itself to the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManager}<br>
      * as {@link ImportingQueue}
      *
      * @param queue the {@link ImportingQueue} used to add the discovered devices
-     * @param driver the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface} to use for subscription
+     * @param driver the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManager} to use for subscription
      */
-    public AnnounceListenerThread(final ImportingQueue queue, final ZigbeeNetworkManagementInterface driver) {
+    public AnnounceListenerThread(final ImportingQueue queue, final ZigbeeNetworkManager driver) {
         this.queue = queue;
         this.driver = driver;
     }

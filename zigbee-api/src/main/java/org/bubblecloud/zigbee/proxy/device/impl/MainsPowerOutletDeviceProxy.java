@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.proxy.device.impl;
 
-import org.bubblecloud.zigbee.ZigbeeContext;
+import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
@@ -43,7 +43,7 @@ public class MainsPowerOutletDeviceProxy extends DeviceProxyBase implements Main
     private Scenes scenes;
     private Groups groups;
 
-    public MainsPowerOutletDeviceProxy(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public MainsPowerOutletDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
         onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);

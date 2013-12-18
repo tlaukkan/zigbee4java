@@ -116,7 +116,7 @@ public interface ZigBeeDevice {
 	public final String DEVICE_CATEGORY = "ZigBee";
 
 	/**
-	 * This property identify which <code>ZigbeeNetworkManagementInterface</code> has been used for discovering
+	 * This property identify which <code>ZigbeeNetworkManager</code> has been used for discovering
 	 * the ZigBee device
 	 */
     public final String ZIGBEE_IMPORT = "zigbee.import.id";

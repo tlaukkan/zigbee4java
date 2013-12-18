@@ -1,5 +1,5 @@
 /*
-   Copyright 2011-2013 CNR-ISTI, http://isti.cnr.it
+   Copyright 2008-2013 CNR-ISTI, http://isti.cnr.it
    Institute of Information Science and Technologies
    of the Italian National Research Council
 
@@ -18,7 +18,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
+ */
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.network.*;
@@ -33,6 +33,7 @@ import org.bubblecloud.zigbee.network.packet.system.SYS_RESET_RESPONSE;
 import org.bubblecloud.zigbee.network.packet.util.UTIL_GET_DEVICE_INFO;
 import org.bubblecloud.zigbee.network.packet.util.UTIL_GET_DEVICE_INFO_RESPONSE;
 import org.bubblecloud.zigbee.network.packet.zdo.*;
+import org.bubblecloud.zigbee.serial.ZigbeeSerialInterface;
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.network.model.*;
 import org.slf4j.Logger;
@@ -45,17 +46,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
+ * The zigbee network manager serial port implementation.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:michele.girolami@isti.cnr.it">Michele Girolami</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- * @version $LastChangedRevision: 229 $ ($LastChangedDate: 2011-05-20 11:42:58 +0200 (ven, 20 mag 2011) $)
- * @since 0.1.0
- *
+ * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
-public class ZigbeeNetworkManager implements Runnable, ZigbeeNetworkManagementInterface {
+public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkManager {
 
-    private final static Logger logger = LoggerFactory.getLogger(ZigbeeNetworkManager.class);
+    private final static Logger logger = LoggerFactory.getLogger(ZigbeeNetworkManagerSerialImpl.class);
     private final static Logger logger4Waiter = LoggerFactory.getLogger(WaitForCommand.class);
 
     public static final int RESEND_TIMEOUT_DEFAULT = 1000;
@@ -207,7 +207,7 @@ public class ZigbeeNetworkManager implements Runnable, ZigbeeNetworkManagementIn
         }
     }
 
-    public ZigbeeNetworkManager(String serialPort, int bitRate, NetworkMode mode, int pan, int channel, boolean cleanNetworkStatus, long timeout) {
+    public ZigbeeNetworkManagerSerialImpl(String serialPort, int bitRate, NetworkMode mode, int pan, int channel, boolean cleanNetworkStatus, long timeout) {
 
         int aux = RESEND_TIMEOUT_DEFAULT;
         try{
@@ -253,7 +253,7 @@ public class ZigbeeNetworkManager implements Runnable, ZigbeeNetworkManagementIn
     }
 
     private String buildDriverThreadName(String serialPort, int bitrate, int channel) {
-        return "ZigbeeNetworkManagementInterface["+serialPort+","+bitrate+"]";
+        return "ZigbeeNetworkManager["+serialPort+","+bitrate+"]";
     }
 
     public void setZigBeeNodeMode(NetworkMode m) {
@@ -640,7 +640,7 @@ public class ZigbeeNetworkManager implements Runnable, ZigbeeNetworkManagementIn
             }
             synchronized (result) {
                 result[0]=packet;
-                logger4Waiter.info(packet.getClass().getSimpleName() + " message received.");
+                logger4Waiter.info(packet.getClass().getSimpleName() + " message received: " + packet.toString());
                 cleanup();
             }
         }

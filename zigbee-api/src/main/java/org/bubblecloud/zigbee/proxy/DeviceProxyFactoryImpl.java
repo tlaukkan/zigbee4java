@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.ZigbeeContext;
+import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +53,7 @@ public class DeviceProxyFactoryImpl extends DeviceProxyFactoryBase {
     /**
      * Build an {@link DeviceProxyFactory} that refine {@link ZigBeeDevice} by means of <code>cImplementation</code>,<br>
      * into a <code>cInterface</code> service. This factory build the instance of the new service by invoking<br>
-     * the constructor  <code>cImplementation(ZigbeeContext, ZigBeeDevice)</code>.<br>
+     * the constructor  <code>cImplementation(ZigbeeProxyContext, ZigBeeDevice)</code>.<br>
      * By default the {@link #getRefinedInterfaces()} is built to return the values:<br>
      * <pre>
      * cInterface.getName()
@@ -61,13 +61,13 @@ public class DeviceProxyFactoryImpl extends DeviceProxyFactoryBase {
      * </pre>
      * 
      *  
-     * @param ctx {@link org.bubblecloud.zigbee.ZigbeeContext} to use for registering the {@link DeviceProxyFactory} service
+     * @param ctx {@link org.bubblecloud.zigbee.ZigbeeProxyContext} to use for registering the {@link DeviceProxyFactory} service
      * @param cInterface {@link Class} representing the refined service that this factory will install
      * @param cImplementation {@link Class} representing the implementation of the refinement service that will be created by the factory
      * 
      * @throws ZigBeeHAException
      */
-    public DeviceProxyFactoryImpl(ZigbeeContext ctx, Class<?> cInterface, Class<?> cImplementation) throws ZigBeeHAException {
+    public DeviceProxyFactoryImpl(ZigbeeProxyContext ctx, Class<?> cInterface, Class<?> cImplementation) throws ZigBeeHAException {
 		super(ctx, cInterface);
 		
 		this.inter = cInterface;
@@ -109,7 +109,7 @@ public class DeviceProxyFactoryImpl extends DeviceProxyFactoryBase {
     @Override
     public DeviceProxyBase getInstance(ZigBeeDevice zbd) {
 		try {
-		    Constructor builder = impl.getConstructor(ZigbeeContext.class, ZigBeeDevice.class);
+		    Constructor builder = impl.getConstructor(ZigbeeProxyContext.class, ZigBeeDevice.class);
 		    DeviceProxyBase device = (DeviceProxyBase) builder.newInstance(ctx, zbd);
 		    return device;
 		} catch (Exception e) {

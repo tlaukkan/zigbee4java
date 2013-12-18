@@ -30,7 +30,7 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASWD;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
 import org.bubblecloud.zigbee.proxy.device.api.security_safety.IAS_Warning;
 import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
-import org.bubblecloud.zigbee.ZigbeeContext;
+import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
@@ -46,7 +46,7 @@ public class IAS_Warning_DeviceProxy extends DeviceProxyBase implements IAS_Warn
     private Scenes scenes;
     private Groups groups;
 
-    public IAS_Warning_DeviceProxy(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public IAS_Warning_DeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
 

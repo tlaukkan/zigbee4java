@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.ZigbeeContext;
+import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Alarms;
@@ -59,7 +59,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     private final static Logger logger = LoggerFactory.getLogger(DeviceProxyBase.class);
 
     protected ZigBeeDevice zbDevice;
-    private ZigbeeContext ctx;
+    private ZigbeeProxyContext ctx;
 
 
     private Cluster[] clusters;
@@ -80,7 +80,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     private final ProvidedClusterMode clusterMode;
 
 
-    public DeviceProxyBase(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
+    public DeviceProxyBase(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
         this.zbDevice = zbDevice;
         this.ctx = ctx;
 

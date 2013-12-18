@@ -1,10 +1,30 @@
-package org.bubblecloud.zigbee;
+/*
+   Copyright 2008-2013 CNR-ISTI, http://isti.cnr.it
+   Institute of Information Science and Technologies
+   of the Italian National Research Council
+
+
+   See the NOTICE file distributed with this work for additional
+   information regarding copyright ownership
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ */
+package org.bubblecloud.zigbee.serial;
 
 import org.bubblecloud.zigbee.network.SynchrounsCommandListener;
 import org.bubblecloud.zigbee.network.packet.ZToolException;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.network.packet.ZToolPacketHandler;
-import org.bubblecloud.zigbee.serial.SerialPort;
 import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.network.AsynchrounsCommandListener;
 import org.slf4j.Logger;
@@ -17,7 +37,8 @@ import java.util.*;
 /**
  * ZigbeeSerialInterface is used to open connection to ZigBee network.
  *
- * @author Tommi S.E. Laukkanen
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
 public class  ZigbeeSerialInterface implements ZToolPacketHandler {
     /** The logger. */
@@ -71,16 +92,17 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
         final DoubleByte cmdId = packet.getCMD();
         switch (cmdId.getMsb() & 0xE0) {
             case  0x40: { //We received a AREQ
-                LOGGER.debug("We received a AREQ");
+                LOGGER.info("We received a AREQ");
                 notifyAsynchrounsCommand(packet);
             } break;
 
             case 0x60: { //We received a SRSP
-                LOGGER.debug("We received a SRSP");
+                LOGGER.info("We received a SRSP");
                 notifySynchrounsCommand(packet);
             } break;
 
             default:{
+                LOGGER.error("We received unknown packet: " + packet.toString());
                 throw new IllegalStateException("Recieved a Command from CC2480 with an unknow type"+packet);
             }
         }
@@ -94,7 +116,7 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
 
 
         //FIX Sending byte instead of int
-        LOGGER.debug( "Sending Packet {} {} ", packet.getClass(), packet.toString() );
+        LOGGER.info( "Sending Packet {} {} ", packet.getClass(), packet.toString() );
 
         final int[] pck = packet.getPacket();
         synchronized (serialPort) {

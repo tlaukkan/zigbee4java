@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.network.model.NetworkMode;
 
 /**
  * 
- * This class contains all the system property that <b>SHOULD</b> affect the behavior of a {@link ZigbeeNetworkManagementInterface}
+ * This class contains all the system property that <b>SHOULD</b> affect the behavior of a {@link ZigbeeNetworkManager}
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi - ISTI-CNR</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco - ISTI-CNR</a>

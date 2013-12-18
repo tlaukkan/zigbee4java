@@ -1,29 +1,37 @@
+/**
+ * Copyright 2013 Tommi S.E. Laukkanen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.bubblecloud.zigbee;
 
-import org.bubblecloud.zigbee.proxy.DeviceProxyListener;
+import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.ClusterFactory;
-import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
-import org.bubblecloud.zigbee.proxy.DeviceProxyFactory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
- * Created with IntelliJ IDEA.
- * User: tlaukkan
- * Date: 12/15/13
- * Time: 10:06 AM
- * To change this template use File | Settings | File Templates.
+ * Zigbee proxy context.
+ *
+ * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
-public class ZigbeeContext {
+public class ZigbeeProxyContext {
 
     private ClusterFactory clusterFactory;
 
     private List<DeviceProxyFactory> deviceProxyFactories = new ArrayList<DeviceProxyFactory>();
 
-    private List<DeviceProxyBase> deviceProxies = new ArrayList<DeviceProxyBase>();
+    private Map<Integer, DeviceProxy> deviceProxies = new HashMap<Integer, DeviceProxy>();
 
     private final List<DeviceProxyListener> deviceProxyListeners = new ArrayList<DeviceProxyListener>();
 
@@ -65,18 +73,18 @@ public class ZigbeeContext {
         }
     }
 
-    public void addDeviceProxy(final DeviceProxyBase device) {
-        deviceProxies.add(device);
+    public void addDeviceProxy(final DeviceProxy device) {
+        deviceProxies.put(device.getDevice().getDeviceId(), device);
         notifyDeviceProxyAdded(device);
     }
 
-    public void updateDeviceProxy(final DeviceProxyBase device) {
+    public void updateDeviceProxy(final DeviceProxy device) {
         notifyDeviceProxyUpdated(device);
     }
 
-    public void removeDeviceProxy(final DeviceProxyBase device) {
+    public void removeDeviceProxy(final DeviceProxy device) {
         notifyDeviceProxyRemoved(device);
-        deviceProxies.remove(device);
+        deviceProxies.remove(device.getDevice().getDeviceId());
     }
 
     public void addDeviceProxyListener(final DeviceProxyListener deviceListener) {
@@ -91,7 +99,7 @@ public class ZigbeeContext {
         }
     }
 
-    public void notifyDeviceProxyAdded(final DeviceProxyBase device) {
+    public void notifyDeviceProxyAdded(final DeviceProxy device) {
         synchronized (deviceProxyListeners) {
             for (final DeviceProxyListener deviceListener : deviceProxyListeners) {
                 deviceListener.deviceAdded(device);
@@ -99,7 +107,7 @@ public class ZigbeeContext {
         }
     }
 
-    public void notifyDeviceProxyUpdated(final DeviceProxyBase device) {
+    public void notifyDeviceProxyUpdated(final DeviceProxy device) {
         synchronized (deviceProxyListeners) {
             for (final DeviceProxyListener deviceListener : deviceProxyListeners) {
                 deviceListener.deviceUpdated(device);
@@ -107,7 +115,7 @@ public class ZigbeeContext {
         }
     }
 
-    public void notifyDeviceProxyRemoved(final DeviceProxyBase device) {
+    public void notifyDeviceProxyRemoved(final DeviceProxy device) {
         synchronized (deviceProxyListeners) {
             for (final DeviceProxyListener deviceListener : deviceProxyListeners) {
                 deviceListener.deviceRemoved(device);
@@ -115,7 +123,11 @@ public class ZigbeeContext {
         }
     }
 
-    public List<DeviceProxyBase> getDeviceProxies() {
-        return Collections.unmodifiableList(deviceProxies);
+    public DeviceProxy getDeviceProxy(final int deviceId) {
+        return deviceProxies.get(deviceId);
+    }
+
+    public List<DeviceProxy> getDeviceProxies() {
+        return Collections.unmodifiableList(new ArrayList(deviceProxies.values()));
     }
 }

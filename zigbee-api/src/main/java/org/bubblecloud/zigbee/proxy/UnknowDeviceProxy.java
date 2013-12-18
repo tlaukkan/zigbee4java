@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.ZigbeeContext;
+import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 
 /**
@@ -34,7 +34,7 @@ import org.bubblecloud.zigbee.network.ZigBeeDevice;
  */
 public class UnknowDeviceProxy extends DeviceProxyBase {
 
-    public UnknowDeviceProxy(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public UnknowDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
         super(ctx,zbDevice);
         int[] inputClusters = zbDevice.getInputClusters();
         for (int i = 0; i < inputClusters.length; i++) {

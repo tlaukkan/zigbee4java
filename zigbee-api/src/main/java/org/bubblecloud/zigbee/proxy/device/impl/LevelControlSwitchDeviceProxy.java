@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguration;
 import org.bubblecloud.zigbee.proxy.device.api.generic.LevelControlSwitch;
 import org.bubblecloud.zigbee.proxy.ProxyConstants;
-import org.bubblecloud.zigbee.ZigbeeContext;
+import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
 /**
  *
@@ -40,7 +40,7 @@ public class LevelControlSwitchDeviceProxy extends DeviceProxyBase implements Le
 
 	private OnOffSwitchConfiguration onOffSwitchConfiguration;
 
-	public LevelControlSwitchDeviceProxy(ZigbeeContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
+	public LevelControlSwitchDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
 		super(ctx, zbDevice);
 		onOffSwitchConfiguration = (OnOffSwitchConfiguration) getCluster(ProxyConstants.ON_OFF_SWITCH_CONFIGURATION);
 	}

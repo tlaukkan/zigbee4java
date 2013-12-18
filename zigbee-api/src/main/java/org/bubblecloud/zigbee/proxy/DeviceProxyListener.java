@@ -1,7 +1,5 @@
 package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
-
 /**
  * Created with IntelliJ IDEA.
  * User: tlaukkan
@@ -11,10 +9,10 @@ import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
  */
 public interface DeviceProxyListener {
 
-    public void deviceAdded(final DeviceProxyBase device);
+    public void deviceAdded(final DeviceProxy device);
 
-    public void deviceUpdated(final DeviceProxyBase device);
+    public void deviceUpdated(final DeviceProxy device);
 
-    public void deviceRemoved(final DeviceProxyBase device);
+    public void deviceRemoved(final DeviceProxy device);
 
 }

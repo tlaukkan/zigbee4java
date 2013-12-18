@@ -22,9 +22,9 @@
 
 package org.bubblecloud.zigbee.proxy;
 
+import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
-import org.bubblecloud.zigbee.ZigbeeContext;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -44,12 +44,12 @@ import java.util.Properties;
  */
 public class ClusterFactoryBase implements ClusterFactory{
 
-    private ZigbeeContext ctx;
+    private ZigbeeProxyContext ctx;
     private Dictionary dictionary;
     private Hashtable<String, Class> clusters;
 
 
-    public ClusterFactoryBase(ZigbeeContext ctx){
+    public ClusterFactoryBase(ZigbeeProxyContext ctx){
         this.ctx = ctx;
         dictionary = new Properties();
         clusters = new Hashtable<String, Class>();

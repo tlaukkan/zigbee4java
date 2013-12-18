@@ -30,7 +30,6 @@ import org.bubblecloud.zigbee.network.packet.zdo.*;
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.util.ThreadUtils;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
-import org.bubblecloud.zigbee.network.model.NetworkAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +57,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
 
     private ZigBeeNode node = null;
     private final Properties properties = new Properties();
-    private final ZigbeeNetworkManagementInterface driver;
+    private final ZigbeeNetworkManager driver;
     private final byte endPointAddress;
 
     private final HashSet<Integer> boundCluster = new HashSet<Integer>();
@@ -66,10 +65,10 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
     private final HashSet<ApplicationFrameworkMessageConsumer> consumers = new HashSet<ApplicationFrameworkMessageConsumer>();
     private String uuid = null;
 
-    public ZigBeeDeviceImpl(final ZigbeeNetworkManagementInterface drv, final ZigBeeNode n, byte ep) throws ZigBeeBasedriverException{
+    public ZigBeeDeviceImpl(final ZigbeeNetworkManager drv, final ZigBeeNode n, byte ep) throws ZigBeeBasedriverException{
         if ( drv == null || n == null) {
             logger.error( "Creating {} with some nulls parameters {}", new Object[]{ ZigBeeDevice.class, drv, n, ep } );
-            throw new NullPointerException("Cannot create a device with a null ZigbeeNetworkManagementInterface or a null ZigBeeNode");
+            throw new NullPointerException("Cannot create a device with a null ZigbeeNetworkManager or a null ZigBeeNode");
         }
         driver = drv;
         endPointAddress = ep;
@@ -159,7 +158,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
     }
 
     private ZDO_SIMPLE_DESC_RSP doRetrieveSimpleDescription(ZigBeeNode n) throws ZigBeeBasedriverException {
-        //TODO Move into ZigbeeNetworkManagementInterface?!?!?
+        //TODO Move into ZigbeeNetworkManager?!?!?
         final int nwk = n.getNetworkAddress();
         int i = 0;
         ZDO_SIMPLE_DESC_RSP result = null;
@@ -282,7 +281,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         //TODO Create radius and options according to the current configuration
         AF_DATA_CONFIRM response =  driver.sendAFDataRequest(new AF_DATA_REQUEST(
                 node.getNetworkAddress(), endPointAddress, sender, input.getId(),
-                transaction, (byte) 0 /*options*/, (byte) 0 /*radius*/, msg
+                transaction, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg
         ));
 
         if( response == null){

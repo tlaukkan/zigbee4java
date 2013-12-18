@@ -38,7 +38,7 @@ import org.bubblecloud.zigbee.network.packet.zdo.*;
  * @since 0.1.0
  *
  */
-public interface ZigbeeNetworkManagementInterface {
+public interface ZigbeeNetworkManager {
 
 	public abstract void setZigBeeNodeMode(NetworkMode m);
 

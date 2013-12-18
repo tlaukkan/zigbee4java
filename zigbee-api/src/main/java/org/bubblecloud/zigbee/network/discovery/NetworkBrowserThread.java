@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.network.discovery;
 
-import org.bubblecloud.zigbee.network.ZigbeeNetworkManagementInterface;
+import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_IEEE_ADDR_REQ;
@@ -55,7 +55,7 @@ public class NetworkBrowserThread extends RunnableThread {
     private static final short COORDINATOR_NWK_ADDRESS = 0;
 
     private final ImportingQueue queue;
-    final ZigbeeNetworkManagementInterface driver;
+    final ZigbeeNetworkManager driver;
 
     final ArrayList<NetworkAddressNodeItem> toInspect = new ArrayList<NetworkAddressNodeItem>();
     final HashMap<Integer, NetworkAddressNodeItem> alreadyInspected = new HashMap<Integer, NetworkAddressNodeItem>();
@@ -80,7 +80,7 @@ public class NetworkBrowserThread extends RunnableThread {
         }
     }
 
-    public NetworkBrowserThread(ImportingQueue queue, ZigbeeNetworkManagementInterface driver) {
+    public NetworkBrowserThread(ImportingQueue queue, ZigbeeNetworkManager driver) {
         this.queue = queue;
         this.driver = driver;
     }
