@@ -2,12 +2,21 @@ package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
+import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
+import org.bubblecloud.zigbee.network.packet.ZToolCMD;
+import org.bubblecloud.zigbee.network.packet.zdo.ZDO_MGMT_LEAVE_REQ;
+import org.bubblecloud.zigbee.network.packet.zdo.ZDO_MGMT_LEAVE_REQ_SRSP;
+import org.bubblecloud.zigbee.network.packet.zdo.ZDO_MGMT_LEAVE_RSP;
+import org.bubblecloud.zigbee.network.packet.zdo.ZDO_MGMT_PERMIT_JOIN_REQ;
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
 import org.bubblecloud.zigbee.proxy.ProxyConstants;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.Basic;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
+import org.bubblecloud.zigbee.util.Integers;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.omg.CORBA.TIMEOUT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,22 +93,44 @@ public class ZigbeeNetworkTest {
         while (true) {
             try {
                 final DeviceProxy proxy = zigbeeApi.getZigbeeProxyContext().getDeviceProxy(528);
+
+                if (proxy == null) {
+                    continue;
+                }
+
+                /*int address = proxy.getDevice().getPhysicalNode().getNetworkAddress();
+                zigbeeApi.getZigbeeNetworkManager().sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(
+                        new ZToolAddress16(Integers.getByteAsInteger(address, 1), Integers.getByteAsInteger(address, 0)),
+                        0x10,
+                        0
+                ));*/
+                /* zigbeeApi.getZigbeeNetworkManager().sendZDOLeaveRequest(new ZToolAddress16[] {
+                    new ZToolAddress16(Integers.getByteAsInteger(address, 1), Integers.getByteAsInteger(address, 0))
+                });*/
+
+                /*zigbeeApi.getZigbeeNetworkManager().sendZDOLeaveRequest(new ZToolAddress16[] {
+                        new ZToolAddress16(0, 0)
+                });*/
+
                 /*if (proxy != null) {
                     final Basic basic = (Basic) proxy.getCluster(ProxyConstants.BASIC);
                     logger.info("Reading manufacturer information for: " + proxy.getDevice().getUniqueIdenfier());
                     logger.info("" + basic.getManufacturerName().getValue());
-                }*/
+                }
                 if (proxy != null) {
                     final OnOff onOff = (OnOff) proxy.getCluster(ProxyConstants.ON_OFF);
                     onOff.off();
-                }
+                }*/
+                break;
             } catch (final Throwable t) {
                 logger.error("Error getting information for device.", t);
             }
             Thread.sleep(100);
         }
 
-        //zigbeeApi.shutdown();
+        Thread.sleep(10000);
+
+        zigbeeApi.shutdown();
     }
 
 

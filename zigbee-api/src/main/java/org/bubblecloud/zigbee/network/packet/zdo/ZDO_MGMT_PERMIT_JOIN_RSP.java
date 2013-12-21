@@ -87,4 +87,12 @@ public class ZDO_MGMT_PERMIT_JOIN_RSP extends ZToolPacket /*implements IRESPONSE
             /// <summary>ZDO status</summary>
             public static final int ZDP_TIMEOUT = 0x85;
         }
+
+    @Override
+    public String toString() {
+        return "ZDO_MGMT_PERMIT_JOIN_RSP{" +
+                "SrcAddress=" + SrcAddress +
+                ", Status=" + Status +
+                '}';
+    }
 }

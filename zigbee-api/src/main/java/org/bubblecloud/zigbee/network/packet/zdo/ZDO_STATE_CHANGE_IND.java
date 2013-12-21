@@ -27,6 +27,9 @@ import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
@@ -47,72 +50,44 @@ public class ZDO_STATE_CHANGE_IND extends ZToolPacket /*implements IRESPONSE_CAL
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_STATE_CHANGE_IND), framedata);
     }
 
-    public class CMD_STATUS {
+    @Override
+    public String toString() {
+        return "ZDO_STATE_CHANGE_IND{" +
+                "State=" + CMD_STATUS.getStatus(State) +
+                '}';
+    }
 
-        public static final int FAIL = 1;
-        public static final int SUCCESS = 0;
-        public static final int ZAF_STATUS_FAILED = 0x80;
-        public static final int ZAF_STATUS_INVALID_PARAMETER = 130;
-        public static final int ZAF_STATUS_MEM_FAIL = 0x81;
-        public static final int ZAPS_FAIL = 0xb1;
-        public static final int ZAPS_ILLEGAL_REQUEST = 0xb3;
-        public static final int ZAPS_INVALID_BINDING = 180;
-        public static final int ZAPS_NO_ACK = 0xb7;
-        public static final int ZAPS_NOT_SUPPORTED = 0xb6;
-        public static final int ZAPS_TABLE_FULL = 0xb2;
-        public static final int ZAPS_UNSUPPORTED_ATTRIB = 0xb5;
-        public static final int ZBUFFER_FULL = 0x11;
-        public static final int ZMAC_ACK_PENDING = 0x1b;
-        public static final int ZMAC_BAD_STATE = 0x19;
-        public static final int ZMAC_BEACON_LOSS = 0xe0;
-        public static final int ZMAC_CHANNEL_ACCESS_FAILURE = 0xe1;
-        public static final int ZMAC_DENIED = 0xe2;
-        public static final int ZMAC_DISABLE_TRX_FAILURE = 0xe3;
-        public static final int ZMAC_FAILED_SECURITY_CHECK = 0xe4;
-        public static final int ZMAC_FRAME_TOO_LONG = 0xe5;
-        public static final int ZMAC_INVALID_GTS = 230;
-        public static final int ZMAC_INVALID_HANDLE = 0xe7;
-        public static final int ZMAC_INVALID_PARAMETER = 0xe8;
-        public static final int ZMAC_MEM_ERROR = 0x13;
-        public static final int ZMAC_NO_ACK = 0xe9;
-        public static final int ZMAC_NO_BEACON = 0xea;
-        public static final int ZMAC_NO_DATA = 0xeb;
-        public static final int ZMAC_NO_RESOURCE = 0x1a;
-        public static final int ZMAC_NO_SHORT_ADDRESS = 0xec;
-        public static final int ZMAC_NO_TIME = 0x1c;
-        public static final int ZMAC_ON_TIME_TOO_LONG = 0xf6;
-        public static final int ZMAC_OUT_OF_CAP = 0xed;
-        public static final int ZMAC_PANID_CONFLICT = 0xee;
-        public static final int ZMAC_PAST_TIME = 0xf7;
-        public static final int ZMAC_REALIGNMENT = 0xef;
-        public static final int ZMAC_SCAN_IN_PROGRESS = 0xfc;
-        public static final int ZMAC_TRACKING_OFF = 0xf8;
-        public static final int ZMAC_TRANSACTION_EXPIRED = 240;
-        public static final int ZMAC_TRANSACTION_OVERFLOW = 0xf1;
-        public static final int ZMAC_TX_ABORTED = 0x1d;
-        public static final int ZMAC_TX_ACTIVE = 0xf2;
-        public static final int ZMAC_UNAVAILABLE_KEY = 0xf3;
-        public static final int ZMAC_UNSUPPORTED_2 = 0x18;
-        public static final int ZMAC_UNSUPPORTED = 0xf5;
-        public static final int ZMAC_UNSUPPORTED_ATTRIBUTE = 0xf4;
-        public static final int ZMEM_ERROR = 0x10;
-        public static final int ZNWK_ALREADY_PRESENT = 0xc5;
-        public static final int ZNWK_INVALID_PARAM = 0xc1;
-        public static final int ZNWK_INVALID_REQUEST = 0xc2;
-        public static final int ZNWK_LEAVE_UNCONFIRMED = 0xcb;
-        public static final int ZNWK_NO_ACK = 0xcc;
-        public static final int ZNWK_NO_NETWORKS = 0xca;
-        public static final int ZNWK_NO_ROUTE = 0xcd;
-        public static final int ZNWK_NOT_PERMITTED = 0xc3;
-        public static final int ZNWK_STARTUP_FAILURE = 0xc4;
-        public static final int ZNWK_SYNC_FAILURE = 0xc6;
-        public static final int ZNWK_TABLE_FULL = 0xc7;
-        public static final int ZNWK_UNKNOWN_DEVICE = 200;
-        public static final int ZNWK_UNSUPPORTED_ATTRIBUTE = 0xc9;
-        public static final int ZSEC_CCM_FAIL = 0xa4;
-        public static final int ZSEC_MAX_FRM_COUNT = 0xa3;
-        public static final int ZSEC_NO_KEY = 0xa1;
-        public static final int ZSEC_OLD_FRM_COUNT = 0xa2;
-        public static final int ZUNSUPPORTED_MODE = 0x12;
+    public enum CMD_STATUS {
+        DEV_HOLD(0x00), // Initialized - not started automatically
+        DEV_INIT(0x01), // Initialized - not connected to anything
+        DEV_NWK_DISC(0x02), // Discovering PAN's to join
+        DEV_NWK_JOINING(0x03), // Joining a PAN
+        DEV_NWK_REJOINING(0x04), // ReJoining a PAN, only for end-devices
+        DEV_END_DEVICE_UNAUTH(0x05), // Joined but not yet authenticated by trust center
+        DEV_END_DEVICE(0x06), // Started as device after authentication
+        DEV_ROUTER(0x07), // Device joined, authenticated and is a router
+        DEV_COORD_STARTING(0x08), // Started as Zigbee Coordinator
+        DEV_ZB_COORD(0x09), // Started as Zigbee Coordinator
+        DEV_NWK_ORPHAN(0x0A); // Device has lost information about its parent
+
+        private static Map<Integer, CMD_STATUS> mapping= new HashMap<Integer, CMD_STATUS>();
+        private int value;
+        private CMD_STATUS(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public static CMD_STATUS getStatus(int value) {
+            return mapping.get(value);
+        }
+
+        static {
+            for (CMD_STATUS status : CMD_STATUS.values()) {
+                mapping.put(status.value, status);
+            }
+        }
     }
 }

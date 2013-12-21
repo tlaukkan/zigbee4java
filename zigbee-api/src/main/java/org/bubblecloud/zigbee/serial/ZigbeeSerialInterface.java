@@ -91,19 +91,18 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
     public void handlePacket(final ZToolPacket packet) {
         final DoubleByte cmdId = packet.getCMD();
         switch (cmdId.getMsb() & 0xE0) {
-            case  0x40: { //We received a AREQ
-                LOGGER.info("We received a AREQ");
+            case  0x40: { //We received a message
+                LOGGER.info("<<-- ({}) ({})", packet.getClass().getSimpleName(), packet);
                 notifyAsynchrounsCommand(packet);
             } break;
 
             case 0x60: { //We received a SRSP
-                LOGGER.info("We received a SRSP");
+                LOGGER.info("<- ({}) ({})", packet.getClass().getSimpleName(), packet);
                 notifySynchrounsCommand(packet);
             } break;
 
             default:{
-                LOGGER.error("We received unknown packet: " + packet.toString());
-                throw new IllegalStateException("Recieved a Command from CC2480 with an unknow type"+packet);
+                LOGGER.error("Incoming unknown packet. ({}) ({})", packet.getClass().getSimpleName(), packet);
             }
         }
     }
@@ -116,7 +115,7 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
 
 
         //FIX Sending byte instead of int
-        LOGGER.info( "Sending Packet {} {} ", packet.getClass(), packet.toString() );
+        LOGGER.info( "-> ({}) ({}) ", packet.getClass().getSimpleName(), packet.toString() );
 
         final int[] pck = packet.getPacket();
         synchronized (serialPort) {
