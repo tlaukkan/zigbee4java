@@ -96,118 +96,6 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
     private long ieeeAddress = -1;
     private final HashMap<Class<?>, Thread> conversation3Way = new HashMap<Class<?>, Thread>();
 
-    private class AnnunceListerFilter implements AsynchrounsCommandListener {
-
-        private final Collection<AnnounceListener> listners;
-
-        private AnnunceListerFilter(Collection<AnnounceListener> list){
-            listners = list;
-        }
-
-        public void receivedAsynchrounsCommand(ZToolPacket packet) {
-            if(packet.isError()) return;
-            if(packet.getCMD().get16BitValue() == ZToolCMD.ZDO_END_DEVICE_ANNCE_IND){
-                logger.debug( "Recieved announce message {} value is {}", packet.getClass(), packet );
-                ZDO_END_DEVICE_ANNCE_IND annunce = (ZDO_END_DEVICE_ANNCE_IND) packet;
-                for (AnnounceListener l : listners) {
-                    l.notify(annunce.SrcAddr, annunce.IEEEAddr, annunce.NwkAddr, annunce.Capabilities);
-
-                }
-            }
-            else if(packet.getCMD().get16BitValue() == ZToolCMD.ZDO_STATE_CHANGE_IND){
-                try{
-                    ZDO_STATE_CHANGE_IND p = ((ZDO_STATE_CHANGE_IND)packet);
-                    /*DEV_HOLD=0x00, // Initialized - not started automatically
-                    DEV_INIT=0x01, // Initialized - not connected to anything
-                    DEV_NWK_DISC=0x02, // Discovering PAN's to join
-                    DEV_NWK_JOINING=0x03, // Joining a PAN
-                    DEV_NWK_=0x04, // ReJoining a PAN, only for end-devices
-                    DEV_END_DEVICE_UNAUTH=0x05, // Joined but not yet authenticated by trust center
-                    DEV_END_DEVICE=0x06, // Started as device after authentication
-                    DEV_ROUTER=0x07, // Device joined, authenticated and is a router
-                    DEV_COORD_STARTING=0x08, // Started as Zigbee Coordinator
-                    DEV_ZB_COORD=0x09, // Started as Zigbee Coordinator
-                    DEV_NWK_ORPHAN=0x0A // Device has lost information about its parent*/
-                    switch (p.State) {
-                    case 0:
-                        logger.debug("Initialized - not started automatically");
-                        break;
-                    case 1:
-                        logger.debug("Initialized - not connected to anything");
-                        break;
-                    case 2:
-                        logger.debug("Discovering PANs to join or waiting for permit join");
-                        break;
-                    case 3:
-                        logger.debug("Joining a PAN");
-                        break;
-                    case 4:
-                        logger.debug("Rejoining a PAN, only for end-devices");
-                        break;
-                    case 5:
-                        logger.debug("Joined but not yet authenticated by trust center");
-                        break;
-                    case 6:
-                        logger.debug("Started as device after authentication");
-                        break;
-                    case 7:
-                        logger.debug("Device joined, authenticated and is a router");
-                        break;
-                    case 8:
-                        logger.debug("Starting as Zigbee Coordinator");
-                        break;
-                    case 9:
-                        logger.debug("Started as Zigbee Coordinator");
-                        setState(DriverStatus.NETWORK_READY);
-                        break;
-                    case 10:
-                        logger.debug("Device has lost information about its parent");
-                        break;
-                    default:
-                        break;
-                    }
-                }
-                catch(Exception ex){
-                    // ignored
-                }
-            }
-        }
-    }
-
-    private class AFMessageListnerFilter implements AsynchrounsCommandListener{
-
-        private final Collection<ApplicationFrameworkMessageListener> listners;
-
-        private AFMessageListnerFilter(Collection<ApplicationFrameworkMessageListener> list){
-            listners = list;
-        }
-
-        public void receivedAsynchrounsCommand(ZToolPacket packet) {
-            if(packet.isError()) return;
-            if(packet.getCMD().get16BitValue() == ZToolCMD.AF_INCOMING_MSG){
-                AF_INCOMING_MSG msg = (AF_INCOMING_MSG) packet;
-                if( listners.isEmpty() ){
-                    logger.debug("Received AF_INCOMING_MSG but no listeners. Message was: {} ", msg);
-                } else {
-                    logger.debug("Received AF_INCOMING_MSG notifying {} listeners of {}", listners.size(), msg);
-                }
-                ArrayList<ApplicationFrameworkMessageListener> localCopy = null;
-                synchronized (listners) {
-                    localCopy = new ArrayList<ApplicationFrameworkMessageListener>(listners);
-                }
-                for ( ApplicationFrameworkMessageListener l : localCopy){
-//					if( l.match(
-//							msg.getClusterId(), msg.getSrcAddr(),
-//							msg.getSrcEndpoint(), msg.getDstEndpoint(),
-//							msg.getTransId()
-//					) ) {
-                        l.notify(msg);
-//					}
-                }
-            }
-        }
-    }
-
     public ZigbeeNetworkManagerSerialImpl(String serialPort, int bitRate, NetworkMode mode, int pan, int channel, boolean cleanNetworkStatus, long timeout) {
 
         int aux = RESEND_TIMEOUT_DEFAULT;
@@ -329,6 +217,27 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             setState(DriverStatus.CLOSED);
         }
         //logger.info("Closed");
+    }
+
+    public <REQUEST extends ZToolPacket, RESPONSE extends ZToolPacket> RESPONSE sendRemoteCommand(REQUEST request) {
+        if( waitForNetwork() == false ) return null;
+        RESPONSE result = null;
+
+        waitAndLock3WayConversation(request);
+        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_MGMT_PERMIT_JOIN_RSP, zigbeeSerialInterface);
+
+        logger.debug("Sending ZDO_MGMT_PERMIT_JOIN_REQ {}", request);
+        ZToolPacket response = (ZDO_MGMT_PERMIT_JOIN_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
+        if (response == null) {
+            logger.error("{} timed out waiting for synchronous local response.", request.getClass().getSimpleName());
+            waiter.cleanup();
+            return null;
+        } else {
+            logger.error("{} timed out waiting for asynchronous remote response.", request.getClass().getSimpleName());
+            result = (RESPONSE) waiter.getCommand(TIMEOUT);
+            unLock3WayConversation(request);
+            return result;
+        }
     }
 
     public ZDO_MGMT_LQI_RSP sendLQIRequest(ZDO_MGMT_LQI_REQ request) {
@@ -603,71 +512,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             zigbeeSerialInterface.addAsynchrounsCommandListener(announceListener);
         }
     }
-/*
-    boolean initializeHardware(String portName, int boudRate) {
-        boolean result = false;
-        final int received[] = new int[1];
-        low = new ZigbeeSerialInterface(portName);
-        final PacketListener monitor = new PacketListener(){
-            public void packetReceived(ZToolPacket packet) {
-                logger.debug("Received initializing SYS VERSION candidate");
-                if(packet.getCommandId() == ZToolCMD.SYS_VERSION_RESPONSE){
-                    logger.debug("Initializing Hardware: Received correctly SYS_VERSION_RESPONSE");
-                    synchronized (received) {
-                        received[0] = 3;
-                    }
-                } else if(packet.isError()){
-                    logger.debug("Initializing Hardware: Received erroneous packet: {}",packet.getErrorMsg());
-                    synchronized (received) {
-                        received[0] += 1;
-                    }
-                } else {
-                    logger.debug("Initializing Hardware: Received {}",packet.getClass().getName());
-                    synchronized (received) {
-                        received[0] += 1;
-                    }
-                }
-            }
-        };
-        low.addPacketListener(monitor);
-        try {
-            low.open(portName, boudRate);
-            low.sendPacket(new SYS_VERSION());
-            final long ready = System.currentTimeMillis() + TIMEOUT; // manlio 5000;
-            while(ready > System.currentTimeMillis()){
-                synchronized (received) {
-                    if( received[0] == 3 ){
-                        logger.debug("Received initializing SYS VERSION");
-                        break;
-                    }
-                }
 
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ignored) {
-                    logger.debug("Exception SYS VERSION");
-                }
-            }
-            logger.debug("End of waiting for SYS VERSION");
-            synchronized (received) {
-                if( received[0] == 3 ){
-                    logger.debug("Succeeded initializing SYS VERSION");
-                    result = true;
-                }
-            }
-        } catch (ZToolException e) {
-            logger.info("Unable to open serial port: {}", portName);
-            logger.error("Unable to open serial port, due to:", e);
-        }catch (IOException e) {
-            logger.error("Hardware initialization failed", e);
-        }
-        if (!result) {
-            low.close();
-        }
-        low.removePacketListener(monitor);
-        return result;
-    }
-*/
     private boolean waitForHardware() {
         synchronized (this) {
             while (state == DriverStatus.CREATED || state == DriverStatus.CLOSED ){
@@ -750,63 +595,6 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         }
     }
 
-    /*
-    private class WaitForAList implements PacketListener{
-
-            final int[] waitingList;
-            final ZToolPacket[] packetHistory;
-            final HWLowLevelDriver hwDriver;
-            int idx = 0;
-
-            public WaitForAList(final int[] list){
-                this(list, null, null);
-            }
-
-            public WaitForAList(
-                    final int[] list,
-                    final ZToolPacket[] packets,
-                    final HWLowLevelDriver lowDriver){
-                this.waitingList = list;
-                this.packetHistory = packets;
-                this.hwDriver = lowDriver;
-                if (  hwDriver != null) {
-                    hwDriver.addPacketListener(this);
-                }
-            }
-
-            public void waitForAll(long timeout){
-                long wakeUpTime = System.currentTimeMillis() + timeout;
-                synchronized (waitingList) {
-                    while( idx < waitingList.length && wakeUpTime > System.currentTimeMillis()){
-                        try {
-                            waitingList.wait(wakeUpTime - System.currentTimeMillis());
-                        } catch (InterruptedException ignored) {
-                        }
-                    }
-                }
-            }
-
-            public void packetReceived(ZToolPacket packet) {
-                if(packet.isError()) return;
-                if((packet.getCommandId() & 0xFFFF) == waitingList[idx]){
-                logger.info("Received packet that was waiting for increasing waitingList");
-                    synchronized (waitingList) {
-                        if ( packetHistory != null ) {
-                            packetHistory[idx] = packet;
-                        }
-                        idx = idx + 1;
-                        if ( idx == waitingList.length ){
-                            if ( low != null) {
-                                low.removePacketListener(this);
-                            }
-                            waitingList.notifyAll();
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-*/
     private boolean dongleReset(){
         if( waitForHardware() == false ) return false;
 
@@ -814,15 +602,6 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
                 ZToolCMD.SYS_RESET_RESPONSE,
                 zigbeeSerialInterface
         );
-
-//		WaitForAList waiting = new WaitForAList(new int[]{
-//				ZToolCMD.SYS_RESET_RESPONSE,
-//				ZToolCMD.ZB_APP_REGISTER_RSP,
-//				ZToolCMD.ZB_WRITE_CONFIGURATION_RSP,
-//				ZToolCMD.ZB_WRITE_CONFIGURATION_RSP
-//		});
-
-//		low.addPacketListener(waiting);
 
         try {
             zigbeeSerialInterface.sendAsynchrounsCommand(new SYS_RESET(SYS_RESET.RESET_TYPE.SERIAL_BOOTLOADER));
@@ -834,8 +613,6 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         SYS_RESET_RESPONSE response =
             (SYS_RESET_RESPONSE) waiter.getCommand(TIMEOUT);
 
-//		waiting.waitForAll(TIMEOUT*2);
-//		low.removePacketListener(waiting);
         return response != null;
     }
 
@@ -948,7 +725,25 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         return response != null && response.Status == 0;
     }
 
-    private boolean createZigBeeNetwork(){
+
+    private boolean initializeZigBeeNetwork() {
+        if (cleanStatus) {
+            if (!configureZigbeeNetwork()) {
+                return false;
+            }
+        }
+        if (!createZigbeeNetwork()){
+            logger.error("Failed to start zigbee network.");
+            return false;
+        }
+        if (checkZigbeeNetworkConfiguration()) {
+            logger.error("Dongle configuration does not match the specified configuration.");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean createZigbeeNetwork(){
         createCustomDevicesOnDongle();
         switch (mode) {
 
@@ -994,34 +789,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
 
     }
 
-    private boolean initializeZigBeeNetwork() {
-
-        boolean cleanNetworkState = cleanStatus;
-
-        //Disable to avoid mistakes.
-        if ( cleanNetworkState ) {
-            if ( doCleanAndSetConfiguration() == false ) {
-                return false;
-            }
-        }
-        boolean creation = createZigBeeNetwork();
-        if ( creation == false ){
-            return false;
-        }
-        /*try {
-            Thread.sleep(10000);
-        } catch (final Throwable t) {
-            t.printStackTrace();
-        }
-        state = DriverStatus.NETWORK_READY;*/
-        if ( doesCurrentConfigurationMatchZStackConfiguration() ) {
-            logger.error("Dongle configuration does not match the specified configuration.");
-        }
-
-        return creation;
-    }
-
-    private boolean doesCurrentConfigurationMatchZStackConfiguration() {
+    private boolean checkZigbeeNetworkConfiguration() {
         int value = -1;
         boolean mismatch = false;
         if ( ( value = getCurrentChannel() ) != channel ) {
@@ -1055,7 +823,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         return mismatch;
     }
 
-    private boolean doCleanAndSetConfiguration() {
+    private boolean configureZigbeeNetwork() {
         logger.debug("Cleaning dongle networks stack status");
         if( ! dongleSetCleanState(true) ){
             logger.error("Unable to set clean state for dongle");
@@ -1680,4 +1448,118 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
 
         return false;
     }
+
+
+    private class AnnunceListerFilter implements AsynchrounsCommandListener {
+
+        private final Collection<AnnounceListener> listners;
+
+        private AnnunceListerFilter(Collection<AnnounceListener> list){
+            listners = list;
+        }
+
+        public void receivedAsynchrounsCommand(ZToolPacket packet) {
+            if(packet.isError()) return;
+            if(packet.getCMD().get16BitValue() == ZToolCMD.ZDO_END_DEVICE_ANNCE_IND){
+                logger.debug( "Recieved announce message {} value is {}", packet.getClass(), packet );
+                ZDO_END_DEVICE_ANNCE_IND annunce = (ZDO_END_DEVICE_ANNCE_IND) packet;
+                for (AnnounceListener l : listners) {
+                    l.notify(annunce.SrcAddr, annunce.IEEEAddr, annunce.NwkAddr, annunce.Capabilities);
+
+                }
+            }
+            else if(packet.getCMD().get16BitValue() == ZToolCMD.ZDO_STATE_CHANGE_IND){
+                try{
+                    ZDO_STATE_CHANGE_IND p = ((ZDO_STATE_CHANGE_IND)packet);
+                    /*DEV_HOLD=0x00, // Initialized - not started automatically
+                    DEV_INIT=0x01, // Initialized - not connected to anything
+                    DEV_NWK_DISC=0x02, // Discovering PAN's to join
+                    DEV_NWK_JOINING=0x03, // Joining a PAN
+                    DEV_NWK_=0x04, // ReJoining a PAN, only for end-devices
+                    DEV_END_DEVICE_UNAUTH=0x05, // Joined but not yet authenticated by trust center
+                    DEV_END_DEVICE=0x06, // Started as device after authentication
+                    DEV_ROUTER=0x07, // Device joined, authenticated and is a router
+                    DEV_COORD_STARTING=0x08, // Started as Zigbee Coordinator
+                    DEV_ZB_COORD=0x09, // Started as Zigbee Coordinator
+                    DEV_NWK_ORPHAN=0x0A // Device has lost information about its parent*/
+                    switch (p.State) {
+                        case 0:
+                            logger.debug("Initialized - not started automatically");
+                            break;
+                        case 1:
+                            logger.debug("Initialized - not connected to anything");
+                            break;
+                        case 2:
+                            logger.debug("Discovering PANs to join or waiting for permit join");
+                            break;
+                        case 3:
+                            logger.debug("Joining a PAN");
+                            break;
+                        case 4:
+                            logger.debug("Rejoining a PAN, only for end-devices");
+                            break;
+                        case 5:
+                            logger.debug("Joined but not yet authenticated by trust center");
+                            break;
+                        case 6:
+                            logger.debug("Started as device after authentication");
+                            break;
+                        case 7:
+                            logger.debug("Device joined, authenticated and is a router");
+                            break;
+                        case 8:
+                            logger.debug("Starting as Zigbee Coordinator");
+                            break;
+                        case 9:
+                            logger.debug("Started as Zigbee Coordinator");
+                            setState(DriverStatus.NETWORK_READY);
+                            break;
+                        case 10:
+                            logger.debug("Device has lost information about its parent");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch(Exception ex){
+                    // ignored
+                }
+            }
+        }
+    }
+
+    private class AFMessageListnerFilter implements AsynchrounsCommandListener{
+
+        private final Collection<ApplicationFrameworkMessageListener> listners;
+
+        private AFMessageListnerFilter(Collection<ApplicationFrameworkMessageListener> list){
+            listners = list;
+        }
+
+        public void receivedAsynchrounsCommand(ZToolPacket packet) {
+            if(packet.isError()) return;
+            if(packet.getCMD().get16BitValue() == ZToolCMD.AF_INCOMING_MSG){
+                AF_INCOMING_MSG msg = (AF_INCOMING_MSG) packet;
+                if( listners.isEmpty() ){
+                    logger.debug("Received AF_INCOMING_MSG but no listeners. Message was: {} ", msg);
+                } else {
+                    logger.debug("Received AF_INCOMING_MSG notifying {} listeners of {}", listners.size(), msg);
+                }
+                ArrayList<ApplicationFrameworkMessageListener> localCopy = null;
+                synchronized (listners) {
+                    localCopy = new ArrayList<ApplicationFrameworkMessageListener>(listners);
+                }
+                for ( ApplicationFrameworkMessageListener l : localCopy){
+//					if( l.match(
+//							msg.getClusterId(), msg.getSrcAddr(),
+//							msg.getSrcEndpoint(), msg.getDstEndpoint(),
+//							msg.getTransId()
+//					) ) {
+                    l.notify(msg);
+//					}
+                }
+            }
+        }
+    }
+
 }

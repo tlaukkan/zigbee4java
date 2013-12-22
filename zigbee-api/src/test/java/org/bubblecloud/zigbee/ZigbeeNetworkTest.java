@@ -78,7 +78,7 @@ public class ZigbeeNetworkTest {
 
     @Test
     public void testZigbeeApi() throws Exception {
-        final ZigbeeApi zigbeeApi = new ZigbeeApi("/dev/ttyACM0");
+        final ZigbeeApi zigbeeApi = new ZigbeeApi("/dev/ttyACM0", 4951, 22, false);
         zigbeeApi.startup();
 
         Thread.sleep(500);
@@ -97,6 +97,13 @@ public class ZigbeeNetworkTest {
                 if (proxy == null) {
                     continue;
                 }
+
+                final OnOff onOff = (OnOff) proxy.getCluster(ProxyConstants.ON_OFF);
+                onOff.off();
+
+                /*final Basic basic = (Basic) proxy.getCluster(ProxyConstants.BASIC);
+                logger.info("Reading manufacturer information for: " + proxy.getDevice().getUniqueIdenfier());
+                logger.info("" + basic.getManufacturerName().getValue());*/
 
                 /*int address = proxy.getDevice().getPhysicalNode().getNetworkAddress();
                 zigbeeApi.getZigbeeNetworkManager().sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(
@@ -118,8 +125,6 @@ public class ZigbeeNetworkTest {
                     logger.info("" + basic.getManufacturerName().getValue());
                 }
                 if (proxy != null) {
-                    final OnOff onOff = (OnOff) proxy.getCluster(ProxyConstants.ON_OFF);
-                    onOff.off();
                 }*/
                 break;
             } catch (final Throwable t) {

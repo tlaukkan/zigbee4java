@@ -570,12 +570,12 @@ public class ZToolCMD {
         /// <name>TI.ZPI2.MESSAGE_ID.ZDO_MGMT_NWK_DISC_RSP</name>
         /// <summary>This callback message is in response to the ZDO Management Network Discovery Request</summary>
         public static final int ZDO_MGMT_NWK_DISC_RSP = 0x45b0;
-        /// <name>TI.ZPI2.MESSAGE_ID.ZDO_MGMT_NWK_UPDATE_REQUEST</name>
+        /// <name>TI.ZPI2.MESSAGE_ID.ZDO_MGMT_NWK_UPDATE_REQ</name>
         /// <summary>This command is provided to allow updating of network configuration parameters or to request information from devices on network conditions in the local operating environment.</summary>
-        public static final int ZDO_MGMT_NWK_UPDATE_REQUEST = 0x2537;
-        /// <name>TI.ZPI2.MESSAGE_ID.ZDO_MGMT_NWK_UPDATE_RESPONSE</name>
-        /// <summary>Response for ZDO_MGMT_NWK_UPDATE_REQUEST</summary>
-        public static final int ZDO_MGMT_NWK_UPDATE_RESPONSE = 0x6537;
+        public static final int ZDO_MGMT_NWK_UPDATE_REQ = 0x2537;
+        /// <name>TI.ZPI2.MESSAGE_ID.ZDO_MGMT_NWK_UPDATE_REQ_SRSP</name>
+        /// <summary>Response for ZDO_MGMT_NWK_UPDATE_REQ</summary>
+        public static final int ZDO_MGMT_NWK_UPDATE_REQ_SRSP = 0x6537;
         /// <name>TI.ZPI2.MESSAGE_ID.ZDO_MGMT_PERMIT_JOIN_REQ_SRSP</name>
         /// <summary>Response for ZDO_MGMT_PERMIT_JOIN_REQ</summary>
         public static final int ZDO_MGMT_PERMIT_JOIN_REQ_SRSP = 0x6536;

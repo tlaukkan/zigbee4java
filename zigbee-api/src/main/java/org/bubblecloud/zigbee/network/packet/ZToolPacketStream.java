@@ -299,6 +299,8 @@ public class ZToolPacketStream
                 return new ZDO_MGMT_LQI_REQ_SRSP( payload );
             case ZToolCMD.ZDO_MGMT_LQI_RSP:
                 return new ZDO_MGMT_LQI_RSP( payload );
+            case ZToolCMD.ZDO_MGMT_NWK_UPDATE_REQ_SRSP:
+                return new ZDO_MGMT_NWK_UPDATE_REQ_SRSP( payload );
             case ZToolCMD.ZDO_MGMT_PERMIT_JOIN_REQ_SRSP:
                 return new ZDO_MGMT_PERMIT_JOIN_REQ_SRSP( payload );
             case ZToolCMD.ZDO_MGMT_PERMIT_JOIN_RSP:

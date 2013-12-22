@@ -33,6 +33,9 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -84,20 +87,40 @@ public class AF_DATA_CONFIRM extends ZToolPacket/* implements ICONFIRMATION, IAF
 
         /// <name>TI.ZPI2.AF_DATA_CONFIRM.AF_STATUS</name>
         /// <summary>Status code for AF responses</summary>
-        public class AF_STATUS
+        public enum AF_STATUS
         {
             /// <name>TI.ZPI1.AF_DATA_CONFIRM.AF_STATUS.FAILED</name>
             /// <summary>Status code for AF responses</summary>
-            public static final int FAILED = 1;
+            FAILED(1),
             /// <name>TI.ZPI1.AF_DATA_CONFIRM.AF_STATUS.INVALID_PARAMETER</name>
             /// <summary>Status code for AF responses</summary>
-            public static final int INVALID_PARAMETER = 3;
+            INVALID_PARAMETER(3),
             /// <name>TI.ZPI1.AF_DATA_CONFIRM.AF_STATUS.MEM_FAIL</name>
             /// <summary>Status code for AF responses</summary>
-            public static final int MEM_FAIL = 2;
+            MEM_FAIL(2),
             /// <name>TI.ZPI1.AF_DATA_CONFIRM.AF_STATUS.SUCCESS</name>
             /// <summary>Status code for AF responses</summary>
-            public static final int SUCCESS = 0;
+            SUCCESS(0);
+
+            private static Map<Integer, AF_STATUS> mapping= new HashMap<Integer, AF_STATUS>();
+            private int value;
+            private AF_STATUS(int value) {
+                this.value = value;
+            }
+
+            public int getValue() {
+                return value;
+            }
+
+            public static AF_STATUS getStatus(int value) {
+                return mapping.get(value);
+            }
+
+            static {
+                for (AF_STATUS status : AF_STATUS.values()) {
+                    mapping.put(status.value, status);
+                }
+            }
         }
 
 		public byte getStatus() {
@@ -105,4 +128,12 @@ public class AF_DATA_CONFIRM extends ZToolPacket/* implements ICONFIRMATION, IAF
 			return value;
 		}
 
+    @Override
+    public String toString() {
+        return "AF_DATA_CONFIRM{" +
+                "Endpoint=" + Endpoint +
+                ", Status=" + AF_STATUS.getStatus(Status) +
+                ", TransID=" + TransID +
+                '}';
+    }
 }

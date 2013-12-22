@@ -178,7 +178,8 @@ public class AttributeImpl implements Attribute{
 					);
 			}
 		} catch (ZigBeeBasedriverException e) {
-			throw new ZigBeeClusterException(e);
+            logger.error("Error reading value.", e);
+			return null;
 		}
 	}
 	

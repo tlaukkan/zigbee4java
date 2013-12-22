@@ -106,7 +106,11 @@ public class ZToolPacketParser implements Runnable {
 
 					    packetHandler.handlePacket(response);
 					} else {
-						logger.warn("Discared stream: expected start byte but received this {}", ByteUtils.toBase16(val));
+                        if (val != 0) {
+                            // Log if not end of stream signaling zero byte.
+						    logger.warn("Discared stream: expected start byte but received this {}",
+                                    ByteUtils.toBase16(val));
+                        }
 					}
             }
             catch (final IOException e) {
@@ -122,6 +126,11 @@ public class ZToolPacketParser implements Runnable {
      */
 	public void close() {
 		this.close = true;
+        try {
+            parserThread.join();
+        } catch (InterruptedException e) {
+            logger.warn("Interrupted in packet parser thread close join.");
+        }
 	}
 
     /**
