@@ -90,4 +90,11 @@ public class ZDO_BIND_RSP extends ZToolPacket /*implements IRESPONSE_CALLBACK,IZ
             public static final int ZDP_TIMEOUT = 0x85;
         }
 
+    @Override
+    public String toString() {
+        return "ZDO_BIND_RSP{" +
+                "SrcAddress=" + SrcAddress +
+                ", Status=" + Status +
+                '}';
+    }
 }

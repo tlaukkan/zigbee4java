@@ -26,6 +26,8 @@ package org.bubblecloud.zigbee.network.packet.zdo;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +38,8 @@ import java.util.Map;
  * @author <a href="mailto:tommmi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
 public class ZDO_MGMT_NWK_UPDATE_REQ_SRSP extends ZToolPacket {
+    /** The logger. */
+    private final static Logger logger = LoggerFactory.getLogger(ZDO_MGMT_NWK_UPDATE_REQ_SRSP.class);
 
     public int status;
 
@@ -53,6 +57,7 @@ public class ZDO_MGMT_NWK_UPDATE_REQ_SRSP extends ZToolPacket {
 
     public enum Status
     {
+        UNKNOWN(-1),
         FAILED(1),
         SUCCESS(0);
 
@@ -67,6 +72,10 @@ public class ZDO_MGMT_NWK_UPDATE_REQ_SRSP extends ZToolPacket {
         }
 
         public static Status getStatus(int value) {
+            if (!mapping.containsKey(value)) {
+                logger.warn("Uknown status {}.", value);
+                return UNKNOWN;
+            }
             return mapping.get(value);
         }
 

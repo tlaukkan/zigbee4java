@@ -66,7 +66,7 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
      */
     public ZigbeeApi(final String serialPortName, final int pan, final int channel, final boolean resetNetwork){
        networkManager = new ZigbeeNetworkManagerSerialImpl(serialPortName, 115200,
-               NetworkMode.Coordinator, 4951, 22, resetNetwork, 2500L);
+               NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
 
        discoveryManager = new ZigbeeDiscoveryManager(networkManager);
     }

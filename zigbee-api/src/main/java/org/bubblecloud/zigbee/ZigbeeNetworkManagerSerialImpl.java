@@ -219,15 +219,24 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         //logger.info("Closed");
     }
 
-    public <REQUEST extends ZToolPacket, RESPONSE extends ZToolPacket> RESPONSE sendRemoteCommand(REQUEST request) {
+    public <REQUEST extends ZToolPacket, RESPONSE extends ZToolPacket> RESPONSE sendLocalRequest(REQUEST request) {
+        if( waitForNetwork() == false ) return null;
+        RESPONSE result = (RESPONSE) sendSynchrouns(zigbeeSerialInterface, request);
+        if (result == null) {
+            logger.error("{} timed out waiting for synchronous local response.", request.getClass().getSimpleName());
+        }
+        return result;
+    }
+
+    public <REQUEST extends ZToolPacket, RESPONSE extends ZToolPacket> RESPONSE sendRemoteRequest(REQUEST request) {
         if( waitForNetwork() == false ) return null;
         RESPONSE result = null;
 
         waitAndLock3WayConversation(request);
         final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_MGMT_PERMIT_JOIN_RSP, zigbeeSerialInterface);
 
-        logger.debug("Sending ZDO_MGMT_PERMIT_JOIN_REQ {}", request);
-        ZToolPacket response = (ZDO_MGMT_PERMIT_JOIN_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
+        logger.debug("Sending {}", request);
+        ZToolPacket response = sendSynchrouns(zigbeeSerialInterface, request);
         if (response == null) {
             logger.error("{} timed out waiting for synchronous local response.", request.getClass().getSimpleName());
             waiter.cleanup();
@@ -437,6 +446,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         synchronized ( conversation3Way ) {
             requestor = conversation3Way.get( clz );
             conversation3Way.put( clz, null );
+            conversation3Way.notify();
         }
         if( requestor == null ){
             logger.error("LOCKING BROKEN - SOMEONE RELEASE THE LOCK WITHOUT LOCKING IN ADVANCE for {}", clz);

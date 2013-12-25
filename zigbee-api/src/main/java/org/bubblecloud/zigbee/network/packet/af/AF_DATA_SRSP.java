@@ -49,7 +49,14 @@ public class AF_DATA_SRSP extends ZToolPacket /*implements IRESPONSE,IAF*/{
             super.buildPacket(new DoubleByte(ZToolCMD.AF_DATA_SRSP), framedata);
         }
 
-        /// <name>TI.ZPI2.AF_DATA_SRSP.AF_STATUS</name>
+    @Override
+    public String toString() {
+        return "AF_DATA_SRSP{" +
+                "Status=" + Status +
+                '}';
+    }
+
+    /// <name>TI.ZPI2.AF_DATA_SRSP.AF_STATUS</name>
         /// <summary>Status code for AF responses</summary>
         public class AF_STATUS
         {
