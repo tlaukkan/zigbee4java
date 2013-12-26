@@ -42,7 +42,7 @@ public class SYS_VERSION_RESPONSE extends ZToolPacket /*implements /*IRESPONSE,I
     /// <summary>Minor release number</summary>
     public int MinorRel;
     /// <name>TI.ZPI2.SYS_VERSION_RESPONSE.Product</name>
-    /// <summary>Product ID</summary>
+    /// <summary>Product PROFILE_ID_HOME_AUTOMATION</summary>
     public int Product;
     /// <name>TI.ZPI2.SYS_VERSION_RESPONSE.TransportRev</name>
     /// <summary>Transport revision</summary>

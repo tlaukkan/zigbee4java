@@ -22,7 +22,7 @@
 package org.bubblecloud.zigbee.proxy.device.api.security_safety;
 
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
-import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
+import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
@@ -41,10 +41,10 @@ public interface IASControlAndIndicatingEquipment extends DeviceProxy {
     public static final int DEVICE_ID = 0x0400;
     public static final String NAME = "IAS Control and Indicating Equipment";
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-            HomeAutomationProfile.IAS_ZONE, HomeAutomationProfile.IDENTIFY, HomeAutomationProfile.IAS_ACE, HomeAutomationProfile.IAS_WD
+            ProfileConstants.CLUSTER_ID_IAS_ZONE, ProfileConstants.CLUSTER_ID_IDENTIFY, ProfileConstants.CLUSTER_ID_IAS_ACE, ProfileConstants.CLUSTER_ID_IAS_WD
     });
     public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
-            HomeAutomationProfile.SCENES, HomeAutomationProfile.GROUPS
+            ProfileConstants.CLUSTER_ID_SCENES, ProfileConstants.CLUSTER_ID_GROUPS
     });
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

@@ -28,7 +28,7 @@ import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
-import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
+import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Basic;
@@ -41,6 +41,8 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
 import org.bubblecloud.zigbee.network.model.ProvidedClusterMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
 
 
 /**
@@ -104,12 +106,12 @@ public abstract class DeviceProxyBase implements DeviceProxy {
             }
         }
 
-        basic = (Basic) getCluster(HomeAutomationProfile.BASIC);
-        identify = (Identify) getCluster(HomeAutomationProfile.IDENTIFY);
+        basic = (Basic) getCluster(ProfileConstants.CLUSTER_ID_BASIC);
+        identify = (Identify) getCluster(ProfileConstants.CLUSTER_ID_IDENTIFY);
 
-        powerConfiguration = (PowerConfiguration) getCluster(HomeAutomationProfile.POWER_CONFIGURATION);
-        deviceTemperature = (DeviceTemperatureConfiguration) getCluster(HomeAutomationProfile.DEVICE_TEMPERATURE_CONFIGURATION);
-        alarms = (Alarms) getCluster(HomeAutomationProfile.ALARMS);
+        powerConfiguration = (PowerConfiguration) getCluster(ProfileConstants.CLUSTER_ID_POWER_CONFIGURATION);
+        deviceTemperature = (DeviceTemperatureConfiguration) getCluster(ProfileConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION);
+        alarms = (Alarms) getCluster(ProfileConstants.CLUSTER_ID_ALARMS);
     }
 
     public int getDeviceType() {
@@ -245,7 +247,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
             }
         }
 
-        String key = HomeAutomationProfile.ID + ":" + String.valueOf(clusterId);
+        String key = ProfileConstants.PROFILE_ID_HOME_AUTOMATION + ":" + String.valueOf(clusterId);
         ClusterFactory factory = (ClusterFactory) context.getClusterFactory();
         Cluster cluster = factory.getInstance(key, device);
         if (index >= clusters.length) {
@@ -299,6 +301,15 @@ public abstract class DeviceProxyBase implements DeviceProxy {
         for (int i = 0; i < clusters.length; i++) {
             if (clusters[i] != null && clusters[i].getId() == id)
                 return clusters[i];
+        }
+        return null;
+    }
+
+
+    public <T extends Cluster> T getCluster(Class<T> clusterIntercace) {
+        for (int i = 0; i < clusters.length; i++) {
+            if (clusters[i] != null && Arrays.asList(clusters[i].getClass().getInterfaces()).contains(clusterIntercace))
+                return (T) clusters[i];
         }
         return null;
     }

@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.device.api.lighting;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
+import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
@@ -41,10 +41,10 @@ public interface DimmableLight extends DeviceProxy {
     public static final int DEVICE_ID = 0x0101;
     public static final String NAME = "Dimmable Light";
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-            HomeAutomationProfile.ON_OFF, HomeAutomationProfile.LEVEL_CONTROL, HomeAutomationProfile.SCENES, HomeAutomationProfile.GROUPS
+            ProfileConstants.CLUSTER_ID_ON_OFF, ProfileConstants.CLUSTER_ID_LEVEL_CONTROL, ProfileConstants.CLUSTER_ID_SCENES, ProfileConstants.CLUSTER_ID_GROUPS
     });
     public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
-            HomeAutomationProfile.OCCUPANCY_SENSING
+            ProfileConstants.CLUSTER_ID_OCCUPANCY_SENSING
     });
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

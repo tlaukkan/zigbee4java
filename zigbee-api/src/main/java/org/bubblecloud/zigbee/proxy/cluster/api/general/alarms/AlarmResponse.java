@@ -43,7 +43,7 @@ public interface AlarmResponse extends Response {
     public int getAllarmCode();
 
     /**
-     * @return the int representing the <i>Cluster ID</i> field.
+     * @return the int representing the <i>Cluster PROFILE_ID_HOME_AUTOMATION</i> field.
      */
     public int getClusterID();
 }

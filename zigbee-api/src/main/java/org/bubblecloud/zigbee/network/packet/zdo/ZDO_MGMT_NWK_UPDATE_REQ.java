@@ -29,7 +29,7 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.util.Integers;
 
 /**
- * Request to switch channel or change PAN ID.
+ * Request to switch channel or change PAN PROFILE_ID_HOME_AUTOMATION.
  *
  * @author <a href="mailto:tommmi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */

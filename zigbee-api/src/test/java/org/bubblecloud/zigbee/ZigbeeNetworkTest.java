@@ -4,7 +4,7 @@ import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
-import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
+import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -112,16 +112,16 @@ public class ZigbeeNetworkTest {
                 Thread.sleep(1000);
 
 
-                //switchProxy.bindTo(lampProxy, HomeAutomationProfile.ON_OFF);
-                //lampProxy.bind(HomeAutomationProfile.ON_OFF);
+                //switchProxy.bindTo(lampProxy, ProfileConstants.CLUSTER_ID_ON_OFF);
+                //lampProxy.bind(ProfileConstants.CLUSTER_ID_ON_OFF);
 
                 //Thread.sleep(1000);
 
-                final OnOff onOff = lampProxy.getCluster(HomeAutomationProfile.ON_OFF);
+                final OnOff onOff = lampProxy.getCluster(OnOff.class);
                 onOff.off();
                 //Thread.sleep(5000);
 
-                //final PowerConfiguration powerConfiguration = (PowerConfiguration) switchProxy.getCluster(HomeAutomationProfile.POWER_CONFIGURATION);
+                //final PowerConfiguration powerConfiguration = (PowerConfiguration) switchProxy.getCluster(ProfileConstants.CLUSTER_ID_POWER_CONFIGURATION);
 
                 /*onOff.subscribe(new OnOffListener() {
 
@@ -132,24 +132,24 @@ public class ZigbeeNetworkTest {
                 });*/
 
 
-                /*final Groups groups = (Groups) lampProxy.getCluster(HomeAutomationProfile.GROUPS);
+                /*final Groups groups = (Groups) lampProxy.getCluster(ProfileConstants.CLUSTER_ID_GROUPS);
                 groups.addGroup(1, "test");*/
 
-                /*final Basic basic = (Basic) lampProxy.getCluster(HomeAutomationProfile.BASIC);
+                /*final Basic basic = (Basic) lampProxy.getCluster(ProfileConstants.CLUSTER_ID_BASIC);
                 logger.info("Reading manufacturer information for: " + lampProxy.getDevice().getUniqueIdenfier());
                 logger.info("" + basic.getManufacturerName().getValue());*/
-                /*final Basic basic = (Basic) proxy.getCluster(HomeAutomationProfile.BASIC);
+                /*final Basic basic = (Basic) proxy.getCluster(ProfileConstants.CLUSTER_ID_BASIC);
                 logger.info("Reading manufacturer information for: " + proxy.getDevice().getUniqueIdenfier());
                 logger.info("" + basic.getManufacturerName().getValue());*/
                 /*Thread.sleep(5000);
-                switchProxy.getDevice().bindTo(lampProxy.getDevice(), HomeAutomationProfile.ON_OFF);
+                switchProxy.getDevice().bindTo(lampProxy.getDevice(), ProfileConstants.CLUSTER_ID_ON_OFF);
                 Thread.sleep(5000);
-                lampProxy.getDevice().bindTo(switchProxy.getDevice(), HomeAutomationProfile.ON_OFF);
+                lampProxy.getDevice().bindTo(switchProxy.getDevice(), ProfileConstants.CLUSTER_ID_ON_OFF);
                 Thread.sleep(5000);*/
-                //final LevelControl levelControl = (LevelControl) lampProxy.getCluster(HomeAutomationProfile.LEVEL_CONTROL);
+                //final LevelControl levelControl = (LevelControl) lampProxy.getCluster(ProfileConstants.CLUSTER_ID_LEVEL_CONTROL);
                 //logger.info("Level: " + levelControl.getCurrentLevel().getValue());
-                //switchProxy.getDevice().bind(HomeAutomationProfile.BASIC);
-                /*Basic basic = (Basic) lampProxy.getCluster(HomeAutomationProfile.BASIC);
+                //switchProxy.getDevice().bind(ProfileConstants.CLUSTER_ID_BASIC);
+                /*Basic basic = (Basic) lampProxy.getCluster(ProfileConstants.CLUSTER_ID_BASIC);
                 logger.info("" + basic.getModelIdentifier().getValue());*/
 
                 /*int networkManagerAddress= 0;
@@ -165,10 +165,10 @@ public class ZigbeeNetworkTest {
                         )
                 );*/
 
-                /*final OnOff onOff = (OnOff) proxy.getCluster(HomeAutomationProfile.ON_OFF);
+                /*final OnOff onOff = (OnOff) proxy.getCluster(ProfileConstants.CLUSTER_ID_ON_OFF);
                 onOff.off();*/
 
-                /*final Basic basic = (Basic) proxy.getCluster(HomeAutomationProfile.BASIC);
+                /*final Basic basic = (Basic) proxy.getCluster(ProfileConstants.CLUSTER_ID_BASIC);
                 logger.info("Reading manufacturer information for: " + proxy.getDevice().getUniqueIdenfier());
                 logger.info("" + basic.getManufacturerName().getValue());*/
 
@@ -187,7 +187,7 @@ public class ZigbeeNetworkTest {
                 });*/
 
                 /*if (proxy != null) {
-                    final Basic basic = (Basic) proxy.getCluster(HomeAutomationProfile.BASIC);
+                    final Basic basic = (Basic) proxy.getCluster(ProfileConstants.CLUSTER_ID_BASIC);
                     logger.info("Reading manufacturer information for: " + proxy.getDevice().getUniqueIdenfier());
                     logger.info("" + basic.getManufacturerName().getValue());
                 }

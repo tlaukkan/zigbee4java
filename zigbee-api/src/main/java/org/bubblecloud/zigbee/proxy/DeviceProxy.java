@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
-import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
+import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Basic;
@@ -48,8 +48,8 @@ public interface DeviceProxy extends ZigBeeDevice {
     public static final String HA_DEVICE_GROUP = "zigbee.ha.group";
     public static final String HA_DEVICE_STANDARD = "zigbee.ha.standard";
 
-    public static final int[] MANDATORY = {HomeAutomationProfile.BASIC, HomeAutomationProfile.IDENTIFY};
-    public static final int[] OPTIONAL = {HomeAutomationProfile.POWER_CONFIGURATION, HomeAutomationProfile.DEVICE_TEMPERATURE_CONFIGURATION, HomeAutomationProfile.ALARMS};
+    public static final int[] MANDATORY = {ProfileConstants.CLUSTER_ID_BASIC, ProfileConstants.CLUSTER_ID_IDENTIFY};
+    public static final int[] OPTIONAL = {ProfileConstants.CLUSTER_ID_POWER_CONFIGURATION, ProfileConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION, ProfileConstants.CLUSTER_ID_ALARMS};
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
 
     public String getName();
@@ -118,7 +118,15 @@ public interface DeviceProxy extends ZigBeeDevice {
      *         otherwise <code>null</code>
      * @since 0.2.0
      */
-    public <T extends Cluster> T getCluster(int id);
+    public Cluster getCluster(int id);
+
+    /**
+     * @param clusterIntercace the cluster interface
+     * @return the {@link Cluster} identified by the given id if this device implements<br>
+     *         otherwise <code>null</code>
+     * @since 0.2.0
+     */
+    public <T extends Cluster> T getCluster(Class<T> clusterIntercace);
 
     /**
      * @return the {@link Cluster} array effectively implemented by the remote ZigBee Device<br>

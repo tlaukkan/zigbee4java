@@ -33,7 +33,7 @@ import org.bubblecloud.zigbee.util.DoubleByte;
  */
 public class SYS_OSAL_STOP_TIMER extends ZToolPacket/* implements IREQUEST,ISYSTEM*/ {
     /// <name>TI.ZPI2.SYS_OSAL_STOP_TIMER.Id</name>
-    /// <summary>Timer ID: 0-3</summary>
+    /// <summary>Timer PROFILE_ID_HOME_AUTOMATION: 0-3</summary>
     public int Id;
 
     /// <name>TI.ZPI2.SYS_OSAL_STOP_TIMER</name>

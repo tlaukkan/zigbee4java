@@ -41,7 +41,7 @@ public class UTIL_GET_NV_INFO_RESPONSE extends ZToolPacket /*implements IREQUEST
     /// <summary>IEEE Address</summary>
     public ZToolAddress64 IEEEAddress;
     /// <name>TI.ZPI1.SYS_GET_NV_INFO_RESPONSE.PanID</name>
-    /// <summary>Pan ID</summary>
+    /// <summary>Pan PROFILE_ID_HOME_AUTOMATION</summary>
     public int PanID;
     /// <name>TI.ZPI1.SYS_GET_NV_INFO_RESPONSE.PreConfigKey</name>
     /// <summary>PreConfigKey</summary>

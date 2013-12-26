@@ -25,13 +25,13 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
+import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.proxy.device.api.lighting.ColorDimmableLight;
-import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.api.lighting.ColorControl;
 
 /**
@@ -52,12 +52,12 @@ public class ColorDimmableLightDeviceProxy extends DeviceProxyBase implements Co
 
         super(ctx, zbDevice);
 
-        onOff = (OnOff) getCluster(HomeAutomationProfile.ON_OFF);
-        scenes = (Scenes) getCluster(HomeAutomationProfile.SCENES);
-        groups = (Groups) getCluster(HomeAutomationProfile.GROUPS);
-        levelControl = (LevelControl) getCluster(HomeAutomationProfile.LEVELCONTROL);
-        occupancySensing = (OccupacySensing) getCluster(HomeAutomationProfile.OCCUPANCY_SENSING);
-        colorControl = (ColorControl) getCluster(HomeAutomationProfile.COLOR_CONTROL);
+        onOff = (OnOff) getCluster(ProfileConstants.CLUSTER_ID_ON_OFF);
+        scenes = (Scenes) getCluster(ProfileConstants.CLUSTER_ID_SCENES);
+        groups = (Groups) getCluster(ProfileConstants.CLUSTER_ID_GROUPS);
+        levelControl = (LevelControl) getCluster(ProfileConstants.DEVICE_ID_LEVEL_CONTROL);
+        occupancySensing = (OccupacySensing) getCluster(ProfileConstants.CLUSTER_ID_OCCUPANCY_SENSING);
+        colorControl = (ColorControl) getCluster(ProfileConstants.CLUSTER_ID_COLOR_CONTROL);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {

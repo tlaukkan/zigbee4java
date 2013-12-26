@@ -26,7 +26,7 @@ import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
 import org.bubblecloud.zigbee.proxy.device.api.security_safety.IAS_Zone;
-import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
+import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
 /**
@@ -42,7 +42,7 @@ public class IAS_ZoneDeviceProxy extends DeviceProxyBase implements IAS_Zone {
 
         super(ctx, zbDevice);
 
-        iasZoneCluster = (IASZone) getCluster(HomeAutomationProfile.IAS_ZONE);
+        iasZoneCluster = (IASZone) getCluster(ProfileConstants.CLUSTER_ID_IAS_ZONE);
     }
 
     public IASZone getIASZone() {

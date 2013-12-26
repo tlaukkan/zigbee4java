@@ -33,7 +33,7 @@ import org.bubblecloud.zigbee.util.DoubleByte;
  */
 public class SYS_OSAL_NV_READ extends ZToolPacket /*implements IREQUEST, ISYSTEM*/ {
     /// <name>TI.ZPI2.SYS_OSAL_NV_READ.Id</name>
-    /// <summary>Attribute ID</summary>
+    /// <summary>Attribute PROFILE_ID_HOME_AUTOMATION</summary>
     public DoubleByte Id;
     /// <name>TI.ZPI2.SYS_OSAL_NV_READ.Offset</name>
     /// <summary>Memory offset into item (up to 250)</summary>

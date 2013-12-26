@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
 public class AF_DATA_REQUEST extends ZToolPacket/* implements IREQUEST,IAF*/ {
     private static final Logger logger = LoggerFactory.getLogger(AF_DATA_REQUEST.class);
     /// <name>TI.ZPI2.AF_DATA_REQUEST.ClusterID</name>
-    /// <summary>specifies the cluster ID</summary>
+    /// <summary>specifies the cluster PROFILE_ID_HOME_AUTOMATION</summary>
     public DoubleByte ClusterID;
     /// <name>TI.ZPI2.AF_DATA_REQUEST.Data</name>
     /// <summary>Dynamic array, requires memory allocation.  Variable length field of size 'Len' and is the transaction data frame</summary>

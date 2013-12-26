@@ -51,7 +51,7 @@ public class AF_DATA_CONFIRM extends ZToolPacket/* implements ICONFIRMATION, IAF
     /// <summary>Status</summary>
     public int Status;
     /// <name>TI.ZPI2.AF_DATA_CONFIRM.TransID</name>
-    /// <summary>Transaction ID</summary>
+    /// <summary>Transaction PROFILE_ID_HOME_AUTOMATION</summary>
     public int TransID;
 
     /// <name>TI.ZPI2.AF_DATA_CONFIRM</name>

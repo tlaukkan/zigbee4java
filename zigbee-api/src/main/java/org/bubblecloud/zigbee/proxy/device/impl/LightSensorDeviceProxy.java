@@ -25,7 +25,7 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
-import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
+import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.IlluminanceMeasurement;
 import org.bubblecloud.zigbee.proxy.device.api.lighting.LightSensor;
@@ -45,8 +45,8 @@ public class LightSensorDeviceProxy extends DeviceProxyBase implements LightSens
 
         super(ctx, zbDevice);
 
-        illuminanceMeasurement = (IlluminanceMeasurement) getCluster(HomeAutomationProfile.ILLUMINANCE_MEASUREMENT);
-        groups = (Groups) getCluster(HomeAutomationProfile.GROUPS);
+        illuminanceMeasurement = (IlluminanceMeasurement) getCluster(ProfileConstants.CLUSTER_ID_ILLUMINANCE_MEASUREMENT);
+        groups = (Groups) getCluster(ProfileConstants.CLUSTER_ID_GROUPS);
     }
 
     public IlluminanceMeasurement getIlluminanceMeasurement() {

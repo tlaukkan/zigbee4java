@@ -44,13 +44,13 @@ public interface AddSceneResponse extends Response {
     public Status getStatus();
 
     /**
-     * @return the int representing the <i>Group ID</i> field
+     * @return the int representing the <i>Group PROFILE_ID_HOME_AUTOMATION</i> field
      */
     public int getGroupId();
 
 
     /**
-     * @return the short representing the <i>Scene ID</i> field
+     * @return the short representing the <i>Scene PROFILE_ID_HOME_AUTOMATION</i> field
      */
     public short getSceneId();
 

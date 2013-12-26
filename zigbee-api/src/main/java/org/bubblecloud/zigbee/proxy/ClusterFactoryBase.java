@@ -42,21 +42,13 @@ import java.util.Properties;
 public class ClusterFactoryBase implements ClusterFactory {
 
     private ZigbeeProxyContext ctx;
-    private Dictionary dictionary;
     private Hashtable<String, Class> clusters;
 
 
     public ClusterFactoryBase(ZigbeeProxyContext ctx) {
         this.ctx = ctx;
-        dictionary = new Properties();
         clusters = new Hashtable<String, Class>();
     }
-
-
-    public void addProperty(String key, Object value) {
-        dictionary.put(key, value);
-    }
-
 
     public void register() {
         Enumeration<String> keys = clusters.keys();
@@ -66,9 +58,6 @@ public class ClusterFactoryBase implements ClusterFactory {
             String key = (String) keys.nextElement();
             clusterIDs[i++] = key;
         }
-
-        dictionary.put(Cluster.PROFILE_CLUSTER_IDs, clusterIDs);
-        //registration = ctx.registerService(ClusterFactory.class.getName(), this, dictionary);
     }
 
     protected void addCluster(String key, Class clazz) {

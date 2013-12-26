@@ -44,7 +44,7 @@ import java.util.Arrays;
  */
 public class ZDO_SIMPLE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALLBACK,IZDO*/ {
     /// <name>TI.ZPI1.ZDO_SIMPLE_DESC_RSP.AppDevID</name>
-    /// <summary>The Device Description ID for this endpoint.</summary>
+    /// <summary>The Device Description PROFILE_ID_HOME_AUTOMATION for this endpoint.</summary>
     public DoubleByte DevID;
     /// <name>TI.ZPI1.ZDO_SIMPLE_DESC_RSP.AppDevVer</name>
     /// <summary>Flags indicating app version</summary>
@@ -62,7 +62,7 @@ public class ZDO_SIMPLE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALL
     /// <summary>List of output cluster IDs supported</summary>
     public DoubleByte[] OutClusterList;
     /// <name>TI.ZPI1.ZDO_SIMPLE_DESC_RSP.AppProfID</name>
-    /// <summary>The profile ID for this endpoint.</summary>
+    /// <summary>The profile PROFILE_ID_HOME_AUTOMATION for this endpoint.</summary>
     public DoubleByte ProfID;
 
     /// <name>TI.ZPI1.ZDO_SIMPLE_DESC_RSP.Endpoint</name>

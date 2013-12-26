@@ -150,7 +150,7 @@ public class DeviceBuilderThread implements Stoppable {
         try {
             ZigBeeDeviceImpl device = new ZigBeeDeviceImpl(driver, node, ep);
             if (device.getPhysicalNode().getNetworkAddress() == 0) {
-                logger.info("Sender end point {} found with profile ID: " + device.getProfileId(), device.getUniqueIdenfier());
+                logger.info("Sender end point {} found with profile PROFILE_ID_HOME_AUTOMATION: " + device.getProfileId(), device.getUniqueIdenfier());
                 ApplicationFrameworkLayer.getAFLayer(driver).registerSenderEndPoint(
                         ep, device.getProfileId(), device.getOutputClusters());
             }

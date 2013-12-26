@@ -30,7 +30,7 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.device.api.generic.OnOffOutput;
 import org.bubblecloud.zigbee.proxy.device.api.lighting.OnOffLight;
-import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
+import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -46,9 +46,9 @@ public class OnOffOutputDeviceProxy extends DeviceProxyBase implements OnOffOutp
 
     public OnOffOutputDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
         super(ctx, zbDevice);
-        onOff = (OnOff) getCluster(HomeAutomationProfile.ON_OFF);
-        groups = (Groups) getCluster(HomeAutomationProfile.GROUPS);
-        scenes = (Scenes) getCluster(HomeAutomationProfile.SCENES);
+        onOff = (OnOff) getCluster(ProfileConstants.CLUSTER_ID_ON_OFF);
+        groups = (Groups) getCluster(ProfileConstants.CLUSTER_ID_GROUPS);
+        scenes = (Scenes) getCluster(ProfileConstants.CLUSTER_ID_SCENES);
     }
 
 

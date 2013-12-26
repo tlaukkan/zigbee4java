@@ -52,7 +52,7 @@ public class ZDO_MATCH_DESC_REQ extends ZToolPacket /*implements IREQUEST,IZDO*/
     /// <summary>Array of output cluster IDs - NumOutClusters long</summary>
     public DoubleByte[] OutClusterList;
     /// <name>TI.ZPI1.ZDO_MATCH_DESC_REQ.ProfileID</name>
-    /// <summary>Profile ID to match</summary>
+    /// <summary>Profile PROFILE_ID_HOME_AUTOMATION to match</summary>
     public DoubleByte ProfileID;
 
     /// <name>TI.ZPI1.ZDO_MATCH_DESC_REQ</name>

@@ -57,7 +57,7 @@ public class GenericDeviceProxy extends DeviceProxyBase {
         ArrayList<Integer> standardList = new ArrayList<Integer>();
         ArrayList<Integer> customList = new ArrayList<Integer>();
         for (int i = 0; i < clusterIDs.length; i++) {
-//			if (HomeAutomationProfile.clusters.containsKey(clusterIDs[i])){
+//			if (ProfileConstants.clusters.containsKey(clusterIDs[i])){
 //				standardList.add(clusterIDs[i]);
 //			} else {
 //				customList.add(clusterIDs[i]);

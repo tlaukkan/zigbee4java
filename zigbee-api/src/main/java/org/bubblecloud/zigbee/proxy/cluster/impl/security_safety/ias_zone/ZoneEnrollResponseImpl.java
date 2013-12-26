@@ -39,7 +39,7 @@ public class ZoneEnrollResponseImpl extends ResponseImpl implements ZoneEnrollRe
 
         super(response);
 
-        //ResponseImpl.checkGeneralCommandFrame(response, ZoneEnrollResponse.ID);
+        //ResponseImpl.checkGeneralCommandFrame(response, ZoneEnrollResponse.PROFILE_ID_HOME_AUTOMATION);
         ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);
         enrollResponseCode = (Integer) deserializer.readZigBeeType(ZigBeeType.Enumeration8bit);
         zoneID = (Integer) deserializer.readZigBeeType(ZigBeeType.UnsignedInteger8bit);
@@ -49,7 +49,7 @@ public class ZoneEnrollResponseImpl extends ResponseImpl implements ZoneEnrollRe
 
         super(clusterMessage, expectedClusterId);
 
-        //ResponseImpl.checkGeneralCommandFrame(response, ZoneEnrollResponse.ID);
+        //ResponseImpl.checkGeneralCommandFrame(response, ZoneEnrollResponse.PROFILE_ID_HOME_AUTOMATION);
         ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);
         enrollResponseCode = (Integer) deserializer.readZigBeeType(ZigBeeType.Enumeration8bit);
         zoneID = (Integer) deserializer.readZigBeeType(ZigBeeType.UnsignedInteger8bit);

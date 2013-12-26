@@ -24,13 +24,13 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
+import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.proxy.device.api.hvac.Pump;
-import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
 /**
@@ -49,11 +49,11 @@ public class PumpDeviceProxy extends DeviceProxyBase implements Pump {
     public PumpDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
         super(ctx, zbDevice);
 
-        levelControlCluster = (LevelControl) getCluster(HomeAutomationProfile.LEVEL_CONTROL);
-        onOffCluster = (OnOff) getCluster(HomeAutomationProfile.ON_OFF);
-        scenesCluster = (Scenes) getCluster(HomeAutomationProfile.SCENES);
-        groupsCluster = (Groups) getCluster(HomeAutomationProfile.GROUPS);
-        temperatureMeasurementCluster = (TemperatureMeasurement) getCluster(HomeAutomationProfile.TEMPERATURE_MEASUREMENT);
+        levelControlCluster = (LevelControl) getCluster(ProfileConstants.CLUSTER_ID_LEVEL_CONTROL);
+        onOffCluster = (OnOff) getCluster(ProfileConstants.CLUSTER_ID_ON_OFF);
+        scenesCluster = (Scenes) getCluster(ProfileConstants.CLUSTER_ID_SCENES);
+        groupsCluster = (Groups) getCluster(ProfileConstants.CLUSTER_ID_GROUPS);
+        temperatureMeasurementCluster = (TemperatureMeasurement) getCluster(ProfileConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {

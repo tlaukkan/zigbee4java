@@ -22,7 +22,7 @@
 package org.bubblecloud.zigbee.proxy.device.api.security_safety;
 
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
-import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
+import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASACE;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
@@ -38,7 +38,7 @@ public interface IASAncillaryControlEquipment extends DeviceProxy {
     public static final int DEVICE_ID = 0x0401;
     public static final String NAME = "IAS Ancillary Control Equipment";
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-            HomeAutomationProfile.IAS_ZONE, HomeAutomationProfile.IDENTIFY, HomeAutomationProfile.IAS_ACE
+            ProfileConstants.CLUSTER_ID_IAS_ZONE, ProfileConstants.CLUSTER_ID_IDENTIFY, ProfileConstants.CLUSTER_ID_IAS_ACE
     });
     public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);

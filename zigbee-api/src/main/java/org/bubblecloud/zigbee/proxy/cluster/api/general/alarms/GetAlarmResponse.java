@@ -49,7 +49,7 @@ public interface GetAlarmResponse extends Response {
     public int getAllarmCode();
 
     /**
-     * @return the int representing the <i>Cluster ID</i> field. The value is valid only if <code>getStatus() = Status.SUCCESS</code>
+     * @return the int representing the <i>Cluster PROFILE_ID_HOME_AUTOMATION</i> field. The value is valid only if <code>getStatus() = Status.SUCCESS</code>
      */
     public int getClusterID();
 

@@ -33,7 +33,7 @@ import org.bubblecloud.zigbee.util.DoubleByte;
  */
 public class SYS_OSAL_TIMER_EXPIRED_IND extends ZToolPacket /*implements IINDICATION,ISYSTEM*/ {
     /// <name>TI.ZPI2.SYS_OSAL_TIMER_EXPIRED_IND.Id</name>
-    /// <summary>Timer ID</summary>
+    /// <summary>Timer PROFILE_ID_HOME_AUTOMATION</summary>
     public int Id;
 
     /// <name>TI.ZPI2.SYS_OSAL_TIMER_EXPIRED_IND</name>

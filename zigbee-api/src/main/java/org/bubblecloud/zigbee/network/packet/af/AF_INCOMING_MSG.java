@@ -40,7 +40,7 @@ public class AF_INCOMING_MSG extends ZToolPacket /*implements IINDICATION,IAF*/ 
     private final static Logger profiler = LoggerFactory.getLogger("profiling." + AF_INCOMING_MSG.class.getName());
 
     /// <name>TI.ZPI2.AF_INCOMING_MSG.ClusterID</name>
-    /// <summary>specifies the cluster ID</summary>
+    /// <summary>specifies the cluster PROFILE_ID_HOME_AUTOMATION</summary>
     @Deprecated
     public DoubleByte ClusterID;
     /// <name>TI.ZPI2.AF_INCOMING_MSG.Data</name>
@@ -52,7 +52,7 @@ public class AF_INCOMING_MSG extends ZToolPacket /*implements IINDICATION,IAF*/ 
     @Deprecated
     public int DstEndpoint;
     /// <name>TI.ZPI2.AF_INCOMING_MSG.GroupID</name>
-    /// <summary>Group ID</summary>
+    /// <summary>Group PROFILE_ID_HOME_AUTOMATION</summary>
     @Deprecated
     public DoubleByte GroupID;
     /// <name>TI.ZPI2.AF_INCOMING_MSG.Len</name>

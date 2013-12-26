@@ -36,7 +36,7 @@ public class UTIL_CALLBACK_SUBSCRIBE extends ZToolPacket /*implements IREQUEST, 
     /// <summary>contains the action of the command</summary>
     public int Action;
     /// <name>TI.ZPI1.SYS_CALLBACK_SUBSCRIBE.CommandID</name>
-    /// <summary>contains the Command ID field of the expected callback message</summary>
+    /// <summary>contains the Command PROFILE_ID_HOME_AUTOMATION field of the expected callback message</summary>
     public DoubleByte CommandID;
 
     /// <name>TI.ZPI1.SYS_CALLBACK_SUBSCRIBE</name>

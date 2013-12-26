@@ -73,7 +73,7 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
      * Constructor to configure the serial interface.
      *
      * @param serialPortName
-     * @param pan            the pan ID
+     * @param pan            the pan PROFILE_ID_HOME_AUTOMATION
      * @param channel        the channel
      * @param discoveryModes the discovery modes
      * @param resetNetwork   the flag indicating network reset on startup

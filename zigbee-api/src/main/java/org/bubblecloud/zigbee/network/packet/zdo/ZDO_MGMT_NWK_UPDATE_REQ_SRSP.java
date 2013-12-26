@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Response for requesting the network to switch channel or change PAN ID.
+ * Response for requesting the network to switch channel or change PAN PROFILE_ID_HOME_AUTOMATION.
  *
  * @author <a href="mailto:tommmi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */

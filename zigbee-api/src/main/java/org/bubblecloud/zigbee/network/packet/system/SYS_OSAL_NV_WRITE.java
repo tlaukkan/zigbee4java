@@ -33,7 +33,7 @@ import org.bubblecloud.zigbee.util.DoubleByte;
  */
 public class SYS_OSAL_NV_WRITE extends ZToolPacket /*implements IREQUEST,ISYSTEM*/ {
     /// <name>TI.ZPI2.SYS_OSAL_NV_WRITE.Id</name>
-    /// <summary>indicates the ID of the NV item to be written.</summary>
+    /// <summary>indicates the PROFILE_ID_HOME_AUTOMATION of the NV item to be written.</summary>
     public DoubleByte Id;
     /// <name>TI.ZPI2.SYS_OSAL_NV_WRITE.Len</name>
     /// <summary>Number of bytes in item (up to 250)</summary>

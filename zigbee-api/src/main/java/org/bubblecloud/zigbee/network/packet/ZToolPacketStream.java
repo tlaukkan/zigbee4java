@@ -152,8 +152,8 @@ public class ZToolPacketStream
             this.length = read("Length");
             //log.debug("data length is " + ByteUtils.formatByte(length.getLength()));
             final int[] frameData;
-            final int apiIdMSB = this.read("API ID MSB");
-            final int apiIdLSB = this.read("API ID LSB");
+            final int apiIdMSB = this.read("API PROFILE_ID_HOME_AUTOMATION MSB");
+            final int apiIdLSB = this.read("API PROFILE_ID_HOME_AUTOMATION LSB");
             final DoubleByte apiId = new DoubleByte(apiIdMSB, apiIdLSB);
             //TODO Remove generic never used
             if (generic) {
@@ -403,7 +403,7 @@ public class ZToolPacketStream
      * @return
      */
     public int getFrameDataBytesRead() {
-        // subtract out the 1 length bytes and API ID 2 bytes
+        // subtract out the 1 length bytes and API PROFILE_ID_HOME_AUTOMATION 2 bytes
         return this.getBytesRead() - 3;
     }
 

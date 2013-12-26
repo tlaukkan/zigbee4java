@@ -44,7 +44,7 @@ public interface ViewGroupResponse extends Response {
     public Status getStatus();
 
     /**
-     * @return the int representing the <i>Group ID</i> field
+     * @return the int representing the <i>Group PROFILE_ID_HOME_AUTOMATION</i> field
      */
     public int getGroupId();
 

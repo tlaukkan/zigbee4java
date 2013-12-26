@@ -31,9 +31,6 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
 public interface Cluster {
-
-    String PROFILE_CLUSTER_IDs = "zigbee.profile.cluster.ids";
-
     /**
      * This method return the actual <i>ClusterId</i>. Please remember that the final and official <i>ClusterId</i><br>
      * is defined by the <i>Profile</i> even if the Cluster is defined by a <i>Cluster Library</i>.
@@ -69,5 +66,4 @@ public interface Cluster {
      * @since 0.2.0
      */
     public Attribute getAttribute(int id);
-
 }

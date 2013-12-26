@@ -92,7 +92,7 @@ public class ZToolPacket {
         // msb Cmd0 -> Type & Subsystem
         packet[2] = ApiId.getMsb();
         checksum.addByte(packet[2]);
-        // lsb Cmd1 -> ID
+        // lsb Cmd1 -> PROFILE_ID_HOME_AUTOMATION
         packet[3] = ApiId.getLsb();
         checksum.addByte(packet[3]);
         this.CMD = ApiId;

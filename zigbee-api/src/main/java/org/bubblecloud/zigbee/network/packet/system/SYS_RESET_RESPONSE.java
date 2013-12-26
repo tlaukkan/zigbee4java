@@ -42,7 +42,7 @@ public class SYS_RESET_RESPONSE extends ZToolPacket /*implements IRESPONE,ISYSTE
     /// <summary>Minor release number</summary>
     public int MinorRel;
     /// <name>TI.ZPI2.SYS_RESET_RESPONSE.Product</name>
-    /// <summary>Product ID</summary>
+    /// <summary>Product PROFILE_ID_HOME_AUTOMATION</summary>
     public int Product;
     /// <name>TI.ZPI2.SYS_RESET_RESPONSE.Reason</name>
     /// <summary>Reset reason</summary>
