@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy.device.api.lighting;
 
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
-import org.bubblecloud.zigbee.proxy.ProxyConstants;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.IlluminanceMeasurement;
 import org.bubblecloud.zigbee.util.ArraysUtil;
@@ -38,10 +38,10 @@ public interface LightSensor extends DeviceProxy {
     public static final int DEVICE_ID = 0x0106;
     public static final String NAME = "Light Sensor";
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-            ProxyConstants.ILLUMINANCE_MEASUREMENT
+            HomeAutomationProfile.ILLUMINANCE_MEASUREMENT
     });
     public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
-            ProxyConstants.GROUPS
+            HomeAutomationProfile.GROUPS
     });
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

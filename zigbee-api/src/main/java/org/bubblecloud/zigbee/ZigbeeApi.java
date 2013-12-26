@@ -15,6 +15,7 @@
  */
 package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
 import org.bubblecloud.zigbee.proxy.DeviceProxyListener;
@@ -36,6 +37,7 @@ import org.bubblecloud.zigbee.network.DeviceListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -73,14 +75,15 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
      * @param serialPortName
      * @param pan            the pan ID
      * @param channel        the channel
-     * @param resetNetwork   set true reset network
+     * @param discoveryModes the discovery modes
+     * @param resetNetwork   the flag indicating network reset on startup
      */
-    public ZigbeeApi(final String serialPortName, final int pan, final int channel, final boolean resetNetwork,
-                     final boolean lqiDiscovery) {
+    public ZigbeeApi(final String serialPortName, final int pan, final int channel,
+            final EnumSet<DiscoveryMode> discoveryModes, final boolean resetNetwork) {
         networkManager = new ZigbeeNetworkManagerSerialImpl(serialPortName, 115200,
                 NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
 
-        discoveryManager = new ZigbeeDiscoveryManager(networkManager, lqiDiscovery);
+        discoveryManager = new ZigbeeDiscoveryManager(networkManager, discoveryModes);
     }
 
     /**

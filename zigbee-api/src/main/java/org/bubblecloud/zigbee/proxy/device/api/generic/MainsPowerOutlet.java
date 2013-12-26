@@ -22,7 +22,7 @@
 package org.bubblecloud.zigbee.proxy.device.api.generic;
 
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
-import org.bubblecloud.zigbee.proxy.ProxyConstants;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguration;
@@ -40,7 +40,7 @@ public interface MainsPowerOutlet extends DeviceProxy {
     public static final int DEVICE_ID = 0x0009;
     public static final String NAME = "Mains Power Outlet";
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-            ProxyConstants.ON_OFF, ProxyConstants.SCENES, ProxyConstants.GROUPS
+            HomeAutomationProfile.ON_OFF, HomeAutomationProfile.SCENES, HomeAutomationProfile.GROUPS
     });
     public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);

@@ -25,6 +25,7 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
@@ -52,12 +53,12 @@ public class IASControlAndIndicatingEquipmentDeviceProxy extends DeviceProxyBase
 
         super(ctx, zbDevice);
 
-        iasAce = (IASACE) getCluster(ProxyConstants.IAS_ACE);
-        iasZone = (IASZone) getCluster(ProxyConstants.IAS_ZONE);
-        identify = (Identify) getCluster(ProxyConstants.IDENTIFY);
-        iasWD = (IASWD) getCluster(ProxyConstants.IAS_WD);
-        scenes = (Scenes) getCluster(ProxyConstants.SCENES);
-        groups = (Groups) getCluster(ProxyConstants.GROUPS);
+        iasAce = (IASACE) getCluster(HomeAutomationProfile.IAS_ACE);
+        iasZone = (IASZone) getCluster(HomeAutomationProfile.IAS_ZONE);
+        identify = (Identify) getCluster(HomeAutomationProfile.IDENTIFY);
+        iasWD = (IASWD) getCluster(HomeAutomationProfile.IAS_WD);
+        scenes = (Scenes) getCluster(HomeAutomationProfile.SCENES);
+        groups = (Groups) getCluster(HomeAutomationProfile.GROUPS);
     }
 
     public IASACE getIASACE() {

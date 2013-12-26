@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.proxy.device.api.security_safety;
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.ProxyConstants;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
@@ -36,7 +36,7 @@ public interface IAS_Zone extends DeviceProxy {
     public static final int DEVICE_ID = 0x0402;
     public static final String NAME = "IAS Zone";
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-            ProxyConstants.IAS_ZONE
+            HomeAutomationProfile.IAS_ZONE
     });
     public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);

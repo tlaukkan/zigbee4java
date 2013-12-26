@@ -25,6 +25,7 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
@@ -48,11 +49,11 @@ public class DimmableLightDeviceProxy extends DeviceProxyBase implements Dimmabl
 
     public DimmableLightDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
         super(ctx, zbDevice);
-        levelControl = (LevelControl) getCluster(ProxyConstants.LEVEL_CONTROL);
-        onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);
-        groups = (Groups) getCluster(ProxyConstants.GROUPS);
-        scenes = (Scenes) getCluster(ProxyConstants.SCENES);
-        occupancySensing = (OccupacySensing) getCluster(ProxyConstants.OCCUPANCY_SENSING);
+        levelControl = (LevelControl) getCluster(HomeAutomationProfile.LEVEL_CONTROL);
+        onOff = (OnOff) getCluster(HomeAutomationProfile.ON_OFF);
+        groups = (Groups) getCluster(HomeAutomationProfile.GROUPS);
+        scenes = (Scenes) getCluster(HomeAutomationProfile.SCENES);
+        occupancySensing = (OccupacySensing) getCluster(HomeAutomationProfile.OCCUPANCY_SENSING);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {

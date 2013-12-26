@@ -22,6 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy;
 
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.impl.*;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
@@ -34,32 +35,32 @@ import org.bubblecloud.zigbee.ZigbeeProxyContext;
 public class ClusterFactoryImpl extends ClusterFactoryBase {
 
     //General
-    final static String BASIC_KEY = ProxyConstants.ID + ":" + ProxyConstants.BASIC;
-    final static String POWER_CONFIGURATION_KEY = ProxyConstants.ID + ":" + ProxyConstants.POWER_CONFIGURATION;
-    final static String DEVICE_TEMPERATURE_CONFIGURATION_KEY = ProxyConstants.ID + ":" + ProxyConstants.DEVICE_TEMPERATURE_CONFIGURATION;
-    final static String IDENTIFY_KEY = ProxyConstants.ID + ":" + ProxyConstants.IDENTIFY;
-    final static String GROUPS_KEY = ProxyConstants.ID + ":" + ProxyConstants.GROUPS;
-    final static String SCENES_KEY = ProxyConstants.ID + ":" + ProxyConstants.SCENES;
-    final static String ONOFF_KEY = ProxyConstants.ID + ":" + ProxyConstants.ON_OFF;
-    final static String ON_OFF_SWITCH_CONFIGURATION_KEY = ProxyConstants.ID + ":" + ProxyConstants.ON_OFF_SWITCH_CONFIGURATION;
-    final static String LEVEL_CONTROL_KEY = ProxyConstants.ID + ":" + ProxyConstants.LEVEL_CONTROL;
-    final static String ALARMS_KEY = ProxyConstants.ID + ":" + ProxyConstants.ALARMS;
-    final static String TIME_KEY = ProxyConstants.ID + ":" + ProxyConstants.TIME;
-    final static String BINARY_INPUT_KEY = ProxyConstants.ID + ":" + ProxyConstants.BINARY_INPUT;
+    final static String BASIC_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.BASIC;
+    final static String POWER_CONFIGURATION_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.POWER_CONFIGURATION;
+    final static String DEVICE_TEMPERATURE_CONFIGURATION_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.DEVICE_TEMPERATURE_CONFIGURATION;
+    final static String IDENTIFY_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.IDENTIFY;
+    final static String GROUPS_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.GROUPS;
+    final static String SCENES_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.SCENES;
+    final static String ONOFF_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.ON_OFF;
+    final static String ON_OFF_SWITCH_CONFIGURATION_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.ON_OFF_SWITCH_CONFIGURATION;
+    final static String LEVEL_CONTROL_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.LEVEL_CONTROL;
+    final static String ALARMS_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.ALARMS;
+    final static String TIME_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.TIME;
+    final static String BINARY_INPUT_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.BINARY_INPUT;
 
     // final static String RSSI_LOCATION
-    final static String COMMISSIONING_KEY = ProxyConstants.ID + ":" + ProxyConstants.COMMISSIONING;
+    final static String COMMISSIONING_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.COMMISSIONING;
 
     //Measurement and Sensing
-    final static String ILLUMINANCE_MEASUREMENT_KEY = ProxyConstants.ID + ":" + ProxyConstants.ILLUMINANCE_MEASUREMENT; // new
-    final static String TEMPERATURE_MEASUREMENT_KEY = ProxyConstants.ID + ":" + ProxyConstants.TEMPERATURE_MEASUREMENT;
-    final static String RELATIVE_HUMIDITY_MEASUREMENT_KEY = ProxyConstants.ID + ":" + ProxyConstants.RELATIVE_HUMIDITY_MEASUREMENT;
-    final static String OCCUPANCY_SENSING_KEY = ProxyConstants.ID + ":" + ProxyConstants.OCCUPANCY_SENSING;
+    final static String ILLUMINANCE_MEASUREMENT_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.ILLUMINANCE_MEASUREMENT; // new
+    final static String TEMPERATURE_MEASUREMENT_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.TEMPERATURE_MEASUREMENT;
+    final static String RELATIVE_HUMIDITY_MEASUREMENT_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.RELATIVE_HUMIDITY_MEASUREMENT;
+    final static String OCCUPANCY_SENSING_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.OCCUPANCY_SENSING;
 
     //Security and Safety
-    final static String IAS_ZONE_KEY = ProxyConstants.ID + ":" + ProxyConstants.IAS_ZONE;
-    final static String IAS_WD_KEY = ProxyConstants.ID + ":" + ProxyConstants.IAS_WD;
-    final static String IAS_ACE_KEY = ProxyConstants.ID + ":" + ProxyConstants.IAS_ACE;
+    final static String IAS_ZONE_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.IAS_ZONE;
+    final static String IAS_WD_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.IAS_WD;
+    final static String IAS_ACE_KEY = HomeAutomationProfile.ID + ":" + HomeAutomationProfile.IAS_ACE;
 
     public ClusterFactoryImpl(ZigbeeProxyContext ctx) {
         super(ctx);

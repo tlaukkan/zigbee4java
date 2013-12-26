@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.proxy.device.api.hvac.TemperatureSensor;
-import org.bubblecloud.zigbee.proxy.ProxyConstants;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -41,7 +41,7 @@ public class TemperatureSensorDeviceProxy extends DeviceProxyBase implements Tem
 
     public TemperatureSensorDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
         super(ctx, zbDevice);
-        temperature = (TemperatureMeasurement) getCluster(ProxyConstants.TEMPERATURE_MEASUREMENT);
+        temperature = (TemperatureMeasurement) getCluster(HomeAutomationProfile.TEMPERATURE_MEASUREMENT);
     }
 
     public String getName() {

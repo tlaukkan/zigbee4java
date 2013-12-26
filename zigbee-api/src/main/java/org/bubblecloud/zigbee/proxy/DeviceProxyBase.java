@@ -28,6 +28,7 @@ import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Basic;
@@ -103,12 +104,12 @@ public abstract class DeviceProxyBase implements DeviceProxy {
             }
         }
 
-        basic = (Basic) getCluster(ProxyConstants.BASIC);
-        identify = (Identify) getCluster(ProxyConstants.IDENTIFY);
+        basic = (Basic) getCluster(HomeAutomationProfile.BASIC);
+        identify = (Identify) getCluster(HomeAutomationProfile.IDENTIFY);
 
-        powerConfiguration = (PowerConfiguration) getCluster(ProxyConstants.POWER_CONFIGURATION);
-        deviceTemperature = (DeviceTemperatureConfiguration) getCluster(ProxyConstants.DEVICE_TEMPERATURE_CONFIGURATION);
-        alarms = (Alarms) getCluster(ProxyConstants.ALARMS);
+        powerConfiguration = (PowerConfiguration) getCluster(HomeAutomationProfile.POWER_CONFIGURATION);
+        deviceTemperature = (DeviceTemperatureConfiguration) getCluster(HomeAutomationProfile.DEVICE_TEMPERATURE_CONFIGURATION);
+        alarms = (Alarms) getCluster(HomeAutomationProfile.ALARMS);
     }
 
     public int getDeviceType() {
@@ -244,7 +245,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
             }
         }
 
-        String key = ProxyConstants.ID + ":" + String.valueOf(clusterId);
+        String key = HomeAutomationProfile.ID + ":" + String.valueOf(clusterId);
         ClusterFactory factory = (ClusterFactory) context.getClusterFactory();
         Cluster cluster = factory.getInstance(key, device);
         if (index >= clusters.length) {

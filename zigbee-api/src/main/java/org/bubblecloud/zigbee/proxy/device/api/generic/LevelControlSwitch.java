@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.device.api.generic;
 
-import org.bubblecloud.zigbee.proxy.ProxyConstants;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguration;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
@@ -39,7 +39,7 @@ public interface LevelControlSwitch extends DeviceProxy {
 
 
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-            ProxyConstants.ON_OFF_SWITCH_CONFIGURATION
+            HomeAutomationProfile.ON_OFF_SWITCH_CONFIGURATION
     });
     public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);

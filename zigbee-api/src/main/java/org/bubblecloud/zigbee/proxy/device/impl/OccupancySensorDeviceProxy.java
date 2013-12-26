@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.proxy.device.api.lighting.OccupancySensor;
-import org.bubblecloud.zigbee.proxy.ProxyConstants;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -41,7 +41,7 @@ public class OccupancySensorDeviceProxy extends DeviceProxyBase implements Occup
 
     public OccupancySensorDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
         super(ctx, zbDevice);
-        occupancySensing = (OccupacySensing) getCluster(ProxyConstants.OCCUPANCY_SENSING);
+        occupancySensing = (OccupacySensing) getCluster(HomeAutomationProfile.OCCUPANCY_SENSING);
     }
 
     public OccupacySensing getOccupacySensing() {

@@ -23,9 +23,9 @@
 package org.bubblecloud.zigbee.proxy.device.api.lighting;
 
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguration;
 import org.bubblecloud.zigbee.util.ArraysUtil;
-import org.bubblecloud.zigbee.proxy.ProxyConstants;
 
 
 /**
@@ -39,7 +39,7 @@ public interface OnOffLightSwitch extends DeviceProxy {
     public static final int DEVICE_ID = 0x0103;
     public static final String NAME = "OnOff Switch";
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-            ProxyConstants.ON_OFF_SWITCH_CONFIGURATION
+            HomeAutomationProfile.ON_OFF_SWITCH_CONFIGURATION
     });
     public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);

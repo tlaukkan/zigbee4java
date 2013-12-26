@@ -24,6 +24,7 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASWD;
@@ -48,11 +49,11 @@ public class IAS_Warning_DeviceProxy extends DeviceProxyBase implements IAS_Warn
 
         super(ctx, zbDevice);
 
-        iasZoneCluster = (IASZone) getCluster(ProxyConstants.IAS_ZONE);
-        iasWD = (IASWD) getCluster(ProxyConstants.IAS_WD);
+        iasZoneCluster = (IASZone) getCluster(HomeAutomationProfile.IAS_ZONE);
+        iasWD = (IASWD) getCluster(HomeAutomationProfile.IAS_WD);
 
-        scenes = (Scenes) getCluster(ProxyConstants.SCENES);
-        groups = (Groups) getCluster(ProxyConstants.GROUPS);
+        scenes = (Scenes) getCluster(HomeAutomationProfile.SCENES);
+        groups = (Groups) getCluster(HomeAutomationProfile.GROUPS);
     }
 
     public IASZone getIASZone() {

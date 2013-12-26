@@ -24,6 +24,7 @@ package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Basic;
@@ -47,8 +48,8 @@ public interface DeviceProxy extends ZigBeeDevice {
     public static final String HA_DEVICE_GROUP = "zigbee.ha.group";
     public static final String HA_DEVICE_STANDARD = "zigbee.ha.standard";
 
-    public static final int[] MANDATORY = {ProxyConstants.BASIC, ProxyConstants.IDENTIFY};
-    public static final int[] OPTIONAL = {ProxyConstants.POWER_CONFIGURATION, ProxyConstants.DEVICE_TEMPERATURE_CONFIGURATION, ProxyConstants.ALARMS};
+    public static final int[] MANDATORY = {HomeAutomationProfile.BASIC, HomeAutomationProfile.IDENTIFY};
+    public static final int[] OPTIONAL = {HomeAutomationProfile.POWER_CONFIGURATION, HomeAutomationProfile.DEVICE_TEMPERATURE_CONFIGURATION, HomeAutomationProfile.ALARMS};
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
 
     public String getName();

@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy.device.api.hvac;
 
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
-import org.bubblecloud.zigbee.proxy.ProxyConstants;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.LevelControl;
@@ -43,11 +43,11 @@ public interface Pump extends DeviceProxy {
     public static final String NAME = "Pump";
 
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-            /* TODO ProxyConstants.PUMP_CONFIGURATION_AND_CONTROL, */ProxyConstants.ON_OFF, ProxyConstants.SCENES, ProxyConstants.GROUPS
+            /* TODO HomeAutomationProfile.PUMP_CONFIGURATION_AND_CONTROL, */HomeAutomationProfile.ON_OFF, HomeAutomationProfile.SCENES, HomeAutomationProfile.GROUPS
     });
 
     public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
-            ProxyConstants.LEVEL_CONTROL, ProxyConstants.ALARMS, ProxyConstants.TEMPERATURE_MEASUREMENT, /* TODO ProxyConstants.PRESSURE_MEASUREMENT, ProxyConstants.FLOW_MEASUREMENT*/
+            HomeAutomationProfile.LEVEL_CONTROL, HomeAutomationProfile.ALARMS, HomeAutomationProfile.TEMPERATURE_MEASUREMENT, /* TODO HomeAutomationProfile.PRESSURE_MEASUREMENT, HomeAutomationProfile.FLOW_MEASUREMENT*/
     });
 
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);

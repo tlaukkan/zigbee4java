@@ -25,6 +25,7 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASACE;
 import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
@@ -45,9 +46,9 @@ public class IASAncillaryControlEquipmentDeviceProxy extends DeviceProxyBase imp
     public IASAncillaryControlEquipmentDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
-        iasAce = (IASACE) getCluster(ProxyConstants.IAS_ACE);
-        iasZone = (IASZone) getCluster(ProxyConstants.IAS_ZONE);
-        identify = (Identify) getCluster(ProxyConstants.IDENTIFY);
+        iasAce = (IASACE) getCluster(HomeAutomationProfile.IAS_ACE);
+        iasZone = (IASZone) getCluster(HomeAutomationProfile.IAS_ZONE);
+        identify = (Identify) getCluster(HomeAutomationProfile.IDENTIFY);
     }
 
     public IASACE getIASACE() {

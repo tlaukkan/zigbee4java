@@ -51,19 +51,19 @@ public class ZigbeeDiscoveryManager {
     private DeviceBuilderThread deviceBuilder;
     private final ImportingQueue importingQueue;
 
-    private boolean lqiDiscovery;
+    private EnumSet<DiscoveryMode> enabledDiscoveries;
 
-    public ZigbeeDiscoveryManager(ZigbeeNetworkManager simpleDriver, final boolean lqiDiscovery) {
-        this.lqiDiscovery = lqiDiscovery;
+    public ZigbeeDiscoveryManager(ZigbeeNetworkManager simpleDriver, final EnumSet<DiscoveryMode> enabledDiscoveries) {
         importingQueue = new ImportingQueue();
         managementInterface = simpleDriver;
+        this.enabledDiscoveries = enabledDiscoveries;
     }
 
     public void startup() {
         logger.debug("Setting up all the importer data and threads");
         importingQueue.clear();
         ApplicationFrameworkLayer.getAFLayer(managementInterface);
-        final EnumSet<DiscoveryMode> enabledDiscoveries = DiscoveryMode.ALL;
+
         if (enabledDiscoveries.contains(DiscoveryMode.Announce)) {
             annunceListener = new AnnounceListenerThread(importingQueue, managementInterface);
             managementInterface.addAnnunceListener(annunceListener);
@@ -80,10 +80,8 @@ public class ZigbeeDiscoveryManager {
         }
 
         if (enabledDiscoveries.contains(DiscoveryMode.LinkQuality)) {
-            if (lqiDiscovery) {
-                networkLQIBrowser = new LQINetworkBrowserThread(importingQueue, managementInterface);
-                new Thread(networkLQIBrowser, "LQINetworkBrowser[" + managementInterface + "]").start();
-            }
+            networkLQIBrowser = new LQINetworkBrowserThread(importingQueue, managementInterface);
+            new Thread(networkLQIBrowser, "LQINetworkBrowser[" + managementInterface + "]").start();
         } else {
             logger.debug("{} discovery disabled.",
                     LQINetworkBrowserThread.class);

@@ -24,13 +24,10 @@ package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
-import java.util.Dictionary;
-import java.util.Properties;
 
 /**
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
@@ -86,7 +83,7 @@ public abstract class DeviceProxyFactoryBase implements DeviceProxyFactory {
     public int hasMatch(ZigBeeDevice device) {
         int[] inputClusterIDs = device.getInputClusters();
         int[] refinedClusterIds = (int[]) getDeviceClusters();
-        int score = device.getProfileId() == ProxyConstants.ID
+        int score = device.getProfileId() == HomeAutomationProfile.ID
                 ? ZigBeeDevice.MATCH_PROFILE_ID : 0;
 
         for (int i = 0; i < inputClusterIDs.length; i++) {

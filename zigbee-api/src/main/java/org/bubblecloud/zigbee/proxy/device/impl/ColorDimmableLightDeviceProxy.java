@@ -31,7 +31,7 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.proxy.device.api.lighting.ColorDimmableLight;
-import org.bubblecloud.zigbee.proxy.ProxyConstants;
+import org.bubblecloud.zigbee.proxy.cluster.api.HomeAutomationProfile;
 import org.bubblecloud.zigbee.proxy.cluster.api.lighting.ColorControl;
 
 /**
@@ -52,12 +52,12 @@ public class ColorDimmableLightDeviceProxy extends DeviceProxyBase implements Co
 
         super(ctx, zbDevice);
 
-        onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);
-        scenes = (Scenes) getCluster(ProxyConstants.SCENES);
-        groups = (Groups) getCluster(ProxyConstants.GROUPS);
-        levelControl = (LevelControl) getCluster(ProxyConstants.LEVELCONTROL);
-        occupancySensing = (OccupacySensing) getCluster(ProxyConstants.OCCUPANCY_SENSING);
-        colorControl = (ColorControl) getCluster(ProxyConstants.COLOR_CONTROL);
+        onOff = (OnOff) getCluster(HomeAutomationProfile.ON_OFF);
+        scenes = (Scenes) getCluster(HomeAutomationProfile.SCENES);
+        groups = (Groups) getCluster(HomeAutomationProfile.GROUPS);
+        levelControl = (LevelControl) getCluster(HomeAutomationProfile.LEVELCONTROL);
+        occupancySensing = (OccupacySensing) getCluster(HomeAutomationProfile.OCCUPANCY_SENSING);
+        colorControl = (ColorControl) getCluster(HomeAutomationProfile.COLOR_CONTROL);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
