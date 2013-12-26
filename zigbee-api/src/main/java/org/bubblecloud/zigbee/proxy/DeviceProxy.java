@@ -24,13 +24,13 @@ package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
-import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
-import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Alarms;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Basic;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.DeviceTemperatureConfiguration;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.PowerConfiguration;
+import org.bubblecloud.zigbee.ProfileConstants;
+import org.bubblecloud.zigbee.proxy.cluster.Cluster;
+import org.bubblecloud.zigbee.proxy.cluster.general.Alarms;
+import org.bubblecloud.zigbee.proxy.cluster.general.Basic;
+import org.bubblecloud.zigbee.proxy.cluster.general.DeviceTemperatureConfiguration;
+import org.bubblecloud.zigbee.proxy.cluster.general.Identify;
+import org.bubblecloud.zigbee.proxy.cluster.general.PowerConfiguration;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 
 /**

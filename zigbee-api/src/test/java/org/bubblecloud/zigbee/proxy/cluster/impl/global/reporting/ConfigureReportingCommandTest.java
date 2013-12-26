@@ -22,11 +22,11 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.global.reporting;
 
 import static org.junit.Assert.assertNotNull;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeType;
-import org.bubblecloud.zigbee.proxy.cluster.api.global.AttributeReportingConfigurationRecord;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeType;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.global.AttributeReportingConfigurationRecord;
 
 import org.junit.Test;
 

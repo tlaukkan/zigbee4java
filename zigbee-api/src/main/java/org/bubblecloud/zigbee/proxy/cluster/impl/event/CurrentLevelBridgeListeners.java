@@ -22,14 +22,14 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.event;
 
-import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.event.CurrentLevelEvent;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.event.CurrentLevelListener;
+import org.bubblecloud.zigbee.proxy.cluster.Cluster;
+import org.bubblecloud.zigbee.proxy.cluster.general.event.CurrentLevelEvent;
+import org.bubblecloud.zigbee.proxy.cluster.general.event.CurrentLevelListener;
 import org.bubblecloud.zigbee.proxy.ReportingConfiguration;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.AnalogSubscription;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ReportListener;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.AnalogSubscription;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ReportListener;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
 
 import java.util.ArrayList;
 import java.util.Dictionary;

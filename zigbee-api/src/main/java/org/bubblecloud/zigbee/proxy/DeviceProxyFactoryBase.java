@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
+import org.bubblecloud.zigbee.ProfileConstants;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

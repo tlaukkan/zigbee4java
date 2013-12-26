@@ -23,9 +23,9 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.PowerConfiguration;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.general.PowerConfiguration;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
 import org.bubblecloud.zigbee.proxy.cluster.impl.general.PowerConfigurationCluster;
 
 /**

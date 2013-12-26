@@ -21,8 +21,8 @@
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.ias_ace;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBSerializer;
-import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.IASACE;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZBSerializer;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.IASACE;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultSerializer;
 

@@ -22,11 +22,11 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.ias_zone;
 
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBDeserializer;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeType;
-import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneEnrollResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZBDeserializer;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeType;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.ias_zone.ZoneEnrollResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ResponseImpl;
 

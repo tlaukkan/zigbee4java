@@ -21,9 +21,9 @@
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.ias_zone;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBDeserializer;
-import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneStatusChangeNotificationResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZBDeserializer;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.ias_zone.ZoneStatusChangeNotificationResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ResponseImpl;
 

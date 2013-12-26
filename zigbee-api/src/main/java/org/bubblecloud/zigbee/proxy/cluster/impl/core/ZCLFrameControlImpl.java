@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Command;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLFrameControl;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Command;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZCLFrameControl;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

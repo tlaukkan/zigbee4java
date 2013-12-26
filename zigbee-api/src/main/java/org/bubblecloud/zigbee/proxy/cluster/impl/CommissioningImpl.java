@@ -22,12 +22,12 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Commissioning;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.NetworkKeyType;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.StartupControl;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.general.Commissioning;
+import org.bubblecloud.zigbee.proxy.cluster.general.NetworkKeyType;
+import org.bubblecloud.zigbee.proxy.cluster.general.StartupControl;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Status;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
 
 /**
  * PLACEHOLDER TO IMPLEMENT

@@ -23,10 +23,10 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.general;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.LevelControl;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.EmptyPayloadCommand;

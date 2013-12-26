@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.global.write;
 
 import static org.junit.Assert.assertArrayEquals;
-import org.bubblecloud.zigbee.proxy.cluster.api.global.WriteAttributeRecord;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.global.WriteAttributeRecord;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AttributeImpl;
 

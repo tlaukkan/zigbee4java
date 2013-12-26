@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general.scenes;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.AddScenePayload;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.ExtensionFieldSetAddScene;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.AddScenePayload;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.ExtensionFieldSetAddScene;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

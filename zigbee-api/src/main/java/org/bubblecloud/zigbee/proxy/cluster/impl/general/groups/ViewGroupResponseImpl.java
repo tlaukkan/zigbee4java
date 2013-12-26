@@ -22,12 +22,12 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general.groups;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBDeserializer;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeType;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.ViewGroupResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Status;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZBDeserializer;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeType;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.groups.ViewGroupResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ResponseImpl;
 

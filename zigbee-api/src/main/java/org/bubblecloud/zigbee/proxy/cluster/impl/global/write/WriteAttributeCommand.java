@@ -22,9 +22,9 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.global.write;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBSerializer;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeType;
-import org.bubblecloud.zigbee.proxy.cluster.api.global.WriteAttributeRecord;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZBSerializer;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeType;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.global.WriteAttributeRecord;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ByteArrayOutputStreamSerializer;
 

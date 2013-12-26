@@ -22,9 +22,9 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.global.reporting;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBDeserializer;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeType;
-import org.bubblecloud.zigbee.proxy.cluster.api.global.AttributeReport;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZBDeserializer;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeType;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.global.AttributeReport;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

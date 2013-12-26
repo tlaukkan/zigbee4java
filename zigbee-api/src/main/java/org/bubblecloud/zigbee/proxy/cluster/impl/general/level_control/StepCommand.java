@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general.level_control;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.general.LevelControl;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ByteArrayOutputStreamSerializer;
 

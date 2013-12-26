@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.protocol_interfaces;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
-import org.bubblecloud.zigbee.proxy.cluster.api.protocol_interfaces.GenericTunnel;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.protocol_interfaces.GenericTunnel;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
 
 /**

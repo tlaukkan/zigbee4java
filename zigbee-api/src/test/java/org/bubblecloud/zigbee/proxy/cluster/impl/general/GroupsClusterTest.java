@@ -29,12 +29,12 @@ import static org.junit.Assert.*;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.Groups;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.AddGroupResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Status;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.Groups;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.groups.AddGroupResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.RawClusterMessageImpl;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.GetGroupMembershipResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.groups.GetGroupMembershipResponse;
 
 import org.junit.Test;
 

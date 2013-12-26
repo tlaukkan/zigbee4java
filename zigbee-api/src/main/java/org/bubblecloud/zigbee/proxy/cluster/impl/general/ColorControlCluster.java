@@ -22,9 +22,9 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.general;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
-import org.bubblecloud.zigbee.proxy.cluster.api.lighting.ColorControl;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.lighting.ColorControl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;

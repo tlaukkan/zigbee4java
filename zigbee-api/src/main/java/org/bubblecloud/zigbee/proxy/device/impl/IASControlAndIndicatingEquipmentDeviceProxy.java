@@ -25,14 +25,14 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
-import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Identify;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
-import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASACE;
-import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASWD;
-import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
-import org.bubblecloud.zigbee.proxy.device.api.security_safety.IASControlAndIndicatingEquipment;
+import org.bubblecloud.zigbee.ProfileConstants;
+import org.bubblecloud.zigbee.proxy.cluster.general.Groups;
+import org.bubblecloud.zigbee.proxy.cluster.general.Identify;
+import org.bubblecloud.zigbee.proxy.cluster.general.Scenes;
+import org.bubblecloud.zigbee.proxy.cluster.security_safety.IASACE;
+import org.bubblecloud.zigbee.proxy.cluster.security_safety.IASWD;
+import org.bubblecloud.zigbee.proxy.cluster.security_safety.IASZone;
+import org.bubblecloud.zigbee.proxy.device.security_safety.IASControlAndIndicatingEquipment;
 import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 
 /**

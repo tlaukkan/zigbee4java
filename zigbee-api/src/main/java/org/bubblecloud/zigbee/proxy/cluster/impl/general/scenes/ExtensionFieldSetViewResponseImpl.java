@@ -26,8 +26,8 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.general.scenes;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBDeserializer;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.ExtensionFieldSetViewResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZBDeserializer;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.ExtensionFieldSetViewResponse;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

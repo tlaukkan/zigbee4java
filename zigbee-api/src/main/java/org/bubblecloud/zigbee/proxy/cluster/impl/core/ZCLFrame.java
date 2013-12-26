@@ -25,7 +25,7 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.util.ByteUtils;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Command;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Command;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

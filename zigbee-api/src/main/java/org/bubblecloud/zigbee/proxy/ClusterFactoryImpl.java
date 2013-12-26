@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
+import org.bubblecloud.zigbee.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.impl.*;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 

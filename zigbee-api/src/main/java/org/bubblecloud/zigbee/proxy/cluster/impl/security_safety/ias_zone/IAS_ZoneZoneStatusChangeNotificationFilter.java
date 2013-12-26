@@ -23,7 +23,7 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.ias_zone;
 
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ClusterFilter;
-import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.IASZone;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.IASZone;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLFrame;
 
 public class IAS_ZoneZoneStatusChangeNotificationFilter implements ClusterFilter {

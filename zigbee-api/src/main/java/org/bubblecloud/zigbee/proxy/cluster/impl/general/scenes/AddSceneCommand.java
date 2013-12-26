@@ -22,11 +22,11 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general.scenes;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBSerializer;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.Scenes;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.AddScenePayload;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.ExtensionFieldSetAddScene;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZBSerializer;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.Scenes;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.AddScenePayload;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.ExtensionFieldSetAddScene;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultSerializer;
 

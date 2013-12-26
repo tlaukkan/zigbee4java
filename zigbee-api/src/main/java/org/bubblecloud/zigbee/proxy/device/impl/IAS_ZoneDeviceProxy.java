@@ -24,9 +24,9 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
-import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
-import org.bubblecloud.zigbee.proxy.device.api.security_safety.IAS_Zone;
-import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
+import org.bubblecloud.zigbee.proxy.cluster.security_safety.IASZone;
+import org.bubblecloud.zigbee.proxy.device.security_safety.IAS_Zone;
+import org.bubblecloud.zigbee.ProfileConstants;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
 /**

@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.ias_wd;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_wd.SquawkPayload;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.ias_wd.SquawkPayload;
 
 public class SquawkPayloadImpl implements SquawkPayload {
 

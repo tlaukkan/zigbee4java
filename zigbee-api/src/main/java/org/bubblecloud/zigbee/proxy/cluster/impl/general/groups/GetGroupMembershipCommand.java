@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general.groups;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBSerializer;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.Groups;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZBSerializer;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultSerializer;
 

@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.ias_ace;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_ace.ZoneTable;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.ias_ace.ZoneTable;
 
 public class ZoneTableImpl implements ZoneTable {
 

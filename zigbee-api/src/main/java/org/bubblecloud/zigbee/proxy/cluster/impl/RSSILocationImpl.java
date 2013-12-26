@@ -22,15 +22,15 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.AnchorNodeAnnounceListener;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.LocationMethod;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.LocationType;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.RSSILocation;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.RSSIPingListener;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.ReportRSSIMeasurementsListener;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.general.AnchorNodeAnnounceListener;
+import org.bubblecloud.zigbee.proxy.cluster.general.LocationMethod;
+import org.bubblecloud.zigbee.proxy.cluster.general.LocationType;
+import org.bubblecloud.zigbee.proxy.cluster.general.RSSILocation;
+import org.bubblecloud.zigbee.proxy.cluster.general.RSSIPingListener;
+import org.bubblecloud.zigbee.proxy.cluster.general.ReportRSSIMeasurementsListener;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
 
 import java.util.EnumSet;
 

@@ -25,9 +25,9 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
-import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.TemperatureMeasurement;
-import org.bubblecloud.zigbee.proxy.device.api.hvac.TemperatureSensor;
-import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
+import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.TemperatureMeasurement;
+import org.bubblecloud.zigbee.proxy.device.hvac.TemperatureSensor;
+import org.bubblecloud.zigbee.ProfileConstants;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

@@ -23,17 +23,17 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
+import org.bubblecloud.zigbee.proxy.cluster.general.Groups;
 import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.AddGroupResponse;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.GetGroupMembershipResponse;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.RemoveGroupResponse;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.ViewGroupResponse;
-import org.bubblecloud.zigbee.proxy.cluster.api.global.DefaultResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Status;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.groups.AddGroupResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.groups.GetGroupMembershipResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.groups.RemoveGroupResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.groups.ViewGroupResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.global.DefaultResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.general.GroupsCluster;
 
 /**

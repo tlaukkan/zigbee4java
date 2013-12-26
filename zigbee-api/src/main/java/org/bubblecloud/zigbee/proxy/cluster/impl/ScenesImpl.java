@@ -23,18 +23,18 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
+import org.bubblecloud.zigbee.proxy.cluster.general.Scenes;
 import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.AddScenePayload;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.AddSceneResponse;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.GetSceneMembershipResponse;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.RemoveAllScenesResponse;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.RemoveSceneResponse;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.StoreSceneResponse;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.ViewSceneResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.AddScenePayload;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.AddSceneResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.GetSceneMembershipResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.RemoveAllScenesResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.RemoveSceneResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.StoreSceneResponse;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.ViewSceneResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.general.ScenesCluster;
 
 /**

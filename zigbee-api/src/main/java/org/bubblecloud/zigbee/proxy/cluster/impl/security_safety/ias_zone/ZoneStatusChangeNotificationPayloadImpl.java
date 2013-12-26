@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.ias_zone;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneStatusChangeNotificationPayload;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.ias_zone.ZoneStatusChangeNotificationPayload;
 
 public class ZoneStatusChangeNotificationPayloadImpl implements ZoneStatusChangeNotificationPayload {
 

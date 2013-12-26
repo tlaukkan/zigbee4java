@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.global.read;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBSerializer;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZBSerializer;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ByteArrayOutputStreamSerializer;
 

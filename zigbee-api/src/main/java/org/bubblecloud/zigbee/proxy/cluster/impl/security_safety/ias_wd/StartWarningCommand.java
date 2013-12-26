@@ -21,9 +21,9 @@
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.ias_wd;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBSerializer;
-import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.IASWD;
-import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_wd.StartWarningPayload;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZBSerializer;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.IASWD;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.ias_wd.StartWarningPayload;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultSerializer;
 

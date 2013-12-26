@@ -23,9 +23,9 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.general.groups;
 
 import static org.junit.Assert.*;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.proxy.cluster.api.general.Groups;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Status;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.impl.RawClusterMessageImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ResponseImpl;
 

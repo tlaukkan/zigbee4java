@@ -27,12 +27,12 @@ import org.bubblecloud.zigbee.network.ClusterListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ReportListener;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.proxy.cluster.api.global.AttributeReport;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ReportListener;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZCLCluster;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.global.AttributeReport;
 import org.bubblecloud.zigbee.proxy.cluster.impl.global.reporting.ReportAttributesCommand;
 
 import java.util.ArrayList;

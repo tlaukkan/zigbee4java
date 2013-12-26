@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.ias_wd;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_wd.StartWarningPayload;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.ias_wd.StartWarningPayload;
 
 public class StartWarningPayloadImpl implements StartWarningPayload {
 

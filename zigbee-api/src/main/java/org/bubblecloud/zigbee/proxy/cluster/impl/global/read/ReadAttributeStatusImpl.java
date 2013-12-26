@@ -22,10 +22,10 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.global.read;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBDeserializer;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeType;
-import org.bubblecloud.zigbee.proxy.cluster.api.global.ReadAttributesStatus;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Status;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZBDeserializer;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeType;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.global.ReadAttributesStatus;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.AttributeDescriptor;
 
 /**

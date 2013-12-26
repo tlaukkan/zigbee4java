@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZCLCluster;
 
 /**
  * This class represent static description associated to a generic <b>Home Automation Device</b><br>

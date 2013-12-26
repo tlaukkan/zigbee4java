@@ -22,7 +22,7 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 
 import static org.junit.Assert.assertEquals;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeType;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeType;
 
 import org.junit.Test;
 

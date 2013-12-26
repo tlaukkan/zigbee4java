@@ -25,14 +25,14 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
-import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.LevelControl;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.Scenes;
-import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
-import org.bubblecloud.zigbee.proxy.device.api.lighting.ColorDimmableLight;
-import org.bubblecloud.zigbee.proxy.cluster.api.lighting.ColorControl;
+import org.bubblecloud.zigbee.ProfileConstants;
+import org.bubblecloud.zigbee.proxy.cluster.general.Groups;
+import org.bubblecloud.zigbee.proxy.cluster.general.LevelControl;
+import org.bubblecloud.zigbee.proxy.cluster.general.OnOff;
+import org.bubblecloud.zigbee.proxy.cluster.general.Scenes;
+import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.OccupacySensing;
+import org.bubblecloud.zigbee.proxy.device.lighting.ColorDimmableLight;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.lighting.ColorControl;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>

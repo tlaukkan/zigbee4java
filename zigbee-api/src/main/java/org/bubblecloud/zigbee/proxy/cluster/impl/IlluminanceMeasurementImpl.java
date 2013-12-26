@@ -23,14 +23,14 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.IlluminanceMeasurement;
-import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.event.MeasuredValueListener;
-import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.event.ToleranceListener;
+import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.IlluminanceMeasurement;
+import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.event.MeasuredValueListener;
+import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.event.ToleranceListener;
 import org.bubblecloud.zigbee.proxy.cluster.impl.event.MeasuredValueBridgeListeners;
 import org.bubblecloud.zigbee.proxy.cluster.impl.event.ToleranceBridgeListeners;
 import org.bubblecloud.zigbee.proxy.ReportingConfiguration;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
-import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
 import org.bubblecloud.zigbee.proxy.cluster.impl.measureament_sensing.IlluminanceMeasurementCluster;
 
 /**

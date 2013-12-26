@@ -25,9 +25,9 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
-import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
-import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.OccupacySensing;
-import org.bubblecloud.zigbee.proxy.device.api.lighting.OccupancySensor;
+import org.bubblecloud.zigbee.ProfileConstants;
+import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.OccupacySensing;
+import org.bubblecloud.zigbee.proxy.device.lighting.OccupancySensor;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

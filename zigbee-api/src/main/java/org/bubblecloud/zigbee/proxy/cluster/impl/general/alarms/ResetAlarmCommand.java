@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general.alarms;
 
-import org.bubblecloud.zigbee.proxy.cluster.api.general.Alarms;
+import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ByteArrayOutputStreamSerializer;
 

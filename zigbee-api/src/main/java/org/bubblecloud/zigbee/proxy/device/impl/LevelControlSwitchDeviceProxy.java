@@ -24,9 +24,9 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
-import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguration;
-import org.bubblecloud.zigbee.proxy.device.api.generic.LevelControlSwitch;
-import org.bubblecloud.zigbee.proxy.cluster.api.ProfileConstants;
+import org.bubblecloud.zigbee.proxy.cluster.general.OnOffSwitchConfiguration;
+import org.bubblecloud.zigbee.proxy.device.generic.LevelControlSwitch;
+import org.bubblecloud.zigbee.ProfileConstants;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
 /**
