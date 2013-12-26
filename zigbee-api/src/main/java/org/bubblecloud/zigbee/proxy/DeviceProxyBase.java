@@ -23,7 +23,11 @@
 package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
+import org.bubblecloud.zigbee.network.ClusterListener;
+import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigBeeNode;
+import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Basic;
@@ -54,12 +58,12 @@ import org.slf4j.LoggerFactory;
  * @since 0.1.0
  *
  */
-public abstract class DeviceProxyBase implements DeviceProxy {
+public abstract class DeviceProxyBase implements DeviceProxy, ZigBeeDevice {
 
     private final static Logger logger = LoggerFactory.getLogger(DeviceProxyBase.class);
 
-    protected ZigBeeDevice zbDevice;
-    private ZigbeeProxyContext ctx;
+    protected ZigBeeDevice device;
+    private ZigbeeProxyContext context;
 
 
     private Cluster[] clusters;
@@ -80,25 +84,25 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     private final ProvidedClusterMode clusterMode;
 
 
-    public DeviceProxyBase(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
-        this.zbDevice = zbDevice;
-        this.ctx = ctx;
+    public DeviceProxyBase(ZigbeeProxyContext context, ZigBeeDevice device) throws ZigBeeHAException{
+        this.device = device;
+        this.context = context;
 
         final int size;
-        clusterMode = ProvidedClusterMode.HomeAutomationProfileStrict;
+        clusterMode = ProvidedClusterMode.EitherInputAndOutput;
         if( clusterMode == ProvidedClusterMode.HomeAutomationProfileStrict ){
-            size = zbDevice.getInputClusters().length;
+            size = device.getInputClusters().length;
         }else{
-            size = zbDevice.getInputClusters().length + zbDevice.getOutputClusters().length;
+            size = device.getInputClusters().length + device.getOutputClusters().length;
         }
         clusters = new Cluster[size];
 		
-        for ( int i = 0; i < zbDevice.getInputClusters().length; i++ ) {
-            addCluster( zbDevice.getInputClusters()[i] );
+        for ( int i = 0; i < device.getInputClusters().length; i++ ) {
+            addCluster( device.getInputClusters()[i] );
         }
 		if( clusterMode != ProvidedClusterMode.HomeAutomationProfileStrict ){
-		    for ( int i = 0; i < zbDevice.getOutputClusters().length; i++ ) {
-                addCluster( zbDevice.getOutputClusters()[i] );
+		    for ( int i = 0; i < device.getOutputClusters().length; i++ ) {
+                addCluster( device.getOutputClusters()[i] );
             }
 		}
 
@@ -111,21 +115,21 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     }
 
     public  int getDeviceType(){
-        return zbDevice.getDeviceId();
+        return device.getDeviceId();
     }
 
     public abstract  String getName();
 
     public  int getEndPointId(){
-        return zbDevice.getId();
+        return device.getEndPoint();
     }
     public  int getProfileId(){
-        return zbDevice.getProfileId();
+        return device.getProfileId();
     }
 
 
     protected boolean isClusterValid(int clusterId, ProvidedClusterMode complainanceMode ) {
-        if ( zbDevice.providesInputCluster(clusterId) ) {
+        if ( device.providesInputCluster(clusterId) ) {
             return true;
         }
         return false;
@@ -148,11 +152,11 @@ public abstract class DeviceProxyBase implements DeviceProxy {
          */
         final Cluster duplicated = getCluster( clusterId );
         if ( duplicated != null ) {
-            logger.warn(
+            /*logger.warn(
                     "Cluster {}/{} already added to this device. " +
                     "It may identifies an error in the definition of the device description",
                     duplicated.getName(), Integer.toHexString(clusterId)
-            );
+            );*/
             return duplicated;
         }
 
@@ -161,13 +165,13 @@ public abstract class DeviceProxyBase implements DeviceProxy {
         /*
          * We are trying to add a cluster which is not defined as input cluster and is optional then we are not going to add it
          */
-        if ( ! zbDevice.providesInputCluster(clusterId) && getDescription().isOptional(clusterId) ){
+        if ( ! device.providesInputCluster(clusterId) && getDescription().isOptional(clusterId) ){
             logger.warn(
                     "ZigBeeDevice with DeviceId={} of Home Automation profile " +
                     "implements the OPTINAL cluster {} ONLY AS OUTPUT instead of input " +
                     "it may identify an error either on the Driver description or in " +
                     "in the implementation of firmware of the physical device",
-                    zbDevice.getDeviceId(), clusterId
+                    device.getDeviceId(), clusterId
             );
             return null;
         }
@@ -175,12 +179,12 @@ public abstract class DeviceProxyBase implements DeviceProxy {
         /*
          * We are trying to add a cluster which is not defined as input cluster and is optional then we are not going to add it
          */
-        if (! zbDevice.providesInputCluster(clusterId) && getDescription().isCustom(clusterId)){
+        if (! device.providesInputCluster(clusterId) && getDescription().isCustom(clusterId)){
             //TODO check if exists custom add-on by using ProfileModule interface
             logger.warn(
                     "ZigBeeDevice with DeviceId={} of Home Automation profile " +
                     "implements a CUSTOM cluster {} but HA Driver does not support them yet",
-                    zbDevice.getDeviceId(), clusterId
+                    device.getDeviceId(), clusterId
             );
             return null;
         }
@@ -189,18 +193,18 @@ public abstract class DeviceProxyBase implements DeviceProxy {
          * This is the last case, when a Cluster is not defined as input but it is among the mandotory cluster of the device
          * so if ProvidedClusterMode.EitherInputAndOutput is set we will consider it as a firmware issue so we will add the cluster anyway
          */
-        if ( ! zbDevice.providesInputCluster(clusterId) && getDescription().isMandatory(clusterId) ){
+        if ( ! device.providesInputCluster(clusterId) && getDescription().isMandatory(clusterId) ){
             logger.warn(
                     "ZigBeeDevice with DeviceId={} of Home Automation profile " +
-                    "doesn't implement mandatory cluster {}", zbDevice.getDeviceId(), clusterId
+                    "doesn't implement mandatory cluster {}", device.getDeviceId(), clusterId
             );
-            if ( zbDevice.providesOutputCluster(clusterId) ){
+            if ( device.providesOutputCluster(clusterId) ){
                 logger.error(
                         "ZigBeeDevice with DeviceId={} of Home Automation profile " +
                         "implements the mandatory cluster {} as output instead of as input " +
                         "it may identify an error either on the Driver description or in " +
                         "in the implementation of firmware of the physical device",
-                        zbDevice.getDeviceId(), clusterId
+                        device.getDeviceId(), clusterId
                 );
             } else {
                 logger.error(
@@ -209,7 +213,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
                         "nor as input it may identify an error either on the Driver " +
                         "description or in in the implementation of firmware of the " +
                         "physical device",
-                        zbDevice.getDeviceId(), clusterId
+                        device.getDeviceId(), clusterId
                 );
                 return null;
             }
@@ -219,7 +223,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
                         "if you want to add it anyway please change the value of the property {} " +
                         " from {} to {}", new Object[]{
                                 clusterId,
-                                zbDevice.getDeviceId(),
+                                device.getDeviceId(),
                                 "undefined",
                                 ProvidedClusterMode.HomeAutomationProfileStrict,
                                 ProvidedClusterMode.EitherInputAndOutput
@@ -233,7 +237,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
                         ", if you want to disable this change the value from {} to {}",
                         new Object[]{
                             clusterId,
-                            zbDevice.getDeviceId(),
+                            device.getDeviceId(),
                             "undefined",
                             ProvidedClusterMode.EitherInputAndOutput,
                             ProvidedClusterMode.HomeAutomationProfileStrict
@@ -243,25 +247,25 @@ public abstract class DeviceProxyBase implements DeviceProxy {
         }
 
         String key = ProxyConstants.ID + ":"+String.valueOf(clusterId);
-        ClusterFactory factory = (ClusterFactory) ctx.getClusterFactory();
-        Cluster cluster = factory.getInstance(key,zbDevice);
+        ClusterFactory factory = (ClusterFactory) context.getClusterFactory();
+        Cluster cluster = factory.getInstance(key, device);
         if (index >= clusters.length) {
             logger.error(
                     "Device {} cluster {}. More than expected number of clusters. Skipping.",
-                    zbDevice.getDeviceId(), clusterId
+                    device.getDeviceId(), clusterId
             );
             return null;
         }
         if (cluster == null) {
             logger.error(
                     "Cluster {} for device {} not constructed by factory.",
-                    Integer.toHexString(clusterId), zbDevice.getDeviceId()
+                    Integer.toHexString(clusterId), device.getDeviceId()
             );
             return null;
         }
         logger.info(
                 "Cluster {} - {} added to {} device proxy.",
-                Integer.toHexString(clusterId), cluster.getName(), zbDevice.getDeviceId()
+                Integer.toHexString(clusterId), cluster.getName(), device.getDeviceId()
         );
 
         clusters[index++] = cluster;
@@ -333,8 +337,101 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     }
 
     public ZigBeeDevice getDevice(){
-        return zbDevice;
+        return device;
     }
 
+    @Override
+    public boolean bindTo(DeviceProxy deviceProxy, int clusterId) throws ZigBeeBasedriverException {
+        return device.bindTo(deviceProxy.getDevice(), clusterId);
+    }
 
+    @Override
+    public boolean unbindFrom(DeviceProxy deviceProxy, int clusterId) throws ZigBeeBasedriverException {
+        return device.unbindFrom(deviceProxy.getDevice(), clusterId);
+    }
+
+    @Override
+    public short getEndPoint() {
+        return device.getEndPoint();
+    }
+
+    @Override
+    public int getDeviceId() {
+        return device.getDeviceId();
+    }
+
+    @Override
+    public ZigBeeNode getPhysicalNode() {
+        return device.getPhysicalNode();
+    }
+
+    @Override
+    public String getUniqueIdenfier() {
+        return device.getUniqueIdenfier();
+    }
+
+    @Override
+    public short getDeviceVersion() {
+        return device.getDeviceVersion();
+    }
+
+    @Override
+    public int[] getInputClusters() {
+        return device.getInputClusters();
+    }
+
+    @Override
+    public boolean providesInputCluster(int id) {
+        return device.providesInputCluster(id);
+    }
+
+    @Override
+    public int[] getOutputClusters() {
+        return device.getOutputClusters();
+    }
+
+    @Override
+    public boolean providesOutputCluster(int id) {
+        return device.providesOutputCluster(id);
+    }
+
+    @Override
+    public ClusterMessage invoke(ClusterMessage input) throws ZigBeeBasedriverException {
+        return device.invoke(input);
+    }
+
+    @Override
+    public void send(ClusterMessage input) throws ZigBeeBasedriverException {
+        device.send(input);
+    }
+
+    @Override
+    public boolean bindTo(ZigBeeDevice device, int clusterId) throws ZigBeeBasedriverException {
+        return device.bindTo(device, clusterId);
+    }
+
+    @Override
+    public boolean unbindFrom(ZigBeeDevice device, int clusterId) throws ZigBeeBasedriverException {
+        return device.unbindFrom(device, clusterId);
+    }
+
+    @Override
+    public boolean bind(int clusterId) throws ZigBeeBasedriverException {
+        return device.bind(clusterId);
+    }
+
+    @Override
+    public boolean unbind(int clusterId) throws ZigBeeBasedriverException {
+        return device.unbind(clusterId);
+    }
+
+    @Override
+    public boolean addClusterListener(ClusterListener listener) {
+        return device.addClusterListener(listener);
+    }
+
+    @Override
+    public boolean removeClusterListener(ClusterListener listener) {
+        return device.removeClusterListener(listener);
+    }
 }

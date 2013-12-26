@@ -143,7 +143,7 @@ public interface ZigBeeDevice {
 	 * 
 	 * @return Address of the EndPoint represented by this object, value ranges from 1 to 240. 
 	 */
-	public short getId();
+	public short getEndPoint();
 	
 	/**
 	 * 
@@ -219,7 +219,7 @@ public interface ZigBeeDevice {
 	/**
 	 * Send the given {@link ClusterMessage} (which is supposed to be Input Cluster) to this EndPoint,<br>
 	 * on the contrary than the {@link #invoke(ClusterMessage)} this method doesn't wait for nor requires<br>
-	 * an answer from the EndPoin 
+	 * an answer from the EndPoint-
 	 * 
 	 * @param input the {@link ClusterMessage} containing the id of the Cluster to send to the cluster message
 	 * 		
@@ -296,6 +296,6 @@ public interface ZigBeeDevice {
 	 * @return {@link Dictionary} with the service registration information
 	 * @since 0.3.0
 	 */
-	public Dictionary getDescription();
+	//public Dictionary getDescription();
 }
 	

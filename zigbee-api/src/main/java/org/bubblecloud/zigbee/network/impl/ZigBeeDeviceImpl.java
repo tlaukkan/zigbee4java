@@ -45,20 +45,23 @@ import java.util.*;
  */
 public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessageListener, ApplicationFrameworkMessageProducer {
 
+    private static final Logger logger = LoggerFactory.getLogger(ZigBeeDeviceImpl.class);
+
     private static long TIMEOUT;
     private static final long DEFAULT_TIMEOUT = 5000;
-    private static final Logger logger = LoggerFactory.getLogger(ZigBeeDeviceImpl.class);
 
     private final int[] inputs;
     private final int[] outputs;
+
     private final int deviceId;
     private final int profileId;
     private final byte deviceVersion;
 
-    private ZigBeeNode node = null;
-    private final Properties properties = new Properties();
+    private final ZigBeeNode node;
+    private final byte endPoint;
+
+    //private final Properties properties = new Properties();
     private final ZigbeeNetworkManager driver;
-    private final byte endPointAddress;
 
     private final HashSet<Integer> boundCluster = new HashSet<Integer>();
     private final HashSet<ClusterListener> listeners = new HashSet<ClusterListener>();
@@ -71,7 +74,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
             throw new NullPointerException("Cannot create a device with a null ZigbeeNetworkManager or a null ZigBeeNode");
         }
         driver = drv;
-        endPointAddress = ep;
+        endPoint = ep;
 
         final ZDO_SIMPLE_DESC_RSP result = doRetrieveSimpleDescription( n );
         short[] ins = result.getInputClustersList();
@@ -91,17 +94,18 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         profileId = (int) result.getProfileId() & 0xFFFF;
         deviceVersion = result.getDeviceVersion();
 
-        setPhysicalNode( n );
+        node = n;
+        uuid = generateUUID();
 
-        properties.put(ZigBeeDevice.PROFILE_ID, Integer.toString((profileId & 0xFFFF)));
+        /*properties.put(ZigBeeDevice.PROFILE_ID, Integer.toString((profileId & 0xFFFF)));
         properties.put(ZigBeeDevice.DEVICE_ID, Integer.toString((deviceId & 0xFFFF)));
         properties.put(ZigBeeDevice.DEVICE_VERSION, Integer.toString((deviceVersion & 0xFF)));
-        properties.put(ZigBeeDevice.ENDPOINT, Integer.toString((endPointAddress & 0xFF)));
+        properties.put(ZigBeeDevice.ENDPOINT, Integer.toString((endPoint & 0xFF)));
         properties.put(ZigBeeDevice.CLUSTERS_INPUT_ID, inputs);
         properties.put(ZigBeeDevice.CLUSTERS_OUTPUT_ID, outputs);
         properties.put(ZigBeeDevice.ZIGBEE_IMPORT, drv.getClass());
 
-        properties.put("DEVICE_CATEGORY", new String[]{ZigBeeDevice.DEVICE_CATEGORY});
+        properties.put("DEVICE_CATEGORY", new String[]{ZigBeeDevice.DEVICE_CATEGORY});*/
 
         TIMEOUT = DEFAULT_TIMEOUT;
     }
@@ -111,50 +115,10 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
      */
     private String generateUUID() {
         StringBuffer sb_uuid = new StringBuffer()
-            .append(deviceId).append("-")
-            .append(profileId).append("-")
-            .append(deviceVersion).append("@")
-            .append(node.getIEEEAddress()).append(":")
-            .append(endPointAddress);
+            .append(node.getIEEEAddress())
+            .append("/")
+            .append(endPoint);
         return sb_uuid.toString();
-    }
-
-
-    /**
-     * This method set the ZigBeeNode for the device, it updates the linked variable as need.<br>
-     * It updates the node only if it differs from the old node.
-     *
-     * @param n the new {@link ZigBeeNode} for the device
-     * @return <code>true</code> if and only if the {@link ZigBeeNode} has been updated
-     * @since 0.6.0 - Revision 72
-     *
-     */
-    public boolean setPhysicalNode(ZigBeeNode n) {
-        if ( node == null && n != null || node != n && node.equals( n ) == false ) {
-            node = n;
-            uuid = generateUUID();
-            properties.put(ZigBeeNode.IEEE_ADDRESS, node.getIEEEAddress());
-            properties.put(ZigBeeNode.NWK_ADDRESS, node.getNetworkAddress());
-            properties.put(ZigBeeDevice.UUID, uuid);
-
-            properties.put("DEVICE_SERIAL", uuid);
-            return true;
-        }else if ( node == n || node != null && node.equals( n ) ){
-            return false;
-        }else if( node != null && !node.getIEEEAddress().equals( n.getIEEEAddress() ) ) {
-            node = n;
-            uuid = generateUUID();
-            properties.put(ZigBeeNode.IEEE_ADDRESS, node.getIEEEAddress());
-            properties.put(ZigBeeDevice.UUID, uuid);
-
-            properties.put("DEVICE_SERIAL", uuid);
-            return true;
-        } else if ( node != null && !node.getIEEEAddress().equals( n.getIEEEAddress() ) ) {
-            node = n;
-            properties.put(ZigBeeNode.NWK_ADDRESS, node.getNetworkAddress());
-            return true;
-        }
-        return false;
     }
 
     private ZDO_SIMPLE_DESC_RSP doRetrieveSimpleDescription(ZigBeeNode n) throws ZigBeeBasedriverException {
@@ -164,10 +128,10 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         ZDO_SIMPLE_DESC_RSP result = null;
 
         while (i < 3) {
-            logger.debug("Inspecting node {} / end point {}.", n, endPointAddress);
+            logger.debug("Inspecting node {} / end point {}.", n, endPoint);
 
             result = driver.sendZDOSimpleDescriptionRequest(
-                    new ZDO_SIMPLE_DESC_REQ((short) nwk, endPointAddress )
+                    new ZDO_SIMPLE_DESC_REQ((short) nwk, endPoint)
             );
             if( result == null) {
                 //long waiting = (long) (Math.random() * (double) Activator.getCurrentConfiguration().getMessageRetryDelay())
@@ -177,7 +141,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
                 logger.debug(
                         "Inspecting ZigBee EndPoint <{},{}> failed during it {}-th attempts. " +
                         "Waiting for {}ms before retrying",
-                        new Object[]{nwk, endPointAddress, i, waiting}
+                        new Object[]{nwk, endPoint, i, waiting}
                 );
 
             } else {
@@ -188,17 +152,12 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         if( result == null ){
             logger.error(
                     "Unable to receive a ZDO_SIMPLE_DESC_RSP for endpoint {} on node {}",
-                    nwk, endPointAddress
+                    nwk, endPoint
             );
             throw new ZigBeeBasedriverException("Unable to receive a ZDO_SIMPLE_DESC_RSP from endpoint");
         }
 
         return result;
-    }
-
-    @SuppressWarnings("unchecked")
-    public Dictionary getDescription(){
-        return properties;
     }
 
     public int getDeviceId() {
@@ -213,8 +172,8 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         return uuid;
     }
 
-    public short getId() {
-        return endPointAddress;
+    public short getEndPoint() {
+        return endPoint;
     }
 
     public int[] getInputClusters() {
@@ -241,7 +200,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
 
         //TODO Create radius and options according to the current configuration
         AF_DATA_CONFIRM response =  driver.sendAFDataRequest(new AF_DATA_REQUEST(
-                (short) node.getNetworkAddress(),(byte) endPointAddress, sender, input.getId(),
+                (short) node.getNetworkAddress(),(byte) endPoint, sender, input.getId(),
                 transaction, (byte) 0 /*options*/, (byte) 0 /*radius*/, msg
         ));
 
@@ -276,11 +235,11 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
                 + " byte 2 " + Integers.getByteAsInteger(node.getNetworkAddress(), 2)
                 + " byte 3 " + Integers.getByteAsInteger(node.getNetworkAddress(), 3)
                 + " from end point: " + sender
-                + " to end point: " + endPointAddress
+                + " to end point: " + endPoint
         );
         //TODO Create radius and options according to the current configuration
         AF_DATA_CONFIRM response =  driver.sendAFDataRequest(new AF_DATA_REQUEST(
-                node.getNetworkAddress(), endPointAddress, sender, input.getId(),
+                node.getNetworkAddress(), endPoint, sender, input.getId(),
                 transaction, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg
         ));
 
@@ -329,7 +288,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
 
         final ZDO_BIND_RSP response = driver.sendZDOBind(new ZDO_BIND_REQ(
                 (short) getPhysicalNode().getNetworkAddress(), (short) clusterId,
-                IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPointAddress,
+                IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPoint,
                 IEEEAddress.fromColonNotation(device.getPhysicalNode().getIEEEAddress()), (byte) device.getDeviceId()
         ));
         if( response == null || response.Status != 0){
@@ -348,7 +307,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
 
         final ZDO_UNBIND_RSP response = driver.sendZDOUnbind(new ZDO_UNBIND_REQ(
                 (short) getPhysicalNode().getNetworkAddress(), (short) clusterId,
-                IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPointAddress,
+                IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPoint,
                 IEEEAddress.fromColonNotation(device.getPhysicalNode().getIEEEAddress()), (byte) device.getDeviceId()
         ));
         if( response == null || response.Status != 0){
@@ -371,7 +330,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         byte dstEP = ApplicationFrameworkLayer.getAFLayer(driver).getSendingEndpoint(this, clusterId);
         final ZDO_BIND_RSP response = driver.sendZDOBind(new ZDO_BIND_REQ(
                 (short) getPhysicalNode().getNetworkAddress(), (short) clusterId,
-                IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPointAddress,
+                IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPoint,
                 driver.getIEEEAddress(), (byte) dstEP
         ));
         if( response == null || response.Status != 0){
@@ -393,7 +352,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
 
         final ZDO_UNBIND_RSP response = driver.sendZDOUnbind(new ZDO_UNBIND_REQ(
                 (short) getPhysicalNode().getNetworkAddress(), (short) clusterId,
-                IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPointAddress,
+                IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPoint,
                 driver.getIEEEAddress(), (byte) dstEP
         ));
         if( response == null || response.Status != 0){
@@ -487,7 +446,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         }
 
         if ( msg.getSrcAddr() != node.getNetworkAddress() ) return;
-        if ( msg.getSrcEndpoint() != endPointAddress ) return;
+        if ( msg.getSrcEndpoint() != endPoint) return;
         logger.debug("Notifying cluster listener for received by {}", uuid);
         notifyClusterListener(new ClusterMessageImpl(msg.getData(), msg.getClusterId()));
     }

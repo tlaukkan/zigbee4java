@@ -64,11 +64,12 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
      * @param channel the channel
      * @param resetNetwork set true reset network
      */
-    public ZigbeeApi(final String serialPortName, final int pan, final int channel, final boolean resetNetwork){
+    public ZigbeeApi(final String serialPortName, final int pan, final int channel, final boolean resetNetwork,
+                     final boolean lqiDiscovery){
        networkManager = new ZigbeeNetworkManagerSerialImpl(serialPortName, 115200,
                NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
 
-       discoveryManager = new ZigbeeDiscoveryManager(networkManager);
+       discoveryManager = new ZigbeeDiscoveryManager(networkManager, lqiDiscovery);
     }
 
     /**

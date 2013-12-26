@@ -31,7 +31,7 @@ public class ZigbeeProxyContext {
 
     private List<DeviceProxyFactory> deviceProxyFactories = new ArrayList<DeviceProxyFactory>();
 
-    private Map<Integer, DeviceProxy> deviceProxies = new HashMap<Integer, DeviceProxy>();
+    private Map<String, DeviceProxy> deviceProxies = new HashMap<String, DeviceProxy>();
 
     private final List<DeviceProxyListener> deviceProxyListeners = new ArrayList<DeviceProxyListener>();
 
@@ -74,7 +74,7 @@ public class ZigbeeProxyContext {
     }
 
     public void addDeviceProxy(final DeviceProxy device) {
-        deviceProxies.put(device.getDevice().getDeviceId(), device);
+        deviceProxies.put(device.getDevice().getUniqueIdenfier(), device);
         notifyDeviceProxyAdded(device);
     }
 
@@ -123,8 +123,8 @@ public class ZigbeeProxyContext {
         }
     }
 
-    public DeviceProxy getDeviceProxy(final int deviceId) {
-        return deviceProxies.get(deviceId);
+    public DeviceProxy getDeviceProxy(final String deviceUuid) {
+        return deviceProxies.get(deviceUuid);
     }
 
     public List<DeviceProxy> getDeviceProxies() {

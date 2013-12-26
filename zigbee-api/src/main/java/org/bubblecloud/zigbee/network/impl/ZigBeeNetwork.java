@@ -116,7 +116,7 @@ public class ZigBeeNetwork {
 		}
 
 		final HashMap<Integer, ZigBeeDevice> endPoints = devices.get(node);
-		endPoints.remove(device.getId());
+		endPoints.remove(device.getEndPoint());
 		removeDeviceFromProfiles(device);
 		
 		return true;
@@ -125,7 +125,7 @@ public class ZigBeeNetwork {
 	public synchronized boolean addDevice(ZigBeeDevice device){
 	    final ZigBeeNode deviceNode = device.getPhysicalNode();
 		final String ieee = deviceNode.getIEEEAddress();
-		final short endPoint = device.getId();
+		final short endPoint = device.getEndPoint();
 		logger.info("Adding device {} on node {} / end point {}.", device.getDeviceId(),
                 device.getPhysicalNode(), endPoint );
         final ZigBeeNode node = nodes.get(ieee);

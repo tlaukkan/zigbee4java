@@ -7,10 +7,13 @@ import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.zdo.*;
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
 import org.bubblecloud.zigbee.proxy.ProxyConstants;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.PowerConfiguration;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Basic;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOff;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.event.OnOffEvent;
+import org.bubblecloud.zigbee.proxy.cluster.glue.general.event.OnOffListener;
 import org.bubblecloud.zigbee.util.Integers;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -56,7 +59,7 @@ public class ZigbeeNetworkTest {
                 "/dev/ttyACM0", 115200, NetworkMode.Coordinator, 4951, 22,
                 false, 2500L);
 
-        final ZigbeeDiscoveryManager zigbeeDiscoveryManager = new ZigbeeDiscoveryManager(zigbeeNetworkManager);
+        final ZigbeeDiscoveryManager zigbeeDiscoveryManager = new ZigbeeDiscoveryManager(zigbeeNetworkManager, true);
         zigbeeDiscoveryManager.startup();
 
         zigbeeNetworkManager.open();
@@ -77,11 +80,13 @@ public class ZigbeeNetworkTest {
 
     @Test
     public void testZigbeeApi() throws Exception {
-        final ZigbeeApi zigbeeApi = new ZigbeeApi("/dev/ttyACM0", 4951, 11, false);
+        final ZigbeeApi zigbeeApi = new ZigbeeApi("/dev/ttyACM0", 4951, 11, false, false);
         zigbeeApi.startup();
 
         //Thread.sleep(500);
         //Thread.sleep(500);
+
+        Thread.sleep(1000);
 
         logger.info("Listing proxies:");
         for (final DeviceProxy proxy : zigbeeApi.getZigbeeProxyContext().getDeviceProxies()) {
@@ -103,17 +108,34 @@ public class ZigbeeNetworkTest {
 
         while (true) {
             try {
-                final DeviceProxy switchProxy = zigbeeApi.getZigbeeProxyContext().getDeviceProxy(1);
-                final DeviceProxy lampProxy = zigbeeApi.getZigbeeProxyContext().getDeviceProxy(528);
+                final DeviceProxy switchProxy = zigbeeApi.getZigbeeProxyContext().getDeviceProxy("00:12:4B:00:01:DD:8B:21/2");
+                final DeviceProxy lampProxy = zigbeeApi.getZigbeeProxyContext().getDeviceProxy("00:17:88:01:00:BE:51:EC/11");
 
                 if (lampProxy == null) {
                     continue;
                 }
-                Thread.sleep(5000);
+
+                Thread.sleep(1000);
+
+                /*lampProxy.getDevice().bindTo(switchProxy.getDevice(), ProxyConstants.ON_OFF);
+                Thread.sleep(1000);
                 switchProxy.getDevice().bindTo(lampProxy.getDevice(), ProxyConstants.ON_OFF);
-                Thread.sleep(5000);
+                Thread.sleep(1000);*/
+
                 final OnOff onOff = (OnOff) lampProxy.getCluster(ProxyConstants.ON_OFF);
                 onOff.off();
+                //Thread.sleep(5000);
+
+                //final PowerConfiguration powerConfiguration = (PowerConfiguration) switchProxy.getCluster(ProxyConstants.POWER_CONFIGURATION);
+
+                /*onOff.subscribe(new OnOffListener() {
+
+                    @Override
+                    public void changedOnOff(final OnOffEvent event) {
+                        logger.info("On/off event: " + event);
+                    }
+                });*/
+
 
                 /*final Groups groups = (Groups) lampProxy.getCluster(ProxyConstants.GROUPS);
                 groups.addGroup(1, "test");*/

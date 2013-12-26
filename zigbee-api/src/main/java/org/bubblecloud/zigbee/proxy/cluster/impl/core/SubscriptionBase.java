@@ -224,7 +224,7 @@ public abstract class SubscriptionBase implements Subscription {
                 return true;
             }
         }catch (Exception e) {
-            log.error("Unable to update Report configuration");
+            log.error("Unable to update Report configuration", e);
             return false;
         }
     }

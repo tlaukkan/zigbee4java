@@ -68,7 +68,7 @@ public class ScenesCluster extends ZCLClusterBase implements Scenes {
 		super(zbDevice);
 		 sceneCount  = new AttributeImpl(zbDevice,this,Attributes.SCENE_COUNT);
 		 currentScene = new AttributeImpl(zbDevice,this,Attributes.CURRENT_SCENE);
-		 //TODO currentGroup = new AttributeImpl(zbDevice,this,AttributeDescriptor.CURRENT_GROUP)
+		 //TODO currentGroup = new AttributeImpl(device,this,AttributeDescriptor.CURRENT_GROUP)
 		 sceneValid = new AttributeImpl(zbDevice,this,Attributes.SCENE_VALID);
 		 nameSupport = new AttributeImpl(zbDevice,this,Attributes.NAME_SUPPORT_SCENES);
 		 lastConfiguredBy = new AttributeImpl(zbDevice,this,Attributes.LAST_CONFIGURED_BY);

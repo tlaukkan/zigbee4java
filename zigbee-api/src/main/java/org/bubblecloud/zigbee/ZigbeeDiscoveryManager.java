@@ -51,7 +51,10 @@ public class ZigbeeDiscoveryManager {
     private DeviceBuilderThread deviceBuilder;
     private final ImportingQueue importingQueue;
 
-    public ZigbeeDiscoveryManager(ZigbeeNetworkManager simpleDriver){
+    private boolean lqiDiscovery;
+
+    public ZigbeeDiscoveryManager(ZigbeeNetworkManager simpleDriver, final boolean lqiDiscovery){
+        this.lqiDiscovery = lqiDiscovery;
         importingQueue = new ImportingQueue();
         managementInterface = simpleDriver;
     }
@@ -77,8 +80,10 @@ public class ZigbeeDiscoveryManager {
         }
 
         if ( enabledDiscoveries .contains( DiscoveryMode.LinkQuality ) ) {
-            networkLQIBrowser = new LQINetworkBrowserThread(importingQueue, managementInterface);
-            new Thread(networkLQIBrowser, "LQINetworkBrowser["+ managementInterface +"]").start();
+            if (lqiDiscovery) {
+                networkLQIBrowser = new LQINetworkBrowserThread(importingQueue, managementInterface);
+                new Thread(networkLQIBrowser, "LQINetworkBrowser["+ managementInterface +"]").start();
+            }
         } else {
             logger.debug( "{} discovery disabled.",
                     LQINetworkBrowserThread.class);
