@@ -23,6 +23,7 @@
 
 package org.bubblecloud.zigbee.network.packet.zdo;
 
+import org.bubblecloud.zigbee.network.packet.ResponseStatus;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
@@ -54,22 +55,11 @@ public class ZDO_END_DEVICE_BIND_RSP extends ZToolPacket /*implements IRESPONE_C
             super.buildPacket(new DoubleByte(ZToolCMD.ZDO_END_DEVICE_BIND_RSP), framedata);
         }
 
-        /// <name>TI.ZPI1.ZDO_END_DEVICE_BIND_RSP.ED_BIND_RESPONSE_STATUS</name>
-        /// <summary>status code for End Device bind Response</summary>
-        public class ED_BIND_RESPONSE_STATUS 
-        {
-            /// <name>TI.ZPI1.ZDO_END_DEVICE_BIND_RSP.ED_BIND_RESPONSE_STATUS.NO_MATCH</name>
-            /// <summary>status code for End Device bind Response</summary>
-            public static final int NO_MATCH = 3;
-            /// <name>TI.ZPI1.ZDO_END_DEVICE_BIND_RSP.ED_BIND_RESPONSE_STATUS.NOT_SUPPORTED</name>
-            /// <summary>status code for End Device bind Response</summary>
-            public static final int NOT_SUPPORTED = 1;
-            /// <name>TI.ZPI1.ZDO_END_DEVICE_BIND_RSP.ED_BIND_RESPONSE_STATUS.SUCCESS</name>
-            /// <summary>status code for End Device bind Response</summary>
-            public static final int SUCCESS = 0;
-            /// <name>TI.ZPI1.ZDO_END_DEVICE_BIND_RSP.ED_BIND_RESPONSE_STATUS.TIMEOUT</name>
-            /// <summary>status code for End Device bind Response</summary>
-            public static final int TIMEOUT = 2;
-        }
-
+    @Override
+    public String toString() {
+        return "ZDO_END_DEVICE_BIND_RSP{" +
+                "SrcAddress=" + SrcAddress +
+                ", Status=" + ResponseStatus.getStatus(Status) +
+                '}';
+    }
 }

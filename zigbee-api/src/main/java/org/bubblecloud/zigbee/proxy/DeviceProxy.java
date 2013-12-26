@@ -40,7 +40,7 @@ import org.bubblecloud.zigbee.util.ArraysUtil;
  * @since 0.1.0
  *
  */
-public interface DeviceProxy {
+public interface DeviceProxy extends ZigBeeDevice {
 	
 	public static final String ZIGBEE_DEVICE_SERVICE = "zigbee.service.id";
 	public static final String ZIGBEE_DEVICE_UUID = "zigbee.device.uuid";
@@ -117,7 +117,7 @@ public interface DeviceProxy {
 	 * 		otherwise <code>null</code>
 	 * @since 0.2.0
 	 */
-	public Cluster getCluster(int id);
+	public <T extends Cluster> T getCluster(int id);
 	
 	/**
 	 * 

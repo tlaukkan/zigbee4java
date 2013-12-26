@@ -23,6 +23,7 @@
 
 package org.bubblecloud.zigbee.network.packet.af;
 
+import org.bubblecloud.zigbee.network.packet.ResponseStatus;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
@@ -52,26 +53,7 @@ public class AF_DATA_SRSP extends ZToolPacket /*implements IRESPONSE,IAF*/{
     @Override
     public String toString() {
         return "AF_DATA_SRSP{" +
-                "Status=" + Status +
+                ", Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
-
-    /// <name>TI.ZPI2.AF_DATA_SRSP.AF_STATUS</name>
-        /// <summary>Status code for AF responses</summary>
-        public class AF_STATUS
-        {
-            /// <name>TI.ZPI1.AF_DATA_SRSP.AF_STATUS.FAILED</name>
-            /// <summary>Status code for AF responses</summary>
-            public static final int FAILED = 1;
-            /// <name>TI.ZPI1.AF_DATA_SRSP.AF_STATUS.INVALID_PARAMETER</name>
-            /// <summary>Status code for AF responses</summary>
-            public static final int INVALID_PARAMETER = 3;
-            /// <name>TI.ZPI1.AF_DATA_SRSP.AF_STATUS.MEM_FAIL</name>
-            /// <summary>Status code for AF responses</summary>
-            public static final int MEM_FAIL = 2;
-            /// <name>TI.ZPI1.AF_DATA_SRSP.AF_STATUS.SUCCESS</name>
-            /// <summary>Status code for AF responses</summary>
-            public static final int SUCCESS = 0;
-        }
-
 }

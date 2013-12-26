@@ -23,6 +23,7 @@
 
 package org.bubblecloud.zigbee.network.packet.simple;
 
+import org.bubblecloud.zigbee.network.packet.ResponseStatus;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
@@ -49,22 +50,10 @@ public class ZB_APP_REGISTER_RSP extends ZToolPacket/* implements IRESPONSE,ISIM
             super.buildPacket(new DoubleByte(ZToolCMD.ZB_APP_REGISTER_RSP), framedata);
         }
 
-        /// <name>TI.ZPI2.ZB_APP_REGISTER_RSP.AF_STATUS</name>
-        /// <summary>Status code for AF responses</summary>
-        public class AF_STATUS 
-        {
-            /// <name>TI.ZPI2.ZB_APP_REGISTER_RSP.AF_STATUS.FAILED</name>
-            /// <summary>Status code for AF responses</summary>
-            public static final int FAILED = 1;
-            /// <name>TI.ZPI2.ZB_APP_REGISTER_RSP.AF_STATUS.INVALID_PARAMETER</name>
-            /// <summary>Status code for AF responses</summary>
-            public static final int INVALID_PARAMETER = 3;
-            /// <name>TI.ZPI2.ZB_APP_REGISTER_RSP.AF_STATUS.MEM_FAIL</name>
-            /// <summary>Status code for AF responses</summary>
-            public static final int MEM_FAIL = 2;
-            /// <name>TI.ZPI2.ZB_APP_REGISTER_RSP.AF_STATUS.SUCCESS</name>
-            /// <summary>Status code for AF responses</summary>
-            public static final int SUCCESS = 0;
-        }
-
+    @Override
+    public String toString() {
+        return "ZB_APP_REGISTER_RSP{" +
+                ", Status=" + ResponseStatus.getStatus(Status) +
+                '}';
+    }
 }

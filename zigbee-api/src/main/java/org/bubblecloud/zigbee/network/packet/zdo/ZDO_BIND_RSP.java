@@ -23,6 +23,7 @@
 
 package org.bubblecloud.zigbee.network.packet.zdo;
 
+import org.bubblecloud.zigbee.network.packet.ResponseStatus;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
@@ -54,47 +55,12 @@ public class ZDO_BIND_RSP extends ZToolPacket /*implements IRESPONSE_CALLBACK,IZ
             super.buildPacket(new DoubleByte(ZToolCMD.ZDO_BIND_RSP), framedata);
         }
 
-        /// <name>TI.ZPI2.ZDO_BIND_RSP.ZDO_STATUS</name>
-        /// <summary>ZDO status</summary>
-        public class ZDO_STATUS
-        {
-            /// <name>TI.ZPI2.ZDO_BIND_RSP.ZDO_STATUS.ZDP_DEVICE_NOT_FOUND</name>
-            /// <summary>ZDO status</summary>
-            public static final int ZDP_DEVICE_NOT_FOUND = 0x81;
-            /// <name>TI.ZPI2.ZDO_BIND_RSP.ZDO_STATUS.ZDP_INVALID_EP</name>
-            /// <summary>ZDO status</summary>
-            public static final int ZDP_INVALID_EP = 130;
-            /// <name>TI.ZPI2.ZDO_BIND_RSP.ZDO_STATUS.ZDP_INVALID_REQTYPE</name>
-            /// <summary>ZDO status</summary>
-            public static final int ZDP_INVALID_REQTYPE = 0x80;
-            /// <name>TI.ZPI2.ZDO_BIND_RSP.ZDO_STATUS.ZDP_NO_ENTRY</name>
-            /// <summary>ZDO status</summary>
-            public static final int ZDP_NO_ENTRY = 0x88;
-            /// <name>TI.ZPI2.ZDO_BIND_RSP.ZDO_STATUS.ZDP_NO_MATCH</name>
-            /// <summary>ZDO status</summary>
-            public static final int ZDP_NO_MATCH = 0x86;
-            /// <name>TI.ZPI2.ZDO_BIND_RSP.ZDO_STATUS.ZDP_NOT_ACTIVE</name>
-            /// <summary>ZDO status</summary>
-            public static final int ZDP_NOT_ACTIVE = 0x83;
-            /// <name>TI.ZPI2.ZDO_BIND_RSP.ZDO_STATUS.ZDP_NOT_SUPPORTED</name>
-            /// <summary>ZDO status</summary>
-            public static final int ZDP_NOT_SUPPORTED = 0x84;
-            /// <name>TI.ZPI2.ZDO_BIND_RSP.ZDO_STATUS.ZDP_SUCCESS</name>
-            /// <summary>ZDO status</summary>
-            public static final int ZDP_SUCCESS = 0;
-            /// <name>TI.ZPI2.ZDO_BIND_RSP.ZDO_STATUS.ZDP_TABLE_FULL</name>
-            /// <summary>ZDO status</summary>
-            public static final int ZDP_TABLE_FULL = 0x87;
-            /// <name>TI.ZPI2.ZDO_BIND_RSP.ZDO_STATUS.ZDP_TIMEOUT</name>
-            /// <summary>ZDO status</summary>
-            public static final int ZDP_TIMEOUT = 0x85;
-        }
 
     @Override
     public String toString() {
         return "ZDO_BIND_RSP{" +
                 "SrcAddress=" + SrcAddress +
-                ", Status=" + Status +
+                ", Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

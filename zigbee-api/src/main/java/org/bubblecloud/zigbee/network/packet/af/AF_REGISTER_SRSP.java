@@ -23,6 +23,7 @@
 
 package org.bubblecloud.zigbee.network.packet.af;
 
+import org.bubblecloud.zigbee.network.packet.ResponseStatus;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
@@ -67,9 +68,14 @@ public class AF_REGISTER_SRSP extends ZToolPacket /*implements IRESPONSE, IAF*/{
             public static final int SUCCESS = 0;
         }
 
-		public byte getStatus() {
-			byte result = (byte) super.packet[ZToolPacket.PAYLOAD_START_INDEX];
-			return result;
+		public int getStatus() {
+			return this.Status;
 		}
 
+    @Override
+    public String toString() {
+        return "AF_REGISTER_SRSP{" +
+                ", Status=" + ResponseStatus.getStatus(Status) +
+                '}';
+    }
 }

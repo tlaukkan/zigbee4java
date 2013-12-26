@@ -58,7 +58,7 @@ import org.slf4j.LoggerFactory;
  * @since 0.1.0
  *
  */
-public abstract class DeviceProxyBase implements DeviceProxy, ZigBeeDevice {
+public abstract class DeviceProxyBase implements DeviceProxy {
 
     private final static Logger logger = LoggerFactory.getLogger(DeviceProxyBase.class);
 

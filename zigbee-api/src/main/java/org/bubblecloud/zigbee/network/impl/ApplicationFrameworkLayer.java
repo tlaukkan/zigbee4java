@@ -171,7 +171,7 @@ public class ApplicationFrameworkLayer {
 				endPoint, si.profileId, (short)0, (byte)0,
 				new int[0],clusters
 			));
-			//FIX We should retry only when Status != 0xb8  ( ZApsDuplicateEntry )
+			//FIX We should retry only when Status != 0xb8  ( Z_APS_DUPLICATE_ENTRY )
 			if( result.getStatus() != 0){
 				if ( retry < 1 ) {
 					endPoint = getFreeEndPoint();

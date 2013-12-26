@@ -23,6 +23,7 @@
 
 package org.bubblecloud.zigbee.network.packet.system;
 
+import org.bubblecloud.zigbee.network.packet.ResponseStatus;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
@@ -68,4 +69,12 @@ public class SYS_RPC_ERROR extends ZToolPacket /*implements IRESPONSE, ISYSTEM*/
             super.buildPacket(new DoubleByte(ZToolCMD.SYS_RPC_ERROR), framedata);
         }
 
+    @Override
+    public String toString() {
+        return "SYS_RPC_ERROR{" +
+                "ErrCmd0=" + ErrCmd0 +
+                ", ErrCmd1=" + ErrCmd1 +
+                ", Status=" + ResponseStatus.getStatus(Status) +
+                '}';
+    }
 }

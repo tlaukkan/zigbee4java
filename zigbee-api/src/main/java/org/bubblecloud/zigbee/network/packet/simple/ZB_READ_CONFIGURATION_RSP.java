@@ -23,9 +23,12 @@
 
 package org.bubblecloud.zigbee.network.packet.simple;
 
+import org.bubblecloud.zigbee.network.packet.ResponseStatus;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
+
+import java.util.Arrays;
 
 /**
  *
@@ -96,4 +99,13 @@ public class ZB_READ_CONFIGURATION_RSP extends ZToolPacket /*implements IRESPONS
             public static final int ZCD_NV_ROUTE_EXPIRY_TIME=0x2C;
         }
 
+    @Override
+    public String toString() {
+        return "ZB_READ_CONFIGURATION_RSP{" +
+                "ConfigId=" + ConfigId +
+                ", Len=" + Len +
+                ", Status=" + ResponseStatus.getStatus(Status) +
+                ", Value=" + Arrays.toString(Value) +
+                '}';
+    }
 }

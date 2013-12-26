@@ -27,14 +27,12 @@
 
 package org.bubblecloud.zigbee.network.packet.af;
 
+import org.bubblecloud.zigbee.network.packet.ResponseStatus;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 
@@ -85,45 +83,7 @@ public class AF_DATA_CONFIRM extends ZToolPacket/* implements ICONFIRMATION, IAF
         	profiler.debug("AF_DATA_CONFIRM: object created");
         }
 
-        /// <name>TI.ZPI2.AF_DATA_CONFIRM.AF_STATUS</name>
-        /// <summary>Status code for AF responses</summary>
-        public enum AF_STATUS
-        {
-            /// <name>TI.ZPI1.AF_DATA_CONFIRM.AF_STATUS.FAILED</name>
-            /// <summary>Status code for AF responses</summary>
-            FAILED(1),
-            /// <name>TI.ZPI1.AF_DATA_CONFIRM.AF_STATUS.INVALID_PARAMETER</name>
-            /// <summary>Status code for AF responses</summary>
-            INVALID_PARAMETER(3),
-            /// <name>TI.ZPI1.AF_DATA_CONFIRM.AF_STATUS.MEM_FAIL</name>
-            /// <summary>Status code for AF responses</summary>
-            MEM_FAIL(2),
-            /// <name>TI.ZPI1.AF_DATA_CONFIRM.AF_STATUS.SUCCESS</name>
-            /// <summary>Status code for AF responses</summary>
-            SUCCESS(0);
-
-            private static Map<Integer, AF_STATUS> mapping= new HashMap<Integer, AF_STATUS>();
-            private int value;
-            private AF_STATUS(int value) {
-                this.value = value;
-            }
-
-            public int getValue() {
-                return value;
-            }
-
-            public static AF_STATUS getStatus(int value) {
-                return mapping.get(value);
-            }
-
-            static {
-                for (AF_STATUS status : AF_STATUS.values()) {
-                    mapping.put(status.value, status);
-                }
-            }
-        }
-
-		public byte getStatus() {
+    public byte getStatus() {
 			byte value = (byte) super.packet[ZToolPacket.PAYLOAD_START_INDEX];
 			return value;
 		}
@@ -132,7 +92,7 @@ public class AF_DATA_CONFIRM extends ZToolPacket/* implements ICONFIRMATION, IAF
     public String toString() {
         return "AF_DATA_CONFIRM{" +
                 "Endpoint=" + Endpoint +
-                ", Status=" + AF_STATUS.getStatus(Status) +
+                ", Status=" + ResponseStatus.getStatus(Status) +
                 ", TransID=" + TransID +
                 '}';
     }

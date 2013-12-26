@@ -23,6 +23,7 @@
 
 package org.bubblecloud.zigbee.network.packet.simple;
 
+import org.bubblecloud.zigbee.network.packet.ResponseStatus;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
@@ -55,11 +56,11 @@ public class ZB_BIND_CONFIRM extends ZToolPacket /*implements IRESPONSE_CALLBACK
             super.buildPacket(new DoubleByte(ZToolCMD.ZB_FIND_DEVICE_CONFIRM), framedata);
         }
 
-        public class AF_STATUS 
-        {
-            public static final int FAILED = 1;
-            public static final int INVALID_PARAMETER = 3;
-            public static final int MEM_FAIL = 2;
-            public static final int SUCCESS = 0;
-        }
+    @Override
+    public String toString() {
+        return "ZB_BIND_CONFIRM{" +
+                "CommandId=" + CommandId +
+                ", Status=" + ResponseStatus.getStatus(Status) +
+                '}';
+    }
 }

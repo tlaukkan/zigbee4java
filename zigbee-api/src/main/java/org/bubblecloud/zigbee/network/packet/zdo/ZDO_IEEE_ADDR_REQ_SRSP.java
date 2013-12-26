@@ -23,6 +23,7 @@
 
 package org.bubblecloud.zigbee.network.packet.zdo;
 
+import org.bubblecloud.zigbee.network.packet.ResponseStatus;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
@@ -47,13 +48,10 @@ public class ZDO_IEEE_ADDR_REQ_SRSP extends ZToolPacket/* implements IRESPONSE,I
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_IEEE_ADDR_REQ_SRSP), framedata);
     }
 
-    /// <name>TI.ZPI1.ZDO_IEEE_ADDR_REQ_SRSP.AF_STATUS</name>
-    /// <summary>Status code for AF responses</summary>
-    public class AF_STATUS {
-
-        public static final int FAILED = 1;
-        public static final int INVALID_PARAMETER = 2;
-        public static final int MEM_FAIL = 0x10;
-        public static final int SUCCESS = 0;
-        }
+    @Override
+    public String toString() {
+        return "ZDO_IEEE_ADDR_REQ_SRSP{" +
+                ", Status=" + ResponseStatus.getStatus(Status) +
+                '}';
+    }
 }
