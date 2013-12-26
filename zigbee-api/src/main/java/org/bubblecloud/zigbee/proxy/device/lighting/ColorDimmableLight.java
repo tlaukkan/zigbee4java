@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy.device.lighting;
 
+import org.bubblecloud.zigbee.ZigbeeConstants;
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
-import org.bubblecloud.zigbee.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.general.OnOff;
@@ -44,10 +44,10 @@ public interface ColorDimmableLight extends DeviceProxy {
     public static final int DEVICE_ID = 0x0102;
     public static final String NAME = "Color Dimmable Light";
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-            ProfileConstants.CLUSTER_ID_ON_OFF, ProfileConstants.CLUSTER_ID_LEVEL_CONTROL, ProfileConstants.CLUSTER_ID_COLOR_CONTROL, ProfileConstants.CLUSTER_ID_SCENES, ProfileConstants.CLUSTER_ID_GROUPS
+            ZigbeeConstants.CLUSTER_ID_ON_OFF, ZigbeeConstants.CLUSTER_ID_LEVEL_CONTROL, ZigbeeConstants.CLUSTER_ID_COLOR_CONTROL, ZigbeeConstants.CLUSTER_ID_SCENES, ZigbeeConstants.CLUSTER_ID_GROUPS
     });
     public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
-            ProfileConstants.CLUSTER_ID_OCCUPANCY_SENSING
+            ZigbeeConstants.CLUSTER_ID_OCCUPANCY_SENSING
     });
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy.device.generic;
 
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
-import org.bubblecloud.zigbee.ProfileConstants;
+import org.bubblecloud.zigbee.ZigbeeConstants;
 import org.bubblecloud.zigbee.proxy.cluster.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.general.Scenes;
@@ -45,7 +45,7 @@ public interface OnOffOutput extends DeviceProxy {
     public static final String NAME = "On/Off Output";
 
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-            ProfileConstants.CLUSTER_ID_BASIC, ProfileConstants.CLUSTER_ID_IDENTIFY, ProfileConstants.CLUSTER_ID_ON_OFF, ProfileConstants.CLUSTER_ID_GROUPS, ProfileConstants.CLUSTER_ID_SCENES
+            ZigbeeConstants.CLUSTER_ID_BASIC, ZigbeeConstants.CLUSTER_ID_IDENTIFY, ZigbeeConstants.CLUSTER_ID_ON_OFF, ZigbeeConstants.CLUSTER_ID_GROUPS, ZigbeeConstants.CLUSTER_ID_SCENES
     });
     public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);

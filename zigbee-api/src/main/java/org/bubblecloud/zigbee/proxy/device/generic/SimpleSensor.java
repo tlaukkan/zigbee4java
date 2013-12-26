@@ -23,7 +23,7 @@ package org.bubblecloud.zigbee.proxy.device.generic;
 
 
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
-import org.bubblecloud.zigbee.ProfileConstants;
+import org.bubblecloud.zigbee.ZigbeeConstants;
 import org.bubblecloud.zigbee.proxy.cluster.general.BinaryInput;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 
@@ -38,7 +38,7 @@ public interface SimpleSensor extends DeviceProxy {
 
     public static final int DEVICE_ID = 0x000C;
     public static final String NAME = "Simple Sensor";
-    public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{ProfileConstants.CLUSTER_ID_BINARY_INPUT});
+    public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{ZigbeeConstants.CLUSTER_ID_BINARY_INPUT});
     public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

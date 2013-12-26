@@ -22,13 +22,13 @@
 
 package org.bubblecloud.zigbee.proxy;
 
+import org.bubblecloud.zigbee.ZigbeeConstants;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ClusterListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
-import org.bubblecloud.zigbee.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.general.Basic;
@@ -106,12 +106,12 @@ public abstract class DeviceProxyBase implements DeviceProxy {
             }
         }
 
-        basic = (Basic) getCluster(ProfileConstants.CLUSTER_ID_BASIC);
-        identify = (Identify) getCluster(ProfileConstants.CLUSTER_ID_IDENTIFY);
+        basic = (Basic) getCluster(ZigbeeConstants.CLUSTER_ID_BASIC);
+        identify = (Identify) getCluster(ZigbeeConstants.CLUSTER_ID_IDENTIFY);
 
-        powerConfiguration = (PowerConfiguration) getCluster(ProfileConstants.CLUSTER_ID_POWER_CONFIGURATION);
-        deviceTemperature = (DeviceTemperatureConfiguration) getCluster(ProfileConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION);
-        alarms = (Alarms) getCluster(ProfileConstants.CLUSTER_ID_ALARMS);
+        powerConfiguration = (PowerConfiguration) getCluster(ZigbeeConstants.CLUSTER_ID_POWER_CONFIGURATION);
+        deviceTemperature = (DeviceTemperatureConfiguration) getCluster(ZigbeeConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION);
+        alarms = (Alarms) getCluster(ZigbeeConstants.CLUSTER_ID_ALARMS);
     }
 
     public int getDeviceType() {
@@ -247,7 +247,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
             }
         }
 
-        String key = ProfileConstants.PROFILE_ID_HOME_AUTOMATION + ":" + String.valueOf(clusterId);
+        String key = ZigbeeConstants.PROFILE_ID_HOME_AUTOMATION + ":" + String.valueOf(clusterId);
         ClusterFactory factory = (ClusterFactory) context.getClusterFactory();
         Cluster cluster = factory.getInstance(key, device);
         if (index >= clusters.length) {

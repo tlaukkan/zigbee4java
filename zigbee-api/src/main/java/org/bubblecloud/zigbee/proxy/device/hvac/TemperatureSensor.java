@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy.device.hvac;
 
+import org.bubblecloud.zigbee.ZigbeeConstants;
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
-import org.bubblecloud.zigbee.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 
@@ -42,7 +42,7 @@ public interface TemperatureSensor extends DeviceProxy {
     public static final String NAME = "Temperature Sensor";
 
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-            ProfileConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT
+            ZigbeeConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT
     });
 
     public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{

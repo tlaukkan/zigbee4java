@@ -22,9 +22,9 @@
 
 package org.bubblecloud.zigbee.proxy;
 
+import org.bubblecloud.zigbee.ZigbeeConstants;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
-import org.bubblecloud.zigbee.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.general.Basic;
@@ -48,8 +48,8 @@ public interface DeviceProxy extends ZigBeeDevice {
     public static final String HA_DEVICE_GROUP = "zigbee.ha.group";
     public static final String HA_DEVICE_STANDARD = "zigbee.ha.standard";
 
-    public static final int[] MANDATORY = {ProfileConstants.CLUSTER_ID_BASIC, ProfileConstants.CLUSTER_ID_IDENTIFY};
-    public static final int[] OPTIONAL = {ProfileConstants.CLUSTER_ID_POWER_CONFIGURATION, ProfileConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION, ProfileConstants.CLUSTER_ID_ALARMS};
+    public static final int[] MANDATORY = {ZigbeeConstants.CLUSTER_ID_BASIC, ZigbeeConstants.CLUSTER_ID_IDENTIFY};
+    public static final int[] OPTIONAL = {ZigbeeConstants.CLUSTER_ID_POWER_CONFIGURATION, ZigbeeConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION, ZigbeeConstants.CLUSTER_ID_ALARMS};
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
 
     public String getName();

@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy.device.lighting;
 
+import org.bubblecloud.zigbee.ZigbeeConstants;
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
-import org.bubblecloud.zigbee.ProfileConstants;
 import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 
@@ -44,7 +44,7 @@ public interface OccupancySensor extends DeviceProxy {
     public static final String NAME = "Occupancy Sensor";
 
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-            ProfileConstants.CLUSTER_ID_OCCUPANCY_SENSING
+            ZigbeeConstants.CLUSTER_ID_OCCUPANCY_SENSING
     });
     public static final int[] OPTIONAL = DeviceProxy.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);

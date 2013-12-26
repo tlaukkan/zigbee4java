@@ -22,6 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.device.impl;
 
+import org.bubblecloud.zigbee.ZigbeeConstants;
 import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.general.Groups;
@@ -29,7 +30,6 @@ import org.bubblecloud.zigbee.proxy.cluster.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.proxy.device.lighting.OnOffLight;
-import org.bubblecloud.zigbee.ProfileConstants;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
 /**
@@ -47,10 +47,10 @@ public class OnOffLightDeviceProxy extends DeviceProxyBase implements OnOffLight
 
     public OnOffLightDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
         super(ctx, zbDevice);
-        onOff = (OnOff) getCluster(ProfileConstants.CLUSTER_ID_ON_OFF);
-        groups = (Groups) getCluster(ProfileConstants.CLUSTER_ID_GROUPS);
-        scenes = (Scenes) getCluster(ProfileConstants.CLUSTER_ID_SCENES);
-        occupancySensing = (OccupacySensing) getCluster(ProfileConstants.CLUSTER_ID_OCCUPANCY_SENSING);
+        onOff = (OnOff) getCluster(ZigbeeConstants.CLUSTER_ID_ON_OFF);
+        groups = (Groups) getCluster(ZigbeeConstants.CLUSTER_ID_GROUPS);
+        scenes = (Scenes) getCluster(ZigbeeConstants.CLUSTER_ID_SCENES);
+        occupancySensing = (OccupacySensing) getCluster(ZigbeeConstants.CLUSTER_ID_OCCUPANCY_SENSING);
     }
 
 

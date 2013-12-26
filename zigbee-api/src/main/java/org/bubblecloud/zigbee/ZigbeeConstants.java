@@ -67,7 +67,7 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.IASZone;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
  */
-public class ProfileConstants {
+public class ZigbeeConstants {
 
     public static final int PROFILE_ID_HOME_AUTOMATION = 0x0104;
 
@@ -141,34 +141,34 @@ public class ProfileConstants {
         try {
             String id = Integer.toHexString((Integer.parseInt(deviceID)));
 
-            if (id.equals(Integer.toHexString(ProfileConstants.DEVICE_ID_ON_OFF_SWITCH)))
+            if (id.equals(Integer.toHexString(ZigbeeConstants.DEVICE_ID_ON_OFF_SWITCH)))
                 return OnOffSwitch.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.DEVICE_ID_LEVEL_CONTROL)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.DEVICE_ID_LEVEL_CONTROL)))
                 return LevelControlSwitch.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.DEVICE_ID_ON_OFF_OUTPUT)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.DEVICE_ID_ON_OFF_OUTPUT)))
                 return OnOffOutput.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.DEVICE_ID_MAINS_POWER_OUTLET)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.DEVICE_ID_MAINS_POWER_OUTLET)))
                 return MainsPowerOutlet.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.DEVICE_ID_SIMPLE_SENSOR)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.DEVICE_ID_SIMPLE_SENSOR)))
                 return SimpleSensor.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.DEVICE_ID_ON_OFF_LIGHT)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.DEVICE_ID_ON_OFF_LIGHT)))
                 return OnOffLight.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.DEVICE_ID_DIMMABLE_LIGHT)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.DEVICE_ID_DIMMABLE_LIGHT)))
                 return DimmableLight.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.DEVICE_ID_ON_OFF_LIGHT_SWITCH)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.DEVICE_ID_ON_OFF_LIGHT_SWITCH)))
                 return OnOffLightSwitch.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.DEVICE_ID_LIGHT_SENSOR)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.DEVICE_ID_LIGHT_SENSOR)))
                 return LightSensor.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.DEVICE_ID_OCCUPANCY_SENSOR)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.DEVICE_ID_OCCUPANCY_SENSOR)))
                 return OccupancySensor.NAME;
 
-            else if (id.equals(Integer.toHexString(ProfileConstants.DEVICE_ID_TEMPERATURE_SENSOR)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.DEVICE_ID_TEMPERATURE_SENSOR)))
                 return TemperatureSensor.NAME;
 
-            else if (id.equals(Integer.toHexString(ProfileConstants.DEVICE_ID_IAS_CONTROL_INDICATING_EQUIPMENT)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.DEVICE_ID_IAS_CONTROL_INDICATING_EQUIPMENT)))
                 return IASControlAndIndicatingEquipment.NAME;
 
-            else if (id.equals(Integer.toHexString(ProfileConstants.DEVICE_ID_IAS_ZONE)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.DEVICE_ID_IAS_ZONE)))
                 return IAS_Zone.NAME;
 
             else return null;
@@ -182,50 +182,50 @@ public class ProfileConstants {
         try {
             String id = Integer.toHexString((Integer.parseInt(clusterID)));
 
-            if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_BASIC)))
+            if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_BASIC)))
                 return Basic.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_POWER_CONFIGURATION)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_POWER_CONFIGURATION)))
                 return PowerConfiguration.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION)))
                 return DeviceTemperatureConfiguration.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_IDENTIFY)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_IDENTIFY)))
                 return Identify.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_GROUPS)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_GROUPS)))
                 return Groups.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_SCENES)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_SCENES)))
                 return Scenes.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_ON_OFF)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_ON_OFF)))
                 return OnOff.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_ON_OFF_SWITCH_CONFIGURATION)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_ON_OFF_SWITCH_CONFIGURATION)))
                 return OnOffSwitchConfiguration.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_LEVEL_CONTROL)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_LEVEL_CONTROL)))
                 return LevelControl.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_ALARMS)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_ALARMS)))
                 return Alarms.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_TIME)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_TIME)))
                 return Time.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_BINARY_INPUT)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_BINARY_INPUT)))
                 return BinaryInput.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_COMMISSIONING)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_COMMISSIONING)))
                 return Commissioning.NAME;
 
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_COLOR_CONTROL)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_COLOR_CONTROL)))
                 return ColorControl.NAME;
 
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_ILLUMINANCE_MEASUREMENT)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_ILLUMINANCE_MEASUREMENT)))
                 return IlluminanceMeasurement.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT)))
                 return TemperatureMeasurement.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_RELATIVE_HUMIDITY_MEASUREMENT)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_RELATIVE_HUMIDITY_MEASUREMENT)))
                 return RelativeHumidityMeasurement.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_OCCUPANCY_SENSING)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_OCCUPANCY_SENSING)))
                 return OccupacySensing.NAME;
 
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_IAS_ZONE)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_IAS_ZONE)))
                 return IASZone.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_IAS_ACE)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_IAS_ACE)))
                 return IASACE.NAME;
-            else if (id.equals(Integer.toHexString(ProfileConstants.CLUSTER_ID_IAS_WD)))
+            else if (id.equals(Integer.toHexString(ZigbeeConstants.CLUSTER_ID_IAS_WD)))
                 return IASWD.NAME;
 
             else return null;
