@@ -50,7 +50,7 @@ public class AF_DATA_SRSP extends ZToolPacket /*implements IRESPONSE,IAF*/ {
     @Override
     public String toString() {
         return "AF_DATA_SRSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

@@ -50,7 +50,7 @@ public class SYS_OSAL_STOP_TIMER_SRSP extends ZToolPacket /*implements IRESPONSE
     @Override
     public String toString() {
         return "SYS_OSAL_STOP_TIMER_SRSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

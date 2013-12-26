@@ -50,7 +50,7 @@ public class ZDO_USER_DESC_SET_SRSP extends ZToolPacket /*implements IRESPONSE,I
     @Override
     public String toString() {
         return "ZDO_USER_DESC_SET_SRSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

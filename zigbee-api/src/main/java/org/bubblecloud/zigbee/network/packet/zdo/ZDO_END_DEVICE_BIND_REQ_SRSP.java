@@ -50,7 +50,7 @@ public class ZDO_END_DEVICE_BIND_REQ_SRSP extends ZToolPacket /*implements IRESP
     @Override
     public String toString() {
         return "ZDO_END_DEVICE_BIND_REQ_SRSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

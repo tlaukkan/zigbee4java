@@ -52,7 +52,7 @@ public class ZDO_STARTUP_FROM_APP_SRSP extends ZToolPacket /*implements IRESPONS
     @Override
     public String toString() {
         return "ZDO_STARTUP_FROM_APP_SRSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

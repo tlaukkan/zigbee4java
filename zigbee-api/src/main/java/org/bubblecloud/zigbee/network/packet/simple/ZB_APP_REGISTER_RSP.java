@@ -50,7 +50,7 @@ public class ZB_APP_REGISTER_RSP extends ZToolPacket/* implements IRESPONSE,ISIM
     @Override
     public String toString() {
         return "ZB_APP_REGISTER_RSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

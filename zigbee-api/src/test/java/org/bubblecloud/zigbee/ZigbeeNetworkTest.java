@@ -118,10 +118,10 @@ public class ZigbeeNetworkTest {
                 Thread.sleep(1000);
 
 
-                switchProxy.bindTo(lampProxy, ProxyConstants.ON_OFF);
-                lampProxy.bind(ProxyConstants.ON_OFF);
+                //switchProxy.bindTo(lampProxy, ProxyConstants.ON_OFF);
+                //lampProxy.bind(ProxyConstants.ON_OFF);
 
-                Thread.sleep(1000);
+                //Thread.sleep(1000);
 
                 final OnOff onOff = lampProxy.getCluster(ProxyConstants.ON_OFF);
                 onOff.off();

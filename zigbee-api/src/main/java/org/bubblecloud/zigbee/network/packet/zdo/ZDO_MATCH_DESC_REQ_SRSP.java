@@ -50,7 +50,7 @@ public class ZDO_MATCH_DESC_REQ_SRSP extends ZToolPacket /*implements IRSPONSE,I
     @Override
     public String toString() {
         return "ZDO_MATCH_DESC_REQ_SRSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

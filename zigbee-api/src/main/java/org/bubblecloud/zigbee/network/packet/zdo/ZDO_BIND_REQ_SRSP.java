@@ -50,7 +50,7 @@ public class ZDO_BIND_REQ_SRSP extends ZToolPacket /*implements IREPONSE,IZDO*/ 
     @Override
     public String toString() {
         return "ZDO_BIND_REQ_SRSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

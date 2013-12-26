@@ -52,7 +52,7 @@ public class ZB_PERMIT_JOINING_REQUEST_RSP extends ZToolPacket /*imlements IRESP
     @Override
     public String toString() {
         return "ZB_PERMIT_JOINING_REQUEST_RSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

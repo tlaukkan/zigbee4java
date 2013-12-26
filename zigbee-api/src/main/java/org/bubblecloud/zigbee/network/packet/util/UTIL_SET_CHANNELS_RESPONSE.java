@@ -60,7 +60,7 @@ public class UTIL_SET_CHANNELS_RESPONSE extends ZToolPacket /*implements IRESPON
     @Override
     public String toString() {
         return "UTIL_SET_CHANNELS_RESPONSE{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

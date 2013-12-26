@@ -54,7 +54,7 @@ public class ZDO_MGMT_NWK_UPDATE_REQ_SRSP extends ZToolPacket {
     @Override
     public String toString() {
         return "ZDO_MGMT_NWK_UPDATE_REQ_SRSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 

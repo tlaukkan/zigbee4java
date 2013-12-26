@@ -50,7 +50,7 @@ public class ZDO_NWK_ADDR_REQ_SRSP extends ZToolPacket /*implements IRESPONSE,IZ
     @Override
     public String toString() {
         return "ZDO_NWK_ADDR_REQ_SRSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

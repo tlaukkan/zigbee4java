@@ -52,7 +52,7 @@ public class ZB_START_CONFIRM extends ZToolPacket /*implements IRESPONSE_CALLBAC
     @Override
     public String toString() {
         return "ZB_START_CONFIRM{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

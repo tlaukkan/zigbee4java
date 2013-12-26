@@ -50,7 +50,7 @@ public class ZDO_END_DEVICE_ANNCE_SRSP extends ZToolPacket /*implements IRSPONSE
     @Override
     public String toString() {
         return "ZDO_END_DEVICE_ANNCE_SRSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

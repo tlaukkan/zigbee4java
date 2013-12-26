@@ -60,7 +60,7 @@ public class UTIL_SET_PRECONFIG_KEY_RESPONSE extends ZToolPacket /*implements IR
     @Override
     public String toString() {
         return "UTIL_SET_PRECONFIG_KEY_RESPONSE{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

@@ -60,7 +60,7 @@ public class UTIL_SET_SECURITY_LEVEL_RESPONSE extends ZToolPacket /*implements I
     @Override
     public String toString() {
         return "UTIL_SET_SECURITY_LEVEL_RESPONSE{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

@@ -71,7 +71,7 @@ public class AF_REGISTER_SRSP extends ZToolPacket /*implements IRESPONSE, IAF*/ 
     @Override
     public String toString() {
         return "AF_REGISTER_SRSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

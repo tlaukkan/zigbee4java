@@ -60,7 +60,7 @@ public class UTIL_SET_PANID_RESPONSE extends ZToolPacket/* implements IRESPONSE,
     @Override
     public String toString() {
         return "UTIL_SET_PANID_RESPONSE{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

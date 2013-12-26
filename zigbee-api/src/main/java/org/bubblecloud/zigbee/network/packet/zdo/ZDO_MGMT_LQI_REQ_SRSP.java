@@ -50,7 +50,7 @@ public class ZDO_MGMT_LQI_REQ_SRSP extends ZToolPacket /*implements IRESPONSE,IZ
     @Override
     public String toString() {
         return "ZDO_MGMT_LQI_REQ_SRSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

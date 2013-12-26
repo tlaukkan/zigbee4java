@@ -98,7 +98,6 @@ public class ZDO_ACTIVE_EP_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
                 ", nwkAddr=" + nwkAddr +
                 ", SrcAddress=" + SrcAddress +
                 ", Status=" + ResponseStatus.getStatus(Status) +
-                ", list=" + Arrays.toString(list) +
                 '}';
     }
 }

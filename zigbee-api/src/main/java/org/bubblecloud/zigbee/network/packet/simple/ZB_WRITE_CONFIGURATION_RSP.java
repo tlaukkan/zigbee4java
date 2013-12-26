@@ -52,7 +52,7 @@ public class ZB_WRITE_CONFIGURATION_RSP extends ZToolPacket/* implements IRESPON
     @Override
     public String toString() {
         return "ZB_WRITE_CONFIGURATION_RSP{" +
-                ", Status=" + ResponseStatus.getStatus(Status) +
+                "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }
