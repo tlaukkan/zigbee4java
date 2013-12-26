@@ -30,77 +30,76 @@ package org.bubblecloud.zigbee.util;
  * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class DoubleByte {
-	
-	private int msb;
-	private int lsb;
-	
-	public DoubleByte() {
-		
-	}
-	
-	/**
-	 * Decomposes a 16bit int into high and low bytes
-	 * 
-	 * @param val
-	 */
-	public DoubleByte(int val) {
-		if (val > 0xFFFF || val < 0) {
-			throw new IllegalArgumentException("value is out of range");
-		}
-		
-		// split address into high and low bytes
-		msb = val >> 8;
-		lsb = val & 0xFF;
-	}
 
-	/**
-	 * Constructs a 16bit value from two bytes (high and low)
-	 * 
-	 * @param msb
-	 * @param lsb
-	 */
-	public DoubleByte(int msb, int lsb) {
-		
-		if (msb > 0xFF || lsb > 0xFF) {
-			throw new IllegalArgumentException("msb or lsb are out of range");
-		}
+    private int msb;
+    private int lsb;
 
-		this.msb = msb;
-		this.lsb = lsb;
-	}
-	
-	public int getMsb() {
-		return msb;
-	}
+    public DoubleByte() {
 
-	public int getLsb() {
-		return lsb;
-	}	
-	
-	public int get16BitValue() {
-		return (this.msb << 8) + this.lsb;
-	}
+    }
 
-	public void setMsb(int msb) {
-		this.msb = msb;
-	}
+    /**
+     * Decomposes a 16bit int into high and low bytes
+     *
+     * @param val
+     */
+    public DoubleByte(int val) {
+        if (val > 0xFFFF || val < 0) {
+            throw new IllegalArgumentException("value is out of range");
+        }
 
-	public void setLsb(int lsb) {
-		this.lsb = lsb;
-	}
-	
-	@Override
-	public String toString(){
-		String cab= "0x";
-		String MSB = Integer.toHexString(msb);
-		if (MSB.length()==1) MSB = "0" + MSB;
-		String LSB = Integer.toHexString(lsb);
-		if (LSB.length()==1) LSB = "0" + LSB;
-		
-		return "0x" + MSB + LSB;
+        // split address into high and low bytes
+        msb = val >> 8;
+        lsb = val & 0xFF;
+    }
 
-	}
+    /**
+     * Constructs a 16bit value from two bytes (high and low)
+     *
+     * @param msb
+     * @param lsb
+     */
+    public DoubleByte(int msb, int lsb) {
+
+        if (msb > 0xFF || lsb > 0xFF) {
+            throw new IllegalArgumentException("msb or lsb are out of range");
+        }
+
+        this.msb = msb;
+        this.lsb = lsb;
+    }
+
+    public int getMsb() {
+        return msb;
+    }
+
+    public int getLsb() {
+        return lsb;
+    }
+
+    public int get16BitValue() {
+        return (this.msb << 8) + this.lsb;
+    }
+
+    public void setMsb(int msb) {
+        this.msb = msb;
+    }
+
+    public void setLsb(int lsb) {
+        this.lsb = lsb;
+    }
+
+    @Override
+    public String toString() {
+        String cab = "0x";
+        String MSB = Integer.toHexString(msb);
+        if (MSB.length() == 1) MSB = "0" + MSB;
+        String LSB = Integer.toHexString(lsb);
+        if (LSB.length() == 1) LSB = "0" + LSB;
+
+        return "0x" + MSB + LSB;
+
+    }
 }

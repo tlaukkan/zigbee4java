@@ -34,60 +34,59 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
 import org.bubblecloud.zigbee.proxy.cluster.impl.general.identify.IdentifyCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.general.identify.IdentifyQueryResponseImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.global.DefaultResponseImpl;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class IdentifyCluster extends ZCLClusterBase implements Identify {
 
-	private final AttributeImpl identifyTime;
-	
-	private final Attribute[] attributes;
-	
-	private static EmptyPayloadCommand CMD_IDENTIFY_QUERY = new EmptyPayloadCommand()
-		.setId(Identify.IDENTIFY_QUERY_ID)
-		.setClientServerDirection(true)
-		.setClusterSpecific(true)
-		.setManufacturerExtension(false);
-	
-	public IdentifyCluster(ZigBeeDevice zbDevice){
-		super(zbDevice);
-		identifyTime = new AttributeImpl(zbDevice,this,Attributes.IDENTIFY_TIME);
-		attributes = new AttributeImpl[]{identifyTime}; 
-	}
-	
-	@Override
-	public short getId() {
-		return Identify.ID;
-	}
+    private final AttributeImpl identifyTime;
 
-	@Override
-	public String getName() {
-		return Identify.NAME;
-	}
+    private final Attribute[] attributes;
 
-	@Override
-	public Attribute[] getStandardAttributes() {
-		return attributes;
-	}
+    private static EmptyPayloadCommand CMD_IDENTIFY_QUERY = new EmptyPayloadCommand()
+            .setId(Identify.IDENTIFY_QUERY_ID)
+            .setClientServerDirection(true)
+            .setClusterSpecific(true)
+            .setManufacturerExtension(false);
 
-	public Attribute getAttributeIdentifyTime() {
-		return identifyTime;
-	}
+    public IdentifyCluster(ZigBeeDevice zbDevice) {
+        super(zbDevice);
+        identifyTime = new AttributeImpl(zbDevice, this, Attributes.IDENTIFY_TIME);
+        attributes = new AttributeImpl[]{identifyTime};
+    }
 
-	public Response identify(int time) throws ZigBeeClusterException {
-		enableDefaultResponse();
-		IdentifyCommand identifyCmd = new IdentifyCommand(time);
-		Response response = invoke(identifyCmd);
-		return  new DefaultResponseImpl(response);
-	}
+    @Override
+    public short getId() {
+        return Identify.ID;
+    }
 
-	public Response identifyQuery() throws ZigBeeClusterException {
-		Response response = invoke(CMD_IDENTIFY_QUERY);
-		return  new IdentifyQueryResponseImpl(response);
-	}
+    @Override
+    public String getName() {
+        return Identify.NAME;
+    }
+
+    @Override
+    public Attribute[] getStandardAttributes() {
+        return attributes;
+    }
+
+    public Attribute getAttributeIdentifyTime() {
+        return identifyTime;
+    }
+
+    public Response identify(int time) throws ZigBeeClusterException {
+        enableDefaultResponse();
+        IdentifyCommand identifyCmd = new IdentifyCommand(time);
+        Response response = invoke(identifyCmd);
+        return new DefaultResponseImpl(response);
+    }
+
+    public Response identifyQuery() throws ZigBeeClusterException {
+        Response response = invoke(CMD_IDENTIFY_QUERY);
+        return new IdentifyQueryResponseImpl(response);
+    }
 
 }

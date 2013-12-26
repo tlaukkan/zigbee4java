@@ -29,18 +29,16 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface OnOffEvent {
-	
-	public boolean getEvent();
-	
-	/**
-	 * 
-	 * @return the reference to the {@link Cluster} object which represent the <i>Cluster</i> whose<br>
-	 * 			generated the event
-	 * @since 0.6.0
-	 */
-	public Cluster getSource();
-	
+
+    public boolean getEvent();
+
+    /**
+     * @return the reference to the {@link Cluster} object which represent the <i>Cluster</i> whose<br>
+     *         generated the event
+     * @since 0.6.0
+     */
+    public Cluster getSource();
+
 }

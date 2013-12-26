@@ -31,16 +31,14 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
- * 
  */
 public class SerialEmulator implements SerialHandler {
 
     private final static Logger logger = LoggerFactory.getLogger(SerialEmulator.class);
-    
+
     private static final int INDEX_OF_END_OF_HEX_DATA = 50;
     private static final int INDEX_OF_START_OF_HEX_DATA = 1;
 
@@ -52,114 +50,113 @@ public class SerialEmulator implements SerialHandler {
         final long delta;
         final byte[] data;
         int used;
-        
+
         StreamItem(long t, ArrayList<byte[]> d) {
             delta = t;
             int tot = 0;
-            for ( byte[] slice : d ) {
-                tot+=slice.length;
+            for (byte[] slice : d) {
+                tot += slice.length;
             }
             data = new byte[tot];
             tot = 0;
-            for ( byte[] slice : d ) {
-                System.arraycopy( slice, 0, data, tot, slice.length );
-                tot+=slice.length;
+            for (byte[] slice : d) {
+                System.arraycopy(slice, 0, data, tot, slice.length);
+                tot += slice.length;
             }
             used = 0;
         }
     }
-    
+
     class EmulatorOutputStream extends OutputStream {
 
         @Override
-        public synchronized void write( int b ) throws IOException {            
-        	final StreamItem item;
-        	synchronized (emulatorIO) {
-                if( fromJavaIdx >= fromJava.size() ) return;
-                
-                item = fromJava.get( fromJavaIdx );				
-			}
+        public synchronized void write(int b) throws IOException {
+            final StreamItem item;
+            synchronized (emulatorIO) {
+                if (fromJavaIdx >= fromJava.size()) return;
 
-            if( item.data[item.used] == (byte ) b ) {
+                item = fromJava.get(fromJavaIdx);
+            }
+
+            if (item.data[item.used] == (byte) b) {
                 item.used++;
             }
-            if ( item.used == item.data.length ) {
-            	synchronized (emulatorIO) {
-	                fromJavaIdx++;
-	                toJavaIdx++;
-	                emulatorIO.notify();
-            	}
+            if (item.used == item.data.length) {
+                synchronized (emulatorIO) {
+                    fromJavaIdx++;
+                    toJavaIdx++;
+                    emulatorIO.notify();
+                }
                 ThreadUtils.waitNonPreemptive(item.delta);
-                synchronized ( parser ) {
+                synchronized (parser) {
                     parser.notify();
                 }
             }
         }
-        
+
     }
-    
+
     class EmulatorInputStream extends InputStream {
 
-    	/**
-    	 * 
-    	 * @return an {@link java.io.ByteArrayInputStream} with <b>all</b> the data parsed from the serial log
-    	 * @since 0.6.0
-    	 */
+        /**
+         * @return an {@link java.io.ByteArrayInputStream} with <b>all</b> the data parsed from the serial log
+         * @since 0.6.0
+         */
         public InputStream getFullInputStream() {
             int size = 0;
-            for ( StreamItem chunck : toJava ) {
+            for (StreamItem chunck : toJava) {
                 size += chunck.data.length;
             }
             int idx = 0;
             byte[] big = new byte[size];
-            for ( StreamItem chunck : toJava ) {
-                System.arraycopy( chunck.data, 0, big, idx, chunck.data.length );
+            for (StreamItem chunck : toJava) {
+                System.arraycopy(chunck.data, 0, big, idx, chunck.data.length);
                 idx += chunck.data.length;
             }
-            return new ByteArrayInputStream( big );           
+            return new ByteArrayInputStream(big);
         }
-        
+
         @Override
         public synchronized int available() throws IOException {
-        	synchronized (emulatorIO) {
-                if( toJavaIdx < 0  || toJavaIdx >= toJava.size() ) return 0;
-                
-                final StreamItem item = toJava.get( toJavaIdx );
-                return item.data.length-item.used;
-			}
+            synchronized (emulatorIO) {
+                if (toJavaIdx < 0 || toJavaIdx >= toJava.size()) return 0;
+
+                final StreamItem item = toJava.get(toJavaIdx);
+                return item.data.length - item.used;
+            }
         }
 
         @Override
         public synchronized int read() throws IOException {
-        	StreamItem item;
-        	synchronized (emulatorIO) {
-        		if ( toJavaIdx >= toJava.size() ) {
-        			return -1;
-        		}
-	            while( toJavaIdx < 0 ) {
-	                try {
-						emulatorIO.wait();
-					} catch (InterruptedException e) {
-					}
-	            }
-            	item = toJava.get( toJavaIdx );
-	            while( item.used == item.data.length ){
-	            	try {
-						emulatorIO.wait();
-					} catch (InterruptedException e) {
-					}
-	            }
-        	}
-            if ( item.used == 0 ) {
-            	ThreadUtils.waitNonPreemptive(item.delta);
+            StreamItem item;
+            synchronized (emulatorIO) {
+                if (toJavaIdx >= toJava.size()) {
+                    return -1;
+                }
+                while (toJavaIdx < 0) {
+                    try {
+                        emulatorIO.wait();
+                    } catch (InterruptedException e) {
+                    }
+                }
+                item = toJava.get(toJavaIdx);
+                while (item.used == item.data.length) {
+                    try {
+                        emulatorIO.wait();
+                    } catch (InterruptedException e) {
+                    }
+                }
             }
-            int r = ( item.data[item.used] + 0x100 ) & 0xFF;
+            if (item.used == 0) {
+                ThreadUtils.waitNonPreemptive(item.delta);
+            }
+            int r = (item.data[item.used] + 0x100) & 0xFF;
             item.used++;
             return r;
         }
-        
+
     }
-    
+
     private State status;
 
     private final ArrayList<byte[]> buffer = new ArrayList<byte[]>();
@@ -167,18 +164,17 @@ public class SerialEmulator implements SerialHandler {
     private int fromJavaIdx = 0;
     private final ArrayList<StreamItem> toJava = new ArrayList<StreamItem>();
     private int toJavaIdx = -1;
-    
+
     private BufferedReader reader;
 
     private final EmulatorInputStream eis;
     private final EmulatorOutputStream eos;
-    private final Object emulatorIO = new Object(); 
-    
+    private final Object emulatorIO = new Object();
+
     private boolean timeing;
 
-	private Object parserLock = new Object();
+    private Object parserLock = new Object();
     private ZToolPacketParser parser = null;
-
 
 
     /**
@@ -191,30 +187,32 @@ public class SerialEmulator implements SerialHandler {
 
     /**
      * <b>NOTE:</b> Used only for testunit purpose
+     *
      * @since 0.6.0
      */
     EmulatorInputStream getEmulatorInputStream() {
-    	return eis;
+        return eis;
     }
-    
+
     /**
      * <b>NOTE:</b> Used only for testunit purpose
+     *
      * @since 0.6.0
      */
     EmulatorOutputStream getEmulatorOutputStream() {
-    	return eos;
+        return eos;
     }
-    
+
     public SerialEmulator(String log) throws IOException {
-        this(new FileInputStream( log ) , false);
-    }    
+        this(new FileInputStream(log), false);
+    }
 
     public SerialEmulator(InputStream in) throws IOException {
-        this( in, true );
+        this(in, true);
     }
-    
+
     public SerialEmulator(InputStream in, boolean useTiming) throws IOException {
-        reader = new BufferedReader( new InputStreamReader( in ) );
+        reader = new BufferedReader(new InputStreamReader(in));
         status = State.Loaded;
         simulate();
         eis = new EmulatorInputStream();
@@ -222,93 +220,94 @@ public class SerialEmulator implements SerialHandler {
         in.close();
         timeing = useTiming;
         reader.close();
-    }       
-    
+    }
+
     void simulate()
-        throws IOException {
+            throws IOException {
         status = State.FileOpened;
         String line;
         long delta = 0;
-        while ( ( line = reader.readLine() ) != null ) {
-            logger.debug( "Parsing line {}" , line );
-            if ( line.contains( State.Request.toString() ) ) {
-                if ( status == State.Answer ) {
-                    StreamItem item = new StreamItem( delta, buffer );
+        while ((line = reader.readLine()) != null) {
+            logger.debug("Parsing line {}", line);
+            if (line.contains(State.Request.toString())) {
+                if (status == State.Answer) {
+                    StreamItem item = new StreamItem(delta, buffer);
                     buffer.clear();
-                    toJava.add( item );
+                    toJava.add(item);
                 }
                 status = State.Request;
-                delta = extractTimeMillis( line );
-            } else if ( line.contains( State.Answer.toString() ) ) {
-                if ( status == State.Request ) {
-                    StreamItem item = new StreamItem( delta, buffer );
+                delta = extractTimeMillis(line);
+            } else if (line.contains(State.Answer.toString())) {
+                if (status == State.Request) {
+                    StreamItem item = new StreamItem(delta, buffer);
                     buffer.clear();
-                    fromJava.add( item );
+                    fromJava.add(item);
                 }
                 status = State.Answer;
-                delta = extractTimeMillis( line );
+                delta = extractTimeMillis(line);
             } else {
-                if( line.length() == 0 ) continue;
-                if( line.contains( "Port" )) continue;
-                final byte[] data = extractBytes( line );
+                if (line.length() == 0) continue;
+                if (line.contains("Port")) continue;
+                final byte[] data = extractBytes(line);
                 buffer.add(data);
             }
         }
-        if ( status == State.Answer ) {
-            StreamItem item = new StreamItem( delta, buffer );
+        if (status == State.Answer) {
+            StreamItem item = new StreamItem(delta, buffer);
             buffer.clear();
-            toJava.add( item );
-        } else if ( status == State.Request ) {
-            StreamItem item = new StreamItem( delta, buffer );
+            toJava.add(item);
+        } else if (status == State.Request) {
+            StreamItem item = new StreamItem(delta, buffer);
             buffer.clear();
-            fromJava.add( item );
+            fromJava.add(item);
         }
         status = State.EndOfFileReached;
     }
 
-    byte[] extractBytes( String line ) {
-        logger.trace( "Extracting bytes from {}", line );
-        line = line.substring( INDEX_OF_START_OF_HEX_DATA, INDEX_OF_END_OF_HEX_DATA );
-        String[] bytes = line.split( " " );
+    byte[] extractBytes(String line) {
+        logger.trace("Extracting bytes from {}", line);
+        line = line.substring(INDEX_OF_START_OF_HEX_DATA, INDEX_OF_END_OF_HEX_DATA);
+        String[] bytes = line.split(" ");
         byte[] result = new byte[bytes.length];
-        for ( int i = 0; i < result.length; i++ ) {
-            result[i] = (byte) Short.parseShort( bytes[i], 16 );
+        for (int i = 0; i < result.length; i++) {
+            result[i] = (byte) Short.parseShort(bytes[i], 16);
         }
         return result;
     }
 
-    long extractTimeMillis( String line ) {
-        logger.trace( "Extracting time from {}", line );
+    long extractTimeMillis(String line) {
+        logger.trace("Extracting time from {}", line);
         int s, e, d;
-        s = line.indexOf( '+' );
-        if ( s == -1 ) return 0;
-        e = line.indexOf( ' ', s + 1 );
-        d = line.indexOf( '.', s + 1 );
-        long result = Long.parseLong( line.substring( s + 1, d ) ) * 1000;;
-        result = result + Long.parseLong( line.substring( d + 1, e ) ) / 10;
+        s = line.indexOf('+');
+        if (s == -1) return 0;
+        e = line.indexOf(' ', s + 1);
+        d = line.indexOf('.', s + 1);
+        long result = Long.parseLong(line.substring(s + 1, d)) * 1000;
+        ;
+        result = result + Long.parseLong(line.substring(d + 1, e)) / 10;
         return result;
     }
 
-	public void close() {
+    public void close() {
         // shutdown parser thread
-        if ( parser != null ) {
+        if (parser != null) {
             parser.close();
         }
-	}
+    }
 
-	public OutputStream getOutputStream() {
-		return eos;		
-	}
+    public OutputStream getOutputStream() {
+        return eos;
+    }
 
-	public void open(String port, int baudRate, ZToolPacketHandler packethandler) {
-	    if ( timeing ){
-	        parser = new ZToolPacketParser( eis, packethandler);
-	    } else {
-            parser = new ZToolPacketParser( eis.getFullInputStream(), packethandler);
-	    }
-	}
-	
-	public ZToolPacketParser getParser() {
-		return parser;
-	}
+    public void open(String port, int baudRate, ZToolPacketHandler packethandler) {
+        if (timeing) {
+            parser = new ZToolPacketParser(eis, packethandler);
+        } else {
+            parser = new ZToolPacketParser(eis.getFullInputStream(), packethandler);
+        }
+    }
+
+    public ZToolPacketParser getParser() {
+        return parser;
+    }
 }

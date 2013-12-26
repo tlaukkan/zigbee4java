@@ -30,57 +30,54 @@ import org.bubblecloud.zigbee.proxy.device.api.lighting.OccupancySensor;
 import org.bubblecloud.zigbee.proxy.ProxyConstants;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- *         
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.2.0
- *
  */
 public class OccupancySensorDeviceProxy extends DeviceProxyBase implements OccupancySensor {
-	
-	private OccupacySensing occupancySensing;
-	
-	public OccupancySensorDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
-		super(ctx,zbDevice);
-		occupancySensing = (OccupacySensing) getCluster(ProxyConstants.OCCUPANCY_SENSING);
-	}
 
-	public OccupacySensing getOccupacySensing() {
-		return occupancySensing;
-	}
-	
+    private OccupacySensing occupancySensing;
 
-	@Override
-	public String getName() {
-		return OccupancySensor.NAME;
-	}
+    public OccupancySensorDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+        super(ctx, zbDevice);
+        occupancySensing = (OccupacySensing) getCluster(ProxyConstants.OCCUPANCY_SENSING);
+    }
 
-	final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
+    public OccupacySensing getOccupacySensing() {
+        return occupancySensing;
+    }
 
-		public int[] getCustomClusters() {
-			return OccupancySensor.CUSTOM;
-		}
 
-		public int[] getMandatoryCluster() {
-			return OccupancySensor.MANDATORY;
-		}
+    @Override
+    public String getName() {
+        return OccupancySensor.NAME;
+    }
 
-		public int[] getOptionalCluster() {
-			return OccupancySensor.OPTIONAL;
-		}
+    final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
 
-		public int[] getStandardClusters() {
-			return OccupancySensor.STANDARD;
-		}
-		
-	};
+        public int[] getCustomClusters() {
+            return OccupancySensor.CUSTOM;
+        }
 
-	@Override
-	public DeviceDescription getDescription() {
-		return DEVICE_DESCRIPTOR;
-	}
+        public int[] getMandatoryCluster() {
+            return OccupancySensor.MANDATORY;
+        }
+
+        public int[] getOptionalCluster() {
+            return OccupancySensor.OPTIONAL;
+        }
+
+        public int[] getStandardClusters() {
+            return OccupancySensor.STANDARD;
+        }
+
+    };
+
+    @Override
+    public DeviceDescription getDescription() {
+        return DEVICE_DESCRIPTOR;
+    }
 
 
 }

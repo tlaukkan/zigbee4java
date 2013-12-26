@@ -35,10 +35,10 @@ public class ZoneInformationCommand extends AbstractCommand {
         this.zoneID = zoneID;
     }
 
-    public byte[] getPayload(){
-        if( payload == null){
+    public byte[] getPayload() {
+        if (payload == null) {
             payload = new byte[4];
-            ZBSerializer serializer = new DefaultSerializer(payload,0);
+            ZBSerializer serializer = new DefaultSerializer(payload, 0);
             serializer.append_int(zoneID);
         }
         return payload;

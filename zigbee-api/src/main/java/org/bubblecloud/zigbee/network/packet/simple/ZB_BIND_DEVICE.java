@@ -29,53 +29,49 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class ZB_BIND_DEVICE extends ZToolPacket /*implements IREQUEST, ISIMPLEAPI*/{
+public class ZB_BIND_DEVICE extends ZToolPacket /*implements IREQUEST, ISIMPLEAPI*/ {
     /// <name>TI.ZPI2.ZB_BIND_DEVICE.Action</name>
-        /// <summary>CREATE or DELETE a binding entry.</summary>
-        public int Action;
-        /// <name>TI.ZPI2.ZB_BIND_DEVICE.CommandId</name>
-        /// <summary>The Command identifier of packets for this binding.</summary>
-        public DoubleByte CommandId;
-        /// <name>TI.ZPI2.ZB_BIND_DEVICE.Destination</name>
-        /// <summary>IEEE address of device to establish the binding with ( all zeros indicate NULL ).</summary>
-        public ZToolAddress64 Destination;
+    /// <summary>CREATE or DELETE a binding entry.</summary>
+    public int Action;
+    /// <name>TI.ZPI2.ZB_BIND_DEVICE.CommandId</name>
+    /// <summary>The Command identifier of packets for this binding.</summary>
+    public DoubleByte CommandId;
+    /// <name>TI.ZPI2.ZB_BIND_DEVICE.Destination</name>
+    /// <summary>IEEE address of device to establish the binding with ( all zeros indicate NULL ).</summary>
+    public ZToolAddress64 Destination;
 
-        /// <name>TI.ZPI2.ZB_BIND_DEVICE</name>
-        /// <summary>Constructor</summary>
-        public ZB_BIND_DEVICE()
-        {
+    /// <name>TI.ZPI2.ZB_BIND_DEVICE</name>
+    /// <summary>Constructor</summary>
+    public ZB_BIND_DEVICE() {
+    }
+
+    public ZB_BIND_DEVICE(int bind_action_type1, DoubleByte num1, ZToolAddress64 num2) {
+        this.Action = bind_action_type1;
+        this.CommandId = num1;
+        this.Destination = num2;
+        int[] framedata = new int[11];
+        framedata[0] = this.Action;
+        framedata[1] = this.CommandId.getLsb();
+        framedata[2] = this.CommandId.getMsb();
+        byte[] bytes = Destination.getAddress();
+        for (int i = 0; i < 8; i++) {
+            framedata[i + 2] = bytes[7 - i];
         }
+        super.buildPacket(new DoubleByte(ZToolCMD.ZB_BIND_DEVICE), framedata);
+    }
 
-        public ZB_BIND_DEVICE(int bind_action_type1, DoubleByte num1, ZToolAddress64 num2)
-        {
-            this.Action = bind_action_type1;
-            this.CommandId = num1;
-            this.Destination = num2;
-            int[] framedata=new int[11];
-            framedata[0]=this.Action;
-            framedata[1]=this.CommandId.getLsb();
-            framedata[2]=this.CommandId.getMsb();
-            byte[] bytes=Destination.getAddress();
-            for(int i=0; i<8;i++){
-                framedata[i+2]=bytes[7-i];
-            }
-            super.buildPacket(new DoubleByte(ZToolCMD.ZB_BIND_DEVICE), framedata);
-        }
-
-        /// <name>TI.ZPI2.ZB_BIND_DEVICE.BIND_ACTION_TYPE</name>
+    /// <name>TI.ZPI2.ZB_BIND_DEVICE.BIND_ACTION_TYPE</name>
+    /// <summary>Reset type</summary>
+    public class BIND_ACTION_TYPE {
+        /// <name>TI.ZPI2.ZB_BIND_DEVICE.BIND_ACTION_TYPE.CREATE_BIND</name>
         /// <summary>Reset type</summary>
-        public class BIND_ACTION_TYPE 
-        {
-            /// <name>TI.ZPI2.ZB_BIND_DEVICE.BIND_ACTION_TYPE.CREATE_BIND</name>
-            /// <summary>Reset type</summary>
-            public static final int CREATE_BIND = 1;
-            /// <name>TI.ZPI2.ZB_BIND_DEVICE.BIND_ACTION_TYPE.DELETE_BIND</name>
-            /// <summary>Reset type</summary>
-            public static final int DELETE_BIND = 0;
-        }
+        public static final int CREATE_BIND = 1;
+        /// <name>TI.ZPI2.ZB_BIND_DEVICE.BIND_ACTION_TYPE.DELETE_BIND</name>
+        /// <summary>Reset type</summary>
+        public static final int DELETE_BIND = 0;
+    }
 
 }

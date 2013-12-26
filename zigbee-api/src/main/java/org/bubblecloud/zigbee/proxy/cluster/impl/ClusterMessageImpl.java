@@ -20,31 +20,31 @@
    limitations under the License.
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl;
+
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLFrame;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ClusterMessageImpl implements ClusterMessage {
-	
-	private ZCLFrame frame;
-	private short id;
 
-	public ClusterMessageImpl(short id, ZCLFrame frame) {
-		this.frame = frame;
-		this.id = id;
-	}
+    private ZCLFrame frame;
+    private short id;
 
-	public byte[] getClusterMsg() {
-		return frame.toByte();
-	}
+    public ClusterMessageImpl(short id, ZCLFrame frame) {
+        this.frame = frame;
+        this.id = id;
+    }
 
-	public short getId() {
-		return id;
-	}
+    public byte[] getClusterMsg() {
+        return frame.toByte();
+    }
+
+    public short getId() {
+        return id;
+    }
 
 }

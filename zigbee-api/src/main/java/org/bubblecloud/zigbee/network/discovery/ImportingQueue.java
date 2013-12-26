@@ -30,101 +30,100 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class ImportingQueue {
 
-	private static final Logger logger = LoggerFactory.getLogger(ImportingQueue.class);
-	private int waitingThread = 0;
-	private boolean closing = false;
-	
-	public class ZigBeeNodeAddress {
+    private static final Logger logger = LoggerFactory.getLogger(ImportingQueue.class);
+    private int waitingThread = 0;
+    private boolean closing = false;
 
-		private final ZToolAddress16 networkAddress;
-		private final ZToolAddress64 ieeeAddress;
+    public class ZigBeeNodeAddress {
 
-		public ZigBeeNodeAddress(final ZToolAddress16 networkAddress, final ZToolAddress64 ieeeAddress) {
-			this.networkAddress = networkAddress;
-			this.ieeeAddress = ieeeAddress;
-		}
+        private final ZToolAddress16 networkAddress;
+        private final ZToolAddress64 ieeeAddress;
 
-		public final ZToolAddress16 getNetworkAddress() {
-			return networkAddress;
-		}
-		public final ZToolAddress64 getIEEEAddress() {
-			return ieeeAddress;
-		}
-	}
+        public ZigBeeNodeAddress(final ZToolAddress16 networkAddress, final ZToolAddress64 ieeeAddress) {
+            this.networkAddress = networkAddress;
+            this.ieeeAddress = ieeeAddress;
+        }
 
-	private final ArrayList<ZigBeeNodeAddress> addresses = new ArrayList<ZigBeeNodeAddress>();
+        public final ZToolAddress16 getNetworkAddress() {
+            return networkAddress;
+        }
 
-	public void clear() {
-		synchronized (addresses) {
-		    if ( closing ) return;
-			addresses.clear();
-		}
-	}
+        public final ZToolAddress64 getIEEEAddress() {
+            return ieeeAddress;
+        }
+    }
 
-	public boolean isEmpty() {
-		synchronized (addresses) {
-			return addresses.size() == 0;
-		}
-	}
+    private final ArrayList<ZigBeeNodeAddress> addresses = new ArrayList<ZigBeeNodeAddress>();
 
-	public int size() {
-		synchronized (addresses) {
-			return addresses.size();
-		}
-	}
+    public void clear() {
+        synchronized (addresses) {
+            if (closing) return;
+            addresses.clear();
+        }
+    }
 
-	public void push(ZToolAddress16 nwkAddress, ZToolAddress64 ieeeAddress){
+    public boolean isEmpty() {
+        synchronized (addresses) {
+            return addresses.size() == 0;
+        }
+    }
+
+    public int size() {
+        synchronized (addresses) {
+            return addresses.size();
+        }
+    }
+
+    public void push(ZToolAddress16 nwkAddress, ZToolAddress64 ieeeAddress) {
         ZigBeeNodeAddress inserting = new ZigBeeNodeAddress(nwkAddress, ieeeAddress);
-		logger.debug("Adding {} ({})",nwkAddress,ieeeAddress);
-		synchronized (addresses) {
-	        if ( closing ) return;
-			addresses.add(inserting);
-			addresses.notify();
-		}
-		logger.debug("Added {} ({})",nwkAddress,ieeeAddress);
-	}
+        logger.debug("Adding {} ({})", nwkAddress, ieeeAddress);
+        synchronized (addresses) {
+            if (closing) return;
+            addresses.add(inserting);
+            addresses.notify();
+        }
+        logger.debug("Added {} ({})", nwkAddress, ieeeAddress);
+    }
 
-	public ZigBeeNodeAddress pop(){
-		ZigBeeNodeAddress result = null;
-		logger.debug("Removing element");
-		synchronized (addresses) {
-		    if ( closing ) return null;
+    public ZigBeeNodeAddress pop() {
+        ZigBeeNodeAddress result = null;
+        logger.debug("Removing element");
+        synchronized (addresses) {
+            if (closing) return null;
             waitingThread++;
-			while( addresses.isEmpty() ){
-				try {
-					addresses.wait();
-				} catch (InterruptedException ignored) {
-				}
-			}
-			waitingThread--;
-			result = addresses.remove(addresses.size() - 1);
-		}
-		if ( result != null ) {
-		    logger.debug("Removed {} {}", result.networkAddress, result.ieeeAddress);
-		} else {
-		    logger.debug("Removed null value from the queue it means that queue is closing down");
-		}
-		return result;
-	}
-	
-	public void close() {
-	    do {
-	        synchronized ( addresses ) {
-	            if ( waitingThread <= 0 ) return;
-                closing = true;
-                addresses.add( null );
-                addresses.notify();                
+            while (addresses.isEmpty()) {
+                try {
+                    addresses.wait();
+                } catch (InterruptedException ignored) {
+                }
             }
-	        Thread.yield();
-	    } while ( true );
-	}
+            waitingThread--;
+            result = addresses.remove(addresses.size() - 1);
+        }
+        if (result != null) {
+            logger.debug("Removed {} {}", result.networkAddress, result.ieeeAddress);
+        } else {
+            logger.debug("Removed null value from the queue it means that queue is closing down");
+        }
+        return result;
+    }
+
+    public void close() {
+        do {
+            synchronized (addresses) {
+                if (waitingThread <= 0) return;
+                closing = true;
+                addresses.add(null);
+                addresses.notify();
+            }
+            Thread.yield();
+        } while (true);
+    }
 }

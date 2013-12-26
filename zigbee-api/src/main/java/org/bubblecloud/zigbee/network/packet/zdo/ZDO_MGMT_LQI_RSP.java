@@ -30,7 +30,6 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import java.util.Arrays;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -69,28 +68,28 @@ public class ZDO_MGMT_LQI_RSP extends ZToolPacket /*implements IRESPONSE_CALLBAC
         this.NeighborLQIEntries = framedata[3];
         this.StartIndex = framedata[4];
         this.NeighborLQICount = framedata[5];
-        this.NeighborLqiList = new NeighborLqiListItemClass[ framedata[5] ];
-        
+        this.NeighborLqiList = new NeighborLqiListItemClass[framedata[5]];
+
         int NOpt1;
         int NOpt2;
-        
+
         int k = 0;
         byte[] bytes = new byte[8];
         for (int z = 0; z < this.NeighborLqiList.length; z++) {
             for (int j = 0; j < 8; j++) {
-                bytes[7-j] = (byte) framedata[6 + k + j];///MSB><LSB?
+                bytes[7 - j] = (byte) framedata[6 + k + j];///MSB><LSB?
             }
             final long panId = ByteUtils.convertMultiByteToLong(bytes);
             for (int j = 0; j < 8; j++) {
-                bytes[7-j] = (byte) framedata[14 + k + j];///MSB><LSB?
+                bytes[7 - j] = (byte) framedata[14 + k + j];///MSB><LSB?
             }
             final ZToolAddress64 ieeeAddr = new ZToolAddress64(bytes);
             final ZToolAddress16 nwkAddr = new ZToolAddress16(framedata[23 + k], framedata[22 + k]);///MSB><LSB?
-            NOpt1=framedata[24 + k];
-            NOpt2=framedata[25 + k];
+            NOpt1 = framedata[24 + k];
+            NOpt2 = framedata[25 + k];
             final int lqi = framedata[26 + k];
             final int depth = framedata[27 + k];
-            this.NeighborLqiList[z] = new NeighborLqiListItemClass(panId,ieeeAddr,nwkAddr,NOpt1,NOpt2,lqi, depth);
+            this.NeighborLqiList[z] = new NeighborLqiListItemClass(panId, ieeeAddr, nwkAddr, NOpt1, NOpt2, lqi, depth);
             k += 22;
         }
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_MGMT_LQI_RSP), framedata);
@@ -124,32 +123,29 @@ public class ZDO_MGMT_LQI_RSP extends ZToolPacket /*implements IRESPONSE_CALLBAC
     }
 
     /**
-     * 
      * @return the number of Neighbor LQI entries present on the message
      */
-    public int getNeighborLQICount(){ 
-        return this.NeighborLqiList.length; 
+    public int getNeighborLQICount() {
+        return this.NeighborLqiList.length;
     }
 
     /**
-     * 
-     * @return the index of the first entries available on the message with respect 
-     *      to the Neighbor LQI Tables on the device
+     * @return the index of the first entries available on the message with respect
+     *         to the Neighbor LQI Tables on the device
      */
     public int getStartIndex() {
         return StartIndex;
     }
-    
+
     /**
-     * 
      * @return the number of Neighbor LQI entries available on the device
      */
-    public int getNeighborLQIEntries(){ 
-        return this.NeighborLQIEntries; 
+    public int getNeighborLQIEntries() {
+        return this.NeighborLQIEntries;
     }
 
-    public NeighborLqiListItemClass[] getNeighborLqiList(){ 
-        return NeighborLqiList; 
+    public NeighborLqiListItemClass[] getNeighborLqiList() {
+        return NeighborLqiList;
     }
 
     @Override

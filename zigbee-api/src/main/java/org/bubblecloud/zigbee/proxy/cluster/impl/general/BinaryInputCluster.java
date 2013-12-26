@@ -30,12 +30,10 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
 
 /**
- *
  * @author <a href="mailto:h.alink1@chello.nl">Han Alink</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.8.0
- *
  */
 public class BinaryInputCluster extends ZCLClusterBase implements BinaryInput {
 
@@ -65,7 +63,7 @@ public class BinaryInputCluster extends ZCLClusterBase implements BinaryInput {
         description = new AttributeImpl(zbDevice, this, Attributes.DESCRIPTION);
         activeText = new AttributeImpl(zbDevice, this, Attributes.ACTIVE_TEXT);
 
-        attributes = new Attribute[] {
+        attributes = new Attribute[]{
                 presentValue, outOfService, statusFlags, applicationType, reliability, polarity, inactiveText,
                 description, activeText
         };

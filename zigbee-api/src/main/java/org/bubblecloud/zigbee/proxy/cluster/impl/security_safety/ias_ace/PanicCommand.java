@@ -26,7 +26,7 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 
 public class PanicCommand extends AbstractCommand {
 
-    public PanicCommand(){
+    public PanicCommand() {
         super(IASACE.PANIC);
     }
 }

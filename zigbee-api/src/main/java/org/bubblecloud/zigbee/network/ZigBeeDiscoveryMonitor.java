@@ -22,16 +22,14 @@
 package org.bubblecloud.zigbee.network;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.5.1
- *
  */
 public interface ZigBeeDiscoveryMonitor {
-	
-	public void browsedNode(ZigBeeNode node);
-	
-	public void announcedNode(ZigBeeNode node);
-	
+
+    public void browsedNode(ZigBeeNode node);
+
+    public void announcedNode(ZigBeeNode node);
+
 }

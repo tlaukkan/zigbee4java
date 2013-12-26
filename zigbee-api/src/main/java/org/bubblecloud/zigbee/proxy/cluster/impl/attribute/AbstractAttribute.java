@@ -25,79 +25,77 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeType;
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
-public class AbstractAttribute implements AttributeDescriptor{
+public class AbstractAttribute implements AttributeDescriptor {
 
-	private int id;
-	private String name;
-	private Class clazz;
-	private ZigBeeType zbType;
-	private boolean isReportable;
-	private boolean isWritable;
+    private int id;
+    private String name;
+    private Class clazz;
+    private ZigBeeType zbType;
+    private boolean isReportable;
+    private boolean isWritable;
 
-	public AbstractAttribute() {
-	}
+    public AbstractAttribute() {
+    }
 
-	final public int getId() {
-		return id;
-	}
+    final public int getId() {
+        return id;
+    }
 
-	public AbstractAttribute setId(int id){
-		this.id=id;
-		return this;
-	}
+    public AbstractAttribute setId(int id) {
+        this.id = id;
+        return this;
+    }
 
-	final public String getName() {
-		return name;
-	}
+    final public String getName() {
+        return name;
+    }
 
-	public AbstractAttribute setName(String name){
-		this.name=name;
-		return this;
-	}
+    public AbstractAttribute setName(String name) {
+        this.name = name;
+        return this;
+    }
 
-	final public Class getType() {
-		return clazz;
-	}
+    final public Class getType() {
+        return clazz;
+    }
 
-	private AbstractAttribute setType(Class clazz){
-		this.clazz=clazz;
-		return this;
-	}
+    private AbstractAttribute setType(Class clazz) {
+        this.clazz = clazz;
+        return this;
+    }
 
 
-	final public boolean isReportable() {
-		return isReportable;
-	}
+    final public boolean isReportable() {
+        return isReportable;
+    }
 
-	public AbstractAttribute setReportable(boolean isReportable){
-		this.isReportable=isReportable;
-		return this;
-	}
+    public AbstractAttribute setReportable(boolean isReportable) {
+        this.isReportable = isReportable;
+        return this;
+    }
 
-	final public boolean isWritable() {
-		return isWritable;
-	}
+    final public boolean isWritable() {
+        return isWritable;
+    }
 
-	public AbstractAttribute setWritable(boolean isWritable){
-		this.isWritable=isWritable;
-		return this;
-	}
+    public AbstractAttribute setWritable(boolean isWritable) {
+        this.isWritable = isWritable;
+        return this;
+    }
 
-	public AbstractAttribute setZigBeeType(ZigBeeType type){
-		this.zbType = type;
-		setType(type.getJavaClass());
-		return this;
-	}
+    public AbstractAttribute setZigBeeType(ZigBeeType type) {
+        this.zbType = type;
+        setType(type.getJavaClass());
+        return this;
+    }
 
-	final public ZigBeeType getZigBeeType() {
-		return zbType;
-	}
+    final public ZigBeeType getZigBeeType() {
+        return zbType;
+    }
 
 
 }

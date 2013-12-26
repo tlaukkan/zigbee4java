@@ -32,11 +32,9 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.8.0
- *
  */
 public interface IASControlAndIndicatingEquipment extends DeviceProxy {
 
@@ -45,16 +43,21 @@ public interface IASControlAndIndicatingEquipment extends DeviceProxy {
     public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
             ProxyConstants.IAS_ZONE, ProxyConstants.IDENTIFY, ProxyConstants.IAS_ACE, ProxyConstants.IAS_WD
     });
-    public static final int[] OPTIONAL =  ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
+    public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
             ProxyConstants.SCENES, ProxyConstants.GROUPS
     });
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};
 
     public IASACE getIASACE();
+
     public Identify getIdentify();
+
     public IASZone getIASZone();
+
     public IASWD getIASwd();
+
     public Scenes getScenes();
+
     public Groups getGroups();
 }

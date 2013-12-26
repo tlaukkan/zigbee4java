@@ -32,7 +32,6 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import java.util.Arrays;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -61,9 +60,9 @@ public class ZDO_USER_DESC_RSP extends ZToolPacket/* implements IRESPONSE_CALLBA
     }
 
     public ZDO_USER_DESC_RSP(int[] framedata) {
-        this.SrcAddress=new ZToolAddress16(framedata[1],framedata[0]);
+        this.SrcAddress = new ZToolAddress16(framedata[1], framedata[0]);
         this.Status = framedata[2];
-        this.nwkAddr=new ZToolAddress16(framedata[4],framedata[3]);
+        this.nwkAddr = new ZToolAddress16(framedata[4], framedata[3]);
         this.DescLen = framedata[5];
         this.Descriptor = new int[this.DescLen];
         for (int i = 0; i < this.Descriptor.length; i++) {

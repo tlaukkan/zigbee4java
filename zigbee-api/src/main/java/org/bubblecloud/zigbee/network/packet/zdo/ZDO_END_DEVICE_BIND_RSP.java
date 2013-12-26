@@ -30,30 +30,27 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class ZDO_END_DEVICE_BIND_RSP extends ZToolPacket /*implements IRESPONE_CALLBACK,IZDO*/{
+public class ZDO_END_DEVICE_BIND_RSP extends ZToolPacket /*implements IRESPONE_CALLBACK,IZDO*/ {
     /// <name>TI.ZPI1.ZDO_END_DEVICE_BIND_RSP.SrcAddress</name>
-        /// <summary>the message's source network address</summary>
-        public ZToolAddress16 SrcAddress;
-        /// <name>TI.ZPI1.ZDO_END_DEVICE_BIND_RSP.Status</name>
-        /// <summary>this field indicates status of the bind request</summary>
-        public int Status;
+    /// <summary>the message's source network address</summary>
+    public ZToolAddress16 SrcAddress;
+    /// <name>TI.ZPI1.ZDO_END_DEVICE_BIND_RSP.Status</name>
+    /// <summary>this field indicates status of the bind request</summary>
+    public int Status;
 
-        /// <name>TI.ZPI1.ZDO_END_DEVICE_BIND_RSP</name>
-        /// <summary>Constructor</summary>
-        public ZDO_END_DEVICE_BIND_RSP()
-        {
-        }
+    /// <name>TI.ZPI1.ZDO_END_DEVICE_BIND_RSP</name>
+    /// <summary>Constructor</summary>
+    public ZDO_END_DEVICE_BIND_RSP() {
+    }
 
-        public ZDO_END_DEVICE_BIND_RSP(int[] framedata)
-        {
-            this.SrcAddress=new ZToolAddress16(framedata[1],framedata[0]);
-            this.Status = framedata[2];
-            super.buildPacket(new DoubleByte(ZToolCMD.ZDO_END_DEVICE_BIND_RSP), framedata);
-        }
+    public ZDO_END_DEVICE_BIND_RSP(int[] framedata) {
+        this.SrcAddress = new ZToolAddress16(framedata[1], framedata[0]);
+        this.Status = framedata[2];
+        super.buildPacket(new DoubleByte(ZToolCMD.ZDO_END_DEVICE_BIND_RSP), framedata);
+    }
 
     @Override
     public String toString() {

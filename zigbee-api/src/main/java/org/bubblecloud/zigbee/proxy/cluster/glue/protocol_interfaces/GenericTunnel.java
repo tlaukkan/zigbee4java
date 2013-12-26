@@ -23,23 +23,26 @@
 package org.bubblecloud.zigbee.proxy.cluster.glue.protocol_interfaces;
 
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
+
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.7.0
- *
  */
 public interface GenericTunnel extends Cluster {
 
     public int getMaximumIncomingTransferSize();
+
     public int getMaximumOutgoingTransferSize();
+
     public int getProtocolAddress();
+
     public void setProtocolAddress(int address);
 
     public MatchProtocolAddressResponse matchProtocolAddress(String protocolAddress);
 
     public boolean addAdvertiseProtocolAddressListener(AdvertiseProtocolAddressListener listener);
+
     public boolean removeAdvertiseProtocolAddressListener(AdvertiseProtocolAddressListener listener);
 
 }

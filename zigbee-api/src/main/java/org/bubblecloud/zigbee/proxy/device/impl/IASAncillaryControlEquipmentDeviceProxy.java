@@ -33,12 +33,10 @@ import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
-public class IASAncillaryControlEquipmentDeviceProxy extends DeviceProxyBase implements IASAncillaryControlEquipment{
+public class IASAncillaryControlEquipmentDeviceProxy extends DeviceProxyBase implements IASAncillaryControlEquipment {
 
     private Identify identify;
     private IASZone iasZone;
@@ -75,7 +73,7 @@ public class IASAncillaryControlEquipmentDeviceProxy extends DeviceProxyBase imp
         return DEVICE_DESCRIPTOR;
     }
 
-    final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
+    final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
 
         public int[] getCustomClusters() {
             return IASAncillaryControlEquipment.CUSTOM;

@@ -35,37 +35,34 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- *         
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.2.0
- *
  */
 public class ReportAttributesCommand extends ResponseImpl {
-	
-	private static final Logger logger = LoggerFactory.getLogger(ReportAttributesCommand.class);
-	
-	public static final byte ID = 0x0A;
-	
-	private AttributeReport[] attributesReport;
-	
-	public ReportAttributesCommand(ResponseImpl response) throws ZigBeeClusterException{
-		super(response);
-		ResponseImpl.checkGeneralCommandFrame(response, ReportAttributesCommand.ID);
-		
-		byte[] msg = getPayload();
-		ZBDeserializer deserializer = new DefaultDeserializer(msg,0);
-		ArrayList<AttributeReportImpl> attributes = new ArrayList<AttributeReportImpl>();
-		for (int i = 0; deserializer.getPosition() < msg.length; i++) {
-			attributes.add(new AttributeReportImpl(deserializer));
-		}
-		
-		attributesReport = attributes.toArray(new AttributeReport[]{});
-	}		
-	
-	public AttributeReport[] getAttributeReports() {
-		return attributesReport;
-	}
+
+    private static final Logger logger = LoggerFactory.getLogger(ReportAttributesCommand.class);
+
+    public static final byte ID = 0x0A;
+
+    private AttributeReport[] attributesReport;
+
+    public ReportAttributesCommand(ResponseImpl response) throws ZigBeeClusterException {
+        super(response);
+        ResponseImpl.checkGeneralCommandFrame(response, ReportAttributesCommand.ID);
+
+        byte[] msg = getPayload();
+        ZBDeserializer deserializer = new DefaultDeserializer(msg, 0);
+        ArrayList<AttributeReportImpl> attributes = new ArrayList<AttributeReportImpl>();
+        for (int i = 0; deserializer.getPosition() < msg.length; i++) {
+            attributes.add(new AttributeReportImpl(deserializer));
+        }
+
+        attributesReport = attributes.toArray(new AttributeReport[]{});
+    }
+
+    public AttributeReport[] getAttributeReports() {
+        return attributesReport;
+    }
 }

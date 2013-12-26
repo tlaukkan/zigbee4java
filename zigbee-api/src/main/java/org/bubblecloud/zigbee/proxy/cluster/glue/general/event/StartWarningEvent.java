@@ -26,13 +26,12 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
 public interface StartWarningEvent {
 
     public boolean getEvent();
+
     public Cluster getSource();
 }

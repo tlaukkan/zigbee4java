@@ -29,28 +29,25 @@ import org.bubblecloud.zigbee.util.ByteUtils;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class ZB_FIND_DEVICE_REQUEST extends ZToolPacket /*implements IREQUEST,ISIMPLEAPI*/{
+public class ZB_FIND_DEVICE_REQUEST extends ZToolPacket /*implements IREQUEST,ISIMPLEAPI*/ {
     /// <name>TI.ZPI2.ZB_FIND_DEVICE_REQUEST.SearchKey</name>
-        /// <summary>IEEE address of the device to find.</summary>
-        public long SearchKey;
+    /// <summary>IEEE address of the device to find.</summary>
+    public long SearchKey;
 
-        /// <name>TI.ZPI2.ZB_FIND_DEVICE_REQUEST</name>
-        /// <summary>Constructor</summary>
-        public ZB_FIND_DEVICE_REQUEST()
-        {
-        }
+    /// <name>TI.ZPI2.ZB_FIND_DEVICE_REQUEST</name>
+    /// <summary>Constructor</summary>
+    public ZB_FIND_DEVICE_REQUEST() {
+    }
 
-        /// <name>TI.ZPI2.ZB_FIND_DEVICE_REQUEST</name>
-        /// <summary>Constructor</summary>
-        public ZB_FIND_DEVICE_REQUEST(long num1)
-        {
-            this.SearchKey = num1;
-            int[] framedata=ByteUtils.convertLongtoMultiByte(this.SearchKey);
-            super.buildPacket(new DoubleByte(ZToolCMD.ZB_FIND_DEVICE_REQUEST), framedata);
-        }
+    /// <name>TI.ZPI2.ZB_FIND_DEVICE_REQUEST</name>
+    /// <summary>Constructor</summary>
+    public ZB_FIND_DEVICE_REQUEST(long num1) {
+        this.SearchKey = num1;
+        int[] framedata = ByteUtils.convertLongtoMultiByte(this.SearchKey);
+        super.buildPacket(new DoubleByte(ZToolCMD.ZB_FIND_DEVICE_REQUEST), framedata);
+    }
 
 }

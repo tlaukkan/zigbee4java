@@ -29,50 +29,49 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.GetSceneMembershipResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ResponseImpl;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class GetSceneMembershipResponseImpl extends ResponseImpl implements
-		GetSceneMembershipResponse {
+        GetSceneMembershipResponse {
 
-	private byte status;
-	private short capacity;
-	private int groupId;
-	private short[] sceneList;
-	
-	
-	public GetSceneMembershipResponseImpl(Response response) throws ZigBeeClusterException {
-		super(response);
-		ResponseImpl.checkSpecificCommandFrame(response, GetSceneMembershipResponse.ID);
-		ZBDeserializer deserializer = new DefaultDeserializer(getPayload(),0);
-		status = deserializer.read_byte();
-		capacity =  deserializer.read_byte();
-		groupId = deserializer.read_short();
-		int count = deserializer.read_byte();
-		for (int i = 0; i < count; i++) {
-			sceneList[i] = deserializer.read_byte();
-		}	
-	}
-	
-	
-	public short getCapacity() {
-		return capacity;
-	}
+    private byte status;
+    private short capacity;
+    private int groupId;
+    private short[] sceneList;
 
-	public int getGroupId() {
-		return groupId;
-	}
 
-	public short[] getSceneList() {
-		return sceneList;
-	}
+    public GetSceneMembershipResponseImpl(Response response) throws ZigBeeClusterException {
+        super(response);
+        ResponseImpl.checkSpecificCommandFrame(response, GetSceneMembershipResponse.ID);
+        ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);
+        status = deserializer.read_byte();
+        capacity = deserializer.read_byte();
+        groupId = deserializer.read_short();
+        int count = deserializer.read_byte();
+        for (int i = 0; i < count; i++) {
+            sceneList[i] = deserializer.read_byte();
+        }
+    }
 
-	public Status getStatus() {
-		return Status.getStatus(status);
-	}
+
+    public short getCapacity() {
+        return capacity;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public short[] getSceneList() {
+        return sceneList;
+    }
+
+    public Status getStatus() {
+        return Status.getStatus(status);
+    }
 
 }

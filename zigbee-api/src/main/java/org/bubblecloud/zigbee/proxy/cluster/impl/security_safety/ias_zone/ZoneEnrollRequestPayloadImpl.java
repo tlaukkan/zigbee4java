@@ -28,7 +28,7 @@ public class ZoneEnrollRequestPayloadImpl implements ZoneEnrollRequestPayload {
     private short zoneType;
     private int manufacturerCode;
 
-    public ZoneEnrollRequestPayloadImpl(short zoneType, int manufacturerCode){
+    public ZoneEnrollRequestPayloadImpl(short zoneType, int manufacturerCode) {
         this.zoneType = zoneType;
         this.manufacturerCode = manufacturerCode;
     }

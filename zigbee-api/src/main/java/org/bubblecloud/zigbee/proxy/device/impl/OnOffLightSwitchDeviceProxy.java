@@ -33,52 +33,50 @@ import org.bubblecloud.zigbee.proxy.AbstractDeviceDescription;
 import org.bubblecloud.zigbee.proxy.DeviceDescription;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class OnOffLightSwitchDeviceProxy extends DeviceProxyBase implements OnOffLightSwitch {
-	
-	private OnOffSwitchConfiguration onOffSwitchConfiguration;
-	
-	public OnOffLightSwitchDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
-		super(ctx,zbDevice);
-	}
 
-	final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
+    private OnOffSwitchConfiguration onOffSwitchConfiguration;
 
-		public int[] getCustomClusters() {
-			return OnOffLightSwitch.CUSTOM;
-		}
+    public OnOffLightSwitchDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+        super(ctx, zbDevice);
+    }
 
-		public int[] getMandatoryCluster() {
-			return OnOffLightSwitch.MANDATORY;
-		}
+    final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
 
-		public int[] getOptionalCluster() {
-			return OnOffLightSwitch.OPTIONAL;
-		}
+        public int[] getCustomClusters() {
+            return OnOffLightSwitch.CUSTOM;
+        }
 
-		public int[] getStandardClusters() {
-			return OnOffLightSwitch.STANDARD;
-		}
-		
-	};
-	
-	@Override
-	public DeviceDescription getDescription() {
-		return DEVICE_DESCRIPTOR;
-	}
+        public int[] getMandatoryCluster() {
+            return OnOffLightSwitch.MANDATORY;
+        }
 
-	@Override
-	public String getName() {
-		return OnOffSwitch.NAME;
-	}
+        public int[] getOptionalCluster() {
+            return OnOffLightSwitch.OPTIONAL;
+        }
 
-	public OnOffSwitchConfiguration getOnOffSwitchConfiguration() {
-		return onOffSwitchConfiguration;
-	}
+        public int[] getStandardClusters() {
+            return OnOffLightSwitch.STANDARD;
+        }
+
+    };
+
+    @Override
+    public DeviceDescription getDescription() {
+        return DEVICE_DESCRIPTOR;
+    }
+
+    @Override
+    public String getName() {
+        return OnOffSwitch.NAME;
+    }
+
+    public OnOffSwitchConfiguration getOnOffSwitchConfiguration() {
+        return onOffSwitchConfiguration;
+    }
 }

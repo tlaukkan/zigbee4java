@@ -32,23 +32,21 @@ import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_wd.StartWarn
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *         
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface IASWD extends ZCLCluster {
 
-	public static final short ID = 0x0502;
-	static final String NAME = "IAS WD";
-	static final String DESCRIPTION = "Attributes and commands for any Warning Device Equipment device.";
+    public static final short ID = 0x0502;
+    static final String NAME = "IAS WD";
+    static final String DESCRIPTION = "Attributes and commands for any Warning Device Equipment device.";
 
-	static final byte START_WARNING = 0x00;
-	static final byte SQUAWK = 0x01;
-	
-	public Attribute getAttributeMaxDuration();
-	
-	public void startWarning(StartWarningPayload payload) throws ZigBeeClusterException;
-	
-	public void squawk(SquawkPayload payload) throws ZigBeeClusterException;
+    static final byte START_WARNING = 0x00;
+    static final byte SQUAWK = 0x01;
+
+    public Attribute getAttributeMaxDuration();
+
+    public void startWarning(StartWarningPayload payload) throws ZigBeeClusterException;
+
+    public void squawk(SquawkPayload payload) throws ZigBeeClusterException;
 }

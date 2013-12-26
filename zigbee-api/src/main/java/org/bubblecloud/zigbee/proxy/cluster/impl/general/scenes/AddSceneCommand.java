@@ -29,55 +29,53 @@ import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.AddScenePayload;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.ExtensionFieldSetAddScene;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultSerializer;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class AddSceneCommand extends AbstractCommand {
 
-private AddScenePayload scenePayload;
+    private AddScenePayload scenePayload;
 
 
+    public AddSceneCommand(AddScenePayload scenePayload) {
+        super(Scenes.ADD_SCENE);
+        this.scenePayload = scenePayload;
+    }
 
-	public AddSceneCommand(AddScenePayload scenePayload){
-		super(Scenes.ADD_SCENE);
-		this.scenePayload = scenePayload;
-	}
-	
-	public byte[] getPayload(){	
-		if( payload == null){	
-			int length;
-			length = 5 + scenePayload.getSceneName().length();
-			
-			for (int i = 0; i < scenePayload.getExtensionFieldSet().length; i++) {
-				length = length + scenePayload.getExtensionFieldSet()[i].getLength();
-			}
-			payload = new byte[length];
-			ZBSerializer serializer = new DefaultSerializer(payload,0);
-			serializer.append_short((short)scenePayload.getGroupId());
-			serializer.append_byte((byte)scenePayload.getSceneId());
-			serializer.append_short((short)scenePayload.getTransitionTime());
-			//TODO use the serializer.appendObject(Object, ZigBeeType)
-			serializer.appendObject(scenePayload.getSceneName());
-			ExtensionFieldSetAddScene[] extensionFielSet = scenePayload.getExtensionFieldSet();
-			
-			for (int i = 0; i < extensionFielSet.length; i++) {
-				int clusterId = extensionFielSet[i].getClusterId();
-				serializer.append_short((short)clusterId);
-				serializer.append_byte((byte)extensionFielSet[i].getAttributes(clusterId).length);
-			    for (int j = 0; j < extensionFielSet[i].getAttributes(clusterId).length; j++) {
-			    	Attribute attribute = extensionFielSet[i].getAttributes(clusterId)[j];
-			    	Object value = extensionFielSet[i].getValue(attribute);
-			    	serializer.append_short((short)attribute.getId());
-			    	//TODO use the serializer.appendObject(Object, ZigBeeType)
-			    	serializer.appendObject(value);
-				}
-			}
-		}
-		return payload;
-	}
+    public byte[] getPayload() {
+        if (payload == null) {
+            int length;
+            length = 5 + scenePayload.getSceneName().length();
+
+            for (int i = 0; i < scenePayload.getExtensionFieldSet().length; i++) {
+                length = length + scenePayload.getExtensionFieldSet()[i].getLength();
+            }
+            payload = new byte[length];
+            ZBSerializer serializer = new DefaultSerializer(payload, 0);
+            serializer.append_short((short) scenePayload.getGroupId());
+            serializer.append_byte((byte) scenePayload.getSceneId());
+            serializer.append_short((short) scenePayload.getTransitionTime());
+            //TODO use the serializer.appendObject(Object, ZigBeeType)
+            serializer.appendObject(scenePayload.getSceneName());
+            ExtensionFieldSetAddScene[] extensionFielSet = scenePayload.getExtensionFieldSet();
+
+            for (int i = 0; i < extensionFielSet.length; i++) {
+                int clusterId = extensionFielSet[i].getClusterId();
+                serializer.append_short((short) clusterId);
+                serializer.append_byte((byte) extensionFielSet[i].getAttributes(clusterId).length);
+                for (int j = 0; j < extensionFielSet[i].getAttributes(clusterId).length; j++) {
+                    Attribute attribute = extensionFielSet[i].getAttributes(clusterId)[j];
+                    Object value = extensionFielSet[i].getValue(attribute);
+                    serializer.append_short((short) attribute.getId());
+                    //TODO use the serializer.appendObject(Object, ZigBeeType)
+                    serializer.appendObject(value);
+                }
+            }
+        }
+        return payload;
+    }
 
 }

@@ -28,16 +28,16 @@ package org.bubblecloud.zigbee.proxy.cluster.glue.general;
  * @since 0.7.0
  */
 public enum LocationMethod {
-    Lateration(0x00,"A method based on RSSI measurements from three or more sources"),
-    Signposting(0x01,"The location reported is the location of the neighboring device"),
-    RF_Fingerprinting(0x02,"RSSI signatures are collected into a database at commissioning time"),
-    OutOfBand(0x03,"The location is obtained by accessing an out-of-band device"),
-    Centralized(0x04,"The location is performed by a centralized device");
+    Lateration(0x00, "A method based on RSSI measurements from three or more sources"),
+    Signposting(0x01, "The location reported is the location of the neighboring device"),
+    RF_Fingerprinting(0x02, "RSSI signatures are collected into a database at commissioning time"),
+    OutOfBand(0x03, "The location is obtained by accessing an out-of-band device"),
+    Centralized(0x04, "The location is performed by a centralized device");
 
     public final byte value;
     public final String description;
 
-    private LocationMethod(int value, String description){
+    private LocationMethod(int value, String description) {
         this.value = (byte) value;
         this.description = description;
     }

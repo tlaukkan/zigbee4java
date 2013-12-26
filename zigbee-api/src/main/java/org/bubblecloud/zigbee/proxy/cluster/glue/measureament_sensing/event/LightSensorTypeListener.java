@@ -24,10 +24,8 @@ package org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.event;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
 public interface LightSensorTypeListener {
 

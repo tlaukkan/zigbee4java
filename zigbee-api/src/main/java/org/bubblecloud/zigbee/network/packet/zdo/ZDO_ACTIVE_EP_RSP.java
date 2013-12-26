@@ -57,7 +57,7 @@ public class ZDO_ACTIVE_EP_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
     /// <name>TI.ZPI1.ZDO_ACTIVE_EP_RSP.Status</name>
     /// <summary>this field indicates either SUCCESS or FAILURE</summary>
     public int Status;
-	private byte[] list;
+    private byte[] list;
 
     /// <name>TI.ZPI1.ZDO_ACTIVE_EP_RSP</name>
     /// <summary>Constructor</summary>
@@ -66,29 +66,29 @@ public class ZDO_ACTIVE_EP_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
     }
 
     public ZDO_ACTIVE_EP_RSP(int[] framedata) {
-        this.SrcAddress=new ZToolAddress16(framedata[1],framedata[0]);
+        this.SrcAddress = new ZToolAddress16(framedata[1], framedata[0]);
         this.Status = framedata[2];
-        this.nwkAddr=new ZToolAddress16(framedata[4],framedata[3]);
-        
+        this.nwkAddr = new ZToolAddress16(framedata[4], framedata[3]);
+
         this.ActiveEndpointCount = framedata[5];
-        this.ActiveEndpointList=new int[this.ActiveEndpointCount];
+        this.ActiveEndpointList = new int[this.ActiveEndpointCount];
         for (int i = 0; i < this.ActiveEndpointList.length; i++) {
-            this.ActiveEndpointList[i] = framedata[i+6];
+            this.ActiveEndpointList[i] = framedata[i + 6];
         }
-        
+
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_ACTIVE_EP_RSP), framedata);
     }
 
-    
-	public byte[] getActiveEndPointList() {
-		if( list == null ) {
-			list = new byte[super.packet[ZToolPacket.PAYLOAD_START_INDEX + 5]];
-			for (int i = 0; i < list.length; i++) {
-				list[i] = (byte) super.packet[ZToolPacket.PAYLOAD_START_INDEX + 6 + i];
-			}
-		}
-		return list;
-	}
+
+    public byte[] getActiveEndPointList() {
+        if (list == null) {
+            list = new byte[super.packet[ZToolPacket.PAYLOAD_START_INDEX + 5]];
+            for (int i = 0; i < list.length; i++) {
+                list[i] = (byte) super.packet[ZToolPacket.PAYLOAD_START_INDEX + 6 + i];
+            }
+        }
+        return list;
+    }
 
     @Override
     public String toString() {

@@ -25,32 +25,31 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.global.write;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.proxy.cluster.api.global.WriteAttributeRecord;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class WriteAttributeRecordImpl implements WriteAttributeRecord {
 
-	private Attribute attribute;
-	private Object value;
+    private Attribute attribute;
+    private Object value;
 
-	public WriteAttributeRecordImpl(Attribute attribute, Object value) {
-		this.attribute = attribute;
-		this.value = value;
-	}
+    public WriteAttributeRecordImpl(Attribute attribute, Object value) {
+        this.attribute = attribute;
+        this.value = value;
+    }
 
-	public Object getAttributeData() {
-		return value;
-	}
+    public Object getAttributeData() {
+        return value;
+    }
 
-	public ZigBeeType getAttributeDataType() {
-		return attribute.getZigBeeType();
-	}
+    public ZigBeeType getAttributeDataType() {
+        return attribute.getZigBeeType();
+    }
 
-	public int getAttributeId() {
-		return attribute.getId();
-	}
+    public int getAttributeId() {
+        return attribute.getId();
+    }
 }

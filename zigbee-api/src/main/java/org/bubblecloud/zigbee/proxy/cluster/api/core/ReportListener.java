@@ -25,20 +25,18 @@ package org.bubblecloud.zigbee.proxy.cluster.api.core;
 import java.util.Dictionary;
 
 /**
- *
  * This class represent interface that must be implemented to be reported by driver,
- * according to the {@link Subscription} where this object is added to. 
- * 
+ * according to the {@link Subscription} where this object is added to.
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface ReportListener {
-	
-	/**
-	 *  This is the method invoked by the driver when a report arrives
-	 */
-	public void receivedReport( Dictionary<Attribute, Object> reports);
+
+    /**
+     * This is the method invoked by the driver when a report arrives
+     */
+    public void receivedReport(Dictionary<Attribute, Object> reports);
 }

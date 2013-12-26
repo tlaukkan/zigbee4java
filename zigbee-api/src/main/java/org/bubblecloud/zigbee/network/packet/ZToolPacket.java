@@ -34,26 +34,24 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.util.Integers;
 
 /**
- * 
  * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ZToolPacket {
 
-    public final static int PAYLOAD_START_INDEX = 4;	
-	
+    public final static int PAYLOAD_START_INDEX = 4;
+
     public enum CommandType {
-	POLL,SREQ,AREQ,SRSP
+        POLL, SREQ, AREQ, SRSP
     }
 
     public enum CommandSubsystem {
-	RESERVED_0, SYS, RESERVED_1, RESERVED_2, AF, ZDO, ZB
+        RESERVED_0, SYS, RESERVED_1, RESERVED_2, AF, ZDO, ZB
     }
-    
-    
+
+
     //private final static Logger log = Logger.getLogger(ZToolPacket.class);
     public final static int START_BYTE = 0xFE;
     protected int[] packet;
@@ -64,17 +62,16 @@ public class ZToolPacket {
     private String errorMsg;
     private CommandType type = null;
     private CommandSubsystem subsystem = null;
-    
+
     /**
      * I started off using bytes but quickly realized that java bytes are signed, so effectively only 7 bits.
      * We should be able to use int instead.
-     * 
-     * 
+     *
      * @param data
      */    //PROTECTED?
     public ZToolPacket() {
     }
-    
+
     //PROTECTED?
     public ZToolPacket(DoubleByte ApiId, int[] frameData) {
         this.buildPacket(ApiId, frameData);
@@ -101,8 +98,8 @@ public class ZToolPacket {
         this.CMD = ApiId;
         //data
         for (int i = 0; i < frameData.length; i++) {
-            if ( ! ByteUtils.isByteValue( frameData[i] ) ) {
-                throw new RuntimeException("Value is greater than one byte: " + frameData[i] +" ("+ Integer.toHexString( frameData[i] ) + ")");
+            if (!ByteUtils.isByteValue(frameData[i])) {
+                throw new RuntimeException("Value is greater than one byte: " + frameData[i] + " (" + Integer.toHexString(frameData[i]) + ")");
             }
             packet[PAYLOAD_START_INDEX + i] = frameData[i];
             checksum.addByte(packet[PAYLOAD_START_INDEX + i]);
@@ -113,20 +110,20 @@ public class ZToolPacket {
         packet[packet.length - 1] = this.FCS;
 
     }
-       
-    public CommandType getCommandType(){
-	if ( type != null ) return type;
-	type = CommandType.values()[(packet[2] & 0x60)>>5];
-	return type;
+
+    public CommandType getCommandType() {
+        if (type != null) return type;
+        type = CommandType.values()[(packet[2] & 0x60) >> 5];
+        return type;
     }
 
-    public CommandSubsystem getCommandSubsystem(){
-	if ( subsystem != null ) return subsystem;
-	subsystem = CommandSubsystem.values()[packet[2] & 0x1F];
-	return subsystem;
+    public CommandSubsystem getCommandSubsystem() {
+        if (subsystem != null) return subsystem;
+        subsystem = CommandSubsystem.values()[packet[2] & 0x1F];
+        return subsystem;
     }
-    
-    
+
+
     public int[] getPacket() {
         return packet;
     }
@@ -138,9 +135,9 @@ public class ZToolPacket {
     public DoubleByte getCMD() {
         return this.CMD;
     }
-    
-    public short getCommandId(){    
-    	return  Integers.shortFromInts(packet, 2, 3); 
+
+    public short getCommandId() {
+        return Integers.shortFromInts(packet, 2, 3);
     }
 
     public int getFCS() {

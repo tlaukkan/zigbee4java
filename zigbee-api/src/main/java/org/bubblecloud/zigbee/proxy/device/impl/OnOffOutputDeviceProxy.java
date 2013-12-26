@@ -33,13 +33,10 @@ import org.bubblecloud.zigbee.proxy.device.api.lighting.OnOffLight;
 import org.bubblecloud.zigbee.proxy.ProxyConstants;
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- *
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.2.0
- *
  */
 public class OnOffOutputDeviceProxy extends DeviceProxyBase implements OnOffOutput {
 
@@ -48,7 +45,7 @@ public class OnOffOutputDeviceProxy extends DeviceProxyBase implements OnOffOutp
     private Groups groups;
 
     public OnOffOutputDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
-        super(ctx,zbDevice);
+        super(ctx, zbDevice);
         onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);
         groups = (Groups) getCluster(ProxyConstants.GROUPS);
         scenes = (Scenes) getCluster(ProxyConstants.SCENES);
@@ -68,13 +65,12 @@ public class OnOffOutputDeviceProxy extends DeviceProxyBase implements OnOffOutp
     }
 
 
-
     @Override
     public String getName() {
         return OnOffOutput.NAME;
     }
 
-    public final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
+    public final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
 
         public int[] getCustomClusters() {
             return OnOffLight.CUSTOM;

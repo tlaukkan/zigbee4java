@@ -25,22 +25,22 @@ package org.bubblecloud.zigbee.proxy.cluster.api.general.scenes;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 
 /**
- * 
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface ExtensionFieldSetAddScene {
-	//TODO This signatures of this interface has to be confirmed by practical experiment
-	
-	public int getClusterId();
-	public Attribute[] getAttributes(int clusterId);
-	public Object getValue(Attribute attribute);
-	public int getLength(); 
-	
+    //TODO This signatures of this interface has to be confirmed by practical experiment
+
+    public int getClusterId();
+
+    public Attribute[] getAttributes(int clusterId);
+
+    public Object getValue(Attribute attribute);
+
+    public int getLength();
+
 	
 	
 	/*
@@ -48,7 +48,6 @@ public interface ExtensionFieldSetAddScene {
 	public int[] getAttributes(int clusterId);
 	public Object getValue(int clusterId, int attributeId);
 	*/
-	
-	
-	
+
+
 }

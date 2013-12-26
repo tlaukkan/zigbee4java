@@ -39,7 +39,9 @@ import java.util.Map;
  * @author <a href="mailto:tommmi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
 public class ZDO_MGMT_NWK_UPDATE_REQ_SRSP extends ZToolPacket {
-    /** The logger. */
+    /**
+     * The logger.
+     */
     private final static Logger logger = LoggerFactory.getLogger(ZDO_MGMT_NWK_UPDATE_REQ_SRSP.class);
 
     public int Status;

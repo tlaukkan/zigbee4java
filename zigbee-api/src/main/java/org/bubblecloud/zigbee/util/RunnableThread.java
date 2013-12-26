@@ -27,9 +27,8 @@ package org.bubblecloud.zigbee.util;
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
- *
  */
-public abstract class RunnableThread implements Stoppable,Threaded {
+public abstract class RunnableThread implements Stoppable, Threaded {
 
     private final Object threadLock = new Object();
     private boolean done = false;
@@ -37,36 +36,36 @@ public abstract class RunnableThread implements Stoppable,Threaded {
     private Thread executor = null;
 
     public Thread getExecutorThread() {
-        synchronized ( threadLock ) {
+        synchronized (threadLock) {
             return executor;
         }
     }
 
-    public void end(){
-        synchronized ( threadLock ) {
+    public void end() {
+        synchronized (threadLock) {
             done = true;
         }
     }
 
     protected boolean isDone() {
-        synchronized ( threadLock ) {
+        synchronized (threadLock) {
             return done;
         }
     }
 
-    public void run(){
-        synchronized ( threadLock ) {
+    public void run() {
+        synchronized (threadLock) {
             executor = Thread.currentThread();
         }
         task();
-        synchronized ( threadLock ) {
+        synchronized (threadLock) {
             executor = null;
         }
     }
 
     public void interrupt() {
-        synchronized ( threadLock ) {
-            if ( executor == null ) return;
+        synchronized (threadLock) {
+            if (executor == null) return;
             executor.interrupt();
         }
     }

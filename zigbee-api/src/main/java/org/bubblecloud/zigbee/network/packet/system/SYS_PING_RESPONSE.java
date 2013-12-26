@@ -28,7 +28,6 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -51,9 +50,9 @@ public class SYS_PING_RESPONSE extends ZToolPacket /*implements IRESPONSE,ISYSTE
 
         super.buildPacket(new DoubleByte(ZToolCMD.SYS_PING_RESPONSE), framedata);
     }
-    
+
     public SYS_PING_RESPONSE(int[] framedata) {
-         this.Capabilities= new DoubleByte(framedata[1],framedata[0]).get16BitValue();
+        this.Capabilities = new DoubleByte(framedata[1], framedata[0]).get16BitValue();
 
         super.buildPacket(new DoubleByte(ZToolCMD.SYS_PING_RESPONSE), framedata);
     }
@@ -61,35 +60,35 @@ public class SYS_PING_RESPONSE extends ZToolPacket /*implements IRESPONSE,ISYSTE
     /// <name>TI.ZPI1.SYS_PING_RESPONSE.CAPABILITIES</name>
     /// <summary>Capabilities bitfield</summary>
     public class CAPABILITIES {
-            /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_AF</name>
-            /// <summary>Capabilities bitfield</summary>
-            public static final int MT_CAP_AF = 8;
-            /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_APP</name>
-            /// <summary>Capabilities bitfield</summary>
-            public static final int MT_CAP_APP = 0x100;
-            /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_DEBUG</name>
-            /// <summary>Capabilities bitfield</summary>
-            public static final int MT_CAP_DEBUG = 0x80;
-            /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_MAC</name>
-            /// <summary>Capabilities bitfield</summary>
-            public static final int MT_CAP_MAC = 2;
-            /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_NWK</name>
-            /// <summary>Capabilities bitfield</summary>
-            public static final int MT_CAP_NWK = 4;
-            /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_SAPI</name>
-            /// <summary>Capabilities bitfield</summary>
-            public static final int MT_CAP_SAPI = 0x20;
-            /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_SYS</name>
-            /// <summary>Capabilities bitfield</summary>
-            public static final int MT_CAP_SYS = 1;
-            /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_UTIL</name>
-            /// <summary>Capabilities bitfield</summary>
-            public static final int MT_CAP_UTIL = 0x40;
-            /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_ZDO</name>
-            /// <summary>Capabilities bitfield</summary>
-            public static final int MT_CAP_ZDO = 0x10;
-            /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.NONE</name>
-            /// <summary>Capabilities bitfield</summary>
-            public static final int NONE = 0;
-        }
+        /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_AF</name>
+        /// <summary>Capabilities bitfield</summary>
+        public static final int MT_CAP_AF = 8;
+        /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_APP</name>
+        /// <summary>Capabilities bitfield</summary>
+        public static final int MT_CAP_APP = 0x100;
+        /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_DEBUG</name>
+        /// <summary>Capabilities bitfield</summary>
+        public static final int MT_CAP_DEBUG = 0x80;
+        /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_MAC</name>
+        /// <summary>Capabilities bitfield</summary>
+        public static final int MT_CAP_MAC = 2;
+        /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_NWK</name>
+        /// <summary>Capabilities bitfield</summary>
+        public static final int MT_CAP_NWK = 4;
+        /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_SAPI</name>
+        /// <summary>Capabilities bitfield</summary>
+        public static final int MT_CAP_SAPI = 0x20;
+        /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_SYS</name>
+        /// <summary>Capabilities bitfield</summary>
+        public static final int MT_CAP_SYS = 1;
+        /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_UTIL</name>
+        /// <summary>Capabilities bitfield</summary>
+        public static final int MT_CAP_UTIL = 0x40;
+        /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.MT_CAP_ZDO</name>
+        /// <summary>Capabilities bitfield</summary>
+        public static final int MT_CAP_ZDO = 0x10;
+        /// <name>TI.ZPI2.SYS_PING_RESPONSE.CAPABILITIES.NONE</name>
+        /// <summary>Capabilities bitfield</summary>
+        public static final int NONE = 0;
+    }
 }

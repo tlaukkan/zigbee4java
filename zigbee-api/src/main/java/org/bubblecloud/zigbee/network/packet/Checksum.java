@@ -30,57 +30,54 @@
 package org.bubblecloud.zigbee.network.packet;
 
 /**
- * 
  * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class Checksum {
-	
-	//private final static Logger log = Logger.getLogger(Checksum.class);
-	
-	public int checksum = 0;
-	
-	/**
-	 * Don't add Checksum byte when computing checksum!!
-	 * 
-	 * @param val
-	 */
-	public void addByte(int val) {
-		//checksum+= val;
-		checksum = checksum ^ val;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public void compute() {
-		
-		// discard values > 1 byte
-		//checksum = 0xff & checksum;
-		// perform 2s complement
-		//checksum = 0xff - checksum;
-		
-		//log.debug("computed checksum is " + ByteUtils.formatByte(checksum));
-	}
-	
-	/**
-	 * First add all relevant bytes, including checksum
-	 * 
-	 * @return
-	 */
-	public boolean verify() {
-		checksum = checksum & 0xff;
-		//log.debug("verify checksum is " + checksum);
-		return 0xff == checksum;
-	}
-	
-	public int getChecksum() {
-		return checksum;
-	}
-	
+
+    //private final static Logger log = Logger.getLogger(Checksum.class);
+
+    public int checksum = 0;
+
+    /**
+     * Don't add Checksum byte when computing checksum!!
+     *
+     * @param val
+     */
+    public void addByte(int val) {
+        //checksum+= val;
+        checksum = checksum ^ val;
+    }
+
+    /**
+     * @return
+     */
+    public void compute() {
+
+        // discard values > 1 byte
+        //checksum = 0xff & checksum;
+        // perform 2s complement
+        //checksum = 0xff - checksum;
+
+        //log.debug("computed checksum is " + ByteUtils.formatByte(checksum));
+    }
+
+    /**
+     * First add all relevant bytes, including checksum
+     *
+     * @return
+     */
+    public boolean verify() {
+        checksum = checksum & 0xff;
+        //log.debug("verify checksum is " + checksum);
+        return 0xff == checksum;
+    }
+
+    public int getChecksum() {
+        return checksum;
+    }
+
 	/*public static void main(String[] args) {
 		//83 56 78 24 00 01 02 00 03 ff 85
 		Checksum ck = new Checksum();

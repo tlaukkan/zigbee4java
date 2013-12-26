@@ -24,67 +24,65 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.general.scenes;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
+
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.ExtensionFieldSetAddScene;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ExtensionFieldSetAddSceneImpl implements ExtensionFieldSetAddScene {
 
-	
-	private int clusterId;
-	private Attribute[] attributes;
-	Hashtable<Attribute, Object> set;
-	Attribute attribute;
-	ZBDeserializer deserializer;
-	boolean endSet;
-	
-	
-	public boolean endSet(){
-		return endSet;
-	}
-	
-	public ExtensionFieldSetAddSceneImpl(int clusterId){
-		this.clusterId = clusterId;
-	}
-	
-	public void setAttribute(Attribute attribute, Object value){
-		set.put(attribute, value);
-	}
-	
-	
-	public Attribute[] getAttributes(int clusterId) {
-		Enumeration<Attribute> attribute = set.keys();
-		int i = 0;
-		while(attribute.hasMoreElements())
-		{
-			attributes[i] = attribute.nextElement();
-			i++;
-		}	
-		return attributes;
-	}
 
-	public int getClusterId() {
-		return clusterId;
-	}
+    private int clusterId;
+    private Attribute[] attributes;
+    Hashtable<Attribute, Object> set;
+    Attribute attribute;
+    ZBDeserializer deserializer;
+    boolean endSet;
 
-	public Object getValue(Attribute attributeId) {
-		return set.get(attributeId);
-	}
-	
-	
-	public int getLength(){
-		int length = 5; // 4 for ClusterId e 1 for length?
-		for (int i = 0; i < attributes.length; i++) {
-			length = length + 4 + attributes[i].getZigBeeType().getLength();
-		}
-		return length ;
-	}
+
+    public boolean endSet() {
+        return endSet;
+    }
+
+    public ExtensionFieldSetAddSceneImpl(int clusterId) {
+        this.clusterId = clusterId;
+    }
+
+    public void setAttribute(Attribute attribute, Object value) {
+        set.put(attribute, value);
+    }
+
+
+    public Attribute[] getAttributes(int clusterId) {
+        Enumeration<Attribute> attribute = set.keys();
+        int i = 0;
+        while (attribute.hasMoreElements()) {
+            attributes[i] = attribute.nextElement();
+            i++;
+        }
+        return attributes;
+    }
+
+    public int getClusterId() {
+        return clusterId;
+    }
+
+    public Object getValue(Attribute attributeId) {
+        return set.get(attributeId);
+    }
+
+
+    public int getLength() {
+        int length = 5; // 4 for ClusterId e 1 for length?
+        for (int i = 0; i < attributes.length; i++) {
+            length = length + 4 + attributes[i].getZigBeeType().getLength();
+        }
+        return length;
+    }
 
 }

@@ -29,7 +29,6 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -56,7 +55,7 @@ public class ZDO_NWK_ADDR_REQ extends ZToolPacket /*implements IREQUEST,IZDO*/ {
 
         int[] framedata = new int[10];
         for (int i = 0; i < 8; i++) {
-            framedata[i] = this.IEEEAddress.getAddress()[7-i];
+            framedata[i] = this.IEEEAddress.getAddress()[7 - i];
         }
         framedata[8] = this.ReqType;
         framedata[9] = this.StartIndex;

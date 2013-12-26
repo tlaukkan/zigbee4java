@@ -39,7 +39,7 @@ public class ZoneInformationResponseImpl extends ResponseImpl implements ZoneInf
 
         ResponseImpl.checkSpecificCommandFrame(response, ID);
 
-        ZBDeserializer deserializer = new DefaultDeserializer(getPayload(),0);
+        ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);
         zoneID = deserializer.read_int();
         zoneType = deserializer.readShort();
         IEEEaddress = deserializer.readString();

@@ -34,21 +34,21 @@ public class ZoneIDMapResponseImpl extends ResponseImpl implements ZoneIDMapResp
 
     private ZoneTable zonesID;
 
-    public ZoneIDMapResponseImpl(Response response) throws ZigBeeClusterException{
+    public ZoneIDMapResponseImpl(Response response) throws ZigBeeClusterException {
         super(response);
 
         ResponseImpl.checkSpecificCommandFrame(response, ID);
 
-        ZBDeserializer deserializer = new DefaultDeserializer(getPayload(),0);
+        ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);
 
         zonesID = new ZoneTableImpl();
-        for(int i = 0; i < 16; i++)
+        for (int i = 0; i < 16; i++)
             zonesID.addZone(new Short(deserializer.read_short()), null, null);
     }
 
-    public Zone[] getZonesID(){
+    public Zone[] getZonesID() {
         Zone[] zones = new Zone[zonesID.getZoneTable().length];
-        for(int i = 0; i < zonesID.getZoneTable().length; i++)
+        for (int i = 0; i < zonesID.getZoneTable().length; i++)
             zones[i] = zonesID.getZoneTable()[i];
 
         return zones;

@@ -27,62 +27,61 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.proxy.cluster.api.global.ReadAttributesStatus;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.AttributeDescriptor;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ReadAttributeStatusImpl implements ReadAttributesStatus {
 
-	private byte status;
-	
-	private int attributeId;
-	
-	private byte dataType;
-	
-	@SuppressWarnings("unchecked")
-	private Class clazz;
-	
-	private Object data;
+    private byte status;
 
-	public ReadAttributeStatusImpl(
-			AttributeDescriptor descriptor, ZBDeserializer deserializer) {
+    private int attributeId;
 
-		attributeId = deserializer.read_short();			
-		status = deserializer.read_byte();
-		if (Status.getStatus(status).equals(Status.SUCCESS)) {
-			dataType = deserializer.read_byte();
-			final ZigBeeType type = ZigBeeType.getType(dataType);  
-			clazz = type.getJavaClass();
-			data = deserializer.readZigBeeType(type);
-		}
-		
-		// TODO Attribute Check
-		// indeed the order could be different, so we should receive all the list
-		// and in any case we could also avoid to throw an Exception
+    private byte dataType;
 
-	}
+    @SuppressWarnings("unchecked")
+    private Class clazz;
 
-	public Object getAttributeData() {
-		return data;
-	}
+    private Object data;
 
-	public byte getAttributeDataType() {
-		return dataType;
-	}
+    public ReadAttributeStatusImpl(
+            AttributeDescriptor descriptor, ZBDeserializer deserializer) {
 
-	public int getAttributeId() {
-		return attributeId;
-	}
+        attributeId = deserializer.read_short();
+        status = deserializer.read_byte();
+        if (Status.getStatus(status).equals(Status.SUCCESS)) {
+            dataType = deserializer.read_byte();
+            final ZigBeeType type = ZigBeeType.getType(dataType);
+            clazz = type.getJavaClass();
+            data = deserializer.readZigBeeType(type);
+        }
 
-	public byte getStatus() {
-		return status;
-	}
+        // TODO Attribute Check
+        // indeed the order could be different, so we should receive all the list
+        // and in any case we could also avoid to throw an Exception
 
-	@SuppressWarnings("unchecked")
-	public Class getDataClass(){
-		return clazz;
-	}
+    }
+
+    public Object getAttributeData() {
+        return data;
+    }
+
+    public byte getAttributeDataType() {
+        return dataType;
+    }
+
+    public int getAttributeId() {
+        return attributeId;
+    }
+
+    public byte getStatus() {
+        return status;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Class getDataClass() {
+        return clazz;
+    }
 }

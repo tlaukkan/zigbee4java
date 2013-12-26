@@ -29,17 +29,19 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
 public interface IlluminanceMeasurement extends Cluster {
 
     public Attribute getMeasuredValue();
+
     public Attribute getMinMeasuredValue();
+
     public Attribute getMaxMeasuredValue();
+
     public Attribute getTolerance();
+
     public Attribute getLightSensorType();
 
     public boolean subscribe(MeasuredValueListener tl);

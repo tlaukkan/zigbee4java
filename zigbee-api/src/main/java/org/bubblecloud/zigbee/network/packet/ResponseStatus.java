@@ -110,7 +110,9 @@ public enum ResponseStatus {
     Z_MAC_UNSUPPORTED(0xf5),
     Z_MAC_SRC_MATCH_INVALID_INDEX(0xff);
 
-    /** The logger. */
+    /**
+     * The logger.
+     */
     private final static Logger logger = LoggerFactory.getLogger(ResponseStatus.class);
 
     private static Map<Integer, ResponseStatus> mapping = new HashMap<Integer, ResponseStatus>();

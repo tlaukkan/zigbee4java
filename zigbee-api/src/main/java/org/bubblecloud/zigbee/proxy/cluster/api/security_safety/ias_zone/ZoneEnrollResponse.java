@@ -23,19 +23,18 @@
 package org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone;
 
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public interface ZoneEnrollResponse extends Response {
 
-	public static final byte ID = 0x00;
-	
-	public int getEnrollResponseCode();
-	
-	public int getZoneID();
+    public static final byte ID = 0x00;
+
+    public int getEnrollResponseCode();
+
+    public int getZoneID();
 }

@@ -31,18 +31,22 @@ import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_ace.ZoneInfo
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
 public interface IASACE extends Cluster {
 
     public Response arm(byte armMode) throws ZigBeeHAException;
+
     public void bypass(BypassPayload payload) throws ZigBeeHAException;
+
     public void emergency() throws ZigBeeHAException;
+
     public void fire() throws ZigBeeHAException;
+
     public void panic() throws ZigBeeHAException;
+
     public ZoneIDMapResponse getZoneIdMap() throws ZigBeeHAException;
+
     public ZoneInformationResponse getZoneInformation(int zoneID) throws ZigBeeHAException;
 }

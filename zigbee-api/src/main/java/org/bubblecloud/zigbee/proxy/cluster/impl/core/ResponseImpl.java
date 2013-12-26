@@ -30,28 +30,27 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLHeader;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.proxy.cluster.api.global.DefaultResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.global.DefaultResponseImpl;
+
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ResponseImpl implements Response {
 
     protected ZCLHeader header;
     private byte[] payload;
 
-    public ResponseImpl(ClusterMessage clusterMessage, short expectedClusterId) throws ZigBeeClusterException{
-        if (expectedClusterId != clusterMessage.getId()){
-            throw new ZigBeeClusterException("Expected Response for cluster Id: " + expectedClusterId + " but received message for cluster Id: "+ clusterMessage.getId());
+    public ResponseImpl(ClusterMessage clusterMessage, short expectedClusterId) throws ZigBeeClusterException {
+        if (expectedClusterId != clusterMessage.getId()) {
+            throw new ZigBeeClusterException("Expected Response for cluster Id: " + expectedClusterId + " but received message for cluster Id: " + clusterMessage.getId());
         }
         ZCLFrame frame = new ZCLFrame(clusterMessage);
         header = frame.getHeader();
         payload = frame.getPayload();
     }
 
-    public ResponseImpl(Response response){
+    public ResponseImpl(Response response) {
         header = response.getZCLHeader();
         payload = response.getPayload();
     }
@@ -88,54 +87,54 @@ public class ResponseImpl implements Response {
         return payload;
     }
 
-    public static String toString(Response r){
+    public static String toString(Response r) {
         return
-        "[ ZCL Header: " + ByteUtils.toBase16( r.getZCLHeader().toByte() )
-                + ", ZCL Payload: " + ByteUtils.toBase16(r.getPayload())
-        + "]";
+                "[ ZCL Header: " + ByteUtils.toBase16(r.getZCLHeader().toByte())
+                        + ", ZCL Payload: " + ByteUtils.toBase16(r.getPayload())
+                        + "]";
     }
 
-    public String toString(){
+    public String toString() {
         return toString(this);
     }
 
-    public static void checkSpecificCommandFrame(Response response, byte expectedCommandId) throws ZigBeeClusterException{
+    public static void checkSpecificCommandFrame(Response response, byte expectedCommandId) throws ZigBeeClusterException {
         byte commandId = response.getHeaderCommandId();
         if (commandId != expectedCommandId) {
-            if (commandId == DefaultResponse.ID){
-                DefaultResponse  defaultResponse = new DefaultResponseImpl(response);
+            if (commandId == DefaultResponse.ID) {
+                DefaultResponse defaultResponse = new DefaultResponseImpl(response);
                 throw new ZigBeeClusterException(
-                        "Expected SpecificCommandFrame ("+ expectedCommandId +") but received a DefaultResponse"
-                        + "\nSTATUS:" +defaultResponse.getStatus() +" CMD:"+ defaultResponse.getCommandId()
-                        ,response);
+                        "Expected SpecificCommandFrame (" + expectedCommandId + ") but received a DefaultResponse"
+                                + "\nSTATUS:" + defaultResponse.getStatus() + " CMD:" + defaultResponse.getCommandId()
+                        , response);
             }
             throw new ZigBeeClusterException(
-                "Expected SpecificCommandFrame (" + expectedCommandId +") but Received:"
-                    + commandId + " ZCLFrame was " + toString(response),
-                response
+                    "Expected SpecificCommandFrame (" + expectedCommandId + ") but Received:"
+                            + commandId + " ZCLFrame was " + toString(response),
+                    response
             );
         }
 
     }
 
-    public static void checkGeneralCommandFrame(Response response, byte expectedCommandId) throws ZigBeeClusterException{
-        if (response.getZCLHeader().getFramecontrol().isClusterSpecificCommand()){
+    public static void checkGeneralCommandFrame(Response response, byte expectedCommandId) throws ZigBeeClusterException {
+        if (response.getZCLHeader().getFramecontrol().isClusterSpecificCommand()) {
             throw new ZigBeeClusterException(
                     "Received response is not a General Command Frame !");
         }
 
         byte commandId = response.getHeaderCommandId();
         if (commandId != expectedCommandId) {
-            if (commandId == DefaultResponse.ID){
-                DefaultResponse  defaultResponse = new DefaultResponseImpl(response);
+            if (commandId == DefaultResponse.ID) {
+                DefaultResponse defaultResponse = new DefaultResponseImpl(response);
                 throw new ZigBeeClusterException(
-                        "Expected GeneralCommandFrame ("+ expectedCommandId +") but received a DefaultResponse"
-                        + "\nSTATUS:" +defaultResponse.getStatus() +" CMD:"+ defaultResponse.getCommandId()
-                        ,response);
+                        "Expected GeneralCommandFrame (" + expectedCommandId + ") but received a DefaultResponse"
+                                + "\nSTATUS:" + defaultResponse.getStatus() + " CMD:" + defaultResponse.getCommandId()
+                        , response);
             }
             throw new ZigBeeClusterException(
-                    "Expected GeneralCommandFrame ("+ expectedCommandId +") but received:" +commandId
-                    ,response);
+                    "Expected GeneralCommandFrame (" + expectedCommandId + ") but received:" + commandId
+                    , response);
         }
 
     }

@@ -90,22 +90,22 @@ public class ZDO_MGMT_NWK_UPDATE_REQ extends ZToolPacket {
     }
 
     public static final int CHANNEL_MASK_NONE = 0x00000000;
-    public static final int CHANNEL_MASK_ALL =  0x07FFF800;
-    public static final int CHANNEL_MASK_11 =   0x00000800;
-    public static final int CHANNEL_MASK_12 =   0x00001000;
-    public static final int CHANNEL_MASK_13 =   0x00002000;
-    public static final int CHANNEL_MASK_14 =   0x00004000;
-    public static final int CHANNEL_MASK_15 =   0x00008000;
-    public static final int CHANNEL_MASK_16 =   0x00010000;
-    public static final int CHANNEL_MASK_17 =   0x00020000;
-    public static final int CHANNEL_MASK_18 =   0x00040000;
-    public static final int CHANNEL_MASK_19 =   0x00080000;
-    public static final int CHANNEL_MASK_20 =   0x00100000;
-    public static final int CHANNEL_MASK_21 =   0x00200000;
-    public static final int CHANNEL_MASK_22 =   0x00400000;
-    public static final int CHANNEL_MASK_23 =   0x00800000;
-    public static final int CHANNEL_MASK_24 =   0x01000000;
-    public static final int CHANNEL_MASK_25 =   0x02000000;
-    public static final int CHANNEL_MASK_26 =   0x04000000;
+    public static final int CHANNEL_MASK_ALL = 0x07FFF800;
+    public static final int CHANNEL_MASK_11 = 0x00000800;
+    public static final int CHANNEL_MASK_12 = 0x00001000;
+    public static final int CHANNEL_MASK_13 = 0x00002000;
+    public static final int CHANNEL_MASK_14 = 0x00004000;
+    public static final int CHANNEL_MASK_15 = 0x00008000;
+    public static final int CHANNEL_MASK_16 = 0x00010000;
+    public static final int CHANNEL_MASK_17 = 0x00020000;
+    public static final int CHANNEL_MASK_18 = 0x00040000;
+    public static final int CHANNEL_MASK_19 = 0x00080000;
+    public static final int CHANNEL_MASK_20 = 0x00100000;
+    public static final int CHANNEL_MASK_21 = 0x00200000;
+    public static final int CHANNEL_MASK_22 = 0x00400000;
+    public static final int CHANNEL_MASK_23 = 0x00800000;
+    public static final int CHANNEL_MASK_24 = 0x01000000;
+    public static final int CHANNEL_MASK_25 = 0x02000000;
+    public static final int CHANNEL_MASK_26 = 0x04000000;
 
 }

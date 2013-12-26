@@ -27,37 +27,34 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class ZB_FIND_DEVICE_CONFIRM extends ZToolPacket /*implements IRESPONSE_CALLBACK,ISIMPLEAPI*/{
+public class ZB_FIND_DEVICE_CONFIRM extends ZToolPacket /*implements IRESPONSE_CALLBACK,ISIMPLEAPI*/ {
     /// <name>TI.ZPI2.ZB_FIND_DEVICE_CONFIRM.Result</name>
-        /// <summary>The 64-bit IEEE address of device that was searched for.</summary>
-        public int[] Result;
-        /// <name>TI.ZPI2.ZB_FIND_DEVICE_CONFIRM.SearchKey</name>
-        /// <summary>The 16-bit short address of the device that was found.</summary>
-        public DoubleByte SearchKey;
-        /// <name>TI.ZPI2.ZB_FIND_DEVICE_CONFIRM.SearchType</name>
-        /// <summary>The type of search that was performed.</summary>
-        public int SearchType;
+    /// <summary>The 64-bit IEEE address of device that was searched for.</summary>
+    public int[] Result;
+    /// <name>TI.ZPI2.ZB_FIND_DEVICE_CONFIRM.SearchKey</name>
+    /// <summary>The 16-bit short address of the device that was found.</summary>
+    public DoubleByte SearchKey;
+    /// <name>TI.ZPI2.ZB_FIND_DEVICE_CONFIRM.SearchType</name>
+    /// <summary>The type of search that was performed.</summary>
+    public int SearchType;
 
-        /// <name>TI.ZPI2.ZB_FIND_DEVICE_CONFIRM</name>
-        /// <summary>Constructor</summary>
-        public ZB_FIND_DEVICE_CONFIRM()
-        {
-        }
+    /// <name>TI.ZPI2.ZB_FIND_DEVICE_CONFIRM</name>
+    /// <summary>Constructor</summary>
+    public ZB_FIND_DEVICE_CONFIRM() {
+    }
 
-        /// <name>TI.ZPI2.ZB_FIND_DEVICE_CONFIRM</name>
-        /// <summary>Constructor</summary>
-        public ZB_FIND_DEVICE_CONFIRM(int[] framedata)
-        {
-            this.SearchType = framedata[0];
-            this.SearchKey = new DoubleByte(framedata[2],framedata[1]);
-            this.Result = new int[8];
-            for(int i=0; i<8;i++){
-                this.Result[i]=framedata[i+3];
-            }
+    /// <name>TI.ZPI2.ZB_FIND_DEVICE_CONFIRM</name>
+    /// <summary>Constructor</summary>
+    public ZB_FIND_DEVICE_CONFIRM(int[] framedata) {
+        this.SearchType = framedata[0];
+        this.SearchKey = new DoubleByte(framedata[2], framedata[1]);
+        this.Result = new int[8];
+        for (int i = 0; i < 8; i++) {
+            this.Result[i] = framedata[i + 3];
         }
+    }
 
 }

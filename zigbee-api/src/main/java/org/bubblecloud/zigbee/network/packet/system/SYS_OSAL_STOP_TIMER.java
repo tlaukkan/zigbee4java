@@ -28,28 +28,25 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class SYS_OSAL_STOP_TIMER extends ZToolPacket/* implements IREQUEST,ISYSTEM*/{
+public class SYS_OSAL_STOP_TIMER extends ZToolPacket/* implements IREQUEST,ISYSTEM*/ {
     /// <name>TI.ZPI2.SYS_OSAL_STOP_TIMER.Id</name>
-        /// <summary>Timer ID: 0-3</summary>
-        public int Id;
+    /// <summary>Timer ID: 0-3</summary>
+    public int Id;
 
-        /// <name>TI.ZPI2.SYS_OSAL_STOP_TIMER</name>
-        /// <summary>Constructor</summary>
-        public SYS_OSAL_STOP_TIMER()
-        {
-        }
+    /// <name>TI.ZPI2.SYS_OSAL_STOP_TIMER</name>
+    /// <summary>Constructor</summary>
+    public SYS_OSAL_STOP_TIMER() {
+    }
 
-        /// <name>TI.ZPI2.SYS_OSAL_STOP_TIMER</name>
-        /// <summary>Constructor</summary>
-        public SYS_OSAL_STOP_TIMER(int num1)
-        {
-            this.Id = num1;
-            int[] framedata={this.Id};
-            super.buildPacket(new DoubleByte(ZToolCMD.SYS_OSAL_STOP_TIMER),framedata);
-        }
+    /// <name>TI.ZPI2.SYS_OSAL_STOP_TIMER</name>
+    /// <summary>Constructor</summary>
+    public SYS_OSAL_STOP_TIMER(int num1) {
+        this.Id = num1;
+        int[] framedata = {this.Id};
+        super.buildPacket(new DoubleByte(ZToolCMD.SYS_OSAL_STOP_TIMER), framedata);
+    }
 
 }

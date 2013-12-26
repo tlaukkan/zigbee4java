@@ -30,26 +30,26 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
 /**
  * This class represent the <b>Identify</b> Cluster as defined by the document:<br>
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
- * @version  $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface Identify extends ZCLCluster {
-	
-	static final short ID = 0x0003;
-	static final String NAME = "Identify";
-	static final String DESCRIPTION = "Attributes and commands for putting a device into Identification mode.";
 
-	static final byte IDENTIFY_ID = 0x00;
-	static final byte IDENTIFY_QUERY_ID = 0x01;
-		
-	
-	public Attribute getAttributeIdentifyTime();
-	
-	public Response identify(int time) throws ZigBeeClusterException;
-	public Response identifyQuery() throws ZigBeeClusterException;	
+    static final short ID = 0x0003;
+    static final String NAME = "Identify";
+    static final String DESCRIPTION = "Attributes and commands for putting a device into Identification mode.";
+
+    static final byte IDENTIFY_ID = 0x00;
+    static final byte IDENTIFY_QUERY_ID = 0x01;
+
+
+    public Attribute getAttributeIdentifyTime();
+
+    public Response identify(int time) throws ZigBeeClusterException;
+
+    public Response identifyQuery() throws ZigBeeClusterException;
 }

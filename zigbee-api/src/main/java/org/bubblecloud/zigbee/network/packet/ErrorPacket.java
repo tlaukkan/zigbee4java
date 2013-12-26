@@ -28,15 +28,13 @@ package org.bubblecloud.zigbee.network.packet;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- * 
  * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ErrorPacket extends ZToolPacket {
 
-	public ErrorPacket() {
-		super(new DoubleByte(),new int[]{});
-	}
+    public ErrorPacket() {
+        super(new DoubleByte(), new int[]{});
+    }
 }

@@ -32,7 +32,7 @@ public class ZoneStatusChangeNotificationResponseImpl extends ResponseImpl imple
     private short zoneStatus;
     private byte extendedStatus;
 
-    public ZoneStatusChangeNotificationResponseImpl(Response response){
+    public ZoneStatusChangeNotificationResponseImpl(Response response) {
         super(response);
 
         ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);

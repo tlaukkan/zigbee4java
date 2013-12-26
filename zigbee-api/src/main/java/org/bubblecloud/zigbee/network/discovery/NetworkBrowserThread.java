@@ -41,12 +41,10 @@ import java.util.HashMap;
 
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class NetworkBrowserThread extends RunnableThread {
 
@@ -66,13 +64,13 @@ public class NetworkBrowserThread extends RunnableThread {
         final int address;
         ZigBeeNodeImpl node = null;
 
-        NetworkAddressNodeItem(NetworkAddressNodeItem parent, int address){
+        NetworkAddressNodeItem(NetworkAddressNodeItem parent, int address) {
             this.parent = parent;
             this.address = address;
         }
 
-        public String toString(){
-            if ( parent != null ) {
+        public String toString() {
+            if (parent != null) {
                 return "<" + parent.address + " / " + parent.node + "," + address + " / " + node + ">";
             } else {
                 return "< NULL ," + address + " / " + node + ">";
@@ -85,31 +83,31 @@ public class NetworkBrowserThread extends RunnableThread {
         this.driver = driver;
     }
 
-    public void task(){
+    public void task() {
         final String threadName = Thread.currentThread().getName();
 
         logger.debug("{} STARTED Succesfully", threadName);
 
-        while( ! isDone() ){
+        while (!isDone()) {
             long wakeUpTime = System.currentTimeMillis() + 15 * 60 * 1000;
             cleanUpWalkingTree();
 
             logger.debug("Inspecting ZigBee network for new nodes.");
-            toInspect.add(new NetworkAddressNodeItem(null, COORDINATOR_NWK_ADDRESS) );
-            try{
-                while(toInspect.size() != 0){
-                    final NetworkAddressNodeItem inspecting = toInspect.remove( toInspect.size()-1 );
+            toInspect.add(new NetworkAddressNodeItem(null, COORDINATOR_NWK_ADDRESS));
+            try {
+                while (toInspect.size() != 0) {
+                    final NetworkAddressNodeItem inspecting = toInspect.remove(toInspect.size() - 1);
 
                     alreadyInspected.put((int) inspecting.address, inspecting);
                     logger.info("Inspecting node #{}.", inspecting.address);
                     ZDO_IEEE_ADDR_RSP result = driver.sendZDOIEEEAddressRequest(
-                            new ZDO_IEEE_ADDR_REQ((short) inspecting.address,ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED,(byte) 0)
+                            new ZDO_IEEE_ADDR_REQ((short) inspecting.address, ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED, (byte) 0)
                     );
 
-                    if( result == null) {
+                    if (result == null) {
                         logger.debug("No answer from #{}.", inspecting.address);
                         continue;
-                    } else if ( result.Status == 0 ){
+                    } else if (result.Status == 0) {
                         logger.info(
                                 "Inspection result from #{} with {} associated nodes.",
                                 inspecting.address, result.getAssociatedDeviceCount()
@@ -118,21 +116,21 @@ public class NetworkBrowserThread extends RunnableThread {
                                 (short) driver.getCurrentPanId());
 
                         ZToolAddress16 nwk = new ZToolAddress16(
-                                Integers.getByteAsInteger( inspecting.address, 1 ),
-                                Integers.getByteAsInteger( inspecting.address, 0 )
+                                Integers.getByteAsInteger(inspecting.address, 1),
+                                Integers.getByteAsInteger(inspecting.address, 0)
                         );
-                        queue.push( nwk, result.getIEEEAddress() );
+                        queue.push(nwk, result.getIEEEAddress());
 
-                        notifyBrowsedNode( inspecting );
+                        notifyBrowsedNode(inspecting);
                     }
-                    toInspect.addAll( addChildrenNodesToInspectingQueue( inspecting, result ) );
+                    toInspect.addAll(addChildrenNodesToInspectingQueue(inspecting, result));
                 }
 
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             logger.info("Network browsing completed, waiting until {}", wakeUpTime);
-            if ( ! isDone() ) ThreadUtils.waitingUntil( wakeUpTime );
+            if (!isDone()) ThreadUtils.waitingUntil(wakeUpTime);
         }
         logger.debug("{} TERMINATED Succesfully", threadName);
     }
@@ -146,24 +144,24 @@ public class NetworkBrowserThread extends RunnableThread {
     private ArrayList<NetworkAddressNodeItem> addChildrenNodesToInspectingQueue(NetworkAddressNodeItem inspecting, ZDO_IEEE_ADDR_RSP result) {
         int start = 0;
         final ArrayList<NetworkAddressNodeItem> adding = new ArrayList<NetworkAddressNodeItem>();
-        do{
+        do {
             int[] toAdd = result.getAssociatedDeviceList();
             for (int i = 0; i < toAdd.length; i++) {
-                logger.info( "Found node #{} associated to node #{}.", toAdd[i], inspecting.address );
-                final NetworkAddressNodeItem next = new NetworkAddressNodeItem( inspecting, toAdd[i] );
-                final NetworkAddressNodeItem found = alreadyInspected.get( (int) toAdd[i] );
-                if ( found != null ) {
+                logger.info("Found node #{} associated to node #{}.", toAdd[i], inspecting.address);
+                final NetworkAddressNodeItem next = new NetworkAddressNodeItem(inspecting, toAdd[i]);
+                final NetworkAddressNodeItem found = alreadyInspected.get((int) toAdd[i]);
+                if (found != null) {
                     //NOTE Logging this wrong behavior but doing nothing
                     logger.error(
                             "BROKEN ZIGBEE UNDERSTANDING (while walking address-tree): " +
-                            "found twice the same node with network address {} ", toAdd[i]
+                                    "found twice the same node with network address {} ", toAdd[i]
                     );
                     logger.debug("Previus node data was {} while current has parent {}", found, inspecting);
                 } else {
-                    adding.add( next );
+                    adding.add(next);
                 }
             }
-            if( toAdd.length + result.getStartIndex() >= result.getAssociatedDeviceCount() ) {
+            if (toAdd.length + result.getStartIndex() >= result.getAssociatedDeviceCount()) {
                 //NOTE No more node connected to inspecting
                 return adding;
             }
@@ -171,16 +169,16 @@ public class NetworkBrowserThread extends RunnableThread {
 
             logger.info(
                     "Node #{} as too many device connected to it received only {} out of {}, " +
-                    "we need to inspect it once more", new Object[]{
+                            "we need to inspect it once more", new Object[]{
                     inspecting.address, toAdd.length, result.getAssociatedDeviceCount()
             });
             result = driver.sendZDOIEEEAddressRequest(
-                    new ZDO_IEEE_ADDR_REQ((short) inspecting.address,ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED,(byte) start )
+                    new ZDO_IEEE_ADDR_REQ((short) inspecting.address, ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED, (byte) start)
             );
-            if ( result == null ){
+            if (result == null) {
                 logger.error("Faild to further inspect connected device to node #{}", inspecting.address);
             }
-        } while( result != null );
+        } while (result != null);
 
         return adding;
     }

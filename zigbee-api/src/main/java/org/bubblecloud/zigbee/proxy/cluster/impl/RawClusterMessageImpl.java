@@ -20,13 +20,13 @@
    limitations under the License.
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl;
+
 import org.bubblecloud.zigbee.network.ClusterMessage;
+
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2010-09-23 14:21:48 +0200(Thu, 23 Sep 2010) $)
  * @since 0.8.0
- *
  */
 public class RawClusterMessageImpl implements ClusterMessage {
 

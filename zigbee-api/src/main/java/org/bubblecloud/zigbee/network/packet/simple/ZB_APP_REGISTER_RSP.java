@@ -29,26 +29,23 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class ZB_APP_REGISTER_RSP extends ZToolPacket/* implements IRESPONSE,ISIMPLEAPI*/{
+public class ZB_APP_REGISTER_RSP extends ZToolPacket/* implements IRESPONSE,ISIMPLEAPI*/ {
     /// <name>TI.ZPI2.ZB_APP_REGISTER_RSP.Status</name>
-        /// <summary>Status</summary>
-        public int Status;
+    /// <summary>Status</summary>
+    public int Status;
 
-        /// <name>TI.ZPI2.ZB_APP_REGISTER_RSP</name>
-        /// <summary>Constructor</summary>
-        public ZB_APP_REGISTER_RSP()
-        {
-        }
+    /// <name>TI.ZPI2.ZB_APP_REGISTER_RSP</name>
+    /// <summary>Constructor</summary>
+    public ZB_APP_REGISTER_RSP() {
+    }
 
-        public ZB_APP_REGISTER_RSP(int[] framedata)
-        {
-            this.Status = framedata[0];
-            super.buildPacket(new DoubleByte(ZToolCMD.ZB_APP_REGISTER_RSP), framedata);
-        }
+    public ZB_APP_REGISTER_RSP(int[] framedata) {
+        this.Status = framedata[0];
+        super.buildPacket(new DoubleByte(ZToolCMD.ZB_APP_REGISTER_RSP), framedata);
+    }
 
     @Override
     public String toString() {

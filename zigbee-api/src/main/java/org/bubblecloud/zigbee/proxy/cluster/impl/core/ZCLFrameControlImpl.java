@@ -24,26 +24,25 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Command;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLFrameControl;
+
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.8.0
- *
  */
 public class ZCLFrameControlImpl implements ZCLFrameControl {
-    public static final byte NULL_BYTE = 0x00;  				//0b0000_0000
+    public static final byte NULL_BYTE = 0x00;                //0b0000_0000
 
-    public static final byte FRAME_TYPE_MASK = (byte) 0x03;  	//0b0000_0011
-    public static final byte MANUFACTURER_MASK = 0x04;  		//0b0000_0100
-    public static final byte DIRECTION_MASK = 0x08;  			//0b0000_1000
-    public static final byte RESPONSE_TYPE_MASK = 0x10;  		//0b0001_0000
+    public static final byte FRAME_TYPE_MASK = (byte) 0x03;    //0b0000_0011
+    public static final byte MANUFACTURER_MASK = 0x04;        //0b0000_0100
+    public static final byte DIRECTION_MASK = 0x08;            //0b0000_1000
+    public static final byte RESPONSE_TYPE_MASK = 0x10;        //0b0001_0000
 
-    public static final byte CLUSTER_COMMAND = 0x01;			//0b0000_0001
-    public static final byte MANUFACTURER_EXT = 0x04;			//0b0000_0100
-    public static final byte SERVER_CLIENT_DIRECTION = 0x08;	//0b0001_1000
-    public static final byte DISABLE_DEFAULT_RESPONSE = 0x10;	//0b0001_0000
+    public static final byte CLUSTER_COMMAND = 0x01;            //0b0000_0001
+    public static final byte MANUFACTURER_EXT = 0x04;            //0b0000_0100
+    public static final byte SERVER_CLIENT_DIRECTION = 0x08;    //0b0001_1000
+    public static final byte DISABLE_DEFAULT_RESPONSE = 0x10;    //0b0001_0000
 
     private boolean isClusterSpecificCommand;
     private boolean isManufacturerExtension;
@@ -51,17 +50,17 @@ public class ZCLFrameControlImpl implements ZCLFrameControl {
     private boolean isDefaultResponseEnabled;
     private byte frameControl;
 
-    public ZCLFrameControlImpl(Command cmd,boolean isDefaultResponseEnabled ) {
+    public ZCLFrameControlImpl(Command cmd, boolean isDefaultResponseEnabled) {
 
-        byte frameType = cmd.isClusterSpecific()? CLUSTER_COMMAND : NULL_BYTE;
-        byte manufacturerBit = cmd.isManufacturerExtension()? MANUFACTURER_EXT : NULL_BYTE;
-        byte directionBit = cmd.isClientServerDirection()? NULL_BYTE : SERVER_CLIENT_DIRECTION;
+        byte frameType = cmd.isClusterSpecific() ? CLUSTER_COMMAND : NULL_BYTE;
+        byte manufacturerBit = cmd.isManufacturerExtension() ? MANUFACTURER_EXT : NULL_BYTE;
+        byte directionBit = cmd.isClientServerDirection() ? NULL_BYTE : SERVER_CLIENT_DIRECTION;
         byte defaultResponse = isDefaultResponseEnabled ? NULL_BYTE : DISABLE_DEFAULT_RESPONSE;
 
         isClusterSpecificCommand = cmd.isClusterSpecific();
         isManufacturerExtension = cmd.isManufacturerExtension();
         isClientServerDirection = cmd.isClientServerDirection();
-        this.isDefaultResponseEnabled =isDefaultResponseEnabled;
+        this.isDefaultResponseEnabled = isDefaultResponseEnabled;
 
         frameControl = (byte) (frameType | manufacturerBit | directionBit | defaultResponse);
     }
@@ -70,18 +69,18 @@ public class ZCLFrameControlImpl implements ZCLFrameControl {
     public ZCLFrameControlImpl(byte frameControl) {
         this.frameControl = frameControl;
 
-        byte frameType = (byte) (frameControl & FRAME_TYPE_MASK)  ;
+        byte frameType = (byte) (frameControl & FRAME_TYPE_MASK);
         byte manufacturerBit = (byte) (frameControl & MANUFACTURER_MASK);
         byte directionBit = (byte) (frameControl & DIRECTION_MASK);
         byte defaultResponse = (byte) (frameControl & RESPONSE_TYPE_MASK);
 
-        isClusterSpecificCommand = (frameType & CLUSTER_COMMAND) > 0 ;
+        isClusterSpecificCommand = (frameType & CLUSTER_COMMAND) > 0;
 
-        isManufacturerExtension = (manufacturerBit & MANUFACTURER_EXT)> 0 ;
+        isManufacturerExtension = (manufacturerBit & MANUFACTURER_EXT) > 0;
 
-        isClientServerDirection = !((directionBit & SERVER_CLIENT_DIRECTION) > 0) ;
+        isClientServerDirection = !((directionBit & SERVER_CLIENT_DIRECTION) > 0);
 
-        isDefaultResponseEnabled =! ((defaultResponse & DISABLE_DEFAULT_RESPONSE)> 0) ;
+        isDefaultResponseEnabled = !((defaultResponse & DISABLE_DEFAULT_RESPONSE) > 0);
     }
 
     public boolean isClusterSpecificCommand() {
@@ -100,7 +99,7 @@ public class ZCLFrameControlImpl implements ZCLFrameControl {
         return isDefaultResponseEnabled;
     }
 
-    public byte toByte(){
+    public byte toByte() {
         return frameControl;
     }
 

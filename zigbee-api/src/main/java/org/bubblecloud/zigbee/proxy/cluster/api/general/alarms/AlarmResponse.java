@@ -25,29 +25,25 @@ package org.bubblecloud.zigbee.proxy.cluster.api.general.alarms;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 
 /**
- * 
  * This class represent the <i>Get Alarm Response</i> as defined by the document:<br>
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
- *   
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
- *
  */
-public interface AlarmResponse extends Response{
-    
-	public static final byte ID = 0x00;
-	
-	/**
-	 * 
-	 * @return the int representing the <i>Alarm Code</i> field.
-	 */
-	public int getAllarmCode();
+public interface AlarmResponse extends Response {
 
-	/**
-	 * 
-	 * @return the int representing the <i>Cluster ID</i> field.
-	 */
-	public int getClusterID();
+    public static final byte ID = 0x00;
+
+    /**
+     * @return the int representing the <i>Alarm Code</i> field.
+     */
+    public int getAllarmCode();
+
+    /**
+     * @return the int representing the <i>Cluster ID</i> field.
+     */
+    public int getClusterID();
 }

@@ -28,22 +28,21 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class SYS_TEST_LOOPBACK extends ZToolPacket/* implements IREQUEST,ISYSTEM*/{
+public class SYS_TEST_LOOPBACK extends ZToolPacket/* implements IREQUEST,ISYSTEM*/ {
     public int[] TestData;
-    
-    public SYS_TEST_LOOPBACK(){
-        
+
+    public SYS_TEST_LOOPBACK() {
+
     }
-    
-    public SYS_TEST_LOOPBACK(int[] buffer1){
-        this.TestData=new int[buffer1.length];
-        this.TestData=buffer1;
-        int[] framedata=new int[buffer1.length];
-        framedata=this.TestData;
+
+    public SYS_TEST_LOOPBACK(int[] buffer1) {
+        this.TestData = new int[buffer1.length];
+        this.TestData = buffer1;
+        int[] framedata = new int[buffer1.length];
+        framedata = this.TestData;
         super.buildPacket(new DoubleByte(ZToolCMD.SYS_TEST_LOOPBACK), framedata);
     }
 

@@ -53,6 +53,7 @@ public class ZigbeeProxyContext {
 
     /**
      * Gets the best matching device factory.
+     *
      * @param device the zigbee device
      * @return the best matching device factory.
      */
@@ -63,7 +64,7 @@ public class ZigbeeProxyContext {
 
             for (final DeviceProxyFactory factory : deviceProxyFactories) {
                 final int matching = factory.hasMatch(device);
-                if ( matching > bestMatching ) {
+                if (matching > bestMatching) {
                     bestMatchingFactory = factory;
                     bestMatching = matching;
                 }

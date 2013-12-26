@@ -26,7 +26,7 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 
 public class FireCommand extends AbstractCommand {
 
-    public FireCommand(){
+    public FireCommand() {
         super(IASACE.FIRE);
     }
 }

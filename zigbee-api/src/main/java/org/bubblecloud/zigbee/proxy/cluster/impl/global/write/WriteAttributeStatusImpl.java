@@ -26,40 +26,39 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.api.global.WriteAttributesStatus;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.AttributeDescriptor;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class WriteAttributeStatusImpl implements WriteAttributesStatus {
-	
-	private byte status;
-	private int attributeId;
-	
-	
-	public WriteAttributeStatusImpl(AttributeDescriptor descriptor, ZBDeserializer deserializer){
 
-		status = deserializer.read_byte();
-		attributeId = deserializer.read_short();
-		// TODO Attribute Check
-		// indeed the order could be different, so we should receive all the list
-		// and in any case we could also avoid to throw an Exception
-	}
+    private byte status;
+    private int attributeId;
 
-	public WriteAttributeStatusImpl(AttributeDescriptor attributeDescriptor) {
-		status = (byte) Status.SUCCESS.id;
-		attributeId = attributeDescriptor.getId();
-	}
 
-	public int getAttributeId() {
-		return attributeId;
-	}
+    public WriteAttributeStatusImpl(AttributeDescriptor descriptor, ZBDeserializer deserializer) {
 
-	public byte getStatus() {
-		return status;
-	}
-	
+        status = deserializer.read_byte();
+        attributeId = deserializer.read_short();
+        // TODO Attribute Check
+        // indeed the order could be different, so we should receive all the list
+        // and in any case we could also avoid to throw an Exception
+    }
+
+    public WriteAttributeStatusImpl(AttributeDescriptor attributeDescriptor) {
+        status = (byte) Status.SUCCESS.id;
+        attributeId = attributeDescriptor.getId();
+    }
+
+    public int getAttributeId() {
+        return attributeId;
+    }
+
+    public byte getStatus() {
+        return status;
+    }
+
 
 }

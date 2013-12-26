@@ -27,36 +27,35 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.proxy.cluster.api.global.AttributeReport;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.2.0
- *
  */
 public class AttributeReportImpl implements AttributeReport {
 
-	private short attributeId; 
-	private Object value;
-	private final ZigBeeType type;
+    private short attributeId;
+    private Object value;
+    private final ZigBeeType type;
 
-	public AttributeReportImpl(ZBDeserializer deserializer) {
-		attributeId = deserializer.read_short();			
-		byte dataType = deserializer.read_byte();;
-		type = ZigBeeType.getType(dataType);
-		value = deserializer.readZigBeeType(type);		
-	}
+    public AttributeReportImpl(ZBDeserializer deserializer) {
+        attributeId = deserializer.read_short();
+        byte dataType = deserializer.read_byte();
+        ;
+        type = ZigBeeType.getType(dataType);
+        value = deserializer.readZigBeeType(type);
+    }
 
-	public Object getAttributeData() {
-		return value;
-	}
+    public Object getAttributeData() {
+        return value;
+    }
 
-	public ZigBeeType getAttributeDataType() {
-		return type;
-	}
+    public ZigBeeType getAttributeDataType() {
+        return type;
+    }
 
-	public int getAttributeId() {
-		return attributeId;
-	}
-	
+    public int getAttributeId() {
+        return attributeId;
+    }
+
 }

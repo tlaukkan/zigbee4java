@@ -31,61 +31,60 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
 
 /**
  * Implementation of the {@link TemperatureMeasurement} interface
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
- *
  */
 public class TemperatureMeasurementCluster extends ZCLClusterBase implements TemperatureMeasurement {
 
-	private final AttributeImpl measuredValue;
-	private final AttributeImpl minMeasuredValue;
-	private final AttributeImpl maxMeasuredValue;
-	private final AttributeImpl tolerance;
-	
-	private final Attribute[] attributes;
+    private final AttributeImpl measuredValue;
+    private final AttributeImpl minMeasuredValue;
+    private final AttributeImpl maxMeasuredValue;
+    private final AttributeImpl tolerance;
 
-	public TemperatureMeasurementCluster(ZigBeeDevice zbDevice){
-		super(zbDevice);
-		measuredValue = new AttributeImpl(zbDevice,this,Attributes.MEASURED_VALUE_SIGNED_16_BIT);
-		minMeasuredValue = new AttributeImpl(zbDevice,this,Attributes.MIN_MEASURED_VALUE_SIGNED_16_BIT);
-		maxMeasuredValue = new AttributeImpl(zbDevice,this,Attributes.MAX_MEASURED_VALUE_SIGNED_16_BIT);
-		tolerance = new AttributeImpl(zbDevice,this,Attributes.TOLERANCE);
-		
-		attributes = new AttributeImpl[]{measuredValue, minMeasuredValue, maxMeasuredValue, tolerance};	
-	}
-	
-	@Override
-	public short getId() {
-		return ID;
-	}
+    private final Attribute[] attributes;
 
-	@Override
-	public String getName() {
-		return NAME;
-	}
+    public TemperatureMeasurementCluster(ZigBeeDevice zbDevice) {
+        super(zbDevice);
+        measuredValue = new AttributeImpl(zbDevice, this, Attributes.MEASURED_VALUE_SIGNED_16_BIT);
+        minMeasuredValue = new AttributeImpl(zbDevice, this, Attributes.MIN_MEASURED_VALUE_SIGNED_16_BIT);
+        maxMeasuredValue = new AttributeImpl(zbDevice, this, Attributes.MAX_MEASURED_VALUE_SIGNED_16_BIT);
+        tolerance = new AttributeImpl(zbDevice, this, Attributes.TOLERANCE);
 
-	@Override
-	public Attribute[] getStandardAttributes() {
-		return attributes;
-	}
+        attributes = new AttributeImpl[]{measuredValue, minMeasuredValue, maxMeasuredValue, tolerance};
+    }
 
-	public Attribute getAttributeMaxMeasuredValue() {
-		return maxMeasuredValue;
-	}
+    @Override
+    public short getId() {
+        return ID;
+    }
 
-	public Attribute getAttributeMeasuredValue() {
-		return measuredValue;
-	}
+    @Override
+    public String getName() {
+        return NAME;
+    }
 
-	public Attribute getAttributeMinMeasuredValue() {
-		return minMeasuredValue;
-	}
+    @Override
+    public Attribute[] getStandardAttributes() {
+        return attributes;
+    }
 
-	public Attribute getAttributeTolerance() {
-		return tolerance;
-	}
+    public Attribute getAttributeMaxMeasuredValue() {
+        return maxMeasuredValue;
+    }
+
+    public Attribute getAttributeMeasuredValue() {
+        return measuredValue;
+    }
+
+    public Attribute getAttributeMinMeasuredValue() {
+        return minMeasuredValue;
+    }
+
+    public Attribute getAttributeTolerance() {
+        return tolerance;
+    }
 
 }

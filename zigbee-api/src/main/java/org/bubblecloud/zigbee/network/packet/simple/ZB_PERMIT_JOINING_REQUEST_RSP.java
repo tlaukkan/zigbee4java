@@ -29,28 +29,25 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class ZB_PERMIT_JOINING_REQUEST_RSP extends ZToolPacket /*imlements IRESPONSE, ISIMPLEAPI*/{
+public class ZB_PERMIT_JOINING_REQUEST_RSP extends ZToolPacket /*imlements IRESPONSE, ISIMPLEAPI*/ {
     /// <name>TI.ZPI2.ZB_PERMIT_JOINING_REQUEST_RSP.Status</name>
-        /// <summary>Status.</summary>
-        public int Status;
+    /// <summary>Status.</summary>
+    public int Status;
 
-        /// <name>TI.ZPI2.ZB_PERMIT_JOINING_REQUEST_RSP</name>
-        /// <summary>Constructor</summary>
-        public ZB_PERMIT_JOINING_REQUEST_RSP()
-        {
-        }
+    /// <name>TI.ZPI2.ZB_PERMIT_JOINING_REQUEST_RSP</name>
+    /// <summary>Constructor</summary>
+    public ZB_PERMIT_JOINING_REQUEST_RSP() {
+    }
 
-        /// <name>TI.ZPI2.ZB_PERMIT_JOINING_REQUEST_RSP</name>
-        /// <summary>Constructor</summary>
-        public ZB_PERMIT_JOINING_REQUEST_RSP(int[] framedata)
-        {
-            this.Status = framedata[0];
-            super.buildPacket(new DoubleByte(ZToolCMD.ZB_PERMIT_JOINING_REQUEST_RSP), framedata);
-        }
+    /// <name>TI.ZPI2.ZB_PERMIT_JOINING_REQUEST_RSP</name>
+    /// <summary>Constructor</summary>
+    public ZB_PERMIT_JOINING_REQUEST_RSP(int[] framedata) {
+        this.Status = framedata[0];
+        super.buildPacket(new DoubleByte(ZToolCMD.ZB_PERMIT_JOINING_REQUEST_RSP), framedata);
+    }
 
     @Override
     public String toString() {

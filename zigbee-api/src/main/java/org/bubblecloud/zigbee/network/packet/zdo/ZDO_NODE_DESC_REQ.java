@@ -52,16 +52,16 @@ public class ZDO_NODE_DESC_REQ extends ZToolPacket /*implements IREQUEST,IZDO*/ 
     public ZDO_NODE_DESC_REQ() {
     }
 
-    public ZDO_NODE_DESC_REQ(short destination){
-    	//TODO Check compatibility with other Constructor
+    public ZDO_NODE_DESC_REQ(short destination) {
+        //TODO Check compatibility with other Constructor
         int[] framedata = new int[4];
         framedata[0] = Integers.getByteAsInteger(destination, 0);
         framedata[1] = Integers.getByteAsInteger(destination, 1);
         framedata[2] = framedata[0];
-        framedata[3] = framedata[1];    	
+        framedata[3] = framedata[1];
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_NODE_DESC_REQ), framedata);
     }
-    
+
     public ZDO_NODE_DESC_REQ(ZToolAddress16 num1, ZToolAddress16 num2) {
         this.DstAddr = num1;
         this.NWKAddrOfInterest = num2;

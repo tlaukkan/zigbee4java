@@ -35,88 +35,87 @@ import java.util.Dictionary;
 import java.util.List;
 
 /**
- * Default implementation of the delegator class that handles the eventing of the {@link OnOffListener} 
- * 
+ * Default implementation of the delegator class that handles the eventing of the {@link OnOffListener}
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
- *
  */
 public class OnOffBridgeListeners implements ReportListener {
 
-	private class OnOffEventImpl implements OnOffEvent{
-		
-		private final Cluster source;
-		private final boolean event;
-		
-		public OnOffEventImpl(Cluster cluster, Boolean value) {
-			source = cluster;
-			event = value; 
-		}
+    private class OnOffEventImpl implements OnOffEvent {
 
-		public boolean getEvent() {
-			return event;
-		}
+        private final Cluster source;
+        private final boolean event;
 
-		public Cluster getSource() {
-			return source;
-		}
-	}
-	
-	private final Attribute bridged;
-	private final ArrayList<OnOffListener> listeners = new ArrayList<OnOffListener>();
-	private final Cluster cluster;
-	private final ReportingConfiguration configuration;
-	
-	public OnOffBridgeListeners(final ReportingConfiguration conf, final Attribute attribute, final Cluster c) {
-		bridged = attribute;
-		cluster = c;
-		configuration = conf;
-	}
+        public OnOffEventImpl(Cluster cluster, Boolean value) {
+            source = cluster;
+            event = value;
+        }
 
-	public void receivedReport(Dictionary<Attribute, Object> reports) {
-		if (reports.get(bridged) == null) {
-			return;
-		}
-		synchronized (listeners) {
-			for (OnOffListener listener : listeners) {
-				listener.changedOnOff(new OnOffEventImpl(cluster, (Boolean) reports.get(bridged)));
-			}
-		}
-	}
-	
-	public List<OnOffListener> getListeners(){
-		return listeners;
-	}
+        public boolean getEvent() {
+            return event;
+        }
 
-	public boolean subscribe(OnOffListener listener) {
-		synchronized (listeners) {
-			if ( listeners.size() == 0 ) {
-				Subscription subscription = bridged.getSubscription();
-				if ( configuration.getReportingOverwrite() || subscription.isActive() == false ) {
-					subscription.setMaximumReportingInterval(configuration.getReportingMaximum());
-					subscription.setMinimumReportingInterval(configuration.getReportingMinimum());
-					subscription.updateConfiguration();
-				}
-				if ( subscription.addReportListner(this) == false ) {
-					return false;
-				}
-			}
-			return listeners.add(listener);
-		}
-	}
-	
-	public boolean unsubscribe(OnOffListener listener) {
-		synchronized (listeners) {
-			listeners.remove(listener);
-			if ( listeners.size() == 0 ) {
-				Subscription subscription = bridged.getSubscription();
-				if ( subscription.getReportListenersCount() == 1 ){
-					subscription.clear();
-				}
-			}
-		}
-		return true;
-	}	
+        public Cluster getSource() {
+            return source;
+        }
+    }
+
+    private final Attribute bridged;
+    private final ArrayList<OnOffListener> listeners = new ArrayList<OnOffListener>();
+    private final Cluster cluster;
+    private final ReportingConfiguration configuration;
+
+    public OnOffBridgeListeners(final ReportingConfiguration conf, final Attribute attribute, final Cluster c) {
+        bridged = attribute;
+        cluster = c;
+        configuration = conf;
+    }
+
+    public void receivedReport(Dictionary<Attribute, Object> reports) {
+        if (reports.get(bridged) == null) {
+            return;
+        }
+        synchronized (listeners) {
+            for (OnOffListener listener : listeners) {
+                listener.changedOnOff(new OnOffEventImpl(cluster, (Boolean) reports.get(bridged)));
+            }
+        }
+    }
+
+    public List<OnOffListener> getListeners() {
+        return listeners;
+    }
+
+    public boolean subscribe(OnOffListener listener) {
+        synchronized (listeners) {
+            if (listeners.size() == 0) {
+                Subscription subscription = bridged.getSubscription();
+                if (configuration.getReportingOverwrite() || subscription.isActive() == false) {
+                    subscription.setMaximumReportingInterval(configuration.getReportingMaximum());
+                    subscription.setMinimumReportingInterval(configuration.getReportingMinimum());
+                    subscription.updateConfiguration();
+                }
+                if (subscription.addReportListner(this) == false) {
+                    return false;
+                }
+            }
+            return listeners.add(listener);
+        }
+    }
+
+    public boolean unsubscribe(OnOffListener listener) {
+        synchronized (listeners) {
+            listeners.remove(listener);
+            if (listeners.size() == 0) {
+                Subscription subscription = bridged.getSubscription();
+                if (subscription.getReportListenersCount() == 1) {
+                    subscription.clear();
+                }
+            }
+        }
+        return true;
+    }
 }

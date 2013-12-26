@@ -38,137 +38,136 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.general.BasicCluster;
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
-public class BasicImpl implements Basic{
+public class BasicImpl implements Basic {
 
-	private BasicCluster basicCluster;
-	private Attribute zclVersion;
-	private Attribute applicationVersion;
-	private Attribute stackVersion;
-	private Attribute hwVersion;
-	private Attribute manufacturerName;
-	private Attribute modelIdentifier;
-	private Attribute dateCode;
-	private Attribute powerSource;
-	private Attribute locationDescription;
-	private Attribute physicalEnviroment;
-	private Attribute deviceEnabled;
-	private Attribute alarmMask;
-	private Attribute disableLocalConfig;
+    private BasicCluster basicCluster;
+    private Attribute zclVersion;
+    private Attribute applicationVersion;
+    private Attribute stackVersion;
+    private Attribute hwVersion;
+    private Attribute manufacturerName;
+    private Attribute modelIdentifier;
+    private Attribute dateCode;
+    private Attribute powerSource;
+    private Attribute locationDescription;
+    private Attribute physicalEnviroment;
+    private Attribute deviceEnabled;
+    private Attribute alarmMask;
+    private Attribute disableLocalConfig;
 
-	public BasicImpl(ZigBeeDevice zbDevice){
-		basicCluster = new BasicCluster(zbDevice);
-		zclVersion = basicCluster.getAttributeZCLVersion();
-		applicationVersion = basicCluster.getAttributeApplicationVersion();
-		stackVersion = basicCluster.getAttributeStackVersion();
-		hwVersion = basicCluster.getAttributeHWVersion();
-		manufacturerName = basicCluster.getAttributeManufacturerName();
-		modelIdentifier = basicCluster.getAttributeModelIdentifier();
-		dateCode = basicCluster.getAttributeDateCode();
-		powerSource = basicCluster.getPowerSource();
-		locationDescription = basicCluster.getAttributeLocationDescription();
-		physicalEnviroment = basicCluster.getAttributePhysicalEnvironment();
-		deviceEnabled = basicCluster.getAttributeDeviceEnabled();
-		alarmMask = basicCluster.getAttributeAlarmMask();
-		disableLocalConfig = basicCluster.getAttributeDisableLocalConfig();
-	}
+    public BasicImpl(ZigBeeDevice zbDevice) {
+        basicCluster = new BasicCluster(zbDevice);
+        zclVersion = basicCluster.getAttributeZCLVersion();
+        applicationVersion = basicCluster.getAttributeApplicationVersion();
+        stackVersion = basicCluster.getAttributeStackVersion();
+        hwVersion = basicCluster.getAttributeHWVersion();
+        manufacturerName = basicCluster.getAttributeManufacturerName();
+        modelIdentifier = basicCluster.getAttributeModelIdentifier();
+        dateCode = basicCluster.getAttributeDateCode();
+        powerSource = basicCluster.getPowerSource();
+        locationDescription = basicCluster.getAttributeLocationDescription();
+        physicalEnviroment = basicCluster.getAttributePhysicalEnvironment();
+        deviceEnabled = basicCluster.getAttributeDeviceEnabled();
+        alarmMask = basicCluster.getAttributeAlarmMask();
+        disableLocalConfig = basicCluster.getAttributeDisableLocalConfig();
+    }
 
-	public Attribute getDisableLocalConfig() {
-		return disableLocalConfig;
-	}
+    public Attribute getDisableLocalConfig() {
+        return disableLocalConfig;
+    }
 
-	public Attribute getAlarmMask() {
-		return alarmMask;
-	}
+    public Attribute getAlarmMask() {
+        return alarmMask;
+    }
 
-	public Attribute getApplicationVersion() {
-		return applicationVersion;
-	}
+    public Attribute getApplicationVersion() {
+        return applicationVersion;
+    }
 
-	public Attribute getDateCode() {
-		return dateCode;
-	}
+    public Attribute getDateCode() {
+        return dateCode;
+    }
 
-	public boolean getDeviceEnabled() throws ZigBeeHAException{
-		try {
-			Boolean value = (Boolean) deviceEnabled.getValue();
-			return value.booleanValue();
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    public boolean getDeviceEnabled() throws ZigBeeHAException {
+        try {
+            Boolean value = (Boolean) deviceEnabled.getValue();
+            return value.booleanValue();
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public Attribute getHWVersion() {
-		return hwVersion;
-	}
+    public Attribute getHWVersion() {
+        return hwVersion;
+    }
 
-	public String getLocationDescription() throws ZigBeeHAException{
-		try {
-			String value = (String) locationDescription.getValue();
-			return value;
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    public String getLocationDescription() throws ZigBeeHAException {
+        try {
+            String value = (String) locationDescription.getValue();
+            return value;
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public Attribute getManufacturerName() {
-		return manufacturerName;
-	}
+    public Attribute getManufacturerName() {
+        return manufacturerName;
+    }
 
-	public Attribute getModelIdentifier() {
-		return modelIdentifier;
-	}
+    public Attribute getModelIdentifier() {
+        return modelIdentifier;
+    }
 
-	public Attribute getPhysicalEnvironment() {
-		return physicalEnviroment;
-	}
+    public Attribute getPhysicalEnvironment() {
+        return physicalEnviroment;
+    }
 
-	public Attribute getPowerSource() {
-		return powerSource;
-	}
+    public Attribute getPowerSource() {
+        return powerSource;
+    }
 
-	public Attribute getStackVersion() {
-		return stackVersion;
-	}
+    public Attribute getStackVersion() {
+        return stackVersion;
+    }
 
-	public Attribute getZCLVersion() {
-		return zclVersion;
-	}
+    public Attribute getZCLVersion() {
+        return zclVersion;
+    }
 
-	public void resetToFactoryDefault() throws ZigBeeHAException{
-		try {
-			DefaultResponse response = basicCluster.resetToFactoryDefault();
-			if (! response.getStatus().equals(Status.SUCCESS))
-				throw new ZigBeeHAException(response.getStatus().toString());
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    public void resetToFactoryDefault() throws ZigBeeHAException {
+        try {
+            DefaultResponse response = basicCluster.resetToFactoryDefault();
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigBeeHAException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public Subscription[] getActiveSubscriptions() {
-		return basicCluster.getActiveSubscriptions();
-	}
+    public Subscription[] getActiveSubscriptions() {
+        return basicCluster.getActiveSubscriptions();
+    }
 
-	public int getId() {
-		return basicCluster.getId();
-	}
+    public int getId() {
+        return basicCluster.getId();
+    }
 
-	public String getName() {
-		return basicCluster.getName();
-	}
+    public String getName() {
+        return basicCluster.getName();
+    }
 
-	public Attribute getAttribute(int id) {
-		Attribute[] attributes = basicCluster.getAvailableAttributes();
-		for (int i = 0; i < attributes.length; i++) {
-			if( attributes[i].getId() == id )
-				return attributes[i];
-		}
-		return null;
-	}
+    public Attribute getAttribute(int id) {
+        Attribute[] attributes = basicCluster.getAvailableAttributes();
+        for (int i = 0; i < attributes.length; i++) {
+            if (attributes[i].getId() == id)
+                return attributes[i];
+        }
+        return null;
+    }
 
-	public Attribute[] getAttributes() {
-		return basicCluster.getAvailableAttributes();
-	}
+    public Attribute[] getAttributes() {
+        return basicCluster.getAvailableAttributes();
+    }
 
 }

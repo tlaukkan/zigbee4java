@@ -27,11 +27,9 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_ace.BypassPayload;
 
 /**
- *
  * @author <a href="mailto:manlio.baco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision: 42 $ ($LastChangedDate: 2010-09-23 14:21:48 +0200 (Thu, 23 Sep 2010) $)
  * @since 0.8.0
- *
  */
 public interface IASACE extends ZCLCluster {
 
@@ -48,10 +46,16 @@ public interface IASACE extends ZCLCluster {
     static final byte GET_ZONE_INFORMATION = 0x06;
 
     public Response arm(byte armMode) throws ZigBeeClusterException;
+
     public void bypass(BypassPayload payload) throws ZigBeeClusterException;
+
     public void emergency() throws ZigBeeClusterException;
+
     public void fire() throws ZigBeeClusterException;
+
     public void panic() throws ZigBeeClusterException;
+
     public Response getZoneIdMap() throws ZigBeeClusterException;
+
     public Response getZoneInformation(int zoneID) throws ZigBeeClusterException;
 }

@@ -28,7 +28,6 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -51,7 +50,7 @@ public class SYS_RESET extends ZToolPacket /*implements IREQUEST,ISYSTEM*/ {
 
         super.buildPacket(new DoubleByte(ZToolCMD.SYS_RESET), framedata);
     }
-    
+
     public SYS_RESET(int[] framedata) {
         this.Type = framedata[0];
 
@@ -67,5 +66,5 @@ public class SYS_RESET extends ZToolPacket /*implements IREQUEST,ISYSTEM*/ {
         /// <name>TI.ZPI1.SYS_RESET.RESET_TYPE.TARGET_DEVICE</name>
         /// <summary>Reset type</summary>
         public static final int TARGET_DEVICE = 0;
-        }
+    }
 }

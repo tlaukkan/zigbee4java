@@ -33,31 +33,29 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLFrame;
  * {@link AlarmResponse} type from the {@link Alarms} cluster, by checking the data itself.<br>
  * <br>
  * <b>NOTE:</b>to use this class the {@link #FILTER} constant should be used
- * 
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
- *
  */
 public class AlarmsClusterFilter implements ClusterFilter {
 
-	/**
-	 * Singelton instance of the filter
-	 */
-	public final static AlarmsClusterFilter FILTER = new AlarmsClusterFilter();
-	
-	private AlarmsClusterFilter() {
-		
-	}
-	
-	public boolean match(ClusterMessage clusterMessage) {
-    	if( clusterMessage.getId() != Alarms.ID )  return false;
-	    	
-		ZCLFrame frame = new ZCLFrame(clusterMessage);
-		return frame.getHeader().getCommandId() == AlarmResponse.ID
-			&& frame.getHeader().getFramecontrol().isClusterSpecificCommand();
-	}
+    /**
+     * Singelton instance of the filter
+     */
+    public final static AlarmsClusterFilter FILTER = new AlarmsClusterFilter();
+
+    private AlarmsClusterFilter() {
+
+    }
+
+    public boolean match(ClusterMessage clusterMessage) {
+        if (clusterMessage.getId() != Alarms.ID) return false;
+
+        ZCLFrame frame = new ZCLFrame(clusterMessage);
+        return frame.getHeader().getCommandId() == AlarmResponse.ID
+                && frame.getHeader().getFramecontrol().isClusterSpecificCommand();
+    }
 
 }

@@ -28,34 +28,30 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class SYS_OSAL_TIMER_EXPIRED_IND extends ZToolPacket /*implements IINDICATION,ISYSTEM*/{
+public class SYS_OSAL_TIMER_EXPIRED_IND extends ZToolPacket /*implements IINDICATION,ISYSTEM*/ {
     /// <name>TI.ZPI2.SYS_OSAL_TIMER_EXPIRED_IND.Id</name>
-        /// <summary>Timer ID</summary>
-        public int Id;
+    /// <summary>Timer ID</summary>
+    public int Id;
 
-        /// <name>TI.ZPI2.SYS_OSAL_TIMER_EXPIRED_IND</name>
-        /// <summary>Constructor</summary>
-        public SYS_OSAL_TIMER_EXPIRED_IND()
-        {
-        }
+    /// <name>TI.ZPI2.SYS_OSAL_TIMER_EXPIRED_IND</name>
+    /// <summary>Constructor</summary>
+    public SYS_OSAL_TIMER_EXPIRED_IND() {
+    }
 
-        /// <name>TI.ZPI2.SYS_OSAL_TIMER_EXPIRED_IND</name>
-        /// <summary>Constructor</summary>
-        public SYS_OSAL_TIMER_EXPIRED_IND(int[] framedata)
-        {
-            this.Id = framedata[0];
-            super.buildPacket(new DoubleByte(ZToolCMD.SYS_OSAL_TIMER_EXPIRED_IND), framedata);
-        }
+    /// <name>TI.ZPI2.SYS_OSAL_TIMER_EXPIRED_IND</name>
+    /// <summary>Constructor</summary>
+    public SYS_OSAL_TIMER_EXPIRED_IND(int[] framedata) {
+        this.Id = framedata[0];
+        super.buildPacket(new DoubleByte(ZToolCMD.SYS_OSAL_TIMER_EXPIRED_IND), framedata);
+    }
 
-        public SYS_OSAL_TIMER_EXPIRED_IND(int num1)
-        {
-            this.Id = num1;
-            int[] framedata={num1};
-            super.buildPacket(new DoubleByte(ZToolCMD.SYS_OSAL_TIMER_EXPIRED_IND), framedata);
-        }
+    public SYS_OSAL_TIMER_EXPIRED_IND(int num1) {
+        this.Id = num1;
+        int[] framedata = {num1};
+        super.buildPacket(new DoubleByte(ZToolCMD.SYS_OSAL_TIMER_EXPIRED_IND), framedata);
+    }
 
 }

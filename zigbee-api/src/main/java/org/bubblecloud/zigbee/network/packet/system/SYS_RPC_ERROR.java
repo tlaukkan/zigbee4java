@@ -29,45 +29,41 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class SYS_RPC_ERROR extends ZToolPacket /*implements IRESPONSE, ISYSTEM*/{
+public class SYS_RPC_ERROR extends ZToolPacket /*implements IRESPONSE, ISYSTEM*/ {
     /// <name>TI.ZPI2.SYS_RPC_ERROR.ErrCmd0</name>
-        /// <summary>Command byte 0 of the message causing an error.</summary>
-        public int ErrCmd0;
-        /// <name>TI.ZPI2.SYS_RPC_ERROR.ErrCmd1</name>
-        /// <summary>Command byte 1 of the message causing an error.</summary>
-        public int ErrCmd1;
-        /// <name>TI.ZPI2.SYS_RPC_ERROR.Status</name>
-        /// <summary>Status</summary>
-        public int Status;
+    /// <summary>Command byte 0 of the message causing an error.</summary>
+    public int ErrCmd0;
+    /// <name>TI.ZPI2.SYS_RPC_ERROR.ErrCmd1</name>
+    /// <summary>Command byte 1 of the message causing an error.</summary>
+    public int ErrCmd1;
+    /// <name>TI.ZPI2.SYS_RPC_ERROR.Status</name>
+    /// <summary>Status</summary>
+    public int Status;
 
-        /// <name>TI.ZPI2.SYS_RPC_ERROR</name>
-        /// <summary>Constructor</summary>
-        public SYS_RPC_ERROR()
-        {
-        }
+    /// <name>TI.ZPI2.SYS_RPC_ERROR</name>
+    /// <summary>Constructor</summary>
+    public SYS_RPC_ERROR() {
+    }
 
-        /// <name>TI.ZPI2.SYS_RPC_ERROR</name>
-        /// <summary>Constructor</summary>
-        public SYS_RPC_ERROR(int num1, int num2, int num3)
-        {
-            this.Status = num1;
-            this.ErrCmd0 = num2;
-            this.ErrCmd1 = num3;
-            int[] framedata={num1,num2,num3};
-            super.buildPacket(new DoubleByte(ZToolCMD.SYS_RPC_ERROR), framedata);
-        }
-        
-        public SYS_RPC_ERROR(int[] framedata)
-        {
-            this.Status = framedata[0];
-            this.ErrCmd0 = framedata[1];
-            this.ErrCmd1 = framedata[3];
-            super.buildPacket(new DoubleByte(ZToolCMD.SYS_RPC_ERROR), framedata);
-        }
+    /// <name>TI.ZPI2.SYS_RPC_ERROR</name>
+    /// <summary>Constructor</summary>
+    public SYS_RPC_ERROR(int num1, int num2, int num3) {
+        this.Status = num1;
+        this.ErrCmd0 = num2;
+        this.ErrCmd1 = num3;
+        int[] framedata = {num1, num2, num3};
+        super.buildPacket(new DoubleByte(ZToolCMD.SYS_RPC_ERROR), framedata);
+    }
+
+    public SYS_RPC_ERROR(int[] framedata) {
+        this.Status = framedata[0];
+        this.ErrCmd0 = framedata[1];
+        this.ErrCmd1 = framedata[3];
+        super.buildPacket(new DoubleByte(ZToolCMD.SYS_RPC_ERROR), framedata);
+    }
 
     @Override
     public String toString() {

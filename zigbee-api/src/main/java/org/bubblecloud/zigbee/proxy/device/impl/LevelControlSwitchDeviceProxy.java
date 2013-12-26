@@ -30,52 +30,50 @@ import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class LevelControlSwitchDeviceProxy extends DeviceProxyBase implements LevelControlSwitch {
 
-	private OnOffSwitchConfiguration onOffSwitchConfiguration;
+    private OnOffSwitchConfiguration onOffSwitchConfiguration;
 
-	public LevelControlSwitchDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
-		super(ctx, zbDevice);
-		onOffSwitchConfiguration = (OnOffSwitchConfiguration) getCluster(ProxyConstants.ON_OFF_SWITCH_CONFIGURATION);
-	}
+    public LevelControlSwitchDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+        super(ctx, zbDevice);
+        onOffSwitchConfiguration = (OnOffSwitchConfiguration) getCluster(ProxyConstants.ON_OFF_SWITCH_CONFIGURATION);
+    }
 
-	final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
+    final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
 
-		public int[] getCustomClusters() {
-			return LevelControlSwitch.CUSTOM;
-		}
+        public int[] getCustomClusters() {
+            return LevelControlSwitch.CUSTOM;
+        }
 
-		public int[] getMandatoryCluster() {
-			return LevelControlSwitch.MANDATORY;
-		}
+        public int[] getMandatoryCluster() {
+            return LevelControlSwitch.MANDATORY;
+        }
 
-		public int[] getOptionalCluster() {
-			return LevelControlSwitch.OPTIONAL;
-		}
+        public int[] getOptionalCluster() {
+            return LevelControlSwitch.OPTIONAL;
+        }
 
-		public int[] getStandardClusters() {
-			return LevelControlSwitch.STANDARD;
-		}
+        public int[] getStandardClusters() {
+            return LevelControlSwitch.STANDARD;
+        }
 
-	};
+    };
 
-	@Override
-	public DeviceDescription getDescription() {
-		return DEVICE_DESCRIPTOR;
-	}
+    @Override
+    public DeviceDescription getDescription() {
+        return DEVICE_DESCRIPTOR;
+    }
 
-	@Override
-	public String getName() {
-		return LevelControlSwitch.NAME;
-	}
+    @Override
+    public String getName() {
+        return LevelControlSwitch.NAME;
+    }
 
-	public OnOffSwitchConfiguration getOnOffSwitchConfiguration() {
-		return onOffSwitchConfiguration;
-	}
+    public OnOffSwitchConfiguration getOnOffSwitchConfiguration() {
+        return onOffSwitchConfiguration;
+    }
 }

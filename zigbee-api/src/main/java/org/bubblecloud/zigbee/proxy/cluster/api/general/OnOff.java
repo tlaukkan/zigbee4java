@@ -30,27 +30,28 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
 /**
  * This class represent the <b>On/off</b> Cluster as defined by the document:<br>
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface OnOff extends ZCLCluster {
-	
-	static final short ID = 0x0006;
-	static final String NAME = "OnOff";
-	static final String DESCRIPTION = "Attributes and commands for switching devices between 'On' and  'Off' states.";
 
-	static final byte OFF_ID = 0x00;
-	static final byte ON_ID = 0x01;
-	static final byte TOGGLE_ID = 0x02;
-		
-	public Attribute getAttributeOnOff();
-	
-	public Response on() throws ZigBeeClusterException;
-	public Response off() throws ZigBeeClusterException;
-	public Response toggle() throws ZigBeeClusterException;
+    static final short ID = 0x0006;
+    static final String NAME = "OnOff";
+    static final String DESCRIPTION = "Attributes and commands for switching devices between 'On' and  'Off' states.";
+
+    static final byte OFF_ID = 0x00;
+    static final byte ON_ID = 0x01;
+    static final byte TOGGLE_ID = 0x02;
+
+    public Attribute getAttributeOnOff();
+
+    public Response on() throws ZigBeeClusterException;
+
+    public Response off() throws ZigBeeClusterException;
+
+    public Response toggle() throws ZigBeeClusterException;
 
 }

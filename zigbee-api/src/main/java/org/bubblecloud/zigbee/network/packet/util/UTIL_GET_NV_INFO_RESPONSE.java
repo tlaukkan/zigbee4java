@@ -32,10 +32,9 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import java.util.Arrays;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
- * @since 0.6.0
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.6.0
  */
 public class UTIL_GET_NV_INFO_RESPONSE extends ZToolPacket /*implements IREQUEST, ISYSTEM*/ {
     /// <name>TI.ZPI1.SYS_GET_NV_INFO_RESPONSE.IEEEAddress</name>
@@ -79,7 +78,7 @@ public class UTIL_GET_NV_INFO_RESPONSE extends ZToolPacket /*implements IREQUEST
         int[] framedata = new int[15 + buffer1.length];
         framedata[0] = this.Status;
         for (int i = 0; i < 8; i++) {
-            framedata[i + 1] = this.IEEEAddress.getAddress()[7-i];
+            framedata[i + 1] = this.IEEEAddress.getAddress()[7 - i];
         }
         int[] bytes = new int[4];
         bytes = ByteUtils.convertLongtoMultiByte(this.ScanChannels);////////////WARNING!
@@ -91,33 +90,33 @@ public class UTIL_GET_NV_INFO_RESPONSE extends ZToolPacket /*implements IREQUEST
         framedata[14] = this.SecurityMode;
 
         for (int i = 0; i < buffer1.length; i++) {
-            framedata[i+15] = buffer1[(buffer1.length-1)-i];
+            framedata[i + 15] = buffer1[(buffer1.length - 1) - i];
         }
 
         super.buildPacket(new DoubleByte(ZToolCMD.UTIL_GET_NV_INFO_RESPONSE), framedata);
     }
-    
+
     public UTIL_GET_NV_INFO_RESPONSE(int[] framedata) {
 
-        this.Status= framedata[0] ;
-        byte[] bytes=new byte[8];
+        this.Status = framedata[0];
+        byte[] bytes = new byte[8];
         for (int i = 0; i < 8; i++) {
-            bytes[7-i] = (byte)framedata[i + 1];
+            bytes[7 - i] = (byte) framedata[i + 1];
         }
-        this.IEEEAddress=new ZToolAddress64(bytes);
+        this.IEEEAddress = new ZToolAddress64(bytes);
         int[] bytes2 = new int[4];
-        
-         bytes2[3]= framedata[9];
-         bytes2[2]= framedata[10];
-         bytes2[1]=framedata[11] ;
-         bytes2[0]=framedata[12] ;
-         this.ScanChannels = ByteUtils.convertMultiByteToInt(bytes2);////////////WARNING!
-         this.PanID= framedata[13];
-        this.SecurityMode= framedata[14] ;
 
-        this.PreConfigKey=new int[0x10];
+        bytes2[3] = framedata[9];
+        bytes2[2] = framedata[10];
+        bytes2[1] = framedata[11];
+        bytes2[0] = framedata[12];
+        this.ScanChannels = ByteUtils.convertMultiByteToInt(bytes2);////////////WARNING!
+        this.PanID = framedata[13];
+        this.SecurityMode = framedata[14];
+
+        this.PreConfigKey = new int[0x10];
         for (int i = 0; i < this.PreConfigKey.length; i++) {
-             this.PreConfigKey[(this.PreConfigKey.length-1)-i]= framedata[i+15];
+            this.PreConfigKey[(this.PreConfigKey.length - 1) - i] = framedata[i + 15];
         }
 
         super.buildPacket(new DoubleByte(ZToolCMD.UTIL_GET_NV_INFO_RESPONSE), framedata);

@@ -41,7 +41,7 @@ import org.bubblecloud.zigbee.util.Integers;
 public class ZDO_ACTIVE_EP_REQ extends ZToolPacket /*implements IREQUEST,IZDO*/ {
     /// <name>TI.ZPI1.ZDO_ACTIVE_EP_REQ.DstAddr</name>
     /// <summary>destination address</summary>
-	
+
     /// <name>TI.ZPI1.ZDO_ACTIVE_EP_REQ.NWKAddrOfInterest</name>
     /// <summary>NWK address for the request</summary>
 
@@ -50,7 +50,7 @@ public class ZDO_ACTIVE_EP_REQ extends ZToolPacket /*implements IREQUEST,IZDO*/ 
     public ZDO_ACTIVE_EP_REQ() {
     }
 
-    public ZDO_ACTIVE_EP_REQ(ZToolAddress16 dstAddr, ZToolAddress16 nwkAddrOfInterest) {     
+    public ZDO_ACTIVE_EP_REQ(ZToolAddress16 dstAddr, ZToolAddress16 nwkAddrOfInterest) {
         int[] framedata = new int[4];
         framedata[0] = dstAddr.getLsb();
         framedata[1] = dstAddr.getMsb();
@@ -60,26 +60,26 @@ public class ZDO_ACTIVE_EP_REQ extends ZToolPacket /*implements IREQUEST,IZDO*/ 
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_ACTIVE_EP_REQ), framedata);
     }
 
-	public ZDO_ACTIVE_EP_REQ(short nwkAddress) {
-		int[] framedata = new int[4];
-		
+    public ZDO_ACTIVE_EP_REQ(short nwkAddress) {
+        int[] framedata = new int[4];
+
         framedata[0] = Integers.getByteAsInteger(nwkAddress, 0);
         framedata[1] = Integers.getByteAsInteger(nwkAddress, 1);
         framedata[2] = framedata[0];
         framedata[3] = framedata[1];
-        
-        super.buildPacket(new DoubleByte(ZToolCMD.ZDO_ACTIVE_EP_REQ), framedata);
-	}
 
-	public ZDO_ACTIVE_EP_REQ(int nwkAddress) {
-		int[] framedata = new int[4];
-		
+        super.buildPacket(new DoubleByte(ZToolCMD.ZDO_ACTIVE_EP_REQ), framedata);
+    }
+
+    public ZDO_ACTIVE_EP_REQ(int nwkAddress) {
+        int[] framedata = new int[4];
+
         framedata[0] = Integers.getByteAsInteger((short) nwkAddress, 0);
         framedata[1] = Integers.getByteAsInteger((short) nwkAddress, 1);
         framedata[2] = framedata[0];
         framedata[3] = framedata[1];
-        
+
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_ACTIVE_EP_REQ), framedata);
-	}
-	
+    }
+
 }

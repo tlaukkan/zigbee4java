@@ -28,12 +28,10 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.general.OnOffSwitchConfiguratio
 import org.bubblecloud.zigbee.util.ArraysUtil;
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface OnOffSwitch extends DeviceProxy {
 
@@ -41,7 +39,7 @@ public interface OnOffSwitch extends DeviceProxy {
     public static final String NAME = "OnOff Switch";
     public static final int[] MANDATORY = DeviceProxy.MANDATORY;
     public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
-        ProxyConstants.ON_OFF_SWITCH_CONFIGURATION
+            ProxyConstants.ON_OFF_SWITCH_CONFIGURATION
     });
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

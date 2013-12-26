@@ -41,51 +41,49 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class SubscriptionImpl extends SubscriptionBase implements Subscription {
 
-	private final Logger log = LoggerFactory.getLogger(SubscriptionImpl.class);
-			
-	public SubscriptionImpl(final ZigBeeDevice zb, final ZCLCluster c, final Attribute attrib) {
-		super(zb,c,attrib);
-	}
-	
-	protected boolean doConfigureServer() throws ZigBeeClusterException {
-		log.debug(
-				"Subscribing to discrete attibute {} ( {} ) with the following parameter min = {}, max = {} ",
-				new Object[]{attribute.getName(), attribute.getId(), min, max}
-		);
-		
-		AttributeReportingConfigurationRecordImpl config = new AttributeReportingConfigurationRecordImpl(
-				attribute, 0x00, max, min, null, max 
-		);
-		ConfigureReportingCommand cmd = new ConfigureReportingCommand(
-				new AttributeReportingConfigurationRecord[]{config}
-		);
+    private final Logger log = LoggerFactory.getLogger(SubscriptionImpl.class);
 
-		final ZCLFrame frame = new ZCLFrame(cmd, true);
-		final ClusterMessageImpl input = new ClusterMessageImpl(cluster.getId(),frame);
-		ClusterMessage clusterMessage = null;
-		try {
-			clusterMessage = device.invoke(input);
-			final ConfigureReportingResponseImpl response = new ConfigureReportingResponseImpl(
-					new ResponseImpl(clusterMessage, clusterMessage.getId()), new Attribute[]{attribute}
-			);
-			final AttributeStatusRecord results = response.getAttributeStatusRecord()[0];
-			if ( results.getStatus() != 0 ) {
-				throw new ZigBeeClusterException("ConfigureReporting answered with a Failed status: "+Status.getStatus(results.getStatus()));
-			}
-		} catch (ZigBeeBasedriverException e) {
-			throw new ZigBeeClusterException(e);
-		}
-		
-		return true;		
-	}
-	
+    public SubscriptionImpl(final ZigBeeDevice zb, final ZCLCluster c, final Attribute attrib) {
+        super(zb, c, attrib);
+    }
+
+    protected boolean doConfigureServer() throws ZigBeeClusterException {
+        log.debug(
+                "Subscribing to discrete attibute {} ( {} ) with the following parameter min = {}, max = {} ",
+                new Object[]{attribute.getName(), attribute.getId(), min, max}
+        );
+
+        AttributeReportingConfigurationRecordImpl config = new AttributeReportingConfigurationRecordImpl(
+                attribute, 0x00, max, min, null, max
+        );
+        ConfigureReportingCommand cmd = new ConfigureReportingCommand(
+                new AttributeReportingConfigurationRecord[]{config}
+        );
+
+        final ZCLFrame frame = new ZCLFrame(cmd, true);
+        final ClusterMessageImpl input = new ClusterMessageImpl(cluster.getId(), frame);
+        ClusterMessage clusterMessage = null;
+        try {
+            clusterMessage = device.invoke(input);
+            final ConfigureReportingResponseImpl response = new ConfigureReportingResponseImpl(
+                    new ResponseImpl(clusterMessage, clusterMessage.getId()), new Attribute[]{attribute}
+            );
+            final AttributeStatusRecord results = response.getAttributeStatusRecord()[0];
+            if (results.getStatus() != 0) {
+                throw new ZigBeeClusterException("ConfigureReporting answered with a Failed status: " + Status.getStatus(results.getStatus()));
+            }
+        } catch (ZigBeeBasedriverException e) {
+            throw new ZigBeeClusterException(e);
+        }
+
+        return true;
+    }
+
 }

@@ -34,49 +34,45 @@ import java.util.Hashtable;
 import java.util.Properties;
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- *
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
- *
  */
-public class ClusterFactoryBase implements ClusterFactory{
+public class ClusterFactoryBase implements ClusterFactory {
 
     private ZigbeeProxyContext ctx;
     private Dictionary dictionary;
     private Hashtable<String, Class> clusters;
 
 
-    public ClusterFactoryBase(ZigbeeProxyContext ctx){
+    public ClusterFactoryBase(ZigbeeProxyContext ctx) {
         this.ctx = ctx;
         dictionary = new Properties();
         clusters = new Hashtable<String, Class>();
     }
 
 
-
-    public void addProperty(String key, Object value){
+    public void addProperty(String key, Object value) {
         dictionary.put(key, value);
     }
 
 
-    public void register(){
+    public void register() {
         Enumeration<String> keys = clusters.keys();
         String[] clusterIDs = new String[clusters.size()];
-        int i =0;
+        int i = 0;
         while (keys.hasMoreElements()) {
             String key = (String) keys.nextElement();
-            clusterIDs[i++]=key;
+            clusterIDs[i++] = key;
         }
 
-        dictionary.put(Cluster.PROFILE_CLUSTER_IDs,clusterIDs);
+        dictionary.put(Cluster.PROFILE_CLUSTER_IDs, clusterIDs);
         //registration = ctx.registerService(ClusterFactory.class.getName(), this, dictionary);
     }
 
     protected void addCluster(String key, Class clazz) {
-        clusters.put(key,clazz);
+        clusters.put(key, clazz);
     }
 
     public Cluster getInstance(String key, ZigBeeDevice zbDevice) {
@@ -84,7 +80,7 @@ public class ClusterFactoryBase implements ClusterFactory{
         if (clazz != null) {
             try {
                 Constructor<?> constructor = clazz.getConstructor(ZigBeeDevice.class);
-                Cluster cluster =  (Cluster) constructor.newInstance(zbDevice);
+                Cluster cluster = (Cluster) constructor.newInstance(zbDevice);
                 return cluster;
             } catch (SecurityException e) {
                 // TODO Auto-generated catch block

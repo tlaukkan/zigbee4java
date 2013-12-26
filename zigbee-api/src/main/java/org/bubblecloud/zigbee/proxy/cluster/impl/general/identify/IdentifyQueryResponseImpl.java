@@ -28,26 +28,25 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.identify.IdentifyQueryResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ResponseImpl;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class IdentifyQueryResponseImpl extends ResponseImpl implements IdentifyQueryResponse {
-	
-	private int timeOut;
-	
-	public IdentifyQueryResponseImpl(Response response) throws ZigBeeClusterException {
-		super(response);
-		
-		ZBDeserializer deserializer = new DefaultDeserializer(getPayload(),0);
-		timeOut = deserializer.read_short();
-	}
 
-	public int getTimeout() {
-		return timeOut;
-	}
+    private int timeOut;
+
+    public IdentifyQueryResponseImpl(Response response) throws ZigBeeClusterException {
+        super(response);
+
+        ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);
+        timeOut = deserializer.read_short();
+    }
+
+    public int getTimeout() {
+        return timeOut;
+    }
 
 }

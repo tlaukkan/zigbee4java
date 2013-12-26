@@ -40,15 +40,14 @@ import org.bubblecloud.zigbee.util.Integers;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
 public class ZDO_UNBIND_REQ extends ZToolPacket /*implements IREQUEST,IZDO*/ {
-	
-	public ZDO_UNBIND_REQ(ZToolAddress16 nwkDst, 
-        		ZToolAddress64 ieeeSrc, int epSrc,
-        		DoubleByte cluster, int addressingMode, 
-        		ZToolAddress64 ieeeDst, int epDst)
-    {
-    	
+
+    public ZDO_UNBIND_REQ(ZToolAddress16 nwkDst,
+                          ZToolAddress64 ieeeSrc, int epSrc,
+                          DoubleByte cluster, int addressingMode,
+                          ZToolAddress64 ieeeDst, int epDst) {
+
         int[] framedata;
-        if ( addressingMode == 3) {
+        if (addressingMode == 3) {
             framedata = new int[23];
         } else {
             framedata = new int[16];
@@ -64,7 +63,7 @@ public class ZDO_UNBIND_REQ extends ZToolPacket /*implements IREQUEST,IZDO*/ {
         framedata[12] = cluster.getMsb();
         framedata[13] = addressingMode;
         bytes = ieeeDst.getAddress();
-        if ( addressingMode == 3) {
+        if (addressingMode == 3) {
             for (int i = 0; i < 8; i++) {
                 framedata[i + 14] = bytes[7 - i] & 0xFF;
             }
@@ -77,50 +76,50 @@ public class ZDO_UNBIND_REQ extends ZToolPacket /*implements IREQUEST,IZDO*/ {
     }
 
     public ZDO_UNBIND_REQ(
-    		short nwkDstAdr, short clusterId,
-    		long bindSrcAdr, byte bindSrcEP,
-    		short bindDstAdr, byte bindDstEP
-    ){
+            short nwkDstAdr, short clusterId,
+            long bindSrcAdr, byte bindSrcEP,
+            short bindDstAdr, byte bindDstEP
+    ) {
         int[] framedata = new int[17];
         framedata[0] = Integers.getByteAsInteger(nwkDstAdr, 0);
         framedata[1] = Integers.getByteAsInteger(nwkDstAdr, 1);
         for (int i = 0; i < 8; i++) {
-        	framedata[i+2] = Integers.getByteAsInteger(bindSrcAdr, i);
-		}
+            framedata[i + 2] = Integers.getByteAsInteger(bindSrcAdr, i);
+        }
         framedata[10] = bindSrcEP & 0xFF;
         framedata[11] = Integers.getByteAsInteger(clusterId, 0);
-        framedata[12] = Integers.getByteAsInteger(clusterId, 1);            
+        framedata[12] = Integers.getByteAsInteger(clusterId, 1);
         framedata[13] = ADDRESS_MODE.ADDRESS_16_BIT;
         framedata[14] = Integers.getByteAsInteger(bindDstAdr, 0);
-        framedata[15] = Integers.getByteAsInteger(bindDstAdr, 1);            
+        framedata[15] = Integers.getByteAsInteger(bindDstAdr, 1);
         framedata[16] = bindDstEP & 0xFF; //TODO REMOVE?!??!
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_UNBIND_REQ), framedata);
     }
 
     public ZDO_UNBIND_REQ(
-    		short nwkDstAdr, short clusterId,
-    		long bindSrcAdr, byte bindSrcEP,
-    		long bindDstAdr, byte bindDstEP
-    ){
+            short nwkDstAdr, short clusterId,
+            long bindSrcAdr, byte bindSrcEP,
+            long bindDstAdr, byte bindDstEP
+    ) {
         int[] framedata = new int[23];
         framedata[0] = Integers.getByteAsInteger(nwkDstAdr, 0);
         framedata[1] = Integers.getByteAsInteger(nwkDstAdr, 1);
         for (int i = 0; i < 8; i++) {
-        	framedata[i+2] = Integers.getByteAsInteger(bindSrcAdr, i);
-		}
+            framedata[i + 2] = Integers.getByteAsInteger(bindSrcAdr, i);
+        }
         framedata[10] = bindSrcEP & 0xFF;
         framedata[11] = Integers.getByteAsInteger(clusterId, 0);
-        framedata[12] = Integers.getByteAsInteger(clusterId, 1);            
+        framedata[12] = Integers.getByteAsInteger(clusterId, 1);
         framedata[13] = ADDRESS_MODE.ADDRESS_64_BIT;
         for (int i = 0; i < 8; i++) {
-        	framedata[i+14] = Integers.getByteAsInteger(bindDstAdr, i);
-		}
+            framedata[i + 14] = Integers.getByteAsInteger(bindDstAdr, i);
+        }
         framedata[22] = bindDstEP & 0xFF; //TODO REMOVE?!??!
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_UNBIND_REQ), framedata);
     }
-    
 
-	/// <name>TI.ZPI1.ZDO_UNBIND_REQ.ADDRESS_MODE</name>
+
+    /// <name>TI.ZPI1.ZDO_UNBIND_REQ.ADDRESS_MODE</name>
     /// <summary>Specified the format of the coordinator address</summary>
     public class ADDRESS_MODE {
         /// <name>TI.ZPI1.ZDO_UNBIND_REQ.ADDRESS_MODE.ADDRESS_16_BIT</name>

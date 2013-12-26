@@ -1,4 +1,5 @@
 package org.bubblecloud.zigbee.network;
+
 /*
    Copyright 2008-2013 CNR-ISTI, http://isti.cnr.it
    Institute of Information Science and Technologies 
@@ -31,11 +32,12 @@ package org.bubblecloud.zigbee.network;
  */
 public interface Constants {
 
-	/**
-	 * Constants that contains the value of the <b>Service Persistent Identification (PID)</b> of the<br>
-	 * service used for configuring the behavior of the <i>ZigBee Base Driver</i> 
-	 * @since 0.2.0
-	 */
-	public static final String MANAGED_SERVICE_PID = "it.cnr.isti.zigbee.driver.configuration";	
+    /**
+     * Constants that contains the value of the <b>Service Persistent Identification (PID)</b> of the<br>
+     * service used for configuring the behavior of the <i>ZigBee Base Driver</i>
+     *
+     * @since 0.2.0
+     */
+    public static final String MANAGED_SERVICE_PID = "it.cnr.isti.zigbee.driver.configuration";
 
 }

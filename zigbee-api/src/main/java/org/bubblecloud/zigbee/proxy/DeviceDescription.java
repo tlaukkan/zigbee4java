@@ -25,7 +25,7 @@ package org.bubblecloud.zigbee.proxy;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
 
 /**
- * This class represent static description associated to a generic <b>Home Automation Device</b><br> 
+ * This class represent static description associated to a generic <b>Home Automation Device</b><br>
  * as defined by the document:<br>
  * <i>ZigBee Home Automation</i> public release version 075123r01ZB
  * <br>
@@ -33,42 +33,40 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
  * definition. In fact, all the device belonging to the same <b>DeviceId</b> have a common definition.<br>
  * Hence, a Singelton implementation that shares a {@link DeviceDescription} among all the {@link DeviceProxyBase}<br>
  * objects belonging to the <b>DeviceId</b> is adviced.
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface DeviceDescription {
-    
-	/**
-	 * 
-	 * @return the {@link ZCLCluster} array of all the cluster defined as <b>Optional</b> by the<br>
-	 * 		<i>ZigBee Home Automation</i> profile documentation 
-	 */
-	public int[] getOptionalCluster();
 
-	/**
-	 * 
-	 * @return the {@link ZCLCluster} array of all the cluster defined as <b>Mandatory</b> by the<br>
-	 * 		<i>ZigBee Home Automation</i> profile documentation
-	 */
-	public int[] getMandatoryCluster();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int[] getStandardClusters();
-	
-	public int[] getCustomClusters();
-	
-	public boolean isMandatory(int clusterId);
-	public boolean isOptional(int clusterId);
-	public boolean isStandard(int clusterId);
-	public boolean isCustom(int clusterId);
-	
-	
+    /**
+     * @return the {@link ZCLCluster} array of all the cluster defined as <b>Optional</b> by the<br>
+     *         <i>ZigBee Home Automation</i> profile documentation
+     */
+    public int[] getOptionalCluster();
+
+    /**
+     * @return the {@link ZCLCluster} array of all the cluster defined as <b>Mandatory</b> by the<br>
+     *         <i>ZigBee Home Automation</i> profile documentation
+     */
+    public int[] getMandatoryCluster();
+
+    /**
+     * @return
+     */
+    public int[] getStandardClusters();
+
+    public int[] getCustomClusters();
+
+    public boolean isMandatory(int clusterId);
+
+    public boolean isOptional(int clusterId);
+
+    public boolean isStandard(int clusterId);
+
+    public boolean isCustom(int clusterId);
+
 
 }

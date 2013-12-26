@@ -29,34 +29,32 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ByteArrayOutputStreamSerializer;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class WriteAttributeCommand extends AbstractCommand {
-	private static byte ID = 0x02;
-	
-	private WriteAttributeRecord[] attributeRecord;
-	
-	public WriteAttributeCommand(WriteAttributeRecord[] attributerecord){
-		super(ID,false);
-		this.attributeRecord = attributerecord;
-	}
-	
-	public byte[] getPayload(){	
-		if( payload == null){			
-			ZBSerializer serializer = new ByteArrayOutputStreamSerializer();
-		
-			for (int i = 0; i < attributeRecord.length; i++) {
-				serializer.append_short( (short) attributeRecord[i].getAttributeId());
-				final ZigBeeType type = attributeRecord[i].getAttributeDataType();
-				serializer.append_byte((byte) type.getId());
-				serializer.appendZigBeeType(attributeRecord[i].getAttributeData(), type);
-			}
-			payload = serializer.getPayload();
-		}
-		return payload;
-	}
+    private static byte ID = 0x02;
+
+    private WriteAttributeRecord[] attributeRecord;
+
+    public WriteAttributeCommand(WriteAttributeRecord[] attributerecord) {
+        super(ID, false);
+        this.attributeRecord = attributerecord;
+    }
+
+    public byte[] getPayload() {
+        if (payload == null) {
+            ZBSerializer serializer = new ByteArrayOutputStreamSerializer();
+
+            for (int i = 0; i < attributeRecord.length; i++) {
+                serializer.append_short((short) attributeRecord[i].getAttributeId());
+                final ZigBeeType type = attributeRecord[i].getAttributeDataType();
+                serializer.append_byte((byte) type.getId());
+                serializer.appendZigBeeType(attributeRecord[i].getAttributeData(), type);
+            }
+            payload = serializer.getPayload();
+        }
+        return payload;
+    }
 }

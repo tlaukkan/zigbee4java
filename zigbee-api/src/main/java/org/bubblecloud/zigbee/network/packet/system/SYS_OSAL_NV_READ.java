@@ -28,44 +28,41 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class SYS_OSAL_NV_READ extends ZToolPacket /*implements IREQUEST, ISYSTEM*/{
+public class SYS_OSAL_NV_READ extends ZToolPacket /*implements IREQUEST, ISYSTEM*/ {
     /// <name>TI.ZPI2.SYS_OSAL_NV_READ.Id</name>
-        /// <summary>Attribute ID</summary>
-        public DoubleByte Id;
-        /// <name>TI.ZPI2.SYS_OSAL_NV_READ.Offset</name>
-        /// <summary>Memory offset into item (up to 250)</summary>
-        public int Offset;
+    /// <summary>Attribute ID</summary>
+    public DoubleByte Id;
+    /// <name>TI.ZPI2.SYS_OSAL_NV_READ.Offset</name>
+    /// <summary>Memory offset into item (up to 250)</summary>
+    public int Offset;
 
-        /// <name>TI.ZPI2.SYS_OSAL_NV_READ</name>
-        /// <summary>Constructor</summary>
-        public SYS_OSAL_NV_READ()
-        {
-        }
+    /// <name>TI.ZPI2.SYS_OSAL_NV_READ</name>
+    /// <summary>Constructor</summary>
+    public SYS_OSAL_NV_READ() {
+    }
 
-        /// <name>TI.ZPI2.SYS_OSAL_NV_READ</name>
-        /// <summary>Constructor</summary>
-        public SYS_OSAL_NV_READ(DoubleByte num1, int num2)
-        {
-            this.Id = num1;
-            this.Offset = num2;
-            int[] framedata=new int[3];
-            framedata[0]=this.Id.getLsb();
-            framedata[1]=this.Id.getMsb();
-            framedata[2]=this.Offset;
-            super.buildPacket(new DoubleByte(ZToolCMD.SYS_OSAL_NV_READ),framedata);
-        }
-        
-        public class ID {
-            public static final int ZP_NV_APP_ITEM_1=0x0300;
-            public static final int ZP_NV_APP_ITEM_2=0x0301;
-            public static final int ZP_NV_APP_ITEM_3=0x0302;
-            public static final int ZP_NV_APP_ITEM_4=0x0303;
-            public static final int ZP_NV_APP_ITEM_5=0x0304;
-            public static final int ZP_NV_APP_ITEM_6=0x0305;
-        }
+    /// <name>TI.ZPI2.SYS_OSAL_NV_READ</name>
+    /// <summary>Constructor</summary>
+    public SYS_OSAL_NV_READ(DoubleByte num1, int num2) {
+        this.Id = num1;
+        this.Offset = num2;
+        int[] framedata = new int[3];
+        framedata[0] = this.Id.getLsb();
+        framedata[1] = this.Id.getMsb();
+        framedata[2] = this.Offset;
+        super.buildPacket(new DoubleByte(ZToolCMD.SYS_OSAL_NV_READ), framedata);
+    }
+
+    public class ID {
+        public static final int ZP_NV_APP_ITEM_1 = 0x0300;
+        public static final int ZP_NV_APP_ITEM_2 = 0x0301;
+        public static final int ZP_NV_APP_ITEM_3 = 0x0302;
+        public static final int ZP_NV_APP_ITEM_4 = 0x0303;
+        public static final int ZP_NV_APP_ITEM_5 = 0x0304;
+        public static final int ZP_NV_APP_ITEM_6 = 0x0305;
+    }
 
 }

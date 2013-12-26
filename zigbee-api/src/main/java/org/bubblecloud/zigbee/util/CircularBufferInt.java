@@ -20,6 +20,7 @@
    limitations under the License.
 */
 package org.bubblecloud.zigbee.util;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,17 +29,16 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0 - Revision 62
- *
  */
 public class CircularBufferInt {
 
     private static final Logger logger = LoggerFactory.getLogger(CircularBufferInt.class);
-    
+
     private final int[] buffer;
     private int head;
     private int tail;
     private int used;
-    
+
     private final boolean overwrite;
 
     public CircularBufferInt(final int size, final boolean cyclic) {
@@ -52,74 +52,74 @@ public class CircularBufferInt {
     public CircularBufferInt(final int[] data, final int size, final boolean cyclic) {
         buffer = new int[size];
         overwrite = cyclic;
-        if ( cyclic == false && data.length > size ) {
+        if (cyclic == false && data.length > size) {
             throw new IndexOutOfBoundsException(
-                "Trying to copy " + data.length + " to non-cyclic buffer of " + size + "." +
-                "You should either increase the size of the buffer or set it as cyclic"
+                    "Trying to copy " + data.length + " to non-cyclic buffer of " + size + "." +
+                            "You should either increase the size of the buffer or set it as cyclic"
             );
-        } else if ( cyclic == true && data.length > size ) {
-            for ( tail = 0; tail < buffer.length; tail++ ) {
+        } else if (cyclic == true && data.length > size) {
+            for (tail = 0; tail < buffer.length; tail++) {
                 buffer[tail] = data[data.length - buffer.length + tail];
             }
         } else {
-            for ( tail = 0; tail < data.length; tail++ ) {
+            for (tail = 0; tail < data.length; tail++) {
                 buffer[tail] = data[tail];
-            }            
+            }
         }
         head = 0;
         used = tail;
     }
-    
+
     public int slots() {
         return buffer.length;
-    }    
-    
+    }
+
     public int size() {
         return used;
     }
-    
-    public boolean isFull(){
+
+    public boolean isFull() {
         return used == buffer.length;
     }
-    
-    public boolean isEmpty(){
+
+    public boolean isEmpty() {
         return used == 0;
     }
-    
+
     public void add(int value) {
-        if ( isFull() ) {
-            if( overwrite ) {
-                remove( );
+        if (isFull()) {
+            if (overwrite) {
+                remove();
             } else {
                 throw new IndexOutOfBoundsException(
-                    "Trying to add data to a full circular buffer, if you need it to " +
-                    "overwrite its own data please create it with cyclic=true"
+                        "Trying to add data to a full circular buffer, if you need it to " +
+                                "overwrite its own data please create it with cyclic=true"
                 );
             }
         }
         buffer[tail] = value;
-        tail = ( tail + 1 ) % buffer.length;
+        tail = (tail + 1) % buffer.length;
         used += 1;
     }
-    
-    
-    public int get( int idx ) {
-        if( idx >= size() || idx < 0) {
+
+
+    public int get(int idx) {
+        if (idx >= size() || idx < 0) {
             throw new IndexOutOfBoundsException(
-                "Trying to get data from " + idx + " but size is " + size()
+                    "Trying to get data from " + idx + " but size is " + size()
             );
         }
-        return buffer[ ( head + idx ) % buffer.length ];
+        return buffer[(head + idx) % buffer.length];
     }
-    
+
     public int remove() {
-        if( isEmpty() ) {
+        if (isEmpty()) {
             throw new IndexOutOfBoundsException(
-                "Trying to remove data from an empty circular buffer"
+                    "Trying to remove data from an empty circular buffer"
             );
         }
         final int val = buffer[head];
-        head = ( head + 1 ) % buffer.length;
+        head = (head + 1) % buffer.length;
         used -= 1;
         return val;
     }
@@ -127,11 +127,11 @@ public class CircularBufferInt {
     public int[] toArray() {
         int[] values = new int[size()];
         int i = 0;
-        for ( int j = head; j < buffer.length; j++ ) {
+        for (int j = head; j < buffer.length; j++) {
             values[i] = buffer[j];
             i += 1;
         }
-        for ( int j = 0; j < tail; j++ ) {
+        for (int j = 0; j < tail; j++) {
             values[i] = buffer[j];
             i += 1;
         }

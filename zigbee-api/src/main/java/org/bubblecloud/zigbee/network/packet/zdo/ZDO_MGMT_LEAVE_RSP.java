@@ -30,7 +30,6 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -48,7 +47,7 @@ public class ZDO_MGMT_LEAVE_RSP extends ZToolPacket /*implements IRESPONSE_CALLB
     }
 
     public ZDO_MGMT_LEAVE_RSP(int[] framedata) {
-        this.SrcAddress=new ZToolAddress16(framedata[1],framedata[0]);
+        this.SrcAddress = new ZToolAddress16(framedata[1], framedata[0]);
         this.Status = framedata[2];
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_MGMT_LEAVE_RSP), framedata);
     }

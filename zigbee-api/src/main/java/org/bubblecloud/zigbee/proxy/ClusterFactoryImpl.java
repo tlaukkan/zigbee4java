@@ -28,42 +28,40 @@ import org.bubblecloud.zigbee.ZigbeeProxyContext;
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- *
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class ClusterFactoryImpl extends ClusterFactoryBase {
 
     //General
     final static String BASIC_KEY = ProxyConstants.ID + ":" + ProxyConstants.BASIC;
-    final static String POWER_CONFIGURATION_KEY = ProxyConstants.ID + ":"+ ProxyConstants.POWER_CONFIGURATION;
-    final static String DEVICE_TEMPERATURE_CONFIGURATION_KEY = ProxyConstants.ID + ":"+ ProxyConstants.DEVICE_TEMPERATURE_CONFIGURATION;
-    final static String IDENTIFY_KEY = ProxyConstants.ID + ":"+ ProxyConstants.IDENTIFY;
-    final static String GROUPS_KEY = ProxyConstants.ID + ":"+ ProxyConstants.GROUPS;
-    final static String SCENES_KEY = ProxyConstants.ID + ":"+ ProxyConstants.SCENES;
-    final static String ONOFF_KEY = ProxyConstants.ID + ":"+ ProxyConstants.ON_OFF;
-    final static String ON_OFF_SWITCH_CONFIGURATION_KEY = ProxyConstants.ID + ":"+ ProxyConstants.ON_OFF_SWITCH_CONFIGURATION;
-    final static String LEVEL_CONTROL_KEY = ProxyConstants.ID + ":"+ ProxyConstants.LEVEL_CONTROL;
-    final static String ALARMS_KEY = ProxyConstants.ID + ":"+ ProxyConstants.ALARMS;
-    final static String TIME_KEY = ProxyConstants.ID + ":"+ ProxyConstants.TIME;
-    final static String BINARY_INPUT_KEY = ProxyConstants.ID + ":"+ ProxyConstants.BINARY_INPUT;
+    final static String POWER_CONFIGURATION_KEY = ProxyConstants.ID + ":" + ProxyConstants.POWER_CONFIGURATION;
+    final static String DEVICE_TEMPERATURE_CONFIGURATION_KEY = ProxyConstants.ID + ":" + ProxyConstants.DEVICE_TEMPERATURE_CONFIGURATION;
+    final static String IDENTIFY_KEY = ProxyConstants.ID + ":" + ProxyConstants.IDENTIFY;
+    final static String GROUPS_KEY = ProxyConstants.ID + ":" + ProxyConstants.GROUPS;
+    final static String SCENES_KEY = ProxyConstants.ID + ":" + ProxyConstants.SCENES;
+    final static String ONOFF_KEY = ProxyConstants.ID + ":" + ProxyConstants.ON_OFF;
+    final static String ON_OFF_SWITCH_CONFIGURATION_KEY = ProxyConstants.ID + ":" + ProxyConstants.ON_OFF_SWITCH_CONFIGURATION;
+    final static String LEVEL_CONTROL_KEY = ProxyConstants.ID + ":" + ProxyConstants.LEVEL_CONTROL;
+    final static String ALARMS_KEY = ProxyConstants.ID + ":" + ProxyConstants.ALARMS;
+    final static String TIME_KEY = ProxyConstants.ID + ":" + ProxyConstants.TIME;
+    final static String BINARY_INPUT_KEY = ProxyConstants.ID + ":" + ProxyConstants.BINARY_INPUT;
 
     // final static String RSSI_LOCATION
-    final static String COMMISSIONING_KEY = ProxyConstants.ID + ":"+ ProxyConstants.COMMISSIONING;
+    final static String COMMISSIONING_KEY = ProxyConstants.ID + ":" + ProxyConstants.COMMISSIONING;
 
     //Measurement and Sensing
-    final static String ILLUMINANCE_MEASUREMENT_KEY = ProxyConstants.ID + ":"+ ProxyConstants.ILLUMINANCE_MEASUREMENT; // new
-    final static String TEMPERATURE_MEASUREMENT_KEY = ProxyConstants.ID + ":"+ ProxyConstants.TEMPERATURE_MEASUREMENT;
-    final static String RELATIVE_HUMIDITY_MEASUREMENT_KEY = ProxyConstants.ID + ":"+ ProxyConstants.RELATIVE_HUMIDITY_MEASUREMENT;
-    final static String OCCUPANCY_SENSING_KEY = ProxyConstants.ID + ":"+ ProxyConstants.OCCUPANCY_SENSING;
+    final static String ILLUMINANCE_MEASUREMENT_KEY = ProxyConstants.ID + ":" + ProxyConstants.ILLUMINANCE_MEASUREMENT; // new
+    final static String TEMPERATURE_MEASUREMENT_KEY = ProxyConstants.ID + ":" + ProxyConstants.TEMPERATURE_MEASUREMENT;
+    final static String RELATIVE_HUMIDITY_MEASUREMENT_KEY = ProxyConstants.ID + ":" + ProxyConstants.RELATIVE_HUMIDITY_MEASUREMENT;
+    final static String OCCUPANCY_SENSING_KEY = ProxyConstants.ID + ":" + ProxyConstants.OCCUPANCY_SENSING;
 
     //Security and Safety
-    final static String IAS_ZONE_KEY = ProxyConstants.ID + ":"+ ProxyConstants.IAS_ZONE;
-    final static String IAS_WD_KEY = ProxyConstants.ID + ":"+ ProxyConstants.IAS_WD;
-    final static String IAS_ACE_KEY = ProxyConstants.ID + ":"+ ProxyConstants.IAS_ACE;
+    final static String IAS_ZONE_KEY = ProxyConstants.ID + ":" + ProxyConstants.IAS_ZONE;
+    final static String IAS_WD_KEY = ProxyConstants.ID + ":" + ProxyConstants.IAS_WD;
+    final static String IAS_ACE_KEY = ProxyConstants.ID + ":" + ProxyConstants.IAS_ACE;
 
-    public ClusterFactoryImpl(ZigbeeProxyContext ctx){
+    public ClusterFactoryImpl(ZigbeeProxyContext ctx) {
         super(ctx);
 
         //General

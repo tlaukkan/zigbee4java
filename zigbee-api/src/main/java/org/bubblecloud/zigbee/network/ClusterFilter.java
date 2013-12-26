@@ -26,26 +26,25 @@ package org.bubblecloud.zigbee.network;
  * This class represent the filter used by the {@link ZigBeeDevice} to identifies<br>
  * if the {@link ClusterListener} has to handle or not the {@link ClusterMessage}.<br>
  * In fact, the {@link ClusterListener#handleCluster(ZigBeeDevice, ClusterMessage)} must be invoked<br>
- * if and only if either<br> 
- *  - the {@link ClusterFilter} returned by {@link ClusterListener#getClusterFilter()} is <code>null</code>, or<br>
- *  - the {@link ClusterFilter#match(ClusterMessage)} on the cluster return <code>true</code>
- * 
+ * if and only if either<br>
+ * - the {@link ClusterFilter} returned by {@link ClusterListener#getClusterFilter()} is <code>null</code>, or<br>
+ * - the {@link ClusterFilter#match(ClusterMessage)} on the cluster return <code>true</code>
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
- *
  */
 public interface ClusterFilter {
-	
-	/**
-	 * This method is invoked to check if the  {@link ZigBeeDevice} to check if {@link ClusterMessage}<br>
-	 * can be handled by the {@link ClusterListener} associated to this {@link ClusterFilter}
-	 *  
-	 * @param clusterMessage the {@link ClusterMessage} to match
-	 * @return true if the {@link ClusterMessage} match the {@link ClusterFilter}
-	 */
-	boolean match(ClusterMessage clusterMessage);
-	
-	
+
+    /**
+     * This method is invoked to check if the  {@link ZigBeeDevice} to check if {@link ClusterMessage}<br>
+     * can be handled by the {@link ClusterListener} associated to this {@link ClusterFilter}
+     *
+     * @param clusterMessage the {@link ClusterMessage} to match
+     * @return true if the {@link ClusterMessage} match the {@link ClusterFilter}
+     */
+    boolean match(ClusterMessage clusterMessage);
+
+
 }

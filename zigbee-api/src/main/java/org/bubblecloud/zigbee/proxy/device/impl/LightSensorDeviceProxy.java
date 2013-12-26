@@ -32,10 +32,8 @@ import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
 public class LightSensorDeviceProxy extends DeviceProxyBase implements LightSensor {
 
@@ -67,7 +65,7 @@ public class LightSensorDeviceProxy extends DeviceProxyBase implements LightSens
         return DEVICE_DESCRIPTOR;
     }
 
-    final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
+    final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
 
         public int[] getCustomClusters() {
             return LightSensor.CUSTOM;

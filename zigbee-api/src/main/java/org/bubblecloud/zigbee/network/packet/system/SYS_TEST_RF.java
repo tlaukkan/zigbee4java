@@ -28,54 +28,53 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class SYS_TEST_RF extends ZToolPacket /*implemtns IREQUEST,ISYSTEM*/{
-        public int TestMode;
-        public int Frequency;
-        public int TxPower;
-        
-        public SYS_TEST_RF(){
-            
-        }
-        
-        public SYS_TEST_RF(int num1,int num2,int num3){
-            this.TestMode=num1;
-            this.Frequency=num2;
-            this.TxPower=num3;
-            int[] framedata=new int[3];
-            framedata[0]=this.TestMode;
-            framedata[1]=this.Frequency;
-            framedata[2]=this.TxPower;
-            super.buildPacket(new DoubleByte(ZToolCMD.SYS_TEST_RF), framedata);
-        }
-        
-        public class TEST_MODE{
-            public static final int UNMODULATED=0;
-            public static final int PSEUDO_RANDOM=1;
-            public static final int RECEIVE=2;
-        }
-        
-        public class TX_POWER{
-            public static final int DBM_0_6=0xff;
-            public static final int DBM_0_5=0xdf;
-            public static final int DBM_0_3=0xbf;
-            public static final int DBM_0_2=0x9f;
-            public static final int DBM_MIN_0_1=0x7f;
-            public static final int DBM_MIN_0_4=0x5f;
-            public static final int DBM_MIN_0_9=0x3f;
-            public static final int DBM_MIN_1_5=0x1f;
-            public static final int DBM_MIN_2_7=0x1b;
-            public static final int DBM_MIN_4_0=0x17;
-            public static final int DBM_MIN_5_7=0x13;
-            public static final int DBM_MIN_7_9=0x0f;
-            public static final int DBM_MIN_10_8=0x0b;
-            public static final int DBM_MIN_15_4=0x07;
-            public static final int DBM_MIN_18_6=0x06;
-            public static final int DBM_MIN_25_2=0x03;
-            
-        }
+public class SYS_TEST_RF extends ZToolPacket /*implemtns IREQUEST,ISYSTEM*/ {
+    public int TestMode;
+    public int Frequency;
+    public int TxPower;
+
+    public SYS_TEST_RF() {
+
+    }
+
+    public SYS_TEST_RF(int num1, int num2, int num3) {
+        this.TestMode = num1;
+        this.Frequency = num2;
+        this.TxPower = num3;
+        int[] framedata = new int[3];
+        framedata[0] = this.TestMode;
+        framedata[1] = this.Frequency;
+        framedata[2] = this.TxPower;
+        super.buildPacket(new DoubleByte(ZToolCMD.SYS_TEST_RF), framedata);
+    }
+
+    public class TEST_MODE {
+        public static final int UNMODULATED = 0;
+        public static final int PSEUDO_RANDOM = 1;
+        public static final int RECEIVE = 2;
+    }
+
+    public class TX_POWER {
+        public static final int DBM_0_6 = 0xff;
+        public static final int DBM_0_5 = 0xdf;
+        public static final int DBM_0_3 = 0xbf;
+        public static final int DBM_0_2 = 0x9f;
+        public static final int DBM_MIN_0_1 = 0x7f;
+        public static final int DBM_MIN_0_4 = 0x5f;
+        public static final int DBM_MIN_0_9 = 0x3f;
+        public static final int DBM_MIN_1_5 = 0x1f;
+        public static final int DBM_MIN_2_7 = 0x1b;
+        public static final int DBM_MIN_4_0 = 0x17;
+        public static final int DBM_MIN_5_7 = 0x13;
+        public static final int DBM_MIN_7_9 = 0x0f;
+        public static final int DBM_MIN_10_8 = 0x0b;
+        public static final int DBM_MIN_15_4 = 0x07;
+        public static final int DBM_MIN_18_6 = 0x06;
+        public static final int DBM_MIN_25_2 = 0x03;
+
+    }
 
 }

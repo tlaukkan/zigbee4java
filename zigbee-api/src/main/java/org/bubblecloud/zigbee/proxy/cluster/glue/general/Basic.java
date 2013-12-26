@@ -27,31 +27,41 @@ import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public interface Basic extends Cluster {
 
-	public Attribute getZCLVersion();
-	public Attribute getApplicationVersion();
-	public Attribute getStackVersion();
-	public Attribute getHWVersion();
-	public Attribute getManufacturerName();
-	public Attribute getModelIdentifier();
-	public Attribute getDateCode();
-	public Attribute getPowerSource();
-	public String getLocationDescription() throws ZigBeeHAException;
-	public Attribute getPhysicalEnvironment();
-	public boolean getDeviceEnabled() throws ZigBeeHAException;
-	public Attribute getAlarmMask();
-	/**
-	 * @since 0.7.0
-	 */
-	public Attribute getDisableLocalConfig();
+    public Attribute getZCLVersion();
 
-	public void resetToFactoryDefault() throws ZigBeeHAException;
+    public Attribute getApplicationVersion();
+
+    public Attribute getStackVersion();
+
+    public Attribute getHWVersion();
+
+    public Attribute getManufacturerName();
+
+    public Attribute getModelIdentifier();
+
+    public Attribute getDateCode();
+
+    public Attribute getPowerSource();
+
+    public String getLocationDescription() throws ZigBeeHAException;
+
+    public Attribute getPhysicalEnvironment();
+
+    public boolean getDeviceEnabled() throws ZigBeeHAException;
+
+    public Attribute getAlarmMask();
+
+    /**
+     * @since 0.7.0
+     */
+    public Attribute getDisableLocalConfig();
+
+    public void resetToFactoryDefault() throws ZigBeeHAException;
 
 }

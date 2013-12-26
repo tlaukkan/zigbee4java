@@ -32,81 +32,80 @@ import org.bubblecloud.zigbee.proxy.DeviceDescription;
 import java.util.ArrayList;
 
 /**
- * 
  * This class should be used by the refinment driver when there is no device matching the DeviceId<br>
  * of the service
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class GenericDeviceProxy extends DeviceProxyBase {
-	
-	private int[] mandatory;
-	private int[] optional;
-	private int[] standard;
-	private int[] custom;
-	public GenericDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
-		super(ctx,zbDevice);
-		
-		mandatory = new int[0]; // we don't know the device so we cannot distinuish
-		optional = new int[0];
-		
-		int[] clusterIDs = zbDevice.getInputClusters();
-		ArrayList<Integer> standardList = new ArrayList<Integer>();
-		ArrayList<Integer> customList = new ArrayList<Integer>();
-		for (int i = 0; i < clusterIDs.length; i++) {
+
+    private int[] mandatory;
+    private int[] optional;
+    private int[] standard;
+    private int[] custom;
+
+    public GenericDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+        super(ctx, zbDevice);
+
+        mandatory = new int[0]; // we don't know the device so we cannot distinuish
+        optional = new int[0];
+
+        int[] clusterIDs = zbDevice.getInputClusters();
+        ArrayList<Integer> standardList = new ArrayList<Integer>();
+        ArrayList<Integer> customList = new ArrayList<Integer>();
+        for (int i = 0; i < clusterIDs.length; i++) {
 //			if (ProxyConstants.clusters.containsKey(clusterIDs[i])){
 //				standardList.add(clusterIDs[i]);
 //			} else {
 //				customList.add(clusterIDs[i]);
 //			}
-		}
-		standard = new int[standardList.size()];
-		for (int i = 0; i < standard.length; i++) {
-			standard[i] = standardList.get(i).intValue();
-		}
-		custom = new int[customList.size()];
-		for (int i = 0; i < custom.length; i++) {
-			custom[i] = customList.get(i).intValue();
-		}
-		
-		for (int i = 0; i < standard.length; i++) {
-			addCluster(standard[i]);
-		}
-	}
-	
-	
-	final DeviceDescription descriptor =  new AbstractDeviceDescription(){
+        }
+        standard = new int[standardList.size()];
+        for (int i = 0; i < standard.length; i++) {
+            standard[i] = standardList.get(i).intValue();
+        }
+        custom = new int[customList.size()];
+        for (int i = 0; i < custom.length; i++) {
+            custom[i] = customList.get(i).intValue();
+        }
 
-		public int[] getCustomClusters() {
-			return custom;
-		}
+        for (int i = 0; i < standard.length; i++) {
+            addCluster(standard[i]);
+        }
+    }
 
-		public int[] getMandatoryCluster() {
-			return mandatory;
-		}
 
-		public int[] getOptionalCluster() {
-			return optional;
-		}
+    final DeviceDescription descriptor = new AbstractDeviceDescription() {
 
-		public int[] getStandardClusters() {
-			return standard;
-		}
-		
-	};
-	
-	@Override
-	public DeviceDescription getDescription() {
-		return descriptor;
-	}
+        public int[] getCustomClusters() {
+            return custom;
+        }
 
-	@Override
-	public String getName() {
-		return "Generic HA Device";
-	}
+        public int[] getMandatoryCluster() {
+            return mandatory;
+        }
+
+        public int[] getOptionalCluster() {
+            return optional;
+        }
+
+        public int[] getStandardClusters() {
+            return standard;
+        }
+
+    };
+
+    @Override
+    public DeviceDescription getDescription() {
+        return descriptor;
+    }
+
+    @Override
+    public String getName() {
+        return "Generic HA Device";
+    }
 
 }

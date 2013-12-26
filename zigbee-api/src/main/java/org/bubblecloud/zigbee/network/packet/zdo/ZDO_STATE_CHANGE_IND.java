@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -70,8 +69,9 @@ public class ZDO_STATE_CHANGE_IND extends ZToolPacket /*implements IRESPONSE_CAL
         DEV_ZB_COORD(0x09), // Started as Zigbee Coordinator
         DEV_NWK_ORPHAN(0x0A); // Device has lost information about its parent
 
-        private static Map<Integer, CMD_STATUS> mapping= new HashMap<Integer, CMD_STATUS>();
+        private static Map<Integer, CMD_STATUS> mapping = new HashMap<Integer, CMD_STATUS>();
         private int value;
+
         private CMD_STATUS(int value) {
             this.value = value;
         }

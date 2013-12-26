@@ -29,7 +29,6 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -46,7 +45,7 @@ public class ZDO_USER_DESC_SET extends ZToolPacket /*implements IREQUEST,IZDO*/ 
     /// <name>TI.ZPI1.ZDO_USER_DESC_SET.NWKAddrOfInterest</name>
     /// <summary>NWK address for the request.</summary>
     public ZToolAddress16 nwkAddr;
-    
+
 
     /// <name>TI.ZPI1.ZDO_USER_DESC_SET</name>
     /// <summary>Constructor</summary>

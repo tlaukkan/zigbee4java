@@ -31,15 +31,15 @@ public class ZoneStatusChangeNotificationCommand extends AbstractCommand {
 
     private ZoneStatusChangeNotificationPayload cmdPayload;
 
-    public ZoneStatusChangeNotificationCommand(ZoneStatusChangeNotificationPayload cmdPayload){
+    public ZoneStatusChangeNotificationCommand(ZoneStatusChangeNotificationPayload cmdPayload) {
         super(IASZone.ZONE_STATUS_CHANGE_NOTIFICATION_ID);
         this.cmdPayload = cmdPayload;
     }
 
-    public byte[] getPayload(){
-        if( payload == null){
+    public byte[] getPayload() {
+        if (payload == null) {
             payload = new byte[3];
-            ZBSerializer serializer = new DefaultSerializer(payload,0);
+            ZBSerializer serializer = new DefaultSerializer(payload, 0);
             serializer.append_short(cmdPayload.getZoneStatus());
             serializer.append_byte(cmdPayload.getExtendedStatus());
         }

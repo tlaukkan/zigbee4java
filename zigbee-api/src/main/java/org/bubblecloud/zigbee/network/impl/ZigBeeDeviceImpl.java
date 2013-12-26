@@ -36,12 +36,10 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessageListener, ApplicationFrameworkMessageProducer {
 
@@ -68,15 +66,15 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
     private final HashSet<ApplicationFrameworkMessageConsumer> consumers = new HashSet<ApplicationFrameworkMessageConsumer>();
     private String uuid = null;
 
-    public ZigBeeDeviceImpl(final ZigbeeNetworkManager drv, final ZigBeeNode n, byte ep) throws ZigBeeBasedriverException{
-        if ( drv == null || n == null) {
-            logger.error( "Creating {} with some nulls parameters {}", new Object[]{ ZigBeeDevice.class, drv, n, ep } );
+    public ZigBeeDeviceImpl(final ZigbeeNetworkManager drv, final ZigBeeNode n, byte ep) throws ZigBeeBasedriverException {
+        if (drv == null || n == null) {
+            logger.error("Creating {} with some nulls parameters {}", new Object[]{ZigBeeDevice.class, drv, n, ep});
             throw new NullPointerException("Cannot create a device with a null ZigbeeNetworkManager or a null ZigBeeNode");
         }
         driver = drv;
         endPoint = ep;
 
-        final ZDO_SIMPLE_DESC_RSP result = doRetrieveSimpleDescription( n );
+        final ZDO_SIMPLE_DESC_RSP result = doRetrieveSimpleDescription(n);
         short[] ins = result.getInputClustersList();
         inputs = new int[ins.length];
         for (int i = 0; i < ins.length; i++) {
@@ -115,9 +113,9 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
      */
     private String generateUUID() {
         StringBuffer sb_uuid = new StringBuffer()
-            .append(node.getIEEEAddress())
-            .append("/")
-            .append(endPoint);
+                .append(node.getIEEEAddress())
+                .append("/")
+                .append(endPoint);
         return sb_uuid.toString();
     }
 
@@ -133,14 +131,14 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
             result = driver.sendZDOSimpleDescriptionRequest(
                     new ZDO_SIMPLE_DESC_REQ((short) nwk, endPoint)
             );
-            if( result == null) {
+            if (result == null) {
                 //long waiting = (long) (Math.random() * (double) Activator.getCurrentConfiguration().getMessageRetryDelay())
                 final long waiting = 1000;
                 ThreadUtils.waitNonPreemptive(waiting);
                 i++;
                 logger.debug(
                         "Inspecting ZigBee EndPoint <{},{}> failed during it {}-th attempts. " +
-                        "Waiting for {}ms before retrying",
+                                "Waiting for {}ms before retrying",
                         new Object[]{nwk, endPoint, i, waiting}
                 );
 
@@ -149,7 +147,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
             }
         }
 
-        if( result == null ){
+        if (result == null) {
             logger.error(
                     "Unable to receive a ZDO_SIMPLE_DESC_RSP for endpoint {} on node {}",
                     nwk, endPoint
@@ -188,7 +186,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         return profileId;
     }
 
-    public ZigBeeNode getPhysicalNode(){
+    public ZigBeeNode getPhysicalNode() {
         return node;
     }
 
@@ -199,15 +197,15 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         final byte[] msg = input.getClusterMsg();
 
         //TODO Create radius and options according to the current configuration
-        AF_DATA_CONFIRM response =  driver.sendAFDataRequest(new AF_DATA_REQUEST(
-                (short) node.getNetworkAddress(),(byte) endPoint, sender, input.getId(),
+        AF_DATA_CONFIRM response = driver.sendAFDataRequest(new AF_DATA_REQUEST(
+                (short) node.getNetworkAddress(), (byte) endPoint, sender, input.getId(),
                 transaction, (byte) 0 /*options*/, (byte) 0 /*radius*/, msg
         ));
 
-        if( response == null){
+        if (response == null) {
             throw new ZigBeeBasedriverException("Unable to send cluster on the ZigBee network due to general error");
-        } else if (response.getStatus() != 0 ) {
-            throw new ZigBeeBasedriverException("Unable to send cluster on the ZigBee network:"+response.getErrorMsg());
+        } else if (response.getStatus() != 0) {
+            throw new ZigBeeBasedriverException("Unable to send cluster on the ZigBee network:" + response.getErrorMsg());
         }
     }
 
@@ -238,23 +236,23 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
                 + " to end point: " + endPoint
         );
         //TODO Create radius and options according to the current configuration
-        AF_DATA_CONFIRM response =  driver.sendAFDataRequest(new AF_DATA_REQUEST(
+        AF_DATA_CONFIRM response = driver.sendAFDataRequest(new AF_DATA_REQUEST(
                 node.getNetworkAddress(), endPoint, sender, input.getId(),
                 transaction, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg
         ));
 
-        if( response == null){
+        if (response == null) {
             m_removeAFMessageListener();
             throw new ZigBeeBasedriverException("Unable to send cluster on the ZigBee network due to general error - is the device sleeping?");
-        } else if (response.getStatus() != 0 ) {
+        } else if (response.getStatus() != 0) {
             m_removeAFMessageListener();
-            throw new ZigBeeBasedriverException("Unable to send cluster on the ZigBee network:"+response.getErrorMsg());
+            throw new ZigBeeBasedriverException("Unable to send cluster on the ZigBee network:" + response.getErrorMsg());
         } else {
             //FIX Can't be singelton because only a the invoke method can be invoked by multiple-thread
             //FIX Can't be singleton because the invoke method can be invoked by multiple-thread
             AF_INCOMING_MSG incoming = waiter.getResponse();
             m_removeAFMessageListener();
-            if(incoming == null){
+            if (incoming == null) {
                 throw new ZigBeeBasedriverTimeOutException();
             }
             ClusterMessage result = new ClusterMessageImpl(incoming.getData(), incoming.getClusterId());
@@ -264,14 +262,14 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
 
     public boolean providesInputCluster(int id) {
         for (int i = 0; i < inputs.length; i++) {
-            if(inputs[i] == id) return true;
+            if (inputs[i] == id) return true;
         }
         return false;
     }
 
     public boolean providesOutputCluster(int id) {
         for (int i = 0; i < outputs.length; i++) {
-            if(outputs[i] == id) return true;
+            if (outputs[i] == id) return true;
         }
         return false;
     }
@@ -291,9 +289,9 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
                 IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPoint,
                 IEEEAddress.fromColonNotation(device.getPhysicalNode().getIEEEAddress()), (byte) device.getDeviceId()
         ));
-        if( response == null || response.Status != 0){
+        if (response == null || response.Status != 0) {
             logger.debug("ZDO_BIND_REQ failed, unable to bind from device {} to {} for cluster {}", new Object[]{
-                getUniqueIdenfier(), device.getUniqueIdenfier(), new Integer(clusterId)
+                    getUniqueIdenfier(), device.getUniqueIdenfier(), new Integer(clusterId)
             });
             return false;
         }
@@ -310,9 +308,9 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
                 IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPoint,
                 IEEEAddress.fromColonNotation(device.getPhysicalNode().getIEEEAddress()), (byte) device.getDeviceId()
         ));
-        if( response == null || response.Status != 0){
+        if (response == null || response.Status != 0) {
             logger.debug("ZDO_BIND_REQ failed, unable to un-bind from device {} to {} for cluster {}", new Object[]{
-                getUniqueIdenfier(), device.getUniqueIdenfier(), new Integer(clusterId)
+                    getUniqueIdenfier(), device.getUniqueIdenfier(), new Integer(clusterId)
             });
             return false;
         }
@@ -322,7 +320,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
 
     public boolean bind(int clusterId) throws ZigBeeBasedriverException {
         logger.debug("Binding from cluster {} of device {}", clusterId, getUniqueIdenfier());
-        if( boundCluster.contains(clusterId) ) {
+        if (boundCluster.contains(clusterId)) {
             logger.debug("Cluster already bound");
             return true;
         }
@@ -333,7 +331,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
                 IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPoint,
                 driver.getIEEEAddress(), (byte) dstEP
         ));
-        if( response == null || response.Status != 0){
+        if (response == null || response.Status != 0) {
             logger.debug("ZDO_BIND_REQ failed, unable to bind");
             return false;
         }
@@ -343,7 +341,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
 
     public boolean unbind(int clusterId) throws ZigBeeBasedriverException {
         logger.debug("Unbinding from cluster {} of device {}", clusterId, getUniqueIdenfier());
-        if( ! boundCluster.contains(clusterId) ) {
+        if (!boundCluster.contains(clusterId)) {
             logger.debug("Cluster already unbound");
             return true;
         }
@@ -355,7 +353,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
                 IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPoint,
                 driver.getIEEEAddress(), (byte) dstEP
         ));
-        if( response == null || response.Status != 0){
+        if (response == null || response.Status != 0) {
             logger.debug("ZDO_BIND_REQ failed, unable to unbind");
             return false;
         }
@@ -364,11 +362,11 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
     }
 
     private void m_addAFMessageListener() {
-        if(listeners.isEmpty() && consumers.size() == 0){
-            logger.debug( "Registered {} as {}", this, ApplicationFrameworkMessageListener.class.getName() );
+        if (listeners.isEmpty() && consumers.size() == 0) {
+            logger.debug("Registered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             driver.addAFMessageListner(this);
-        }else{
-            logger.debug( "Skipped to registered {} as {}", this, ApplicationFrameworkMessageListener.class.getName() );
+        } else {
+            logger.debug("Skipped to registered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             logger.trace(
                     "Skipped registration due to: listeners.isEmpty() = {}  or consumers.size() = {}",
                     listeners.isEmpty(), consumers.size()
@@ -377,11 +375,11 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
     }
 
     private void m_removeAFMessageListener() {
-        if(listeners.isEmpty() && consumers.size() == 0){
-            logger.debug( "Unregistered {} as {}", this, ApplicationFrameworkMessageListener.class.getName() );
+        if (listeners.isEmpty() && consumers.size() == 0) {
+            logger.debug("Unregistered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             driver.removeAFMessageListener(this);
-        }else{
-            logger.debug( "Skipped unregistration of {} as {}", this, ApplicationFrameworkMessageListener.class.getName() );
+        } else {
+            logger.debug("Skipped unregistration of {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             logger.trace(
                     "Skipped unregistration due to: listeners.isEmpty() = {}  or consumers.size() = {}",
                     listeners.isEmpty(), consumers.size()
@@ -389,36 +387,35 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         }
     }
 
-    public boolean addClusterListener(ClusterListener listener){
+    public boolean addClusterListener(ClusterListener listener) {
         m_addAFMessageListener();
 
         return listeners.add(listener);
     }
 
-    public boolean removeClusterListener(ClusterListener listener){
+    public boolean removeClusterListener(ClusterListener listener) {
         boolean result = listeners.remove(listener);
         m_removeAFMessageListener();
         return result;
     }
 
-    private void notifyClusterListener(ClusterMessage c){
+    private void notifyClusterListener(ClusterMessage c) {
         ArrayList<ClusterListener> localCopy;
         synchronized (listeners) {
             localCopy = new ArrayList<ClusterListener>(listeners);
         }
-        if(localCopy.size() > 0){
+        if (localCopy.size() > 0) {
             logger.debug("Notifying {} ClusterListener of {}", localCopy.size(), c.getClusterMsg());
 
             for (ClusterListener listner : localCopy) {
-                try{
+                try {
                     final ClusterFilter filter = listner.getClusterFilter();
-                    if ( filter == null ) {
+                    if (filter == null) {
                         listner.handleCluster(this, c);
-                    } else  if ( filter.match(c) == true ) {
+                    } else if (filter.match(c) == true) {
                         listner.handleCluster(this, c);
                     }
-                }
-                catch( Throwable t ){
+                } catch (Throwable t) {
                     logger.error("Error during dispatching of Cluster <{},{}>", c.getId(), c.getClusterMsg());
                     logger.error("Error caused by:", t);
                 }
@@ -429,7 +426,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
     public void notify(AF_INCOMING_MSG msg) {
         //THINK Do the notification in a separated Thread?
         //THINK Should consume messages only if they were sent from this device?!?!
-        if ( msg.isError() ) return;
+        if (msg.isError()) return;
         logger.debug("AF_INCOMING_MSG arrived for {} message is {}", uuid, msg);
         ArrayList<ApplicationFrameworkMessageConsumer> localConsumers = null;
         synchronized (consumers) {
@@ -437,7 +434,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         }
         logger.debug("Notifying {} ApplicationFrameworkMessageConsumer", localConsumers.size());
         for (ApplicationFrameworkMessageConsumer consumer : localConsumers) {
-            if ( consumer.consume(msg) ) {
+            if (consumer.consume(msg)) {
                 logger.debug("AF_INCOMING_MSG Consumed by {}", consumer.getClass().getName());
                 return;
             } else {
@@ -445,8 +442,8 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
             }
         }
 
-        if ( msg.getSrcAddr() != node.getNetworkAddress() ) return;
-        if ( msg.getSrcEndpoint() != endPoint) return;
+        if (msg.getSrcAddr() != node.getNetworkAddress()) return;
+        if (msg.getSrcEndpoint() != endPoint) return;
         logger.debug("Notifying cluster listener for received by {}", uuid);
         notifyClusterListener(new ClusterMessageImpl(msg.getData(), msg.getClusterId()));
     }
@@ -466,7 +463,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
     /**
      * @since 0.4.0
      */
-    public String toString(){
+    public String toString() {
         return getUniqueIdenfier();
     }
 

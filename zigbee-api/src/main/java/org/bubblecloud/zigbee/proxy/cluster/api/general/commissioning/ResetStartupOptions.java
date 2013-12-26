@@ -19,18 +19,18 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package  org.bubblecloud.zigbee.proxy.cluster.api.general.commissioning;
+package org.bubblecloud.zigbee.proxy.cluster.api.general.commissioning;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.8.0
- *
  */
 public interface ResetStartupOptions {
 
     byte getResetCurrent();
+
     byte getResetAll();
+
     byte getEraseIndex();
 }

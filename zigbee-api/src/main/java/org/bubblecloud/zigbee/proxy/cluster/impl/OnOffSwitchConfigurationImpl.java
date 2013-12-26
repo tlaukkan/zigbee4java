@@ -34,52 +34,51 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.general.OnOffSwitchConfiguratio
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class OnOffSwitchConfigurationImpl implements OnOffSwitchConfiguration {
 
-	private OnOffSwitchConfigurationCluster onOffSwitchConfiguratioCluster;
-	private Attribute switchType;  
-	private Attribute switchActions;
-	
-	public OnOffSwitchConfigurationImpl(ZigBeeDevice zbDevice){
-		onOffSwitchConfiguratioCluster = new OnOffSwitchConfigurationCluster(zbDevice);
-		switchType = onOffSwitchConfiguratioCluster.getAttributeSwitchType();
-		switchActions = onOffSwitchConfiguratioCluster.getAttributeSwitchActions();
-		 
-	}
-	
-	public Attribute getSwitchActions() {
-		return switchActions;
-	}
+    private OnOffSwitchConfigurationCluster onOffSwitchConfiguratioCluster;
+    private Attribute switchType;
+    private Attribute switchActions;
 
-	public Attribute getSwitchType() {
-		return switchType;
-	}
+    public OnOffSwitchConfigurationImpl(ZigBeeDevice zbDevice) {
+        onOffSwitchConfiguratioCluster = new OnOffSwitchConfigurationCluster(zbDevice);
+        switchType = onOffSwitchConfiguratioCluster.getAttributeSwitchType();
+        switchActions = onOffSwitchConfiguratioCluster.getAttributeSwitchActions();
 
-	public Subscription[] getActiveSubscriptions() {
-		return onOffSwitchConfiguratioCluster.getActiveSubscriptions();
-	}
+    }
 
-	public int getId() {
-		return onOffSwitchConfiguratioCluster.getId();
-	}
+    public Attribute getSwitchActions() {
+        return switchActions;
+    }
 
-	public String getName() {
-		return onOffSwitchConfiguratioCluster.getName();
-	}
+    public Attribute getSwitchType() {
+        return switchType;
+    }
 
-	public Attribute getAttribute(int id) {		
-		Attribute[] attributes = onOffSwitchConfiguratioCluster.getAvailableAttributes();
-		for (int i = 0; i < attributes.length; i++) {
-			if( attributes[i].getId() == id ) 
-				return attributes[i];
-		}
-		return null;
-	}
+    public Subscription[] getActiveSubscriptions() {
+        return onOffSwitchConfiguratioCluster.getActiveSubscriptions();
+    }
 
-	public Attribute[] getAttributes() {
-		return onOffSwitchConfiguratioCluster.getAvailableAttributes();
-	}
-	
+    public int getId() {
+        return onOffSwitchConfiguratioCluster.getId();
+    }
+
+    public String getName() {
+        return onOffSwitchConfiguratioCluster.getName();
+    }
+
+    public Attribute getAttribute(int id) {
+        Attribute[] attributes = onOffSwitchConfiguratioCluster.getAvailableAttributes();
+        for (int i = 0; i < attributes.length; i++) {
+            if (attributes[i].getId() == id)
+                return attributes[i];
+        }
+        return null;
+    }
+
+    public Attribute[] getAttributes() {
+        return onOffSwitchConfiguratioCluster.getAvailableAttributes();
+    }
+
 }

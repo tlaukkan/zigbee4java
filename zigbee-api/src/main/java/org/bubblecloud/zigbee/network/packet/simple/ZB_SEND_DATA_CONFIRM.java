@@ -29,32 +29,29 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class ZB_SEND_DATA_CONFIRM extends ZToolPacket /*implements IRESPONSE_CALLBACK,ISIMPLEAPI*/{
+public class ZB_SEND_DATA_CONFIRM extends ZToolPacket /*implements IRESPONSE_CALLBACK,ISIMPLEAPI*/ {
     /// <name>TI.ZPI2.ZB_SEND_DATA_CONFIRM.Handle</name>
-        /// <summary>Handle.</summary>
-        public int Handle;
-        /// <name>TI.ZPI2.ZB_SEND_DATA_CONFIRM.Status</name>
-        /// <summary>The immediate return value from executing the RPC.</summary>
-        public int Status;
+    /// <summary>Handle.</summary>
+    public int Handle;
+    /// <name>TI.ZPI2.ZB_SEND_DATA_CONFIRM.Status</name>
+    /// <summary>The immediate return value from executing the RPC.</summary>
+    public int Status;
 
-        /// <name>TI.ZPI2.ZB_SEND_DATA_CONFIRM</name>
-        /// <summary>Constructor</summary>
-        public ZB_SEND_DATA_CONFIRM()
-        {
-        }
+    /// <name>TI.ZPI2.ZB_SEND_DATA_CONFIRM</name>
+    /// <summary>Constructor</summary>
+    public ZB_SEND_DATA_CONFIRM() {
+    }
 
-        /// <name>TI.ZPI2.ZB_SEND_DATA_CONFIRM</name>
-        /// <summary>Constructor</summary>
-        public ZB_SEND_DATA_CONFIRM(int[] framedata)
-        {
-            this.Handle = framedata[0];
-            this.Status = framedata[1];
-            super.buildPacket(new DoubleByte(ZToolCMD.ZB_SEND_DATA_CONFIRM), framedata);
-        }
+    /// <name>TI.ZPI2.ZB_SEND_DATA_CONFIRM</name>
+    /// <summary>Constructor</summary>
+    public ZB_SEND_DATA_CONFIRM(int[] framedata) {
+        this.Handle = framedata[0];
+        this.Status = framedata[1];
+        super.buildPacket(new DoubleByte(ZToolCMD.ZB_SEND_DATA_CONFIRM), framedata);
+    }
 
     @Override
     public String toString() {

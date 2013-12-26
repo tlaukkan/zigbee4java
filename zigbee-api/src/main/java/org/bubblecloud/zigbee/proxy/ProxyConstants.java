@@ -64,10 +64,8 @@ import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.IASZone;
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:h.alink1@chello.nl">Han Alink</a>
- *
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
- *
  */
 public class ProxyConstants {
 
@@ -88,7 +86,7 @@ public class ProxyConstants {
     public static final int ALARMS = Alarms.ID;
     public static final int BINARY_INPUT = BinaryInput.ID;
     //public static final int RSSI_LOCATION												// 0X000b
-    public static final int COMMISSIONING = Commissioning.ID; 							// TODO
+    public static final int COMMISSIONING = Commissioning.ID;                            // TODO
     // Closures
     //public static final int SHADE_CONFIGURATION 										// 0x0100
 
@@ -100,11 +98,11 @@ public class ProxyConstants {
     //public static final int THERMOSTAT_USER_INTERFACE_CONFIGURATION					// 0x0204
 
     // Lighting
-    public static final int COLOR_CONTROL = ColorControl.ID;							// 0x0300
+    public static final int COLOR_CONTROL = ColorControl.ID;                            // 0x0300
     //public static final int BALLAST_CONFIGURATION										// 0x0301
 
     //Measureament & Sensing
-    public static final int ILLUMINANCE_MEASUREMENT = IlluminanceMeasurement.ID; 		// new
+    public static final int ILLUMINANCE_MEASUREMENT = IlluminanceMeasurement.ID;        // new
     //public static final int ILLUMINANCE_LEVEL_SENSING									// 0x0401
     public static final int TEMPERATURE_MEASUREMENT = TemperatureMeasurement.ID;
     //public static final int PRESSURE_MEASUREMENT										// 0x0403
@@ -113,9 +111,9 @@ public class ProxyConstants {
     public static final int OCCUPANCY_SENSING = OccupacySensing.ID;
 
     // Security & Safety
-    public static final int IAS_ZONE = IASZone.ID;										// TODO
-    public static final int IAS_ACE = IASACE.ID;										// 0x0501
-    public static final int IAS_WD = IASWD.ID;											// TODO
+    public static final int IAS_ZONE = IASZone.ID;                                        // TODO
+    public static final int IAS_ACE = IASACE.ID;                                        // 0x0501
+    public static final int IAS_WD = IASWD.ID;                                            // TODO
 
     // devices
     // GENERIC 0x0000 - 0x00FF
@@ -138,124 +136,121 @@ public class ProxyConstants {
     public static final int IASZONE = IAS_Zone.DEVICE_ID;
     public static final int IAS_WARNING_DEVICE = IAS_Warning.DEVICE_ID;
 
-    public String getDeviceName(String deviceID){
+    public String getDeviceName(String deviceID) {
 
-        try{
+        try {
             String id = Integer.toHexString((Integer.parseInt(deviceID)));
 
-            if(id.equals(Integer.toHexString(ProxyConstants.ONOFF_SWITCH)))
+            if (id.equals(Integer.toHexString(ProxyConstants.ONOFF_SWITCH)))
                 return OnOffSwitch.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.LEVELCONTROL)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.LEVELCONTROL)))
                 return LevelControlSwitch.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.ONOFF_OUTPUT)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.ONOFF_OUTPUT)))
                 return OnOffOutput.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.MAINS_POWER_OUTLET)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.MAINS_POWER_OUTLET)))
                 return MainsPowerOutlet.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.SIMPLE_SENSOR)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.SIMPLE_SENSOR)))
                 return SimpleSensor.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.ONOFF_LIGHT)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.ONOFF_LIGHT)))
                 return OnOffLight.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.DIMMABLE_LIGHT)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.DIMMABLE_LIGHT)))
                 return DimmableLight.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.ONOFF_LIGHT_SWITCH)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.ONOFF_LIGHT_SWITCH)))
                 return OnOffLightSwitch.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.LIGHT_SENSOR)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.LIGHT_SENSOR)))
                 return LightSensor.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.OCCUPANCY_SENSOR)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.OCCUPANCY_SENSOR)))
                 return OccupancySensor.NAME;
 
-            else if(id.equals(Integer.toHexString(ProxyConstants.TEMPERATURE_SENSOR)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.TEMPERATURE_SENSOR)))
                 return TemperatureSensor.NAME;
 
-            else if(id.equals(Integer.toHexString(ProxyConstants.IAS_CONTROL_INDICATING_EQUIPMENT)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.IAS_CONTROL_INDICATING_EQUIPMENT)))
                 return IASControlAndIndicatingEquipment.NAME;
 
-            else if(id.equals(Integer.toHexString(ProxyConstants.IASZONE)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.IASZONE)))
                 return IAS_Zone.NAME;
 
             else return null;
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             return null;
         }
     }
 
-    public String getClusterName(String clusterID){
+    public String getClusterName(String clusterID) {
 
-        try{
+        try {
             String id = Integer.toHexString((Integer.parseInt(clusterID)));
 
-            if(id.equals(Integer.toHexString(ProxyConstants.BASIC)))
+            if (id.equals(Integer.toHexString(ProxyConstants.BASIC)))
                 return Basic.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.POWER_CONFIGURATION)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.POWER_CONFIGURATION)))
                 return PowerConfiguration.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.DEVICE_TEMPERATURE_CONFIGURATION)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.DEVICE_TEMPERATURE_CONFIGURATION)))
                 return DeviceTemperatureConfiguration.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.IDENTIFY)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.IDENTIFY)))
                 return Identify.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.GROUPS)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.GROUPS)))
                 return Groups.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.SCENES)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.SCENES)))
                 return Scenes.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.ON_OFF)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.ON_OFF)))
                 return OnOff.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.ON_OFF_SWITCH_CONFIGURATION)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.ON_OFF_SWITCH_CONFIGURATION)))
                 return OnOffSwitchConfiguration.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.LEVEL_CONTROL)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.LEVEL_CONTROL)))
                 return LevelControl.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.ALARMS)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.ALARMS)))
                 return Alarms.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.TIME)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.TIME)))
                 return Time.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.BINARY_INPUT)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.BINARY_INPUT)))
                 return BinaryInput.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.COMMISSIONING)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.COMMISSIONING)))
                 return Commissioning.NAME;
 
-            else if(id.equals(Integer.toHexString(ProxyConstants.COLOR_CONTROL)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.COLOR_CONTROL)))
                 return ColorControl.NAME;
 
-            else if(id.equals(Integer.toHexString(ProxyConstants.ILLUMINANCE_MEASUREMENT)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.ILLUMINANCE_MEASUREMENT)))
                 return IlluminanceMeasurement.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.TEMPERATURE_MEASUREMENT)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.TEMPERATURE_MEASUREMENT)))
                 return TemperatureMeasurement.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.RELATIVE_HUMIDITY_MEASUREMENT)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.RELATIVE_HUMIDITY_MEASUREMENT)))
                 return RelativeHumidityMeasurement.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.OCCUPANCY_SENSING)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.OCCUPANCY_SENSING)))
                 return OccupacySensing.NAME;
 
-            else if(id.equals(Integer.toHexString(ProxyConstants.IAS_ZONE)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.IAS_ZONE)))
                 return IASZone.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.IAS_ACE)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.IAS_ACE)))
                 return IASACE.NAME;
-            else if(id.equals(Integer.toHexString(ProxyConstants.IAS_WD)))
+            else if (id.equals(Integer.toHexString(ProxyConstants.IAS_WD)))
                 return IASWD.NAME;
 
             else return null;
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             return null;
         }
     }
 
-    public String getCategoryDeviceName(String deviceID){
+    public String getCategoryDeviceName(String deviceID) {
 
-        try{
+        try {
             String id = Integer.toHexString((Integer.parseInt(deviceID)));
-            if(id.startsWith("0"))
+            if (id.startsWith("0"))
                 return "Generic";
-            else if(id.startsWith("1"))
+            else if (id.startsWith("1"))
                 return "Lighting";
-            else if(id.startsWith("2"))
+            else if (id.startsWith("2"))
                 return "Closures";
-            else if(id.startsWith("3"))
+            else if (id.startsWith("3"))
                 return "HVAC";
-            else if(id.startsWith("4"))
+            else if (id.startsWith("4"))
                 return "IAS";
             else
                 return null;
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             return null;
         }
     }

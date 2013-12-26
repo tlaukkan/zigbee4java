@@ -27,10 +27,9 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
- * @since 0.6.0
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.6.0
  */
 public class UTIL_SET_SECURITY_LEVEL extends ZToolPacket /*implements IREQUEST,ISYSTEM*/ {
     /// <name>TI.ZPI1.SYS_SET_SECURITY_LEVEL.SecurityLevel</name>
@@ -52,7 +51,7 @@ public class UTIL_SET_SECURITY_LEVEL extends ZToolPacket /*implements IREQUEST,I
 
         super.buildPacket(new DoubleByte(ZToolCMD.UTIL_SET_SECURITY_LEVEL), framedata);
     }
-    
+
     public UTIL_SET_SECURITY_LEVEL(int[] framedata) {
         this.SecurityLevel = framedata[0];
 

@@ -43,138 +43,138 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.general.ScenesCluster;
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class ScenesImpl implements Scenes {
-	
-	private ScenesCluster scenesCluster;
-	private Attribute sceneCount;
-	private Attribute currentScene;
-	private Attribute currentGroup;
-	private Attribute sceneValid;
-	private Attribute nameSupport;
-	private Attribute lastConfiguredBy;
-	public ScenesImpl(ZigBeeDevice zbDevice){
-		scenesCluster = new ScenesCluster(zbDevice);
-		sceneCount = scenesCluster.getAttributeSceneCount();
-		currentScene = scenesCluster.getAttributeCurrentScene();
-		currentGroup = scenesCluster.getAttributeCurrentGroup();
-		sceneValid = scenesCluster.getAttributeSceneValid();
-		nameSupport = scenesCluster.getAttributeNameSupport();
-		lastConfiguredBy = scenesCluster.getAttributeLastConfiguredBy();
-		
-	}
 
-	public AddSceneResponse addScene(AddScenePayload scenepayload) throws ZigBeeHAException{
-		try {
-			AddSceneResponse response = (AddSceneResponse)scenesCluster.addScene(scenepayload);
-			return response;
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    private ScenesCluster scenesCluster;
+    private Attribute sceneCount;
+    private Attribute currentScene;
+    private Attribute currentGroup;
+    private Attribute sceneValid;
+    private Attribute nameSupport;
+    private Attribute lastConfiguredBy;
 
-	public Attribute getCurrentGroup() {
-		return currentGroup;
-	}
+    public ScenesImpl(ZigBeeDevice zbDevice) {
+        scenesCluster = new ScenesCluster(zbDevice);
+        sceneCount = scenesCluster.getAttributeSceneCount();
+        currentScene = scenesCluster.getAttributeCurrentScene();
+        currentGroup = scenesCluster.getAttributeCurrentGroup();
+        sceneValid = scenesCluster.getAttributeSceneValid();
+        nameSupport = scenesCluster.getAttributeNameSupport();
+        lastConfiguredBy = scenesCluster.getAttributeLastConfiguredBy();
 
-	public Attribute getCurrentScene() {
-		return currentScene;
-	}
+    }
 
-	public Attribute getLastConfiguredBy() {
-		return lastConfiguredBy;
-	}
+    public AddSceneResponse addScene(AddScenePayload scenepayload) throws ZigBeeHAException {
+        try {
+            AddSceneResponse response = (AddSceneResponse) scenesCluster.addScene(scenepayload);
+            return response;
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public Attribute getNameSupport() {
-		return nameSupport;
-	}
+    public Attribute getCurrentGroup() {
+        return currentGroup;
+    }
 
-	public Attribute getSceneCount() {
-		return sceneCount;
-	}
+    public Attribute getCurrentScene() {
+        return currentScene;
+    }
 
-	public GetSceneMembershipResponse getSceneMembership(int groupId) throws ZigBeeHAException{
-		try {
-			GetSceneMembershipResponse response = (GetSceneMembershipResponse)scenesCluster.getSceneMembership(groupId);
-			return response;
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    public Attribute getLastConfiguredBy() {
+        return lastConfiguredBy;
+    }
 
-	public Attribute getSceneValid() {
-		return sceneValid;
-	}
+    public Attribute getNameSupport() {
+        return nameSupport;
+    }
 
-	public void recallScene(int groupId, short sceneId) throws ZigBeeHAException{
-		try {
-			scenesCluster.recallScene(groupId, sceneId);
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
+    public Attribute getSceneCount() {
+        return sceneCount;
+    }
 
-	}
+    public GetSceneMembershipResponse getSceneMembership(int groupId) throws ZigBeeHAException {
+        try {
+            GetSceneMembershipResponse response = (GetSceneMembershipResponse) scenesCluster.getSceneMembership(groupId);
+            return response;
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public RemoveAllScenesResponse removeAllScene(int groupId) throws ZigBeeHAException{
-		try {
-			RemoveAllScenesResponse response = (RemoveAllScenesResponse)scenesCluster.removeAllScenes(groupId);
-			return response;
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    public Attribute getSceneValid() {
+        return sceneValid;
+    }
 
-	public RemoveSceneResponse removeScene(int groupId, short sceneId) throws ZigBeeHAException{
-		try {
-			RemoveSceneResponse response = (RemoveSceneResponse)scenesCluster.removeScene(groupId, sceneId);
-			return response;
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    public void recallScene(int groupId, short sceneId) throws ZigBeeHAException {
+        try {
+            scenesCluster.recallScene(groupId, sceneId);
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
 
-	public StoreSceneResponse storeScene(int groupId, short sceneId) throws ZigBeeHAException{
-		try {
-			StoreSceneResponse response = (StoreSceneResponse)scenesCluster.storeScene(groupId, sceneId);
-			return response;
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    }
 
-	public ViewSceneResponse viewScene(int groupId, short sceneId) throws ZigBeeHAException{
-		try {
-			ViewSceneResponse response = (ViewSceneResponse)scenesCluster.viewScene(groupId, sceneId);
-			return response;
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    public RemoveAllScenesResponse removeAllScene(int groupId) throws ZigBeeHAException {
+        try {
+            RemoveAllScenesResponse response = (RemoveAllScenesResponse) scenesCluster.removeAllScenes(groupId);
+            return response;
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public Subscription[] getActiveSubscriptions() {
-		return scenesCluster.getActiveSubscriptions();
-	}
+    public RemoveSceneResponse removeScene(int groupId, short sceneId) throws ZigBeeHAException {
+        try {
+            RemoveSceneResponse response = (RemoveSceneResponse) scenesCluster.removeScene(groupId, sceneId);
+            return response;
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public int getId() {
-		return scenesCluster.getId();
-	}
+    public StoreSceneResponse storeScene(int groupId, short sceneId) throws ZigBeeHAException {
+        try {
+            StoreSceneResponse response = (StoreSceneResponse) scenesCluster.storeScene(groupId, sceneId);
+            return response;
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public String getName() {
-		return scenesCluster.getName();
-	}
+    public ViewSceneResponse viewScene(int groupId, short sceneId) throws ZigBeeHAException {
+        try {
+            ViewSceneResponse response = (ViewSceneResponse) scenesCluster.viewScene(groupId, sceneId);
+            return response;
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public Attribute getAttribute(int id) {		
-		Attribute[] attributes = scenesCluster.getAvailableAttributes();
-		for (int i = 0; i < attributes.length; i++) {
-			if( attributes[i].getId() == id ) 
-				return attributes[i];
-		}
-		return null;
-	}
+    public Subscription[] getActiveSubscriptions() {
+        return scenesCluster.getActiveSubscriptions();
+    }
 
-	public Attribute[] getAttributes() {
-		return scenesCluster.getAvailableAttributes();
-	}
-	
+    public int getId() {
+        return scenesCluster.getId();
+    }
+
+    public String getName() {
+        return scenesCluster.getName();
+    }
+
+    public Attribute getAttribute(int id) {
+        Attribute[] attributes = scenesCluster.getAvailableAttributes();
+        for (int i = 0; i < attributes.length; i++) {
+            if (attributes[i].getId() == id)
+                return attributes[i];
+        }
+        return null;
+    }
+
+    public Attribute[] getAttributes() {
+        return scenesCluster.getAvailableAttributes();
+    }
+
 }

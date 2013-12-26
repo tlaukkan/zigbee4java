@@ -31,15 +31,13 @@ import org.bubblecloud.zigbee.proxy.cluster.api.general.commissioning.RestartDev
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
 
 /**
- *
- *  PLACEHOLDER TO IMPLEMENT
+ * PLACEHOLDER TO IMPLEMENT
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @version  $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.8.0
- *
  */
-public class CommissioningCluster  extends ZCLClusterBase implements Commissioning {
+public class CommissioningCluster extends ZCLClusterBase implements Commissioning {
 
     public CommissioningCluster(ZigBeeDevice zbDevice) {
         super(zbDevice);

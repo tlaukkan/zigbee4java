@@ -33,65 +33,63 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ResponseImpl;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ViewSceneResponseImpl extends ResponseImpl implements
-		ViewSceneResponse {
-	
-	private ExtensionFieldSetViewResponse[] extensionfield;
-	private int groupId;
-	private short sceneId;
-	private String sceneName;
-	private byte status;
-	private int transitionTime;
-	
-	public ViewSceneResponseImpl(Response response)throws ZigBeeClusterException{
-		super(response);
-		ResponseImpl.checkSpecificCommandFrame(response, RemoveSceneResponse.ID);
-		ZBDeserializer deserializer = new DefaultDeserializer(getPayload(),0);
-		status = deserializer.read_byte();
-		groupId = deserializer.read_short();
-		sceneId = deserializer.read_byte();
-		transitionTime = deserializer.read_short();
-		//TODO check variable length
-		//TODO use the deserializer.readZigBeeType(ZigBeeType)
-		sceneName = (String) deserializer.readObject(String.class); 
-		// TODO read extensionFieldSet
-		int i = 0; 
-		boolean cond = true; //extensionfield end
-		while (cond){
-			extensionfield[i] = new ExtensionFieldSetViewResponseImpl(deserializer);
-			i= i + 1;
-			cond = extensionfield[i].endSet();
-		}
-	}
+        ViewSceneResponse {
 
-	public ExtensionFieldSetViewResponse[] getExstensionFieldSet() {
-		return extensionfield;
-	}
+    private ExtensionFieldSetViewResponse[] extensionfield;
+    private int groupId;
+    private short sceneId;
+    private String sceneName;
+    private byte status;
+    private int transitionTime;
 
-	public int getGroupId() {
-		return groupId;
-	}
+    public ViewSceneResponseImpl(Response response) throws ZigBeeClusterException {
+        super(response);
+        ResponseImpl.checkSpecificCommandFrame(response, RemoveSceneResponse.ID);
+        ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);
+        status = deserializer.read_byte();
+        groupId = deserializer.read_short();
+        sceneId = deserializer.read_byte();
+        transitionTime = deserializer.read_short();
+        //TODO check variable length
+        //TODO use the deserializer.readZigBeeType(ZigBeeType)
+        sceneName = (String) deserializer.readObject(String.class);
+        // TODO read extensionFieldSet
+        int i = 0;
+        boolean cond = true; //extensionfield end
+        while (cond) {
+            extensionfield[i] = new ExtensionFieldSetViewResponseImpl(deserializer);
+            i = i + 1;
+            cond = extensionfield[i].endSet();
+        }
+    }
 
-	public short getSceneId() {
-		return sceneId;
-	}
+    public ExtensionFieldSetViewResponse[] getExstensionFieldSet() {
+        return extensionfield;
+    }
 
-	public String getSceneName() {
-		return sceneName;
-	}
+    public int getGroupId() {
+        return groupId;
+    }
 
-	public Status getStatus() {
-		return Status.getStatus(status);
-	}
+    public short getSceneId() {
+        return sceneId;
+    }
 
-	public int getTransitionTime() {
-		return transitionTime;
-	}
+    public String getSceneName() {
+        return sceneName;
+    }
+
+    public Status getStatus() {
+        return Status.getStatus(status);
+    }
+
+    public int getTransitionTime() {
+        return transitionTime;
+    }
 
 }

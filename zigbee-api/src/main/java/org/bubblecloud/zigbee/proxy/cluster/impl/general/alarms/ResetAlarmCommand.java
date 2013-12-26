@@ -25,31 +25,30 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.general.alarms;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ByteArrayOutputStreamSerializer;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ResetAlarmCommand extends AbstractCommand {
 
-	private byte clusterId;
-	private short attributeId;
-	
-	public ResetAlarmCommand(byte cid, short aid){		
-		super(Alarms.RESET_ALARM_ID);
-		this.clusterId = cid;
-		this.attributeId = aid;
-	}
-	
-	public byte[] getPayload(){	
-		if( payload == null){			
-			ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
-			serializer.append_byte(clusterId);		
-			serializer.append_short(attributeId);		
-			payload = serializer.getPayload();
-		}
-		return payload;
-	}    
+    private byte clusterId;
+    private short attributeId;
+
+    public ResetAlarmCommand(byte cid, short aid) {
+        super(Alarms.RESET_ALARM_ID);
+        this.clusterId = cid;
+        this.attributeId = aid;
+    }
+
+    public byte[] getPayload() {
+        if (payload == null) {
+            ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_byte(clusterId);
+            serializer.append_short(attributeId);
+            payload = serializer.getPayload();
+        }
+        return payload;
+    }
 }

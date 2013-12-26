@@ -45,13 +45,11 @@ import java.util.List;
 
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision: 67 $ ($LastChangedDate: 2010-10-01 04:08:24 +0200 (ven, 01 ott 2010) $)
  * @since 0.7.0
- *
  */
 public class LQINetworkBrowserThread extends RunnableThread {
 
@@ -72,13 +70,13 @@ public class LQINetworkBrowserThread extends RunnableThread {
         final short address;
         ZigBeeNodeImpl node = null;
 
-        NetworkAddressNodeItem(NetworkAddressNodeItem addressTreeParent, short networkAddress){
+        NetworkAddressNodeItem(NetworkAddressNodeItem addressTreeParent, short networkAddress) {
             parent = addressTreeParent;
             address = networkAddress;
         }
 
-        public String toString(){
-            if ( parent != null ) {
+        public String toString() {
+            if (parent != null) {
                 return "<" + parent.address + " / " + parent.node + "," + address + " / " + node + ">";
             } else {
                 return "< NULL ," + address + " / " + node + ">";
@@ -91,22 +89,22 @@ public class LQINetworkBrowserThread extends RunnableThread {
         this.driver = driver;
     }
 
-    private NetworkAddressNodeItem getIEEEAddress(short nwkAddress){
+    private NetworkAddressNodeItem getIEEEAddress(short nwkAddress) {
 
         NetworkAddressNodeItem node = new NetworkAddressNodeItem(null, nwkAddress);
 
         ZDO_IEEE_ADDR_RSP ieee_addr_resp = driver.sendZDOIEEEAddressRequest(
-                new ZDO_IEEE_ADDR_REQ(nwkAddress, ZDO_IEEE_ADDR_REQ.REQ_TYPE.SINGLE_DEVICE_RESPONSE,(byte) 0)
-                );
+                new ZDO_IEEE_ADDR_REQ(nwkAddress, ZDO_IEEE_ADDR_REQ.REQ_TYPE.SINGLE_DEVICE_RESPONSE, (byte) 0)
+        );
 
-        if( ieee_addr_resp == null) {
+        if (ieee_addr_resp == null) {
             logger.debug("No ZDO_IEEE_ADDR_RSP from #{}", nwkAddress);
             return null;
         } else {
             logger.debug(
                     "ZDO_IEEE_ADDR_RSP from {} with {} associated",
                     ieee_addr_resp.getIEEEAddress(), ieee_addr_resp.getAssociatedDeviceCount()
-                    );
+            );
 
             node.node = new ZigBeeNodeImpl(node.address, ieee_addr_resp.getIEEEAddress(),
                     (short) driver.getCurrentPanId());
@@ -114,7 +112,7 @@ public class LQINetworkBrowserThread extends RunnableThread {
             ZToolAddress16 nwk = new ZToolAddress16(
                     Integers.getByteAsInteger(node.address, 1),
                     Integers.getByteAsInteger(node.address, 0)
-                    );
+            );
 
             if (!alreadyInspected.containsKey((int) node.address)) {
                 queue.push(nwk, ieee_addr_resp.getIEEEAddress());
@@ -125,38 +123,38 @@ public class LQINetworkBrowserThread extends RunnableThread {
         }
     }
 
-    private void announceNodes(List<NetworkAddressNodeItem> nodes){
+    private void announceNodes(List<NetworkAddressNodeItem> nodes) {
 
-        if(nodes != null)
-            for(int i = 0; i < nodes.size(); i++)
+        if (nodes != null)
+            for (int i = 0; i < nodes.size(); i++)
                 announceNode(nodes.get(i));
     }
 
-    private void announceNode(NetworkAddressNodeItem node){
+    private void announceNode(NetworkAddressNodeItem node) {
 
-        if(node != null){
+        if (node != null) {
             notifyBrowsedNode(node);
         }
     }
 
-    private List<NetworkAddressNodeItem> lqiRequestToNode(NetworkAddressNodeItem node, int index){
+    private List<NetworkAddressNodeItem> lqiRequestToNode(NetworkAddressNodeItem node, int index) {
 
-        if(alreadyInspected.get((int) node.address) == null){
-            alreadyInspected.put( (int) node.address, node );
+        if (alreadyInspected.get((int) node.address) == null) {
+            alreadyInspected.put((int) node.address, node);
 
-            if(index == 0)
+            if (index == 0)
                 connectedNodesFound.clear();
 
             short nwk = node.address;
             ZToolAddress16 nwk16 = new ZToolAddress16(
                     Integers.getByteAsInteger(node.address, 1),
                     Integers.getByteAsInteger(node.address, 0)
-                    );
+            );
 
             logger.debug("ZDO_MGMT_LQI_REQ to {} from index {}", node.address, index);
             ZDO_MGMT_LQI_RSP lqi_resp = driver.sendLQIRequest(new ZDO_MGMT_LQI_REQ(nwk16, index));
 
-            if( lqi_resp == null) {
+            if (lqi_resp == null) {
                 logger.debug("No LQI answer from #{}", nwk);
                 return null;
             } else {
@@ -166,19 +164,19 @@ public class LQINetworkBrowserThread extends RunnableThread {
 
                 NeighborLqiListItemClass[] neighbors = (NeighborLqiListItemClass[]) lqi_resp.getNeighborLqiList();
 
-                if(neighbors != null){
-                    for(int i = 0; i < neighbors.length; i++){
+                if (neighbors != null) {
+                    for (int i = 0; i < neighbors.length; i++) {
                         NeighborLqiListItemClass neighbor = (NeighborLqiListItemClass) neighbors[i];
 
                         logger.info("Node #{} visible from node #{} with LQI value {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), nwk, neighbor.RxLQI});
 
-                        NetworkAddressNodeItem result = getIEEEAddress( (short) neighbor.NetworkAddress.get16BitValue() );
+                        NetworkAddressNodeItem result = getIEEEAddress((short) neighbor.NetworkAddress.get16BitValue());
                         NetworkAddressNodeItem newNode;
-                        if(result != null) {
+                        if (result != null) {
                             newNode = new NetworkAddressNodeItem(node, result.address);
                             connectedNodesFound.add(newNode);
                         } else {
-                            newNode = new NetworkAddressNodeItem(node, (short)neighbor.NetworkAddress.get16BitValue());
+                            newNode = new NetworkAddressNodeItem(node, (short) neighbor.NetworkAddress.get16BitValue());
                             connectedNodesFound.add(newNode);
                             logger.info("No response to ZDO_IEEE_ADDR_REQ from node {}", neighbor.NetworkAddress.get16BitValue());
                         }
@@ -187,29 +185,28 @@ public class LQINetworkBrowserThread extends RunnableThread {
 
                 // NeighborLQICount: neighbors IN THIS RESPONSE
                 // NeighborLQIEntries: all available neighbors
-                if ( lqi_resp.getNeighborLQIEntries() > ( lqi_resp.getNeighborLQICount() + index + 1 ) ) {
+                if (lqi_resp.getNeighborLQIEntries() > (lqi_resp.getNeighborLQICount() + index + 1)) {
                     logger.debug("ZDO_MGMT_LQI_REQ new request to {} because of too many entries for a single request," +
-                            " restarting from index {}", node.address, lqi_resp.getNeighborLQICount() + index + 1 );
-                    lqiRequestToNode( node, lqi_resp.getNeighborLQICount() + index + 1 );
+                            " restarting from index {}", node.address, lqi_resp.getNeighborLQICount() + index + 1);
+                    lqiRequestToNode(node, lqi_resp.getNeighborLQICount() + index + 1);
                 }
 
                 return connectedNodesFound;
             }
-        }
-        else{
+        } else {
             logger.debug("Node {} inspected few seconds ago, request delayed", node.address);
             return null;
         }
     }
 
-    private void inspectQueue(ArrayList<NetworkAddressNodeItem> toInspectTemp){
+    private void inspectQueue(ArrayList<NetworkAddressNodeItem> toInspectTemp) {
 
-        for(int i = 0; i < toInspect.size(); i++){
+        for (int i = 0; i < toInspect.size(); i++) {
             List<NetworkAddressNodeItem> children = new ArrayList<NetworkAddressNodeItem>();
             NetworkAddressNodeItem node = toInspect.get(i);
-            if(node != null){
+            if (node != null) {
                 children = lqiRequestToNode(node, LQI_START_INDEX);
-                if(children != null){
+                if (children != null) {
                     toInspectTemp.addAll(children);
                     announceNodes(children);
                 }
@@ -217,35 +214,35 @@ public class LQINetworkBrowserThread extends RunnableThread {
         }
     }
 
-    public void task(){
+    public void task() {
 
         final String threadName = Thread.currentThread().getName();
 
         logger.debug("{} STARTED Succesfully", threadName);
 
-        while( ! isDone() ){
+        while (!isDone()) {
             cleanUpWalkingTree();
 
             logger.debug("Inspecting ZigBee network for new nodes.");
 
-            try{
+            try {
                 NetworkAddressNodeItem coordinator = getIEEEAddress(COORDINATOR_NWK_ADDRESS);
-                if(coordinator != null){
+                if (coordinator != null) {
 
                     //gt = new GraphThread();
 
                     List<NetworkAddressNodeItem> coordinatorChildren = lqiRequestToNode(coordinator, LQI_START_INDEX);
-                    if(coordinatorChildren != null)
+                    if (coordinatorChildren != null)
                         toInspect.addAll(coordinatorChildren);
 
                     ArrayList<NetworkAddressNodeItem> toInspectTemp = new ArrayList<NetworkAddressNodeItem>();
 
-                    while(!toInspect.isEmpty()){
+                    while (!toInspect.isEmpty()) {
                         inspectQueue(toInspectTemp);
 
                         toInspect.clear();
-                        if(!toInspectTemp.isEmpty())
-                            for(int i = 0; i < toInspectTemp.size(); i++)
+                        if (!toInspectTemp.isEmpty())
+                            for (int i = 0; i < toInspectTemp.size(); i++)
                                 toInspect.add(toInspectTemp.get(i));
                         toInspectTemp.clear();
                     }
@@ -253,11 +250,10 @@ public class LQINetworkBrowserThread extends RunnableThread {
                 }
 
                 long wakeUpTime = System.currentTimeMillis() + 20000;
-                if ( ! isDone() ) ThreadUtils.waitingUntil( wakeUpTime );
+                if (!isDone()) ThreadUtils.waitingUntil(wakeUpTime);
                 logger.info("Network browsing completed, waiting until {}", wakeUpTime);
                 //gt.run();
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -270,6 +266,7 @@ public class LQINetworkBrowserThread extends RunnableThread {
         alreadyInspected.clear();
         toInspect.clear();
     }
+
     /*
     private ArrayList<NetworkAddressNodeItem> addChildrenNodesToInspectingQueue(NetworkAddressNodeItem inspecting, ZDO_IEEE_ADDR_RSP result) {
         int start = 0;

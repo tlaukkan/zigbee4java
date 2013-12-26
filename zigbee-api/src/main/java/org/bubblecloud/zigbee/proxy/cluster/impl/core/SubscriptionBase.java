@@ -43,13 +43,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
-
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
- *
  */
 public abstract class SubscriptionBase implements Subscription {
 
@@ -61,14 +58,14 @@ public abstract class SubscriptionBase implements Subscription {
     protected final ZCLCluster cluster;
     protected final Attribute attribute;
 
-    protected int max =  Subscription.DEFAULT_MAX_REPORTING_INTERVAL;
-    protected int min =  Subscription.DEFAULT_MIN_REPORTING_INTERVAL;
+    protected int max = Subscription.DEFAULT_MAX_REPORTING_INTERVAL;
+    protected int min = Subscription.DEFAULT_MIN_REPORTING_INTERVAL;
 
     protected class ReportListenerNotifier implements ClusterListener {
 
         public void handleCluster(ZigBeeDevice device, ClusterMessage c) {
             try {
-                if ( c.getId() != cluster.getId() ) return;
+                if (c.getId() != cluster.getId()) return;
                 ResponseImpl response = new ResponseImpl(c, cluster.getId());
                 AttributeReport[] reports = new ReportAttributesCommand(response).getAttributeReports();
                 Dictionary<Attribute, Object> event = new Hashtable<Attribute, Object>();
@@ -84,11 +81,11 @@ public abstract class SubscriptionBase implements Subscription {
                 }
                 log.debug("Notifying {} ReportListener", localCopy.size());
                 for (ReportListener reportListner : localCopy) {
-                    try{
+                    try {
                         log.debug("Notifying {}:{}", reportListner.getClass().getName(), reportListner);
                         reportListner.receivedReport(event);
-                    }catch(Exception e){
-                        log.error("Error while notifying {}:{} caused by {}",new Object[]{
+                    } catch (Exception e) {
+                        log.error("Error while notifying {}:{} caused by {}", new Object[]{
                                 reportListner.getClass().getName(), reportListner, e.getStackTrace()
                         });
                     }
@@ -116,7 +113,7 @@ public abstract class SubscriptionBase implements Subscription {
 
     private boolean doBindToDevice() {
         try {
-            return device.bind( cluster.getId() );
+            return device.bind(cluster.getId());
         } catch (ZigBeeBasedriverException e) {
             log.debug("Unable to bind to device {} on cluster {}", device, cluster.getId());
             log.error("Binding failed", e);
@@ -126,7 +123,7 @@ public abstract class SubscriptionBase implements Subscription {
 
     private boolean doUnbindToDevice() {
         try {
-            return device.unbind( cluster.getId() );
+            return device.unbind(cluster.getId());
         } catch (ZigBeeBasedriverException e) {
             log.debug("Unable to bind to device {} on cluster {}", device, cluster.getId());
             log.error("Binding failed", e);
@@ -138,8 +135,8 @@ public abstract class SubscriptionBase implements Subscription {
 
     public boolean addReportListner(ReportListener listener) {
         synchronized (listeners) {
-            if ( listeners.size() == 0 ) {
-                if( ! doBindToDevice() ) {
+            if (listeners.size() == 0) {
+                if (!doBindToDevice()) {
                     return false;
                 }
                 try {
@@ -156,7 +153,7 @@ public abstract class SubscriptionBase implements Subscription {
     }
 
     public void clear() {
-        if ( doUnbindToDevice() == true ) {
+        if (doUnbindToDevice() == true) {
             synchronized (listeners) {
                 listeners.clear();
             }
@@ -175,8 +172,8 @@ public abstract class SubscriptionBase implements Subscription {
 
     public boolean removeReportListner(ReportListener listener) {
         synchronized (listeners) {
-            if ( listeners.size() == 1 ) {
-                if( ! doUnbindToDevice() ) {
+            if (listeners.size() == 1) {
+                if (!doUnbindToDevice()) {
                     return false;
                 }
                 //TODO Change the configuration only if there were no subscriber
@@ -217,13 +214,13 @@ public abstract class SubscriptionBase implements Subscription {
     }
 
     public boolean updateConfiguration() {
-        try{
-            if( isActive() ) {
+        try {
+            if (isActive()) {
                 return doConfigureServer();
             } else {
                 return true;
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("Unable to update Report configuration", e);
             return false;
         }

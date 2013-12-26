@@ -34,7 +34,6 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.util.Integers;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
@@ -55,22 +54,22 @@ public class ZDO_IEEE_ADDR_REQ extends ZToolPacket /*implements IREQUEST,IZDo*/ 
     /// <summary>Constructor</summary>
     public ZDO_IEEE_ADDR_REQ() {
     }
-    
-    public short getShortAddress(){
-    	
-    	return (short) (packet[PAYLOAD_START_INDEX + 0] + (packet[PAYLOAD_START_INDEX + 1] << 8));
+
+    public short getShortAddress() {
+
+        return (short) (packet[PAYLOAD_START_INDEX + 0] + (packet[PAYLOAD_START_INDEX + 1] << 8));
     }
 
-    public REQ_TYPE getRequestType(){
-    	return REQ_TYPE.fromValue(packet[PAYLOAD_START_INDEX + 2]);
+    public REQ_TYPE getRequestType() {
+        return REQ_TYPE.fromValue(packet[PAYLOAD_START_INDEX + 2]);
     }
 
-    public int getStartIndex(){
-    	return super.packet[PAYLOAD_START_INDEX + 3];
+    public int getStartIndex() {
+        return super.packet[PAYLOAD_START_INDEX + 3];
     }
-    
-    
-    public ZDO_IEEE_ADDR_REQ(short nwkAddress, REQ_TYPE  type, byte startIndex) {
+
+
+    public ZDO_IEEE_ADDR_REQ(short nwkAddress, REQ_TYPE type, byte startIndex) {
         int[] framedata = new int[4];
         framedata[0] = Integers.getByteAsInteger(nwkAddress, 0);
         framedata[1] = Integers.getByteAsInteger(nwkAddress, 1);
@@ -91,27 +90,27 @@ public class ZDO_IEEE_ADDR_REQ extends ZToolPacket /*implements IREQUEST,IZDo*/ 
     /// <name>TI.ZPI1.ZDO_IEEE_ADDR_REQ.REQ_TYPE</name>
     /// <summary>Request type</summary>
     public enum REQ_TYPE {
-    	EXTENDED(1), SINGLE_DEVICE_RESPONSE(0);
-    	
-    	private int value;
-    	
-    	private REQ_TYPE(int v){
-    		value = v;
-    	}
-    	
-    	public int getValue(){
-    		return value;
-    	}
-    	
-    	public static REQ_TYPE fromValue(int v){
-    		REQ_TYPE[] values = REQ_TYPE.values();
-    		for (int i = 0; i < values.length; i++) {
-				if( values[i].value == v ) return values[i];
-			}
-    		return null;
-    	}
-    	
-    	
+        EXTENDED(1), SINGLE_DEVICE_RESPONSE(0);
+
+        private int value;
+
+        private REQ_TYPE(int v) {
+            value = v;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public static REQ_TYPE fromValue(int v) {
+            REQ_TYPE[] values = REQ_TYPE.values();
+            for (int i = 0; i < values.length; i++) {
+                if (values[i].value == v) return values[i];
+            }
+            return null;
+        }
+
+
         /// <name>TI.ZPI1.ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED</name>
         /// <summary>Request type</summary>
         //public static final int EXTENDED = 1;

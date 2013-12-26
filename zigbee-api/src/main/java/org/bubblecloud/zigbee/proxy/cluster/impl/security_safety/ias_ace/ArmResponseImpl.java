@@ -37,7 +37,7 @@ public class ArmResponseImpl extends ResponseImpl implements ArmResponse {
 
         ResponseImpl.checkSpecificCommandFrame(response, ID);
 
-        ZBDeserializer deserializer = new DefaultDeserializer(getPayload(),0);
+        ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);
         armNotification = deserializer.read_byte();
     }
 

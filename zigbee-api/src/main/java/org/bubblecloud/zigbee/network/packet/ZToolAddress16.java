@@ -29,80 +29,79 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
  * Represents a double byte XBeeApi Address.
- * 
+ *
  * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ZToolAddress16 extends ZToolAddress {
 
-	public static final ZToolAddress16 BROADCAST = new ZToolAddress16(0xFF, 0xFF);
-	public static final ZToolAddress16 ZNET_BROADCAST = new ZToolAddress16(0xFF, 0xFE);
+    public static final ZToolAddress16 BROADCAST = new ZToolAddress16(0xFF, 0xFF);
+    public static final ZToolAddress16 ZNET_BROADCAST = new ZToolAddress16(0xFF, 0xFE);
 
-	private DoubleByte doubleByte = new DoubleByte();
-	
-	/**
-	 * Provide address as msb byte and lsb byte
-	 * 
-	 * @param msb
-	 * @param lsb
-	 */
-	public ZToolAddress16(int msb, int lsb) {
-		this.doubleByte.setMsb(msb);
-		this.doubleByte.setLsb(lsb);
-	}
+    private DoubleByte doubleByte = new DoubleByte();
 
-	public ZToolAddress16(int[] arr) {
-		this.doubleByte.setMsb(arr[0]);
-		this.doubleByte.setLsb(arr[1]);
-	}
-	
-	public ZToolAddress16() {
-		
-	}
-	
-	public int get16BitValue() {
-		return this.doubleByte.get16BitValue();
-	}
-	
-	public int getMsb() {
-		return this.doubleByte.getMsb();
-	}
+    /**
+     * Provide address as msb byte and lsb byte
+     *
+     * @param msb
+     * @param lsb
+     */
+    public ZToolAddress16(int msb, int lsb) {
+        this.doubleByte.setMsb(msb);
+        this.doubleByte.setLsb(lsb);
+    }
 
-	public void setMsb(int msb) {
-		this.doubleByte.setMsb(msb);
-	}
+    public ZToolAddress16(int[] arr) {
+        this.doubleByte.setMsb(arr[0]);
+        this.doubleByte.setLsb(arr[1]);
+    }
 
-	public int getLsb() {
-		return this.doubleByte.getLsb();
-	}
+    public ZToolAddress16() {
 
-	public void setLsb(int lsb) {
-		this.doubleByte.setLsb(lsb);
-	}
+    }
 
-	public boolean equals(Object o) {
-		
-		if (this == o) {
-			return true;
-		} else {
-			try {
-				ZToolAddress16 addr = (ZToolAddress16) o;
-				
-				if (this.getLsb() == addr.getLsb() && this.getMsb() == addr.getMsb()) {
-					return true;
-				} else {
-					return false;
-				}
-			} catch (Exception e) {
-				return false;
-			}			
-		}
-	}
+    public int get16BitValue() {
+        return this.doubleByte.get16BitValue();
+    }
 
-	@Override
-	public byte[] getAddress() {
-		return new byte[] { (byte) this.doubleByte.getMsb(), (byte) this.doubleByte.getLsb() };
-	}
+    public int getMsb() {
+        return this.doubleByte.getMsb();
+    }
+
+    public void setMsb(int msb) {
+        this.doubleByte.setMsb(msb);
+    }
+
+    public int getLsb() {
+        return this.doubleByte.getLsb();
+    }
+
+    public void setLsb(int lsb) {
+        this.doubleByte.setLsb(lsb);
+    }
+
+    public boolean equals(Object o) {
+
+        if (this == o) {
+            return true;
+        } else {
+            try {
+                ZToolAddress16 addr = (ZToolAddress16) o;
+
+                if (this.getLsb() == addr.getLsb() && this.getMsb() == addr.getMsb()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception e) {
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public byte[] getAddress() {
+        return new byte[]{(byte) this.doubleByte.getMsb(), (byte) this.doubleByte.getLsb()};
+    }
 }

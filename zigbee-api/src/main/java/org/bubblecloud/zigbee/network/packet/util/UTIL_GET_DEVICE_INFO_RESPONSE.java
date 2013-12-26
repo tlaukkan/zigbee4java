@@ -28,10 +28,9 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import java.util.Arrays;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
- * @since 0.6.0
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.6.0
  */
 public class UTIL_GET_DEVICE_INFO_RESPONSE extends ZToolPacket /*implements /*IRESPONSE; ISYSTEM*/ {
     /// <name>TI.ZPI1.SYS_GET_DEVICE_INFO_RESPONSE.AssocDevicesList</name>
@@ -79,7 +78,7 @@ public class UTIL_GET_DEVICE_INFO_RESPONSE extends ZToolPacket /*implements /*IR
         int[] framedata = new int[14 + (numArray1.length * 2)];
         framedata[0] = this.Status;
         for (int i = 0; i < 8; i++) {
-            framedata[i + 1] = this.IEEEAddr.getAddress()[7-i];
+            framedata[i + 1] = this.IEEEAddr.getAddress()[7 - i];
         }
         framedata[9] = this.ShortAddress.getLsb();
         framedata[10] = this.ShortAddress.getMsb();
@@ -93,23 +92,23 @@ public class UTIL_GET_DEVICE_INFO_RESPONSE extends ZToolPacket /*implements /*IR
 
         super.buildPacket(new DoubleByte(ZToolCMD.UTIL_GET_DEVICE_INFO_RESPONSE), framedata);
     }
-    
+
     public UTIL_GET_DEVICE_INFO_RESPONSE(int[] framedata) {
 
         this.Status = framedata[0];
-        byte[] bytes=new byte[8];
+        byte[] bytes = new byte[8];
         for (int i = 0; i < 8; i++) {
-            bytes[7-i] = (byte)framedata[i + 1];
+            bytes[7 - i] = (byte) framedata[i + 1];
         }
-        this.IEEEAddr=new ZToolAddress64(bytes);
-        this.ShortAddress=new ZToolAddress16(framedata[9],framedata[10]);
+        this.IEEEAddr = new ZToolAddress64(bytes);
+        this.ShortAddress = new ZToolAddress16(framedata[9], framedata[10]);
         this.DeviceType = framedata[11];
         this.DeviceState = framedata[12];
         this.NumAssocDevices = framedata[13];
         //AssocDevicesList=new DoubleByte[(framedata.length-14)/2];//Actually more than NumAssocDevices
-        AssocDevicesList=new DoubleByte[this.NumAssocDevices];
+        AssocDevicesList = new DoubleByte[this.NumAssocDevices];
         for (int i = 0; i < this.AssocDevicesList.length; i++) {
-            AssocDevicesList[i]=new DoubleByte(framedata[14 + (i*2)],framedata[15 + (i*2)]);
+            AssocDevicesList[i] = new DoubleByte(framedata[14 + (i * 2)], framedata[15 + (i * 2)]);
         }
 
         super.buildPacket(new DoubleByte(ZToolCMD.UTIL_GET_DEVICE_INFO_RESPONSE), framedata);
@@ -152,7 +151,7 @@ public class UTIL_GET_DEVICE_INFO_RESPONSE extends ZToolPacket /*implements /*IR
         /// <name>TI.ZPI1.SYS_GET_DEVICE_INFO_RESPONSE.DEVICE_STATE.DEV_ZB_COORD</name>
         /// <summary>Device state</summary>
         public static final int DEV_ZB_COORD = 9;
-        }
+    }
 
     /// <name>TI.ZPI1.SYS_GET_DEVICE_INFO_RESPONSE.DEVICE_TYPE</name>
     /// <summary>Device type bitfield</summary>
@@ -169,7 +168,7 @@ public class UTIL_GET_DEVICE_INFO_RESPONSE extends ZToolPacket /*implements /*IR
         /// <name>TI.ZPI1.SYS_GET_DEVICE_INFO_RESPONSE.DEVICE_TYPE.ROUTER</name>
         /// <summary>Device type bitfield</summary>
         public static final int ROUTER = 2;
-        }
+    }
 
     @Override
     public String toString() {

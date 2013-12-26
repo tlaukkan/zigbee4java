@@ -27,19 +27,18 @@ import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_wd.SquawkPayload;
 import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_wd.StartWarningPayload;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public interface IASWD extends Cluster {
 
-	public Attribute getMaxDuration();
-	
-	public void startWarning(StartWarningPayload payload) throws ZigBeeHAException;
+    public Attribute getMaxDuration();
 
-	public void squawk(SquawkPayload payload) throws ZigBeeHAException;	
+    public void startWarning(StartWarningPayload payload) throws ZigBeeHAException;
+
+    public void squawk(SquawkPayload payload) throws ZigBeeHAException;
 }

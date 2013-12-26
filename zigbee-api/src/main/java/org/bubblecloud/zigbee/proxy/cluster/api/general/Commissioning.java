@@ -34,9 +34,8 @@ import org.bubblecloud.zigbee.proxy.cluster.api.general.commissioning.RestartDev
  *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- * @version  $LastChangedRevision: 42 $ ($LastChangedDate: 2010-09-23 14:21:48 +0200 (gio, 23 set 2010) $)
+ * @version $LastChangedRevision: 42 $ ($LastChangedDate: 2010-09-23 14:21:48 +0200 (gio, 23 set 2010) $)
  * @since 0.8.0
- *
  */
 public interface Commissioning extends ZCLCluster {
 
@@ -51,39 +50,62 @@ public interface Commissioning extends ZCLCluster {
 
     // Startup Parameters
     public Attribute getAttributeShortAddress();
+
     public Attribute getAttributeExtendedPanID();
+
     public Attribute getAttributePanID();
+
     public Attribute getAttributeChannelMask();
+
     public Attribute getAttributeProtocolVersion();
+
     public Attribute getAttributeStackProfile();
+
     public Attribute getAttributeStartupControl();
+
     public Attribute getAttributeTrustCenterAddress();
+
     public Attribute getAttributeTrustCenterMasterKey();
+
     public Attribute getAttributeNetworkKey();
+
     public Attribute getAttributeUseInsecureJoin();
+
     public Attribute getAttributePreconfiguredLinkKey();
+
     public Attribute getAttributeNetworkKeySeqNum();
+
     public Attribute getAttributeNetworkKeyType();
+
     public Attribute getAttributeNetworkManagerAddress();
 
     // Join Parameters
     public Attribute getAttributeScanAttempts();
+
     public Attribute getAttributeTimeBetweenScans();
+
     public Attribute getAttributeRejoinInterval();
+
     public Attribute getAttributeMaxRejoinInterval();
 
     // End Device Parameters
     public Attribute getAttributeIndirectPollRate();
+
     public Attribute getAttributeParentRetryThreshold();
 
     // Concentrator Parameters
     public Attribute getAttributeConcentratorFlag();
+
     public Attribute getAttributeConcentratorRadius();
+
     public Attribute getAttributeConcentratorDiscoveryTime();
 
     // Commands
     public Response restartDevice(RestartDevicePayload payload) throws ZigBeeClusterException;
+
     public Response saveStartupParameters(int index) throws ZigBeeClusterException;
+
     public Response restoreStartupParameters(int index) throws ZigBeeClusterException;
+
     public Response resetStartupParameters(ResetStartupPayload payload) throws ZigBeeClusterException;
 }

@@ -35,44 +35,44 @@ import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneSta
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *         
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
-public interface IASZone extends ZCLCluster{
+public interface IASZone extends ZCLCluster {
 
-	public static final short ID = 0x0500;
-	static final String NAME = "IAS Zone";
-	static final String DESCRIPTION = "Attributes and commands for IAS security zone device.";
-	
-	//received
-	static final byte ZONE_ENROLL_RESPONSE_ID = 0x00;
-	
-	//generated
-	static final byte ZONE_STATUS_CHANGE_NOTIFICATION_ID = 0x00;
-	static final byte ZONE_ENROLL_REQUEST_ID = 0x01;
+    public static final short ID = 0x0500;
+    static final String NAME = "IAS Zone";
+    static final String DESCRIPTION = "Attributes and commands for IAS security zone device.";
 
-	// zone information attribute set
-	public Attribute getAttributeZoneState();
-	public Attribute getAttributeZoneType();
-	public Attribute getAttributeZoneStatus();
+    //received
+    static final byte ZONE_ENROLL_RESPONSE_ID = 0x00;
 
-	// zone settings attribute set
-	public Attribute getAttributeIASCIEAddress();
+    //generated
+    static final byte ZONE_STATUS_CHANGE_NOTIFICATION_ID = 0x00;
+    static final byte ZONE_ENROLL_REQUEST_ID = 0x01;
 
-	// commands generated
-	public Response zoneStatusChangeNotification(ZoneStatusChangeNotificationPayload payload) throws ZigBeeClusterException;
-	
-	public ZoneEnrollResponse zoneEnrollRequest(ZoneEnrollRequestPayload payload) throws ZigBeeClusterException;
+    // zone information attribute set
+    public Attribute getAttributeZoneState();
 
-	/*
-	 * @since 0.8.0
-	 */
-	public boolean addZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener);
+    public Attribute getAttributeZoneType();
 
-	/*
-	 * @since 0.8.0
-	 */
-	public boolean removeZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener);
+    public Attribute getAttributeZoneStatus();
+
+    // zone settings attribute set
+    public Attribute getAttributeIASCIEAddress();
+
+    // commands generated
+    public Response zoneStatusChangeNotification(ZoneStatusChangeNotificationPayload payload) throws ZigBeeClusterException;
+
+    public ZoneEnrollResponse zoneEnrollRequest(ZoneEnrollRequestPayload payload) throws ZigBeeClusterException;
+
+    /*
+     * @since 0.8.0
+     */
+    public boolean addZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener);
+
+    /*
+     * @since 0.8.0
+     */
+    public boolean removeZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener);
 }

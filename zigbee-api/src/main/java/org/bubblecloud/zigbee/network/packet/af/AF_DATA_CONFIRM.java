@@ -35,58 +35,54 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public class AF_DATA_CONFIRM extends ZToolPacket/* implements ICONFIRMATION, IAF*/{
-		
-		private final static Logger profiler = LoggerFactory.getLogger("profiling." + AF_DATA_CONFIRM.class.getName());
+public class AF_DATA_CONFIRM extends ZToolPacket/* implements ICONFIRMATION, IAF*/ {
 
-	/// <name>TI.ZPI2.AF_DATA_CONFIRM.Endpoint</name>
-        /// <summary>specifies the endpoint of the message</summary>
-        public int Endpoint;
-        /// <name>TI.ZPI2.AF_DATA_CONFIRM.Status</name>
-        /// <summary>Status</summary>
-        public int Status;
-        /// <name>TI.ZPI2.AF_DATA_CONFIRM.TransID</name>
-        /// <summary>Transaction ID</summary>
-        public int TransID;
+    private final static Logger profiler = LoggerFactory.getLogger("profiling." + AF_DATA_CONFIRM.class.getName());
 
-        /// <name>TI.ZPI2.AF_DATA_CONFIRM</name>
-        /// <summary>Constructor</summary>
-        public AF_DATA_CONFIRM()
-        {
-        }
+    /// <name>TI.ZPI2.AF_DATA_CONFIRM.Endpoint</name>
+    /// <summary>specifies the endpoint of the message</summary>
+    public int Endpoint;
+    /// <name>TI.ZPI2.AF_DATA_CONFIRM.Status</name>
+    /// <summary>Status</summary>
+    public int Status;
+    /// <name>TI.ZPI2.AF_DATA_CONFIRM.TransID</name>
+    /// <summary>Transaction ID</summary>
+    public int TransID;
 
-        public AF_DATA_CONFIRM(int af_status1, int num1, int num2)
-        {
-            this.Status = af_status1;
-            this.Endpoint = num1;
-            this.TransID = num2;
-            int[] framedata=new int[3];
-            framedata[0]=this.Status;
-            framedata[1]=this.Endpoint;
-            framedata[2]=this.TransID;
-            super.buildPacket(new DoubleByte(ZToolCMD.AF_DATA_CONFIRM), framedata);
-        }
-        
-        public AF_DATA_CONFIRM(int[] framedata)
-        {
-        	profiler.debug("AF_DATA_CONFIRM: creating object");
-            this.Status=framedata[0];
-            this.Endpoint=framedata[1];
-            this.TransID=framedata[2];
-            super.buildPacket(new DoubleByte(ZToolCMD.AF_DATA_CONFIRM), framedata);
-        	profiler.debug("AF_DATA_CONFIRM: object created");
-        }
+    /// <name>TI.ZPI2.AF_DATA_CONFIRM</name>
+    /// <summary>Constructor</summary>
+    public AF_DATA_CONFIRM() {
+    }
+
+    public AF_DATA_CONFIRM(int af_status1, int num1, int num2) {
+        this.Status = af_status1;
+        this.Endpoint = num1;
+        this.TransID = num2;
+        int[] framedata = new int[3];
+        framedata[0] = this.Status;
+        framedata[1] = this.Endpoint;
+        framedata[2] = this.TransID;
+        super.buildPacket(new DoubleByte(ZToolCMD.AF_DATA_CONFIRM), framedata);
+    }
+
+    public AF_DATA_CONFIRM(int[] framedata) {
+        profiler.debug("AF_DATA_CONFIRM: creating object");
+        this.Status = framedata[0];
+        this.Endpoint = framedata[1];
+        this.TransID = framedata[2];
+        super.buildPacket(new DoubleByte(ZToolCMD.AF_DATA_CONFIRM), framedata);
+        profiler.debug("AF_DATA_CONFIRM: object created");
+    }
 
     public byte getStatus() {
-			byte value = (byte) super.packet[ZToolPacket.PAYLOAD_START_INDEX];
-			return value;
-		}
+        byte value = (byte) super.packet[ZToolPacket.PAYLOAD_START_INDEX];
+        return value;
+    }
 
     @Override
     public String toString() {

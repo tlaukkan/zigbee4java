@@ -32,7 +32,6 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.8.0
- *
  */
 public interface BinaryInput extends ZCLCluster {
 
@@ -40,17 +39,25 @@ public interface BinaryInput extends ZCLCluster {
     static final String NAME = "Binary Input (Basic)";
     static final String DESCRIPTION =
             "An interface for reading the value of a binary measurement and accessing "
-             + "various characteristics of that measurement.";
+                    + "various characteristics of that measurement.";
 
 
     public Attribute getAttributeActiveText();
+
     public Attribute getAttributeDescription();
+
     public Attribute getAttributeInactiveText();
+
     public Attribute getAttributeOutOfService();
+
     public Attribute getAttributePolarity();
+
     public Attribute getAttributePresentValue();
+
     public Attribute getAttributeReliability();
+
     public Attribute getAttributeStatusFlags();
+
     public Attribute getAttributeApplicationType();
 
 }

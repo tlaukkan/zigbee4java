@@ -23,41 +23,38 @@
 package org.bubblecloud.zigbee.network;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface ClusterListener {
 
-	/**
-	 * Set the {@link ClusterListener}  of this ClusterListener.<br>
-	 * A <code>null</code> values means no filtering  
-	 * 
-	 * @param filter the {@link ClusterListener} to associates to this ClusterListener.<br>
-	 * 				<code>null</code> to disable the filtering
-	 * @since 0.4.0
-	 */
-	public void setClusterFilter(ClusterFilter filter);
+    /**
+     * Set the {@link ClusterListener}  of this ClusterListener.<br>
+     * A <code>null</code> values means no filtering
+     *
+     * @param filter the {@link ClusterListener} to associates to this ClusterListener.<br>
+     *               <code>null</code> to disable the filtering
+     * @since 0.4.0
+     */
+    public void setClusterFilter(ClusterFilter filter);
 
-	/**
-	 * Return the {@link ClusterListener}  associated to this ClusterListener.<br>
-	 * A <code>null</code> values means no filtering  
-	 * 
-	 * @return the {@link ClusterListener} associated to this ClusterListener
-	 * 
-	 * @since 0.4.0
-	 */
-	public ClusterFilter getClusterFilter();
-	
-	/**
-	 * The callback invoked by the ZigBee Base Driver to notify for a new {@link ClusterMessage}
-	 * 
-	 * @param device reference to the {@link ZigBeeDevice} receiving the {@link ClusterMessage}
-	 * @param clusterMessage reference to the received {@link ClusterMessage}
-	 */
-	public void handleCluster(ZigBeeDevice device, ClusterMessage clusterMessage);
-	
+    /**
+     * Return the {@link ClusterListener}  associated to this ClusterListener.<br>
+     * A <code>null</code> values means no filtering
+     *
+     * @return the {@link ClusterListener} associated to this ClusterListener
+     * @since 0.4.0
+     */
+    public ClusterFilter getClusterFilter();
+
+    /**
+     * The callback invoked by the ZigBee Base Driver to notify for a new {@link ClusterMessage}
+     *
+     * @param device         reference to the {@link ZigBeeDevice} receiving the {@link ClusterMessage}
+     * @param clusterMessage reference to the received {@link ClusterMessage}
+     */
+    public void handleCluster(ZigBeeDevice device, ClusterMessage clusterMessage);
+
 }

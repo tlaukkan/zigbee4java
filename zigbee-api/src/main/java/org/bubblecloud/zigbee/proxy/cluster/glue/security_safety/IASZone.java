@@ -30,29 +30,31 @@ import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneEnr
 import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneEnrollResponse;
 import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneStatusChangeNotificationListener;
 import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone.ZoneStatusChangeNotificationPayload;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public interface IASZone extends Cluster {
 
-	public Attribute getZoneState();
-	public Attribute getZoneType();
-	public Attribute getZoneStatus();
-	public Attribute getIASCIEAddress();
+    public Attribute getZoneState();
 
-	public ZoneEnrollResponse zoneEnrollRequest(ZoneEnrollRequestPayload payload) throws ZigBeeHAException;
+    public Attribute getZoneType();
 
-	/**
-	 * @since 0.7.0
-	 */
-	public Response zoneStatusChangeNotification(ZoneStatusChangeNotificationPayload payload) throws ZigBeeHAException;
+    public Attribute getZoneStatus();
 
-	public boolean addZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener);
+    public Attribute getIASCIEAddress();
+
+    public ZoneEnrollResponse zoneEnrollRequest(ZoneEnrollRequestPayload payload) throws ZigBeeHAException;
+
+    /**
+     * @since 0.7.0
+     */
+    public Response zoneStatusChangeNotification(ZoneStatusChangeNotificationPayload payload) throws ZigBeeHAException;
+
+    public boolean addZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener);
 
     public boolean removeZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener);
 }

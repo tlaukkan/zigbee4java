@@ -34,55 +34,53 @@ import org.bubblecloud.zigbee.util.ArraysUtil;
 /**
  * This class represent the <b>On/off Light</b> Cluster as defined by the document:<br>
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
- *         
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface OnOffLight extends DeviceProxy {
-	
-	public static final int DEVICE_ID = 0x0100;
-	public static final String NAME = "OnOff Light";
-	
-	public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-		ProxyConstants.ON_OFF, ProxyConstants.GROUPS, ProxyConstants.SCENES
-	});
-	public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
-		ProxyConstants.OCCUPANCY_SENSING
-	});
-	public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
-	public static final int[] CUSTOM = {};
-	
-	/**
-	 * Access method for the <b>Mandatory</b> cluster: {@link OnOff} 
-	 *  
-	 * @return the {@link OnOff} cluster object
-	 */
-	public OnOff getOnOff();
 
-	/**
-	 * Access method for the <b>Mandatory</b> cluster: {@link Scenes} 
-	 *  
-	 * @return the {@link Scenes} cluster object
-	 */
-	public Scenes getScenes();
+    public static final int DEVICE_ID = 0x0100;
+    public static final String NAME = "OnOff Light";
 
-	/**
-	 * Access method for the <b>Mandatory</b> cluster: {@link Groups} 
-	 *  
-	 * @return the {@link Groups} cluster object
-	 */
-	public Groups getGroups();
+    public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
+            ProxyConstants.ON_OFF, ProxyConstants.GROUPS, ProxyConstants.SCENES
+    });
+    public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
+            ProxyConstants.OCCUPANCY_SENSING
+    });
+    public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
+    public static final int[] CUSTOM = {};
 
-	/**
-	 * Access method for the <b>Optional</b> cluster: {@link OccupacySensing} 
-	 *  
-	 * @return the {@link OccupacySensing} cluster object if implemented by the device, otherwise <code>null</code>
-	 */
-	public OccupacySensing getOccupacySensing();	
-	
+    /**
+     * Access method for the <b>Mandatory</b> cluster: {@link OnOff}
+     *
+     * @return the {@link OnOff} cluster object
+     */
+    public OnOff getOnOff();
+
+    /**
+     * Access method for the <b>Mandatory</b> cluster: {@link Scenes}
+     *
+     * @return the {@link Scenes} cluster object
+     */
+    public Scenes getScenes();
+
+    /**
+     * Access method for the <b>Mandatory</b> cluster: {@link Groups}
+     *
+     * @return the {@link Groups} cluster object
+     */
+    public Groups getGroups();
+
+    /**
+     * Access method for the <b>Optional</b> cluster: {@link OccupacySensing}
+     *
+     * @return the {@link OccupacySensing} cluster object if implemented by the device, otherwise <code>null</code>
+     */
+    public OccupacySensing getOccupacySensing();
+
 }

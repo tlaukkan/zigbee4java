@@ -23,10 +23,8 @@ package org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.8.0
- *
  */
 public interface ZoneStatusChangeNotificationListener {
 

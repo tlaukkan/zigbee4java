@@ -28,49 +28,48 @@ import org.bubblecloud.zigbee.proxy.cluster.api.general.Time;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class TimeCluster extends ZCLClusterBase implements Time {
 
-	
-	private final AttributeImpl time;  
-	private final AttributeImpl timeStatus;
-	
-	private final Attribute[] attributes;
-	
-	public TimeCluster(ZigBeeDevice zbDevice){
-		super(zbDevice);
-		time = new AttributeImpl(zbDevice,this,Attributes.TIME);
-		timeStatus = new AttributeImpl(zbDevice,this,Attributes.TIME_STATUS);
-		attributes = new Attribute[]{ time, timeStatus };
-	}
 
-	@Override
-	public short getId() {
-		return Time.ID;
-	}
+    private final AttributeImpl time;
+    private final AttributeImpl timeStatus;
 
-	@Override
-	public String getName() {
-		return Time.NAME;
-	}
+    private final Attribute[] attributes;
 
-	@Override
-	public Attribute[] getStandardAttributes() {
-		return attributes;
-	}
+    public TimeCluster(ZigBeeDevice zbDevice) {
+        super(zbDevice);
+        time = new AttributeImpl(zbDevice, this, Attributes.TIME);
+        timeStatus = new AttributeImpl(zbDevice, this, Attributes.TIME_STATUS);
+        attributes = new Attribute[]{time, timeStatus};
+    }
 
-	public Attribute getAttributeTime() {
-		return time;
-	}
+    @Override
+    public short getId() {
+        return Time.ID;
+    }
 
-	public Attribute getAttributeTimeStatus() {
-		return timeStatus;
-	}
+    @Override
+    public String getName() {
+        return Time.NAME;
+    }
+
+    @Override
+    public Attribute[] getStandardAttributes() {
+        return attributes;
+    }
+
+    public Attribute getAttributeTime() {
+        return time;
+    }
+
+    public Attribute getAttributeTimeStatus() {
+        return timeStatus;
+    }
 
 }

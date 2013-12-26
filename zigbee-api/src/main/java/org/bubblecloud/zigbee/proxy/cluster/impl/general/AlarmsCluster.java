@@ -48,170 +48,168 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
-public class AlarmsCluster extends ZCLClusterBase implements Alarms{
-	
-	private final Logger log = LoggerFactory.getLogger(AlarmsCluster.class);
-    
+public class AlarmsCluster extends ZCLClusterBase implements Alarms {
+
+    private final Logger log = LoggerFactory.getLogger(AlarmsCluster.class);
+
     private final AttributeImpl alarmCount;
-	
-	private final Attribute[] attributes;	
-	
-	private final ArrayList<AlarmListener> listeners = new ArrayList<AlarmListener>();
 
-	private AlarmsListenerNotifier bridge;
-	
-	private static final EmptyPayloadCommand RESET_ALL_ALARMS = new EmptyPayloadCommand()
-		.setId(Alarms.RESET_ALL_ALARMS_ID)
-		.setClientServerDirection(true)
-		.setClusterSpecific(true)
-		.setManufacturerExtension(false);
-	
-	private static final EmptyPayloadCommand GET_ALARM = new EmptyPayloadCommand()
-		.setId(Alarms.GET_ALARM_ID)
-		.setClientServerDirection(true)
-		.setClusterSpecific(true)
-		.setManufacturerExtension(false);
+    private final Attribute[] attributes;
 
-	private static final EmptyPayloadCommand RESET_ALARM_LOG = new EmptyPayloadCommand()
-		.setId(Alarms.RESET_ALARM_LOG_ID)
-		.setClientServerDirection(true)
-		.setClusterSpecific(true)
-		.setManufacturerExtension(false);
-								
+    private final ArrayList<AlarmListener> listeners = new ArrayList<AlarmListener>();
 
-	private class AlarmsListenerNotifier implements ClusterListener {
+    private AlarmsListenerNotifier bridge;
 
-		public void handleCluster(ZigBeeDevice device, ClusterMessage c) {
-			try {
-				ResponseImpl response = new ResponseImpl(c, ID);
-				AlarmResponse alarm = new AlarmResponseImpl(response);
-				ArrayList<AlarmListener> localCopy;
-				synchronized (listeners) {
-					localCopy = new ArrayList<AlarmListener>(listeners);					
-				}
-				log.debug("Notifying {} AlarmListener", localCopy.size());
-				for (AlarmListener alarmListner : localCopy) {
-					try{
-						log.debug("Notifying {}:{}", alarmListner.getClass().getName(), alarmListner);
-						alarmListner.alarm(alarm.getAllarmCode(), alarm.getClusterID());
-					}catch(Exception e){
-						log.error("Error while notifying {}:{} caused by {}",new Object[]{
-								alarmListner.getClass().getName(), alarmListner, e.getStackTrace() 
-						});
-					}
-				}
-				
-			} catch (ZigBeeClusterException e) {
-				e.printStackTrace();
-			}
-		}
+    private static final EmptyPayloadCommand RESET_ALL_ALARMS = new EmptyPayloadCommand()
+            .setId(Alarms.RESET_ALL_ALARMS_ID)
+            .setClientServerDirection(true)
+            .setClusterSpecific(true)
+            .setManufacturerExtension(false);
 
-		public ClusterFilter getClusterFilter() {
-			return AlarmsClusterFilter.FILTER;
-		}
+    private static final EmptyPayloadCommand GET_ALARM = new EmptyPayloadCommand()
+            .setId(Alarms.GET_ALARM_ID)
+            .setClientServerDirection(true)
+            .setClusterSpecific(true)
+            .setManufacturerExtension(false);
 
-		public void setClusterFilter(ClusterFilter filter) {			
-		}
-		
-	}
-	
-	public AlarmsCluster(ZigBeeDevice zbDevice){
-		super(zbDevice);
-		alarmCount = new AttributeImpl(zbDevice,this,Attributes.ALLARM_COUNT);
-		attributes = new AttributeImpl[]{alarmCount};
-		bridge = new AlarmsListenerNotifier();
-	}
+    private static final EmptyPayloadCommand RESET_ALARM_LOG = new EmptyPayloadCommand()
+            .setId(Alarms.RESET_ALARM_LOG_ID)
+            .setClientServerDirection(true)
+            .setClusterSpecific(true)
+            .setManufacturerExtension(false);
 
-	public short getId() {
-		return Alarms.ID;
-	}
 
-	public String getName() {
-		return Alarms.NAME;
-	}
+    private class AlarmsListenerNotifier implements ClusterListener {
 
-	public Attribute[] getStandardAttributes() {
-		return attributes;
-	}
+        public void handleCluster(ZigBeeDevice device, ClusterMessage c) {
+            try {
+                ResponseImpl response = new ResponseImpl(c, ID);
+                AlarmResponse alarm = new AlarmResponseImpl(response);
+                ArrayList<AlarmListener> localCopy;
+                synchronized (listeners) {
+                    localCopy = new ArrayList<AlarmListener>(listeners);
+                }
+                log.debug("Notifying {} AlarmListener", localCopy.size());
+                for (AlarmListener alarmListner : localCopy) {
+                    try {
+                        log.debug("Notifying {}:{}", alarmListner.getClass().getName(), alarmListner);
+                        alarmListner.alarm(alarm.getAllarmCode(), alarm.getClusterID());
+                    } catch (Exception e) {
+                        log.error("Error while notifying {}:{} caused by {}", new Object[]{
+                                alarmListner.getClass().getName(), alarmListner, e.getStackTrace()
+                        });
+                    }
+                }
 
-	public Attribute getAttributeAlarmCount() {
-	    return alarmCount;
-	}
+            } catch (ZigBeeClusterException e) {
+                e.printStackTrace();
+            }
+        }
 
-	public boolean addAlarmListerner(AlarmListener listener) {
-	    synchronized (listeners) {
-			if ( listeners.size() == 0 ){
-			    try {
-			    	getZigBeeDevice().bind(ID);
-			    } catch (ZigBeeBasedriverException e) {
-					log.error("Unable to bind to device for Alarms reporting", e);
-					return false;
-			    }
-			    if ( getZigBeeDevice().addClusterListener(bridge) == false ) {
-					log.error("Unable to register the cluster listener for Alarms reporting");
-					return false;
-			    }
-			}
-			listeners.add(listener);
-			return true;		
-	    }
-	}
+        public ClusterFilter getClusterFilter() {
+            return AlarmsClusterFilter.FILTER;
+        }
 
-	public boolean removeAlarmListerner(AlarmListener listener) {
-	    synchronized (listeners) {
-			boolean removed = listeners.remove(listener); 
-			if ( listeners.size() == 0 && removed ){
-			    try {
-			    	getZigBeeDevice().unbind(ID);
-			    } catch (ZigBeeBasedriverException e) {
-					log.error("Unable to unbind to device for Alarms reporting", e);
-					return false;
-			    }
-			    if ( getZigBeeDevice().removeClusterListener(bridge) == false ) {
-					log.error("Unable to unregister the cluster listener for Alarms reporting");
-					return false;
-			    }
-			}
-			return removed;		
-	    }
-	}
-	
-	public Response getAlarm() throws ZigBeeClusterException {
-		enableDefaultResponse();
-		Response response = invoke(GET_ALARM);
-		if ( response.getZCLHeader().getFramecontrol().isClusterSpecificCommand() ){
-		    return new GetAlarmResponseImpl(response);
-		}else{
-		    return new DefaultResponseImpl(response);
-		}
-	}
+        public void setClusterFilter(ClusterFilter filter) {
+        }
 
-	public Response resetAlarm(int clusterId, int attributeId) throws ZigBeeClusterException {
-		enableDefaultResponse();
-    	ResetAlarmCommand resetAlarmCmd = new ResetAlarmCommand((byte)clusterId,(short)attributeId);
-    	Response response = invoke(resetAlarmCmd);
-    	return  new DefaultResponseImpl(response);	    
-	}
+    }
 
-	public Response resetAlarmLog() throws ZigBeeClusterException {
-		enableDefaultResponse();
-		Response response = invoke(RESET_ALARM_LOG);
-		return new DefaultResponseImpl(response);
-	}
+    public AlarmsCluster(ZigBeeDevice zbDevice) {
+        super(zbDevice);
+        alarmCount = new AttributeImpl(zbDevice, this, Attributes.ALLARM_COUNT);
+        attributes = new AttributeImpl[]{alarmCount};
+        bridge = new AlarmsListenerNotifier();
+    }
 
-	public Response resetAllAlarms() throws ZigBeeClusterException {
-		enableDefaultResponse();
-		Response response = invoke(RESET_ALL_ALARMS);
-		return new DefaultResponseImpl(response);
-	}
+    public short getId() {
+        return Alarms.ID;
+    }
 
+    public String getName() {
+        return Alarms.NAME;
+    }
+
+    public Attribute[] getStandardAttributes() {
+        return attributes;
+    }
+
+    public Attribute getAttributeAlarmCount() {
+        return alarmCount;
+    }
+
+    public boolean addAlarmListerner(AlarmListener listener) {
+        synchronized (listeners) {
+            if (listeners.size() == 0) {
+                try {
+                    getZigBeeDevice().bind(ID);
+                } catch (ZigBeeBasedriverException e) {
+                    log.error("Unable to bind to device for Alarms reporting", e);
+                    return false;
+                }
+                if (getZigBeeDevice().addClusterListener(bridge) == false) {
+                    log.error("Unable to register the cluster listener for Alarms reporting");
+                    return false;
+                }
+            }
+            listeners.add(listener);
+            return true;
+        }
+    }
+
+    public boolean removeAlarmListerner(AlarmListener listener) {
+        synchronized (listeners) {
+            boolean removed = listeners.remove(listener);
+            if (listeners.size() == 0 && removed) {
+                try {
+                    getZigBeeDevice().unbind(ID);
+                } catch (ZigBeeBasedriverException e) {
+                    log.error("Unable to unbind to device for Alarms reporting", e);
+                    return false;
+                }
+                if (getZigBeeDevice().removeClusterListener(bridge) == false) {
+                    log.error("Unable to unregister the cluster listener for Alarms reporting");
+                    return false;
+                }
+            }
+            return removed;
+        }
+    }
+
+    public Response getAlarm() throws ZigBeeClusterException {
+        enableDefaultResponse();
+        Response response = invoke(GET_ALARM);
+        if (response.getZCLHeader().getFramecontrol().isClusterSpecificCommand()) {
+            return new GetAlarmResponseImpl(response);
+        } else {
+            return new DefaultResponseImpl(response);
+        }
+    }
+
+    public Response resetAlarm(int clusterId, int attributeId) throws ZigBeeClusterException {
+        enableDefaultResponse();
+        ResetAlarmCommand resetAlarmCmd = new ResetAlarmCommand((byte) clusterId, (short) attributeId);
+        Response response = invoke(resetAlarmCmd);
+        return new DefaultResponseImpl(response);
+    }
+
+    public Response resetAlarmLog() throws ZigBeeClusterException {
+        enableDefaultResponse();
+        Response response = invoke(RESET_ALARM_LOG);
+        return new DefaultResponseImpl(response);
+    }
+
+    public Response resetAllAlarms() throws ZigBeeClusterException {
+        enableDefaultResponse();
+        Response response = invoke(RESET_ALL_ALARMS);
+        return new DefaultResponseImpl(response);
+    }
 
 
 }

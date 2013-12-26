@@ -36,16 +36,14 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.IASACECluster;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
 public class IASACEImpl implements IASACE {
 
     private final IASACECluster cluster;
 
-    public IASACEImpl(ZigBeeDevice zbDevice){
+    public IASACEImpl(ZigBeeDevice zbDevice) {
         cluster = new IASACECluster(zbDevice);
     }
 
@@ -68,7 +66,7 @@ public class IASACEImpl implements IASACE {
     public Attribute getAttribute(int id) {
         Attribute[] attributes = cluster.getAvailableAttributes();
         for (int i = 0; i < attributes.length; i++) {
-            if( attributes[i].getId() == id )
+            if (attributes[i].getId() == id)
                 return attributes[i];
         }
         return null;
@@ -78,17 +76,15 @@ public class IASACEImpl implements IASACE {
         try {
             Response response = (Response) cluster.arm(armMode);
             return response;
-        }
-        catch (ZigBeeClusterException e) {
+        } catch (ZigBeeClusterException e) {
             throw new ZigBeeHAException(e);
         }
     }
 
-    public void bypass(BypassPayload payload)	throws ZigBeeHAException {
+    public void bypass(BypassPayload payload) throws ZigBeeHAException {
         try {
             cluster.bypass(payload);
-        }
-        catch (ZigBeeClusterException e) {
+        } catch (ZigBeeClusterException e) {
             throw new ZigBeeHAException(e);
         }
     }
@@ -96,8 +92,7 @@ public class IASACEImpl implements IASACE {
     public void emergency() throws ZigBeeHAException {
         try {
             cluster.emergency();
-        }
-        catch (ZigBeeClusterException e) {
+        } catch (ZigBeeClusterException e) {
             throw new ZigBeeHAException(e);
         }
     }
@@ -105,8 +100,7 @@ public class IASACEImpl implements IASACE {
     public void fire() throws ZigBeeHAException {
         try {
             cluster.fire();
-        }
-        catch (ZigBeeClusterException e) {
+        } catch (ZigBeeClusterException e) {
             throw new ZigBeeHAException(e);
         }
     }
@@ -114,8 +108,7 @@ public class IASACEImpl implements IASACE {
     public void panic() throws ZigBeeHAException {
         try {
             cluster.panic();
-        }
-        catch (ZigBeeClusterException e) {
+        } catch (ZigBeeClusterException e) {
             throw new ZigBeeHAException(e);
         }
     }
@@ -124,8 +117,7 @@ public class IASACEImpl implements IASACE {
         try {
             ZoneIDMapResponse response = (ZoneIDMapResponse) cluster.getZoneIdMap();
             return response;
-        }
-        catch (ZigBeeClusterException e) {
+        } catch (ZigBeeClusterException e) {
             throw new ZigBeeHAException(e);
         }
     }
@@ -134,8 +126,7 @@ public class IASACEImpl implements IASACE {
         try {
             ZoneInformationResponse response = (ZoneInformationResponse) cluster.getZoneInformation(zoneID);
             return response;
-        }
-        catch (ZigBeeClusterException e) {
+        } catch (ZigBeeClusterException e) {
             throw new ZigBeeHAException(e);
         }
     }

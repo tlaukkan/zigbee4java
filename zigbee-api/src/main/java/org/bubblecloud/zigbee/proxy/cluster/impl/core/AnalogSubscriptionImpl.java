@@ -41,12 +41,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
- *
  */
 public class AnalogSubscriptionImpl extends SubscriptionBase implements AnalogSubscription {
 
@@ -57,11 +55,11 @@ public class AnalogSubscriptionImpl extends SubscriptionBase implements AnalogSu
     public AnalogSubscriptionImpl(final ZigBeeDevice zb, final ZCLCluster c, final Attribute attrib) {
         super(zb, c, attrib);
         final ZigBeeType type = attrib.getZigBeeType();
-        if ( type.isAnalog() == false ) {
+        if (type.isAnalog() == false) {
             throw new IllegalArgumentException(
                     "AnalogSubscription applies only to Attribute with analog data type, " +
-                    "the attribute " + attrib.getName() + " ("+attrib.getId()+") of type "+type.toString() +
-                    " is DISCRETE"
+                            "the attribute " + attrib.getName() + " (" + attrib.getId() + ") of type " + type.toString() +
+                            " is DISCRETE"
             );
         }
         setReportableChangeValue(new Double(AnalogSubscription.DEFAULT_REPORTABLE_CHANGE_INTERVAL));
@@ -82,7 +80,7 @@ public class AnalogSubscriptionImpl extends SubscriptionBase implements AnalogSu
         );
 
         final ZCLFrame frame = new ZCLFrame(cmd, true);
-        final ClusterMessageImpl input = new ClusterMessageImpl(cluster.getId(),frame);
+        final ClusterMessageImpl input = new ClusterMessageImpl(cluster.getId(), frame);
         ClusterMessage clusterMessage = null;
         try {
             clusterMessage = device.invoke(input);
@@ -90,8 +88,8 @@ public class AnalogSubscriptionImpl extends SubscriptionBase implements AnalogSu
                     new ResponseImpl(clusterMessage, clusterMessage.getId()), new Attribute[]{attribute}
             );
             final AttributeStatusRecord[] results = response.getAttributeStatusRecord();
-            if ( results[0].getStatus() != 0 ) {
-                throw new ZigBeeClusterException("ConfigureReporting answered with a Failed status: {} "+results[0].getStatus());
+            if (results[0].getStatus() != 0) {
+                throw new ZigBeeClusterException("ConfigureReporting answered with a Failed status: {} " + results[0].getStatus());
             }
         } catch (ZigBeeBasedriverException e) {
             throw new ZigBeeClusterException(e);
@@ -106,19 +104,19 @@ public class AnalogSubscriptionImpl extends SubscriptionBase implements AnalogSu
 
     private void setReportableChangeValue(Number n) {
         final ZigBeeType type = attribute.getZigBeeType();
-        if( type.getJavaClass() == Long.class ) {
+        if (type.getJavaClass() == Long.class) {
             minimumChange = new Long(n.longValue());
-        }else if( type.getJavaClass() == Integer.class ){
+        } else if (type.getJavaClass() == Integer.class) {
             minimumChange = new Integer(n.intValue());
-        }else if( type.getJavaClass() == Float.class ){
+        } else if (type.getJavaClass() == Float.class) {
             minimumChange = new Float(n.floatValue());
-        }else if( type.getJavaClass() == Double.class ){
+        } else if (type.getJavaClass() == Double.class) {
             minimumChange = new Double(n.doubleValue());
         } else {
             throw new IllegalArgumentException(
                     "Java class used for the interpretation of the " +
-                    "the attribute " + attribute.getName() + " ("+attribute.getId()+") of type "+type.toString() +
-                    " is not recognized "
+                            "the attribute " + attribute.getName() + " (" + attribute.getId() + ") of type " + type.toString() +
+                            " is not recognized "
             );
         }
     }

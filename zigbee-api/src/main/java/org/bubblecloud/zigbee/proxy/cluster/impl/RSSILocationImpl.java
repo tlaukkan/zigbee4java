@@ -33,13 +33,13 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
 
 import java.util.EnumSet;
+
 /**
  * PLACEHOLDER TO IMPLEMENT
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.7.0
- *
  */
 public class RSSILocationImpl implements RSSILocation {
 
@@ -189,7 +189,7 @@ public class RSSILocationImpl implements RSSILocation {
     }
 
     public void setDeviceConfiguration(int power, int ple, int calcPeriod,
-            int nRSSI, int reportPeriod) {
+                                       int nRSSI, int reportPeriod) {
         // TODO Auto-generated method stub
 
     }
@@ -200,25 +200,25 @@ public class RSSILocationImpl implements RSSILocation {
     }
 
     public void getAbsoluteLocationData(boolean compact,
-            boolean unicastResponse, int nResponse, long ieeeAddress) {
+                                        boolean unicastResponse, int nResponse, long ieeeAddress) {
         // TODO Auto-generated method stub
 
     }
 
     public void getLocationData(boolean compact, boolean unicastResponse,
-            boolean recalc, int nResponse, long ieeeAddress) {
+                                boolean recalc, int nResponse, long ieeeAddress) {
         // TODO Auto-generated method stub
 
     }
 
     public void broadcastAbsoluteLocationData(boolean compact,
-            boolean unicastResponse, int nResponse) {
+                                              boolean unicastResponse, int nResponse) {
         // TODO Auto-generated method stub
 
     }
 
     public void broadcastLocationData(boolean compact, boolean unicastResponse,
-            boolean recalc, int nResponse) {
+                                      boolean recalc, int nResponse) {
         // TODO Auto-generated method stub
 
     }
@@ -236,7 +236,7 @@ public class RSSILocationImpl implements RSSILocation {
     }
 
     public void RSSIResponse(long ieeeAddress, int x, int y, int z, int rssi,
-            int nsamples) {
+                             int nsamples) {
         // TODO Auto-generated method stub
 
     }

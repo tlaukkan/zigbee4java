@@ -28,16 +28,15 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class ZB_ALLOW_BIND_RSP extends ZToolPacket/* implements IRESPONSE,ISIMPLEAPI*/{
-    public ZB_ALLOW_BIND_RSP(){
+public class ZB_ALLOW_BIND_RSP extends ZToolPacket/* implements IRESPONSE,ISIMPLEAPI*/ {
+    public ZB_ALLOW_BIND_RSP() {
         super.buildPacket(new DoubleByte(ZToolCMD.ZB_ALLOW_BIND_RSP), new int[0]);
     }
-    
-    public ZB_ALLOW_BIND_RSP(int[] framedata){
+
+    public ZB_ALLOW_BIND_RSP(int[] framedata) {
         super.buildPacket(new DoubleByte(ZToolCMD.ZB_ALLOW_BIND_RSP), framedata);
     }
 

@@ -35,10 +35,8 @@ import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
 public class PumpDeviceProxy extends DeviceProxyBase implements Pump {
 
@@ -48,7 +46,7 @@ public class PumpDeviceProxy extends DeviceProxyBase implements Pump {
     private LevelControl levelControlCluster;
     private TemperatureMeasurement temperatureMeasurementCluster;
 
-    public PumpDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
+    public PumpDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
         super(ctx, zbDevice);
 
         levelControlCluster = (LevelControl) getCluster(ProxyConstants.LEVEL_CONTROL);
@@ -58,7 +56,7 @@ public class PumpDeviceProxy extends DeviceProxyBase implements Pump {
         temperatureMeasurementCluster = (TemperatureMeasurement) getCluster(ProxyConstants.TEMPERATURE_MEASUREMENT);
     }
 
-    final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
+    final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
 
         public int[] getCustomClusters() {
             return Pump.CUSTOM;

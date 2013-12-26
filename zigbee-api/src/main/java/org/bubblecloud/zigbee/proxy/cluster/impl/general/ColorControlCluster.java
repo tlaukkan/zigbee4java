@@ -30,13 +30,11 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision: 42 $ ($LastChangedDate: 2010-09-23 14:21:48 +0200 (Thu, 23 Sep 2010) $)
  * @since 0.8.0
- *
  */
-public class ColorControlCluster extends ZCLClusterBase implements ColorControl{
+public class ColorControlCluster extends ZCLClusterBase implements ColorControl {
 
     private final AttributeImpl currentHue;
     private final AttributeImpl currentSaturation;
@@ -334,13 +332,13 @@ public class ColorControlCluster extends ZCLClusterBase implements ColorControl{
     }
 
     public Response stepSaturation(byte stepMode, short stepSize,
-            short transitionTime) {
+                                   short transitionTime) {
         // TODO Auto-generated method stub
         return null;
     }
 
     public Response movetoHue_Saturation(short hue, short saturation,
-            int transitionTime) {
+                                         int transitionTime) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -361,7 +359,7 @@ public class ColorControlCluster extends ZCLClusterBase implements ColorControl{
     }
 
     public Response moveToColorTemperature(int colorTemperature,
-            int transitionTime) {
+                                           int transitionTime) {
         // TODO Auto-generated method stub
         return null;
     }

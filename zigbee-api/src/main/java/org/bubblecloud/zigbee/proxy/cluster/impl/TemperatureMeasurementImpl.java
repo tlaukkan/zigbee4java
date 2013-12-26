@@ -39,85 +39,84 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.measureament_sensing.Temperatur
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class TemperatureMeasurementImpl implements TemperatureMeasurement {
-	
-	private final TemperatureMeasurementCluster temperatureMeasurementCluster; 
-	private final Attribute measuredValue;
-	private final Attribute minMeasuredValue;
-	private final Attribute maxMeasuredValue;
-	private final Attribute tolerance;
-	
-	private final MeasuredValueBridgeListeners measureBridge;	
-	private final ToleranceBridgeListeners toleranceBridge;
-	
-	public TemperatureMeasurementImpl(ZigBeeDevice zbDevice){
-		temperatureMeasurementCluster = new TemperatureMeasurementCluster(zbDevice);
-		measuredValue = temperatureMeasurementCluster.getAttributeMeasuredValue();
-		minMeasuredValue = temperatureMeasurementCluster.getAttributeMinMeasuredValue();
-		maxMeasuredValue = temperatureMeasurementCluster.getAttributeMaxMeasuredValue();
-		tolerance = temperatureMeasurementCluster.getAttributeTolerance();
-		
-		toleranceBridge = new ToleranceBridgeListeners(new ReportingConfiguration(), tolerance, this);
-		measureBridge = new MeasuredValueBridgeListeners(new ReportingConfiguration(), measuredValue, this);
-	}
 
-	public Attribute getMaxMeasuredValue() {
-		return maxMeasuredValue;
-	}
+    private final TemperatureMeasurementCluster temperatureMeasurementCluster;
+    private final Attribute measuredValue;
+    private final Attribute minMeasuredValue;
+    private final Attribute maxMeasuredValue;
+    private final Attribute tolerance;
 
-	public Attribute getMeasuredValue() {
-		return measuredValue;
-	}
+    private final MeasuredValueBridgeListeners measureBridge;
+    private final ToleranceBridgeListeners toleranceBridge;
 
-	public Attribute getMinMeasuredValue() {
-		return minMeasuredValue;
-	}
+    public TemperatureMeasurementImpl(ZigBeeDevice zbDevice) {
+        temperatureMeasurementCluster = new TemperatureMeasurementCluster(zbDevice);
+        measuredValue = temperatureMeasurementCluster.getAttributeMeasuredValue();
+        minMeasuredValue = temperatureMeasurementCluster.getAttributeMinMeasuredValue();
+        maxMeasuredValue = temperatureMeasurementCluster.getAttributeMaxMeasuredValue();
+        tolerance = temperatureMeasurementCluster.getAttributeTolerance();
 
-	public Attribute getTolerance() {
-		return tolerance;
-	}
+        toleranceBridge = new ToleranceBridgeListeners(new ReportingConfiguration(), tolerance, this);
+        measureBridge = new MeasuredValueBridgeListeners(new ReportingConfiguration(), measuredValue, this);
+    }
 
-	public Subscription[] getActiveSubscriptions() {
-		return temperatureMeasurementCluster.getActiveSubscriptions();
-	}
+    public Attribute getMaxMeasuredValue() {
+        return maxMeasuredValue;
+    }
 
-	public int getId() {
-		return temperatureMeasurementCluster.getId();
-	}
+    public Attribute getMeasuredValue() {
+        return measuredValue;
+    }
 
-	public String getName() {
-		return temperatureMeasurementCluster.getName();
-	}
+    public Attribute getMinMeasuredValue() {
+        return minMeasuredValue;
+    }
 
-	public Attribute getAttribute(int id) {		
-		Attribute[] attributes = temperatureMeasurementCluster.getAvailableAttributes();
-		for (int i = 0; i < attributes.length; i++) {
-			if( attributes[i].getId() == id ) 
-				return attributes[i];
-		}
-		return null;
-	}
+    public Attribute getTolerance() {
+        return tolerance;
+    }
 
-	public Attribute[] getAttributes() {
-		return temperatureMeasurementCluster.getAvailableAttributes();
-	}
+    public Subscription[] getActiveSubscriptions() {
+        return temperatureMeasurementCluster.getActiveSubscriptions();
+    }
 
-	public boolean subscribe(MeasuredValueListener listener) {
-		return measureBridge.subscribe(listener);
-	}
+    public int getId() {
+        return temperatureMeasurementCluster.getId();
+    }
 
-	public boolean subscribe(ToleranceListener listener) {
-		return toleranceBridge.subscribe(listener);
-	}
+    public String getName() {
+        return temperatureMeasurementCluster.getName();
+    }
 
-	public boolean unsubscribe(MeasuredValueListener listener) {
-		return measureBridge.unsubscribe(listener);
-	}
+    public Attribute getAttribute(int id) {
+        Attribute[] attributes = temperatureMeasurementCluster.getAvailableAttributes();
+        for (int i = 0; i < attributes.length; i++) {
+            if (attributes[i].getId() == id)
+                return attributes[i];
+        }
+        return null;
+    }
 
-	public boolean unsubscribe(ToleranceListener listener) {
-		return toleranceBridge.unsubscribe(listener);
-	}
-	
+    public Attribute[] getAttributes() {
+        return temperatureMeasurementCluster.getAvailableAttributes();
+    }
+
+    public boolean subscribe(MeasuredValueListener listener) {
+        return measureBridge.subscribe(listener);
+    }
+
+    public boolean subscribe(ToleranceListener listener) {
+        return toleranceBridge.subscribe(listener);
+    }
+
+    public boolean unsubscribe(MeasuredValueListener listener) {
+        return measureBridge.unsubscribe(listener);
+    }
+
+    public boolean unsubscribe(ToleranceListener listener) {
+        return toleranceBridge.unsubscribe(listener);
+    }
+
 }

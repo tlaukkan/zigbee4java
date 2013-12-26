@@ -34,10 +34,8 @@ import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
 public class IAS_ZoneDeviceProxy extends DeviceProxyBase implements IAS_Zone {
 
@@ -67,7 +65,7 @@ public class IAS_ZoneDeviceProxy extends DeviceProxyBase implements IAS_Zone {
         return DEVICE_DESCRIPTOR;
     }
 
-    final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
+    final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
 
         public int[] getCustomClusters() {
             return IAS_Zone.CUSTOM;

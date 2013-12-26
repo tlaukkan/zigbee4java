@@ -36,90 +36,89 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.measureament_sensing.RelativeHu
 /**
  * Implementation of the {@link RelativeHumidityMeasurement} interface, that wraps the
  * {@link RelativeHumidityMeasurementCluster}.
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
- *
  */
 public class RelativeHumidityMeasurementImpl implements RelativeHumidityMeasurement {
-	
-	private RelativeHumidityMeasurementCluster relativeHumidityMeasurementCluster; 
-	private Attribute measuredValue;
-	private Attribute minMeasuredValue;
-	private Attribute maxMeasuredValue;
-	private Attribute tolerance;
-	
-	private final MeasuredValueBridgeListeners measureBridge;	
-	private final ToleranceBridgeListeners toleranceBridge;
-	
-	public RelativeHumidityMeasurementImpl(ZigBeeDevice zbDevice){
-		relativeHumidityMeasurementCluster = new RelativeHumidityMeasurementCluster(zbDevice);
-		measuredValue = relativeHumidityMeasurementCluster.getAttributeMeasuredValue();
-		minMeasuredValue = relativeHumidityMeasurementCluster.getAttributeMinMeasuredValue();
-		maxMeasuredValue = relativeHumidityMeasurementCluster.getAttributeMaxMeasuredValue();
-		tolerance = relativeHumidityMeasurementCluster.getAttributeTolerance();
-		
-		toleranceBridge = new ToleranceBridgeListeners(new ReportingConfiguration(), tolerance, this);
-		measureBridge = new MeasuredValueBridgeListeners(new ReportingConfiguration(), measuredValue, this);
-	}
 
-	public Attribute getMaxMeasuredValue() {
-		return maxMeasuredValue;
-	}
+    private RelativeHumidityMeasurementCluster relativeHumidityMeasurementCluster;
+    private Attribute measuredValue;
+    private Attribute minMeasuredValue;
+    private Attribute maxMeasuredValue;
+    private Attribute tolerance;
 
-	public Attribute getMeasuredValue() {
-		return measuredValue;
-	}
+    private final MeasuredValueBridgeListeners measureBridge;
+    private final ToleranceBridgeListeners toleranceBridge;
 
-	public Attribute getMinMeasuredValue() {
-		return minMeasuredValue;
-	}
+    public RelativeHumidityMeasurementImpl(ZigBeeDevice zbDevice) {
+        relativeHumidityMeasurementCluster = new RelativeHumidityMeasurementCluster(zbDevice);
+        measuredValue = relativeHumidityMeasurementCluster.getAttributeMeasuredValue();
+        minMeasuredValue = relativeHumidityMeasurementCluster.getAttributeMinMeasuredValue();
+        maxMeasuredValue = relativeHumidityMeasurementCluster.getAttributeMaxMeasuredValue();
+        tolerance = relativeHumidityMeasurementCluster.getAttributeTolerance();
 
-	public Attribute getTolerance() {
-		return tolerance;
-	}
+        toleranceBridge = new ToleranceBridgeListeners(new ReportingConfiguration(), tolerance, this);
+        measureBridge = new MeasuredValueBridgeListeners(new ReportingConfiguration(), measuredValue, this);
+    }
 
-	public Subscription[] getActiveSubscriptions() {
-		return relativeHumidityMeasurementCluster.getActiveSubscriptions();
-	}
+    public Attribute getMaxMeasuredValue() {
+        return maxMeasuredValue;
+    }
 
-	public int getId() {
-		return relativeHumidityMeasurementCluster.getId();
-	}
+    public Attribute getMeasuredValue() {
+        return measuredValue;
+    }
 
-	public String getName() {
-		return relativeHumidityMeasurementCluster.getName();
-	}
+    public Attribute getMinMeasuredValue() {
+        return minMeasuredValue;
+    }
 
-	public Attribute getAttribute(int id) {		
-		Attribute[] attributes = relativeHumidityMeasurementCluster.getAvailableAttributes();
-		for (int i = 0; i < attributes.length; i++) {
-			if( attributes[i].getId() == id ) 
-				return attributes[i];
-		}
-		return null;
-	}
+    public Attribute getTolerance() {
+        return tolerance;
+    }
 
-	public Attribute[] getAttributes() {
-		return relativeHumidityMeasurementCluster.getAvailableAttributes();
-	}
+    public Subscription[] getActiveSubscriptions() {
+        return relativeHumidityMeasurementCluster.getActiveSubscriptions();
+    }
 
-	public boolean subscribe(MeasuredValueListener listener) {
-		return measureBridge.subscribe(listener);
-	}
+    public int getId() {
+        return relativeHumidityMeasurementCluster.getId();
+    }
 
-	public boolean subscribe(ToleranceListener listener) {
-		return toleranceBridge.subscribe(listener);
-	}
+    public String getName() {
+        return relativeHumidityMeasurementCluster.getName();
+    }
 
-	public boolean unsubscribe(MeasuredValueListener listener) {
-		return measureBridge.unsubscribe(listener);
-	}
+    public Attribute getAttribute(int id) {
+        Attribute[] attributes = relativeHumidityMeasurementCluster.getAvailableAttributes();
+        for (int i = 0; i < attributes.length; i++) {
+            if (attributes[i].getId() == id)
+                return attributes[i];
+        }
+        return null;
+    }
 
-	public boolean unsubscribe(ToleranceListener listener) {
-		return toleranceBridge.unsubscribe(listener);
-	}
-	
+    public Attribute[] getAttributes() {
+        return relativeHumidityMeasurementCluster.getAvailableAttributes();
+    }
+
+    public boolean subscribe(MeasuredValueListener listener) {
+        return measureBridge.subscribe(listener);
+    }
+
+    public boolean subscribe(ToleranceListener listener) {
+        return toleranceBridge.subscribe(listener);
+    }
+
+    public boolean unsubscribe(MeasuredValueListener listener) {
+        return measureBridge.unsubscribe(listener);
+    }
+
+    public boolean unsubscribe(ToleranceListener listener) {
+        return toleranceBridge.unsubscribe(listener);
+    }
+
 }

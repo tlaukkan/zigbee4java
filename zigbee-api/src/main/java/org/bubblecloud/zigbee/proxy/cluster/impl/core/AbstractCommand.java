@@ -23,88 +23,87 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Command;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class AbstractCommand implements Command {
 
-	private byte id;
-	private byte[] manufacturerId;
-	private boolean isClientServerDirection;
-	private boolean isClusterSpecific;
-	private boolean isManufacturerExtension;
-	private byte[] allowedResponseIds;
-	protected byte[] payload = null;	
-	protected int freeIdxPayload = 0;
-	
-	public AbstractCommand(byte id) {
-		this(id,null,true);
-	}
+    private byte id;
+    private byte[] manufacturerId;
+    private boolean isClientServerDirection;
+    private boolean isClusterSpecific;
+    private boolean isManufacturerExtension;
+    private byte[] allowedResponseIds;
+    protected byte[] payload = null;
+    protected int freeIdxPayload = 0;
 
-	public AbstractCommand(byte id, boolean isClusterSpecific) {
-		this(id,null,true,isClusterSpecific,null);
-	}
-	
-	public AbstractCommand(byte id, byte[] manufacturerId, boolean isClientServerDirection) {
-		this(id, manufacturerId, isClientServerDirection, true, null);
-	}
-	
-	public AbstractCommand(byte id, byte[] manufacturerId, boolean isClientServerDirection, boolean isClusterSpecific) {
-		this(id, manufacturerId, isClientServerDirection, isClusterSpecific, null);
-	}
-	
-	public AbstractCommand(byte id, byte[] manufacturerId, boolean isClientServerDirection, boolean isClusterSpecific,
-			byte[] allowedResponseIds) {
-		super();
-		this.id = id;
-		this.manufacturerId = manufacturerId;
-		this.isClientServerDirection = isClientServerDirection;
-		this.isClusterSpecific = isClusterSpecific;
-		this.isManufacturerExtension = manufacturerId != null;
-		this.allowedResponseIds = allowedResponseIds;
-	}
+    public AbstractCommand(byte id) {
+        this(id, null, true);
+    }
 
-	public byte[] getAllowedResponseId() {
-		return allowedResponseIds;
-	}
-	
-	protected AbstractCommand setAllowedResponseId(byte[] allowedResponseIds){
-		this.allowedResponseIds = allowedResponseIds;
-		return this;	
-	}
+    public AbstractCommand(byte id, boolean isClusterSpecific) {
+        this(id, null, true, isClusterSpecific, null);
+    }
 
-	public byte getHeaderCommandId() {
-		return id;
-	}
-	
-	public byte[] getManufacturerId() {
-		return manufacturerId;
-	}
-	
-	public boolean isClientServerDirection() {
-		return isClientServerDirection;
-	}
-	
-	public boolean isClusterSpecific() {
-		return isClusterSpecific;
-	}
+    public AbstractCommand(byte id, byte[] manufacturerId, boolean isClientServerDirection) {
+        this(id, manufacturerId, isClientServerDirection, true, null);
+    }
 
-	public boolean isManufacturerExtension() {
-		return isManufacturerExtension;
-	}
-	
-	protected void setId(byte id) {
-		this.id = id;
-	}
-	
-	public  byte[] getPayload() {
-		if( payload == null ) {
-			payload = new byte[0];
-		}
-		return payload;
-	}
+    public AbstractCommand(byte id, byte[] manufacturerId, boolean isClientServerDirection, boolean isClusterSpecific) {
+        this(id, manufacturerId, isClientServerDirection, isClusterSpecific, null);
+    }
+
+    public AbstractCommand(byte id, byte[] manufacturerId, boolean isClientServerDirection, boolean isClusterSpecific,
+                           byte[] allowedResponseIds) {
+        super();
+        this.id = id;
+        this.manufacturerId = manufacturerId;
+        this.isClientServerDirection = isClientServerDirection;
+        this.isClusterSpecific = isClusterSpecific;
+        this.isManufacturerExtension = manufacturerId != null;
+        this.allowedResponseIds = allowedResponseIds;
+    }
+
+    public byte[] getAllowedResponseId() {
+        return allowedResponseIds;
+    }
+
+    protected AbstractCommand setAllowedResponseId(byte[] allowedResponseIds) {
+        this.allowedResponseIds = allowedResponseIds;
+        return this;
+    }
+
+    public byte getHeaderCommandId() {
+        return id;
+    }
+
+    public byte[] getManufacturerId() {
+        return manufacturerId;
+    }
+
+    public boolean isClientServerDirection() {
+        return isClientServerDirection;
+    }
+
+    public boolean isClusterSpecific() {
+        return isClusterSpecific;
+    }
+
+    public boolean isManufacturerExtension() {
+        return isManufacturerExtension;
+    }
+
+    protected void setId(byte id) {
+        this.id = id;
+    }
+
+    public byte[] getPayload() {
+        if (payload == null) {
+            payload = new byte[0];
+        }
+        return payload;
+    }
 }

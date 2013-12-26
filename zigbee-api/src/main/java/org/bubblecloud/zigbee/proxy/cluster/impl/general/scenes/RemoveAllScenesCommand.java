@@ -26,25 +26,24 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBSerializer;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.Scenes;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ByteArrayOutputStreamSerializer;
+
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.1
- *
  */
 public class RemoveAllScenesCommand extends AbstractCommand {
 
     private int groupId;
 
-    public RemoveAllScenesCommand(int groupId){
+    public RemoveAllScenesCommand(int groupId) {
         super(Scenes.REMOVE_ALL_SCENES);
     }
 
-    public byte[] getPayload(){
-        if( payload == null){
+    public byte[] getPayload() {
+        if (payload == null) {
             ZBSerializer serializer = new ByteArrayOutputStreamSerializer();
-            serializer.append_short((short)groupId);
+            serializer.append_short((short) groupId);
             payload = serializer.getPayload();
         }
         return payload;

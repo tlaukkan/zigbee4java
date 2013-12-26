@@ -30,12 +30,10 @@ import java.util.Dictionary;
 import java.util.Properties;
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class ZigBeeNodeImpl implements ZigBeeNode {
 
@@ -44,29 +42,28 @@ public class ZigBeeNodeImpl implements ZigBeeNode {
     final private Properties description;
 
     /**
-     *
      * @param nwk
      * @param ieee
      * @param pan
      * @since 0.6.0 - Revision 67
      */
-    public ZigBeeNodeImpl(int nwk, String ieee, short pan){
+    public ZigBeeNodeImpl(int nwk, String ieee, short pan) {
         this.nwkAddress = nwk;
         this.ieeeAddress = ieee;
         IEEEAddress.fromColonNotation(ieee); //Only for checking the IEEE format
 
-        description  = new Properties();
-        description.put( ZigBeeNode.IEEE_ADDRESS, ieee );
-        description.put( ZigBeeNode.NWK_ADDRESS, nwk );
-        description.put( ZigBeeNode.PAN_ID, pan );
+        description = new Properties();
+        description.put(ZigBeeNode.IEEE_ADDRESS, ieee);
+        description.put(ZigBeeNode.NWK_ADDRESS, nwk);
+        description.put(ZigBeeNode.PAN_ID, pan);
     }
 
-    public ZigBeeNodeImpl(int nwk, ZToolAddress64 ieee, short pan){
+    public ZigBeeNodeImpl(int nwk, ZToolAddress64 ieee, short pan) {
         this.ieeeAddress = IEEEAddress.toString(ieee.getLong());
-        description  = new Properties();
-        description.put( ZigBeeNode.IEEE_ADDRESS, ieee );
-        description.put( ZigBeeNode.PAN_ID, pan);
-        setNetworkAddress( nwk );
+        description = new Properties();
+        description.put(ZigBeeNode.IEEE_ADDRESS, ieee);
+        description.put(ZigBeeNode.PAN_ID, pan);
+        setNetworkAddress(nwk);
     }
 
 
@@ -80,14 +77,12 @@ public class ZigBeeNodeImpl implements ZigBeeNode {
     }
 
     /**
-     *
      * @param nwk the new network address
-     *
      * @since 0.6.0 - Revision 74
      */
     public void setNetworkAddress(int nwk) {
         nwkAddress = nwk;
-        description.put( ZigBeeNode.NWK_ADDRESS, nwk );
+        description.put(ZigBeeNode.NWK_ADDRESS, nwk);
     }
 
     public int getNetworkAddress() {
@@ -99,12 +94,12 @@ public class ZigBeeNodeImpl implements ZigBeeNode {
     }
 
     public boolean equals(Object obj) {
-        if ( obj == this ) {
+        if (obj == this) {
             return true;
-        }else if ( obj instanceof ZigBeeNode ){
+        } else if (obj instanceof ZigBeeNode) {
             ZigBeeNode node = (ZigBeeNode) obj;
-            return nwkAddress == node.getNetworkAddress() && ieeeAddress.equals( node.getIEEEAddress() );
-        }else{
+            return nwkAddress == node.getNetworkAddress() && ieeeAddress.equals(node.getIEEEAddress());
+        } else {
             return false;
         }
     }

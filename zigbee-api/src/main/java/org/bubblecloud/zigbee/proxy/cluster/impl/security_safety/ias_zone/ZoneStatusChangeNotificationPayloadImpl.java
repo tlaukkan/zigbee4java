@@ -28,7 +28,7 @@ public class ZoneStatusChangeNotificationPayloadImpl implements ZoneStatusChange
     private short zoneStatus;
     private byte extendedStatus;
 
-    public ZoneStatusChangeNotificationPayloadImpl(ZoneStatusChangeNotificationPayload payload){
+    public ZoneStatusChangeNotificationPayloadImpl(ZoneStatusChangeNotificationPayload payload) {
 
         this.zoneStatus = payload.getZoneStatus();
         this.extendedStatus = payload.getExtendedStatus();

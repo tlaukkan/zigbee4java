@@ -31,19 +31,19 @@ public class BypassCommand extends AbstractCommand {
 
     private BypassPayload bypassPayload;
 
-    public BypassCommand(BypassPayload bypassPayload){
+    public BypassCommand(BypassPayload bypassPayload) {
         super(IASACE.BYPASS);
         this.bypassPayload = bypassPayload;
     }
 
-    public byte[] getPayload(){
-        if( payload == null){
-            int length = 4 + bypassPayload.getNumberOfZones()*4;
+    public byte[] getPayload() {
+        if (payload == null) {
+            int length = 4 + bypassPayload.getNumberOfZones() * 4;
 
             payload = new byte[length];
-            ZBSerializer serializer = new DefaultSerializer(payload,0);
+            ZBSerializer serializer = new DefaultSerializer(payload, 0);
             serializer.append_int(bypassPayload.getNumberOfZones());
-            for(int i = 0; i < bypassPayload.getNumberOfZones(); i++){
+            for (int i = 0; i < bypassPayload.getNumberOfZones(); i++) {
                 serializer.append_int(bypassPayload.getZonesID()[i]);
             }
         }

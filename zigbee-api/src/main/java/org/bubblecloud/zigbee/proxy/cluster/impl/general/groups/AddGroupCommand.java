@@ -30,31 +30,29 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.ByteArrayOutputStreamSeria
 
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class AddGroupCommand extends AbstractCommand {
 
-	private int groupId;
-	private String name;
-	
-	public AddGroupCommand(int groupId, String name){
-		super(Groups.ADD_GROUP_ID);
-		this.groupId = groupId;
-		this.name = name;
-	}
-	
-	public byte[] getPayload(){	
-		if( payload == null){			
-			ZBSerializer serializer = new ByteArrayOutputStreamSerializer();
-			serializer.append_short((short)groupId);		
-			serializer.appendZigBeeType(name, ZigBeeType.CharacterString);
-			payload = serializer.getPayload();			
-		}
-		return payload;
-	}
-	
+    private int groupId;
+    private String name;
+
+    public AddGroupCommand(int groupId, String name) {
+        super(Groups.ADD_GROUP_ID);
+        this.groupId = groupId;
+        this.name = name;
+    }
+
+    public byte[] getPayload() {
+        if (payload == null) {
+            ZBSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_short((short) groupId);
+            serializer.appendZigBeeType(name, ZigBeeType.CharacterString);
+            payload = serializer.getPayload();
+        }
+        return payload;
+    }
+
 }

@@ -30,11 +30,9 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ResponseImpl;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.8.0
- *
  */
 public class RestoreStartupParametersResponseImpl extends ResponseImpl implements RestoreStartupParametersResponse {
 

@@ -26,46 +26,44 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.event.MeasuredValueListener;
 import org.bubblecloud.zigbee.proxy.cluster.glue.measureament_sensing.event.ToleranceListener;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public interface TemperatureMeasurement extends Cluster {
 
-	public Attribute getMeasuredValue();
-	public Attribute getMinMeasuredValue();
-	public Attribute getMaxMeasuredValue();
-	public Attribute getTolerance();
-	
-	/**
-	 * 
-	 * @param tl The {@link ToleranceListener} to subscribe for events
-	 * @since 0.6.0
-	 */
-	public boolean subscribe(ToleranceListener tl);
-	
-	/**
-	 * 
-	 * @param tl The {@link ToleranceListener} to unsubscribe
-	 * @since 0.6.0
-	 */
-	public boolean unsubscribe(ToleranceListener tl);
-	
-	/**
-	 * 
-	 * @param mvl The {@link MeasuredValueListener} to subscribe for events
-	 * @since 0.6.0
-	 */
-	public boolean subscribe(MeasuredValueListener mvl);
-	
-	/**
-	 * 
-	 * @param mvl The {@link MeasuredValueListener} to unsubscribe
-	 * @since 0.6.0
-	 */
-	public boolean unsubscribe(MeasuredValueListener mvl);
-	
+    public Attribute getMeasuredValue();
+
+    public Attribute getMinMeasuredValue();
+
+    public Attribute getMaxMeasuredValue();
+
+    public Attribute getTolerance();
+
+    /**
+     * @param tl The {@link ToleranceListener} to subscribe for events
+     * @since 0.6.0
+     */
+    public boolean subscribe(ToleranceListener tl);
+
+    /**
+     * @param tl The {@link ToleranceListener} to unsubscribe
+     * @since 0.6.0
+     */
+    public boolean unsubscribe(ToleranceListener tl);
+
+    /**
+     * @param mvl The {@link MeasuredValueListener} to subscribe for events
+     * @since 0.6.0
+     */
+    public boolean subscribe(MeasuredValueListener mvl);
+
+    /**
+     * @param mvl The {@link MeasuredValueListener} to unsubscribe
+     * @since 0.6.0
+     */
+    public boolean unsubscribe(MeasuredValueListener mvl);
+
 }

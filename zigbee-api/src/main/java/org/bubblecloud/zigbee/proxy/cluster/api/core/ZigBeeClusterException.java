@@ -24,32 +24,31 @@ package org.bubblecloud.zigbee.proxy.cluster.api.core;
 //TODO discuss about the Exception Hierarchy from the basedriver to the refinement drivers
 
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ZigBeeClusterException extends ZigBeeException {
 
-	private Response response;
+    private Response response;
 
-	public ZigBeeClusterException(String msg) {
-		super(msg);
-	}
+    public ZigBeeClusterException(String msg) {
+        super(msg);
+    }
 
-	public ZigBeeClusterException(Throwable ex) {
-		super(ex);
-	}
+    public ZigBeeClusterException(Throwable ex) {
+        super(ex);
+    }
 
-	public ZigBeeClusterException(String msg, Response response) {
-		super(msg);
-		this.response = response;
-	}
-	
-	public Response getResponse(){
-		return response;
-	}
+    public ZigBeeClusterException(String msg, Response response) {
+        super(msg);
+        this.response = response;
+    }
+
+    public Response getResponse() {
+        return response;
+    }
 
 }

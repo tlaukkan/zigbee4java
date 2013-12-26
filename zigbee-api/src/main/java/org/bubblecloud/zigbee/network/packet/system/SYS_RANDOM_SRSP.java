@@ -28,27 +28,24 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class SYS_RANDOM_SRSP extends ZToolPacket /*implements IREPONSE,ISYSTEM*/{
+public class SYS_RANDOM_SRSP extends ZToolPacket /*implements IREPONSE,ISYSTEM*/ {
     /// <name>TI.ZPI2.SYS_RANDOM_SRSP.Value</name>
-        /// <summary>Random value</summary>
-        public DoubleByte Value;
+    /// <summary>Random value</summary>
+    public DoubleByte Value;
 
-        /// <name>TI.ZPI2.SYS_RANDOM_SRSP</name>
-        /// <summary>Constructor</summary>
-        public SYS_RANDOM_SRSP()
-        {
-        }
+    /// <name>TI.ZPI2.SYS_RANDOM_SRSP</name>
+    /// <summary>Constructor</summary>
+    public SYS_RANDOM_SRSP() {
+    }
 
-        /// <name>TI.ZPI2.SYS_RANDOM_SRSP</name>
-        /// <summary>Constructor</summary>
-        public SYS_RANDOM_SRSP(int[] framedata)
-        {
-            this.Value = new DoubleByte(framedata[1],framedata[0]);
-            super.buildPacket(new DoubleByte(ZToolCMD.SYS_RANDOM_SRSP), framedata);
-        }
+    /// <name>TI.ZPI2.SYS_RANDOM_SRSP</name>
+    /// <summary>Constructor</summary>
+    public SYS_RANDOM_SRSP(int[] framedata) {
+        this.Value = new DoubleByte(framedata[1], framedata[0]);
+        super.buildPacket(new DoubleByte(ZToolCMD.SYS_RANDOM_SRSP), framedata);
+    }
 
 }

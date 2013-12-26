@@ -29,26 +29,23 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class AF_DATA_SRSP extends ZToolPacket /*implements IRESPONSE,IAF*/{
+public class AF_DATA_SRSP extends ZToolPacket /*implements IRESPONSE,IAF*/ {
     /// <name>TI.ZPI2.AF_DATA_SRSP.Status</name>
-        /// <summary>Status</summary>
-        public int Status;
+    /// <summary>Status</summary>
+    public int Status;
 
-        /// <name>TI.ZPI2.AF_DATA_SRSP</name>
-        /// <summary>Constructor</summary>
-        public AF_DATA_SRSP()
-        {
-        }
+    /// <name>TI.ZPI2.AF_DATA_SRSP</name>
+    /// <summary>Constructor</summary>
+    public AF_DATA_SRSP() {
+    }
 
-        public AF_DATA_SRSP(int[] framedata)
-        {
-            this.Status = framedata[0];
-            super.buildPacket(new DoubleByte(ZToolCMD.AF_DATA_SRSP), framedata);
-        }
+    public AF_DATA_SRSP(int[] framedata) {
+        this.Status = framedata[0];
+        super.buildPacket(new DoubleByte(ZToolCMD.AF_DATA_SRSP), framedata);
+    }
 
     @Override
     public String toString() {

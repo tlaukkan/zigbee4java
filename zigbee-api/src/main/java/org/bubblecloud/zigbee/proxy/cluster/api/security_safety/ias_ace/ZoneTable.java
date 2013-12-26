@@ -22,21 +22,19 @@
 package org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_ace;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.8.0
- *
  */
 public interface ZoneTable {
 
-    class Zone{
+    class Zone {
 
         Short zoneID;
         Short zoneType;
         String zoneAddress;
 
-        public Zone(Short zoneID, Short zoneType, String zoneAddress){
+        public Zone(Short zoneID, Short zoneType, String zoneAddress) {
             this.zoneID = zoneID;
             this.zoneType = zoneType;
             this.zoneAddress = zoneAddress;
@@ -45,18 +43,23 @@ public interface ZoneTable {
         public Short getZoneID() {
             return zoneID;
         }
+
         public void setZoneID(Short zoneID) {
             this.zoneID = zoneID;
         }
+
         public Short getZoneType() {
             return zoneType;
         }
+
         public void setZoneType(Short zoneType) {
             this.zoneType = zoneType;
         }
+
         public String getZoneAddress() {
             return zoneAddress;
         }
+
         public void setZoneAddress(String zoneAddress) {
             this.zoneAddress = zoneAddress;
         }

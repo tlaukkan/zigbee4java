@@ -39,71 +39,70 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.general.IdentifyCluster;
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class IdentifyImpl implements Identify {
-	
-	private IdentifyCluster identifyCluster;
-	private Attribute identifyTime;
-	
-	
-	public IdentifyImpl(ZigBeeDevice zbDevice){
-		identifyCluster = new IdentifyCluster(zbDevice);
-		
-	}
 
-	public int IdentifyQuery() throws ZigBeeHAException{
-		try {
-			IdentifyQueryResponse response = (IdentifyQueryResponse)identifyCluster.identifyQuery();
-			return response.getTimeout();
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    private IdentifyCluster identifyCluster;
+    private Attribute identifyTime;
 
-	public int getIdentifyTime() throws ZigBeeHAException{
-		try {
-		return (Integer)identifyTime.getValue();
-		
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
 
-	public void identify(int time)  throws ZigBeeHAException {
-		try {
-			DefaultResponse response = (DefaultResponse) identifyCluster.identify(time);
-			if (! response.getStatus().equals(Status.SUCCESS))
-				throw new ZigBeeHAException(response.getStatus().toString());
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    public IdentifyImpl(ZigBeeDevice zbDevice) {
+        identifyCluster = new IdentifyCluster(zbDevice);
 
-	public Subscription[] getActiveSubscriptions() {
-		return identifyCluster.getActiveSubscriptions();
-	}
+    }
 
-	public int getId() {
-		return identifyCluster.getId();
-	}
+    public int IdentifyQuery() throws ZigBeeHAException {
+        try {
+            IdentifyQueryResponse response = (IdentifyQueryResponse) identifyCluster.identifyQuery();
+            return response.getTimeout();
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public String getName() {
-		return identifyCluster.getName();
-	}
+    public int getIdentifyTime() throws ZigBeeHAException {
+        try {
+            return (Integer) identifyTime.getValue();
 
-	public Attribute getAttribute(int id) {		
-		Attribute[] attributes = identifyCluster.getAvailableAttributes();
-		for (int i = 0; i < attributes.length; i++) {
-			if( attributes[i].getId() == id ) 
-				return attributes[i];
-		}
-		return null;
-	}
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public Attribute[] getAttributes() {
-		return identifyCluster.getAvailableAttributes();
-	}
-	
-	
+    public void identify(int time) throws ZigBeeHAException {
+        try {
+            DefaultResponse response = (DefaultResponse) identifyCluster.identify(time);
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigBeeHAException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
+
+    public Subscription[] getActiveSubscriptions() {
+        return identifyCluster.getActiveSubscriptions();
+    }
+
+    public int getId() {
+        return identifyCluster.getId();
+    }
+
+    public String getName() {
+        return identifyCluster.getName();
+    }
+
+    public Attribute getAttribute(int id) {
+        Attribute[] attributes = identifyCluster.getAvailableAttributes();
+        for (int i = 0; i < attributes.length; i++) {
+            if (attributes[i].getId() == id)
+                return attributes[i];
+        }
+        return null;
+    }
+
+    public Attribute[] getAttributes() {
+        return identifyCluster.getAvailableAttributes();
+    }
+
+
 }

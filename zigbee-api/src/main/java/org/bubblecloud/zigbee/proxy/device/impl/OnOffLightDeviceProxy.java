@@ -33,76 +33,73 @@ import org.bubblecloud.zigbee.proxy.ProxyConstants;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class OnOffLightDeviceProxy extends DeviceProxyBase implements OnOffLight {
-	
-	private OnOff onOff;
-	private Scenes scenes;
-	private Groups groups;
-	private OccupacySensing occupancySensing;
-	
-	public OnOffLightDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
-		super(ctx,zbDevice);
-		onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);
-		groups = (Groups) getCluster(ProxyConstants.GROUPS);
-		scenes = (Scenes) getCluster(ProxyConstants.SCENES);
-		occupancySensing = (OccupacySensing) getCluster(ProxyConstants.OCCUPANCY_SENSING);
-	}
+
+    private OnOff onOff;
+    private Scenes scenes;
+    private Groups groups;
+    private OccupacySensing occupancySensing;
+
+    public OnOffLightDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+        super(ctx, zbDevice);
+        onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);
+        groups = (Groups) getCluster(ProxyConstants.GROUPS);
+        scenes = (Scenes) getCluster(ProxyConstants.SCENES);
+        occupancySensing = (OccupacySensing) getCluster(ProxyConstants.OCCUPANCY_SENSING);
+    }
 
 
-	public Groups getGroups() {
-		return groups;
-	}
+    public Groups getGroups() {
+        return groups;
+    }
 
-	public OccupacySensing getOccupacySensing() {
-		return occupancySensing;
-	}
+    public OccupacySensing getOccupacySensing() {
+        return occupancySensing;
+    }
 
-	public OnOff getOnOff() {
-		return onOff;
-	}
+    public OnOff getOnOff() {
+        return onOff;
+    }
 
-	public Scenes getScenes() {
-		return scenes;
-	}
+    public Scenes getScenes() {
+        return scenes;
+    }
 
-	
 
-	@Override
-	public String getName() {
-		return OnOffLight.NAME;
-	}
+    @Override
+    public String getName() {
+        return OnOffLight.NAME;
+    }
 
-	final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
+    final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
 
-		public int[] getCustomClusters() {
-			return OnOffLight.CUSTOM;
-		}
+        public int[] getCustomClusters() {
+            return OnOffLight.CUSTOM;
+        }
 
-		public int[] getMandatoryCluster() {
-			return OnOffLight.MANDATORY;
-		}
+        public int[] getMandatoryCluster() {
+            return OnOffLight.MANDATORY;
+        }
 
-		public int[] getOptionalCluster() {
-			return OnOffLight.OPTIONAL;
-		}
+        public int[] getOptionalCluster() {
+            return OnOffLight.OPTIONAL;
+        }
 
-		public int[] getStandardClusters() {
-			return OnOffLight.STANDARD;
-		}
-		
-	};
+        public int[] getStandardClusters() {
+            return OnOffLight.STANDARD;
+        }
 
-	@Override
-	public DeviceDescription getDescription() {
-		return DEVICE_DESCRIPTOR;
-	}
+    };
+
+    @Override
+    public DeviceDescription getDescription() {
+        return DEVICE_DESCRIPTOR;
+    }
 
 
 }

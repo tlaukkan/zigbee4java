@@ -45,93 +45,101 @@ import java.io.InputStream;
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class ZToolPacketParser implements Runnable {
-	/** The logger. */
-	private final static Logger logger = LoggerFactory.getLogger(ZToolPacketParser.class);
-    /** The packet handler. */
-	private ZToolPacketHandler packetHandler;
-    /** The input stream. */
-	private final InputStream inputStream;
-	/** The parser parserThread. */
-	private Thread parserThread = null;
-	/** Flag reflecting that parser has been closed and parser parserThread should exit. */
-	private boolean close = false;
+    /**
+     * The logger.
+     */
+    private final static Logger logger = LoggerFactory.getLogger(ZToolPacketParser.class);
+    /**
+     * The packet handler.
+     */
+    private ZToolPacketHandler packetHandler;
+    /**
+     * The input stream.
+     */
+    private final InputStream inputStream;
+    /**
+     * The parser parserThread.
+     */
+    private Thread parserThread = null;
+    /**
+     * Flag reflecting that parser has been closed and parser parserThread should exit.
+     */
+    private boolean close = false;
 
     /**
      * Construct which sets input stream where the packet is read from the and handler
      * which further processes the received packet.
      *
-     * @param inputStream the input stream
+     * @param inputStream   the input stream
      * @param packetHandler the packet handler
      */
-	public ZToolPacketParser(final InputStream inputStream, final ZToolPacketHandler packetHandler) {
-		logger.debug("Creating ZToolPacketParser");
-		if ( inputStream.markSupported() ) {
-			this.inputStream = inputStream;
-		} else {
-			logger.debug(
-					"Provided InputStream {} doesn't provide the mark()/reset() feature, " +
-					"wrapping it up as BufferedInputStream", inputStream.getClass()
-			);
-			this.inputStream = new MarkableInputStream(inputStream);
-		}
-		this.packetHandler = packetHandler;
+    public ZToolPacketParser(final InputStream inputStream, final ZToolPacketHandler packetHandler) {
+        logger.debug("Creating ZToolPacketParser");
+        if (inputStream.markSupported()) {
+            this.inputStream = inputStream;
+        } else {
+            logger.debug(
+                    "Provided InputStream {} doesn't provide the mark()/reset() feature, " +
+                            "wrapping it up as BufferedInputStream", inputStream.getClass()
+            );
+            this.inputStream = new MarkableInputStream(inputStream);
+        }
+        this.packetHandler = packetHandler;
 
-		parserThread = new Thread(this,"ZToolPacketParser");
-		parserThread.start();
-	}
+        parserThread = new Thread(this, "ZToolPacketParser");
+        parserThread.start();
+    }
 
     /**
      * Run method executed by the parser thread.
      */
-	public void run() {
-		logger.debug("ZToolPacketParser parserThread started");
-		while (!close) {
-			try {
-					int val = inputStream.read();
-					logger.trace("Read {} from input stream ", ByteUtils.formatByte(val));
-					if (val == ZToolPacket.START_BYTE) {
-						inputStream.mark(256);
-                        final ZToolPacketStream packetStream = new ZToolPacketStream(inputStream);
-                        final ZToolPacket response = packetStream.parsePacket();
+    public void run() {
+        logger.debug("ZToolPacketParser parserThread started");
+        while (!close) {
+            try {
+                int val = inputStream.read();
+                logger.trace("Read {} from input stream ", ByteUtils.formatByte(val));
+                if (val == ZToolPacket.START_BYTE) {
+                    inputStream.mark(256);
+                    final ZToolPacketStream packetStream = new ZToolPacketStream(inputStream);
+                    final ZToolPacket response = packetStream.parsePacket();
 
-						logger.debug("Response is {} -> {}", response.getClass(), response);
-						if ( response.isError() ){
-							logger.error("Received a BAD PACKET {}", response.getPacket() );
-							inputStream.reset();
-							continue;
-						} 
+                    logger.debug("Response is {} -> {}", response.getClass(), response);
+                    if (response.isError()) {
+                        logger.error("Received a BAD PACKET {}", response.getPacket());
+                        inputStream.reset();
+                        continue;
+                    }
 
-					    packetHandler.handlePacket(response);
-					} else {
-                        if (val != 0) {
-                            // Log if not end of stream signaling zero byte.
-						    logger.warn("Discared stream: expected start byte but received this {}",
-                                    ByteUtils.toBase16(val));
-                        }
-					}
+                    packetHandler.handlePacket(response);
+                } else {
+                    if (val != 0) {
+                        // Log if not end of stream signaling zero byte.
+                        logger.warn("Discared stream: expected start byte but received this {}",
+                                ByteUtils.toBase16(val));
+                    }
+                }
+            } catch (final IOException e) {
+                logger.error("Exception inputStream reader parserThread", e);
+                packetHandler.error(e);
             }
-            catch (final IOException e) {
-				logger.error("Exception inputStream reader parserThread", e);
-				packetHandler.error(e);
-			}
-		}
-		logger.debug("ZToolPacketParser parserThread exited.");
-	}
+        }
+        logger.debug("ZToolPacketParser parserThread exited.");
+    }
 
     /**
      * Requests parser thread to close.
      */
-	public void close() {
-		this.close = true;
+    public void close() {
+        this.close = true;
         try {
             parserThread.join();
         } catch (InterruptedException e) {
             logger.warn("Interrupted in packet parser thread close join.");
         }
-	}
+    }
 
     /**
      * Checks if parser thread is alive.

@@ -31,44 +31,41 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import java.util.Arrays;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class SYS_OSAL_NV_READ_SRSP extends ZToolPacket /*implements IRESPONSE,ISYSTEM*/{
+public class SYS_OSAL_NV_READ_SRSP extends ZToolPacket /*implements IRESPONSE,ISYSTEM*/ {
     /// <name>TI.ZPI2.SYS_OSAL_NV_READ_SRSP.Len</name>
-        /// <summary>Length of value.</summary>
-        public int Len;
-        /// <name>TI.ZPI2.SYS_OSAL_NV_READ_SRSP.Status</name>
-        /// <summary>The fail status is returned if the address value in the command message was not within the valid range.</summary>
-        public int Status;
-        /// <name>TI.ZPI2.SYS_OSAL_NV_READ_SRSP.Value</name>
-        /// <summary>Dynamic array, contains the data read from the target.</summary>
-        public int[] Value;
+    /// <summary>Length of value.</summary>
+    public int Len;
+    /// <name>TI.ZPI2.SYS_OSAL_NV_READ_SRSP.Status</name>
+    /// <summary>The fail status is returned if the address value in the command message was not within the valid range.</summary>
+    public int Status;
+    /// <name>TI.ZPI2.SYS_OSAL_NV_READ_SRSP.Value</name>
+    /// <summary>Dynamic array, contains the data read from the target.</summary>
+    public int[] Value;
 
-        /// <name>TI.ZPI2.SYS_OSAL_NV_READ_SRSP</name>
-        /// <summary>Constructor</summary>
-        public SYS_OSAL_NV_READ_SRSP()
-        {
-            this.Value = new int[0xff];
+    /// <name>TI.ZPI2.SYS_OSAL_NV_READ_SRSP</name>
+    /// <summary>Constructor</summary>
+    public SYS_OSAL_NV_READ_SRSP() {
+        this.Value = new int[0xff];
+    }
+
+    public SYS_OSAL_NV_READ_SRSP(int[] framedata) {
+        this.Status = framedata[0];
+        this.Len = framedata[1];
+        this.Value = new int[framedata.length - 2];
+        for (int i = 0; i < this.Value.length; i++) {
+            this.Value[i] = framedata[i + 2];
         }
-
-        public SYS_OSAL_NV_READ_SRSP(int[] framedata)
-        {
-            this.Status = framedata[0];
-            this.Len = framedata[1];
-            this.Value=new int[framedata.length-2];
-            for(int i=0; i<this.Value.length;i++){
-                this.Value[i]=framedata[i+2];
-            }
             /*if (buffer1.Length > 0xff)
             {
                 throw new Exception("Error creating object.");
             }
             this.Value = new byte[0xff];
             Array.Copy(buffer1, this.Value, buffer1.Length);*/
-            super.buildPacket(new DoubleByte(ZToolCMD.SYS_OSAL_NV_READ_SRSP),framedata);
-        }
+        super.buildPacket(new DoubleByte(ZToolCMD.SYS_OSAL_NV_READ_SRSP), framedata);
+    }
 
     @Override
     public String toString() {

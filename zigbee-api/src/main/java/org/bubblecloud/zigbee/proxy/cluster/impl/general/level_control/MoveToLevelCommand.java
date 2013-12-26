@@ -26,39 +26,38 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBSerializer;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultSerializer;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class MoveToLevelCommand extends AbstractCommand {
-	
-	private short level;
-	private int time;
-	
-	public MoveToLevelCommand(short level, int time){
-		this(level, time, false);
-	}
-	
-	public MoveToLevelCommand(short level, int time, boolean hasOnOff) {
-		super(LevelControl.MOVE_TO_LEVEL_ID);
-		if ( hasOnOff ) {
-			setId(LevelControl.MOVE_TO_LEVEL_WITH_ONOFF_ID);
-		}
-		this.level = level;
-		this.time = time;
-	}
 
-	public byte[] getPayload(){	
-		if( payload == null){
-			payload = new byte[3];
-			ZBSerializer serializer = new DefaultSerializer(payload,0);
-			serializer.append_byte((byte)level);
-			serializer.append_short((short)time);
-		}
-		return payload;
-	}
+    private short level;
+    private int time;
+
+    public MoveToLevelCommand(short level, int time) {
+        this(level, time, false);
+    }
+
+    public MoveToLevelCommand(short level, int time, boolean hasOnOff) {
+        super(LevelControl.MOVE_TO_LEVEL_ID);
+        if (hasOnOff) {
+            setId(LevelControl.MOVE_TO_LEVEL_WITH_ONOFF_ID);
+        }
+        this.level = level;
+        this.time = time;
+    }
+
+    public byte[] getPayload() {
+        if (payload == null) {
+            payload = new byte[3];
+            ZBSerializer serializer = new DefaultSerializer(payload, 0);
+            serializer.append_byte((byte) level);
+            serializer.append_short((short) time);
+        }
+        return payload;
+    }
 
 }

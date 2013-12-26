@@ -30,7 +30,6 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -60,7 +59,7 @@ public class ZDO_END_DEVICE_ANNCE extends ZToolPacket /*implements IREQUEST,IZDO
         framedata[1] = this.nwkAddr.getMsb();
         byte[] bytes = this.IEEEAddress.getAddress();
         for (int i = 0; i < 8; i++) {
-            framedata[i + 2] = bytes[7-i];
+            framedata[i + 2] = bytes[7 - i];
         }
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_END_DEVICE_ANNCE), framedata);
     }
@@ -86,6 +85,6 @@ public class ZDO_END_DEVICE_ANNCE extends ZToolPacket /*implements IREQUEST,IZDO
         /// <name>TI.ZPI1.ZDO_END_DEVICE_ANNCE.CAPABILITY_INFO.SECURITY_CAPABILITY</name>
         /// <summary>Capability Information bitfield</summary>
         public static final int SECURITY_CAPABILITY = 0x40;
-        }
+    }
 
 }

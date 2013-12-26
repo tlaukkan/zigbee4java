@@ -30,52 +30,50 @@ import org.bubblecloud.zigbee.proxy.device.api.hvac.TemperatureSensor;
 import org.bubblecloud.zigbee.proxy.ProxyConstants;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
- *
  */
 public class TemperatureSensorDeviceProxy extends DeviceProxyBase implements TemperatureSensor {
-	
-	private final TemperatureMeasurement temperature;
 
-	public TemperatureSensorDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
-		super(ctx,zbDevice);
-		temperature = (TemperatureMeasurement) getCluster(ProxyConstants.TEMPERATURE_MEASUREMENT);
-	}
+    private final TemperatureMeasurement temperature;
 
-	public String getName() {
-		return TemperatureSensor.NAME;
-	}
+    public TemperatureSensorDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+        super(ctx, zbDevice);
+        temperature = (TemperatureMeasurement) getCluster(ProxyConstants.TEMPERATURE_MEASUREMENT);
+    }
 
-	public TemperatureMeasurement getTemperatureMeasurement() {
-		return temperature;
-	}
+    public String getName() {
+        return TemperatureSensor.NAME;
+    }
 
-	final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
+    public TemperatureMeasurement getTemperatureMeasurement() {
+        return temperature;
+    }
 
-		public int[] getCustomClusters() {
-			return TemperatureSensor.CUSTOM;
-		}
+    final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
 
-		public int[] getMandatoryCluster() {
-			return TemperatureSensor.MANDATORY;
-		}
+        public int[] getCustomClusters() {
+            return TemperatureSensor.CUSTOM;
+        }
 
-		public int[] getOptionalCluster() {
-			return TemperatureSensor.OPTIONAL;
-		}
+        public int[] getMandatoryCluster() {
+            return TemperatureSensor.MANDATORY;
+        }
 
-		public int[] getStandardClusters() {
-			return TemperatureSensor.STANDARD;
-		}
-		
-	};
-	
-	public DeviceDescription getDescription() {
-		return DEVICE_DESCRIPTOR;
-	}
+        public int[] getOptionalCluster() {
+            return TemperatureSensor.OPTIONAL;
+        }
+
+        public int[] getStandardClusters() {
+            return TemperatureSensor.STANDARD;
+        }
+
+    };
+
+    public DeviceDescription getDescription() {
+        return DEVICE_DESCRIPTOR;
+    }
 
 }

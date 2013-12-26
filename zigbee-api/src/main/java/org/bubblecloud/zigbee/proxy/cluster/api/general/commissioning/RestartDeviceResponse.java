@@ -19,17 +19,15 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package  org.bubblecloud.zigbee.proxy.cluster.api.general.commissioning;
+package org.bubblecloud.zigbee.proxy.cluster.api.general.commissioning;
 
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.8.0
- *
  */
 public interface RestartDeviceResponse extends Response {
 

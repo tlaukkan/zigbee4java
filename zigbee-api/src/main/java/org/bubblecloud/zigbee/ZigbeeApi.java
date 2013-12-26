@@ -46,30 +46,41 @@ import java.util.Map;
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
 public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
-    /** The logger. */
+    /**
+     * The logger.
+     */
     private final static Logger LOGGER = LoggerFactory.getLogger(ZigbeeDiscoveryManager.class);
-    /** The Zigbee network manager. */
+    /**
+     * The Zigbee network manager.
+     */
     private final ZigbeeNetworkManagerSerialImpl networkManager;
-    /** The Zigbee discovery manager. */
+    /**
+     * The Zigbee discovery manager.
+     */
     private final ZigbeeDiscoveryManager discoveryManager;
-    /** The Zigbee context. */
+    /**
+     * The Zigbee context.
+     */
     private ZigbeeProxyContext context;
-    /** The zigbee network. */
+    /**
+     * The zigbee network.
+     */
     private ZigBeeNetwork network;
 
     /**
      * Constructor to configure the serial interface.
+     *
      * @param serialPortName
-     * @param pan the pan ID
-     * @param channel the channel
-     * @param resetNetwork set true reset network
+     * @param pan            the pan ID
+     * @param channel        the channel
+     * @param resetNetwork   set true reset network
      */
     public ZigbeeApi(final String serialPortName, final int pan, final int channel, final boolean resetNetwork,
-                     final boolean lqiDiscovery){
-       networkManager = new ZigbeeNetworkManagerSerialImpl(serialPortName, 115200,
-               NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
+                     final boolean lqiDiscovery) {
+        networkManager = new ZigbeeNetworkManagerSerialImpl(serialPortName, 115200,
+                NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
 
-       discoveryManager = new ZigbeeDiscoveryManager(networkManager, lqiDiscovery);
+        discoveryManager = new ZigbeeDiscoveryManager(networkManager, lqiDiscovery);
     }
 
     /**
@@ -99,7 +110,7 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
         final ClusterFactory clusterFactory = new ClusterFactoryImpl(context);
         context.setClusterFactory(clusterFactory);
 
-        final Map< Class<?>, Class<?> > interfaceProxyMap = new HashMap< Class<?>, Class<?> >();
+        final Map<Class<?>, Class<?>> interfaceProxyMap = new HashMap<Class<?>, Class<?>>();
         interfaceProxyMap.put(ColorDimmableLight.class, ColorDimmableLightDeviceProxy.class);
         interfaceProxyMap.put(DimmableLight.class, DimmableLightDeviceProxy.class);
         interfaceProxyMap.put(IAS_Zone.class, IAS_ZoneDeviceProxy.class);
@@ -120,12 +131,12 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
         interfaceProxyMap.put(SimpleSensor.class, SimpleSensorDeviceProxy.class);
 
         final Iterator<Map.Entry<Class<?>, Class<?>>> i = interfaceProxyMap.entrySet().iterator();
-        while ( i.hasNext() ) {
+        while (i.hasNext()) {
             Map.Entry<Class<?>, Class<?>> refining = i.next();
             try {
                 context.getDeviceProxyFactories().add(
                         new DeviceProxyFactoryImpl(context, refining.getKey(), refining.getValue()).register());
-            } catch ( Exception ex) {
+            } catch (Exception ex) {
                 LOGGER.error("Failed to register DeviceProxyFactoryImpl for " + refining.getKey(), ex);
             }
         }
@@ -178,6 +189,7 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
 
     /**
      * Gets Zigbee network.
+     *
      * @return the Zigbee network.
      */
     public ZigBeeNetwork getZigbeeNetwork() {
@@ -187,7 +199,7 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
     @Override
     public void deviceAdded(ZigBeeDevice device) {
         final DeviceProxyFactory factory = context.getBestDeviceProxyFactory(device);
-        if ( factory == null) { // pending services
+        if (factory == null) { // pending services
             LOGGER.warn("No proxy for Zigbee device {} found.", device.getDeviceId());
             return;
         }

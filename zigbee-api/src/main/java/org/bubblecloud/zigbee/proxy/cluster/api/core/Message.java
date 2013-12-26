@@ -23,31 +23,32 @@
 package org.bubblecloud.zigbee.proxy.cluster.api.core;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface Message {
-	
-	
-	/**
-	 * @return the field <i>Command identifier</i> as defined in the <b>ZCL header</b><br>
-	 * 		of the <i>ZigBee Cluster Library</i> specification 
-	 */
-	public byte getHeaderCommandId();
-		
-	/**
-	 * 
-	 * @return <code>true</code> if and only if the {@link Message} <i>id</i> refers to<br>
-	 * 		a particular cluster definition.
-	 */
-	public boolean isClusterSpecific();	
-	public boolean isManufacturerExtension();
-	public boolean isClientServerDirection();
-	public byte[]  getManufacturerId();
-	public byte[] getPayload();
+
+
+    /**
+     * @return the field <i>Command identifier</i> as defined in the <b>ZCL header</b><br>
+     *         of the <i>ZigBee Cluster Library</i> specification
+     */
+    public byte getHeaderCommandId();
+
+    /**
+     * @return <code>true</code> if and only if the {@link Message} <i>id</i> refers to<br>
+     *         a particular cluster definition.
+     */
+    public boolean isClusterSpecific();
+
+    public boolean isManufacturerExtension();
+
+    public boolean isClientServerDirection();
+
+    public byte[] getManufacturerId();
+
+    public byte[] getPayload();
 
 }

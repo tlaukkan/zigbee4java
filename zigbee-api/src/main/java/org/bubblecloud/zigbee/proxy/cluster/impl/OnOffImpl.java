@@ -43,7 +43,6 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.general.OnOffCluster;
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class OnOffImpl implements OnOff {
 
@@ -51,7 +50,7 @@ public class OnOffImpl implements OnOff {
     private final OnOffCluster onOffCluster;
     private OnOffBridgeListeners eventBridge;
 
-    public OnOffImpl(ZigBeeDevice zbDevice){
+    public OnOffImpl(ZigBeeDevice zbDevice) {
         onOffCluster = new OnOffCluster(zbDevice);
         onOff = onOffCluster.getAttributeOnOff();
         eventBridge = new OnOffBridgeListeners(new ReportingConfiguration(), onOff, this);
@@ -119,7 +118,7 @@ public class OnOffImpl implements OnOff {
     public Attribute getAttribute(int id) {
         Attribute[] attributes = onOffCluster.getAvailableAttributes();
         for (int i = 0; i < attributes.length; i++) {
-            if( attributes[i].getId() == id )
+            if (attributes[i].getId() == id)
                 return attributes[i];
         }
         return null;

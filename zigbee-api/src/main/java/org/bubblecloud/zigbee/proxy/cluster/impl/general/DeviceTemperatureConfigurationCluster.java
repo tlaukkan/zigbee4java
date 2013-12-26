@@ -28,96 +28,95 @@ import org.bubblecloud.zigbee.proxy.cluster.api.general.DeviceTemperatureConfigu
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class DeviceTemperatureConfigurationCluster extends ZCLClusterBase
-		implements DeviceTemperatureConfiguration {
-	
-	private final AttributeImpl currentTemperature;
-	private final AttributeImpl minTempExperienced;
-	private final AttributeImpl maxTempExperienced;
-	private final AttributeImpl overTempTotalDwell;
-	private final AttributeImpl deviceTempAlarmMask;
-	private final AttributeImpl lowTempThreshold;
-	private final AttributeImpl highTempThreshold;
-	private final AttributeImpl lowTempDwellTripPoint;
-	private final AttributeImpl highTempDwellTripPoint;
-	
-	private final Attribute[] attributes;
-	
-	public DeviceTemperatureConfigurationCluster(ZigBeeDevice zbDevice){
-		super(zbDevice);
-		
-		currentTemperature = new AttributeImpl(zbDevice,this,Attributes.CURRENT_TEMPERATURE);
-		minTempExperienced = new AttributeImpl(zbDevice,this,Attributes.MIN_TEMP_EXPERIENCED);
-		maxTempExperienced = new AttributeImpl(zbDevice,this,Attributes.MAX_TEMP_EXPERIENCED);
-		overTempTotalDwell = new AttributeImpl(zbDevice,this,Attributes.OVER_TEMP_TOTAL_DWELL);
-		deviceTempAlarmMask = new AttributeImpl(zbDevice,this,Attributes.DEVICE_TEMP_ALARM_MASK);
-		lowTempThreshold = new AttributeImpl(zbDevice,this,Attributes.LOW_TEMP_THRESHOLD);
-		highTempThreshold = new AttributeImpl(zbDevice,this,Attributes.HIGH_TEMP_THRESHOLD);
-		lowTempDwellTripPoint = new AttributeImpl(zbDevice,this,Attributes.LOW_TEMP_DWELL_TRIP_POINT);
-		highTempDwellTripPoint = new AttributeImpl(zbDevice,this,Attributes.HIGH_TEMP_DWELL_TRIP_POINT);
-		
-		attributes = new AttributeImpl[]{currentTemperature, minTempExperienced, 
-				maxTempExperienced, overTempTotalDwell, deviceTempAlarmMask, 
-				lowTempThreshold,highTempThreshold,lowTempDwellTripPoint, 
-				highTempDwellTripPoint};
-		}
+        implements DeviceTemperatureConfiguration {
 
-	@Override
-	public short getId() {
-		return DeviceTemperatureConfiguration.ID;
-	}
+    private final AttributeImpl currentTemperature;
+    private final AttributeImpl minTempExperienced;
+    private final AttributeImpl maxTempExperienced;
+    private final AttributeImpl overTempTotalDwell;
+    private final AttributeImpl deviceTempAlarmMask;
+    private final AttributeImpl lowTempThreshold;
+    private final AttributeImpl highTempThreshold;
+    private final AttributeImpl lowTempDwellTripPoint;
+    private final AttributeImpl highTempDwellTripPoint;
 
-	@Override
-	public String getName() {
-		return DeviceTemperatureConfiguration.NAME;
-	}
+    private final Attribute[] attributes;
 
-	@Override
-	public Attribute[] getStandardAttributes() {
-		return attributes;
-	}
+    public DeviceTemperatureConfigurationCluster(ZigBeeDevice zbDevice) {
+        super(zbDevice);
 
-	public Attribute getAttributeCurrentTemperature() {
-		return currentTemperature;
-	}
+        currentTemperature = new AttributeImpl(zbDevice, this, Attributes.CURRENT_TEMPERATURE);
+        minTempExperienced = new AttributeImpl(zbDevice, this, Attributes.MIN_TEMP_EXPERIENCED);
+        maxTempExperienced = new AttributeImpl(zbDevice, this, Attributes.MAX_TEMP_EXPERIENCED);
+        overTempTotalDwell = new AttributeImpl(zbDevice, this, Attributes.OVER_TEMP_TOTAL_DWELL);
+        deviceTempAlarmMask = new AttributeImpl(zbDevice, this, Attributes.DEVICE_TEMP_ALARM_MASK);
+        lowTempThreshold = new AttributeImpl(zbDevice, this, Attributes.LOW_TEMP_THRESHOLD);
+        highTempThreshold = new AttributeImpl(zbDevice, this, Attributes.HIGH_TEMP_THRESHOLD);
+        lowTempDwellTripPoint = new AttributeImpl(zbDevice, this, Attributes.LOW_TEMP_DWELL_TRIP_POINT);
+        highTempDwellTripPoint = new AttributeImpl(zbDevice, this, Attributes.HIGH_TEMP_DWELL_TRIP_POINT);
 
-	public Attribute getAttributeDeviceTempAlarmMask() {
-		return deviceTempAlarmMask;
-	}
+        attributes = new AttributeImpl[]{currentTemperature, minTempExperienced,
+                maxTempExperienced, overTempTotalDwell, deviceTempAlarmMask,
+                lowTempThreshold, highTempThreshold, lowTempDwellTripPoint,
+                highTempDwellTripPoint};
+    }
 
-	public Attribute getAttributeHighTempDwellTripPoint() {
-		return highTempDwellTripPoint;
-	}
+    @Override
+    public short getId() {
+        return DeviceTemperatureConfiguration.ID;
+    }
 
-	public Attribute getAttributeHighTempThreshold() {
-		return highTempThreshold;
-	}
+    @Override
+    public String getName() {
+        return DeviceTemperatureConfiguration.NAME;
+    }
 
-	public Attribute getAttributeLowTempDwellTripPoint() {
-		return lowTempDwellTripPoint;
-	}
+    @Override
+    public Attribute[] getStandardAttributes() {
+        return attributes;
+    }
 
-	public Attribute getAttributeLowTempThreshold() {
-		return lowTempThreshold;
-	}
+    public Attribute getAttributeCurrentTemperature() {
+        return currentTemperature;
+    }
 
-	public Attribute getAttributeMaxTempExperienced() {
-		return maxTempExperienced;
-	}
+    public Attribute getAttributeDeviceTempAlarmMask() {
+        return deviceTempAlarmMask;
+    }
 
-	public Attribute getAttributeMinTempExperienced() {
-		return minTempExperienced;
-	}
+    public Attribute getAttributeHighTempDwellTripPoint() {
+        return highTempDwellTripPoint;
+    }
 
-	public Attribute getAttributeOverTempTotalDwell() {
-		return overTempTotalDwell;
-	}
+    public Attribute getAttributeHighTempThreshold() {
+        return highTempThreshold;
+    }
+
+    public Attribute getAttributeLowTempDwellTripPoint() {
+        return lowTempDwellTripPoint;
+    }
+
+    public Attribute getAttributeLowTempThreshold() {
+        return lowTempThreshold;
+    }
+
+    public Attribute getAttributeMaxTempExperienced() {
+        return maxTempExperienced;
+    }
+
+    public Attribute getAttributeMinTempExperienced() {
+        return minTempExperienced;
+    }
+
+    public Attribute getAttributeOverTempTotalDwell() {
+        return overTempTotalDwell;
+    }
 
 }

@@ -38,99 +38,98 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.measureament_sensing.OccupacySe
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class OccupacySensingImpl implements OccupacySensing {
-			
-	private OccupacySensingCluster occupacySensingCluster;
-	private Attribute occupancy;
-	private Attribute occupancySensorType;
-	private Attribute pirOccupiedToUnoccupiedDelay;
-	private Attribute pirUnoccupiedToOccupiedDelay;
-	private Attribute pirUnoccupiedToOccupiedThreshold;
-	private Attribute ultraSonicOccupiedToUnoccupiedDelay;
-	private Attribute ultraSonicUnoccupiedToOccupiedDelay;
-	private Attribute ultrasonicUnoccupiedToOccupiedThreshold;
 
-	private OccupancyBridgeListeners eventBridge;
-	
-	public OccupacySensingImpl(ZigBeeDevice zbDevice){
-		
-		occupacySensingCluster = new OccupacySensingCluster(zbDevice);
-		occupancy = occupacySensingCluster.getAttributeOccupancy();
-		occupancySensorType = occupacySensingCluster.getAttributeOccupancySensorType();
-		pirOccupiedToUnoccupiedDelay = occupacySensingCluster.getAttributePIROccupiedToUnoccupiedDelay();
-		pirUnoccupiedToOccupiedDelay = occupacySensingCluster.getAttributePIRUnoccupiedToOccupiedDelay();
-		ultraSonicOccupiedToUnoccupiedDelay = occupacySensingCluster.getAttributeUltraSonicOccupiedToUnoccupiedDelay();
-		ultraSonicUnoccupiedToOccupiedDelay = occupacySensingCluster.getAttributeUltraSonicUnoccupiedToOccupiedDelay();
-		pirUnoccupiedToOccupiedThreshold = occupacySensingCluster.getAttributePIRUnoccupiedToOccupiedThreshold();
-		ultrasonicUnoccupiedToOccupiedThreshold = occupacySensingCluster.getAttributeUltrasonicUnoccupiedToOccupiedThreshold();
+    private OccupacySensingCluster occupacySensingCluster;
+    private Attribute occupancy;
+    private Attribute occupancySensorType;
+    private Attribute pirOccupiedToUnoccupiedDelay;
+    private Attribute pirUnoccupiedToOccupiedDelay;
+    private Attribute pirUnoccupiedToOccupiedThreshold;
+    private Attribute ultraSonicOccupiedToUnoccupiedDelay;
+    private Attribute ultraSonicUnoccupiedToOccupiedDelay;
+    private Attribute ultrasonicUnoccupiedToOccupiedThreshold;
 
-		eventBridge = new OccupancyBridgeListeners(new ReportingConfiguration(), occupancy, this);
-	}
+    private OccupancyBridgeListeners eventBridge;
 
-	public Attribute getOccupancy() {
-		return occupancy;
-	}
+    public OccupacySensingImpl(ZigBeeDevice zbDevice) {
 
-	public Attribute getOccupancySensorType() {
-		return occupancySensorType;
-	}
+        occupacySensingCluster = new OccupacySensingCluster(zbDevice);
+        occupancy = occupacySensingCluster.getAttributeOccupancy();
+        occupancySensorType = occupacySensingCluster.getAttributeOccupancySensorType();
+        pirOccupiedToUnoccupiedDelay = occupacySensingCluster.getAttributePIROccupiedToUnoccupiedDelay();
+        pirUnoccupiedToOccupiedDelay = occupacySensingCluster.getAttributePIRUnoccupiedToOccupiedDelay();
+        ultraSonicOccupiedToUnoccupiedDelay = occupacySensingCluster.getAttributeUltraSonicOccupiedToUnoccupiedDelay();
+        ultraSonicUnoccupiedToOccupiedDelay = occupacySensingCluster.getAttributeUltraSonicUnoccupiedToOccupiedDelay();
+        pirUnoccupiedToOccupiedThreshold = occupacySensingCluster.getAttributePIRUnoccupiedToOccupiedThreshold();
+        ultrasonicUnoccupiedToOccupiedThreshold = occupacySensingCluster.getAttributeUltrasonicUnoccupiedToOccupiedThreshold();
 
-	public Attribute getPIROccupiedToUnoccupiedDelay() {
-		return pirUnoccupiedToOccupiedDelay;
-	}
+        eventBridge = new OccupancyBridgeListeners(new ReportingConfiguration(), occupancy, this);
+    }
 
-	public Attribute getPIRUnoccupiedToOccupiedDelay() {
-		return pirOccupiedToUnoccupiedDelay;
-	}
+    public Attribute getOccupancy() {
+        return occupancy;
+    }
 
-	public Attribute getUltraSonicOccupiedToUnoccupiedDelay() {
-		return ultraSonicOccupiedToUnoccupiedDelay;
-	}
+    public Attribute getOccupancySensorType() {
+        return occupancySensorType;
+    }
 
-	public Attribute getUltraSonicUnoccupiedToOccupiedDelay() {
-		return ultraSonicUnoccupiedToOccupiedDelay;
-	}
+    public Attribute getPIROccupiedToUnoccupiedDelay() {
+        return pirUnoccupiedToOccupiedDelay;
+    }
 
-	public Subscription[] getActiveSubscriptions() {
-		return occupacySensingCluster.getActiveSubscriptions();
-	}
+    public Attribute getPIRUnoccupiedToOccupiedDelay() {
+        return pirOccupiedToUnoccupiedDelay;
+    }
 
-	public int getId() {
-		return occupacySensingCluster.getId();
-	}
+    public Attribute getUltraSonicOccupiedToUnoccupiedDelay() {
+        return ultraSonicOccupiedToUnoccupiedDelay;
+    }
 
-	public String getName() {
-		return occupacySensingCluster.getName();
-	}
+    public Attribute getUltraSonicUnoccupiedToOccupiedDelay() {
+        return ultraSonicUnoccupiedToOccupiedDelay;
+    }
 
-	public void subscribe(OccupancyListener listener) {
-		eventBridge.subscribe(listener);
-	}
+    public Subscription[] getActiveSubscriptions() {
+        return occupacySensingCluster.getActiveSubscriptions();
+    }
 
-	public void unsubscribe(OccupancyListener listener) {
-		eventBridge.unsubscribe(listener);
-	}
-	
-	public Attribute getAttribute(int id) {		
-		Attribute[] attributes = occupacySensingCluster.getAvailableAttributes();
-		for (int i = 0; i < attributes.length; i++) {
-			if( attributes[i].getId() == id ) 
-				return attributes[i];
-		}
-		return null;
-	}
+    public int getId() {
+        return occupacySensingCluster.getId();
+    }
 
-	public Attribute[] getAttributes() {
-		return occupacySensingCluster.getAvailableAttributes();
-	}
-	
-	public Attribute getPIRUnoccupiedToOccupiedThreshold() {
-		return pirUnoccupiedToOccupiedThreshold;
-	}
+    public String getName() {
+        return occupacySensingCluster.getName();
+    }
 
-	public Attribute getUltraSonicUnoccupiedToOccupiedThreshold() {
-		return ultrasonicUnoccupiedToOccupiedThreshold;
-	}	
+    public void subscribe(OccupancyListener listener) {
+        eventBridge.subscribe(listener);
+    }
+
+    public void unsubscribe(OccupancyListener listener) {
+        eventBridge.unsubscribe(listener);
+    }
+
+    public Attribute getAttribute(int id) {
+        Attribute[] attributes = occupacySensingCluster.getAvailableAttributes();
+        for (int i = 0; i < attributes.length; i++) {
+            if (attributes[i].getId() == id)
+                return attributes[i];
+        }
+        return null;
+    }
+
+    public Attribute[] getAttributes() {
+        return occupacySensingCluster.getAvailableAttributes();
+    }
+
+    public Attribute getPIRUnoccupiedToOccupiedThreshold() {
+        return pirUnoccupiedToOccupiedThreshold;
+    }
+
+    public Attribute getUltraSonicUnoccupiedToOccupiedThreshold() {
+        return ultrasonicUnoccupiedToOccupiedThreshold;
+    }
 }

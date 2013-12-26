@@ -36,10 +36,10 @@ public class ZoneEnrollRequestCommand extends AbstractCommand {
         this.cmdPayload = cmdPayload;
     }
 
-    public byte[] getPayload(){
-        if( payload == null){
+    public byte[] getPayload() {
+        if (payload == null) {
             payload = new byte[6];
-            ZBSerializer serializer = new DefaultSerializer(payload,0);
+            ZBSerializer serializer = new DefaultSerializer(payload, 0);
             serializer.append_short(cmdPayload.getZoneType());
             serializer.append_int(cmdPayload.getManufacturerCode());
         }

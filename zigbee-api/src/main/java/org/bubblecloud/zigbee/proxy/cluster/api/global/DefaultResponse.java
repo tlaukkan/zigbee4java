@@ -26,12 +26,10 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
 
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface DefaultResponse extends Response {
 
@@ -39,14 +37,12 @@ public interface DefaultResponse extends Response {
     public static final byte ID = 0x0b;
 
     /**
-     *
      * @return the short representing the id of the invoking command that generated as result<br>
-     * 		this {@link IdentifyQueryResponse}
+     *         this {@link IdentifyQueryResponse}
      */
     public byte getCommandId();
 
     /**
-     *
      * @return the {@link Status} of result of the invoked command
      */
 

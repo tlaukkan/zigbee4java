@@ -27,7 +27,7 @@ public class ZoneTableImpl implements ZoneTable {
 
     private Zone[] zoneTable;
 
-    public ZoneTableImpl(){
+    public ZoneTableImpl() {
         zoneTable = new Zone[256];
     }
 
@@ -36,16 +36,16 @@ public class ZoneTableImpl implements ZoneTable {
     }
 
     public void addZone(Short zoneID, Short zoneType, String zoneAddress) {
-        for(int i = 0; i < zoneTable.length; i++){
-            if(zoneTable[i] == null)
+        for (int i = 0; i < zoneTable.length; i++) {
+            if (zoneTable[i] == null)
                 zoneTable[i] = new Zone(zoneID, zoneType, zoneAddress);
         }
     }
 
     public void removeZone(Short zoneID) {
-        for(int i = 0; i < zoneTable.length; i++){
+        for (int i = 0; i < zoneTable.length; i++) {
             Zone zone = zoneTable[i];
-            if(zone.getZoneID().equals(zoneID)){
+            if (zone.getZoneID().equals(zoneID)) {
                 zoneTable[i] = null;
                 break;
             }

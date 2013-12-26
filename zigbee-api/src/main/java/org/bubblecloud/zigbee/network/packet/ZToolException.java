@@ -28,45 +28,43 @@ package org.bubblecloud.zigbee.network.packet;
 /**
  * I usually detest checked exceptions but given this is a public api, it is reasonable to
  * notify users what they can expect.
- * 
+ *
  * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ZToolException extends Exception {
 
-	private static final long serialVersionUID = -5501299728920565639L;
-	private Exception cause;
-	
-	public ZToolException(String message) {
-		super(message);
-	}
-	
-	/**
-	 * 
-	 * @param msg
-	 * @param t
-	 * @since 0.6.0
-	 */
-	public ZToolException(String msg, Throwable t) {
-		super(msg,t);
-	}
-	
-	public ZToolException() {
-		super();
-	}
-	
-	public ZToolException(Exception cause) {
-		super();
-		this.setCause(cause);
-	}
+    private static final long serialVersionUID = -5501299728920565639L;
+    private Exception cause;
 
-	public Exception getCause() {
-		return cause;
-	}
+    public ZToolException(String message) {
+        super(message);
+    }
 
-	public void setCause(Exception cause) {
-		this.cause = cause;
-	}
+    /**
+     * @param msg
+     * @param t
+     * @since 0.6.0
+     */
+    public ZToolException(String msg, Throwable t) {
+        super(msg, t);
+    }
+
+    public ZToolException() {
+        super();
+    }
+
+    public ZToolException(Exception cause) {
+        super();
+        this.setCause(cause);
+    }
+
+    public Exception getCause() {
+        return cause;
+    }
+
+    public void setCause(Exception cause) {
+        this.cause = cause;
+    }
 }

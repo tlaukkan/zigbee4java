@@ -34,52 +34,51 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.general.TimeCluster;
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class TimeImpl implements Time {
-	
-	private TimeCluster timeCluster;
-	private Attribute time;  
-	private Attribute timeStatus;
-	
-	public TimeImpl(ZigBeeDevice zbDevice){
-		timeCluster = new TimeCluster(zbDevice);
-		time = timeCluster.getAttributeTime();
-		timeStatus = timeCluster.getAttributeTimeStatus();
-	}
 
-	public Attribute getTime() {
-		return time;
-	}
+    private TimeCluster timeCluster;
+    private Attribute time;
+    private Attribute timeStatus;
 
-	public Attribute getTimeStatus() {
-		return timeStatus;
-	}
+    public TimeImpl(ZigBeeDevice zbDevice) {
+        timeCluster = new TimeCluster(zbDevice);
+        time = timeCluster.getAttributeTime();
+        timeStatus = timeCluster.getAttributeTimeStatus();
+    }
 
-	public Subscription[] getActiveSubscriptions() {
-		return timeCluster.getActiveSubscriptions();
-	}
+    public Attribute getTime() {
+        return time;
+    }
 
-	public int getId() {
-		return timeCluster.getId();
-	}
+    public Attribute getTimeStatus() {
+        return timeStatus;
+    }
 
-	public String getName() {
-		return timeCluster.getName();
-	}
+    public Subscription[] getActiveSubscriptions() {
+        return timeCluster.getActiveSubscriptions();
+    }
 
-	public Attribute getAttribute(int id) {		
-		Attribute[] attributes = timeCluster.getAvailableAttributes();
-		for (int i = 0; i < attributes.length; i++) {
-			if( attributes[i].getId() == id ) 
-				return attributes[i];
-		}
-		return null;
-	}
+    public int getId() {
+        return timeCluster.getId();
+    }
 
-	public Attribute[] getAttributes() {
-		return timeCluster.getAvailableAttributes();
-	}
-	
-	
+    public String getName() {
+        return timeCluster.getName();
+    }
+
+    public Attribute getAttribute(int id) {
+        Attribute[] attributes = timeCluster.getAvailableAttributes();
+        for (int i = 0; i < attributes.length; i++) {
+            if (attributes[i].getId() == id)
+                return attributes[i];
+        }
+        return null;
+    }
+
+    public Attribute[] getAttributes() {
+        return timeCluster.getAvailableAttributes();
+    }
+
+
 }

@@ -35,7 +35,7 @@ public class IAS_ZoneZoneStatusChangeNotificationFilter implements ClusterFilter
     }
 
     public boolean match(ClusterMessage clusterMessage) {
-        if( clusterMessage.getId() != IASZone.ID )  return false;
+        if (clusterMessage.getId() != IASZone.ID) return false;
 
         ZCLFrame frame = new ZCLFrame(clusterMessage);
         return frame.getHeader().getCommandId() == IASZone.ZONE_STATUS_CHANGE_NOTIFICATION_ID

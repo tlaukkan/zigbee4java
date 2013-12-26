@@ -30,43 +30,40 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class ZDO_END_DEVICE_ANNCE_IND extends ZToolPacket /*implements IRESPONSE_CALLBACK,IZDO*/{
+public class ZDO_END_DEVICE_ANNCE_IND extends ZToolPacket /*implements IRESPONSE_CALLBACK,IZDO*/ {
     /// <name>TI.ZPI2.ZDO_END_DEVICE_ANNCE_IND.Capabilities</name>
-        /// <summary>Capabilities</summary>
-        public int Capabilities;
-        /// <name>TI.ZPI2.ZDO_END_DEVICE_ANNCE_IND.IEEEAddr</name>
-        /// <summary>64 bit IEEE address of source device</summary>
-        public ZToolAddress64 IEEEAddr;
-        /// <name>TI.ZPI2.ZDO_END_DEVICE_ANNCE_IND.NwkAddr</name>
-        /// <summary>Network address</summary>
-        public ZToolAddress16 NwkAddr;
-        /// <name>TI.ZPI2.ZDO_END_DEVICE_ANNCE_IND.SrcAddr</name>
-        /// <summary>Source address</summary>
-        public ZToolAddress16 SrcAddr;
+    /// <summary>Capabilities</summary>
+    public int Capabilities;
+    /// <name>TI.ZPI2.ZDO_END_DEVICE_ANNCE_IND.IEEEAddr</name>
+    /// <summary>64 bit IEEE address of source device</summary>
+    public ZToolAddress64 IEEEAddr;
+    /// <name>TI.ZPI2.ZDO_END_DEVICE_ANNCE_IND.NwkAddr</name>
+    /// <summary>Network address</summary>
+    public ZToolAddress16 NwkAddr;
+    /// <name>TI.ZPI2.ZDO_END_DEVICE_ANNCE_IND.SrcAddr</name>
+    /// <summary>Source address</summary>
+    public ZToolAddress16 SrcAddr;
 
-        /// <name>TI.ZPI2.ZDO_END_DEVICE_ANNCE_IND</name>
-        /// <summary>Constructor</summary>
-        public ZDO_END_DEVICE_ANNCE_IND()
-        {
-        }
+    /// <name>TI.ZPI2.ZDO_END_DEVICE_ANNCE_IND</name>
+    /// <summary>Constructor</summary>
+    public ZDO_END_DEVICE_ANNCE_IND() {
+    }
 
-        /// <name>TI.ZPI2.ZDO_END_DEVICE_ANNCE_IND</name>
-        /// <summary>Constructor</summary>
-        public ZDO_END_DEVICE_ANNCE_IND(int[] framedata)
-        {
-            this.SrcAddr = new ZToolAddress16(framedata[1],framedata[0]);
-            this.NwkAddr = new ZToolAddress16(framedata[3],framedata[2]);
-            byte[] bytes=new byte[8];
-            for(int i=0;i<8;i++){
-                bytes[i]=(byte) framedata[11-i];
-            }
-            this.IEEEAddr = new ZToolAddress64(bytes);
-            this.Capabilities = framedata[12];
-            super.buildPacket(new DoubleByte(ZToolCMD.ZDO_END_DEVICE_ANNCE_IND), framedata);
+    /// <name>TI.ZPI2.ZDO_END_DEVICE_ANNCE_IND</name>
+    /// <summary>Constructor</summary>
+    public ZDO_END_DEVICE_ANNCE_IND(int[] framedata) {
+        this.SrcAddr = new ZToolAddress16(framedata[1], framedata[0]);
+        this.NwkAddr = new ZToolAddress16(framedata[3], framedata[2]);
+        byte[] bytes = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            bytes[i] = (byte) framedata[11 - i];
         }
+        this.IEEEAddr = new ZToolAddress64(bytes);
+        this.Capabilities = framedata[12];
+        super.buildPacket(new DoubleByte(ZToolCMD.ZDO_END_DEVICE_ANNCE_IND), framedata);
+    }
 
 }

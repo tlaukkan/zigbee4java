@@ -28,41 +28,40 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class SYS_GPIO extends ZToolPacket /*implements IREQUEST,ISYSTEM*/{
+public class SYS_GPIO extends ZToolPacket /*implements IREQUEST,ISYSTEM*/ {
     public int Operation;
     public int Value;
-    
-    public SYS_GPIO(){
-        
+
+    public SYS_GPIO() {
+
     }
-    
-    public SYS_GPIO(int num1,int num2){
-        this.Operation=num1;
-        this.Value=num2;
-        int[] framedata=new int[2];
-        framedata[0]=this.Operation;
-        framedata[1]=this.Value;
-        super.buildPacket(new DoubleByte(ZToolCMD.SYS_GPIO),framedata);
+
+    public SYS_GPIO(int num1, int num2) {
+        this.Operation = num1;
+        this.Value = num2;
+        int[] framedata = new int[2];
+        framedata[0] = this.Operation;
+        framedata[1] = this.Value;
+        super.buildPacket(new DoubleByte(ZToolCMD.SYS_GPIO), framedata);
     }
-    
-    public class OPERATION{
-        public static final int SET_DIRECTION=0;
-        public static final int SET_INPUT_MODE=1;
-        public static final int SET=2;
-        public static final int CLEAR=3;
-        public static final int TOGGLE=4;
-        public static final int READ=5;
+
+    public class OPERATION {
+        public static final int SET_DIRECTION = 0;
+        public static final int SET_INPUT_MODE = 1;
+        public static final int SET = 2;
+        public static final int CLEAR = 3;
+        public static final int TOGGLE = 4;
+        public static final int READ = 5;
     }
-    
-    public class VALUE{
-        public static final int GPIO1=0x01;
-        public static final int GPIO2=0x02;
-        public static final int GPIO3=0x08;
-        public static final int GPIO4=0x10;
+
+    public class VALUE {
+        public static final int GPIO1 = 0x01;
+        public static final int GPIO2 = 0x02;
+        public static final int GPIO3 = 0x08;
+        public static final int GPIO4 = 0x10;
     }
 
 }

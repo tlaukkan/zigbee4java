@@ -25,30 +25,28 @@ package org.bubblecloud.zigbee.network.impl;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class ClusterMessageImpl implements ClusterMessage {
 
-	private final byte[] msg;
-	private final short id;
-	
-	
-	public ClusterMessageImpl(byte[] msg, short id) {
-		this.msg = msg;
-		this.id = id;
-	}
+    private final byte[] msg;
+    private final short id;
 
-	public byte[] getClusterMsg() {
-		return msg;
-	}
 
-	public short getId() {
-		return id;
-	}
-	
+    public ClusterMessageImpl(byte[] msg, short id) {
+        this.msg = msg;
+        this.id = id;
+    }
+
+    public byte[] getClusterMsg() {
+        return msg;
+    }
+
+    public short getId() {
+        return id;
+    }
+
 }

@@ -31,27 +31,26 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.global.reporting.ReportAttribut
  * {@link ReportAttributesCommand} type, by checking the cluster data itself.<br>
  * <br>
  * <b>NOTE:</b>to use this class the {@link #FILTER} constant should be used
- * 
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.3.0
- *
  */
 public class SubscriptionClusterFilter implements ClusterFilter {
 
-	/**
-	 * Singelton instance of the filter
-	 */
-	public final static SubscriptionClusterFilter FILTER = new SubscriptionClusterFilter();
-	
-	private SubscriptionClusterFilter() {}
-		
-	public boolean match(ClusterMessage clusterMessage) {
-		ZCLFrame frame = new ZCLFrame(clusterMessage);
-		return frame.getHeader().getCommandId() == ReportAttributesCommand.ID
-		&& !frame.getHeader().getFramecontrol().isClusterSpecificCommand();
-	}
+    /**
+     * Singelton instance of the filter
+     */
+    public final static SubscriptionClusterFilter FILTER = new SubscriptionClusterFilter();
+
+    private SubscriptionClusterFilter() {
+    }
+
+    public boolean match(ClusterMessage clusterMessage) {
+        ZCLFrame frame = new ZCLFrame(clusterMessage);
+        return frame.getHeader().getCommandId() == ReportAttributesCommand.ID
+                && !frame.getHeader().getFramecontrol().isClusterSpecificCommand();
+    }
 
 }

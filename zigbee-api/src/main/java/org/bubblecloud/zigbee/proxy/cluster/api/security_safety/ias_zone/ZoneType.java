@@ -22,31 +22,40 @@
 package org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone;
 
 /**
- *
  * @author <a href="mailto:manlio.baco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision: 42 $ ($LastChangedDate: 2010-09-23 14:21:48 +0200 (Thu, 23 Sep 2010) $)
  * @since 0.8.0
- *
  */
 public interface ZoneType {
 
-    public class ZT{
+    public class ZT {
         String attributeValue;
         String description;
         String alarm1;
         String alarm2;
 
-        public ZT(String attributeValue, String description, String alarm1, String alarm2){
+        public ZT(String attributeValue, String description, String alarm1, String alarm2) {
             this.attributeValue = attributeValue;
             this.description = description;
             this.alarm1 = alarm1;
             this.alarm2 = alarm2;
         }
 
-        public String getAttributeValue(){ return this.attributeValue; }
-        public String getDescription(){ return this.description; }
-        public String getAlarm1(){ return this.alarm1; }
-        public String getAlarm2(){ return this.alarm2; }
+        public String getAttributeValue() {
+            return this.attributeValue;
+        }
+
+        public String getDescription() {
+            return this.description;
+        }
+
+        public String getAlarm1() {
+            return this.alarm1;
+        }
+
+        public String getAlarm2() {
+            return this.alarm2;
+        }
     }
 
     public final ZT STANDARD_CIE = new ZT("0000", "Standard CIE", "System Alarm", "");

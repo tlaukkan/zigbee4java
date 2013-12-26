@@ -45,7 +45,7 @@ public class ZigbeeDiscoveryManager {
     private ZigbeeNetworkManager managementInterface;
     private AnnounceListenerThread annunceListener;
 
-    private NetworkBrowserThread networkBrowser = null ;
+    private NetworkBrowserThread networkBrowser = null;
     private LQINetworkBrowserThread networkLQIBrowser = null;
 
     private DeviceBuilderThread deviceBuilder;
@@ -53,7 +53,7 @@ public class ZigbeeDiscoveryManager {
 
     private boolean lqiDiscovery;
 
-    public ZigbeeDiscoveryManager(ZigbeeNetworkManager simpleDriver, final boolean lqiDiscovery){
+    public ZigbeeDiscoveryManager(ZigbeeNetworkManager simpleDriver, final boolean lqiDiscovery) {
         this.lqiDiscovery = lqiDiscovery;
         importingQueue = new ImportingQueue();
         managementInterface = simpleDriver;
@@ -64,33 +64,33 @@ public class ZigbeeDiscoveryManager {
         importingQueue.clear();
         ApplicationFrameworkLayer.getAFLayer(managementInterface);
         final EnumSet<DiscoveryMode> enabledDiscoveries = DiscoveryMode.ALL;
-        if ( enabledDiscoveries.contains( DiscoveryMode.Announce ) ) {
+        if (enabledDiscoveries.contains(DiscoveryMode.Announce)) {
             annunceListener = new AnnounceListenerThread(importingQueue, managementInterface);
             managementInterface.addAnnunceListener(annunceListener);
         } else {
-            logger.debug( "ANNUNCE discovery disabled.");
+            logger.debug("ANNUNCE discovery disabled.");
         }
 
-        if ( enabledDiscoveries .contains( DiscoveryMode.Addressing ) ) {
+        if (enabledDiscoveries.contains(DiscoveryMode.Addressing)) {
             networkBrowser = new NetworkBrowserThread(importingQueue, managementInterface);
-            new Thread(networkBrowser, "NetworkBrowser["+ managementInterface +"]").start();
+            new Thread(networkBrowser, "NetworkBrowser[" + managementInterface + "]").start();
         } else {
-            logger.debug( "{} discovery disabled.",
+            logger.debug("{} discovery disabled.",
                     NetworkBrowserThread.class);
         }
 
-        if ( enabledDiscoveries .contains( DiscoveryMode.LinkQuality ) ) {
+        if (enabledDiscoveries.contains(DiscoveryMode.LinkQuality)) {
             if (lqiDiscovery) {
                 networkLQIBrowser = new LQINetworkBrowserThread(importingQueue, managementInterface);
-                new Thread(networkLQIBrowser, "LQINetworkBrowser["+ managementInterface +"]").start();
+                new Thread(networkLQIBrowser, "LQINetworkBrowser[" + managementInterface + "]").start();
             }
         } else {
-            logger.debug( "{} discovery disabled.",
+            logger.debug("{} discovery disabled.",
                     LQINetworkBrowserThread.class);
         }
 
-        deviceBuilder = new DeviceBuilderThread( importingQueue, managementInterface);
-        new Thread(deviceBuilder, "DeviceBuilder["+ managementInterface +"]").start();
+        deviceBuilder = new DeviceBuilderThread(importingQueue, managementInterface);
+        new Thread(deviceBuilder, "DeviceBuilder[" + managementInterface + "]").start();
     }
 
     public void shutdown() {
@@ -98,15 +98,15 @@ public class ZigbeeDiscoveryManager {
 
         managementInterface.removeAnnunceListener(annunceListener);
 
-        if ( networkBrowser != null ) {
+        if (networkBrowser != null) {
             networkBrowser.end();
             networkBrowser.interrupt();
         }
-        if ( networkLQIBrowser != null ) {
+        if (networkLQIBrowser != null) {
             networkLQIBrowser.end();
             networkLQIBrowser.interrupt();
         }
-        if ( deviceBuilder != null ) {
+        if (deviceBuilder != null) {
             deviceBuilder.end();
         }
         importingQueue.close();

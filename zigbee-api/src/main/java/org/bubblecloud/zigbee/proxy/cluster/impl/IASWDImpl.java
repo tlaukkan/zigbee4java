@@ -34,17 +34,15 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.IASWDCluster;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
 public class IASWDImpl implements IASWD {
 
     private final IASWDCluster iaswdcluster;
     private final Attribute maxDuration;
 
-    public IASWDImpl(ZigBeeDevice zbDevice){
+    public IASWDImpl(ZigBeeDevice zbDevice) {
 
         iaswdcluster = new IASWDCluster(zbDevice);
         maxDuration = iaswdcluster.getAttributeMaxDuration();
@@ -69,7 +67,7 @@ public class IASWDImpl implements IASWD {
     public Attribute getAttribute(int id) {
         Attribute[] attributes = iaswdcluster.getAvailableAttributes();
         for (int i = 0; i < attributes.length; i++) {
-            if( attributes[i].getId() == id )
+            if (attributes[i].getId() == id)
                 return attributes[i];
         }
         return null;

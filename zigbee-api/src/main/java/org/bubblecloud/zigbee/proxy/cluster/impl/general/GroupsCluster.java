@@ -41,12 +41,11 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.general.groups.RemoveGroupRespo
 import org.bubblecloud.zigbee.proxy.cluster.impl.general.groups.ViewGroupCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.general.groups.ViewGroupResponseImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.global.DefaultResponseImpl;
+
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class GroupsCluster extends ZCLClusterBase implements Groups {
 
@@ -55,15 +54,15 @@ public class GroupsCluster extends ZCLClusterBase implements Groups {
     private final Attribute[] attributes;
 
     private static EmptyPayloadCommand CMD_REMOVE_ALL_GROUP = new EmptyPayloadCommand()
-    .setId(Groups.REMOVE_ALL_GROUP_ID)
-    .setClientServerDirection(true)
-    .setClusterSpecific(true)
-    .setManufacturerExtension(false);
+            .setId(Groups.REMOVE_ALL_GROUP_ID)
+            .setClientServerDirection(true)
+            .setClusterSpecific(true)
+            .setManufacturerExtension(false);
 
 
-    public GroupsCluster(ZigBeeDevice zbDevice){
+    public GroupsCluster(ZigBeeDevice zbDevice) {
         super(zbDevice);
-        nameSupport = new AttributeImpl(zbDevice,this,Attributes.NAME_SUPPORT_GROUPS);
+        nameSupport = new AttributeImpl(zbDevice, this, Attributes.NAME_SUPPORT_GROUPS);
         attributes = new AttributeImpl[]{nameSupport};
     }
 
@@ -86,12 +85,12 @@ public class GroupsCluster extends ZCLClusterBase implements Groups {
         enableDefaultResponse();
         AddGroupCommand addGroupCmd = new AddGroupCommand(groupId, name);
         Response response = invoke(addGroupCmd);
-        return  new AddGroupResponseImpl(response);
+        return new AddGroupResponseImpl(response);
     }
 
     public Response addGroupIfIdentifying(int groupId, String name) throws ZigBeeClusterException {
         enableDefaultResponse();
-        AddGroupIfIdentyfingCommand addGroupIfIdCMD = new AddGroupIfIdentyfingCommand(groupId,name);
+        AddGroupIfIdentyfingCommand addGroupIfIdCMD = new AddGroupIfIdentyfingCommand(groupId, name);
         Response response = invoke(addGroupIfIdCMD);
         return new DefaultResponseImpl(response);
     }
@@ -104,22 +103,22 @@ public class GroupsCluster extends ZCLClusterBase implements Groups {
         enableDefaultResponse();
         GetGroupMembershipCommand getGroupMemCmd = new GetGroupMembershipCommand(groupList);
         Response response = invoke(getGroupMemCmd);
-        return  new GetGroupMembershipResponseImpl(response);
+        return new GetGroupMembershipResponseImpl(response);
     }
 
-    public Response removeAllGroup() throws ZigBeeClusterException{
+    public Response removeAllGroup() throws ZigBeeClusterException {
         enableDefaultResponse();
         Response response = invoke(CMD_REMOVE_ALL_GROUP);
-        return  new DefaultResponseImpl(response);
+        return new DefaultResponseImpl(response);
     }
 
-    public Response removeGroup(int groupId) throws ZigBeeClusterException{
+    public Response removeGroup(int groupId) throws ZigBeeClusterException {
         RemoveGroupCommand removeGroupCmd = new RemoveGroupCommand(groupId);
         Response response = invoke(removeGroupCmd);
         return new RemoveGroupResponseImpl(response);
     }
 
-    public Response viewGroup(int groupId) throws ZigBeeClusterException{
+    public Response viewGroup(int groupId) throws ZigBeeClusterException {
         ViewGroupCommand viewGroupCmd = new ViewGroupCommand(groupId);
         Response response = invoke(viewGroupCmd);
         return new ViewGroupResponseImpl(response);

@@ -30,39 +30,38 @@ import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.RemoveSceneRespon
 import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.StoreSceneResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ResponseImpl;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class StoreSceneResponseImpl extends ResponseImpl implements
-		StoreSceneResponse {
-	
-	private int groupId;
-	private short sceneId;
-	private byte status;
-	
-	public StoreSceneResponseImpl(Response response)throws ZigBeeClusterException{
-		super(response);
-		ResponseImpl.checkSpecificCommandFrame(response, RemoveSceneResponse.ID);
-		ZBDeserializer deserializer = new DefaultDeserializer(getPayload(),0);
-		status =  deserializer.read_byte();
-		groupId = deserializer.read_short();
-		sceneId = deserializer.read_byte();
-	}
+        StoreSceneResponse {
 
-	public int getGroupId() {
-		return groupId;
-	}
+    private int groupId;
+    private short sceneId;
+    private byte status;
 
-	public short getSceneId() {
-		return sceneId;
-	}
+    public StoreSceneResponseImpl(Response response) throws ZigBeeClusterException {
+        super(response);
+        ResponseImpl.checkSpecificCommandFrame(response, RemoveSceneResponse.ID);
+        ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);
+        status = deserializer.read_byte();
+        groupId = deserializer.read_short();
+        sceneId = deserializer.read_byte();
+    }
 
-	public Status getStatus() {
-		return Status.getStatus(status);
-	}
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public short getSceneId() {
+        return sceneId;
+    }
+
+    public Status getStatus() {
+        return Status.getStatus(status);
+    }
 
 }

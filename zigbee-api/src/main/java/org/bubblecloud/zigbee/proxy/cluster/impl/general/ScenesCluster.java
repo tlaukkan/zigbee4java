@@ -46,116 +46,114 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.general.scenes.ViewSceneCommand
 import org.bubblecloud.zigbee.proxy.cluster.impl.general.scenes.ViewSceneResponseImpl;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ScenesCluster extends ZCLClusterBase implements Scenes {
-	
-	private final AttributeImpl sceneCount;
-	private final AttributeImpl currentScene;
-	//TODO Implement current group
-	//private final AttributeImpl currentGroup;
-	private final AttributeImpl sceneValid;
-	private final AttributeImpl nameSupport;
-	private final AttributeImpl lastConfiguredBy;
-	
-	private final Attribute[] attributes;
-		
-	public ScenesCluster(ZigBeeDevice zbDevice){
-		super(zbDevice);
-		 sceneCount  = new AttributeImpl(zbDevice,this,Attributes.SCENE_COUNT);
-		 currentScene = new AttributeImpl(zbDevice,this,Attributes.CURRENT_SCENE);
-		 //TODO currentGroup = new AttributeImpl(device,this,AttributeDescriptor.CURRENT_GROUP)
-		 sceneValid = new AttributeImpl(zbDevice,this,Attributes.SCENE_VALID);
-		 nameSupport = new AttributeImpl(zbDevice,this,Attributes.NAME_SUPPORT_SCENES);
-		 lastConfiguredBy = new AttributeImpl(zbDevice,this,Attributes.LAST_CONFIGURED_BY);
-		 
-		attributes = new AttributeImpl[]{sceneCount, currentScene, //TODO currentGroup, 
-				sceneValid, nameSupport, lastConfiguredBy};
-	}
 
-	@Override
-	public short getId() {
-		return Scenes.ID;
-	}
+    private final AttributeImpl sceneCount;
+    private final AttributeImpl currentScene;
+    //TODO Implement current group
+    //private final AttributeImpl currentGroup;
+    private final AttributeImpl sceneValid;
+    private final AttributeImpl nameSupport;
+    private final AttributeImpl lastConfiguredBy;
 
-	@Override
-	public String getName() {
-		return Scenes.NAME;
-	}
+    private final Attribute[] attributes;
 
-	@Override
-	public Attribute[] getStandardAttributes() {
-		return attributes;
-	}
+    public ScenesCluster(ZigBeeDevice zbDevice) {
+        super(zbDevice);
+        sceneCount = new AttributeImpl(zbDevice, this, Attributes.SCENE_COUNT);
+        currentScene = new AttributeImpl(zbDevice, this, Attributes.CURRENT_SCENE);
+        //TODO currentGroup = new AttributeImpl(device,this,AttributeDescriptor.CURRENT_GROUP)
+        sceneValid = new AttributeImpl(zbDevice, this, Attributes.SCENE_VALID);
+        nameSupport = new AttributeImpl(zbDevice, this, Attributes.NAME_SUPPORT_SCENES);
+        lastConfiguredBy = new AttributeImpl(zbDevice, this, Attributes.LAST_CONFIGURED_BY);
 
-	public Response addScene(AddScenePayload scenepayload) throws ZigBeeClusterException{
-		AddSceneCommand addSceneCmd = new AddSceneCommand(scenepayload);
-		Response response = invoke(addSceneCmd);
-		return new AddSceneResponseImpl(response);
-	}
+        attributes = new AttributeImpl[]{sceneCount, currentScene, //TODO currentGroup,
+                sceneValid, nameSupport, lastConfiguredBy};
+    }
 
-	public Attribute getAttributeCurrentGroup() {
-		return null; //TODO return currentGroup;
-	}
+    @Override
+    public short getId() {
+        return Scenes.ID;
+    }
 
-	public Attribute getAttributeCurrentScene() {
-		return currentScene;
-	}
+    @Override
+    public String getName() {
+        return Scenes.NAME;
+    }
 
-	public Attribute getAttributeLastConfiguredBy() {
-		return lastConfiguredBy;
-	}
+    @Override
+    public Attribute[] getStandardAttributes() {
+        return attributes;
+    }
 
-	public Attribute getAttributeNameSupport() {
-		return nameSupport;
-	}
+    public Response addScene(AddScenePayload scenepayload) throws ZigBeeClusterException {
+        AddSceneCommand addSceneCmd = new AddSceneCommand(scenepayload);
+        Response response = invoke(addSceneCmd);
+        return new AddSceneResponseImpl(response);
+    }
 
-	public Attribute getAttributeSceneCount() {
-		return sceneCount;
-	}
+    public Attribute getAttributeCurrentGroup() {
+        return null; //TODO return currentGroup;
+    }
 
-	public Attribute getAttributeSceneValid() {
-		return sceneValid;
-	}
+    public Attribute getAttributeCurrentScene() {
+        return currentScene;
+    }
 
-	public Response getSceneMembership(int groupId) throws ZigBeeClusterException{
-		GetSceneMembershipCommand getSceneMemCmd = new GetSceneMembershipCommand(groupId);
-		Response response = invoke(getSceneMemCmd);
-		return new GetSceneMembershipResponseImpl(response);
-	}
+    public Attribute getAttributeLastConfiguredBy() {
+        return lastConfiguredBy;
+    }
 
-	public void recallScene(int groupId, short sceneId) throws ZigBeeClusterException{
-		RecallSceneCommand recallSceneCmd = new RecallSceneCommand(groupId, sceneId);
-		invoke(recallSceneCmd);
-	}
+    public Attribute getAttributeNameSupport() {
+        return nameSupport;
+    }
 
-	public Response removeAllScenes(int groupId) throws ZigBeeClusterException{
-		RemoveAllScenesCommand removeAllScenes = new RemoveAllScenesCommand(groupId);
-		Response response = invoke(removeAllScenes);
-		return new RemoveAllScenesResponseImpl(response);
-		
-	}
+    public Attribute getAttributeSceneCount() {
+        return sceneCount;
+    }
 
-	public Response removeScene(int groupId, short sceneId) throws ZigBeeClusterException{
-		RemoveSceneCommand removeSceneCmd = new RemoveSceneCommand(groupId, sceneId);
-		Response response = invoke(removeSceneCmd);
-		return new RemoveSceneResponseImpl(response);
-	}
+    public Attribute getAttributeSceneValid() {
+        return sceneValid;
+    }
 
-	public Response storeScene(int groupId, short sceneId) throws ZigBeeClusterException{
-		StoreSceneCommand storeSceneCmd = new StoreSceneCommand(groupId, sceneId);
-		Response response = invoke(storeSceneCmd);
-		return new StoreSceneResponseImpl(response);
-	}
+    public Response getSceneMembership(int groupId) throws ZigBeeClusterException {
+        GetSceneMembershipCommand getSceneMemCmd = new GetSceneMembershipCommand(groupId);
+        Response response = invoke(getSceneMemCmd);
+        return new GetSceneMembershipResponseImpl(response);
+    }
 
-	public Response viewScene(int groupId, short sceneId) throws ZigBeeClusterException{
-		ViewSceneCommand viewSceneCmd = new ViewSceneCommand(groupId,sceneId);
-		Response response = invoke(viewSceneCmd);
-		return new ViewSceneResponseImpl(response);
-	}
+    public void recallScene(int groupId, short sceneId) throws ZigBeeClusterException {
+        RecallSceneCommand recallSceneCmd = new RecallSceneCommand(groupId, sceneId);
+        invoke(recallSceneCmd);
+    }
+
+    public Response removeAllScenes(int groupId) throws ZigBeeClusterException {
+        RemoveAllScenesCommand removeAllScenes = new RemoveAllScenesCommand(groupId);
+        Response response = invoke(removeAllScenes);
+        return new RemoveAllScenesResponseImpl(response);
+
+    }
+
+    public Response removeScene(int groupId, short sceneId) throws ZigBeeClusterException {
+        RemoveSceneCommand removeSceneCmd = new RemoveSceneCommand(groupId, sceneId);
+        Response response = invoke(removeSceneCmd);
+        return new RemoveSceneResponseImpl(response);
+    }
+
+    public Response storeScene(int groupId, short sceneId) throws ZigBeeClusterException {
+        StoreSceneCommand storeSceneCmd = new StoreSceneCommand(groupId, sceneId);
+        Response response = invoke(storeSceneCmd);
+        return new StoreSceneResponseImpl(response);
+    }
+
+    public Response viewScene(int groupId, short sceneId) throws ZigBeeClusterException {
+        ViewSceneCommand viewSceneCmd = new ViewSceneCommand(groupId, sceneId);
+        Response response = invoke(viewSceneCmd);
+        return new ViewSceneResponseImpl(response);
+    }
 
 }

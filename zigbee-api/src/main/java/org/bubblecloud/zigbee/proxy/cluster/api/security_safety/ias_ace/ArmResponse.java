@@ -24,11 +24,9 @@ package org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_ace;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.8.0
- *
  */
 public interface ArmResponse extends Response {
 

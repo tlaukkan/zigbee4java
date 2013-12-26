@@ -76,40 +76,40 @@ public class ZDO_IEEE_ADDR_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
         this.Status = framedata[0];
         byte[] bytes = new byte[8];
         for (int i = 0; i < 8; i++) {
-            bytes[i] = (byte) framedata[8-i];
+            bytes[i] = (byte) framedata[8 - i];
         }
         this.IEEEAddr = new ZToolAddress64(bytes);
-        this.nwkAddr = new ZToolAddress16(framedata[10],framedata[9]);
+        this.nwkAddr = new ZToolAddress16(framedata[10], framedata[9]);
         this.StartIndex = framedata[11];
         this.NumAssocDev = framedata[12];
         this.AssocDevList = new ZToolAddress16[this.NumAssocDev];
         this.assocDevList = new short[this.NumAssocDev];
         for (int i = 0; i < this.AssocDevList.length; i++) {
-            this.AssocDevList[i] = new ZToolAddress16(framedata[14+(i*2)], framedata[13+(i*2)]);
+            this.AssocDevList[i] = new ZToolAddress16(framedata[14 + (i * 2)], framedata[13 + (i * 2)]);
         }
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_IEEE_ADDR_RSP), framedata);
     }
 
-	public ZToolAddress64 getIEEEAddress() {
-		return IEEEAddr;
-	}
-	
-	public int[] getAssociatedDeviceList() {
-		int[] values = new int[AssocDevList.length];
-		for (int i = 0; i < AssocDevList.length; i++) {
+    public ZToolAddress64 getIEEEAddress() {
+        return IEEEAddr;
+    }
+
+    public int[] getAssociatedDeviceList() {
+        int[] values = new int[AssocDevList.length];
+        for (int i = 0; i < AssocDevList.length; i++) {
             logger.info("Associated node - msb: " + AssocDevList[i].getMsb() + " lsb: " + AssocDevList[i].getLsb());
-			values[i] = ((int) AssocDevList[i].get16BitValue() & 0xFFFF);
-		}
-		return values;
-	}
+            values[i] = ((int) AssocDevList[i].get16BitValue() & 0xFFFF);
+        }
+        return values;
+    }
 
-	public int getStartIndex() {
-		return StartIndex;
-	}
+    public int getStartIndex() {
+        return StartIndex;
+    }
 
-	public int getAssociatedDeviceCount() {
-		return NumAssocDev;
-	}
+    public int getAssociatedDeviceCount() {
+        return NumAssocDev;
+    }
 
     @Override
     public String toString() {

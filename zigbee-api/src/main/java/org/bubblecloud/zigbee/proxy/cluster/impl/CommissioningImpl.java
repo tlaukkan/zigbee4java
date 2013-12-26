@@ -28,13 +28,13 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.general.StartupControl;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Subscription;
+
 /**
  * PLACEHOLDER TO IMPLEMENT
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.7.0
- *
  */
 public class CommissioningImpl implements Commissioning {
 
@@ -304,7 +304,7 @@ public class CommissioningImpl implements Commissioning {
     }
 
     public Status restartDevice(StartupControl mode, boolean immediate,
-            int delay, int jitter) {
+                                int delay, int jitter) {
         // TODO Auto-generated method stub
         return null;
     }

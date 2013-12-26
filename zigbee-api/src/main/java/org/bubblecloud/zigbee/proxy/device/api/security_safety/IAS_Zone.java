@@ -27,11 +27,9 @@ import org.bubblecloud.zigbee.util.ArraysUtil;
 import org.bubblecloud.zigbee.proxy.ProxyConstants;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.8.0
- *
  */
 public interface IAS_Zone extends DeviceProxy {
 

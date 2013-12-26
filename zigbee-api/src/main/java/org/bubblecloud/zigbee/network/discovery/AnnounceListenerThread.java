@@ -33,7 +33,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
  * <b>NOTE:</b>This class doesn't implement a real {@link Thread}, anyway<br>
  * because it is a {@link org.bubblecloud.zigbee.network.AnnounceListener} a different thread then the application will call
  * the {@link #notify(org.bubblecloud.zigbee.network.packet.ZToolAddress16, org.bubblecloud.zigbee.network.packet.ZToolAddress64, org.bubblecloud.zigbee.network.packet.ZToolAddress16, int)} method.
@@ -42,7 +41,6 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class AnnounceListenerThread implements AnnounceListener {
 
@@ -56,7 +54,7 @@ public class AnnounceListenerThread implements AnnounceListener {
      * Created the {@link AnnounceListenerThread} object and register itself to the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManager}<br>
      * as {@link ImportingQueue}
      *
-     * @param queue the {@link ImportingQueue} used to add the discovered devices
+     * @param queue  the {@link ImportingQueue} used to add the discovered devices
      * @param driver the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManager} to use for subscription
      */
     public AnnounceListenerThread(final ImportingQueue queue, final ZigbeeNetworkManager driver) {
@@ -65,14 +63,14 @@ public class AnnounceListenerThread implements AnnounceListener {
     }
 
     public void notify(ZToolAddress16 senderAddress,
-            ZToolAddress64 ieeeAddress, ZToolAddress16 destinationAddress,
-            int capabilitiesBitmask) {
+                       ZToolAddress64 ieeeAddress, ZToolAddress16 destinationAddress,
+                       int capabilitiesBitmask) {
 
         logger.info("Received an ANNOUNCE from {} {}", senderAddress, ieeeAddress);
         queue.push(senderAddress, ieeeAddress);
         ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork().notifyNodeAnnounced(
-                new ZigBeeNodeImpl( senderAddress.get16BitValue(), ieeeAddress,
-                (short) driver.getCurrentPanId() ) );
+                new ZigBeeNodeImpl(senderAddress.get16BitValue(), ieeeAddress,
+                        (short) driver.getCurrentPanId()));
     }
 
     private void annuncedNode(ZigBeeNode node) {

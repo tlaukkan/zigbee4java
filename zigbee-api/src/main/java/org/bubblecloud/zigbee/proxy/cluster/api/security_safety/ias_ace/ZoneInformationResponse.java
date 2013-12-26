@@ -24,17 +24,17 @@ package org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_ace;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.8.0
- *
  */
 public interface ZoneInformationResponse extends Response {
 
     public static final byte ID = 0x02;
 
     public int getZoneID();
+
     public short getZoneType();
+
     public String getIEEEAddress();
 }

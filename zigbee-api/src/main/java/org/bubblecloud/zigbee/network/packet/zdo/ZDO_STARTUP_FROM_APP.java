@@ -31,7 +31,6 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author alfiva
  */
 public class ZDO_STARTUP_FROM_APP extends ZToolPacket /*implements IREQUEST,ISYSTEM*/ {
@@ -68,5 +67,5 @@ public class ZDO_STARTUP_FROM_APP extends ZToolPacket /*implements IREQUEST,ISYS
         /// <name>TI.ZPI1.SYS_RESET.RESET_TYPE.TARGET_DEVICE</name>
         /// <summary>Reset type</summary>
         public static final int TARGET_DEVICE = 0;
-        }
+    }
 }

@@ -33,93 +33,92 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.general.DeviceTemperatureConfig
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
- *
  */
-public class DeviceTemperatureConfigurationImpl implements DeviceTemperatureConfiguration{
-	
-	private final DeviceTemperatureConfigurationCluster cluster;
-	private final Attribute currentTemperature;
-	private final Attribute deviceTemperature;
-	private final Attribute highTemperature;
-	private final Attribute highTemperatureThreshold;
-	private final Attribute lowTemperature;
-	private final Attribute lowTemperatureThreshold;
-	private final Attribute maxTemperature;
-	private final Attribute minTemperature;
-	private final Attribute overTemperature;
-	
-	public DeviceTemperatureConfigurationImpl(ZigBeeDevice zbDevice){
-		cluster = new DeviceTemperatureConfigurationCluster(zbDevice);
-		currentTemperature = cluster.getAttributeCurrentTemperature();
-		deviceTemperature = cluster.getAttributeDeviceTempAlarmMask();
-		highTemperature = cluster.getAttributeHighTempDwellTripPoint();
-		highTemperatureThreshold = cluster.getAttributeHighTempThreshold();
-		lowTemperature = cluster.getAttributeLowTempDwellTripPoint();
-		lowTemperatureThreshold = cluster.getAttributeLowTempThreshold();
-		maxTemperature = cluster.getAttributeMaxTempExperienced();
-		minTemperature = cluster.getAttributeMinTempExperienced();
-		overTemperature = cluster.getAttributeOverTempTotalDwell();
-	}
+public class DeviceTemperatureConfigurationImpl implements DeviceTemperatureConfiguration {
 
-	public Subscription[] getActiveSubscriptions() {
-		return cluster.getActiveSubscriptions();
-	}
+    private final DeviceTemperatureConfigurationCluster cluster;
+    private final Attribute currentTemperature;
+    private final Attribute deviceTemperature;
+    private final Attribute highTemperature;
+    private final Attribute highTemperatureThreshold;
+    private final Attribute lowTemperature;
+    private final Attribute lowTemperatureThreshold;
+    private final Attribute maxTemperature;
+    private final Attribute minTemperature;
+    private final Attribute overTemperature;
 
-	public int getId() {
-		return cluster.getId();
-	}
+    public DeviceTemperatureConfigurationImpl(ZigBeeDevice zbDevice) {
+        cluster = new DeviceTemperatureConfigurationCluster(zbDevice);
+        currentTemperature = cluster.getAttributeCurrentTemperature();
+        deviceTemperature = cluster.getAttributeDeviceTempAlarmMask();
+        highTemperature = cluster.getAttributeHighTempDwellTripPoint();
+        highTemperatureThreshold = cluster.getAttributeHighTempThreshold();
+        lowTemperature = cluster.getAttributeLowTempDwellTripPoint();
+        lowTemperatureThreshold = cluster.getAttributeLowTempThreshold();
+        maxTemperature = cluster.getAttributeMaxTempExperienced();
+        minTemperature = cluster.getAttributeMinTempExperienced();
+        overTemperature = cluster.getAttributeOverTempTotalDwell();
+    }
 
-	public String getName() {
-		return cluster.getName();
-	}
+    public Subscription[] getActiveSubscriptions() {
+        return cluster.getActiveSubscriptions();
+    }
 
-	public Attribute getAttribute(int id) {		
-		Attribute[] attributes = cluster.getAvailableAttributes();
-		for (int i = 0; i < attributes.length; i++) {
-			if( attributes[i].getId() == id ) 
-				return attributes[i];
-		}
-		return null;
-	}
+    public int getId() {
+        return cluster.getId();
+    }
 
-	public Attribute[] getAttributes() {
-		return cluster.getAvailableAttributes();
-	}
+    public String getName() {
+        return cluster.getName();
+    }
 
-	public Attribute getCurrentTemperature() {
-	    return currentTemperature;
-	}
+    public Attribute getAttribute(int id) {
+        Attribute[] attributes = cluster.getAvailableAttributes();
+        for (int i = 0; i < attributes.length; i++) {
+            if (attributes[i].getId() == id)
+                return attributes[i];
+        }
+        return null;
+    }
 
-	public Attribute getDeviceTempAlarmMask() {
-	    return deviceTemperature;
-	}
+    public Attribute[] getAttributes() {
+        return cluster.getAvailableAttributes();
+    }
 
-	public Attribute getHighTempDwellTripPoint() {
-	    return highTemperature;
-	}
+    public Attribute getCurrentTemperature() {
+        return currentTemperature;
+    }
 
-	public Attribute getHighTempThreshold() {
-	    return highTemperatureThreshold;
-	}
+    public Attribute getDeviceTempAlarmMask() {
+        return deviceTemperature;
+    }
 
-	public Attribute getLowTempDwellTripPoint() {
-	    return lowTemperature;
-	}
+    public Attribute getHighTempDwellTripPoint() {
+        return highTemperature;
+    }
 
-	public Attribute getLowTempThreshold() {
-	    return lowTemperatureThreshold;
-	}
+    public Attribute getHighTempThreshold() {
+        return highTemperatureThreshold;
+    }
 
-	public Attribute getMaxTempExperienced() {
-	    return maxTemperature;
-	}
+    public Attribute getLowTempDwellTripPoint() {
+        return lowTemperature;
+    }
 
-	public Attribute getMinTempExperienced() {
-	    return minTemperature;
-	}
+    public Attribute getLowTempThreshold() {
+        return lowTemperatureThreshold;
+    }
 
-	public Attribute getOverTempTotalDwell() {
-	    return overTemperature;
-	}
+    public Attribute getMaxTempExperienced() {
+        return maxTemperature;
+    }
+
+    public Attribute getMinTempExperienced() {
+        return minTemperature;
+    }
+
+    public Attribute getOverTempTotalDwell() {
+        return overTemperature;
+    }
 
 }

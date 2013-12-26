@@ -29,49 +29,46 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class ZB_RECEIVE_DATA_INDICATION extends ZToolPacket /*implements IRESPONSE_CALLBAC,ISIMPLEAPI*/{
+public class ZB_RECEIVE_DATA_INDICATION extends ZToolPacket /*implements IRESPONSE_CALLBAC,ISIMPLEAPI*/ {
     /// <name>TI.ZPI2.ZB_RECEIVE_DATA_INDICATION.Command</name>
-        /// <summary>The CommandId of the data packet.</summary>
-        public DoubleByte Command;
-        /// <name>TI.ZPI2.ZB_RECEIVE_DATA_INDICATION.Data</name>
-        /// <summary>The received data packet payload.</summary>
-        public int[] Data;
-        /// <name>TI.ZPI2.ZB_RECEIVE_DATA_INDICATION.Len</name>
-        /// <summary>The length of the data payload.</summary>
-        public DoubleByte Len;
-        /// <name>TI.ZPI2.ZB_RECEIVE_DATA_INDICATION.Source</name>
-        /// <summary>The 16-bit address of the device that sent the data packet.</summary>
-        public ZToolAddress16 Source;
+    /// <summary>The CommandId of the data packet.</summary>
+    public DoubleByte Command;
+    /// <name>TI.ZPI2.ZB_RECEIVE_DATA_INDICATION.Data</name>
+    /// <summary>The received data packet payload.</summary>
+    public int[] Data;
+    /// <name>TI.ZPI2.ZB_RECEIVE_DATA_INDICATION.Len</name>
+    /// <summary>The length of the data payload.</summary>
+    public DoubleByte Len;
+    /// <name>TI.ZPI2.ZB_RECEIVE_DATA_INDICATION.Source</name>
+    /// <summary>The 16-bit address of the device that sent the data packet.</summary>
+    public ZToolAddress16 Source;
 
-        /// <name>TI.ZPI2.ZB_RECEIVE_DATA_INDICATION</name>
-        /// <summary>Constructor</summary>
-        public ZB_RECEIVE_DATA_INDICATION()
-        {
-            this.Data = new int[0xff];
+    /// <name>TI.ZPI2.ZB_RECEIVE_DATA_INDICATION</name>
+    /// <summary>Constructor</summary>
+    public ZB_RECEIVE_DATA_INDICATION() {
+        this.Data = new int[0xff];
+    }
+
+    /// <name>TI.ZPI2.ZB_RECEIVE_DATA_INDICATION</name>
+    /// <summary>Constructor</summary>
+    public ZB_RECEIVE_DATA_INDICATION(int[] framedata) {
+        this.Source = new ZToolAddress16(framedata[1], framedata[0]);
+        this.Command = new DoubleByte(framedata[3], framedata[2]);
+        this.Len = new DoubleByte(framedata[5], framedata[4]);
+        this.Data = new int[framedata.length - 6];
+        for (int i = 0; i < this.Data.length; i++) {
+            this.Data[i] = framedata[i + 6];
         }
-
-        /// <name>TI.ZPI2.ZB_RECEIVE_DATA_INDICATION</name>
-        /// <summary>Constructor</summary>
-        public ZB_RECEIVE_DATA_INDICATION(int[] framedata)
-        {
-            this.Source = new ZToolAddress16(framedata[1],framedata[0]);
-            this.Command = new DoubleByte(framedata[3],framedata[2]);
-            this.Len = new DoubleByte(framedata[5],framedata[4]);
-            this.Data=new int[framedata.length-6];
-            for(int i=0;i<this.Data.length;i++){
-                this.Data[i]=framedata[i+6];
-            }
             /*if (buffer1.Length > 0xff)
             {
                 throw new Exception("Error creating object.");
             }
             this.Data = new byte[0xff];
             Array.Copy(buffer1, this.Data, buffer1.Length);*/
-            super.buildPacket(new DoubleByte(ZToolCMD.ZB_RECEIVE_DATA_INDICATION), framedata);
-        }
+        super.buildPacket(new DoubleByte(ZToolCMD.ZB_RECEIVE_DATA_INDICATION), framedata);
+    }
 
 }

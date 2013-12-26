@@ -31,41 +31,39 @@ import java.util.List;
 // TODO replace with nio.IntBuffer
 
 /**
- * 
  * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class IntArrayOutputStream {
 
-	private List<Integer> intList = new ArrayList<Integer>();
-	
-	public IntArrayOutputStream() {
+    private List<Integer> intList = new ArrayList<Integer>();
 
-	}
-	
-	public void write (int val) {
-		intList.add(val);
-	}
-	
-	public void write(int[] val) {
-		for (int i = 0; i < val.length; i++) {
-			this.write(val[i]);
-		}
-	}
-	
-	public int[] getIntArray() {
-		//int[] integer = (int[]) intList.toArray(new int[0]);
-		// TODO there has got to be a better way -- how to convert list to int[] array?
-		int[] intArr = new int[intList.size()];
-		
-		int i = 0;
-		
-		for (Integer integer : intList) {
-			intArr[i++] = integer.intValue();
-		}
-		
-		return intArr;
-	}
+    public IntArrayOutputStream() {
+
+    }
+
+    public void write(int val) {
+        intList.add(val);
+    }
+
+    public void write(int[] val) {
+        for (int i = 0; i < val.length; i++) {
+            this.write(val[i]);
+        }
+    }
+
+    public int[] getIntArray() {
+        //int[] integer = (int[]) intList.toArray(new int[0]);
+        // TODO there has got to be a better way -- how to convert list to int[] array?
+        int[] intArr = new int[intList.size()];
+
+        int i = 0;
+
+        for (Integer integer : intList) {
+            intArr[i++] = integer.intValue();
+        }
+
+        return intArr;
+    }
 }

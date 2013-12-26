@@ -33,7 +33,7 @@ public enum NetworkKeyType {
 
     final public int value;
 
-    private NetworkKeyType(int value){
+    private NetworkKeyType(int value) {
         this.value = value;
     }
 }

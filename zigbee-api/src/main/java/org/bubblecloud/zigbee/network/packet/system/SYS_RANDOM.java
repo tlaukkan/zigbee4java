@@ -28,12 +28,11 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class SYS_RANDOM extends ZToolPacket /*implements IREQUEST,ISYSTEM*/{
-    public SYS_RANDOM(){
+public class SYS_RANDOM extends ZToolPacket /*implements IREQUEST,ISYSTEM*/ {
+    public SYS_RANDOM() {
 
         super.buildPacket(new DoubleByte(ZToolCMD.SYS_RANDOM), new int[0]);
     }

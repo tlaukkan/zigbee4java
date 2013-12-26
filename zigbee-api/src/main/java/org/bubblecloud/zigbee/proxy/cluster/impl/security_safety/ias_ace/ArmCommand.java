@@ -30,15 +30,15 @@ public class ArmCommand extends AbstractCommand {
 
     private byte armMode;
 
-    public ArmCommand(byte armMode){
+    public ArmCommand(byte armMode) {
         super(IASACE.ARM);
         this.armMode = armMode;
     }
 
-    public byte[] getPayload(){
-        if( payload == null){
+    public byte[] getPayload() {
+        if (payload == null) {
             payload = new byte[1];
-            ZBSerializer serializer = new DefaultSerializer(payload,0);
+            ZBSerializer serializer = new DefaultSerializer(payload, 0);
             serializer.appendByte(armMode);
         }
         return payload;

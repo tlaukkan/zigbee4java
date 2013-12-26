@@ -29,27 +29,24 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class ZB_ALLOW_BIND_CONFIRM extends ZToolPacket /*implements IREPONSE_CALLBACK,ISIMPLEAPI*/{
+public class ZB_ALLOW_BIND_CONFIRM extends ZToolPacket /*implements IREPONSE_CALLBACK,ISIMPLEAPI*/ {
     /// <name>TI.ZPI2.ZB_ALLOW_BIND_CONFIRM.Source</name>
-        /// <summary>Source</summary>
-        public ZToolAddress16 Source;
+    /// <summary>Source</summary>
+    public ZToolAddress16 Source;
 
-        /// <name>TI.ZPI2.ZB_ALLOW_BIND_CONFIRM</name>
-        /// <summary>Constructor</summary>
-        public ZB_ALLOW_BIND_CONFIRM()
-        {
-        }
+    /// <name>TI.ZPI2.ZB_ALLOW_BIND_CONFIRM</name>
+    /// <summary>Constructor</summary>
+    public ZB_ALLOW_BIND_CONFIRM() {
+    }
 
-        /// <name>TI.ZPI2.ZB_ALLOW_BIND_CONFIRM</name>
-        /// <summary>Constructor</summary>
-        public ZB_ALLOW_BIND_CONFIRM(int[] framedata)
-        {
-            this.Source = new ZToolAddress16(framedata[1],framedata[0]);
-            super.buildPacket(new DoubleByte(ZToolCMD.ZB_ALLOW_BIND_CONFIRM), framedata);
-        }
+    /// <name>TI.ZPI2.ZB_ALLOW_BIND_CONFIRM</name>
+    /// <summary>Constructor</summary>
+    public ZB_ALLOW_BIND_CONFIRM(int[] framedata) {
+        this.Source = new ZToolAddress16(framedata[1], framedata[0]);
+        super.buildPacket(new DoubleByte(ZToolCMD.ZB_ALLOW_BIND_CONFIRM), framedata);
+    }
 
 }

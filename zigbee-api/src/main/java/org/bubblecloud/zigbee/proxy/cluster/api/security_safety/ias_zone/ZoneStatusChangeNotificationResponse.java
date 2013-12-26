@@ -24,16 +24,15 @@ package org.bubblecloud.zigbee.proxy.cluster.api.security_safety.ias_zone;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 
 /**
- *
  * @author <a href="mailto:manlio.baco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision: 42 $ ($LastChangedDate: 2010-09-23 14:21:48 +0200 (Thu, 23 Sep 2010) $)
  * @since 0.8.0
- *
  */
 public interface ZoneStatusChangeNotificationResponse extends Response {
 
     public static final byte ID = 0x00;
 
     public short getZoneStatus();
+
     public byte getExtendedStatus();
 }

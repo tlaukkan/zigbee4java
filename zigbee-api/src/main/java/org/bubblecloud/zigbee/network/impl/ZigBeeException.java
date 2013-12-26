@@ -21,35 +21,34 @@
 */
 
 package org.bubblecloud.zigbee.network.impl;
+
 /**
- * 
- *  Root exception for all the code related to ZigBee<br>
- *  the BaseDriver should use ZibeeBasedriverException by including<br> 
- *  communication exception as nested Throwable<br>
- *  
- *  The ZCL bundle should use ZigBeeClusterException<br>
- *  and HA Drive should use ZigBeeHAException.
- *  
+ * Root exception for all the code related to ZigBee<br>
+ * the BaseDriver should use ZibeeBasedriverException by including<br>
+ * communication exception as nested Throwable<br>
+ * <p/>
+ * The ZCL bundle should use ZigBeeClusterException<br>
+ * and HA Drive should use ZigBeeHAException.
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- * @since 0.1.0
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
+ * @since 0.1.0
  */
 public class ZigBeeException extends Exception {
-	
-	public ZigBeeException(String msg) {
-		super(msg);
-	}
-	public ZigBeeException(Throwable ex) {
-		super(ex);
-	}
-	
-	/**
-	 * 
-	 * @since 0.5.0
-	 */
-	public ZigBeeException(String msg, Throwable ex) {
-		super(msg,ex);
-	}
+
+    public ZigBeeException(String msg) {
+        super(msg);
+    }
+
+    public ZigBeeException(Throwable ex) {
+        super(ex);
+    }
+
+    /**
+     * @since 0.5.0
+     */
+    public ZigBeeException(String msg, Throwable ex) {
+        super(msg, ex);
+    }
 }

@@ -28,22 +28,22 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
 /**
  * This class represent the <b>Time</b> Cluster as defined by the document:<br>
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a> *         
+ * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a> *
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface Time extends ZCLCluster {
-	
-	static final short ID = 0x000A;
-	static final String NAME = "Time";
-	static final String DESCRIPTION = "Attributes and commands that provide a basic interface to a real-time clock.";
 
-	
-	public Attribute getAttributeTime();
-	public Attribute getAttributeTimeStatus();
-	
+    static final short ID = 0x000A;
+    static final String NAME = "Time";
+    static final String DESCRIPTION = "Attributes and commands that provide a basic interface to a real-time clock.";
+
+
+    public Attribute getAttributeTime();
+
+    public Attribute getAttributeTimeStatus();
+
 }

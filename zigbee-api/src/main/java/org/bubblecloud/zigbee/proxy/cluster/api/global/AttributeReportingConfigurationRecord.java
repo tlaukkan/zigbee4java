@@ -23,20 +23,25 @@
 package org.bubblecloud.zigbee.proxy.cluster.api.global;
 
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeType;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public interface AttributeReportingConfigurationRecord {
 
-	public int getDiretion();
-	public int getAttributeId();
-	public ZigBeeType getAttributeDataType();
-	public int getMinimumReportingInterval();
-	public int getMaximumReportinInterval();
-	public Object getReportableChange();
-	public int getTimeoutPeriod();
+    public int getDiretion();
+
+    public int getAttributeId();
+
+    public ZigBeeType getAttributeDataType();
+
+    public int getMinimumReportingInterval();
+
+    public int getMaximumReportinInterval();
+
+    public Object getReportableChange();
+
+    public int getTimeoutPeriod();
 }

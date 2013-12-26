@@ -35,16 +35,14 @@ import java.util.Dictionary;
 import java.util.List;
 
 /**
-*
-* @author <a href="mailto:h.alink1@chello.nl">Han Alink</a>
-* @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
-* @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
-* @since 0.7.0
-*
-*/
+ * @author <a href="mailto:h.alink1@chello.nl">Han Alink</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.7.0
+ */
 public class PresentValueBridgeListeners implements ReportListener {
 
-    private class PresentValueEventImpl implements PresentValueEvent{
+    private class PresentValueEventImpl implements PresentValueEvent {
 
         private final Cluster source;
         private final boolean event;
@@ -85,20 +83,20 @@ public class PresentValueBridgeListeners implements ReportListener {
         }
     }
 
-    public List<PresentValueListener> getListeners(){
+    public List<PresentValueListener> getListeners() {
         return listeners;
     }
 
     public boolean subscribe(PresentValueListener listener) {
         synchronized (listeners) {
-            if ( listeners.size() == 0 ) {
+            if (listeners.size() == 0) {
                 Subscription subscription = bridged.getSubscription();
-                if ( configuration.getReportingOverwrite() || subscription.isActive() == false ) {
+                if (configuration.getReportingOverwrite() || subscription.isActive() == false) {
                     subscription.setMaximumReportingInterval(configuration.getReportingMaximum());
                     subscription.setMinimumReportingInterval(configuration.getReportingMinimum());
                     subscription.updateConfiguration();
                 }
-                if ( subscription.addReportListner(this) == false ) {
+                if (subscription.addReportListner(this) == false) {
                     return false;
                 }
             }
@@ -109,9 +107,9 @@ public class PresentValueBridgeListeners implements ReportListener {
     public boolean unsubscribe(PresentValueListener listener) {
         synchronized (listeners) {
             listeners.remove(listener);
-            if ( listeners.size() == 0 ) {
+            if (listeners.size() == 0) {
                 Subscription subscription = bridged.getSubscription();
-                if ( subscription.getReportListenersCount() == 1 ){
+                if (subscription.getReportListenersCount() == 1) {
                     subscription.clear();
                 }
             }

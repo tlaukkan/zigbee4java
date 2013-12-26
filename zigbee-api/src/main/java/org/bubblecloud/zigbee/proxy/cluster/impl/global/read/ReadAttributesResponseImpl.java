@@ -33,31 +33,28 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.ResponseImpl;
 
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- *         
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
-public class ReadAttributesResponseImpl extends ResponseImpl implements ReadAttributesResponse{
+public class ReadAttributesResponseImpl extends ResponseImpl implements ReadAttributesResponse {
 
-	private ReadAttributesStatus[] attributes;
+    private ReadAttributesStatus[] attributes;
 
-	public ReadAttributesResponseImpl(Response response, AttributeDescriptor[] descriptors) throws ZigBeeClusterException {
-		super(response);
-		ResponseImpl.checkGeneralCommandFrame(response, ReadAttributesResponse.ID);
-		attributes = new ReadAttributesStatus[descriptors.length];
-		byte[] msg = getPayload();
-		ZBDeserializer deserializer = new DefaultDeserializer(msg,0);
-		for (int i = 0; i < descriptors.length; i++) {
-			attributes[i]= new ReadAttributeStatusImpl(descriptors[i],deserializer);
-		}
-	}
+    public ReadAttributesResponseImpl(Response response, AttributeDescriptor[] descriptors) throws ZigBeeClusterException {
+        super(response);
+        ResponseImpl.checkGeneralCommandFrame(response, ReadAttributesResponse.ID);
+        attributes = new ReadAttributesStatus[descriptors.length];
+        byte[] msg = getPayload();
+        ZBDeserializer deserializer = new DefaultDeserializer(msg, 0);
+        for (int i = 0; i < descriptors.length; i++) {
+            attributes[i] = new ReadAttributeStatusImpl(descriptors[i], deserializer);
+        }
+    }
 
-	public ReadAttributesStatus[] getReadAttributeStatus() {
-		return attributes;
-	}
+    public ReadAttributesStatus[] getReadAttributeStatus() {
+        return attributes;
+    }
 
 }

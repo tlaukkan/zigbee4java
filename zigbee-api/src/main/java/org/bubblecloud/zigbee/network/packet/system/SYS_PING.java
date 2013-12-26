@@ -28,15 +28,14 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class SYS_PING extends ZToolPacket /*implements IREQUEST,ISYSTEM*/{
-    public SYS_PING(){
+public class SYS_PING extends ZToolPacket /*implements IREQUEST,ISYSTEM*/ {
+    public SYS_PING() {
 
         super.buildPacket(new DoubleByte(ZToolCMD.SYS_PING), new int[0]);
     }
-    
+
 
 }

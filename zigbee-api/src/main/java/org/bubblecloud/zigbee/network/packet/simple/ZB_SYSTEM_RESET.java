@@ -28,15 +28,15 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class ZB_SYSTEM_RESET extends ZToolPacket /*implements IREQUEST,ISIMPLEAPI*/{
-    public ZB_SYSTEM_RESET(){
+public class ZB_SYSTEM_RESET extends ZToolPacket /*implements IREQUEST,ISIMPLEAPI*/ {
+    public ZB_SYSTEM_RESET() {
         super.buildPacket(new DoubleByte(ZToolCMD.ZB_SYSTEM_RESET), new int[0]);
     }
-    public ZB_SYSTEM_RESET(int[] framedata){
+
+    public ZB_SYSTEM_RESET(int[] framedata) {
         super.buildPacket(new DoubleByte(ZToolCMD.ZB_SYSTEM_RESET), framedata);
     }
 

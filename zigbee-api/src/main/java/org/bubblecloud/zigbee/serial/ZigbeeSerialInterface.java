@@ -40,10 +40,14 @@ import java.util.*;
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
-public class  ZigbeeSerialInterface implements ZToolPacketHandler {
-    /** The logger. */
+public class ZigbeeSerialInterface implements ZToolPacketHandler {
+    /**
+     * The logger.
+     */
     private final static Logger LOGGER = LoggerFactory.getLogger(ZigbeeSerialInterface.class);
-    /** The serial port name. */
+    /**
+     * The serial port name.
+     */
     final String serialPortName;
 
     final SerialPort serialPort;
@@ -91,17 +95,19 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
     public void handlePacket(final ZToolPacket packet) {
         final DoubleByte cmdId = packet.getCMD();
         switch (cmdId.getMsb() & 0xE0) {
-            case  0x40: { //We received a message
+            case 0x40: { //We received a message
                 LOGGER.info("<<-- ({}) ({})", packet.getClass().getSimpleName(), packet);
                 notifyAsynchrounsCommand(packet);
-            } break;
+            }
+            break;
 
             case 0x60: { //We received a SRSP
                 LOGGER.info("<- ({}) ({})", packet.getClass().getSimpleName(), packet);
                 notifySynchrounsCommand(packet);
-            } break;
+            }
+            break;
 
-            default:{
+            default: {
                 LOGGER.error("Incoming unknown packet. ({}) ({})", packet.getClass().getSimpleName(), packet);
             }
         }
@@ -110,12 +116,12 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
     // Driver ------------------------------------------------------------------------------
 
 
-    private void sendPacket( ZToolPacket packet )
+    private void sendPacket(ZToolPacket packet)
             throws IOException {
 
 
         //FIX Sending byte instead of int
-        LOGGER.info( "-> ({}) ({}) ", packet.getClass().getSimpleName(), packet.toString() );
+        LOGGER.info("-> ({}) ({}) ", packet.getClass().getSimpleName(), packet.toString());
 
         final int[] pck = packet.getPacket();
         synchronized (serialPort) {
@@ -124,8 +130,8 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
                 // Socket has not been opened or is already closed.
                 return;
             }
-            for ( int i = 0; i < pck.length; i++ ) {
-                out.write( pck[i] );
+            for (int i = 0; i < pck.length; i++) {
+                out.write(pck[i]);
             }
             out.flush();
         }
@@ -141,7 +147,7 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
 
     private final HashMap<SynchrounsCommandListener, Long> timouts = new HashMap<SynchrounsCommandListener, Long>();
 
-    private void cleanExpiredListener(){
+    private void cleanExpiredListener() {
         final long now = System.currentTimeMillis();
         final ArrayList<Short> expired = new ArrayList<Short>();
         synchronized (pendingSREQ) {
@@ -150,7 +156,7 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
                 Map.Entry<Short, SynchrounsCommandListener> entry = i.next();
 
                 final long expiration = timouts.get(entry.getValue());
-                if ( expiration != -1L && expiration < now ) {
+                if (expiration != -1L && expiration < now) {
                     expired.add(entry.getKey());
                 }
             }
@@ -163,7 +169,7 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
     }
 
     public void sendSynchrounsCommand(ZToolPacket packet, SynchrounsCommandListener listener, long timeout) throws IOException {
-        if ( timeout == -1L ) {
+        if (timeout == -1L) {
             timouts.put(listener, -1L);
         } else {
             final long expirationTime = System.currentTimeMillis() + timeout;
@@ -172,20 +178,20 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
         m_sendSynchrounsCommand(packet, listener);
     }
 
-    private void m_sendSynchrounsCommand(ZToolPacket packet, SynchrounsCommandListener listner) throws IOException{
+    private void m_sendSynchrounsCommand(ZToolPacket packet, SynchrounsCommandListener listner) throws IOException {
         final DoubleByte cmdId = packet.getCMD();
         final int value = (cmdId.getMsb() & 0xE0);
-        if ( value != 0x20  ) {
+        if (value != 0x20) {
             throw new IllegalArgumentException("You are trying to send a non SREQ packet. "
-                    +"Evaluated "+value+" instead of "+0x20+"\nPacket "+packet.getClass().getName()+"\n"+packet
+                    + "Evaluated " + value + " instead of " + 0x20 + "\nPacket " + packet.getClass().getName() + "\n" + packet
             );
         }
         //LOGGER.debug("Preparing to send SynchrounsCommand {} ", packet);
         cleanExpiredListener();
-        if ( supportMultipleSynchrounsCommand ) {
+        if (supportMultipleSynchrounsCommand) {
             synchronized (pendingSREQ) {
                 final short id = (short) (cmdId.get16BitValue() & 0x1FFF);
-                while(pendingSREQ.get(cmdId) != null) {
+                while (pendingSREQ.get(cmdId) != null) {
                     try {
                         LOGGER.debug("Waiting for other request {} to complete", id);
                         pendingSREQ.wait(500);
@@ -197,11 +203,11 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
                 //LOGGER.debug("Put pendingSREQ listener for {} command", id);
                 pendingSREQ.put(id, listner);
             }
-        }else{
+        } else {
             synchronized (pendingSREQ) {
                 final short id = (short) (cmdId.get16BitValue() & 0x1FFF);
                 //while(pendingSREQ.isEmpty() == false || pendingSREQ.size() == 1 && pendingSREQ.get(id) == listner ) {
-                while(pendingSREQ.isEmpty() == false ) {
+                while (pendingSREQ.isEmpty() == false) {
                     try {
                         LOGGER.debug("Waiting for other request to complete");
                         pendingSREQ.wait(500);
@@ -218,17 +224,16 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
         sendPacket(packet);
     }
 
-    public void sendAsynchrounsCommand(ZToolPacket packet) throws IOException{
+    public void sendAsynchrounsCommand(ZToolPacket packet) throws IOException {
         int value = (packet.getCMD().getMsb() & 0xE0);
-        if ( value != 0x40  ) {
+        if (value != 0x40) {
             throw new IllegalArgumentException("You are trying to send a non AREQ packet. "
-                    +"Evaluated "+value+" instead of "+0x40+"\nPacket "+packet.getClass().getName()+"\n"+packet
+                    + "Evaluated " + value + " instead of " + 0x40 + "\nPacket " + packet.getClass().getName() + "\n" + packet
             );
         }
 
         sendPacket(packet);
     }
-
 
 
     protected void notifySynchrounsCommand(ZToolPacket packet) {
@@ -239,12 +244,12 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
             final short id = (short) (cmdId.get16BitValue() & 0x1FFF);
             //TODO Invoke in a separated Thread?!?!
             final SynchrounsCommandListener listener = pendingSREQ.get(id);
-            if(listener != null){
+            if (listener != null) {
                 listener.receivedCommandResponse(packet);
                 pendingSREQ.remove(id);
                 pendingSREQ.notifyAll();
-            }else{
-				/*
+            } else {
+                /*
 				 * This happen only if we receive a synchronous command
 				 * response but no listener registered in advance
 				 * for instance we a LowLevel driver and HighLevel driver
@@ -256,7 +261,7 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
         }
     }
 
-    public boolean addAsynchrounsCommandListener(AsynchrounsCommandListener listener){
+    public boolean addAsynchrounsCommandListener(AsynchrounsCommandListener listener) {
         boolean result = false;
         synchronized (listeners) {
             result = listeners.add(listener);
@@ -264,7 +269,7 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
         return result;
     }
 
-    public boolean removeAsynchrounsCommandListener(AsynchrounsCommandListener listener){
+    public boolean removeAsynchrounsCommandListener(AsynchrounsCommandListener listener) {
         boolean result = false;
         synchronized (listeners) {
             result = listeners.remove(listener);
@@ -272,7 +277,7 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
         return result;
     }
 
-    protected void notifyAsynchrounsCommand(ZToolPacket packet){
+    protected void notifyAsynchrounsCommand(ZToolPacket packet) {
         //PRE: We received a AREQ packet
         //XXX Should we split to Multi-threaded notifier to speed up everything
         AsynchrounsCommandListener[] copy;
@@ -282,9 +287,9 @@ public class  ZigbeeSerialInterface implements ZToolPacketHandler {
         }
 
         for (AsynchrounsCommandListener listener : copy) {
-            try{
+            try {
                 listener.receivedAsynchrounsCommand(packet);
-            }catch(Throwable e){
+            } catch (Throwable e) {
                 LOGGER.error("Error genereated by notifyAsynchrounsCommand {}", e);
             }
         }

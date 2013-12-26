@@ -23,19 +23,18 @@
 package org.bubblecloud.zigbee.network.impl;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
-public class ZigBeeBasedriverException extends ZigBeeException{
+public class ZigBeeBasedriverException extends ZigBeeException {
 
-	public ZigBeeBasedriverException(String msg) {
-		super(msg);
-	}
-	public ZigBeeBasedriverException(Throwable ex) {
-		super(ex);
-	}
+    public ZigBeeBasedriverException(String msg) {
+        super(msg);
+    }
+
+    public ZigBeeBasedriverException(Throwable ex) {
+        super(ex);
+    }
 
 }

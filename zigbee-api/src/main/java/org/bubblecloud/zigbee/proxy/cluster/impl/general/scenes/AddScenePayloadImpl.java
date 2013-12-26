@@ -21,50 +21,50 @@
 */
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general.scenes;
+
 import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.AddScenePayload;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.ExtensionFieldSetAddScene;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class AddScenePayloadImpl implements AddScenePayload {
-	
-	private ExtensionFieldSetAddScene[] extensionFielSet;
-	private int groupId;
-	private short sceneId;
-	private String sceneName;
-	private int transitionTime;
-	
-	public AddScenePayloadImpl(int groupId,short sceneId, String sceneName, 
-			int transitiotime, ExtensionFieldSetAddScene[] extensionFielSet){
-		this.groupId = groupId;
-		this.sceneId = sceneId;
-		this.sceneName = sceneName;
-		this.transitionTime = transitiotime;
-		this.extensionFielSet = extensionFielSet;
-	}
 
-	public ExtensionFieldSetAddScene[] getExtensionFieldSet() {
-		return extensionFielSet;
-	}
+    private ExtensionFieldSetAddScene[] extensionFielSet;
+    private int groupId;
+    private short sceneId;
+    private String sceneName;
+    private int transitionTime;
 
-	public int getGroupId() {
-		return groupId;
-	}
+    public AddScenePayloadImpl(int groupId, short sceneId, String sceneName,
+                               int transitiotime, ExtensionFieldSetAddScene[] extensionFielSet) {
+        this.groupId = groupId;
+        this.sceneId = sceneId;
+        this.sceneName = sceneName;
+        this.transitionTime = transitiotime;
+        this.extensionFielSet = extensionFielSet;
+    }
 
-	public short getSceneId() {
-		return sceneId;
-	}
+    public ExtensionFieldSetAddScene[] getExtensionFieldSet() {
+        return extensionFielSet;
+    }
 
-	public String getSceneName() {
-		return sceneName;
-	}
+    public int getGroupId() {
+        return groupId;
+    }
 
-	public int getTransitionTime() {
-		return transitionTime;
-	}
+    public short getSceneId() {
+        return sceneId;
+    }
+
+    public String getSceneName() {
+        return sceneName;
+    }
+
+    public int getTransitionTime() {
+        return transitionTime;
+    }
 
 }

@@ -51,165 +51,164 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
-public class AttributeImpl implements Attribute{
+public class AttributeImpl implements Attribute {
 
-	private static final Logger logger = LoggerFactory.getLogger(AttributeImpl.class);
-	
-	final private Object LazyInstantiation = new Object();
-	private ZigBeeDevice zbDevice;
-	private ZCLCluster zclCluster;
-	private Subscription subscription;
-	private AttributeDescriptor descriptor;
+    private static final Logger logger = LoggerFactory.getLogger(AttributeImpl.class);
 
-	public AttributeImpl(ZigBeeDevice zbDevice, ZCLCluster zclCluster, AttributeDescriptor descriptor) {
-		this.zbDevice = zbDevice;
-		this.zclCluster = zclCluster;
-		this.descriptor = descriptor;
-	}
+    final private Object LazyInstantiation = new Object();
+    private ZigBeeDevice zbDevice;
+    private ZCLCluster zclCluster;
+    private Subscription subscription;
+    private AttributeDescriptor descriptor;
 
-	public int getId() {
-		return descriptor.getId();
-	}
-	
-	public String getName() {
-		return descriptor.getName();
-	}	
+    public AttributeImpl(ZigBeeDevice zbDevice, ZCLCluster zclCluster, AttributeDescriptor descriptor) {
+        this.zbDevice = zbDevice;
+        this.zclCluster = zclCluster;
+        this.descriptor = descriptor;
+    }
 
-	@SuppressWarnings("unchecked")
-	public Class getType() {
-		return descriptor.getType();
-	}
-	
-	public ZigBeeType getZigBeeType(){
-		return descriptor.getZigBeeType();
-	}
+    public int getId() {
+        return descriptor.getId();
+    }
 
-	public boolean isReportable() {
-		return descriptor.isReportable();
-	}
-	
-	public boolean isWritable() {
-		return descriptor.isWritable();
-	}
-	
-	public void setValue(Object o) throws ZigBeeClusterException {
-		if( isWritable() == false ) {
-			throw new ZigBeeClusterException(
-					"Trying to set the attribute "+getName()+"("+getId()+") that is Read Only"
-			);
-		}
-		doClusterWideWrite(o);
-	}
-	public Object getValue() throws ZigBeeClusterException {
-		return doClusterWideRead();
-	}
-	
-	public Subscription getSubscription() {
-		if ( isReportable() == false ) 
-			return null;
-		
-		synchronized (LazyInstantiation) {
-			if (subscription == null){
-				if ( getZigBeeType().isAnalog() ) {
-					subscription = new AnalogSubscriptionImpl(zbDevice, zclCluster, this);
-				} else {
-					subscription = new SubscriptionImpl(zbDevice, zclCluster, this);
-				}
-			}
-		}
-		return subscription;
-	}
-	
-	private Object doClusterWideRead() throws ZigBeeClusterException {
-		
-		ReadAttributeCommand readAttrCom = new ReadAttributeCommand(new int[]{getId()});
-		ZCLFrame frame = new ZCLFrame(readAttrCom,zclCluster.isDefaultResponseEnabled());
-		ClusterMessageImpl input;
-		input = new ClusterMessageImpl(zclCluster.getId(),frame);
-		ClusterMessage clusterMessage = null;
-		try {
-			clusterMessage = zbDevice.invoke(input);
-			Response response = new ResponseImpl(clusterMessage,zclCluster.getId());
-			if ( response.getZCLHeader().getTransactionId() != frame.getHeader().getTransactionId() ){
-				logger.error(
-						"Received mismatching transaction response, " +
-						"we have to change heuristic for dispatching. Received {} while sent {}", 
-						response.getZCLHeader().getTransactionId(),frame.getHeader().getTransactionId()
-				);
-				return null;
-			}
-			AttributeDescriptor[] requestedAttributes = new AttributeDescriptor[]{descriptor};
-			
-			switch ( response.getZCLHeader().getCommandId() ) {
-				case ReadAttributesResponse.ID:
-					ReadAttributesResponse readResponse = new ReadAttributesResponseImpl(response,requestedAttributes);
-					ReadAttributesStatus attributeStatus = readResponse.getReadAttributeStatus()[0];
-					if( attributeStatus.getStatus() == Status.SUCCESS.id ) {
-						return attributeStatus.getAttributeData();
-					} else {
-						Status state = Status.getStatus(attributeStatus.getStatus());
-						throw new ZigBeeClusterException(
-								"Read Attribute of "+getId()+" failed." +
-								"Due to "+state+" that means "+state.description 
-						);
-					}
-				case DefaultResponse.ID:
-					//Means that the read command is not supported
-					final DefaultResponse result = new DefaultResponseImpl(response);
-					Status state = result.getStatus();
-					throw new ZigBeeClusterException(
-						"Read Attribute of "+getId()+" failed because command is not supported." 
-								+ "Due to "+state+" that means "+state.description 
-								+ " Follows the ZCLFrame recieved "+ ResponseImpl.toString( response )
-					);
-					
-				default:
-					throw new ZigBeeClusterException(
-						"Read Attribute of "+getId()+" failed due to: Unsupported answer: " + response
-							+ " Follows the ZCLFrame recieved "+ ResponseImpl.toString( response )
-					);
-			}
-		} catch (ZigBeeBasedriverException e) {
+    public String getName() {
+        return descriptor.getName();
+    }
+
+    @SuppressWarnings("unchecked")
+    public Class getType() {
+        return descriptor.getType();
+    }
+
+    public ZigBeeType getZigBeeType() {
+        return descriptor.getZigBeeType();
+    }
+
+    public boolean isReportable() {
+        return descriptor.isReportable();
+    }
+
+    public boolean isWritable() {
+        return descriptor.isWritable();
+    }
+
+    public void setValue(Object o) throws ZigBeeClusterException {
+        if (isWritable() == false) {
+            throw new ZigBeeClusterException(
+                    "Trying to set the attribute " + getName() + "(" + getId() + ") that is Read Only"
+            );
+        }
+        doClusterWideWrite(o);
+    }
+
+    public Object getValue() throws ZigBeeClusterException {
+        return doClusterWideRead();
+    }
+
+    public Subscription getSubscription() {
+        if (isReportable() == false)
+            return null;
+
+        synchronized (LazyInstantiation) {
+            if (subscription == null) {
+                if (getZigBeeType().isAnalog()) {
+                    subscription = new AnalogSubscriptionImpl(zbDevice, zclCluster, this);
+                } else {
+                    subscription = new SubscriptionImpl(zbDevice, zclCluster, this);
+                }
+            }
+        }
+        return subscription;
+    }
+
+    private Object doClusterWideRead() throws ZigBeeClusterException {
+
+        ReadAttributeCommand readAttrCom = new ReadAttributeCommand(new int[]{getId()});
+        ZCLFrame frame = new ZCLFrame(readAttrCom, zclCluster.isDefaultResponseEnabled());
+        ClusterMessageImpl input;
+        input = new ClusterMessageImpl(zclCluster.getId(), frame);
+        ClusterMessage clusterMessage = null;
+        try {
+            clusterMessage = zbDevice.invoke(input);
+            Response response = new ResponseImpl(clusterMessage, zclCluster.getId());
+            if (response.getZCLHeader().getTransactionId() != frame.getHeader().getTransactionId()) {
+                logger.error(
+                        "Received mismatching transaction response, " +
+                                "we have to change heuristic for dispatching. Received {} while sent {}",
+                        response.getZCLHeader().getTransactionId(), frame.getHeader().getTransactionId()
+                );
+                return null;
+            }
+            AttributeDescriptor[] requestedAttributes = new AttributeDescriptor[]{descriptor};
+
+            switch (response.getZCLHeader().getCommandId()) {
+                case ReadAttributesResponse.ID:
+                    ReadAttributesResponse readResponse = new ReadAttributesResponseImpl(response, requestedAttributes);
+                    ReadAttributesStatus attributeStatus = readResponse.getReadAttributeStatus()[0];
+                    if (attributeStatus.getStatus() == Status.SUCCESS.id) {
+                        return attributeStatus.getAttributeData();
+                    } else {
+                        Status state = Status.getStatus(attributeStatus.getStatus());
+                        throw new ZigBeeClusterException(
+                                "Read Attribute of " + getId() + " failed." +
+                                        "Due to " + state + " that means " + state.description
+                        );
+                    }
+                case DefaultResponse.ID:
+                    //Means that the read command is not supported
+                    final DefaultResponse result = new DefaultResponseImpl(response);
+                    Status state = result.getStatus();
+                    throw new ZigBeeClusterException(
+                            "Read Attribute of " + getId() + " failed because command is not supported."
+                                    + "Due to " + state + " that means " + state.description
+                                    + " Follows the ZCLFrame recieved " + ResponseImpl.toString(response)
+                    );
+
+                default:
+                    throw new ZigBeeClusterException(
+                            "Read Attribute of " + getId() + " failed due to: Unsupported answer: " + response
+                                    + " Follows the ZCLFrame recieved " + ResponseImpl.toString(response)
+                    );
+            }
+        } catch (ZigBeeBasedriverException e) {
             logger.error("Error reading value.", e);
-			return null;
-		}
-	}
-	
-	private void doClusterWideWrite(Object o) throws ZigBeeClusterException  {
-		WriteAttributeRecord writeAttrComRec = new WriteAttributeRecordImpl(this,o);
-		WriteAttributeCommand writeAttrCom = new WriteAttributeCommand(new WriteAttributeRecord[]{writeAttrComRec});
-		ZCLFrame frame = new ZCLFrame(writeAttrCom,zclCluster.isDefaultResponseEnabled());
-		ClusterMessageImpl input = new ClusterMessageImpl(zclCluster.getId(),frame);
-		try {
-			ClusterMessage clusterMessage = zbDevice.invoke(input);
-			Response response = new ResponseImpl(clusterMessage,zclCluster.getId());
-			AttributeDescriptor[] requestedAttributes = new AttributeDescriptor[]{descriptor};
-			WriteAttributesResponse writeResposne = new WriteAttributesResponseImpl(response,requestedAttributes);
-			WriteAttributesStatus attributeStatus = writeResposne.getWriteAttributesStatus()[0];
-			if( attributeStatus.getStatus() != Status.SUCCESS.id ){
-				Status state = Status.getStatus(attributeStatus.getStatus());
-				throw new ZigBeeClusterException(
-						"Unable to write value " + o.toString() 
-						+ ". It failed with error "+state+"("+state.id+"):"+state.description
-						+ ". Follows the ZCLFrame recieved "+ ResponseImpl.toString( writeResposne )
-				);
-			}
-		}  catch (ZigBeeBasedriverException e) {
-			throw new ZigBeeClusterException(e);
-		}
-		return ;
-	}
+            return null;
+        }
+    }
 
-	public Object getDefaultValue() throws ZigBeeClusterException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    private void doClusterWideWrite(Object o) throws ZigBeeClusterException {
+        WriteAttributeRecord writeAttrComRec = new WriteAttributeRecordImpl(this, o);
+        WriteAttributeCommand writeAttrCom = new WriteAttributeCommand(new WriteAttributeRecord[]{writeAttrComRec});
+        ZCLFrame frame = new ZCLFrame(writeAttrCom, zclCluster.isDefaultResponseEnabled());
+        ClusterMessageImpl input = new ClusterMessageImpl(zclCluster.getId(), frame);
+        try {
+            ClusterMessage clusterMessage = zbDevice.invoke(input);
+            Response response = new ResponseImpl(clusterMessage, zclCluster.getId());
+            AttributeDescriptor[] requestedAttributes = new AttributeDescriptor[]{descriptor};
+            WriteAttributesResponse writeResposne = new WriteAttributesResponseImpl(response, requestedAttributes);
+            WriteAttributesStatus attributeStatus = writeResposne.getWriteAttributesStatus()[0];
+            if (attributeStatus.getStatus() != Status.SUCCESS.id) {
+                Status state = Status.getStatus(attributeStatus.getStatus());
+                throw new ZigBeeClusterException(
+                        "Unable to write value " + o.toString()
+                                + ". It failed with error " + state + "(" + state.id + "):" + state.description
+                                + ". Follows the ZCLFrame recieved " + ResponseImpl.toString(writeResposne)
+                );
+            }
+        } catch (ZigBeeBasedriverException e) {
+            throw new ZigBeeClusterException(e);
+        }
+        return;
+    }
+
+    public Object getDefaultValue() throws ZigBeeClusterException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

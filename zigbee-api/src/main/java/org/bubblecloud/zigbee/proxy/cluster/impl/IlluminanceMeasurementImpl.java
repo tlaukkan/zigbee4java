@@ -35,10 +35,8 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.measureament_sensing.Illuminanc
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
 public class IlluminanceMeasurementImpl implements IlluminanceMeasurement {
 
@@ -54,7 +52,7 @@ public class IlluminanceMeasurementImpl implements IlluminanceMeasurement {
     private final ToleranceBridgeListeners toleranceBridge;
     //private final ToleranceBridgeListeners toleranceBridge;
 
-    public IlluminanceMeasurementImpl(ZigBeeDevice zbDevice){
+    public IlluminanceMeasurementImpl(ZigBeeDevice zbDevice) {
 
         cluster = new IlluminanceMeasurementCluster(zbDevice);
         measuredValue = cluster.getMeasuredValue();
@@ -91,7 +89,7 @@ public class IlluminanceMeasurementImpl implements IlluminanceMeasurement {
 
         Attribute[] attributes = cluster.getAvailableAttributes();
         for (int i = 0; i < attributes.length; i++) {
-            if( attributes[i].getId() == id )
+            if (attributes[i].getId() == id)
                 return attributes[i];
         }
         return null;

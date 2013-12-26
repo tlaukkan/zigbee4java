@@ -28,7 +28,7 @@ public class BypassPayloadImpl implements BypassPayload {
     public int numberOfZones;
     public int[] zonesID;
 
-    public BypassPayloadImpl(int numberOfZones, int[] zonesID){
+    public BypassPayloadImpl(int numberOfZones, int[] zonesID) {
         this.numberOfZones = numberOfZones;
         this.zonesID = zonesID;
     }

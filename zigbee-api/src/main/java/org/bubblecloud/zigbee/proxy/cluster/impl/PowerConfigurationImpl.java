@@ -33,123 +33,122 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.general.PowerConfigurationClust
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
- *
  */
-public class PowerConfigurationImpl implements PowerConfiguration{
-	
-	private final PowerConfigurationCluster cluster;
-	private final Attribute batteryRating;
-	private final Attribute batteryAlarm;
-	private final Attribute batteryManufacturer;
-	private final Attribute batteryQty;
-	private final Attribute batteryRatedVoltage;
-	private final Attribute batterySize;
-	private final Attribute batteryVoltage;
-	private final Attribute batteryVoltageMin;
-	private final Attribute mainsAlarm;
-	private final Attribute mainsDwell;
-	private final Attribute mainsHz;
-	private final Attribute mainsV;
-	private final Attribute mainsVMax;
-	private final Attribute mainsVMin;
-	
-	public PowerConfigurationImpl(ZigBeeDevice zbDevice){
-		cluster = new PowerConfigurationCluster(zbDevice);
-		batteryRating = cluster.getAttributeBatteryAHrRating();
-		batteryAlarm = cluster.getAttributeBatteryAlarmMask();
-		batteryManufacturer = cluster.getAttributeBatteryManufacturer();
-		batteryQty = cluster.getAttributeBatteryQuantity();
-		batteryRatedVoltage = cluster.getAttributeBatteryRatedVoltage();
-		batterySize = cluster.getAttributeBatterySize();
-		batteryVoltage = cluster.getAttributeBatteryVoltage();
-		batteryVoltageMin = cluster.getAttributeBatteryVoltageMinThreshold();
-		mainsAlarm = cluster.getAttributeMainsAlarmMask();
-		mainsDwell = cluster.getAttributeMainsDwellTripPoint();
-		mainsHz = cluster.getAttributeMainsFrequency();
-		mainsV = cluster.getAttributeMainsVoltage();
-		mainsVMax = cluster.getAttributeMainsVoltageMaxThreshold();
-		mainsVMin = cluster.getAttributeMainsVoltageMinThreshold();
-	}
+public class PowerConfigurationImpl implements PowerConfiguration {
 
-	public Subscription[] getActiveSubscriptions() {
-		return cluster.getActiveSubscriptions();
-	}
+    private final PowerConfigurationCluster cluster;
+    private final Attribute batteryRating;
+    private final Attribute batteryAlarm;
+    private final Attribute batteryManufacturer;
+    private final Attribute batteryQty;
+    private final Attribute batteryRatedVoltage;
+    private final Attribute batterySize;
+    private final Attribute batteryVoltage;
+    private final Attribute batteryVoltageMin;
+    private final Attribute mainsAlarm;
+    private final Attribute mainsDwell;
+    private final Attribute mainsHz;
+    private final Attribute mainsV;
+    private final Attribute mainsVMax;
+    private final Attribute mainsVMin;
 
-	public int getId() {
-		return cluster.getId();
-	}
+    public PowerConfigurationImpl(ZigBeeDevice zbDevice) {
+        cluster = new PowerConfigurationCluster(zbDevice);
+        batteryRating = cluster.getAttributeBatteryAHrRating();
+        batteryAlarm = cluster.getAttributeBatteryAlarmMask();
+        batteryManufacturer = cluster.getAttributeBatteryManufacturer();
+        batteryQty = cluster.getAttributeBatteryQuantity();
+        batteryRatedVoltage = cluster.getAttributeBatteryRatedVoltage();
+        batterySize = cluster.getAttributeBatterySize();
+        batteryVoltage = cluster.getAttributeBatteryVoltage();
+        batteryVoltageMin = cluster.getAttributeBatteryVoltageMinThreshold();
+        mainsAlarm = cluster.getAttributeMainsAlarmMask();
+        mainsDwell = cluster.getAttributeMainsDwellTripPoint();
+        mainsHz = cluster.getAttributeMainsFrequency();
+        mainsV = cluster.getAttributeMainsVoltage();
+        mainsVMax = cluster.getAttributeMainsVoltageMaxThreshold();
+        mainsVMin = cluster.getAttributeMainsVoltageMinThreshold();
+    }
 
-	public String getName() {
-		return cluster.getName();
-	}
+    public Subscription[] getActiveSubscriptions() {
+        return cluster.getActiveSubscriptions();
+    }
 
-	public Attribute getAttribute(int id) {		
-		Attribute[] attributes = cluster.getAvailableAttributes();
-		for (int i = 0; i < attributes.length; i++) {
-			if( attributes[i].getId() == id ) 
-				return attributes[i];
-		}
-		return null;
-	}
+    public int getId() {
+        return cluster.getId();
+    }
 
-	public Attribute[] getAttributes() {
-		return cluster.getAvailableAttributes();
-	}
+    public String getName() {
+        return cluster.getName();
+    }
 
-	public Attribute getBatteryAHrRating() {
-	    return batteryRating;
-	}
+    public Attribute getAttribute(int id) {
+        Attribute[] attributes = cluster.getAvailableAttributes();
+        for (int i = 0; i < attributes.length; i++) {
+            if (attributes[i].getId() == id)
+                return attributes[i];
+        }
+        return null;
+    }
 
-	public Attribute getBatteryAlarmMask() {
-	    return batteryAlarm;
-	}
+    public Attribute[] getAttributes() {
+        return cluster.getAvailableAttributes();
+    }
 
-	public Attribute getBatteryManufacturer() {
-	    return batteryManufacturer;
-	}
+    public Attribute getBatteryAHrRating() {
+        return batteryRating;
+    }
 
-	public Attribute getBatteryQuantity() {
-	    return batteryQty;
-	}
+    public Attribute getBatteryAlarmMask() {
+        return batteryAlarm;
+    }
 
-	public Attribute getBatteryRatedVoltage() {
-	    return batteryRatedVoltage;
-	}
+    public Attribute getBatteryManufacturer() {
+        return batteryManufacturer;
+    }
 
-	public Attribute getBatterySize() {
-	    return batterySize;
-	}
+    public Attribute getBatteryQuantity() {
+        return batteryQty;
+    }
 
-	public Attribute getBatteryVoltage() {
-	    return batteryVoltage;
-	}
+    public Attribute getBatteryRatedVoltage() {
+        return batteryRatedVoltage;
+    }
 
-	public Attribute getBatteryVoltageMinThreshold() {
-	    return batteryVoltageMin;
-	}
+    public Attribute getBatterySize() {
+        return batterySize;
+    }
 
-	public Attribute getMainsAlarmMask() {
-	    return mainsAlarm;
-	}
+    public Attribute getBatteryVoltage() {
+        return batteryVoltage;
+    }
 
-	public Attribute getMainsDwellTripPoint() {
-	    return mainsDwell;
-	}
+    public Attribute getBatteryVoltageMinThreshold() {
+        return batteryVoltageMin;
+    }
 
-	public Attribute getMainsFrequency() {
-	    return mainsHz;
-	}
+    public Attribute getMainsAlarmMask() {
+        return mainsAlarm;
+    }
 
-	public Attribute getMainsVoltage() {
-	    return mainsV;
-	}
+    public Attribute getMainsDwellTripPoint() {
+        return mainsDwell;
+    }
 
-	public Attribute getMainsVoltageMaxThreshold() {
-	    return mainsVMax;
-	}
+    public Attribute getMainsFrequency() {
+        return mainsHz;
+    }
 
-	public Attribute getMainsVoltageMinThreshold() {
-	    return mainsVMin;
-	}
+    public Attribute getMainsVoltage() {
+        return mainsV;
+    }
+
+    public Attribute getMainsVoltageMaxThreshold() {
+        return mainsVMax;
+    }
+
+    public Attribute getMainsVoltageMinThreshold() {
+        return mainsVMin;
+    }
 
 }

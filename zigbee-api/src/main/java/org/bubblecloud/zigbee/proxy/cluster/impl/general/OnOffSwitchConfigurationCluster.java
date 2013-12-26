@@ -28,48 +28,47 @@ import org.bubblecloud.zigbee.proxy.cluster.api.general.OnOffSwitchConfiguration
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class OnOffSwitchConfigurationCluster extends ZCLClusterBase implements OnOffSwitchConfiguration {
-	
-	private final AttributeImpl switchType;
-	private final AttributeImpl switchAction;
-	
-	private final Attribute[] attributes;
 
-	public OnOffSwitchConfigurationCluster(ZigBeeDevice zbDevice){
-		super(zbDevice);
-		switchType = new AttributeImpl(zbDevice,this,Attributes.SWITCH_TYPE);
-		switchAction = new AttributeImpl(zbDevice,this,Attributes.SWITCH_ACTIONS); 
-		attributes = new Attribute[]{switchType, switchAction};
-	}
-	
-	@Override
-	public short getId() {
-		return OnOffSwitchConfiguration.ID;
-	}
+    private final AttributeImpl switchType;
+    private final AttributeImpl switchAction;
 
-	@Override
-	public String getName() {
-		return OnOffSwitchConfiguration.NAME;
-	}
+    private final Attribute[] attributes;
 
-	@Override
-	public Attribute[] getStandardAttributes() {
-		return attributes;
-	}
+    public OnOffSwitchConfigurationCluster(ZigBeeDevice zbDevice) {
+        super(zbDevice);
+        switchType = new AttributeImpl(zbDevice, this, Attributes.SWITCH_TYPE);
+        switchAction = new AttributeImpl(zbDevice, this, Attributes.SWITCH_ACTIONS);
+        attributes = new Attribute[]{switchType, switchAction};
+    }
 
-	public Attribute getAttributeSwitchActions() {
-		return switchAction;
-	}
+    @Override
+    public short getId() {
+        return OnOffSwitchConfiguration.ID;
+    }
 
-	public Attribute getAttributeSwitchType() {
-		return switchType;
-	}
+    @Override
+    public String getName() {
+        return OnOffSwitchConfiguration.NAME;
+    }
+
+    @Override
+    public Attribute[] getStandardAttributes() {
+        return attributes;
+    }
+
+    public Attribute getAttributeSwitchActions() {
+        return switchAction;
+    }
+
+    public Attribute getAttributeSwitchType() {
+        return switchType;
+    }
 
 }

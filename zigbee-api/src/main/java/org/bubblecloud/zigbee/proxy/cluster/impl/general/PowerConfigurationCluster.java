@@ -28,125 +28,124 @@ import org.bubblecloud.zigbee.proxy.cluster.api.general.PowerConfiguration;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class PowerConfigurationCluster extends ZCLClusterBase implements
-		PowerConfiguration {
+        PowerConfiguration {
 
-	private final AttributeImpl mainsVoltage;
-	private final AttributeImpl mainsFrequency;
-	private final AttributeImpl mainsAlarmMask;
-	private final AttributeImpl mainsVoltageMinThreshold;
-	private final AttributeImpl mainsVoltageMaxThreshol;
-	private final AttributeImpl mainsVoltageDwellTripPoint;
-	private final AttributeImpl batteryVoltage;
-	private final AttributeImpl batteryManufaturer;
-	private final AttributeImpl batterySize;
-	private final AttributeImpl batteryAHrRating;
-	private final AttributeImpl batteryQuantity;
-	private final AttributeImpl batteryRatedVoltage;
-	private final AttributeImpl batteryAlarmMask;
-	private final AttributeImpl batteryVoltageMinThreshold;
-	
-	private final Attribute[] attributes;
-	
-	public PowerConfigurationCluster(ZigBeeDevice zbDevice){
-		super(zbDevice);
-		mainsVoltage = new AttributeImpl(zbDevice,this,Attributes.MAINS_VOLTAGE);
-		mainsFrequency = new AttributeImpl(zbDevice,this,Attributes.MAINS_FREQUENCY);
-		mainsAlarmMask = new AttributeImpl(zbDevice,this,Attributes.MAINS_ALARM_MASK);
-		mainsVoltageMinThreshold = new AttributeImpl(zbDevice,this,Attributes.MAINS_VOLTAGE_MIN_THRESHOLD);
-		mainsVoltageMaxThreshol = new AttributeImpl(zbDevice,this,Attributes.MAINS_VOLTAGE_MAX_THRESHOLD);
-		mainsVoltageDwellTripPoint = new AttributeImpl(zbDevice,this,Attributes.MAINS_VOLTAGE_DWELL_TRIP_POINT);
-		batteryVoltage = new AttributeImpl(zbDevice,this,Attributes.BATTERY_VOLTAGE);
-		batteryManufaturer = new AttributeImpl(zbDevice,this,Attributes.BATTERY_MANUFACTURER);
-		batterySize = new AttributeImpl(zbDevice,this,Attributes.BATTERY_SIZE);
-		batteryAHrRating = new AttributeImpl(zbDevice,this,Attributes.BATTERY_AHr_RATING);
-		batteryQuantity = new AttributeImpl(zbDevice,this,Attributes.BATTERY_QUANTITY);
-		batteryRatedVoltage = new AttributeImpl(zbDevice,this,Attributes.BATTERY_RATED_VOLTAGE);
-		batteryAlarmMask = new AttributeImpl(zbDevice,this,Attributes.BATTERY_ALARM_MASK);
-		batteryVoltageMinThreshold = new AttributeImpl(zbDevice,this,Attributes.BATTERY_VOLTAGE_MIN_THRESHOLD);
-		 
-		attributes = new AttributeImpl[]{mainsVoltage, mainsFrequency, mainsAlarmMask ,
-				mainsVoltageMinThreshold, mainsVoltageMaxThreshol, mainsVoltageDwellTripPoint,
-				batteryVoltage, batteryManufaturer, batterySize, batteryAHrRating,
-				batteryQuantity, batteryRatedVoltage, batteryAlarmMask, batteryVoltageMinThreshold};
-	}
-	
-	@Override
-	public short getId() {
-		return PowerConfiguration.ID;
-	}
+    private final AttributeImpl mainsVoltage;
+    private final AttributeImpl mainsFrequency;
+    private final AttributeImpl mainsAlarmMask;
+    private final AttributeImpl mainsVoltageMinThreshold;
+    private final AttributeImpl mainsVoltageMaxThreshol;
+    private final AttributeImpl mainsVoltageDwellTripPoint;
+    private final AttributeImpl batteryVoltage;
+    private final AttributeImpl batteryManufaturer;
+    private final AttributeImpl batterySize;
+    private final AttributeImpl batteryAHrRating;
+    private final AttributeImpl batteryQuantity;
+    private final AttributeImpl batteryRatedVoltage;
+    private final AttributeImpl batteryAlarmMask;
+    private final AttributeImpl batteryVoltageMinThreshold;
 
-	@Override
-	public String getName() {
-		return PowerConfiguration.NAME;
-	}
+    private final Attribute[] attributes;
 
-	@Override
-	public Attribute[] getStandardAttributes() {
-		return attributes;
-	}
+    public PowerConfigurationCluster(ZigBeeDevice zbDevice) {
+        super(zbDevice);
+        mainsVoltage = new AttributeImpl(zbDevice, this, Attributes.MAINS_VOLTAGE);
+        mainsFrequency = new AttributeImpl(zbDevice, this, Attributes.MAINS_FREQUENCY);
+        mainsAlarmMask = new AttributeImpl(zbDevice, this, Attributes.MAINS_ALARM_MASK);
+        mainsVoltageMinThreshold = new AttributeImpl(zbDevice, this, Attributes.MAINS_VOLTAGE_MIN_THRESHOLD);
+        mainsVoltageMaxThreshol = new AttributeImpl(zbDevice, this, Attributes.MAINS_VOLTAGE_MAX_THRESHOLD);
+        mainsVoltageDwellTripPoint = new AttributeImpl(zbDevice, this, Attributes.MAINS_VOLTAGE_DWELL_TRIP_POINT);
+        batteryVoltage = new AttributeImpl(zbDevice, this, Attributes.BATTERY_VOLTAGE);
+        batteryManufaturer = new AttributeImpl(zbDevice, this, Attributes.BATTERY_MANUFACTURER);
+        batterySize = new AttributeImpl(zbDevice, this, Attributes.BATTERY_SIZE);
+        batteryAHrRating = new AttributeImpl(zbDevice, this, Attributes.BATTERY_AHr_RATING);
+        batteryQuantity = new AttributeImpl(zbDevice, this, Attributes.BATTERY_QUANTITY);
+        batteryRatedVoltage = new AttributeImpl(zbDevice, this, Attributes.BATTERY_RATED_VOLTAGE);
+        batteryAlarmMask = new AttributeImpl(zbDevice, this, Attributes.BATTERY_ALARM_MASK);
+        batteryVoltageMinThreshold = new AttributeImpl(zbDevice, this, Attributes.BATTERY_VOLTAGE_MIN_THRESHOLD);
 
-	public Attribute getAttributeBatteryAHrRating() {
-		return batteryAHrRating;
-	}
+        attributes = new AttributeImpl[]{mainsVoltage, mainsFrequency, mainsAlarmMask,
+                mainsVoltageMinThreshold, mainsVoltageMaxThreshol, mainsVoltageDwellTripPoint,
+                batteryVoltage, batteryManufaturer, batterySize, batteryAHrRating,
+                batteryQuantity, batteryRatedVoltage, batteryAlarmMask, batteryVoltageMinThreshold};
+    }
 
-	public Attribute getAttributeBatteryAlarmMask() {
-		return batteryAlarmMask;
-	}
+    @Override
+    public short getId() {
+        return PowerConfiguration.ID;
+    }
 
-	public Attribute getAttributeBatteryManufacturer() {
-		return batteryManufaturer;
-	}
+    @Override
+    public String getName() {
+        return PowerConfiguration.NAME;
+    }
 
-	public Attribute getAttributeBatteryQuantity() {
-		return batteryQuantity;
-	}
+    @Override
+    public Attribute[] getStandardAttributes() {
+        return attributes;
+    }
 
-	public Attribute getAttributeBatteryRatedVoltage() {
-		return batteryRatedVoltage;
-	}
+    public Attribute getAttributeBatteryAHrRating() {
+        return batteryAHrRating;
+    }
 
-	public Attribute getAttributeBatterySize() {
-		return batterySize;
-	}
+    public Attribute getAttributeBatteryAlarmMask() {
+        return batteryAlarmMask;
+    }
 
-	public Attribute getAttributeBatteryVoltage() {
-		return batteryVoltage;
-	}
+    public Attribute getAttributeBatteryManufacturer() {
+        return batteryManufaturer;
+    }
 
-	public Attribute getAttributeBatteryVoltageMinThreshold() {
-		return batteryVoltageMinThreshold;
-	}
+    public Attribute getAttributeBatteryQuantity() {
+        return batteryQuantity;
+    }
 
-	public Attribute getAttributeMainsAlarmMask() {
-		return mainsAlarmMask;
-	}
+    public Attribute getAttributeBatteryRatedVoltage() {
+        return batteryRatedVoltage;
+    }
 
-	public Attribute getAttributeMainsDwellTripPoint() {
-		return mainsVoltageDwellTripPoint;
-	}
+    public Attribute getAttributeBatterySize() {
+        return batterySize;
+    }
 
-	public Attribute getAttributeMainsFrequency() {
-		return mainsFrequency;
-	}
+    public Attribute getAttributeBatteryVoltage() {
+        return batteryVoltage;
+    }
 
-	public Attribute getAttributeMainsVoltage() {
-		return mainsVoltage;
-	}
+    public Attribute getAttributeBatteryVoltageMinThreshold() {
+        return batteryVoltageMinThreshold;
+    }
 
-	public Attribute getAttributeMainsVoltageMaxThreshold() {
-		return mainsVoltageMaxThreshol;
-	}
+    public Attribute getAttributeMainsAlarmMask() {
+        return mainsAlarmMask;
+    }
 
-	public Attribute getAttributeMainsVoltageMinThreshold() {
-		return mainsVoltageMinThreshold;
-	}
+    public Attribute getAttributeMainsDwellTripPoint() {
+        return mainsVoltageDwellTripPoint;
+    }
+
+    public Attribute getAttributeMainsFrequency() {
+        return mainsFrequency;
+    }
+
+    public Attribute getAttributeMainsVoltage() {
+        return mainsVoltage;
+    }
+
+    public Attribute getAttributeMainsVoltageMaxThreshold() {
+        return mainsVoltageMaxThreshol;
+    }
+
+    public Attribute getAttributeMainsVoltageMinThreshold() {
+        return mainsVoltageMinThreshold;
+    }
 
 }

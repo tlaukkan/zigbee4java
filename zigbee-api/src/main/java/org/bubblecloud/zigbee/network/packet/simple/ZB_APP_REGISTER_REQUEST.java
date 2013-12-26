@@ -28,7 +28,6 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -94,7 +93,7 @@ public class ZB_APP_REGISTER_REQUEST extends ZToolPacket /*implements IREQUEST,I
     }
     this.OutputCommandsList = new ushort[0xff];
     Array.Copy(numArray2, this.OutputCommandsList, numArray2.Length);*/
-        int[] framedata =new int[9 + this.InputCommandsList.length * 2 + this.OutputCommandsList.length * 2];
+        int[] framedata = new int[9 + this.InputCommandsList.length * 2 + this.OutputCommandsList.length * 2];
         framedata[0] = this.AppEndPoint;
         framedata[1] = this.AppProfileID.getLsb();
         framedata[2] = this.AppProfileID.getMsb();

@@ -32,10 +32,8 @@ import org.bubblecloud.zigbee.proxy.ProxyConstants;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
 public class MainsPowerOutletDeviceProxy extends DeviceProxyBase implements MainsPowerOutlet {
 
@@ -78,7 +76,7 @@ public class MainsPowerOutletDeviceProxy extends DeviceProxyBase implements Main
         return DEVICE_DESCRIPTOR;
     }
 
-    final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
+    final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
 
         public int[] getCustomClusters() {
             return MainsPowerOutlet.CUSTOM;

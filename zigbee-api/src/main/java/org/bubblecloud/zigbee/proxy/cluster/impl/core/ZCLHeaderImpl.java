@@ -24,14 +24,13 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Command;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLHeader;
+
 /**
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.8.0
- *
  */
 public class ZCLHeaderImpl implements ZCLHeader {
 
@@ -48,7 +47,7 @@ public class ZCLHeaderImpl implements ZCLHeader {
 
         this.cmd = cmd;
 
-        frameControl = new ZCLFrameControlImpl(cmd,isDefaultResponseEnabled);
+        frameControl = new ZCLFrameControlImpl(cmd, isDefaultResponseEnabled);
         manufacturerId = cmd.getManufacturerId();
         transactionId = ZCLLayer.getTransactionId();
         commandId = cmd.getHeaderCommandId();
@@ -56,17 +55,16 @@ public class ZCLHeaderImpl implements ZCLHeader {
         header = createHeader();
     }
 
-    private byte[] createHeader(){
+    private byte[] createHeader() {
         byte[] newHeader;
-        if (cmd.isManufacturerExtension()){
+        if (cmd.isManufacturerExtension()) {
             newHeader = new byte[5];
             newHeader[0] = frameControl.toByte();
             newHeader[1] = manufacturerId[0];
             newHeader[2] = manufacturerId[1];
             newHeader[3] = transactionId;
             newHeader[4] = commandId;
-        }
-        else {
+        } else {
             newHeader = new byte[3];
             newHeader[0] = frameControl.toByte();
             newHeader[1] = transactionId;
@@ -83,7 +81,7 @@ public class ZCLHeaderImpl implements ZCLHeader {
 
     private byte[] copyHeader(boolean extendedHeader) {
         byte[] resultHeader;
-        if(extendedHeader){
+        if (extendedHeader) {
             resultHeader = new byte[5];
             System.arraycopy(frame, 0, resultHeader, 0, 5);
             manufacturerId = new byte[2];
@@ -91,7 +89,7 @@ public class ZCLHeaderImpl implements ZCLHeader {
             manufacturerId[1] = resultHeader[2];
             transactionId = resultHeader[3];
             commandId = resultHeader[4];
-        } else{
+        } else {
             resultHeader = new byte[3];
             System.arraycopy(frame, 0, resultHeader, 0, 3);
             transactionId = resultHeader[1];
@@ -101,11 +99,10 @@ public class ZCLHeaderImpl implements ZCLHeader {
     }
 
 
-
     /* (non-Javadoc)
      * @see it.cnr.isti.zigbee.zcl.library.impl.core.ZCLHeaderInterface#getFramecontrol()
      */
-    public ZCLFrameControlImpl getFramecontrol(){
+    public ZCLFrameControlImpl getFramecontrol() {
         return frameControl;
     }
 
@@ -126,7 +123,7 @@ public class ZCLHeaderImpl implements ZCLHeader {
     /* (non-Javadoc)
      * @see it.cnr.isti.zigbee.zcl.library.impl.core.ZCLHeaderInterface#getCommandId()
      */
-    public byte	 getCommandId() {
+    public byte getCommandId() {
         return commandId;
     }
 
@@ -135,7 +132,7 @@ public class ZCLHeaderImpl implements ZCLHeader {
         return header;
     }
 
-    public int size(){
+    public int size() {
         return toByte().length;
     }
 }

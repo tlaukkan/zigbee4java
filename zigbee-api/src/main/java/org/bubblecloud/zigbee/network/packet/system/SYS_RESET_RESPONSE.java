@@ -28,46 +28,43 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
 public class SYS_RESET_RESPONSE extends ZToolPacket /*implements IRESPONE,ISYSTEM*/ {
     /// <name>TI.ZPI2.SYS_RESET_RESPONSE.HwRev</name>
-        /// <summary>Hardware revision</summary>
-        public int HwRev;
-        /// <name>TI.ZPI2.SYS_RESET_RESPONSE.MajorRel</name>
-        /// <summary>Major release number</summary>
-        public int MajorRel;
-        /// <name>TI.ZPI2.SYS_RESET_RESPONSE.MinorRel</name>
-        /// <summary>Minor release number</summary>
-        public int MinorRel;
-        /// <name>TI.ZPI2.SYS_RESET_RESPONSE.Product</name>
-        /// <summary>Product ID</summary>
-        public int Product;
-        /// <name>TI.ZPI2.SYS_RESET_RESPONSE.Reason</name>
-        /// <summary>Reset reason</summary>
-        public int Reason;
-        /// <name>TI.ZPI2.SYS_RESET_RESPONSE.TransportRev</name>
-        /// <summary>Transport revision</summary>
-        public int TransportRev;
+    /// <summary>Hardware revision</summary>
+    public int HwRev;
+    /// <name>TI.ZPI2.SYS_RESET_RESPONSE.MajorRel</name>
+    /// <summary>Major release number</summary>
+    public int MajorRel;
+    /// <name>TI.ZPI2.SYS_RESET_RESPONSE.MinorRel</name>
+    /// <summary>Minor release number</summary>
+    public int MinorRel;
+    /// <name>TI.ZPI2.SYS_RESET_RESPONSE.Product</name>
+    /// <summary>Product ID</summary>
+    public int Product;
+    /// <name>TI.ZPI2.SYS_RESET_RESPONSE.Reason</name>
+    /// <summary>Reset reason</summary>
+    public int Reason;
+    /// <name>TI.ZPI2.SYS_RESET_RESPONSE.TransportRev</name>
+    /// <summary>Transport revision</summary>
+    public int TransportRev;
 
-        /// <name>TI.ZPI2.SYS_RESET_RESPONSE</name>
-        /// <summary>Constructor</summary>
-        public SYS_RESET_RESPONSE()
-        {
-        }
+    /// <name>TI.ZPI2.SYS_RESET_RESPONSE</name>
+    /// <summary>Constructor</summary>
+    public SYS_RESET_RESPONSE() {
+    }
 
-        /// <name>TI.ZPI2.SYS_RESET_RESPONSE</name>
-        /// <summary>Constructor</summary>
-        public SYS_RESET_RESPONSE(int[] framedata)
-        {
-            this.Reason = framedata[0];
-            this.TransportRev = framedata[1];
-            this.Product = framedata[2];
-            this.MajorRel = framedata[3];
-            this.MinorRel = framedata[4];
-            this.HwRev = framedata[5];
-            super.buildPacket(new DoubleByte(ZToolCMD.SYS_RESET_RESPONSE), framedata);
-        }
+    /// <name>TI.ZPI2.SYS_RESET_RESPONSE</name>
+    /// <summary>Constructor</summary>
+    public SYS_RESET_RESPONSE(int[] framedata) {
+        this.Reason = framedata[0];
+        this.TransportRev = framedata[1];
+        this.Product = framedata[2];
+        this.MajorRel = framedata[3];
+        this.MinorRel = framedata[4];
+        this.HwRev = framedata[5];
+        super.buildPacket(new DoubleByte(ZToolCMD.SYS_RESET_RESPONSE), framedata);
+    }
 }

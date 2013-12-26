@@ -36,10 +36,8 @@ import org.bubblecloud.zigbee.proxy.cluster.api.lighting.ColorControl;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
 public class ColorDimmableLightDeviceProxy extends DeviceProxyBase implements ColorDimmableLight {
 
@@ -62,7 +60,7 @@ public class ColorDimmableLightDeviceProxy extends DeviceProxyBase implements Co
         colorControl = (ColorControl) getCluster(ProxyConstants.COLOR_CONTROL);
     }
 
-    final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
+    final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
 
         public int[] getCustomClusters() {
             return ColorDimmableLight.CUSTOM;

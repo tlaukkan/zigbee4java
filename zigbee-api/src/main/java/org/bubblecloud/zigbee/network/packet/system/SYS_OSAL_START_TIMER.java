@@ -28,7 +28,6 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -51,9 +50,9 @@ public class SYS_OSAL_START_TIMER extends ZToolPacket /*implements IREQUEST,ISYS
         this.Id = num1;
         this.Timeout = num2;
         int[] framedata = new int[3];
-        framedata[0]=this.Id;
-        framedata[1]=this.Timeout.getLsb();
-        framedata[2]=this.Timeout.getMsb();
+        framedata[0] = this.Id;
+        framedata[1] = this.Timeout.getLsb();
+        framedata[2] = this.Timeout.getMsb();
         super.buildPacket(new DoubleByte(ZToolCMD.SYS_OSAL_START_TIMER), framedata);
     }
 }

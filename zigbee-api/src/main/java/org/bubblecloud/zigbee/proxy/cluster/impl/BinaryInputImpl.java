@@ -35,13 +35,11 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.general.BinaryInputCluster;
 
 
 /**
-*
-* @author <a href="mailto:h.alink1@chello.nl">Han Alink</a>
-* @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
-* @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
-* @since 0.7.0
-*
-*/
+ * @author <a href="mailto:h.alink1@chello.nl">Han Alink</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.7.0
+ */
 public class BinaryInputImpl implements BinaryInput {
 
     private final Attribute presentValue;
@@ -50,7 +48,7 @@ public class BinaryInputImpl implements BinaryInput {
     private final BinaryInputCluster binaryInput;
     private PresentValueBridgeListeners eventBridge;
 
-    public BinaryInputImpl(ZigBeeDevice zbDevice){
+    public BinaryInputImpl(ZigBeeDevice zbDevice) {
         binaryInput = new BinaryInputCluster(zbDevice);
         presentValue = binaryInput.getAttributePresentValue();
         outOfService = binaryInput.getAttributeOutOfService();
@@ -81,7 +79,7 @@ public class BinaryInputImpl implements BinaryInput {
     public Attribute getAttribute(int id) {
         Attribute[] attributes = binaryInput.getAvailableAttributes();
         for (int i = 0; i < attributes.length; i++) {
-            if( attributes[i].getId() == id )
+            if (attributes[i].getId() == id)
                 return attributes[i];
         }
         return null;

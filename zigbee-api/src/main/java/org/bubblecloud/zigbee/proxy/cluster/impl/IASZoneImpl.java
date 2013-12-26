@@ -40,10 +40,8 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.security_safety.IASZoneCluster;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- *
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
- *
  */
 public class IASZoneImpl implements IASZone {
 
@@ -54,7 +52,7 @@ public class IASZoneImpl implements IASZone {
     private final Attribute zoneStatus;
     private final Attribute iasCIEaddress;
 
-    public IASZoneImpl(ZigBeeDevice zbDevice){
+    public IASZoneImpl(ZigBeeDevice zbDevice) {
 
         cluster = new IASZoneCluster(zbDevice);
         zoneState = cluster.getAttributeZoneState();
@@ -83,7 +81,7 @@ public class IASZoneImpl implements IASZone {
 
         Attribute[] attributes = cluster.getAvailableAttributes();
         for (int i = 0; i < attributes.length; i++) {
-            if( attributes[i].getId() == id )
+            if (attributes[i].getId() == id)
                 return attributes[i];
         }
         return null;
@@ -114,8 +112,7 @@ public class IASZoneImpl implements IASZone {
         try {
             ZoneEnrollResponse response = (ZoneEnrollResponse) cluster.zoneEnrollRequest(payload);
             return response;
-        }
-        catch (ZigBeeClusterException e) {
+        } catch (ZigBeeClusterException e) {
             throw new ZigBeeHAException(e);
         }
     }
@@ -124,7 +121,7 @@ public class IASZoneImpl implements IASZone {
         try {
             Response response = cluster.zoneStatusChangeNotification(payload);
             if (response.getZCLHeader().getCommandId() != ZoneStatusChangeNotificationResponse.ID)
-                throw new ZigBeeHAException( ((DefaultResponse) response).getStatus().toString());
+                throw new ZigBeeHAException(((DefaultResponse) response).getStatus().toString());
 
             return (GetAlarmResponse) response;
         } catch (ZigBeeClusterException e) {

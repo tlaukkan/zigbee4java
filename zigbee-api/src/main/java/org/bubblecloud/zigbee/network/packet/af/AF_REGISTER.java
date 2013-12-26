@@ -33,7 +33,6 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.util.Integers;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
@@ -75,7 +74,7 @@ public class AF_REGISTER extends ZToolPacket /*implements IREQUEST, IAF*/ {
         this.AppOutClusterList = new DoubleByte[0xff];
     }
 
-    
+
     public AF_REGISTER(int EndPoint, DoubleByte AppProfID, DoubleByte AppDeviceId, int AppDevVer, int AppNumInClusters, DoubleByte[] AppInClusterList, int AppNumOutClusters, DoubleByte[] AppOutClusterList) {
         this.EndPoint = EndPoint;
         this.AppProfID = AppProfID;
@@ -121,12 +120,12 @@ public class AF_REGISTER extends ZToolPacket /*implements IREQUEST, IAF*/ {
         }
         super.buildPacket(new DoubleByte(ZToolCMD.AF_REGISTER), framedata);
     }
-    
-	public AF_REGISTER(byte endPoint, int profileId, short deviceId, byte deviceVersion,
-			int[] inputs,  int[] outputs) {
-		
-		//TODO Check compatibility with other Constructor
-		
+
+    public AF_REGISTER(byte endPoint, int profileId, short deviceId, byte deviceVersion,
+                       int[] inputs, int[] outputs) {
+
+        //TODO Check compatibility with other Constructor
+
         int[] framedata = new int[9 + inputs.length * 2 + outputs.length * 2];
         int j;
         framedata[0] = 0xFF & endPoint;
@@ -139,17 +138,22 @@ public class AF_REGISTER extends ZToolPacket /*implements IREQUEST, IAF*/ {
         framedata[7] = inputs.length;
         j = 8;
         for (int i = 0; i < inputs.length; i++) {
-            framedata[j] = Integers.getByteAsInteger(inputs[i], 0); j++;
-            framedata[j] = Integers.getByteAsInteger(inputs[i], 1); j++;
+            framedata[j] = Integers.getByteAsInteger(inputs[i], 0);
+            j++;
+            framedata[j] = Integers.getByteAsInteger(inputs[i], 1);
+            j++;
         }
-        framedata[j] = outputs.length; j++;
-        
+        framedata[j] = outputs.length;
+        j++;
+
         for (int i = 0; i < outputs.length; i++) {
-            framedata[j] = Integers.getByteAsInteger(outputs[i], 0); j++;
-            framedata[j] = Integers.getByteAsInteger(outputs[i], 1); j++;
+            framedata[j] = Integers.getByteAsInteger(outputs[i], 0);
+            j++;
+            framedata[j] = Integers.getByteAsInteger(outputs[i], 1);
+            j++;
         }
         super.buildPacket(new DoubleByte(ZToolCMD.AF_REGISTER), framedata);
-	}
+    }
 
     /// <name>TI.ZPI2.AF_REGISTER.LATENCY_TYPE</name>
     /// <summary>Latency type</summary>

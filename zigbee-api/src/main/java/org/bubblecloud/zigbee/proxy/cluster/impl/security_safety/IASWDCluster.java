@@ -37,11 +37,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.8.0
- *
  */
 public class IASWDCluster extends ZCLClusterBase implements IASWD {
 
@@ -52,7 +50,7 @@ public class IASWDCluster extends ZCLClusterBase implements IASWD {
 
     public IASWDCluster(ZigBeeDevice zbDevice) {
         super(zbDevice);
-        maxDuration = new AttributeImpl(zbDevice, this,Attributes.MAX_DURATION);
+        maxDuration = new AttributeImpl(zbDevice, this, Attributes.MAX_DURATION);
         attributes = new AttributeImpl[]{maxDuration};
     }
 

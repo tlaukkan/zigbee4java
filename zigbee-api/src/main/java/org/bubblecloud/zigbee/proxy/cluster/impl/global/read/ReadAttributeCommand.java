@@ -29,35 +29,33 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ByteArrayOutputStreamSerializer;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ReadAttributeCommand extends AbstractCommand {
 
-	private static final Logger logger = LoggerFactory.getLogger(ReadAttributeCommand.class);
-	
-	private static byte ID = 0x00;
-	
-	private int[] attributeIds;	
-	
-	public ReadAttributeCommand(int[] attributeIds){
-		super(ID,false);
-		this.attributeIds = attributeIds;
-	}
-	
-	public byte[] getPayload(){	
-		if( payload == null){
-			logger.debug("Creating Payload for command");
-			ZBSerializer serializer = new ByteArrayOutputStreamSerializer();
-			for (int i = 0; i < attributeIds.length; i++) {
-				serializer.append_short((short) attributeIds[i]);
-			}
-			payload = serializer.getPayload();
-		}
-		return payload;
-	}
-	
+    private static final Logger logger = LoggerFactory.getLogger(ReadAttributeCommand.class);
+
+    private static byte ID = 0x00;
+
+    private int[] attributeIds;
+
+    public ReadAttributeCommand(int[] attributeIds) {
+        super(ID, false);
+        this.attributeIds = attributeIds;
+    }
+
+    public byte[] getPayload() {
+        if (payload == null) {
+            logger.debug("Creating Payload for command");
+            ZBSerializer serializer = new ByteArrayOutputStreamSerializer();
+            for (int i = 0; i < attributeIds.length; i++) {
+                serializer.append_short((short) attributeIds[i]);
+            }
+            payload = serializer.getPayload();
+        }
+        return payload;
+    }
+
 }

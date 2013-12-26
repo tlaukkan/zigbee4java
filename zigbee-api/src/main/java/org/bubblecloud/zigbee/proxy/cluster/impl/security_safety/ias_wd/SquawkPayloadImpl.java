@@ -27,7 +27,7 @@ public class SquawkPayloadImpl implements SquawkPayload {
 
     private short squawkMode, squawkLevel, strobe;
 
-    public SquawkPayloadImpl(short squawkMode, short squawkLevel, short strobe){
+    public SquawkPayloadImpl(short squawkMode, short squawkLevel, short strobe) {
 
         this.squawkMode = squawkMode;
         this.strobe = strobe;

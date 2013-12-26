@@ -44,11 +44,9 @@ import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.IASWD;
 import org.bubblecloud.zigbee.proxy.cluster.api.security_safety.IASZone;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.8.0
- *
  */
 public interface Clusters {
 
@@ -78,17 +76,17 @@ public interface Clusters {
     public static final String IAS_ZONE = "1280";
 
     public static final String[][] cluster_impl = {new String[]{ALARMS, Alarms.class.getName()}, new String[]{BASIC, Basic.class.getName()},
-        new String[]{COMMISSIONING, Commissioning.class.getName()}, new String[]{DEVICE_TEMPERATURE_CONFIGURATION, DeviceTemperatureConfiguration.class.getName()},
-        new String[]{GROUPS, Groups.class.getName()}, new String[]{IDENTIFY, Identify.class.getName()}, new String[]{LEVEL_CONTROL, LevelControl.class.getName()},
-        new String[]{ON_OFF, OnOff.class.getName()}, new String[]{ON_OFF_SWITCH_CONFIGURATION, OnOffSwitchConfiguration.class.getName()},
-        new String[]{POWER_CONFIGURATION, PowerConfiguration.class.getName()}, new String[]{RSSI_LOCATION, RSSILocation.class.getName()},
-        new String[]{SCENES, Scenes.class.getName()}, new String[]{TIME, Time.class.getName()},
+            new String[]{COMMISSIONING, Commissioning.class.getName()}, new String[]{DEVICE_TEMPERATURE_CONFIGURATION, DeviceTemperatureConfiguration.class.getName()},
+            new String[]{GROUPS, Groups.class.getName()}, new String[]{IDENTIFY, Identify.class.getName()}, new String[]{LEVEL_CONTROL, LevelControl.class.getName()},
+            new String[]{ON_OFF, OnOff.class.getName()}, new String[]{ON_OFF_SWITCH_CONFIGURATION, OnOffSwitchConfiguration.class.getName()},
+            new String[]{POWER_CONFIGURATION, PowerConfiguration.class.getName()}, new String[]{RSSI_LOCATION, RSSILocation.class.getName()},
+            new String[]{SCENES, Scenes.class.getName()}, new String[]{TIME, Time.class.getName()},
 
-        new String[]{COLOR_CONTROL, ColorControl.class.getName()},
+            new String[]{COLOR_CONTROL, ColorControl.class.getName()},
 
-        new String[]{ILLUMINANCE_MEASUREMENT, IlluminanceMeasurement.class.getName()}, new String[]{OCCUPANCY_SENSING, OccupacySensing.class.getName()},
-        new String[]{RELATIVE_HUMIDITY_MEASUREMENT, RelativeHumidityMeasurement.class.getName()},
-        new String[]{TEMPERATURE_MEASUREMENT, TemperatureMeasurement.class.getName()},
+            new String[]{ILLUMINANCE_MEASUREMENT, IlluminanceMeasurement.class.getName()}, new String[]{OCCUPANCY_SENSING, OccupacySensing.class.getName()},
+            new String[]{RELATIVE_HUMIDITY_MEASUREMENT, RelativeHumidityMeasurement.class.getName()},
+            new String[]{TEMPERATURE_MEASUREMENT, TemperatureMeasurement.class.getName()},
 
-        new String[]{IAS_ACE, IASACE.class.getName()},new String[]{IAS_WD, IASWD.class.getName()},new String[]{IAS_ZONE, IASZone.class.getName()}};
+            new String[]{IAS_ACE, IASACE.class.getName()}, new String[]{IAS_WD, IASWD.class.getName()}, new String[]{IAS_ZONE, IASZone.class.getName()}};
 }

@@ -25,13 +25,11 @@ package org.bubblecloud.zigbee.proxy.cluster.glue.general.event;
 import org.bubblecloud.zigbee.proxy.cluster.glue.Cluster;
 
 /**
-*
-* @author <a href="mailto:h.alink1@chello.nl">Han Alink</a>
-* @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
-* @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
-* @since 0.7.0
-*
-*/
+ * @author <a href="mailto:h.alink1@chello.nl">Han Alink</a>
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.7.0
+ */
 public interface PresentValueEvent {
 
     public boolean getEvent();

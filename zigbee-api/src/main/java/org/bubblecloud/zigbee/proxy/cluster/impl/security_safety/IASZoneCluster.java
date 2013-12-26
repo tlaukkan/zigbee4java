@@ -52,11 +52,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.8.0
- *
  */
 public class IASZoneCluster extends ZCLClusterBase implements IASZone {
 
@@ -76,10 +74,10 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
 
         super(zbDevice);
 
-        attributeZoneState = new AttributeImpl(zbDevice,this,Attributes.ZONE_STATE);
-        attributeZoneType = new AttributeImpl(zbDevice,this,Attributes.ZONE_TYPE);
-        attributeZoneStatus = new AttributeImpl(zbDevice,this,Attributes.ZONE_STATUS);
-        attributeIASCIEAddress = new AttributeImpl(zbDevice,this,Attributes.IAS_CIE_ADDRESS);
+        attributeZoneState = new AttributeImpl(zbDevice, this, Attributes.ZONE_STATE);
+        attributeZoneType = new AttributeImpl(zbDevice, this, Attributes.ZONE_TYPE);
+        attributeZoneStatus = new AttributeImpl(zbDevice, this, Attributes.ZONE_STATUS);
+        attributeIASCIEAddress = new AttributeImpl(zbDevice, this, Attributes.IAS_CIE_ADDRESS);
 
         attributes = new AttributeImpl[]{attributeZoneState, attributeZoneType, attributeZoneStatus, attributeIASCIEAddress};
 
@@ -141,14 +139,14 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
 
     public boolean addZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener) {
         synchronized (listeners) {
-            if ( listeners.size() == 0 ){
+            if (listeners.size() == 0) {
                 try {
                     getZigBeeDevice().bind(ID);
                 } catch (ZigBeeBasedriverException e) {
                     log.error("Unable to bind to device for IASZone reporting", e);
                     return false;
                 }
-                if ( getZigBeeDevice().addClusterListener(bridge) == false ) {
+                if (getZigBeeDevice().addClusterListener(bridge) == false) {
                     log.error("Unable to register the cluster listener for IASZone reporting");
                     return false;
                 }
@@ -161,14 +159,14 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
     public boolean removeZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener) {
         synchronized (listeners) {
             boolean removed = listeners.remove(listener);
-            if ( listeners.size() == 0 && removed ){
+            if (listeners.size() == 0 && removed) {
                 try {
                     getZigBeeDevice().unbind(ID);
                 } catch (ZigBeeBasedriverException e) {
                     log.error("Unable to unbind to device for IASZone reporting", e);
                     return false;
                 }
-                if ( getZigBeeDevice().removeClusterListener(bridge) == false ) {
+                if (getZigBeeDevice().removeClusterListener(bridge) == false) {
                     log.error("Unable to unregister the cluster listener for IASZone reporting");
                     return false;
                 }
@@ -196,11 +194,11 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
                 }
                 log.debug("Notifying {} ZoneStatusChangeNotificationListener", localCopy.size());
                 for (ZoneStatusChangeNotificationListener alarmListner : localCopy) {
-                    try{
+                    try {
                         log.debug("Notifying {}:{}", alarmListner.getClass().getName(), alarmListner);
                         alarmListner.zoneStatusChangeNotification(zscnr.getZoneStatus());
-                    }catch(Exception e){
-                        log.error("Error while notifying {}:{} caused by {}",new Object[]{
+                    } catch (Exception e) {
+                        log.error("Error while notifying {}:{} caused by {}", new Object[]{
                                 alarmListner.getClass().getName(), alarmListner, e.getStackTrace()
                         });
                     }

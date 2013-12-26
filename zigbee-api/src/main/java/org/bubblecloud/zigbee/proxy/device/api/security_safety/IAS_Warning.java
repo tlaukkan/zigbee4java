@@ -28,11 +28,9 @@ import org.bubblecloud.zigbee.proxy.cluster.glue.security_safety.IASZone;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.8.0
- *
  */
 public interface IAS_Warning {
 
@@ -48,5 +46,6 @@ public interface IAS_Warning {
     public static final int[] CUSTOM = {};
 
     public IASWD getIASWD();
+
     public IASZone getIASZone();
 }

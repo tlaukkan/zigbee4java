@@ -32,30 +32,27 @@ import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
-public interface OnOff extends Cluster{
+public interface OnOff extends Cluster {
 
-	public void on() throws ZigBeeHAException;
-	
-	public void off() throws ZigBeeHAException;
+    public void on() throws ZigBeeHAException;
 
-	public void toggle() throws ZigBeeHAException;
-	
-	public boolean getOnOff() throws ZigBeeHAException;
-	
-	/**
-	 * 
-	 * @param listener The {@link OnOffListener} to subscribe for events
-	 * @since 0.2.0
-	 */
-	public boolean subscribe(OnOffListener listener);
-	
-	/**
-	 * 
-	 * @param listener The {@link OnOffListener} to unsubscribe
-	 * @since 0.2.0
-	 */
-	public boolean unsubscribe(OnOffListener listener);
-	
+    public void off() throws ZigBeeHAException;
+
+    public void toggle() throws ZigBeeHAException;
+
+    public boolean getOnOff() throws ZigBeeHAException;
+
+    /**
+     * @param listener The {@link OnOffListener} to subscribe for events
+     * @since 0.2.0
+     */
+    public boolean subscribe(OnOffListener listener);
+
+    /**
+     * @param listener The {@link OnOffListener} to unsubscribe
+     * @since 0.2.0
+     */
+    public boolean unsubscribe(OnOffListener listener);
+
 }

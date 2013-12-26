@@ -30,34 +30,32 @@ import org.bubblecloud.zigbee.util.ArraysUtil;
 /**
  * This class represent the <b>On/off Light</b> Cluster as defined by the document:<br>
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- *         
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
- *
  */
 public interface TemperatureSensor extends DeviceProxy {
 
-	public static final int DEVICE_ID = 0x0302;
-	public static final String NAME = "Temperature Sensor";
-	
-	public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
-		ProxyConstants.TEMPERATURE_MEASUREMENT
-	});
-	
-	public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
-	});
-	
-	public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
-	public static final int[] CUSTOM = {};
-	
-	/**
-	 * Access method for the <b>Mandatory</b> cluster: {@link TemperatureMeasurement} 
-	 *  
-	 * @return the {@link TemperatureMeasurement} cluster object
-	 */
-	public TemperatureMeasurement getTemperatureMeasurement();
+    public static final int DEVICE_ID = 0x0302;
+    public static final String NAME = "Temperature Sensor";
+
+    public static final int[] MANDATORY = ArraysUtil.append(DeviceProxy.MANDATORY, new int[]{
+            ProxyConstants.TEMPERATURE_MEASUREMENT
+    });
+
+    public static final int[] OPTIONAL = ArraysUtil.append(DeviceProxy.OPTIONAL, new int[]{
+    });
+
+    public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
+    public static final int[] CUSTOM = {};
+
+    /**
+     * Access method for the <b>Mandatory</b> cluster: {@link TemperatureMeasurement}
+     *
+     * @return the {@link TemperatureMeasurement} cluster object
+     */
+    public TemperatureMeasurement getTemperatureMeasurement();
 
 }

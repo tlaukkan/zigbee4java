@@ -29,11 +29,9 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
 
 /**
- *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision: 42 $ ($LastChangedDate: 2010-09-23 14:21:48 +0200 (Thu, 23 Sep 2010) $)
  * @since 0.8.0
- *
  */
 public class IlluminanceMeasurementCluster extends ZCLClusterBase implements IlluminanceMeasurement {
 
@@ -48,11 +46,11 @@ public class IlluminanceMeasurementCluster extends ZCLClusterBase implements Ill
     public IlluminanceMeasurementCluster(ZigBeeDevice zbDevice) {
 
         super(zbDevice);
-        measuredValue = new AttributeImpl(zbDevice,this,Attributes.MEASURED_VALUE_UNSIGNED_16_BIT);
-        minMeasuredValue = new AttributeImpl(zbDevice,this,Attributes.MIN_MEASURED_VALUE_UNSIGNED_16_BIT);
-        maxMeasuredValue = new AttributeImpl(zbDevice,this,Attributes.MAX_MEASURED_VALUE_UNSIGNED_16_BIT);
-        tolerance = new AttributeImpl(zbDevice,this,Attributes.TOLERANCE);
-        lightSensorType = new AttributeImpl(zbDevice,this,Attributes.LIGHT_SENSOR_TYPE);
+        measuredValue = new AttributeImpl(zbDevice, this, Attributes.MEASURED_VALUE_UNSIGNED_16_BIT);
+        minMeasuredValue = new AttributeImpl(zbDevice, this, Attributes.MIN_MEASURED_VALUE_UNSIGNED_16_BIT);
+        maxMeasuredValue = new AttributeImpl(zbDevice, this, Attributes.MAX_MEASURED_VALUE_UNSIGNED_16_BIT);
+        tolerance = new AttributeImpl(zbDevice, this, Attributes.TOLERANCE);
+        lightSensorType = new AttributeImpl(zbDevice, this, Attributes.LIGHT_SENSOR_TYPE);
 
         attributes = new AttributeImpl[]{measuredValue, minMeasuredValue, maxMeasuredValue, tolerance, lightSensorType};
     }

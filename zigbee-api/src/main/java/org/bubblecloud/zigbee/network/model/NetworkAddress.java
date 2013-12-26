@@ -23,46 +23,44 @@
 package org.bubblecloud.zigbee.network.model;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class NetworkAddress {
-	
-	public static final short fromDecimal(int value){
-		return (short) value;
-	}
-	
-	public static final short fromString(String value){
-		return Short.decode(value);
-	}
-	
-	
-	public static final int toDecimal(short nwk){
-		if(nwk>=0) {
-			return nwk;
-		} else {
-			return 0x0000FFFF & nwk;
-		}
-		
-	}
-	
-	public static final String toHex(short nwk){	
-		return toString(nwk);
-	}
-	
-	public static final String toString(short nwk){
-		String padding = "0000";
-		String hex = Integer.toHexString(nwk);
-		if(hex.length()>4){
-			hex = hex.substring(hex.length()-4);
-		}else{
-			hex = padding.substring(0,4-hex.length())+hex;
-		}
-		return "0x"+hex.toUpperCase();		
-	}
+
+    public static final short fromDecimal(int value) {
+        return (short) value;
+    }
+
+    public static final short fromString(String value) {
+        return Short.decode(value);
+    }
+
+
+    public static final int toDecimal(short nwk) {
+        if (nwk >= 0) {
+            return nwk;
+        } else {
+            return 0x0000FFFF & nwk;
+        }
+
+    }
+
+    public static final String toHex(short nwk) {
+        return toString(nwk);
+    }
+
+    public static final String toString(short nwk) {
+        String padding = "0000";
+        String hex = Integer.toHexString(nwk);
+        if (hex.length() > 4) {
+            hex = hex.substring(hex.length() - 4);
+        } else {
+            hex = padding.substring(0, 4 - hex.length()) + hex;
+        }
+        return "0x" + hex.toUpperCase();
+    }
 
 }

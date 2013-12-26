@@ -29,37 +29,41 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZCLCluster;
 /**
  * This class represent the <b>On/off</b> Cluster as defined by the document:<br>
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
- * 
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public interface OnOffSwitch extends ZCLCluster {
-	
-	public Attribute getAttributeOnOff();
-	
-	public Response on(boolean disableDefatultResponse);
-	public Response off(boolean disableDefatultResponse);
-	public Response toggle(boolean disableDefatultResponse);
 
-	
-	/**
-	 * Alias for the method {@link #on(true)}
-	 * @see #on(boolean)
-	 */
-	public void on();
-	
-	/**
-	 * Alias for the method {@link #off(true)}
-	 * @see #off(boolean)
-	 */
-	public void off();
-	
-	/**
-	 * Alias for the method {@link #toggle(true)}
-	 * @see #toggle(boolean)
-	 */
-	public void toggle();
+    public Attribute getAttributeOnOff();
+
+    public Response on(boolean disableDefatultResponse);
+
+    public Response off(boolean disableDefatultResponse);
+
+    public Response toggle(boolean disableDefatultResponse);
+
+
+    /**
+     * Alias for the method {@link #on(true)}
+     *
+     * @see #on(boolean)
+     */
+    public void on();
+
+    /**
+     * Alias for the method {@link #off(true)}
+     *
+     * @see #off(boolean)
+     */
+    public void off();
+
+    /**
+     * Alias for the method {@link #toggle(true)}
+     *
+     * @see #toggle(boolean)
+     */
+    public void toggle();
 }

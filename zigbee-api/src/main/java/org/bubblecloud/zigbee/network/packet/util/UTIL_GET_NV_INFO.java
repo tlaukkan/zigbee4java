@@ -28,13 +28,12 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
- * @since 0.6.0
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.6.0
  */
-public class UTIL_GET_NV_INFO extends ZToolPacket/* implements IREQUEST, ISYSTEM*/{
-    public UTIL_GET_NV_INFO(){
+public class UTIL_GET_NV_INFO extends ZToolPacket/* implements IREQUEST, ISYSTEM*/ {
+    public UTIL_GET_NV_INFO() {
 
         super.buildPacket(new DoubleByte(ZToolCMD.UTIL_GET_NV_INFO), new int[0]);
     }

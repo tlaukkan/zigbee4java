@@ -28,67 +28,64 @@ import java.util.Hashtable;
 
 import org.bubblecloud.zigbee.proxy.cluster.api.core.ZBDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.ExtensionFieldSetViewResponse;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class ExtensionFieldSetViewResponseImpl implements
-		ExtensionFieldSetViewResponse {
+        ExtensionFieldSetViewResponse {
 
-	
-	private int clusterId;
-	private int[] attributes;
-	Hashtable<Integer, Object> set;
-	int attribute;
-	ZBDeserializer deserializer;
-	boolean endSet;
-	
-	public ExtensionFieldSetViewResponseImpl(ZBDeserializer deserializer){
-		this.deserializer = deserializer;
-		clusterId = deserializer.read_int();
-		int length = deserializer.read_byte();
-		endSet = true;
-		for (int i = 0; i < length; i++) {
-			int attributeId = deserializer.read_short();
-			//TODO use the deserializer.readZigBeeType(ZigBeeType)
-			Object value = deserializer.readObject(Object.class);
-			//TODO: create Attribute and get ZigBee type from attribute
-			if (value==null) endSet = false; 
-			set.put(attributeId, value);
-		}
-		return;
-		//TODO complete deserializer for extensionFieldSet
- 	}
-	
-	public boolean endSet(){
-		return endSet;
-	}
-	
-	
-	public int[] getAttributes(int clusterId) {
-		Enumeration<Integer> attribute = set.keys();
-		int i = 0;
-		while(attribute.hasMoreElements())
-		{
-			attributes[i] = attribute.nextElement();
-			i++;
-		}	
-		return attributes;
-	}
 
-	public int getClusterId() {
-		return clusterId;
-	}
+    private int clusterId;
+    private int[] attributes;
+    Hashtable<Integer, Object> set;
+    int attribute;
+    ZBDeserializer deserializer;
+    boolean endSet;
 
-	public Object getValue(int attributeId) {
-		return set.get(attributeId);
-	}
-	
-	
+    public ExtensionFieldSetViewResponseImpl(ZBDeserializer deserializer) {
+        this.deserializer = deserializer;
+        clusterId = deserializer.read_int();
+        int length = deserializer.read_byte();
+        endSet = true;
+        for (int i = 0; i < length; i++) {
+            int attributeId = deserializer.read_short();
+            //TODO use the deserializer.readZigBeeType(ZigBeeType)
+            Object value = deserializer.readObject(Object.class);
+            //TODO: create Attribute and get ZigBee type from attribute
+            if (value == null) endSet = false;
+            set.put(attributeId, value);
+        }
+        return;
+        //TODO complete deserializer for extensionFieldSet
+    }
+
+    public boolean endSet() {
+        return endSet;
+    }
+
+
+    public int[] getAttributes(int clusterId) {
+        Enumeration<Integer> attribute = set.keys();
+        int i = 0;
+        while (attribute.hasMoreElements()) {
+            attributes[i] = attribute.nextElement();
+            i++;
+        }
+        return attributes;
+    }
+
+    public int getClusterId() {
+        return clusterId;
+    }
+
+    public Object getValue(int attributeId) {
+        return set.get(attributeId);
+    }
+
 
 }
-	
+
 

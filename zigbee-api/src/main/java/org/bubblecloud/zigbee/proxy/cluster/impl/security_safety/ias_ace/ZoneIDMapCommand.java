@@ -26,7 +26,7 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.AbstractCommand;
 
 public class ZoneIDMapCommand extends AbstractCommand {
 
-    public ZoneIDMapCommand(){
+    public ZoneIDMapCommand() {
         super(IASACE.GET_ZONE_ID_MAP);
     }
 }

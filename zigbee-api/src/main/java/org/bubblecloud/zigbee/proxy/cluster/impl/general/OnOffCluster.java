@@ -33,82 +33,80 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.EmptyPayloadCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
 import org.bubblecloud.zigbee.proxy.cluster.impl.global.DefaultResponseImpl;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
-public class OnOffCluster extends ZCLClusterBase implements OnOff{
-	
-	private final AttributeImpl onOff;
-	
-	private final Attribute[] attributes;
-	
-	private static EmptyPayloadCommand CMD_ON = new EmptyPayloadCommand()
-								.setId(OnOff.ON_ID)
-								.setClientServerDirection(true)
-								.setClusterSpecific(true)
-								.setManufacturerExtension(false);
-	
-	private static EmptyPayloadCommand CMD_OFF = new EmptyPayloadCommand()
-								.setId(OnOff.OFF_ID)
-								.setClientServerDirection(true)
-								.setClusterSpecific(true)
-								.setManufacturerExtension(false);
-	
-	private static EmptyPayloadCommand CMD_TOGGLE = new EmptyPayloadCommand()
-								.setId(OnOff.TOGGLE_ID)
-								.setClientServerDirection(true)
-								.setClusterSpecific(true)
-								.setManufacturerExtension(false);
-								
+public class OnOffCluster extends ZCLClusterBase implements OnOff {
 
-	public OnOffCluster(ZigBeeDevice zbDevice){
-		super(zbDevice);
-		onOff = new AttributeImpl(zbDevice,this,Attributes.ON_OFF);
-		attributes = new AttributeImpl[]{onOff};
-	}
+    private final AttributeImpl onOff;
 
-	@Override
-	public short getId() {
-		return OnOff.ID;
-	}
+    private final Attribute[] attributes;
 
-	@Override
-	public String getName() {
-		return OnOff.NAME;
-	}
+    private static EmptyPayloadCommand CMD_ON = new EmptyPayloadCommand()
+            .setId(OnOff.ON_ID)
+            .setClientServerDirection(true)
+            .setClusterSpecific(true)
+            .setManufacturerExtension(false);
 
-	@Override
-	public Attribute[] getStandardAttributes() {
-		return attributes;
-	}
+    private static EmptyPayloadCommand CMD_OFF = new EmptyPayloadCommand()
+            .setId(OnOff.OFF_ID)
+            .setClientServerDirection(true)
+            .setClusterSpecific(true)
+            .setManufacturerExtension(false);
 
-	public Attribute getAttributeOnOff() {
-		return onOff;
-	}
+    private static EmptyPayloadCommand CMD_TOGGLE = new EmptyPayloadCommand()
+            .setId(OnOff.TOGGLE_ID)
+            .setClientServerDirection(true)
+            .setClusterSpecific(true)
+            .setManufacturerExtension(false);
 
-	public DefaultResponse off() throws ZigBeeClusterException  {
-		enableDefaultResponse();
-		Response response = invoke(CMD_OFF);
-		return  new DefaultResponseImpl(response);
-	}
 
-	public DefaultResponse on() throws ZigBeeClusterException {
-		enableDefaultResponse();
-		Response response =  invoke(CMD_ON);
-		return  new DefaultResponseImpl(response);
-	}
+    public OnOffCluster(ZigBeeDevice zbDevice) {
+        super(zbDevice);
+        onOff = new AttributeImpl(zbDevice, this, Attributes.ON_OFF);
+        attributes = new AttributeImpl[]{onOff};
+    }
 
-	public DefaultResponse toggle() throws ZigBeeClusterException{
-		enableDefaultResponse();
-		Response response =  invoke(CMD_TOGGLE);
-		return  new DefaultResponseImpl(response);
+    @Override
+    public short getId() {
+        return OnOff.ID;
+    }
 
-	}
+    @Override
+    public String getName() {
+        return OnOff.NAME;
+    }
 
+    @Override
+    public Attribute[] getStandardAttributes() {
+        return attributes;
+    }
+
+    public Attribute getAttributeOnOff() {
+        return onOff;
+    }
+
+    public DefaultResponse off() throws ZigBeeClusterException {
+        enableDefaultResponse();
+        Response response = invoke(CMD_OFF);
+        return new DefaultResponseImpl(response);
+    }
+
+    public DefaultResponse on() throws ZigBeeClusterException {
+        enableDefaultResponse();
+        Response response = invoke(CMD_ON);
+        return new DefaultResponseImpl(response);
+    }
+
+    public DefaultResponse toggle() throws ZigBeeClusterException {
+        enableDefaultResponse();
+        Response response = invoke(CMD_TOGGLE);
+        return new DefaultResponseImpl(response);
+
+    }
 
 
 }

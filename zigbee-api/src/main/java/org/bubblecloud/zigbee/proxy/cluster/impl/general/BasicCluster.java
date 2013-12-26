@@ -34,129 +34,128 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.EmptyPayloadCommand;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
 import org.bubblecloud.zigbee.proxy.cluster.impl.global.DefaultResponseImpl;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class BasicCluster extends ZCLClusterBase implements Basic {
-	
-	private final AttributeImpl zclVersion;  
-	private final AttributeImpl applicationVersion;
-	private final AttributeImpl stackVersion;
-	private final AttributeImpl hwVersion;
-	private final AttributeImpl manufacturerName;
-	private final AttributeImpl modelIdentifier;
-	private final AttributeImpl dateCode;
-	private final AttributeImpl powerSource;
-	
-	private final AttributeImpl locationDescription;
-	private final AttributeImpl physicalEnvironment;
-	private final AttributeImpl deviceEnabled;
-	private final AttributeImpl alarmMask;
-	private final AttributeImpl disableLocalConfig;
-	
-	private final Attribute[] attributes;
-	
-	public BasicCluster(ZigBeeDevice zbDevice){
-		super(zbDevice);
-		zclVersion = new AttributeImpl(zbDevice,this,Attributes.ZCL_VERSION);
-		applicationVersion = new AttributeImpl(zbDevice,this,Attributes.APPLICATION_VERSION);
-		stackVersion = new AttributeImpl(zbDevice,this,Attributes.STACK_VERSION);
-		hwVersion = new AttributeImpl(zbDevice,this,Attributes.HW_VERSION);
-		manufacturerName = new AttributeImpl(zbDevice,this,Attributes.MANUFACTURER_NAME);
-		modelIdentifier = new AttributeImpl(zbDevice,this,Attributes.MODEL_IDENTIFIER);
-		dateCode = new AttributeImpl(zbDevice,this,Attributes.DATE_CODE);
-		powerSource = new AttributeImpl(zbDevice,this,Attributes.POWER_SOURCE);
-		locationDescription = new AttributeImpl(zbDevice,this,Attributes.LOCATION_DESCRIPTION);
-		physicalEnvironment = new AttributeImpl(zbDevice,this,Attributes.PHYSICAL_ENVIRONMENT);
-		deviceEnabled = new AttributeImpl(zbDevice,this,Attributes.DEVICE_ENABLED);
-		alarmMask = new AttributeImpl(zbDevice,this,Attributes.ALARM_MASK);
-		disableLocalConfig = new AttributeImpl(zbDevice,this,Attributes.DISABLE_LOCAL_CONFIG);
-		attributes = new AttributeImpl[]{zclVersion, applicationVersion, stackVersion,
-				hwVersion, manufacturerName, modelIdentifier, dateCode, powerSource,
-				locationDescription, physicalEnvironment, deviceEnabled, alarmMask, disableLocalConfig};
-	}
-	
-	private static EmptyPayloadCommand CMD_RESET_TO_FACTORY_DEFAULT = new EmptyPayloadCommand()
-	.setId(Basic.RESET_TO_FACTORY_DEFAULT_ID)
-	.setClientServerDirection(true)
-	.setClusterSpecific(true)
-	.setManufacturerExtension(false);
 
-	@Override
-	public short getId() {
-		return Basic.ID;
-	}
+    private final AttributeImpl zclVersion;
+    private final AttributeImpl applicationVersion;
+    private final AttributeImpl stackVersion;
+    private final AttributeImpl hwVersion;
+    private final AttributeImpl manufacturerName;
+    private final AttributeImpl modelIdentifier;
+    private final AttributeImpl dateCode;
+    private final AttributeImpl powerSource;
 
-	@Override
-	public String getName() {
-		return Basic.NAME;
-	}
+    private final AttributeImpl locationDescription;
+    private final AttributeImpl physicalEnvironment;
+    private final AttributeImpl deviceEnabled;
+    private final AttributeImpl alarmMask;
+    private final AttributeImpl disableLocalConfig;
 
-	@Override
-	public Attribute[] getStandardAttributes() {
-		return attributes;
-	}
+    private final Attribute[] attributes;
 
-	public Attribute getAttributeAlarmMask() {
-		return alarmMask;
-	}
+    public BasicCluster(ZigBeeDevice zbDevice) {
+        super(zbDevice);
+        zclVersion = new AttributeImpl(zbDevice, this, Attributes.ZCL_VERSION);
+        applicationVersion = new AttributeImpl(zbDevice, this, Attributes.APPLICATION_VERSION);
+        stackVersion = new AttributeImpl(zbDevice, this, Attributes.STACK_VERSION);
+        hwVersion = new AttributeImpl(zbDevice, this, Attributes.HW_VERSION);
+        manufacturerName = new AttributeImpl(zbDevice, this, Attributes.MANUFACTURER_NAME);
+        modelIdentifier = new AttributeImpl(zbDevice, this, Attributes.MODEL_IDENTIFIER);
+        dateCode = new AttributeImpl(zbDevice, this, Attributes.DATE_CODE);
+        powerSource = new AttributeImpl(zbDevice, this, Attributes.POWER_SOURCE);
+        locationDescription = new AttributeImpl(zbDevice, this, Attributes.LOCATION_DESCRIPTION);
+        physicalEnvironment = new AttributeImpl(zbDevice, this, Attributes.PHYSICAL_ENVIRONMENT);
+        deviceEnabled = new AttributeImpl(zbDevice, this, Attributes.DEVICE_ENABLED);
+        alarmMask = new AttributeImpl(zbDevice, this, Attributes.ALARM_MASK);
+        disableLocalConfig = new AttributeImpl(zbDevice, this, Attributes.DISABLE_LOCAL_CONFIG);
+        attributes = new AttributeImpl[]{zclVersion, applicationVersion, stackVersion,
+                hwVersion, manufacturerName, modelIdentifier, dateCode, powerSource,
+                locationDescription, physicalEnvironment, deviceEnabled, alarmMask, disableLocalConfig};
+    }
 
-	public Attribute getAttributeApplicationVersion() {
-		return alarmMask;
-	}
+    private static EmptyPayloadCommand CMD_RESET_TO_FACTORY_DEFAULT = new EmptyPayloadCommand()
+            .setId(Basic.RESET_TO_FACTORY_DEFAULT_ID)
+            .setClientServerDirection(true)
+            .setClusterSpecific(true)
+            .setManufacturerExtension(false);
 
-	public Attribute getAttributeDateCode() {
-		return dateCode;
-	}
+    @Override
+    public short getId() {
+        return Basic.ID;
+    }
 
-	public Attribute getAttributeDeviceEnabled() {
-		return deviceEnabled;
-	}
+    @Override
+    public String getName() {
+        return Basic.NAME;
+    }
 
-	public Attribute getAttributeHWVersion() {
-		return hwVersion;
-	}
+    @Override
+    public Attribute[] getStandardAttributes() {
+        return attributes;
+    }
 
-	public Attribute getAttributeLocationDescription() {
-		return locationDescription;
-	}
+    public Attribute getAttributeAlarmMask() {
+        return alarmMask;
+    }
 
-	public Attribute getAttributeManufacturerName() {
-		return manufacturerName;
-	}
+    public Attribute getAttributeApplicationVersion() {
+        return alarmMask;
+    }
 
-	public Attribute getAttributeModelIdentifier() {
-		return modelIdentifier;
-	}
-                                 
-	public Attribute getAttributePhysicalEnvironment() {
-		return physicalEnvironment;
-	}
+    public Attribute getAttributeDateCode() {
+        return dateCode;
+    }
 
-	public Attribute getAttributeStackVersion() {
-		return stackVersion;
-	}
+    public Attribute getAttributeDeviceEnabled() {
+        return deviceEnabled;
+    }
 
-	public Attribute getAttributeZCLVersion() {
-		return zclVersion;
-	}
+    public Attribute getAttributeHWVersion() {
+        return hwVersion;
+    }
 
-	public Attribute getPowerSource() {
-		return powerSource;
-	}
+    public Attribute getAttributeLocationDescription() {
+        return locationDescription;
+    }
 
-	public Attribute getAttributeDisableLocalConfig() {
-		return disableLocalConfig;
-	}
-	
-	public DefaultResponse resetToFactoryDefault() throws ZigBeeClusterException{
-		enableDefaultResponse();
-		Response response = invoke(CMD_RESET_TO_FACTORY_DEFAULT);
-		return  new DefaultResponseImpl(response);
-	}
+    public Attribute getAttributeManufacturerName() {
+        return manufacturerName;
+    }
+
+    public Attribute getAttributeModelIdentifier() {
+        return modelIdentifier;
+    }
+
+    public Attribute getAttributePhysicalEnvironment() {
+        return physicalEnvironment;
+    }
+
+    public Attribute getAttributeStackVersion() {
+        return stackVersion;
+    }
+
+    public Attribute getAttributeZCLVersion() {
+        return zclVersion;
+    }
+
+    public Attribute getPowerSource() {
+        return powerSource;
+    }
+
+    public Attribute getAttributeDisableLocalConfig() {
+        return disableLocalConfig;
+    }
+
+    public DefaultResponse resetToFactoryDefault() throws ZigBeeClusterException {
+        enableDefaultResponse();
+        Response response = invoke(CMD_RESET_TO_FACTORY_DEFAULT);
+        return new DefaultResponseImpl(response);
+    }
 
 }

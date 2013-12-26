@@ -34,77 +34,75 @@ import org.bubblecloud.zigbee.proxy.device.api.lighting.DimmableLight;
 import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class DimmableLightDeviceProxy extends DeviceProxyBase implements DimmableLight {
 
-	private OnOff onOff;
-	private LevelControl levelControl;
-	private Scenes scenes;
-	private Groups groups;
-	private OccupacySensing occupancySensing;
-	
-	public DimmableLightDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException{
-		super(ctx,zbDevice);
-		levelControl = (LevelControl) getCluster(ProxyConstants.LEVEL_CONTROL);
-		onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);
-		groups = (Groups) getCluster(ProxyConstants.GROUPS);
-		scenes = (Scenes) getCluster(ProxyConstants.SCENES);
-		occupancySensing = (OccupacySensing) getCluster(ProxyConstants.OCCUPANCY_SENSING);
-	}
-	
-	final static DeviceDescription DEVICE_DESCRIPTOR =  new AbstractDeviceDescription(){
+    private OnOff onOff;
+    private LevelControl levelControl;
+    private Scenes scenes;
+    private Groups groups;
+    private OccupacySensing occupancySensing;
 
-		public int[] getCustomClusters() {
-			return DimmableLight.CUSTOM;
-		}
+    public DimmableLightDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+        super(ctx, zbDevice);
+        levelControl = (LevelControl) getCluster(ProxyConstants.LEVEL_CONTROL);
+        onOff = (OnOff) getCluster(ProxyConstants.ON_OFF);
+        groups = (Groups) getCluster(ProxyConstants.GROUPS);
+        scenes = (Scenes) getCluster(ProxyConstants.SCENES);
+        occupancySensing = (OccupacySensing) getCluster(ProxyConstants.OCCUPANCY_SENSING);
+    }
 
-		public int[] getMandatoryCluster() {
-			return DimmableLight.MANDATORY;
-		}
+    final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {
 
-		public int[] getOptionalCluster() {
-			return DimmableLight.OPTIONAL;
-		}
+        public int[] getCustomClusters() {
+            return DimmableLight.CUSTOM;
+        }
 
-		public int[] getStandardClusters() {
-			return DimmableLight.STANDARD;
-		}
-		
-	};
-	
+        public int[] getMandatoryCluster() {
+            return DimmableLight.MANDATORY;
+        }
 
-	public  DeviceDescription getDescription() {
-		return DEVICE_DESCRIPTOR;
-	}
+        public int[] getOptionalCluster() {
+            return DimmableLight.OPTIONAL;
+        }
 
-	@Override
-	public String getName() {
-		return DimmableLight.NAME;
-	}
+        public int[] getStandardClusters() {
+            return DimmableLight.STANDARD;
+        }
 
-	public Groups getGroups() {
-		return groups;
-	}
+    };
 
-	public LevelControl getLevelControl() {
-		return levelControl;
-	}
 
-	public OccupacySensing getOccupacySensing() {
-		return occupancySensing;
-	}
+    public DeviceDescription getDescription() {
+        return DEVICE_DESCRIPTOR;
+    }
 
-	public OnOff getOnOff() {
-		return onOff;
-	}
+    @Override
+    public String getName() {
+        return DimmableLight.NAME;
+    }
 
-	public Scenes getScenes() {
-		return scenes;
-	}
+    public Groups getGroups() {
+        return groups;
+    }
+
+    public LevelControl getLevelControl() {
+        return levelControl;
+    }
+
+    public OccupacySensing getOccupacySensing() {
+        return occupancySensing;
+    }
+
+    public OnOff getOnOff() {
+        return onOff;
+    }
+
+    public Scenes getScenes() {
+        return scenes;
+    }
 
 }

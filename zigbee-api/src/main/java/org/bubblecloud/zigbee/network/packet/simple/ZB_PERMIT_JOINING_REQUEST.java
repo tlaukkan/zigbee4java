@@ -29,35 +29,32 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public class ZB_PERMIT_JOINING_REQUEST extends ZToolPacket/* implements IREQUEST,ISIMPLEAPI*/{
+public class ZB_PERMIT_JOINING_REQUEST extends ZToolPacket/* implements IREQUEST,ISIMPLEAPI*/ {
     /// <name>TI.ZPI2.ZB_PERMIT_JOINING_REQUEST.Destination</name>
-        /// <summary>Short adddress of the device on which to control the joining permissions. This is usually the local device address or the special broadcast address that denotes all routers and coordinator ( 0xFFFC ).</summary>
-        public ZToolAddress16 Destination;
-        /// <name>TI.ZPI2.ZB_PERMIT_JOINING_REQUEST.Timeout</name>
-        /// <summary>The amount of time in seconds for which the joining permissions should be turned on. If set to 0x00, the device will turn off the joining permissions indefinitely. If it is set to 0xFF, the joining permissions will be turned on indefinitely.</summary>
-        public int Timeout;
+    /// <summary>Short adddress of the device on which to control the joining permissions. This is usually the local device address or the special broadcast address that denotes all routers and coordinator ( 0xFFFC ).</summary>
+    public ZToolAddress16 Destination;
+    /// <name>TI.ZPI2.ZB_PERMIT_JOINING_REQUEST.Timeout</name>
+    /// <summary>The amount of time in seconds for which the joining permissions should be turned on. If set to 0x00, the device will turn off the joining permissions indefinitely. If it is set to 0xFF, the joining permissions will be turned on indefinitely.</summary>
+    public int Timeout;
 
-        /// <name>TI.ZPI2.ZB_PERMIT_JOINING_REQUEST</name>
-        /// <summary>Constructor</summary>
-        public ZB_PERMIT_JOINING_REQUEST()
-        {
-        }
+    /// <name>TI.ZPI2.ZB_PERMIT_JOINING_REQUEST</name>
+    /// <summary>Constructor</summary>
+    public ZB_PERMIT_JOINING_REQUEST() {
+    }
 
-        /// <name>TI.ZPI2.ZB_PERMIT_JOINING_REQUEST</name>
-        /// <summary>Constructor</summary>
-        public ZB_PERMIT_JOINING_REQUEST(ZToolAddress16 num1, int num2)
-        {
-            this.Destination = num1;
-            this.Timeout = num2;
-            int[] framedata=new int[3];
-            framedata[0]=this.Destination.getLsb();
-            framedata[1]=this.Destination.getMsb();
-            framedata[2]=this.Timeout;
-            super.buildPacket(new DoubleByte(ZToolCMD.ZB_PERMIT_JOINING_REQUEST), framedata);
-        }
+    /// <name>TI.ZPI2.ZB_PERMIT_JOINING_REQUEST</name>
+    /// <summary>Constructor</summary>
+    public ZB_PERMIT_JOINING_REQUEST(ZToolAddress16 num1, int num2) {
+        this.Destination = num1;
+        this.Timeout = num2;
+        int[] framedata = new int[3];
+        framedata[0] = this.Destination.getLsb();
+        framedata[1] = this.Destination.getMsb();
+        framedata[2] = this.Timeout;
+        super.buildPacket(new DoubleByte(ZToolCMD.ZB_PERMIT_JOINING_REQUEST), framedata);
+    }
 
 }

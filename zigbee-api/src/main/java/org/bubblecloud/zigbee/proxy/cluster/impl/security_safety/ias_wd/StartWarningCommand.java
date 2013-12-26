@@ -31,15 +31,15 @@ public class StartWarningCommand extends AbstractCommand {
 
     private StartWarningPayload startWarningPayload;
 
-    public StartWarningCommand(StartWarningPayload payload){
+    public StartWarningCommand(StartWarningPayload payload) {
         super(IASWD.START_WARNING);
         this.startWarningPayload = payload;
     }
 
-    public byte[] getPayload(){
-        if( payload == null){
+    public byte[] getPayload() {
+        if (payload == null) {
             payload = new byte[8];
-            ZBSerializer serializer = new DefaultSerializer(payload,0);
+            ZBSerializer serializer = new DefaultSerializer(payload, 0);
             serializer.append_short(startWarningPayload.getStrobe());
             serializer.append_short(startWarningPayload.getWarningMode());
             serializer.append_int(startWarningPayload.getWarningDuration());

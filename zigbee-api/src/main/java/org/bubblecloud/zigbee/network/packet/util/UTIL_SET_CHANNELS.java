@@ -28,10 +28,9 @@ import org.bubblecloud.zigbee.util.ByteUtils;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
- * @since 0.6.0
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.6.0
  */
 public class UTIL_SET_CHANNELS extends ZToolPacket/* implements IREQUEST,ISYSTEM*/ {
     /// <name>TI.ZPI1.SYS_SET_CHANNELS.Channels</name>
@@ -46,16 +45,16 @@ public class UTIL_SET_CHANNELS extends ZToolPacket/* implements IREQUEST,ISYSTEM
     public UTIL_SET_CHANNELS(int zigbee_channels1) {
         this.Channels = zigbee_channels1;
 
-        int[] framedata = new int[]{0,0,0,0};
+        int[] framedata = new int[]{0, 0, 0, 0};
         int[] bytes = ByteUtils.convertLongtoMultiByte(this.Channels);////////////WARNING!
-        int j=0;
-        for(int i=bytes.length-1;i>=0;i--){
-        	framedata[j]=bytes[i];
-        	j++;
+        int j = 0;
+        for (int i = bytes.length - 1; i >= 0; i--) {
+            framedata[j] = bytes[i];
+            j++;
         }
         super.buildPacket(new DoubleByte(ZToolCMD.UTIL_SET_CHANNELS), framedata);
     }
-    
+
     public UTIL_SET_CHANNELS(int[] framedata) {
 
         int[] bytes = new int[4];
@@ -63,7 +62,7 @@ public class UTIL_SET_CHANNELS extends ZToolPacket/* implements IREQUEST,ISYSTEM
         bytes[2] = framedata[1];
         bytes[1] = framedata[2];
         bytes[0] = framedata[3];
-        this.Channels=ByteUtils.convertMultiByteToInt(bytes);////////////WARNING!
+        this.Channels = ByteUtils.convertMultiByteToInt(bytes);////////////WARNING!
         super.buildPacket(new DoubleByte(ZToolCMD.UTIL_SET_CHANNELS), framedata);
     }
 
@@ -124,5 +123,5 @@ public class UTIL_SET_CHANNELS extends ZToolPacket/* implements IREQUEST,ISYSTEM
         /// <name>TI.ZPI1.SYS_SET_CHANNELS.ZIGBEE_CHANNELS.NONE</name>
         /// <summary>Channels bitfield</summary>
         public static final int NONE = 0;
-        }
+    }
 }

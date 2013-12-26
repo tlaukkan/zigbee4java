@@ -29,38 +29,37 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.scenes.AddSceneResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ResponseImpl;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class AddSceneResponseImpl extends ResponseImpl implements AddSceneResponse {
-	
-	private byte status;
-	private int groupId;
-	private short sceneId;
-	
-	public AddSceneResponseImpl(Response response) throws ZigBeeClusterException {
-		super(response);
-		ResponseImpl.checkSpecificCommandFrame(response, AddSceneResponse.ID);
-		ZBDeserializer deserializer = new DefaultDeserializer(getPayload(),0);
-		status = deserializer.read_byte();
-		groupId = deserializer.read_short();
-		sceneId = deserializer.read_byte();
-	}
-	
-	public int getGroupId() {
-		return groupId;
-	}
 
-	public short getSceneId() {
-		return sceneId;
-	}
+    private byte status;
+    private int groupId;
+    private short sceneId;
 
-	public Status getStatus() {
-		return Status.getStatus(status);
-	}
+    public AddSceneResponseImpl(Response response) throws ZigBeeClusterException {
+        super(response);
+        ResponseImpl.checkSpecificCommandFrame(response, AddSceneResponse.ID);
+        ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);
+        status = deserializer.read_byte();
+        groupId = deserializer.read_short();
+        sceneId = deserializer.read_byte();
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public short getSceneId() {
+        return sceneId;
+    }
+
+    public Status getStatus() {
+        return Status.getStatus(status);
+    }
 
 }

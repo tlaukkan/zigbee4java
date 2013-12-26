@@ -33,13 +33,10 @@ import java.util.Dictionary;
 import java.util.Properties;
 
 /**
- *
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- *
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
- *
  */
 public abstract class DeviceProxyFactoryBase implements DeviceProxyFactory {
 
@@ -52,8 +49,7 @@ public abstract class DeviceProxyFactoryBase implements DeviceProxyFactory {
     protected int[] clusters;
 
     /**
-     *
-     * @param ctx {@link org.bubblecloud.zigbee.ZigbeeProxyContext} of the bundle extending the refinement capabilities
+     * @param ctx        {@link org.bubblecloud.zigbee.ZigbeeProxyContext} of the bundle extending the refinement capabilities
      * @param refinement {@link Class} of the most refined interfaces provided by this factory
      */
     public DeviceProxyFactoryBase(ZigbeeProxyContext ctx, Class<?> refinement) {
@@ -74,10 +70,10 @@ public abstract class DeviceProxyFactoryBase implements DeviceProxyFactory {
                     clusters = ArraysUtil.append(standard, custom);
                 } catch (Exception e) {
                     logger.error(
-                        "Unable to retrieve the implemented clusters by means of the reflection, "
-                        + "the class {} does not provide the static field STANDARD or CUSTOM.\n"
-                        + "Please modify the source code of the class by adding such static field or"
-                                            + "override the getDeviceClusters() method ", refinement.getName()
+                            "Unable to retrieve the implemented clusters by means of the reflection, "
+                                    + "the class {} does not provide the static field STANDARD or CUSTOM.\n"
+                                    + "Please modify the source code of the class by adding such static field or"
+                                    + "override the getDeviceClusters() method ", refinement.getName()
                     );
                     logger.debug("Stack exception of the getDeviceClusters() error", e);
                 }
@@ -115,7 +111,7 @@ public abstract class DeviceProxyFactoryBase implements DeviceProxyFactory {
     public DeviceProxyFactoryBase register() {
         dictionary.put(ZigBeeDevice.DEVICE_ID, getDeviceId());
         dictionary.put(ZigBeeDevice.CLUSTERS_INPUT_ID, getDeviceClusters());
-        if( logger.isInfoEnabled() ) {
+        if (logger.isInfoEnabled()) {
             logger.debug(
                     "Registering a DeviceProxyFactory ( a refinement driver ) whose refines service with deviceId={} and clusters={}",
                     getDeviceId(), Arrays.toString(getDeviceClusters())

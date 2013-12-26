@@ -24,28 +24,27 @@
 */
 
 package org.bubblecloud.zigbee.network.packet;
+
 /**
- * 
  * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public interface ZToolPacketHandler {
-	
-	/**
-	 * A callback used by {@link ZToolPacketParser} for notifying that a new packet is arrived
-	 * <b>NOTE</b>: Bad packet would not be notified
-	 * 
-	 * @param response the new {@link ZToolPacket} parsed by {@link ZToolPacketParser}
-	 */
-	public void handlePacket(ZToolPacket response);
-	
-	/**
-	 * A callback used by {@link ZToolPacketParser} for notifying that an {@link Exception} has<br>
-	 * been thrown
-	 * 
-	 * @param th
-	 */
-	public void error(Throwable th);
+
+    /**
+     * A callback used by {@link ZToolPacketParser} for notifying that a new packet is arrived
+     * <b>NOTE</b>: Bad packet would not be notified
+     *
+     * @param response the new {@link ZToolPacket} parsed by {@link ZToolPacketParser}
+     */
+    public void handlePacket(ZToolPacket response);
+
+    /**
+     * A callback used by {@link ZToolPacketParser} for notifying that an {@link Exception} has<br>
+     * been thrown
+     *
+     * @param th
+     */
+    public void error(Throwable th);
 }

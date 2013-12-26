@@ -28,7 +28,7 @@ public class StartWarningPayloadImpl implements StartWarningPayload {
     private short warningMode, strobe;
     private int warningDuration;
 
-    public StartWarningPayloadImpl(short warningMode, short strobe, int warningDuration){
+    public StartWarningPayloadImpl(short warningMode, short strobe, int warningDuration) {
 
         this.warningMode = warningMode;
         this.strobe = strobe;

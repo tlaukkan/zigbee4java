@@ -42,102 +42,101 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.general.GroupsCluster;
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
- *
  */
 public class GroupsImpl implements Groups {
-	
-	private GroupsCluster groupCluster;
-	private Attribute nameSupport;
-	
-	public GroupsImpl(ZigBeeDevice zbDevice){
-		groupCluster = new GroupsCluster(zbDevice);
-		nameSupport = groupCluster.getAttributeNameSupport();
-	}
 
-	public AddGroupResponse addGroup(int groupId, String name) throws ZigBeeHAException{
-		try {
-			AddGroupResponse response = (AddGroupResponse)groupCluster.addGroup(groupId, name);
-			return response;
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    private GroupsCluster groupCluster;
+    private Attribute nameSupport;
 
-	public void addGroupIfIdentifying(int groupId, String name) throws ZigBeeHAException{
-		try {
-			DefaultResponse response = (DefaultResponse)groupCluster.addGroupIfIdentifying(groupId, name);
-			if (! response.getStatus().equals(Status.SUCCESS))
-				throw new ZigBeeHAException(response.getStatus().toString());
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
+    public GroupsImpl(ZigBeeDevice zbDevice) {
+        groupCluster = new GroupsCluster(zbDevice);
+        nameSupport = groupCluster.getAttributeNameSupport();
+    }
 
-	}
+    public AddGroupResponse addGroup(int groupId, String name) throws ZigBeeHAException {
+        try {
+            AddGroupResponse response = (AddGroupResponse) groupCluster.addGroup(groupId, name);
+            return response;
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public GetGroupMembershipResponse getGroupMembership(int[] groupList) throws ZigBeeHAException{
-		try {
-			GetGroupMembershipResponse response = (GetGroupMembershipResponse)groupCluster.getGroupMembership(groupList);
-			return response;
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    public void addGroupIfIdentifying(int groupId, String name) throws ZigBeeHAException {
+        try {
+            DefaultResponse response = (DefaultResponse) groupCluster.addGroupIfIdentifying(groupId, name);
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigBeeHAException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
 
-	public Attribute getNameSupport() {
-		return nameSupport;
-	}
+    }
 
-	public void removeAllGroup() throws ZigBeeHAException{
-		try {
-			DefaultResponse response = (DefaultResponse)groupCluster.removeAllGroup();
-			if (! response.getStatus().equals(Status.SUCCESS))
-				throw new ZigBeeHAException(response.getStatus().toString());
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    public GetGroupMembershipResponse getGroupMembership(int[] groupList) throws ZigBeeHAException {
+        try {
+            GetGroupMembershipResponse response = (GetGroupMembershipResponse) groupCluster.getGroupMembership(groupList);
+            return response;
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public RemoveGroupResponse removeGroup(int groupId) throws ZigBeeHAException{
-		try {
-			RemoveGroupResponse response = (RemoveGroupResponse)groupCluster.removeGroup(groupId);
-			return response;
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    public Attribute getNameSupport() {
+        return nameSupport;
+    }
 
-	public ViewGroupResponse viewGroup(int groupId) throws ZigBeeHAException{
-		try {
-			ViewGroupResponse response = (ViewGroupResponse)groupCluster.viewGroup(groupId);
-			return response;
-		} catch (ZigBeeClusterException e) {
-			throw new ZigBeeHAException(e);
-		}
-	}
+    public void removeAllGroup() throws ZigBeeHAException {
+        try {
+            DefaultResponse response = (DefaultResponse) groupCluster.removeAllGroup();
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigBeeHAException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public Subscription[] getActiveSubscriptions() {
-		return groupCluster.getActiveSubscriptions();
-	}
+    public RemoveGroupResponse removeGroup(int groupId) throws ZigBeeHAException {
+        try {
+            RemoveGroupResponse response = (RemoveGroupResponse) groupCluster.removeGroup(groupId);
+            return response;
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public int getId() {
-		return groupCluster.getId();
-	}
+    public ViewGroupResponse viewGroup(int groupId) throws ZigBeeHAException {
+        try {
+            ViewGroupResponse response = (ViewGroupResponse) groupCluster.viewGroup(groupId);
+            return response;
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeHAException(e);
+        }
+    }
 
-	public String getName() {
-		return groupCluster.getName();
-	}
+    public Subscription[] getActiveSubscriptions() {
+        return groupCluster.getActiveSubscriptions();
+    }
 
-	public Attribute getAttribute(int id) {		
-		Attribute[] attributes = groupCluster.getAvailableAttributes();
-		for (int i = 0; i < attributes.length; i++) {
-			if( attributes[i].getId() == id ) 
-				return attributes[i];
-		}
-		return null;
-	}
+    public int getId() {
+        return groupCluster.getId();
+    }
 
-	public Attribute[] getAttributes() {
-		return groupCluster.getAvailableAttributes();
-	}
-	
+    public String getName() {
+        return groupCluster.getName();
+    }
+
+    public Attribute getAttribute(int id) {
+        Attribute[] attributes = groupCluster.getAvailableAttributes();
+        for (int i = 0; i < attributes.length; i++) {
+            if (attributes[i].getId() == id)
+                return attributes[i];
+        }
+        return null;
+    }
+
+    public Attribute[] getAttributes() {
+        return groupCluster.getAvailableAttributes();
+    }
+
 }

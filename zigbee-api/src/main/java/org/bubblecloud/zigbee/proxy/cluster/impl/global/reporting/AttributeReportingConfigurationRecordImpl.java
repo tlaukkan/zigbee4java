@@ -28,66 +28,64 @@ import org.bubblecloud.zigbee.proxy.cluster.api.global.AttributeReportingConfigu
 
 
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class AttributeReportingConfigurationRecordImpl implements
-		AttributeReportingConfigurationRecord {
-	
-	private Attribute attribute;
-	private int direction;
-	private int maximumReportinInterval;
-	private int minimumReportingInterval;
-	private Object reportableChange;
-	private int timeoutPeriod;
-	
+        AttributeReportingConfigurationRecord {
 
-	public AttributeReportingConfigurationRecordImpl(Attribute attribute, int direction){
-		this.attribute = attribute;
-		this.direction = direction;
-	}
-	
-	public AttributeReportingConfigurationRecordImpl(Attribute attribute, int direction,
-			int maximumReportinInterval, int minimumReportingInterval, Object reportableChange, 
-			int timeoutPeriod){
-		
-		this.attribute = attribute;
-		this.direction = direction;
-		this.maximumReportinInterval = maximumReportinInterval;
-		this.minimumReportingInterval = minimumReportingInterval;
-		this.reportableChange = reportableChange;
-		this.timeoutPeriod = timeoutPeriod;
-	}
-	
-	public ZigBeeType getAttributeDataType() {
-		return attribute.getZigBeeType();
-	}
+    private Attribute attribute;
+    private int direction;
+    private int maximumReportinInterval;
+    private int minimumReportingInterval;
+    private Object reportableChange;
+    private int timeoutPeriod;
 
-	public int getAttributeId() {
-		return attribute.getId();
-	}
 
-	public int getDiretion() {
-		return direction;
-	}
+    public AttributeReportingConfigurationRecordImpl(Attribute attribute, int direction) {
+        this.attribute = attribute;
+        this.direction = direction;
+    }
 
-	public int getMaximumReportinInterval() {
-		return maximumReportinInterval;
-	}
+    public AttributeReportingConfigurationRecordImpl(Attribute attribute, int direction,
+                                                     int maximumReportinInterval, int minimumReportingInterval, Object reportableChange,
+                                                     int timeoutPeriod) {
 
-	public int getMinimumReportingInterval() {
-		return minimumReportingInterval;
-	}
+        this.attribute = attribute;
+        this.direction = direction;
+        this.maximumReportinInterval = maximumReportinInterval;
+        this.minimumReportingInterval = minimumReportingInterval;
+        this.reportableChange = reportableChange;
+        this.timeoutPeriod = timeoutPeriod;
+    }
 
-	public Object getReportableChange() {
-		return reportableChange;
-	}
+    public ZigBeeType getAttributeDataType() {
+        return attribute.getZigBeeType();
+    }
 
-	public int getTimeoutPeriod() {
-		return timeoutPeriod;
-	}
+    public int getAttributeId() {
+        return attribute.getId();
+    }
+
+    public int getDiretion() {
+        return direction;
+    }
+
+    public int getMaximumReportinInterval() {
+        return maximumReportinInterval;
+    }
+
+    public int getMinimumReportingInterval() {
+        return minimumReportingInterval;
+    }
+
+    public Object getReportableChange() {
+        return reportableChange;
+    }
+
+    public int getTimeoutPeriod() {
+        return timeoutPeriod;
+    }
 
 }

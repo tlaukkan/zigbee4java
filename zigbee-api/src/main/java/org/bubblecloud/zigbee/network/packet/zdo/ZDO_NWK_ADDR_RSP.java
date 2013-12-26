@@ -29,7 +29,6 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import java.util.Arrays;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -68,15 +67,15 @@ public class ZDO_NWK_ADDR_RSP extends ZToolPacket /*implements IRESPONSE_CALLBAC
         this.Status = framedata[0];
         byte[] bytes = new byte[8];
         for (int i = 0; i < 8; i++) {
-            bytes[i] = (byte) framedata[8-i];
+            bytes[i] = (byte) framedata[8 - i];
         }
         this.IEEEAddr = new ZToolAddress64(bytes);
-        this.nwkAddr=new ZToolAddress16(framedata[10],framedata[9]);
+        this.nwkAddr = new ZToolAddress16(framedata[10], framedata[9]);
         this.StartIndex = framedata[11];
         this.NumAssocDev = framedata[12];
-        this.AssocDevList=new ZToolAddress16[this.NumAssocDev];
+        this.AssocDevList = new ZToolAddress16[this.NumAssocDev];
         for (int i = 0; i < this.AssocDevList.length; i++) {
-            this.AssocDevList[i]=new ZToolAddress16(framedata[14+(i*2)], framedata[13+(i*2)]);
+            this.AssocDevList[i] = new ZToolAddress16(framedata[14 + (i * 2)], framedata[13 + (i * 2)]);
         }
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_NWK_ADDR_RSP), framedata);
     }

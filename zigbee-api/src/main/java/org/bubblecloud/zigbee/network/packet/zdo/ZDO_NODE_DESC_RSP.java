@@ -30,7 +30,6 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -79,18 +78,18 @@ public class ZDO_NODE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
     }
 
     public ZDO_NODE_DESC_RSP(int[] framedata) {
-        this.SrcAddress=new ZToolAddress16(framedata[1],framedata[0]);
+        this.SrcAddress = new ZToolAddress16(framedata[1], framedata[0]);
         this.Status = framedata[2];
-        this.nwkAddr=new ZToolAddress16(framedata[4],framedata[3]);
-        this.NodeType = framedata[5]&(0x07);///Experimental
-        this.ComplexDescriptorAvailable = (framedata[5]&(0x08))>>>3;///Experimental
-        this.UserDescriptorAvailable = (framedata[5]&(16))>>>4;///Experimental
-        this.APSFlags = framedata[6]&(0x0F);
-        this.FreqBand = framedata[6]&(0xF0)>>>4;
+        this.nwkAddr = new ZToolAddress16(framedata[4], framedata[3]);
+        this.NodeType = framedata[5] & (0x07);///Experimental
+        this.ComplexDescriptorAvailable = (framedata[5] & (0x08)) >>> 3;///Experimental
+        this.UserDescriptorAvailable = (framedata[5] & (16)) >>> 4;///Experimental
+        this.APSFlags = framedata[6] & (0x0F);
+        this.FreqBand = framedata[6] & (0xF0) >>> 4;
         this.Capabilities = framedata[10];
-        this.ManufacturerCode=new DoubleByte(framedata[12],framedata[11]);
+        this.ManufacturerCode = new DoubleByte(framedata[12], framedata[11]);
         this.BufferSize = framedata[13];
-        this.TransferSize=new DoubleByte(framedata[15],framedata[14]);
+        this.TransferSize = new DoubleByte(framedata[15], framedata[14]);
         this.ServerMask = new DoubleByte(framedata[17], framedata[16]).get16BitValue();
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_NODE_DESC_RSP), framedata);
     }
@@ -119,8 +118,7 @@ public class ZDO_NODE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
         /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.CAPABILITY_INFO.SECURITY_CAPABILITY</name>
         /// <summary>Capability Information bitfield</summary>
         public static final int SECURITY_CAPABILITY = 0x40;
-        }
-
+    }
 
 
     /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.NODE_TYPE</name>
@@ -135,7 +133,7 @@ public class ZDO_NODE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
         /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.NODE_TYPE.ROUTER</name>
         /// <summary>Type of Node</summary>
         public static final int ROUTER = 1;
-        }
+    }
 
     /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.SERVER_CAPABILITY</name>
     /// <summary>Capabilities bitfield</summary>
@@ -161,7 +159,7 @@ public class ZDO_NODE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
         /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.SERVER_CAPABILITY.PRIM_TRUST_CENTER</name>
         /// <summary>Capabilities bitfield</summary>
         public static final int PRIM_TRUST_CENTER = 1;
-        }
+    }
 
     @Override
     public String toString() {

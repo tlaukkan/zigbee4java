@@ -32,7 +32,6 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import java.util.Arrays;
 
 /**
- *
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -60,9 +59,9 @@ public class ZDO_MATCH_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALLB
     }
 
     public ZDO_MATCH_DESC_RSP(int[] framedata) {
-        this.SrcAddress=new ZToolAddress16(framedata[1],framedata[0]);
+        this.SrcAddress = new ZToolAddress16(framedata[1], framedata[0]);
         this.Status = framedata[2];
-        this.NWKAddrOfInterest=new ZToolAddress16(framedata[4],framedata[3]);
+        this.NWKAddrOfInterest = new ZToolAddress16(framedata[4], framedata[3]);
         this.MatchCount = framedata[5];
         this.MatchEndpointList = new int[this.MatchCount];
         for (int i = 0; i < this.MatchEndpointList.length; i++) {

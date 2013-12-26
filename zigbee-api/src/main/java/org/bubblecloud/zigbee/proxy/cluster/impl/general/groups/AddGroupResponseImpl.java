@@ -29,34 +29,33 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.proxy.cluster.api.general.groups.AddGroupResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.DefaultDeserializer;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ResponseImpl;
+
 /**
- * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- *
  */
 public class AddGroupResponseImpl extends ResponseImpl implements
-		AddGroupResponse {
+        AddGroupResponse {
 
-	private int groupId;
-	private byte status;
-	
-	
-	public AddGroupResponseImpl(Response response) throws ZigBeeClusterException {
-		super(response);
-		ResponseImpl.checkSpecificCommandFrame(response, AddGroupResponse.ID);
-		ZBDeserializer deserializer = new DefaultDeserializer(getPayload(),0);
-		status = deserializer.read_byte();
-		groupId = deserializer.read_uint16bit();		
-	}
-	
-	public int getGroupId() {
-		return groupId;
-	}
+    private int groupId;
+    private byte status;
 
-	public Status getStatus() {
-		return Status.getStatus(status);
-	}
+
+    public AddGroupResponseImpl(Response response) throws ZigBeeClusterException {
+        super(response);
+        ResponseImpl.checkSpecificCommandFrame(response, AddGroupResponse.ID);
+        ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);
+        status = deserializer.read_byte();
+        groupId = deserializer.read_uint16bit();
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public Status getStatus() {
+        return Status.getStatus(status);
+    }
 
 }

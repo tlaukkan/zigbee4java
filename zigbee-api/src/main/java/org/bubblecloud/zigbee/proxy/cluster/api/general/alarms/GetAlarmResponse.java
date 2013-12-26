@@ -26,43 +26,37 @@ import org.bubblecloud.zigbee.proxy.cluster.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.api.core.Status;
 
 /**
- * 
  * This class represent the <i>Alarm Command</i> as defined by the document:<br>
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
- *   
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
- *
  */
-public interface GetAlarmResponse extends Response{
-    
-	public static final byte ID = 0x01;
-	
-	/**
-	 * 
-	 * @return the {@link Status} representing the <i>Status</i> field
-	 */
-	public Status getStatus();
+public interface GetAlarmResponse extends Response {
 
-	/**
-	 * 
-	 * @return the int representing the <i>Alarm Code</i> field. The value is valid only if <code>getStatus() = Status.SUCCESS</code>
-	 */
-	public int getAllarmCode();
+    public static final byte ID = 0x01;
 
-	/**
-	 * 
-	 * @return the int representing the <i>Cluster ID</i> field. The value is valid only if <code>getStatus() = Status.SUCCESS</code>
-	 */
-	public int getClusterID();
+    /**
+     * @return the {@link Status} representing the <i>Status</i> field
+     */
+    public Status getStatus();
 
-	/**
-	 * 
-	 * @return the long representing the <i>Time stamp</i> field. The value is valid only if <code>getStatus() = Status.SUCCESS</code>
-	 */
-	public long getTimestamp();
+    /**
+     * @return the int representing the <i>Alarm Code</i> field. The value is valid only if <code>getStatus() = Status.SUCCESS</code>
+     */
+    public int getAllarmCode();
+
+    /**
+     * @return the int representing the <i>Cluster ID</i> field. The value is valid only if <code>getStatus() = Status.SUCCESS</code>
+     */
+    public int getClusterID();
+
+    /**
+     * @return the long representing the <i>Time stamp</i> field. The value is valid only if <code>getStatus() = Status.SUCCESS</code>
+     */
+    public long getTimestamp();
 
 
 }
