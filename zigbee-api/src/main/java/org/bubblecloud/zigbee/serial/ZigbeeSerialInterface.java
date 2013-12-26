@@ -96,13 +96,13 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
         final DoubleByte cmdId = packet.getCMD();
         switch (cmdId.getMsb() & 0xE0) {
             case 0x40: { //We received a message
-                LOGGER.info("<<-- ({}) ({})", packet.getClass().getSimpleName(), packet);
+                LOGGER.info("<-- {} ({})", packet.getClass().getSimpleName(), packet);
                 notifyAsynchrounsCommand(packet);
             }
             break;
 
             case 0x60: { //We received a SRSP
-                LOGGER.info("<- ({}) ({})", packet.getClass().getSimpleName(), packet);
+                LOGGER.info("<- {} ({})", packet.getClass().getSimpleName(), packet);
                 notifySynchrounsCommand(packet);
             }
             break;
@@ -121,7 +121,7 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
 
 
         //FIX Sending byte instead of int
-        LOGGER.info("-> ({}) ({}) ", packet.getClass().getSimpleName(), packet.toString());
+        LOGGER.info("-> {} ({}) ", packet.getClass().getSimpleName(), packet.toString());
 
         final int[] pck = packet.getPacket();
         synchronized (serialPort) {

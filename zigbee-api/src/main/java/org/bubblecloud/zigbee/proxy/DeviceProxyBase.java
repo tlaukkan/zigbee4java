@@ -86,7 +86,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
         this.context = context;
 
         final int size;
-        clusterMode = ProvidedClusterMode.EitherInputAndOutput;
+        clusterMode = ProvidedClusterMode.HomeAutomationProfileStrict;
         if (clusterMode == ProvidedClusterMode.HomeAutomationProfileStrict) {
             size = device.getInputClusters().length;
         } else {

@@ -135,7 +135,7 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
             Map.Entry<Class<?>, Class<?>> refining = i.next();
             try {
                 context.getDeviceProxyFactories().add(
-                        new DeviceProxyFactoryImpl(context, refining.getKey(), refining.getValue()).register());
+                        new DeviceProxyFactoryImpl(context, refining.getKey(), refining.getValue()));
             } catch (Exception ex) {
                 LOGGER.error("Failed to register DeviceProxyFactoryImpl for " + refining.getKey(), ex);
             }

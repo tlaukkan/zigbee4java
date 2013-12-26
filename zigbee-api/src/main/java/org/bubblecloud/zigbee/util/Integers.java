@@ -386,8 +386,8 @@ public class Integers {
     }
 
     /**
+     * @param src an array of <code>byte</code> that contains the encoded 24bit int
      * @param pos  the point where to start from reading the 24bit
-     * @param data an array of <code>byte</code> that contains the encoded 24bit int
      * @return an <code>int</code> decoded from the data array
      * @since 0.2.0
      */

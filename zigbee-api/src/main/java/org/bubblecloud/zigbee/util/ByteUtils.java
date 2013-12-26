@@ -91,34 +91,6 @@ public class ByteUtils {
         return val;
     }
 
-    public static int[] convertInttoMultiByte(int val) {
-
-        // must decompose into a max of 4 bytes
-        // b1		b2		 b3		  b4
-        // 01111111 11111111 11111111 11111111
-        // 127      255      255      255
-
-        int size = 0;
-
-        if ((val >> 24) > 0) {
-            size = 4;
-        } else if ((val >> 16) > 0) {
-            size = 3;
-        } else if ((val >> 8) > 0) {
-            size = 2;
-        } else {
-            size = 1;
-        }
-
-        int[] data = new int[size];
-
-        for (int i = 0; i < size; i++) {
-            data[i] = (val >> (size - i - 1) * 8) & 0xFF;
-        }
-
-        return data;
-    }
-
     public static int[] convertLongtoMultiByte(long val) {
 
         int size = 0;
@@ -152,13 +124,6 @@ public class ByteUtils {
 
     public final static String toBase16(final int[] arr) {
         return toBase16(arr, 0, arr.length);
-    }
-
-    /**
-     * @since 0.6.0
-     */
-    public final static String toBase16(final int[] arr, final int start) {
-        return toBase16(arr, start, arr.length);
     }
 
     /**
@@ -247,48 +212,6 @@ public class ByteUtils {
         return sb.toString();
     }
 
-
-    public static String toBase2(int[] arr) {
-
-        StringBuffer sb = new StringBuffer();
-
-        for (int i = 0; i < arr.length; i++) {
-            sb.append(toBase2(arr[i]));
-
-            if (i < arr.length - 1) {
-                sb.append(" ");
-            }
-        }
-
-        return sb.toString();
-    }
-
-    public static String toBase10(int[] arr) {
-
-        StringBuffer sb = new StringBuffer();
-
-        for (int i = 0; i < arr.length; i++) {
-            sb.append((arr[i]));
-
-            if (i < arr.length - 1) {
-                sb.append(" ");
-            }
-        }
-
-        return sb.toString();
-    }
-
-    public static String toChar(int[] arr) {
-
-        StringBuffer sb = new StringBuffer();
-
-        for (int i = 0; i < arr.length; i++) {
-            sb.append((char) arr[i]);
-        }
-
-        return sb.toString();
-    }
-
     private static String padBase2(String s) {
 
         for (int i = s.length(); i < 8; i++) {
@@ -297,27 +220,6 @@ public class ByteUtils {
 
         return s;
     }
-
-//	/**
-//	 * Determines the bit value of a single byte
-//	 *
-//	 * @param b
-//	 * @return
-//	 */
-//	public static boolean[] parseBits(int b) {
-//
-//		boolean[] results = new boolean[8];
-//
-//		for (int i = 0; i < 8; i++) {
-//			if (((b >> i) & 0x1) == 0x1) {
-//				results[i] = true;
-//			} else {
-//				results[i] = false;
-//			}
-//		}
-//
-//		return results;
-//	}
 
     /**
      * Returns true if the bit is on (1) at the specified position
@@ -382,43 +284,6 @@ public class ByteUtils {
 
     public static String formatByte(int b) {
         return "base10=" + Integer.toString(b) + ",base16=" + toBase16(b) + ",base2=" + toBase2(b);
-    }
-
-    public static int[] stringToIntArray(String s) {
-        int[] intArr = new int[s.length()];
-
-        for (int i = 0; i < s.length(); i++) {
-            intArr[i] = (int) s.charAt(i);
-        }
-
-        return intArr;
-    }
-
-    /**
-     * Parses a 10-bit analog value from the input stream
-     *
-     * @param pos relative position in packet (for logging only)
-     * @return
-     * @throws java.io.IOException
-     */
-    public static int parse10BitAnalog(int msb, int lsb) throws IOException {
-        msb = msb & 0xff;
-
-        // shift up bits 9 and 10 of the msb
-        msb = (msb & 0x3) << 8;
-
-//		log.debug("shifted msb is " + msb);
-
-        lsb = lsb & 0xff;
-
-        return msb + lsb;
-    }
-
-    public static int parse10BitAnalog(IIntArrayInputStream in, int pos) throws IOException {
-        int adcMsb = in.read("Analog " + pos + " MSB");
-        int adcLsb = in.read("Analog " + pos + " LSB");
-
-        return ByteUtils.parse10BitAnalog(adcMsb, adcLsb);
     }
 
 }

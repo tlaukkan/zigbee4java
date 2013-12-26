@@ -44,7 +44,6 @@ public abstract class DeviceProxyFactoryBase implements DeviceProxyFactory {
 
     protected ZigbeeProxyContext ctx;
 
-    private Dictionary dictionary;
     private Class<?> refinement;
     protected int[] clusters;
 
@@ -55,8 +54,6 @@ public abstract class DeviceProxyFactoryBase implements DeviceProxyFactory {
     public DeviceProxyFactoryBase(ZigbeeProxyContext ctx, Class<?> refinement) {
         this.ctx = ctx;
         this.refinement = refinement;
-        dictionary = new Properties();
-        dictionary.put(ZigBeeDevice.PROFILE_ID, Integer.toString(ProxyConstants.ID));
     }
 
     public abstract int getDeviceId();
@@ -86,10 +83,6 @@ public abstract class DeviceProxyFactoryBase implements DeviceProxyFactory {
 
     public abstract DeviceProxyBase getInstance(ZigBeeDevice zbDevice);
 
-    public void addProperty(String key, Object value) {
-        dictionary.put(key, value);
-    }
-
     public int hasMatch(ZigBeeDevice device) {
         int[] inputClusterIDs = device.getInputClusters();
         int[] refinedClusterIds = (int[]) getDeviceClusters();
@@ -102,28 +95,9 @@ public abstract class DeviceProxyFactoryBase implements DeviceProxyFactory {
             }
         }
 
-        score += device.getDeviceId() == getDeviceId()
-                ? ZigBeeDevice.MATCH_DEVICE_ID : 0;
+        score += device.getDeviceId() == getDeviceId() ? ZigBeeDevice.MATCH_DEVICE_ID : 0;
 
         return score;
-    }
-
-    public DeviceProxyFactoryBase register() {
-        dictionary.put(ZigBeeDevice.DEVICE_ID, getDeviceId());
-        dictionary.put(ZigBeeDevice.CLUSTERS_INPUT_ID, getDeviceClusters());
-        if (logger.isInfoEnabled()) {
-            logger.debug(
-                    "Registering a DeviceProxyFactory ( a refinement driver ) whose refines service with deviceId={} and clusters={}",
-                    getDeviceId(), Arrays.toString(getDeviceClusters())
-            );
-        }
-        //registration = ctx.registerService(DeviceProxyFactory.class.getName(), this, dictionary);
-        return this;
-    }
-
-    public DeviceProxyFactoryBase unregister() {
-        //registration.unregister();
-        return this;
     }
 
 }

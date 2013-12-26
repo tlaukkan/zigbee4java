@@ -93,7 +93,6 @@ public class DoubleByte {
 
     @Override
     public String toString() {
-        String cab = "0x";
         String MSB = Integer.toHexString(msb);
         if (MSB.length() == 1) MSB = "0" + MSB;
         String LSB = Integer.toHexString(lsb);
