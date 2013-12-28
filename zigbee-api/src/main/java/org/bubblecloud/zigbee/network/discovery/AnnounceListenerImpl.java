@@ -26,7 +26,6 @@ import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
 import org.bubblecloud.zigbee.network.AnnounceListener;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
-import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
 import org.slf4j.Logger;
@@ -42,24 +41,24 @@ import org.slf4j.LoggerFactory;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public class AnnounceListenerThread implements AnnounceListener {
+public class AnnounceListenerImpl implements AnnounceListener {
 
-    private final static Logger logger = LoggerFactory.getLogger(AnnounceListenerThread.class);
+    private final static Logger logger = LoggerFactory.getLogger(AnnounceListenerImpl.class);
 
     private final ImportingQueue queue;
 
-    private final ZigbeeNetworkManager driver;
+    private final ZigbeeNetworkManager zigbeeNetworkManager;
 
     /**
-     * Created the {@link AnnounceListenerThread} object and register itself to the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManager}<br>
+     * Created the {@link AnnounceListenerImpl} object and register itself to the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManager}<br>
      * as {@link ImportingQueue}
      *
      * @param queue  the {@link ImportingQueue} used to add the discovered devices
      * @param driver the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManager} to use for subscription
      */
-    public AnnounceListenerThread(final ImportingQueue queue, final ZigbeeNetworkManager driver) {
+    public AnnounceListenerImpl(final ImportingQueue queue, final ZigbeeNetworkManager driver) {
         this.queue = queue;
-        this.driver = driver;
+        this.zigbeeNetworkManager = driver;
     }
 
     public void notify(ZToolAddress16 senderAddress,
@@ -68,13 +67,9 @@ public class AnnounceListenerThread implements AnnounceListener {
 
         logger.info("Received an ANNOUNCE from {} {}", senderAddress, ieeeAddress);
         queue.push(senderAddress, ieeeAddress);
-        ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork().notifyNodeAnnounced(
+        ApplicationFrameworkLayer.getAFLayer(zigbeeNetworkManager).getZigBeeNetwork().notifyNodeAnnounced(
                 new ZigBeeNodeImpl(senderAddress.get16BitValue(), ieeeAddress,
-                        (short) driver.getCurrentPanId()));
-    }
-
-    private void annuncedNode(ZigBeeNode node) {
-        ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork().notifyNodeAnnounced(node);
+                        (short) zigbeeNetworkManager.getCurrentPanId()));
     }
 
 }

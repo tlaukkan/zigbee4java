@@ -43,12 +43,12 @@ public class ZigbeeDiscoveryManager {
     private final static Logger logger = LoggerFactory.getLogger(ZigbeeDiscoveryManager.class);
 
     private ZigbeeNetworkManager managementInterface;
-    private AnnounceListenerThread annunceListener;
+    private AnnounceListenerImpl annunceListener;
 
-    private NetworkBrowserThread networkBrowser = null;
-    private LQINetworkBrowserThread networkLQIBrowser = null;
+    private AssociationNetworkBrowser networkBrowser = null;
+    private LinkQualityIndicatorNetworkBrowser networkLQIBrowser = null;
 
-    private DeviceBuilderThread deviceBuilder;
+    private DeviceBuilder deviceBuilder;
     private final ImportingQueue importingQueue;
 
     private EnumSet<DiscoveryMode> enabledDiscoveries;
@@ -65,29 +65,29 @@ public class ZigbeeDiscoveryManager {
         ApplicationFrameworkLayer.getAFLayer(managementInterface);
 
         if (enabledDiscoveries.contains(DiscoveryMode.Announce)) {
-            annunceListener = new AnnounceListenerThread(importingQueue, managementInterface);
+            annunceListener = new AnnounceListenerImpl(importingQueue, managementInterface);
             managementInterface.addAnnunceListener(annunceListener);
         } else {
             logger.debug("ANNUNCE discovery disabled.");
         }
 
         if (enabledDiscoveries.contains(DiscoveryMode.Addressing)) {
-            networkBrowser = new NetworkBrowserThread(importingQueue, managementInterface);
+            networkBrowser = new AssociationNetworkBrowser(importingQueue, managementInterface);
             new Thread(networkBrowser, "NetworkBrowser[" + managementInterface + "]").start();
         } else {
             logger.debug("{} discovery disabled.",
-                    NetworkBrowserThread.class);
+                    AssociationNetworkBrowser.class);
         }
 
         if (enabledDiscoveries.contains(DiscoveryMode.LinkQuality)) {
-            networkLQIBrowser = new LQINetworkBrowserThread(importingQueue, managementInterface);
-            new Thread(networkLQIBrowser, "LQINetworkBrowser[" + managementInterface + "]").start();
+            networkLQIBrowser = new LinkQualityIndicatorNetworkBrowser(importingQueue, managementInterface);
+            new Thread(networkLQIBrowser, "LinkQualityIndicatorNetworkBrowser[" + managementInterface + "]").start();
         } else {
             logger.debug("{} discovery disabled.",
-                    LQINetworkBrowserThread.class);
+                    LinkQualityIndicatorNetworkBrowser.class);
         }
 
-        deviceBuilder = new DeviceBuilderThread(importingQueue, managementInterface);
+        deviceBuilder = new DeviceBuilder(importingQueue, managementInterface);
         new Thread(deviceBuilder, "DeviceBuilder[" + managementInterface + "]").start();
     }
 

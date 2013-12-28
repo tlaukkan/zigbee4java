@@ -51,9 +51,9 @@ import java.util.List;
  * @version $LastChangedRevision: 67 $ ($LastChangedDate: 2010-10-01 04:08:24 +0200 (ven, 01 ott 2010) $)
  * @since 0.7.0
  */
-public class LQINetworkBrowserThread extends RunnableThread {
+public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
 
-    private static final Logger logger = LoggerFactory.getLogger(LQINetworkBrowserThread.class);
+    private static final Logger logger = LoggerFactory.getLogger(LinkQualityIndicatorNetworkBrowser.class);
 
     private static final short COORDINATOR_NWK_ADDRESS = 0;
     private static final short LQI_START_INDEX = 0;
@@ -84,7 +84,7 @@ public class LQINetworkBrowserThread extends RunnableThread {
         }
     }
 
-    public LQINetworkBrowserThread(ImportingQueue queue, ZigbeeNetworkManager driver) {
+    public LinkQualityIndicatorNetworkBrowser(ImportingQueue queue, ZigbeeNetworkManager driver) {
         this.queue = queue;
         this.driver = driver;
     }
@@ -267,98 +267,6 @@ public class LQINetworkBrowserThread extends RunnableThread {
         toInspect.clear();
     }
 
-    /*
-    private ArrayList<NetworkAddressNodeItem> addChildrenNodesToInspectingQueue(NetworkAddressNodeItem inspecting, ZDO_IEEE_ADDR_RSP result) {
-        int start = 0;
-        final ArrayList<NetworkAddressNodeItem> adding = new ArrayList<NetworkAddressNodeItem>();
-        do{
-
-            short[] toAdd = result.getAssociatedDeviceList();
-            for (int i = 0; i < toAdd.length; i++) {
-                logger.info("Found node #{} associated to node #{}",toAdd[i],inspecting.address);
-                final NetworkAddressNodeItem next = new NetworkAddressNodeItem(inspecting, toAdd[i]);
-                final NetworkAddressNodeItem found = alreadyInspected.get(toAdd[i]);
-                if( found != null ) {
-                    //NOTE Logging this wrong behavior but doing nothing
-                    logger.error(
-                            "BROKEN ZIGBEE UNDERSTANDING (while walking address-tree): " +
-                                    "found twice the same node with network address {} ", toAdd[i]
-                            );
-                    logger.debug("Previus node data was {} while current has parent {}", found, inspecting);
-                } else {
-                    adding.add(next);
-                }
-            }
-            if( toAdd.length + result.getStartIndex() >= result.getAssociatedDeviceCount() ) {
-                //NOTE No more node connected to inspecting
-                return adding;
-            }
-            start += toAdd.length;
-
-            logger.info(
-                    "Node #{} as many too many device connected to it received only {} out of {}, " +
-                            "we need to inspect it once more", new Object[]{
-                            inspecting.address, toAdd.length, result.getAssociatedDeviceCount()
-                    });
-            result = driver.sendZDOIEEEAddressRequest(
-                    new ZDO_IEEE_ADDR_REQ(inspecting.address,ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED,(byte) start )
-                    );
-            if ( result == null ){
-                logger.error("Faild to further inspect connected device to node #{}", inspecting.address);
-            }
-        }while(result != null);
-
-        return adding;
-    }
-
-    private ArrayList<NetworkAddressNodeItem> addChildrenNodesToInspectingQueue(NetworkAddressNodeItem inspecting, ZDO_MGMT_LQI_RSP result) {
-        //int start = 0;
-        final ArrayList<NetworkAddressNodeItem> adding = new ArrayList<NetworkAddressNodeItem>();
-        //do{
-
-        NeighborLqiListItemClass[] list = (NeighborLqiListItemClass[]) result.getNeighborLqiList();
-        List<ZToolAddress16> toAdd = new ArrayList<ZToolAddress16>();
-        for(int i = 0; i < list.length; i++)
-            toAdd.add(list[i].NetworkAddress);
-
-        //List<ZToolAddress16> toAdd = result.getNeighborAddressList();
-        for (int i = 0; i < toAdd.size(); i++) {
-            logger.info("Found node #{} associated to node #{}", toAdd.get(i), inspecting.address);
-            final NetworkAddressNodeItem next = new NetworkAddressNodeItem(inspecting, (short)toAdd.get(i).get16BitValue());
-            final NetworkAddressNodeItem found = alreadyInspected.get((short)toAdd.get(i).get16BitValue());
-            if( found != null ) {
-                //NOTE Logging this wrong behavior but doing nothing
-                logger.error(
-                        "BROKEN ZIGBEE UNDERSTANDING (while walking address-tree): " +
-                                "found twice the same node with network address {} ", (short)toAdd.get(i).get16BitValue()
-                        );
-                logger.debug("Previus node data was {} while current has parent {}", found, inspecting);
-            } else {
-                adding.add(next);
-            }
-        }
-        //if( toAdd.size() + result.getStartIndex() >= result.getAssociatedDeviceCount() ) {
-        //NOTE No more node connected to inspecting
-        return adding;
-//		}
-//			start += toAdd.length;
-//
-//			logger.info(
-//					"Node #{} as many too many device connected to it received only {} out of {}, " +
-//							"we need to inspect it once more", new Object[]{
-//							inspecting.address, toAdd.length, result.getAssociatedDeviceCount()
-//					});
-//			result = driver.sendZDOIEEEAddressRequest(
-//					new ZDO_IEEE_ADDR_REQ(inspecting.address,ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED,(byte) start )
-//					);
-//			if ( result == null ){
-//				logger.error("Faild to further inspect connected device to node #{}", inspecting.address);
-//			}
-//		}while(result != null);
-//
-//		return adding;
-    }
-     */
     private void notifyBrowsedNode(NetworkAddressNodeItem item) {
         final ZigBeeNode child = item.node;
         final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();

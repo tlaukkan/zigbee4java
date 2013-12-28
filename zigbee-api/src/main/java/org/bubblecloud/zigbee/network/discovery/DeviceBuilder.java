@@ -41,7 +41,7 @@ import java.util.Map.Entry;
 
 /**
  * This class implements the {@link Thread} that completes the discovery of the node<br>
- * found either by {@link NetworkBrowserThread} or {@link AnnounceListenerThread} by<br>
+ * found either by {@link AssociationNetworkBrowser} or {@link AnnounceListenerImpl} by<br>
  * inspecting the <i>End Point</i> on the node.<br>
  * The inspection of each <i>End Point</i> lead to the creation {@link org.bubblecloud.zigbee.network.ZigBeeDevice}<br>
  * service, that is registered on the OSGi framework.
@@ -52,9 +52,9 @@ import java.util.Map.Entry;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public class DeviceBuilderThread implements Stoppable {
+public class DeviceBuilder implements Stoppable {
 
-    private static final Logger logger = LoggerFactory.getLogger(DeviceBuilderThread.class);
+    private static final Logger logger = LoggerFactory.getLogger(DeviceBuilder.class);
 
     private final ImportingQueue queue;
     private final List<ZigBeeDeviceReference> failedDevice = new ArrayList<ZigBeeDeviceReference>();
@@ -82,7 +82,7 @@ public class DeviceBuilderThread implements Stoppable {
         }
     }
 
-    public DeviceBuilderThread(ImportingQueue queue, ZigbeeNetworkManager driver) {
+    public DeviceBuilder(ImportingQueue queue, ZigbeeNetworkManager driver) {
         this.queue = queue;
         this.driver = driver;
     }

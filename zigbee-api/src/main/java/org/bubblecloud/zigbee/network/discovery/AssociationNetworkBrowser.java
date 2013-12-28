@@ -46,9 +46,9 @@ import java.util.HashMap;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public class NetworkBrowserThread extends RunnableThread {
+public class AssociationNetworkBrowser extends RunnableThread {
 
-    private static final Logger logger = LoggerFactory.getLogger(NetworkBrowserThread.class);
+    private static final Logger logger = LoggerFactory.getLogger(AssociationNetworkBrowser.class);
 
     private static final short COORDINATOR_NWK_ADDRESS = 0;
 
@@ -78,7 +78,7 @@ public class NetworkBrowserThread extends RunnableThread {
         }
     }
 
-    public NetworkBrowserThread(ImportingQueue queue, ZigbeeNetworkManager driver) {
+    public AssociationNetworkBrowser(ImportingQueue queue, ZigbeeNetworkManager driver) {
         this.queue = queue;
         this.driver = driver;
     }
