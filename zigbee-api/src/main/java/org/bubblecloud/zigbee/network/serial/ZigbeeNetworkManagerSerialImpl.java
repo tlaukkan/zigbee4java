@@ -19,7 +19,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package org.bubblecloud.zigbee;
+package org.bubblecloud.zigbee.network.serial;
 
 import org.bubblecloud.zigbee.network.*;
 import org.bubblecloud.zigbee.network.packet.*;
@@ -30,7 +30,6 @@ import org.bubblecloud.zigbee.network.packet.system.SYS_RESET_RESPONSE;
 import org.bubblecloud.zigbee.network.packet.util.UTIL_GET_DEVICE_INFO;
 import org.bubblecloud.zigbee.network.packet.util.UTIL_GET_DEVICE_INFO_RESPONSE;
 import org.bubblecloud.zigbee.network.packet.zdo.*;
-import org.bubblecloud.zigbee.serial.ZigbeeSerialInterface;
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.network.model.*;
 import org.slf4j.Logger;

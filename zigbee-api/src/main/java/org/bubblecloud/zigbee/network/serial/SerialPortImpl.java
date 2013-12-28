@@ -19,7 +19,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package org.bubblecloud.zigbee.serial;
+package org.bubblecloud.zigbee.network.serial;
 
 import j.extensions.comm.SerialComm;
 import org.slf4j.Logger;

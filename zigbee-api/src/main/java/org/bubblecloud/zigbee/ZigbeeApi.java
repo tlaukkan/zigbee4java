@@ -15,6 +15,7 @@
  */
 package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.network.discovery.ZigbeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
@@ -34,6 +35,7 @@ import org.bubblecloud.zigbee.proxy.device.impl.*;
 import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.network.DeviceListener;
+import org.bubblecloud.zigbee.network.serial.ZigbeeNetworkManagerSerialImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

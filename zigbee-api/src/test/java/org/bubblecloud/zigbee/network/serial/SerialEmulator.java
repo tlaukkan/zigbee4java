@@ -19,9 +19,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package org.bubblecloud.zigbee.serial;
+package org.bubblecloud.zigbee.network.serial;
 
-import org.bubblecloud.zigbee.network.packet.ZToolPacketHandler;
 import org.bubblecloud.zigbee.network.packet.ZToolPacketParser;
 import org.bubblecloud.zigbee.util.ThreadUtils;
 import org.slf4j.Logger;

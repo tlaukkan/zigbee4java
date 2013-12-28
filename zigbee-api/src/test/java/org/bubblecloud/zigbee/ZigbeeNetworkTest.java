@@ -1,10 +1,12 @@
 package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.network.discovery.ZigbeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
 import org.bubblecloud.zigbee.proxy.DeviceProxy;
 import org.bubblecloud.zigbee.proxy.cluster.general.OnOff;
+import org.bubblecloud.zigbee.network.serial.ZigbeeNetworkManagerSerialImpl;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

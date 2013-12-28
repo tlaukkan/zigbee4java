@@ -19,11 +19,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package org.bubblecloud.zigbee;
+package org.bubblecloud.zigbee.network.discovery;
 
 import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
-import org.bubblecloud.zigbee.network.discovery.*;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
