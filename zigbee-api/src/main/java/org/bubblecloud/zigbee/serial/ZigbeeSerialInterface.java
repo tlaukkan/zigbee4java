@@ -25,6 +25,7 @@ import org.bubblecloud.zigbee.network.SynchrounsCommandListener;
 import org.bubblecloud.zigbee.network.packet.ZToolException;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.network.packet.ZToolPacketHandler;
+import org.bubblecloud.zigbee.network.packet.ZToolPacketParser;
 import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.network.AsynchrounsCommandListener;
 import org.slf4j.Logger;
@@ -49,8 +50,14 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
      * The serial port name.
      */
     final String serialPortName;
-
-    final SerialPort serialPort;
+    /**
+     * The serial interface.
+     */
+    final SerialPortImpl serialPort;
+    /**
+     * The packet parser.
+     */
+    private ZToolPacketParser parser;
 
     /**
      * Constructor for configuring the Zigbee Network connection parameters.
@@ -59,7 +66,7 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
      */
     public ZigbeeSerialInterface(String serialPortName) {
         this.serialPortName = serialPortName;
-        serialPort = new SerialPort();
+        serialPort = new SerialPortImpl();
     }
 
     /**
@@ -68,13 +75,11 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
      * @return true if connection open was success.
      */
     public boolean open() {
-        try {
-            serialPort.open(serialPortName, 115200, this);
-            return true;
-        } catch (final ZToolException e) {
-            LOGGER.error("Failed to open serial port.", e);
+        if (!serialPort.open(serialPortName, 115200)) {
             return false;
         }
+        parser = new ZToolPacketParser(serialPort.getInputStream(), this);
+        return true;
     }
 
     /**
@@ -82,7 +87,12 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
      */
     public void close() {
         synchronized (serialPort) {
-            serialPort.close();
+            if (serialPort != null) {
+                serialPort.close();
+            }
+            if (parser != null) {
+                parser.close();
+            }
         }
     }
 
@@ -237,7 +247,6 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
 
 
     protected void notifySynchrounsCommand(ZToolPacket packet) {
-        //PRE: We received a SRSP packet
         final DoubleByte cmdId = packet.getCMD();
 
         synchronized (pendingSREQ) {
@@ -278,8 +287,6 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
     }
 
     protected void notifyAsynchrounsCommand(ZToolPacket packet) {
-        //PRE: We received a AREQ packet
-        //XXX Should we split to Multi-threaded notifier to speed up everything
         AsynchrounsCommandListener[] copy;
 
         synchronized (listeners) {

@@ -35,7 +35,7 @@ import java.util.ArrayList;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
  */
-public class SerialEmulator implements SerialHandler {
+public class SerialEmulator implements SerialPort {
 
     private final static Logger logger = LoggerFactory.getLogger(SerialEmulator.class);
 
@@ -299,12 +299,17 @@ public class SerialEmulator implements SerialHandler {
         return eos;
     }
 
-    public void open(String port, int baudRate, ZToolPacketHandler packethandler) {
-        if (timeing) {
+    public InputStream getInputStream() {
+        return eis;
+    }
+
+    public boolean open(String port, int baudRate) {
+        /*if (timeing) {
             parser = new ZToolPacketParser(eis, packethandler);
         } else {
             parser = new ZToolPacketParser(eis.getFullInputStream(), packethandler);
-        }
+        }*/
+        return true;
     }
 
     public ZToolPacketParser getParser() {
