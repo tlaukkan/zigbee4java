@@ -31,11 +31,32 @@ import java.io.OutputStream;
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
 public interface SerialPort {
+    /**
+     * Open the serial port.
+     *
+     * @param port the port name
+     * @param rate the rate
+     *
+     * @return true if open was success.
+     */
     public boolean open(String port, int rate);
 
+    /**
+     * Close the serial port.
+     */
+    public void close();
+
+    /**
+     * Gets output stream connected to the serial port.
+     *
+     * @return the output stream
+     */
     public OutputStream getOutputStream();
 
+    /**
+     * Gets input stream connected to the serial port.
+     *
+     * @return the input stream
+     */
     public InputStream getInputStream();
-
-    public void close();
 }

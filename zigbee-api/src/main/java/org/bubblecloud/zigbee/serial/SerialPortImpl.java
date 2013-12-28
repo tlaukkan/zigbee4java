@@ -33,10 +33,7 @@ import java.util.Map;
 /**
  * The serial-comm implementation of SerialPort.
  *
- * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.6.0
  */
 public class SerialPortImpl implements SerialPort {
     /**
@@ -56,12 +53,7 @@ public class SerialPortImpl implements SerialPort {
      */
     private OutputStream outputStream;
 
-    /**
-     * Opens serial port and starts packet parser.
-     *
-     * @param port              the port
-     * @param baudRate          the baud rate
-     */
+    @Override
     public boolean open(final String port, final int baudRate) {
         try {
             openSerialPort(port, 0, baudRate, 8, SerialComm.ONE_STOP_BIT,
@@ -122,9 +114,7 @@ public class SerialPortImpl implements SerialPort {
         outputStream = serialPort.getOutputStream();
     }
 
-    /**
-     * Closes serial port and packet parser.
-     */
+    @Override
     public void close() {
         try {
             if (serialPort != null) {
@@ -149,20 +139,12 @@ public class SerialPortImpl implements SerialPort {
         }
     }
 
-    /**
-     * Gets port output stream.
-     *
-     * @return the output stream
-     */
+    @Override
     public OutputStream getOutputStream() {
         return outputStream;
     }
 
-    /**
-     * Gets serial port input stream.
-     *
-     * @return the input stream
-     */
+    @Override
     public InputStream getInputStream() {
         return inputStream;
     }
