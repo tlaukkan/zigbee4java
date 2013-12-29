@@ -22,19 +22,19 @@ import org.bubblecloud.zigbee.network.impl.ZigbeeNetwork;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
-import org.bubblecloud.zigbee.proxy.DeviceProxyListener;
+import org.bubblecloud.zigbee.api.DeviceListener;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
-import org.bubblecloud.zigbee.proxy.*;
-import org.bubblecloud.zigbee.proxy.device.generic.*;
-import org.bubblecloud.zigbee.proxy.device.hvac.Pump;
-import org.bubblecloud.zigbee.proxy.device.hvac.TemperatureSensor;
-import org.bubblecloud.zigbee.proxy.device.lighting.*;
-import org.bubblecloud.zigbee.proxy.device.security_safety.IASAncillaryControlEquipment;
-import org.bubblecloud.zigbee.proxy.device.security_safety.IASControlAndIndicatingEquipment;
-import org.bubblecloud.zigbee.proxy.device.security_safety.IAS_Warning;
-import org.bubblecloud.zigbee.proxy.device.security_safety.IAS_Zone;
-import org.bubblecloud.zigbee.proxy.device.impl.*;
-import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
+import org.bubblecloud.zigbee.api.*;
+import org.bubblecloud.zigbee.api.device.generic.*;
+import org.bubblecloud.zigbee.api.device.hvac.Pump;
+import org.bubblecloud.zigbee.api.device.hvac.TemperatureSensor;
+import org.bubblecloud.zigbee.api.device.lighting.*;
+import org.bubblecloud.zigbee.api.device.security_safety.IASAncillaryControlEquipment;
+import org.bubblecloud.zigbee.api.device.security_safety.IASControlAndIndicatingEquipment;
+import org.bubblecloud.zigbee.api.device.security_safety.IAS_Warning;
+import org.bubblecloud.zigbee.api.device.security_safety.IAS_Zone;
+import org.bubblecloud.zigbee.api.device.impl.*;
+import org.bubblecloud.zigbee.api.DeviceBase;
 import org.bubblecloud.zigbee.network.serial.ZigbeeNetworkManagerSerialImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +49,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
-public class ZigbeeApi implements EndpointListener, DeviceProxyListener {
+public class ZigbeeApi implements EndpointListener, DeviceListener {
     /**
      * The logger.
      */
@@ -65,7 +65,7 @@ public class ZigbeeApi implements EndpointListener, DeviceProxyListener {
     /**
      * The Zigbee context.
      */
-    private ZigbeeProxyContext context;
+    private ZigbeeApiContext context;
     /**
      * The zigbee network.
      */
@@ -110,43 +110,43 @@ public class ZigbeeApi implements EndpointListener, DeviceProxyListener {
         network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
         network.addEndpointListenerListener(this);
 
-        context = new ZigbeeProxyContext();
+        context = new ZigbeeApiContext();
 
         final ClusterFactory clusterFactory = new ClusterFactoryImpl(context);
         context.setClusterFactory(clusterFactory);
 
-        final Map<Class<?>, Class<?>> interfaceProxyMap = new HashMap<Class<?>, Class<?>>();
-        interfaceProxyMap.put(ColorDimmableLight.class, ColorDimmableLightDeviceProxy.class);
-        interfaceProxyMap.put(DimmableLight.class, DimmableLightDeviceProxy.class);
-        interfaceProxyMap.put(IAS_Zone.class, IAS_ZoneDeviceProxy.class);
-        interfaceProxyMap.put(IASAncillaryControlEquipment.class, IASAncillaryControlEquipmentDeviceProxy.class);
-        interfaceProxyMap.put(IASControlAndIndicatingEquipment.class, IASControlAndIndicatingEquipmentDeviceProxy.class);
-        interfaceProxyMap.put(LevelControlSwitch.class, LevelControlSwitchDeviceProxy.class);
-        interfaceProxyMap.put(LightSensor.class, LightSensorDeviceProxy.class);
-        interfaceProxyMap.put(MainsPowerOutlet.class, MainsPowerOutletDeviceProxy.class);
-        interfaceProxyMap.put(OccupancySensor.class, OccupancySensorDeviceProxy.class);
-        interfaceProxyMap.put(OnOffLight.class, OnOffLightDeviceProxy.class);
-        interfaceProxyMap.put(OnOffLightSwitch.class, OnOffLightSwitchDeviceProxy.class);
-        interfaceProxyMap.put(OnOffOutput.class, OnOffOutputDeviceProxy.class);
-        interfaceProxyMap.put(OnOffSwitch.class, OnOffSwitchDeviceProxy.class);
-        interfaceProxyMap.put(OnOffLight.class, OnOffLightDeviceProxy.class);
-        interfaceProxyMap.put(Pump.class, PumpDeviceProxy.class);
-        interfaceProxyMap.put(TemperatureSensor.class, TemperatureSensorDeviceProxy.class);
-        interfaceProxyMap.put(IAS_Warning.class, IAS_Warning_DeviceProxy.class);
-        interfaceProxyMap.put(SimpleSensor.class, SimpleSensorDeviceProxy.class);
+        final Map<Class<?>, Class<?>> deviceIntefaceImplemetnationMap = new HashMap<Class<?>, Class<?>>();
+        deviceIntefaceImplemetnationMap.put(ColorDimmableLight.class, ColorDimmableLightDevice.class);
+        deviceIntefaceImplemetnationMap.put(DimmableLight.class, DimmableLightDevice.class);
+        deviceIntefaceImplemetnationMap.put(IAS_Zone.class, IAS_ZoneDevice.class);
+        deviceIntefaceImplemetnationMap.put(IASAncillaryControlEquipment.class, IASAncillaryControlEquipmentDevice.class);
+        deviceIntefaceImplemetnationMap.put(IASControlAndIndicatingEquipment.class, IASControlAndIndicatingEquipmentDevice.class);
+        deviceIntefaceImplemetnationMap.put(LevelControlSwitch.class, LevelControlSwitchDevice.class);
+        deviceIntefaceImplemetnationMap.put(LightSensor.class, LightSensorDevice.class);
+        deviceIntefaceImplemetnationMap.put(MainsPowerOutlet.class, MainsPowerOutletDevice.class);
+        deviceIntefaceImplemetnationMap.put(OccupancySensor.class, OccupancySensorDevice.class);
+        deviceIntefaceImplemetnationMap.put(OnOffLight.class, OnOffLightDevice.class);
+        deviceIntefaceImplemetnationMap.put(OnOffLightSwitch.class, OnOffLightSwitchDevice.class);
+        deviceIntefaceImplemetnationMap.put(OnOffOutput.class, OnOffOutputDevice.class);
+        deviceIntefaceImplemetnationMap.put(OnOffSwitch.class, OnOffSwitchDevice.class);
+        deviceIntefaceImplemetnationMap.put(OnOffLight.class, OnOffLightDevice.class);
+        deviceIntefaceImplemetnationMap.put(Pump.class, PumpDevice.class);
+        deviceIntefaceImplemetnationMap.put(TemperatureSensor.class, TemperatureSensorDevice.class);
+        deviceIntefaceImplemetnationMap.put(IAS_Warning.class, IAS_Warning_Device.class);
+        deviceIntefaceImplemetnationMap.put(SimpleSensor.class, SimpleSensorDevice.class);
 
-        final Iterator<Map.Entry<Class<?>, Class<?>>> i = interfaceProxyMap.entrySet().iterator();
+        final Iterator<Map.Entry<Class<?>, Class<?>>> i = deviceIntefaceImplemetnationMap.entrySet().iterator();
         while (i.hasNext()) {
             Map.Entry<Class<?>, Class<?>> refining = i.next();
             try {
                 context.getDeviceProxyFactories().add(
-                        new DeviceProxyFactoryImpl(context, refining.getKey(), refining.getValue()));
+                        new DeviceFactoryImpl(context, refining.getKey(), refining.getValue()));
             } catch (Exception ex) {
-                LOGGER.error("Failed to register DeviceProxyFactoryImpl for " + refining.getKey(), ex);
+                LOGGER.error("Failed to register DeviceFactoryImpl for " + refining.getKey(), ex);
             }
         }
 
-        context.addDeviceProxyListener(this);
+        context.addDeviceListener(this);
 
         discoveryManager.startup();
 
@@ -157,7 +157,7 @@ public class ZigbeeApi implements EndpointListener, DeviceProxyListener {
      * Shuts down network manager, network, context and discovery manager.
      */
     public void shutdown() {
-        context.removeDeviceProxyListener(this);
+        context.removeDeviceListener(this);
         network.removeEndpointListener(this);
 
         discoveryManager.shutdown();
@@ -188,7 +188,7 @@ public class ZigbeeApi implements EndpointListener, DeviceProxyListener {
      *
      * @return the Zigbee proxy context.
      */
-    public ZigbeeProxyContext getZigbeeProxyContext() {
+    public ZigbeeApiContext getZigbeeApiContext() {
         return context;
     }
 
@@ -203,14 +203,14 @@ public class ZigbeeApi implements EndpointListener, DeviceProxyListener {
 
     @Override
     public void endpointAdded(final ZigbeeEndpoint endpoint) {
-        final DeviceProxyFactory factory = context.getBestDeviceProxyFactory(endpoint);
+        final DeviceFactory factory = context.getBestDeviceProxyFactory(endpoint);
         if (factory == null) { // pending services
             LOGGER.warn("No proxy for Zigbee endpoint {} found.", endpoint.getDeviceId());
             return;
         }
 
-        final DeviceProxyBase haDevice = factory.getInstance(endpoint);
-        context.addDeviceProxy(haDevice);
+        final DeviceBase haDevice = factory.getInstance(endpoint);
+        context.addDevice(haDevice);
         LOGGER.info("Endpoint added: " + endpoint.getEndpointId());
     }
 
@@ -220,24 +220,24 @@ public class ZigbeeApi implements EndpointListener, DeviceProxyListener {
     }
 
     @Override
-    public void endpointRemoved(ZigbeeEndpoint endpoint) {
+    public void endpointRemoved(final ZigbeeEndpoint endpoint) {
         LOGGER.info("Endpoint removed: " + endpoint.getEndpointId());
     }
 
     @Override
-    public void deviceAdded(DeviceProxy device) {
+    public void deviceAdded(final Device device) {
         LOGGER.info(device.getClass().getSimpleName() +
                 " added: " + device.getDevice().getEndpointId());
     }
 
     @Override
-    public void deviceUpdated(DeviceProxy device) {
+    public void deviceUpdated(final Device device) {
         LOGGER.info(device.getClass().getSimpleName() +
                 " updated: " + device.getDevice().getEndpointId());
     }
 
     @Override
-    public void deviceRemoved(DeviceProxy device) {
+    public void deviceRemoved(final Device device) {
         LOGGER.info(device.getClass().getSimpleName() +
                 " removed: " + device.getDevice().getEndpointId());
     }

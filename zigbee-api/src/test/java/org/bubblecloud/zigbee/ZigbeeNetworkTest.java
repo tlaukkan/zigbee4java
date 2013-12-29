@@ -4,8 +4,8 @@ import org.bubblecloud.zigbee.network.discovery.ZigbeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
-import org.bubblecloud.zigbee.proxy.DeviceProxy;
-import org.bubblecloud.zigbee.proxy.cluster.general.OnOff;
+import org.bubblecloud.zigbee.api.Device;
+import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.network.serial.ZigbeeNetworkManagerSerialImpl;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -72,6 +72,7 @@ public class ZigbeeNetworkTest {
     }
 
     @Test
+    @Ignore
     public void testZigbeeApi() throws Exception {
         final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
         discoveryModes.remove(DiscoveryMode.LinkQuality);
@@ -83,9 +84,9 @@ public class ZigbeeNetworkTest {
 
         Thread.sleep(1000);
 
-        logger.info("Listing proxies:");
-        for (final DeviceProxy proxy : zigbeeApi.getZigbeeProxyContext().getDeviceProxies()) {
-            logger.info(proxy.getClass().getSimpleName() + " : " + proxy.getDevice().getEndpointId());
+        logger.info("Listing devices:");
+        for (final Device device : zigbeeApi.getZigbeeApiContext().getDevices()) {
+            logger.info(device.getClass().getSimpleName() + " : " + device.getDevice().getEndpointId());
         }
 
         /*int networkManagerAddress= 0;
@@ -103,26 +104,26 @@ public class ZigbeeNetworkTest {
 
         while (true) {
             try {
-                final DeviceProxy switchProxy = zigbeeApi.getZigbeeProxyContext().getDeviceProxy("00:12:4B:00:01:DD:8B:21/2");
-                final DeviceProxy lampProxy = zigbeeApi.getZigbeeProxyContext().getDeviceProxy("00:17:88:01:00:BE:51:EC/11");
+                final Device switchDevice = zigbeeApi.getZigbeeApiContext().getDevice("00:12:4B:00:01:DD:8B:21/2");
+                final Device lampDevice = zigbeeApi.getZigbeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
 
-                if (lampProxy == null) {
+                if (lampDevice == null) {
                     continue;
                 }
 
                 Thread.sleep(1000);
 
 
-                //switchProxy.bindTo(lampProxy, ZigbeeConstants.CLUSTER_ID_ON_OFF);
-                //lampProxy.bind(ZigbeeConstants.CLUSTER_ID_ON_OFF);
+                //switchProxy.bindTo(lampProxy, ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
+                //lampProxy.bind(ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
 
                 //Thread.sleep(1000);
 
-                final OnOff onOff = lampProxy.getCluster(OnOff.class);
+                final OnOff onOff = lampDevice.getCluster(OnOff.class);
                 onOff.off();
                 //Thread.sleep(5000);
 
-                //final PowerConfiguration powerConfiguration = (PowerConfiguration) switchProxy.getCluster(ZigbeeConstants.CLUSTER_ID_POWER_CONFIGURATION);
+                //final PowerConfiguration powerConfiguration = (PowerConfiguration) switchProxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_POWER_CONFIGURATION);
 
                 /*onOff.subscribe(new OnOffListener() {
 
@@ -133,24 +134,24 @@ public class ZigbeeNetworkTest {
                 });*/
 
 
-                /*final Groups groups = (Groups) lampProxy.getCluster(ZigbeeConstants.CLUSTER_ID_GROUPS);
+                /*final Groups groups = (Groups) lampProxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_GROUPS);
                 groups.addGroup(1, "test");*/
 
-                /*final Basic basic = (Basic) lampProxy.getCluster(ZigbeeConstants.CLUSTER_ID_BASIC);
+                /*final Basic basic = (Basic) lampProxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_BASIC);
                 logger.info("Reading manufacturer information for: " + lampProxy.getDevice().getEndpointId());
                 logger.info("" + basic.getManufacturerName().getValue());*/
-                /*final Basic basic = (Basic) proxy.getCluster(ZigbeeConstants.CLUSTER_ID_BASIC);
+                /*final Basic basic = (Basic) proxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_BASIC);
                 logger.info("Reading manufacturer information for: " + proxy.getDevice().getEndpointId());
                 logger.info("" + basic.getManufacturerName().getValue());*/
                 /*Thread.sleep(5000);
-                switchProxy.getDevice().bindTo(lampProxy.getDevice(), ZigbeeConstants.CLUSTER_ID_ON_OFF);
+                switchProxy.getDevice().bindTo(lampProxy.getDevice(), ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
                 Thread.sleep(5000);
-                lampProxy.getDevice().bindTo(switchProxy.getDevice(), ZigbeeConstants.CLUSTER_ID_ON_OFF);
+                lampProxy.getDevice().bindTo(switchProxy.getDevice(), ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
                 Thread.sleep(5000);*/
-                //final LevelControl levelControl = (LevelControl) lampProxy.getCluster(ZigbeeConstants.CLUSTER_ID_LEVEL_CONTROL);
+                //final LevelControl levelControl = (LevelControl) lampProxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_LEVEL_CONTROL);
                 //logger.info("Level: " + levelControl.getCurrentLevel().getValue());
-                //switchProxy.getDevice().bind(ZigbeeConstants.CLUSTER_ID_BASIC);
-                /*Basic basic = (Basic) lampProxy.getCluster(ZigbeeConstants.CLUSTER_ID_BASIC);
+                //switchProxy.getDevice().bind(ZigbeeApiConstants.CLUSTER_ID_BASIC);
+                /*Basic basic = (Basic) lampProxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_BASIC);
                 logger.info("" + basic.getModelIdentifier().getValue());*/
 
                 /*int networkManagerAddress= 0;
@@ -166,10 +167,10 @@ public class ZigbeeNetworkTest {
                         )
                 );*/
 
-                /*final OnOff onOff = (OnOff) proxy.getCluster(ZigbeeConstants.CLUSTER_ID_ON_OFF);
+                /*final OnOff onOff = (OnOff) proxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
                 onOff.off();*/
 
-                /*final Basic basic = (Basic) proxy.getCluster(ZigbeeConstants.CLUSTER_ID_BASIC);
+                /*final Basic basic = (Basic) proxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_BASIC);
                 logger.info("Reading manufacturer information for: " + proxy.getDevice().getEndpointId());
                 logger.info("" + basic.getManufacturerName().getValue());*/
 
@@ -188,7 +189,7 @@ public class ZigbeeNetworkTest {
                 });*/
 
                 /*if (proxy != null) {
-                    final Basic basic = (Basic) proxy.getCluster(ZigbeeConstants.CLUSTER_ID_BASIC);
+                    final Basic basic = (Basic) proxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_BASIC);
                     logger.info("Reading manufacturer information for: " + proxy.getDevice().getEndpointId());
                     logger.info("" + basic.getManufacturerName().getValue());
                 }
