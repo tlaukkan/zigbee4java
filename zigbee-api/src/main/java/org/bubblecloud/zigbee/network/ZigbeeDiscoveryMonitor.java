@@ -19,22 +19,17 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-
-package org.bubblecloud.zigbee.network.impl;
+package org.bubblecloud.zigbee.network;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.5.1
  */
-public class ZigBeeBasedriverException extends ZigBeeException {
+public interface ZigbeeDiscoveryMonitor {
 
-    public ZigBeeBasedriverException(String msg) {
-        super(msg);
-    }
+    public void browsedNode(ZigbeeNode node);
 
-    public ZigBeeBasedriverException(Throwable ex) {
-        super(ex);
-    }
+    public void announcedNode(ZigbeeNode node);
 
 }

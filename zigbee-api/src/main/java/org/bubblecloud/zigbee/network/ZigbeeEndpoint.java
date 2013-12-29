@@ -56,7 +56,7 @@ public interface ZigbeeEndpoint {
     /**
      * @return Address of the EndPoint represented by this object, value ranges from 1 to 240.
      */
-    public short getEndPoint();
+    public short getEndPointAddress();
 
     /**
      * @return the profile Id implemented by this EndPoint
@@ -69,19 +69,19 @@ public interface ZigbeeEndpoint {
     public int getDeviceId();
 
     /**
-     * @return the {@link ZigbeeNode} containing this EndPoint
+     * @return the {@link ZigbeeNode} containing this endpoint
      * @since 0.2.0
      */
     public ZigbeeNode getNode();
 
     /**
-     * @return a {@link String} the represent an URI of device.
+     * @return a {@link String} the represent an URI of endpoint.
      * @since 0.5.0
      */
-    public String getUniqueIdenfier();
+    public String getEndpointId();
 
     /**
-     * @return the device version implemented by this EndPoint
+     * @return the device version implemented by this endpoint
      */
     public short getDeviceVersion();
 
@@ -129,18 +129,18 @@ public interface ZigbeeEndpoint {
     public void send(ClusterMessage input) throws ZigbeeBasedriverException;
 
     /**
-     * This method modify the <i>Binding Table</i> of physical device by adding the following entry:
+     * This method modify the <i>Binding Table</i> of physical endpoint by adding the following entry:
      * <pre>
-     * this.getNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getNode().getIEEEAddress(), device.getDeviceId()
+     * this.getNode().getIEEEAddress(), this.getDeviceId(), clusterId, endpoint.getNode().getIEEEAddress(), endpoint.getDeviceId()
      * </pre>
      *
-     * @param device    {@link ZigbeeEndpoint} the device that we want to bound to
+     * @param endpoint    {@link ZigbeeEndpoint} the endpoint that we want to bound to
      * @param clusterId the clusterId that we want to bound to
      * @return <code>true</code> if and only if the operation succeeded
      * @throws org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException
      * @since 0.5.0
      */
-    public boolean bindTo(ZigbeeEndpoint device, int clusterId) throws ZigbeeBasedriverException;
+    public boolean bindTo(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeBasedriverException;
 
     /**
      * This method modify the <i>Binding Table</i> of physical device by removing the entry if exists
@@ -148,13 +148,13 @@ public interface ZigbeeEndpoint {
      * this.getNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getNode().getIEEEAddress(), device.getDeviceId()
      * </pre>
      *
-     * @param device    {@link ZigbeeEndpoint} the device that we want to bound to
+     * @param endpoint    {@link ZigbeeEndpoint} the device that we want to bound to
      * @param clusterId the clusterId that we want to unbound from
      * @return <code>true</code> if and only if the operation succeeded
      * @throws org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException
      * @since 0.5.0
      */
-    public boolean unbindFrom(ZigbeeEndpoint device, int clusterId) throws ZigbeeBasedriverException;
+    public boolean unbindFrom(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeBasedriverException;
 
     /**
      * @param clusterId

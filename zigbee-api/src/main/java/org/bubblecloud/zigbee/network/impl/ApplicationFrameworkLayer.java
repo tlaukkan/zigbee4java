@@ -107,9 +107,9 @@ public class ApplicationFrameworkLayer {
     }
 
 
-    public byte getSendingEndpoint(ZigbeeEndpoint device, int clusterId) {
+    public byte getSendingEndpoint(ZigbeeEndpoint endpoint, int clusterId) {
         SenderIdentifier si = new SenderIdentifier(
-                device.getProfileId(), (short) clusterId
+                endpoint.getProfileId(), (short) clusterId
         );
         logger.info("Looking for a registered enpoint among {}", sender2EndPoint.size());
         synchronized (sender2EndPoint) {
@@ -124,8 +124,8 @@ public class ApplicationFrameworkLayer {
         }
     }
 
-    public byte getSendingEndpoint(ZigbeeEndpoint device, ClusterMessage input) {
-        return getSendingEndpoint(device, input.getId());
+    public byte getSendingEndpoint(ZigbeeEndpoint endpoint, ClusterMessage input) {
+        return getSendingEndpoint(endpoint, input.getId());
     }
 
     private byte createEndPoint(SenderIdentifier si) {
@@ -143,7 +143,7 @@ public class ApplicationFrameworkLayer {
 
 		/*
 		 * //XXX Registering clusters only as input or output would increase the number of controllable clusters  
-		 * It could be possible that the device doesn't take into account if the cluster is registered as input
+		 * It could be possible that the endpoint doesn't take into account if the cluster is registered as input
 		 * or as output so we could double the capacity of the dongle by distinguish between input and outpu
 		 */
         //TODO We should use also output cluster in order to achieve 66 registration for each End Point
@@ -218,22 +218,22 @@ public class ApplicationFrameworkLayer {
 
     private Set<Integer> collectClusterForProfile(int profileId) {
         final HashSet<Integer> clusters = new HashSet<Integer>();
-        final Collection<ZigbeeEndpoint> devices = network.getEndpoints(profileId);
-        logger.debug("Found {} devices belonging to profile {}", devices.size(), profileId);
-        for (ZigbeeEndpoint device : devices) {
+        final Collection<ZigbeeEndpoint> endpoints = network.getEndpoints(profileId);
+        logger.debug("Found {} devices belonging to profile {}", endpoints.size(), profileId);
+        for (ZigbeeEndpoint endpoint : endpoints) {
             int[] ids;
-            ids = device.getInputClusters();
+            ids = endpoint.getInputClusters();
             logger.debug(
                     "Device {} provides the following cluster as input {}",
-                    device.getUniqueIdenfier(), ids
+                    endpoint.getEndpointId(), ids
             );
             for (int i = 0; i < ids.length; i++) {
                 clusters.add(ids[i]);
             }
-            ids = device.getOutputClusters();
+            ids = endpoint.getOutputClusters();
             logger.debug(
                     "Device {} provides the following cluster as input {}",
-                    device.getUniqueIdenfier(), ids
+                    endpoint.getEndpointId(), ids
             );
             for (int i = 0; i < ids.length; i++) {
                 clusters.add(ids[i]);

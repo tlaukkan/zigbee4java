@@ -75,7 +75,7 @@ public class ZigbeeProxyContext {
     }
 
     public void addDeviceProxy(final DeviceProxy device) {
-        deviceProxies.put(device.getDevice().getUniqueIdenfier(), device);
+        deviceProxies.put(device.getDevice().getEndpointId(), device);
         notifyDeviceProxyAdded(device);
     }
 

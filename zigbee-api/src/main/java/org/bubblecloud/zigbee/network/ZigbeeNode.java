@@ -27,8 +27,8 @@ import java.util.Dictionary;
 /**
  * This class represent a ZigBee node, it means a physical device that can communicate<br>
  * using the ZigBee protocol.<br>
- * Each physical may contain up 240 logical devices which are represented by the {@link ZigbeeEndpoint}<br>
- * class. Each logical device is identified by an <i>EndPoint</i> address, but shares iether the:<br>
+ * Each physical may contain up 240 endpoints which are represented by the {@link ZigbeeEndpoint}<br>
+ * class. Each endpoint is identified by an <i>EndPoint</i> address, but shares iether the:<br>
  * - <i>64-bit 802.15.4 IEEE Address</i><br>
  * - <i>16-bit ZigBee Network Address</i><br>
  *

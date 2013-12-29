@@ -64,7 +64,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
     private final HashSet<Integer> boundCluster = new HashSet<Integer>();
     private final HashSet<ClusterListener> listeners = new HashSet<ClusterListener>();
     private final HashSet<ApplicationFrameworkMessageConsumer> consumers = new HashSet<ApplicationFrameworkMessageConsumer>();
-    private String uuid = null;
+    private String endpointId = null;
 
     public ZigbeeEndpointImpl(final ZigbeeNetworkManager drv, final ZigbeeNode n, byte ep) throws ZigbeeBasedriverException {
         if (drv == null || n == null) {
@@ -93,20 +93,14 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         deviceVersion = result.getDeviceVersion();
 
         node = n;
-        uuid = generateUUID();
 
-        TIMEOUT = DEFAULT_TIMEOUT;
-    }
-
-    /**
-     * Generates the UUID from the actual value of the variables
-     */
-    private String generateUUID() {
-        StringBuffer sb_uuid = new StringBuffer()
+        final StringBuffer sb_uuid = new StringBuffer()
                 .append(node.getIEEEAddress())
                 .append("/")
                 .append(endPoint);
-        return sb_uuid.toString();
+        endpointId = sb_uuid.toString();
+
+        TIMEOUT = DEFAULT_TIMEOUT;
     }
 
     private ZDO_SIMPLE_DESC_RSP doRetrieveSimpleDescription(ZigbeeNode n) throws ZigbeeBasedriverException {
@@ -156,11 +150,11 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         return deviceVersion;
     }
 
-    public String getUniqueIdenfier() {
-        return uuid;
+    public String getEndpointId() {
+        return endpointId;
     }
 
-    public short getEndPoint() {
+    public short getEndPointAddress() {
         return endPoint;
     }
 
@@ -264,9 +258,9 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         return false;
     }
 
-    public boolean bindTo(ZigbeeEndpoint device, int clusterId) throws ZigbeeBasedriverException {
-        logger.debug("Binding from device {} to {} for cluster {}", new Object[]{
-                getUniqueIdenfier(), device.getUniqueIdenfier(), new Integer(clusterId)
+    public boolean bindTo(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeBasedriverException {
+        logger.debug("Binding from endpoint {} to {} for cluster {}", new Object[]{
+                getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
         });
 
         /*
@@ -277,30 +271,30 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         final ZDO_BIND_RSP response = driver.sendZDOBind(new ZDO_BIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
                 IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
-                IEEEAddress.fromColonNotation(device.getNode().getIEEEAddress()), (byte) device.getDeviceId()
+                IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceId()
         ));
         if (response == null || response.Status != 0) {
-            logger.debug("ZDO_BIND_REQ failed, unable to bind from device {} to {} for cluster {}", new Object[]{
-                    getUniqueIdenfier(), device.getUniqueIdenfier(), new Integer(clusterId)
+            logger.debug("ZDO_BIND_REQ failed, unable to bind from endpoint {} to {} for cluster {}", new Object[]{
+                    getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
             });
             return false;
         }
         return true;
     }
 
-    public boolean unbindFrom(ZigbeeEndpoint device, int clusterId) throws ZigbeeBasedriverException {
-        logger.debug("Un-binding from device {} to {} for cluster {}", new Object[]{
-                getUniqueIdenfier(), device.getUniqueIdenfier(), new Integer(clusterId)
+    public boolean unbindFrom(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeBasedriverException {
+        logger.debug("Un-binding from endpoint {} to {} for cluster {}", new Object[]{
+                getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
         });
 
         final ZDO_UNBIND_RSP response = driver.sendZDOUnbind(new ZDO_UNBIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
                 IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
-                IEEEAddress.fromColonNotation(device.getNode().getIEEEAddress()), (byte) device.getDeviceId()
+                IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceId()
         ));
         if (response == null || response.Status != 0) {
-            logger.debug("ZDO_BIND_REQ failed, unable to un-bind from device {} to {} for cluster {}", new Object[]{
-                    getUniqueIdenfier(), device.getUniqueIdenfier(), new Integer(clusterId)
+            logger.debug("ZDO_BIND_REQ failed, unable to un-bind from endpoint {} to {} for cluster {}", new Object[]{
+                    getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
             });
             return false;
         }
@@ -309,7 +303,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
 
 
     public boolean bind(int clusterId) throws ZigbeeBasedriverException {
-        logger.debug("Binding from cluster {} of device {}", clusterId, getUniqueIdenfier());
+        logger.debug("Binding from cluster {} of endpoint {}", clusterId, getEndpointId());
         if (boundCluster.contains(clusterId)) {
             logger.debug("Cluster already bound");
             return true;
@@ -330,7 +324,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
     }
 
     public boolean unbind(int clusterId) throws ZigbeeBasedriverException {
-        logger.debug("Unbinding from cluster {} of device {}", clusterId, getUniqueIdenfier());
+        logger.debug("Unbinding from cluster {} of endpoint {}", clusterId, getEndpointId());
         if (!boundCluster.contains(clusterId)) {
             logger.debug("Cluster already unbound");
             return true;
@@ -417,7 +411,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         //THINK Do the notification in a separated Thread?
         //THINK Should consume messages only if they were sent from this device?!?!
         if (msg.isError()) return;
-        logger.debug("AF_INCOMING_MSG arrived for {} message is {}", uuid, msg);
+        logger.debug("AF_INCOMING_MSG arrived for {} message is {}", endpointId, msg);
         ArrayList<ApplicationFrameworkMessageConsumer> localConsumers = null;
         synchronized (consumers) {
             localConsumers = new ArrayList<ApplicationFrameworkMessageConsumer>(consumers);
@@ -434,7 +428,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
 
         if (msg.getSrcAddr() != node.getNetworkAddress()) return;
         if (msg.getSrcEndpoint() != endPoint) return;
-        logger.debug("Notifying cluster listener for received by {}", uuid);
+        logger.debug("Notifying cluster listener for received by {}", endpointId);
         notifyClusterListener(new ClusterMessageImpl(msg.getData(), msg.getClusterId()));
     }
 
@@ -454,7 +448,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
      * @since 0.4.0
      */
     public String toString() {
-        return getUniqueIdenfier();
+        return getEndpointId();
     }
 
 }

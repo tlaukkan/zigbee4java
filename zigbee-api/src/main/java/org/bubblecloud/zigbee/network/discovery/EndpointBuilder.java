@@ -149,7 +149,7 @@ public class EndpointBuilder implements Stoppable {
         try {
             ZigbeeEndpointImpl endpoint = new ZigbeeEndpointImpl(driver, node, ep);
             if (endpoint.getNode().getNetworkAddress() == 0) {
-                logger.info("Sender end point {} found with profile PROFILE_ID_HOME_AUTOMATION: " + endpoint.getProfileId(), endpoint.getUniqueIdenfier());
+                logger.info("Sender end point {} found with profile PROFILE_ID_HOME_AUTOMATION: " + endpoint.getProfileId(), endpoint.getEndpointId());
                 ApplicationFrameworkLayer.getAFLayer(driver).registerSenderEndPoint(
                         ep, endpoint.getProfileId(), endpoint.getOutputClusters());
             }
@@ -224,32 +224,6 @@ public class EndpointBuilder implements Stoppable {
      * @since 0.6.0 - Revision 74
      */
     private boolean changedNetworkAddress(ZigbeeNodeImpl node, int nwk) {
-        /*
-         * This may happen either for two reason:
-         *  A - Device has re-joined the network, it may happen either in end-user or
-         *      ZigBee developer environment
-         *  B - Device has been re-programmed and it joins as new device on the network,
-         *      it could happen only on ZigBee developer environment
-         * The actual code handle only the case A
-         */
-        /*final ArrayList<ServiceRegistration> registrations;
-        synchronized ( Activator.devices ) {
-            registrations = Activator.devices.get( node.getIEEEAddress() );
-        }
-        if ( registrations ==  null ) {
-            logger.info( "No registered service to updated even if we identified a network address changing" );
-            return false;
-        }
-        boolean changed = false;
-        for ( ServiceRegistration registration : registrations ) {
-            final ZigbeeEndpointImpl device =
-                (ZigbeeEndpointImpl) Activator.getBundleContext().getService( registration.getReference() );
-            if ( device.setPhysicalNode( new ZigbeeNodeImpl( nwk, node.getIEEEAddress() ) ) ) {
-                changed = true;
-                registration.setProperties( device.getDescription() );
-            }
-        }*/
-
         throw new NotImplementedException();
     }
 

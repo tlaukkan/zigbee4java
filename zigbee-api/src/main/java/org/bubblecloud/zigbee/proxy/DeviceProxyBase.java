@@ -121,7 +121,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     public abstract String getName();
 
     public int getEndPointId() {
-        return device.getEndPoint();
+        return device.getEndPointAddress();
     }
 
     public int getProfileId() {
@@ -360,8 +360,8 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     }
 
     @Override
-    public short getEndPoint() {
-        return device.getEndPoint();
+    public short getEndPointAddress() {
+        return device.getEndPointAddress();
     }
 
     @Override
@@ -375,8 +375,8 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     }
 
     @Override
-    public String getUniqueIdenfier() {
-        return device.getUniqueIdenfier();
+    public String getEndpointId() {
+        return device.getEndpointId();
     }
 
     @Override
@@ -415,13 +415,13 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     }
 
     @Override
-    public boolean bindTo(ZigbeeEndpoint device, int clusterId) throws ZigbeeBasedriverException {
-        return device.bindTo(device, clusterId);
+    public boolean bindTo(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeBasedriverException {
+        return endpoint.bindTo(endpoint, clusterId);
     }
 
     @Override
-    public boolean unbindFrom(ZigbeeEndpoint device, int clusterId) throws ZigbeeBasedriverException {
-        return device.unbindFrom(device, clusterId);
+    public boolean unbindFrom(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeBasedriverException {
+        return endpoint.unbindFrom(endpoint, clusterId);
     }
 
     @Override

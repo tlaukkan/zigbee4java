@@ -211,34 +211,34 @@ public class ZigbeeApi implements EndpointListener, DeviceProxyListener {
 
         final DeviceProxyBase haDevice = factory.getInstance(endpoint);
         context.addDeviceProxy(haDevice);
-        LOGGER.info("Endpoint added: " + endpoint.getUniqueIdenfier());
+        LOGGER.info("Endpoint added: " + endpoint.getEndpointId());
     }
 
     @Override
     public void endpointUpdated(final ZigbeeEndpoint endpoint) {
-        LOGGER.info("Endpoint updated: " + endpoint.getUniqueIdenfier());
+        LOGGER.info("Endpoint updated: " + endpoint.getEndpointId());
     }
 
     @Override
     public void endpointRemoved(ZigbeeEndpoint endpoint) {
-        LOGGER.info("Endpoint removed: " + endpoint.getUniqueIdenfier());
+        LOGGER.info("Endpoint removed: " + endpoint.getEndpointId());
     }
 
     @Override
     public void deviceAdded(DeviceProxy device) {
         LOGGER.info(device.getClass().getSimpleName() +
-                " added: " + device.getDevice().getUniqueIdenfier());
+                " added: " + device.getDevice().getEndpointId());
     }
 
     @Override
     public void deviceUpdated(DeviceProxy device) {
         LOGGER.info(device.getClass().getSimpleName() +
-                " updated: " + device.getDevice().getUniqueIdenfier());
+                " updated: " + device.getDevice().getEndpointId());
     }
 
     @Override
     public void deviceRemoved(DeviceProxy device) {
         LOGGER.info(device.getClass().getSimpleName() +
-                " removed: " + device.getDevice().getUniqueIdenfier());
+                " removed: " + device.getDevice().getEndpointId());
     }
 }

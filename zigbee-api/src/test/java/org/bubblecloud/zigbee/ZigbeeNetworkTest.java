@@ -85,7 +85,7 @@ public class ZigbeeNetworkTest {
 
         logger.info("Listing proxies:");
         for (final DeviceProxy proxy : zigbeeApi.getZigbeeProxyContext().getDeviceProxies()) {
-            logger.info(proxy.getClass().getSimpleName() + " : " + proxy.getDevice().getUniqueIdenfier());
+            logger.info(proxy.getClass().getSimpleName() + " : " + proxy.getDevice().getEndpointId());
         }
 
         /*int networkManagerAddress= 0;
@@ -137,10 +137,10 @@ public class ZigbeeNetworkTest {
                 groups.addGroup(1, "test");*/
 
                 /*final Basic basic = (Basic) lampProxy.getCluster(ZigbeeConstants.CLUSTER_ID_BASIC);
-                logger.info("Reading manufacturer information for: " + lampProxy.getDevice().getUniqueIdenfier());
+                logger.info("Reading manufacturer information for: " + lampProxy.getDevice().getEndpointId());
                 logger.info("" + basic.getManufacturerName().getValue());*/
                 /*final Basic basic = (Basic) proxy.getCluster(ZigbeeConstants.CLUSTER_ID_BASIC);
-                logger.info("Reading manufacturer information for: " + proxy.getDevice().getUniqueIdenfier());
+                logger.info("Reading manufacturer information for: " + proxy.getDevice().getEndpointId());
                 logger.info("" + basic.getManufacturerName().getValue());*/
                 /*Thread.sleep(5000);
                 switchProxy.getDevice().bindTo(lampProxy.getDevice(), ZigbeeConstants.CLUSTER_ID_ON_OFF);
@@ -170,7 +170,7 @@ public class ZigbeeNetworkTest {
                 onOff.off();*/
 
                 /*final Basic basic = (Basic) proxy.getCluster(ZigbeeConstants.CLUSTER_ID_BASIC);
-                logger.info("Reading manufacturer information for: " + proxy.getDevice().getUniqueIdenfier());
+                logger.info("Reading manufacturer information for: " + proxy.getDevice().getEndpointId());
                 logger.info("" + basic.getManufacturerName().getValue());*/
 
                 /*int address = proxy.getDevice().getNode().getNetworkAddress();
@@ -189,7 +189,7 @@ public class ZigbeeNetworkTest {
 
                 /*if (proxy != null) {
                     final Basic basic = (Basic) proxy.getCluster(ZigbeeConstants.CLUSTER_ID_BASIC);
-                    logger.info("Reading manufacturer information for: " + proxy.getDevice().getUniqueIdenfier());
+                    logger.info("Reading manufacturer information for: " + proxy.getDevice().getEndpointId());
                     logger.info("" + basic.getManufacturerName().getValue());
                 }
                 if (proxy != null) {

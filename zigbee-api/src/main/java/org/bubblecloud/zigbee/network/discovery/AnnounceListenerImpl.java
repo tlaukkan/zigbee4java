@@ -53,7 +53,7 @@ public class AnnounceListenerImpl implements AnnounceListener {
      * Created the {@link AnnounceListenerImpl} object and register itself to the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManager}<br>
      * as {@link ImportingQueue}
      *
-     * @param queue  the {@link ImportingQueue} used to add the discovered devices
+     * @param queue  the {@link ImportingQueue} used to add the discovered endpoints
      * @param driver the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManager} to use for subscription
      */
     public AnnounceListenerImpl(final ImportingQueue queue, final ZigbeeNetworkManager driver) {

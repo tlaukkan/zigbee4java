@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.network.impl;
 
 import org.bubblecloud.zigbee.network.EndpointListener;
+import org.bubblecloud.zigbee.network.ZigbeeDiscoveryMonitor;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.network.ZigBeeDiscoveryMonitor;
 import org.bubblecloud.zigbee.network.ZigbeeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +47,7 @@ public class ZigbeeNetwork {
     private final HashMap<Integer, ArrayList<ZigbeeEndpoint>> profiles =
             new HashMap<Integer, ArrayList<ZigbeeEndpoint>>();
 
-    private final List<ZigBeeDiscoveryMonitor> discoveryMonitors = new ArrayList<ZigBeeDiscoveryMonitor>();
+    private final List<ZigbeeDiscoveryMonitor> discoveryMonitors = new ArrayList<ZigbeeDiscoveryMonitor>();
 
     private final List<EndpointListener> endpointListeners = new ArrayList<EndpointListener>();
 
@@ -112,7 +112,7 @@ public class ZigbeeNetwork {
         }
 
         final HashMap<Integer, ZigbeeEndpoint> endPoints = devices.get(node);
-        endPoints.remove(endpoint.getEndPoint());
+        endPoints.remove(endpoint.getEndPointAddress());
         removeEndpointFromProfiles(endpoint);
 
         return true;
@@ -121,7 +121,7 @@ public class ZigbeeNetwork {
     public synchronized boolean addEndpoint(ZigbeeEndpoint endpoint) {
         final ZigbeeNode deviceNode = endpoint.getNode();
         final String ieee = deviceNode.getIEEEAddress();
-        final short endPoint = endpoint.getEndPoint();
+        final short endPoint = endpoint.getEndPointAddress();
         logger.info("Adding device {} on node {} / end point {}.", endpoint.getDeviceId(),
                 endpoint.getNode(), endPoint);
         final ZigbeeNode node = nodes.get(ieee);
@@ -176,7 +176,7 @@ public class ZigbeeNetwork {
         final ArrayList<ZigbeeEndpoint> result = new ArrayList<ZigbeeEndpoint>();
         final ArrayList<ZigbeeEndpoint> values = profiles.get(profileId);
         if (values == null) {
-            logger.warn("No devices found implemting the profile={}", profileId);
+            logger.warn("No endpoints found implementing the profile={}", profileId);
         } else {
             logger.info("We found {} implementing the profile={}", values.size(), profileId);
             result.addAll(values);
@@ -209,7 +209,7 @@ public class ZigbeeNetwork {
      *
      * @param discoveryMonitor the discovery monitor
      */
-    public void addDiscoveryMonitor(final ZigBeeDiscoveryMonitor discoveryMonitor) {
+    public void addDiscoveryMonitor(final ZigbeeDiscoveryMonitor discoveryMonitor) {
         synchronized (discoveryMonitors) {
             this.discoveryMonitors.add(discoveryMonitor);
         }
@@ -220,7 +220,7 @@ public class ZigbeeNetwork {
      *
      * @param discoveryMonitor the discovery monitor
      */
-    public void removeDiscoveryMonitor(final ZigBeeDiscoveryMonitor discoveryMonitor) {
+    public void removeDiscoveryMonitor(final ZigbeeDiscoveryMonitor discoveryMonitor) {
         synchronized (discoveryMonitors) {
             this.discoveryMonitors.remove(discoveryMonitor);
         }
@@ -233,7 +233,7 @@ public class ZigbeeNetwork {
      */
     public void notifyNodeBrowsed(ZigbeeNode node) {
         synchronized (discoveryMonitors) {
-            for (final ZigBeeDiscoveryMonitor discoveryMonitor : discoveryMonitors) {
+            for (final ZigbeeDiscoveryMonitor discoveryMonitor : discoveryMonitors) {
                 discoveryMonitor.browsedNode(node);
             }
         }
@@ -246,7 +246,7 @@ public class ZigbeeNetwork {
      */
     public void notifyNodeAnnounced(ZigbeeNode node) {
         synchronized (discoveryMonitors) {
-            for (final ZigBeeDiscoveryMonitor discoveryMonitor : discoveryMonitors) {
+            for (final ZigbeeDiscoveryMonitor discoveryMonitor : discoveryMonitors) {
                 discoveryMonitor.announcedNode(node);
             }
         }
