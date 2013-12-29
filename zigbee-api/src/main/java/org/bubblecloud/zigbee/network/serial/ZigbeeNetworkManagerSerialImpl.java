@@ -64,7 +64,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
     public static final String RESEND_ONLY_EXCEPTION_KEY = "zigbee.driver.cc2530.resend.exceptionally";
 
     private final int TIMEOUT;
-    public static final int DEFAULT_TIMEOUT = 1000;
+    public static final int DEFAULT_TIMEOUT = 5000;
     public static final String TIMEOUT_KEY = "zigbee.driver.cc2530.timeout";
 
     private Thread driver;

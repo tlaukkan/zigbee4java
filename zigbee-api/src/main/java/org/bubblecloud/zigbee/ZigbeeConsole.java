@@ -1,6 +1,8 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.api.Device;
+import org.bubblecloud.zigbee.api.cluster.Cluster;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -93,13 +95,18 @@ public class ZigbeeConsole {
 
     private static void process(final ZigbeeApi zigbeeApi, final String command) {
         final String[] args = command.split(" ");
-        if (commands.containsKey(args[0])) {
-            final ConsoleCommand consoleCommand = commands.get(args[0]);
-            if (!consoleCommand.process(zigbeeApi, args)) {
-                write(consoleCommand.getSyntax());
+        try {
+            if (commands.containsKey(args[0])) {
+                final ConsoleCommand consoleCommand = commands.get(args[0]);
+                if (!consoleCommand.process(zigbeeApi, args)) {
+                    write(consoleCommand.getSyntax());
+                }
+            } else {
+                write("Uknown command. Use 'help' command to list available commands.");
             }
-        } else {
-            write("Uknown command. Use 'help' command to list available commands.");
+        } catch (final Exception e) {
+            write("Exception in command execution: ");
+            e.printStackTrace();
         }
     }
 
@@ -141,6 +148,7 @@ public class ZigbeeConsole {
         commands.put("quit", new QuitCommand());
         commands.put("help", new HelpCommand());
         commands.put("list", new ListCommand());
+        commands.put("desc", new DescribeCommand());
     }
 
     private static class QuitCommand implements ConsoleCommand {
@@ -206,6 +214,61 @@ public class ZigbeeConsole {
             for (final Device device : zigbeeApi.getDevices()) {
                 System.out.println(device.getEndPointId() + " : " + device.getName());
             }
+            return true;
+        }
+    }
+
+    private static class DescribeCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "Describes a device.";
+        }
+
+        public String getSyntax() {
+            return "desc DEVICEID";
+        }
+
+        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+            if (args.length != 2) {
+                return false;
+            }
+
+            final Device device = zigbeeApi.getDevice(args[1]);
+            if (device == null) {
+                return false;
+            }
+
+            write(device.getEndPointId() + " : " + device.getName());
+            write("Network Address  : " + device.getNode().getNetworkAddress());
+            write("Extended Address : " + device.getNode().getIEEEAddress());
+            write("Endpoint Address : " + device.getEndPointAddress());
+            write("Device Type      : " + ZigbeeApiConstants.getDeviceName(device.getDeviceId()));
+            write("Device Category  : " + ZigbeeApiConstants.getCategoryDeviceName(device.getDeviceId()));
+            write("Device Version   : " + device.getDeviceVersion());
+            write("Input Clusters   : ");
+            for (int i : device.getInputClusters()) {
+                final Cluster cluster = device.getCluster(i);
+                if (cluster == null) {
+                    write(i + ") No implementation.");
+                    continue;
+                }
+                write(i + ") " + cluster.getName());
+                for (final Subscription subscription : cluster.getActiveSubscriptions()) {
+                    write(" - Subscription with " + subscription.getReportListenersCount() + " report listeners.");
+                }
+            }
+            write("Output Clusters   : ");
+            for (int i : device.getOutputClusters()) {
+                final Cluster cluster = device.getCluster(i);
+                if (cluster == null) {
+                    write(i + ") No implementation.");
+                    continue;
+                }
+                write(i + ") " + cluster.getName());
+                for (final Subscription subscription : cluster.getActiveSubscriptions()) {
+                    write(" - Subscription with " + subscription.getReportListenersCount() + " report listeners.");
+                }
+            }
+
             return true;
         }
     }

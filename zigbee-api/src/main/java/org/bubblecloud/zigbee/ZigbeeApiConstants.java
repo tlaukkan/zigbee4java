@@ -136,10 +136,10 @@ public class ZigbeeApiConstants {
     public static final int DEVICE_ID_IAS_ZONE = IAS_Zone.DEVICE_ID;
     public static final int DEVICE_ID_IAS_WARNING_DEVICE = IAS_Warning.DEVICE_ID;
 
-    public String getDeviceName(String deviceID) {
+    public static String getDeviceName(int deviceID) {
 
         try {
-            String id = Integer.toHexString((Integer.parseInt(deviceID)));
+            String id = Integer.toHexString(deviceID);
 
             if (id.equals(Integer.toHexString(ZigbeeApiConstants.DEVICE_ID_ON_OFF_SWITCH)))
                 return OnOffSwitch.NAME;
@@ -177,10 +177,10 @@ public class ZigbeeApiConstants {
         }
     }
 
-    public String getClusterName(String clusterID) {
+    public static String getClusterName(int clusterID) {
 
         try {
-            String id = Integer.toHexString((Integer.parseInt(clusterID)));
+            String id = Integer.toHexString(clusterID);
 
             if (id.equals(Integer.toHexString(ZigbeeApiConstants.CLUSTER_ID_BASIC)))
                 return Basic.NAME;
@@ -234,10 +234,10 @@ public class ZigbeeApiConstants {
         }
     }
 
-    public String getCategoryDeviceName(String deviceID) {
+    public static String getCategoryDeviceName(int deviceID) {
 
         try {
-            String id = Integer.toHexString((Integer.parseInt(deviceID)));
+            String id = Integer.toHexString(deviceID);
             if (id.startsWith("0"))
                 return "Generic";
             else if (id.startsWith("1"))
