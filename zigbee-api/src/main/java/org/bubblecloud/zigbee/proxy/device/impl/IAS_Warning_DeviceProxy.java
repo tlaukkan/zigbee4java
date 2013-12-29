@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.ZigbeeConstants;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.general.Scenes;
@@ -45,7 +45,7 @@ public class IAS_Warning_DeviceProxy extends DeviceProxyBase implements IAS_Warn
     private Scenes scenes;
     private Groups groups;
 
-    public IAS_Warning_DeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public IAS_Warning_DeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
 

@@ -15,13 +15,15 @@
  */
 package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.network.EndpointListener;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.network.discovery.ZigbeeDiscoveryManager;
+import org.bubblecloud.zigbee.network.impl.ZigbeeNetwork;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
 import org.bubblecloud.zigbee.proxy.DeviceProxyListener;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.device.generic.*;
 import org.bubblecloud.zigbee.proxy.device.hvac.Pump;
@@ -33,8 +35,6 @@ import org.bubblecloud.zigbee.proxy.device.security_safety.IAS_Warning;
 import org.bubblecloud.zigbee.proxy.device.security_safety.IAS_Zone;
 import org.bubblecloud.zigbee.proxy.device.impl.*;
 import org.bubblecloud.zigbee.proxy.DeviceProxyBase;
-import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
-import org.bubblecloud.zigbee.network.DeviceListener;
 import org.bubblecloud.zigbee.network.serial.ZigbeeNetworkManagerSerialImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +49,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
-public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
+public class ZigbeeApi implements EndpointListener, DeviceProxyListener {
     /**
      * The logger.
      */
@@ -69,7 +69,7 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
     /**
      * The zigbee network.
      */
-    private ZigBeeNetwork network;
+    private ZigbeeNetwork network;
 
     /**
      * Constructor to configure the serial interface.
@@ -108,7 +108,7 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
         }
 
         network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
-        network.addDeviceListener(this);
+        network.addEndpointListenerListener(this);
 
         context = new ZigbeeProxyContext();
 
@@ -158,7 +158,7 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
      */
     public void shutdown() {
         context.removeDeviceProxyListener(this);
-        network.removeDeviceListener(this);
+        network.removeEndpointListener(this);
 
         discoveryManager.shutdown();
         networkManager.close();
@@ -197,12 +197,12 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
      *
      * @return the Zigbee network.
      */
-    public ZigBeeNetwork getZigbeeNetwork() {
+    public ZigbeeNetwork getZigbeeNetwork() {
         return network;
     }
 
     @Override
-    public void deviceAdded(ZigBeeDevice device) {
+    public void endpointAdded(ZigbeeEndpoint device) {
         final DeviceProxyFactory factory = context.getBestDeviceProxyFactory(device);
         if (factory == null) { // pending services
             LOGGER.warn("No proxy for Zigbee device {} found.", device.getDeviceId());
@@ -215,12 +215,12 @@ public class ZigbeeApi implements DeviceListener, DeviceProxyListener {
     }
 
     @Override
-    public void deviceUpdated(ZigBeeDevice device) {
+    public void endpointUpdated(ZigbeeEndpoint device) {
         LOGGER.info("Device updated: " + device.getUniqueIdenfier());
     }
 
     @Override
-    public void deviceRemoved(ZigBeeDevice device) {
+    public void endpointRemoved(ZigbeeEndpoint device) {
         LOGGER.info("Device removed: " + device.getUniqueIdenfier());
     }
 

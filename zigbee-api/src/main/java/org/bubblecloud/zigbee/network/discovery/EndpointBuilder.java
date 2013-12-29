@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.network.discovery;
 
-import org.bubblecloud.zigbee.network.ZigBeeNode;
+import org.bubblecloud.zigbee.network.ZigbeeNode;
 import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
 import org.bubblecloud.zigbee.network.impl.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
@@ -43,8 +43,7 @@ import java.util.Map.Entry;
  * This class implements the {@link Thread} that completes the discovery of the node<br>
  * found either by {@link AssociationNetworkBrowser} or {@link AnnounceListenerImpl} by<br>
  * inspecting the <i>End Point</i> on the node.<br>
- * The inspection of each <i>End Point</i> lead to the creation {@link org.bubblecloud.zigbee.network.ZigBeeDevice}<br>
- * service, that is registered on the OSGi framework.
+ * The inspection of each <i>End Point</i> lead to the creation {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint}..
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
@@ -52,9 +51,9 @@ import java.util.Map.Entry;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public class DeviceBuilder implements Stoppable {
+public class EndpointBuilder implements Stoppable {
 
-    private static final Logger logger = LoggerFactory.getLogger(DeviceBuilder.class);
+    private static final Logger logger = LoggerFactory.getLogger(EndpointBuilder.class);
 
     private final ImportingQueue queue;
     private final List<ZigBeeDeviceReference> failedDevice = new ArrayList<ZigBeeDeviceReference>();
@@ -72,23 +71,23 @@ public class DeviceBuilder implements Stoppable {
     private ImportingQueue.ZigBeeNodeAddress dev;
 
     private class ZigBeeDeviceReference {
-        ZigBeeNode node;
+        ZigbeeNode node;
         byte endPoint;
 
-        ZigBeeDeviceReference(ZigBeeNode node, byte endPoint) {
+        ZigBeeDeviceReference(ZigbeeNode node, byte endPoint) {
             super();
             this.node = node;
             this.endPoint = endPoint;
         }
     }
 
-    public DeviceBuilder(ImportingQueue queue, ZigbeeNetworkManager driver) {
+    public EndpointBuilder(ImportingQueue queue, ZigbeeNetworkManager driver) {
         this.queue = queue;
         this.driver = driver;
     }
 
 
-    private ZDO_ACTIVE_EP_RSP doInspectDeviceOfNode(final int nwkAddress, final ZigBeeNode node) {
+    private ZDO_ACTIVE_EP_RSP doInspectDeviceOfNode(final int nwkAddress, final ZigbeeNode node) {
         logger.info("Listing end points on node #{} to find devices.", nwkAddress);
 
         int i = 0;
@@ -114,7 +113,7 @@ public class DeviceBuilder implements Stoppable {
         return result;
     }
 
-    private boolean inspectDeviceOfNode(final int nwkAddress, final ZigBeeNode node) {
+    private boolean inspectDeviceOfNode(final int nwkAddress, final ZigbeeNode node) {
 
         final ZDO_ACTIVE_EP_RSP result = doInspectDeviceOfNode(nwkAddress, node);
         if (result == null) {
@@ -131,8 +130,8 @@ public class DeviceBuilder implements Stoppable {
         return true;
     }
 
-    private void doCreateZigBeeDevice(ZigBeeNode node, byte ep) {
-        final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
+    private void doCreateZigBeeDevice(ZigbeeNode node, byte ep) {
+        final ZigbeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         synchronized (network) {
             if (network.containsDevice(node.getIEEEAddress(), ep)) {
                 logger.info(
@@ -148,7 +147,7 @@ public class DeviceBuilder implements Stoppable {
 
         }
         try {
-            ZigBeeDeviceImpl device = new ZigBeeDeviceImpl(driver, node, ep);
+            ZigbeeEndpointImpl device = new ZigbeeEndpointImpl(driver, node, ep);
             if (device.getPhysicalNode().getNetworkAddress() == 0) {
                 logger.info("Sender end point {} found with profile PROFILE_ID_HOME_AUTOMATION: " + device.getProfileId(), device.getUniqueIdenfier());
                 ApplicationFrameworkLayer.getAFLayer(driver).registerSenderEndPoint(
@@ -157,7 +156,7 @@ public class DeviceBuilder implements Stoppable {
             if (!network.addDevice(device)) {
                 logger.error("Failed to add endpoint {} to the network map for node {}", ep, node);
             }
-        } catch (ZigBeeBasedriverException e) {
+        } catch (ZigbeeBasedriverException e) {
             logger.error("Error building the device: {}", node, e);
 
             ZigBeeDeviceReference last = new ZigBeeDeviceReference(node, ep);
@@ -176,13 +175,13 @@ public class DeviceBuilder implements Stoppable {
     private void inspectNode(ZToolAddress16 nwkAddress, ZToolAddress64 ieeeAddress) {
         int nwk = nwkAddress.get16BitValue();
         final String ieee = IEEEAddress.toString(ieeeAddress.getLong());
-        ZigBeeNodeImpl node = null;
+        ZigbeeNodeImpl node = null;
         boolean isNew = false, correctlyInspected = false;
-        final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
+        final ZigbeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         synchronized (network) {
             node = network.containsNode(ieee);
             if (node == null) {
-                node = new ZigBeeNodeImpl(nwk, ieeeAddress, (short) driver.getCurrentPanId());
+                node = new ZigbeeNodeImpl(nwk, ieeeAddress, (short) driver.getCurrentPanId());
                 isNew = true;
                 network.addNode(node);
                 logger.debug("Created node object for {} that was not available on the network", node);
@@ -209,7 +208,7 @@ public class DeviceBuilder implements Stoppable {
                  * No previous device inspection completed successfully, so we should try to inspect
                  * the device again
                  */
-                inspectDeviceOfNode(nwk, new ZigBeeNodeImpl(nwk, node.getIEEEAddress(), (short) driver.getCurrentPanId()));
+                inspectDeviceOfNode(nwk, new ZigbeeNodeImpl(nwk, node.getIEEEAddress(), (short) driver.getCurrentPanId()));
             }
             node.setNetworkAddress(nwk);
         }
@@ -219,12 +218,12 @@ public class DeviceBuilder implements Stoppable {
      * This method updates the network address on all the device belonging the node<br>
      * with the change network address<br>
      *
-     * @param node {@link ZigBeeNodeImpl} the old node with the obsoleted network address
+     * @param node {@link org.bubblecloud.zigbee.network.impl.ZigbeeNodeImpl} the old node with the obsoleted network address
      * @param nwk  the new network address of the node
      * @return if at least a device has been updated
      * @since 0.6.0 - Revision 74
      */
-    private boolean changedNetworkAddress(ZigBeeNodeImpl node, int nwk) {
+    private boolean changedNetworkAddress(ZigbeeNodeImpl node, int nwk) {
         /*
          * This may happen either for two reason:
          *  A - Device has re-joined the network, it may happen either in end-user or
@@ -243,9 +242,9 @@ public class DeviceBuilder implements Stoppable {
         }
         boolean changed = false;
         for ( ServiceRegistration registration : registrations ) {
-            final ZigBeeDeviceImpl device =
-                (ZigBeeDeviceImpl) Activator.getBundleContext().getService( registration.getReference() );
-            if ( device.setPhysicalNode( new ZigBeeNodeImpl( nwk, node.getIEEEAddress() ) ) ) {
+            final ZigbeeEndpointImpl device =
+                (ZigbeeEndpointImpl) Activator.getBundleContext().getService( registration.getReference() );
+            if ( device.setPhysicalNode( new ZigbeeNodeImpl( nwk, node.getIEEEAddress() ) ) ) {
                 changed = true;
                 registration.setProperties( device.getDescription() );
             }

@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.event.MeasuredValueListener;
 import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.event.ToleranceListener;
@@ -51,7 +51,7 @@ public class TemperatureMeasurementImpl implements TemperatureMeasurement {
     private final MeasuredValueBridgeListeners measureBridge;
     private final ToleranceBridgeListeners toleranceBridge;
 
-    public TemperatureMeasurementImpl(ZigBeeDevice zbDevice) {
+    public TemperatureMeasurementImpl(ZigbeeEndpoint zbDevice) {
         temperatureMeasurementCluster = new TemperatureMeasurementCluster(zbDevice);
         measuredValue = temperatureMeasurementCluster.getAttributeMeasuredValue();
         minMeasuredValue = temperatureMeasurementCluster.getAttributeMinMeasuredValue();

@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.general.Identify;
 import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
@@ -46,7 +46,7 @@ public class IdentifyImpl implements Identify {
     private Attribute identifyTime;
 
 
-    public IdentifyImpl(ZigBeeDevice zbDevice) {
+    public IdentifyImpl(ZigbeeEndpoint zbDevice) {
         identifyCluster = new IdentifyCluster(zbDevice);
 
     }

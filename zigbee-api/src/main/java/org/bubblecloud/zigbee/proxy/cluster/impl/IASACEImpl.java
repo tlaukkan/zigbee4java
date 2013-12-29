@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.security_safety.IASACE;
 import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
@@ -43,7 +43,7 @@ public class IASACEImpl implements IASACE {
 
     private final IASACECluster cluster;
 
-    public IASACEImpl(ZigBeeDevice zbDevice) {
+    public IASACEImpl(ZigbeeEndpoint zbDevice) {
         cluster = new IASACECluster(zbDevice);
     }
 

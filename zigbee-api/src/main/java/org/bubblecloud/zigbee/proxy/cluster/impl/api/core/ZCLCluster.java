@@ -22,8 +22,6 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.api.core;
 
-import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
-
 import java.io.IOException;
 
 /**
@@ -104,7 +102,7 @@ public interface ZCLCluster {
      * @param if  suppressResponse true <i>Default response</i> are disabled
      * @return {@link Response} the response to the invoked {@link Command}. This method returns <code>null</code>
      * @throws IOException
-     * @throws ZigBeeBasedriverException
+     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException
      */
     public Response invoke(Command cmd, boolean suppressResponse) throws ZigBeeClusterException; //TODO Remove
 

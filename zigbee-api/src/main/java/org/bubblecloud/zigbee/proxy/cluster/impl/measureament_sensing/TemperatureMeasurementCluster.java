@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.measureament_sensing;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.Attributes;
@@ -46,7 +46,7 @@ public class TemperatureMeasurementCluster extends ZCLClusterBase implements Tem
 
     private final Attribute[] attributes;
 
-    public TemperatureMeasurementCluster(ZigBeeDevice zbDevice) {
+    public TemperatureMeasurementCluster(ZigbeeEndpoint zbDevice) {
         super(zbDevice);
         measuredValue = new AttributeImpl(zbDevice, this, Attributes.MEASURED_VALUE_SIGNED_16_BIT);
         minMeasuredValue = new AttributeImpl(zbDevice, this, Attributes.MIN_MEASURED_VALUE_SIGNED_16_BIT);

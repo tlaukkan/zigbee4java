@@ -22,11 +22,11 @@
 
 package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 
 /**
  * This class represent the main interface for the extendable architecture of the<br>
- * refinement driver. Each refinement driver from {@link ZigBeeDevice} to {@link DeviceProxy}<br>
+ * refinement driver. Each refinement driver from {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} to {@link DeviceProxy}<br>
  * has to implement this interface as OSGi Service and register it on OSGi platform.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -57,15 +57,15 @@ public interface DeviceProxyFactory {
 
 
     /**
-     * @param zbd the {@link ZigBeeDevice} to refine
-     * @return the {@link DeviceProxyBase} refined from {@link ZigBeeDevice} from this<br>
+     * @param zbd the {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} to refine
+     * @return the {@link DeviceProxyBase} refined from {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} from this<br>
      *         refinement driver
      * @throws ZigBeeHAException
      */
-    public DeviceProxyBase getInstance(ZigBeeDevice zbd);
+    public DeviceProxyBase getInstance(ZigbeeEndpoint zbd);
 
     /**
      */
-    public int hasMatch(ZigBeeDevice device);
+    public int hasMatch(ZigbeeEndpoint device);
 
 }

@@ -25,8 +25,8 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.general;
 import org.bubblecloud.zigbee.network.ClusterFilter;
 import org.bubblecloud.zigbee.network.ClusterListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
@@ -87,7 +87,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
 
     private class AlarmsListenerNotifier implements ClusterListener {
 
-        public void handleCluster(ZigBeeDevice device, ClusterMessage c) {
+        public void handleCluster(ZigbeeEndpoint device, ClusterMessage c) {
             try {
                 ResponseImpl response = new ResponseImpl(c, ID);
                 AlarmResponse alarm = new AlarmResponseImpl(response);
@@ -121,7 +121,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
 
     }
 
-    public AlarmsCluster(ZigBeeDevice zbDevice) {
+    public AlarmsCluster(ZigbeeEndpoint zbDevice) {
         super(zbDevice);
         alarmCount = new AttributeImpl(zbDevice, this, Attributes.ALLARM_COUNT);
         attributes = new AttributeImpl[]{alarmCount};
@@ -149,7 +149,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
             if (listeners.size() == 0) {
                 try {
                     getZigBeeDevice().bind(ID);
-                } catch (ZigBeeBasedriverException e) {
+                } catch (ZigbeeBasedriverException e) {
                     log.error("Unable to bind to device for Alarms reporting", e);
                     return false;
                 }
@@ -169,7 +169,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
             if (listeners.size() == 0 && removed) {
                 try {
                     getZigBeeDevice().unbind(ID);
-                } catch (ZigBeeBasedriverException e) {
+                } catch (ZigbeeBasedriverException e) {
                     log.error("Unable to unbind to device for Alarms reporting", e);
                     return false;
                 }

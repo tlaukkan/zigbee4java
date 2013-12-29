@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.RSSILocation;
 import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
@@ -36,7 +36,7 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.core.ZCLClusterBase;
  */
 public class RSSILocationCluster extends ZCLClusterBase implements RSSILocation {
 
-    public RSSILocationCluster(ZigBeeDevice zbDevice) {
+    public RSSILocationCluster(ZigbeeEndpoint zbDevice) {
         super(zbDevice);
         // TODO Auto-generated constructor stub
     }

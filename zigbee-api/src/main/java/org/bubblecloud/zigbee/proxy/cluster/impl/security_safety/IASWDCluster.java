@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.IASWD;
@@ -48,7 +48,7 @@ public class IASWDCluster extends ZCLClusterBase implements IASWD {
 
     private final Logger log = LoggerFactory.getLogger(IASWDCluster.class);
 
-    public IASWDCluster(ZigBeeDevice zbDevice) {
+    public IASWDCluster(ZigbeeEndpoint zbDevice) {
         super(zbDevice);
         maxDuration = new AttributeImpl(zbDevice, this, Attributes.MAX_DURATION);
         attributes = new AttributeImpl[]{maxDuration};

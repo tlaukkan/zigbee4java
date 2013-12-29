@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl.measureament_sensing;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.measureament_sensing.IlluminanceMeasurement;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.Attributes;
@@ -43,7 +43,7 @@ public class IlluminanceMeasurementCluster extends ZCLClusterBase implements Ill
 
     private final Attribute[] attributes;
 
-    public IlluminanceMeasurementCluster(ZigBeeDevice zbDevice) {
+    public IlluminanceMeasurementCluster(ZigbeeEndpoint zbDevice) {
 
         super(zbDevice);
         measuredValue = new AttributeImpl(zbDevice, this, Attributes.MEASURED_VALUE_UNSIGNED_16_BIT);

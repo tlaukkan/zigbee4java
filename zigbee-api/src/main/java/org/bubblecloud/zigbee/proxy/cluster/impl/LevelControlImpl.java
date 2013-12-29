@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.general.LevelControl;
 import org.bubblecloud.zigbee.proxy.cluster.general.event.CurrentLevelListener;
 import org.bubblecloud.zigbee.proxy.cluster.impl.event.CurrentLevelBridgeListeners;
@@ -49,7 +49,7 @@ public class LevelControlImpl implements LevelControl {
     private Attribute onLevel;
     private final CurrentLevelBridgeListeners eventBridge;
 
-    public LevelControlImpl(ZigBeeDevice zbDevice) {
+    public LevelControlImpl(ZigbeeEndpoint zbDevice) {
         levelControlCluster = new LevelControlCluster(zbDevice);
         currentLevel = levelControlCluster.getAttributeCurrentLevel();
         remainingTime = levelControlCluster.getAttributeRemainingTime();

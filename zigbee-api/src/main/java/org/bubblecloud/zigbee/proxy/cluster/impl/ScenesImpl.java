@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.general.Scenes;
 import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
@@ -54,7 +54,7 @@ public class ScenesImpl implements Scenes {
     private Attribute nameSupport;
     private Attribute lastConfiguredBy;
 
-    public ScenesImpl(ZigBeeDevice zbDevice) {
+    public ScenesImpl(ZigbeeEndpoint zbDevice) {
         scenesCluster = new ScenesCluster(zbDevice);
         sceneCount = scenesCluster.getAttributeSceneCount();
         currentScene = scenesCluster.getAttributeCurrentScene();

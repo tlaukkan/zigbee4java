@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.general.OnOffSwitchConfiguration;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
@@ -41,7 +41,7 @@ public class OnOffSwitchConfigurationImpl implements OnOffSwitchConfiguration {
     private Attribute switchType;
     private Attribute switchActions;
 
-    public OnOffSwitchConfigurationImpl(ZigBeeDevice zbDevice) {
+    public OnOffSwitchConfigurationImpl(ZigbeeEndpoint zbDevice) {
         onOffSwitchConfiguratioCluster = new OnOffSwitchConfigurationCluster(zbDevice);
         switchType = onOffSwitchConfiguratioCluster.getAttributeSwitchType();
         switchActions = onOffSwitchConfiguratioCluster.getAttributeSwitchActions();

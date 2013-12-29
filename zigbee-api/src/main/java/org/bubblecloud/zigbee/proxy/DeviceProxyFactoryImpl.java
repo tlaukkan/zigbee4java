@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,9 +50,9 @@ public class DeviceProxyFactoryImpl extends DeviceProxyFactoryBase {
 
 
     /**
-     * Build an {@link DeviceProxyFactory} that refine {@link ZigBeeDevice} by means of <code>cImplementation</code>,<br>
+     * Build an {@link DeviceProxyFactory} that refine {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} by means of <code>cImplementation</code>,<br>
      * into a <code>cInterface</code> service. This factory build the instance of the new service by invoking<br>
-     * the constructor  <code>cImplementation(ZigbeeProxyContext, ZigBeeDevice)</code>.<br>
+     * the constructor  <code>cImplementation(ZigbeeProxyContext, ZigbeeEndpoint)</code>.<br>
      * By default the {@link #getRefinedInterfaces()} is built to return the values:<br>
      * <pre>
      * cInterface.getName()
@@ -104,9 +104,9 @@ public class DeviceProxyFactoryImpl extends DeviceProxyFactoryBase {
     }
 
     @Override
-    public DeviceProxyBase getInstance(ZigBeeDevice zbd) {
+    public DeviceProxyBase getInstance(ZigbeeEndpoint zbd) {
         try {
-            Constructor builder = impl.getConstructor(ZigbeeProxyContext.class, ZigBeeDevice.class);
+            Constructor builder = impl.getConstructor(ZigbeeProxyContext.class, ZigbeeEndpoint.class);
             DeviceProxyBase device = (DeviceProxyBase) builder.newInstance(ctx, zbd);
             return device;
         } catch (Exception e) {

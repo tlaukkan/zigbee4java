@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.ZigbeeConstants;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.general.LevelControl;
@@ -48,7 +48,7 @@ public class ColorDimmableLightDeviceProxy extends DeviceProxyBase implements Co
     private OccupacySensing occupancySensing;
     private ColorControl colorControl;
 
-    public ColorDimmableLightDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public ColorDimmableLightDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
 
         super(ctx, zbDevice);
 

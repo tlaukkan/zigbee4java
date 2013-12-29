@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.PowerConfiguration;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.Attributes;
@@ -54,7 +54,7 @@ public class PowerConfigurationCluster extends ZCLClusterBase implements
 
     private final Attribute[] attributes;
 
-    public PowerConfigurationCluster(ZigBeeDevice zbDevice) {
+    public PowerConfigurationCluster(ZigbeeEndpoint zbDevice) {
         super(zbDevice);
         mainsVoltage = new AttributeImpl(zbDevice, this, Attributes.MAINS_VOLTAGE);
         mainsFrequency = new AttributeImpl(zbDevice, this, Attributes.MAINS_FREQUENCY);

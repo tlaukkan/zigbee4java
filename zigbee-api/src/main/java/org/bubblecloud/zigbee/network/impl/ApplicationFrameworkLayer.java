@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.network.impl;
 
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
 import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER;
 import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER_SRSP;
@@ -34,7 +34,7 @@ import java.util.*;
 
 /**
  * This class is a <i>singelton</i> aimed at share the <b>the Application Framework Layer</b><br>
- * status of the <b>ZigBee Base Drier</b> among all the {@link org.bubblecloud.zigbee.network.ZigBeeDevice} register by it.<br>
+ * status of the <b>ZigBee Base Drier</b> among all the {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} register by it.<br>
  * <br>
  * In particular, this class tracks the <i>Transaction Id</i> and the <i>Active End Point</i><br>
  * on the hardware providing access to <i>ZigBee Network</i> (currently the <b>Texas Instrument CC2480</b>)<br>
@@ -80,7 +80,7 @@ public class ApplicationFrameworkLayer {
     final HashMap<Byte, Byte> endPoint2Transaction = new HashMap<Byte, Byte>();
 
     private final ZigbeeNetworkManager driver;
-    private final ZigBeeNetwork network;
+    private final ZigbeeNetwork network;
 
     private byte firstFreeEndPoint;
 
@@ -88,7 +88,7 @@ public class ApplicationFrameworkLayer {
     private ApplicationFrameworkLayer(ZigbeeNetworkManager driver) {
         this.driver = driver;
         firstFreeEndPoint = 2;
-        network = new ZigBeeNetwork();
+        network = new ZigbeeNetwork();
     }
 
     public static ApplicationFrameworkLayer getAFLayer(ZigbeeNetworkManager driver) {
@@ -107,7 +107,7 @@ public class ApplicationFrameworkLayer {
     }
 
 
-    public byte getSendingEndpoint(ZigBeeDevice device, int clusterId) {
+    public byte getSendingEndpoint(ZigbeeEndpoint device, int clusterId) {
         SenderIdentifier si = new SenderIdentifier(
                 device.getProfileId(), (short) clusterId
         );
@@ -124,7 +124,7 @@ public class ApplicationFrameworkLayer {
         }
     }
 
-    public byte getSendingEndpoint(ZigBeeDevice device, ClusterMessage input) {
+    public byte getSendingEndpoint(ZigbeeEndpoint device, ClusterMessage input) {
         return getSendingEndpoint(device, input.getId());
     }
 
@@ -218,9 +218,9 @@ public class ApplicationFrameworkLayer {
 
     private Set<Integer> collectClusterForProfile(int profileId) {
         final HashSet<Integer> clusters = new HashSet<Integer>();
-        final Collection<ZigBeeDevice> devices = network.getDevices(profileId);
+        final Collection<ZigbeeEndpoint> devices = network.getDevices(profileId);
         logger.debug("Found {} devices belonging to profile {}", devices.size(), profileId);
-        for (ZigBeeDevice device : devices) {
+        for (ZigbeeEndpoint device : devices) {
             int[] ids;
             ids = device.getInputClusters();
             logger.debug(
@@ -252,7 +252,7 @@ public class ApplicationFrameworkLayer {
         return clusters;
     }
 
-    public ZigBeeNetwork getZigBeeNetwork() {
+    public ZigbeeNetwork getZigBeeNetwork() {
         return network;
     }
 

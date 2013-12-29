@@ -25,8 +25,8 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 import org.bubblecloud.zigbee.network.ClusterFilter;
 import org.bubblecloud.zigbee.network.ClusterListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
@@ -54,7 +54,7 @@ public abstract class SubscriptionBase implements Subscription {
 
     protected final ArrayList<ReportListener> listeners = new ArrayList<ReportListener>();
     protected final ReportListenerNotifier bridge = new ReportListenerNotifier();
-    protected final ZigBeeDevice device;
+    protected final ZigbeeEndpoint device;
     protected final ZCLCluster cluster;
     protected final Attribute attribute;
 
@@ -63,7 +63,7 @@ public abstract class SubscriptionBase implements Subscription {
 
     protected class ReportListenerNotifier implements ClusterListener {
 
-        public void handleCluster(ZigBeeDevice device, ClusterMessage c) {
+        public void handleCluster(ZigbeeEndpoint device, ClusterMessage c) {
             try {
                 if (c.getId() != cluster.getId()) return;
                 ResponseImpl response = new ResponseImpl(c, cluster.getId());
@@ -105,7 +105,7 @@ public abstract class SubscriptionBase implements Subscription {
 
     }
 
-    public SubscriptionBase(final ZigBeeDevice zb, final ZCLCluster c, final Attribute attrib) {
+    public SubscriptionBase(final ZigbeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
         device = zb;
         cluster = c;
         attribute = attrib;
@@ -114,7 +114,7 @@ public abstract class SubscriptionBase implements Subscription {
     private boolean doBindToDevice() {
         try {
             return device.bind(cluster.getId());
-        } catch (ZigBeeBasedriverException e) {
+        } catch (ZigbeeBasedriverException e) {
             log.debug("Unable to bind to device {} on cluster {}", device, cluster.getId());
             log.error("Binding failed", e);
             return false;
@@ -124,7 +124,7 @@ public abstract class SubscriptionBase implements Subscription {
     private boolean doUnbindToDevice() {
         try {
             return device.unbind(cluster.getId());
-        } catch (ZigBeeBasedriverException e) {
+        } catch (ZigbeeBasedriverException e) {
             log.debug("Unable to bind to device {} on cluster {}", device, cluster.getId());
             log.error("Binding failed", e);
             return false;

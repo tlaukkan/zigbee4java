@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.Cluster;
 
 import java.lang.reflect.Constructor;
@@ -62,11 +62,11 @@ public class ClusterFactoryBase implements ClusterFactory {
         clusters.put(key, clazz);
     }
 
-    public Cluster getInstance(String key, ZigBeeDevice zbDevice) {
+    public Cluster getInstance(String key, ZigbeeEndpoint zbDevice) {
         Class clazz = clusters.get(key);
         if (clazz != null) {
             try {
-                Constructor<?> constructor = clazz.getConstructor(ZigBeeDevice.class);
+                Constructor<?> constructor = clazz.getConstructor(ZigbeeEndpoint.class);
                 Cluster cluster = (Cluster) constructor.newInstance(zbDevice);
                 return cluster;
             } catch (SecurityException e) {

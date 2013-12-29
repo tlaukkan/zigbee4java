@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.general.BinaryInput;
 import org.bubblecloud.zigbee.proxy.cluster.general.event.PresentValueListener;
 import org.bubblecloud.zigbee.proxy.cluster.impl.event.PresentValueBridgeListeners;
@@ -48,7 +48,7 @@ public class BinaryInputImpl implements BinaryInput {
     private final BinaryInputCluster binaryInput;
     private PresentValueBridgeListeners eventBridge;
 
-    public BinaryInputImpl(ZigBeeDevice zbDevice) {
+    public BinaryInputImpl(ZigbeeEndpoint zbDevice) {
         binaryInput = new BinaryInputCluster(zbDevice);
         presentValue = binaryInput.getAttributePresentValue();
         outOfService = binaryInput.getAttributeOutOfService();

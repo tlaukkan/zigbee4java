@@ -24,8 +24,8 @@ package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety;
 import org.bubblecloud.zigbee.network.ClusterFilter;
 import org.bubblecloud.zigbee.network.ClusterListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
@@ -70,7 +70,7 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
 
     private final Logger log = LoggerFactory.getLogger(IASZoneCluster.class);
 
-    public IASZoneCluster(ZigBeeDevice zbDevice) {
+    public IASZoneCluster(ZigbeeEndpoint zbDevice) {
 
         super(zbDevice);
 
@@ -142,7 +142,7 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
             if (listeners.size() == 0) {
                 try {
                     getZigBeeDevice().bind(ID);
-                } catch (ZigBeeBasedriverException e) {
+                } catch (ZigbeeBasedriverException e) {
                     log.error("Unable to bind to device for IASZone reporting", e);
                     return false;
                 }
@@ -162,7 +162,7 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
             if (listeners.size() == 0 && removed) {
                 try {
                     getZigBeeDevice().unbind(ID);
-                } catch (ZigBeeBasedriverException e) {
+                } catch (ZigbeeBasedriverException e) {
                     log.error("Unable to unbind to device for IASZone reporting", e);
                     return false;
                 }
@@ -184,7 +184,7 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
             return IAS_ZoneZoneStatusChangeNotificationFilter.FILTER;
         }
 
-        public void handleCluster(ZigBeeDevice device, ClusterMessage c) {
+        public void handleCluster(ZigbeeEndpoint device, ClusterMessage c) {
             try {
                 ResponseImpl response = new ResponseImpl(c, ID);
                 ZoneStatusChangeNotificationResponse zscnr = new ZoneStatusChangeNotificationResponseImpl(response);

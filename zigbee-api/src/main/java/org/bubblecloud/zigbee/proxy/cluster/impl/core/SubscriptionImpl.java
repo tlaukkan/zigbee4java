@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
@@ -50,7 +50,7 @@ public class SubscriptionImpl extends SubscriptionBase implements Subscription {
 
     private final Logger log = LoggerFactory.getLogger(SubscriptionImpl.class);
 
-    public SubscriptionImpl(final ZigBeeDevice zb, final ZCLCluster c, final Attribute attrib) {
+    public SubscriptionImpl(final ZigbeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
         super(zb, c, attrib);
     }
 
@@ -79,7 +79,7 @@ public class SubscriptionImpl extends SubscriptionBase implements Subscription {
             if (results.getStatus() != 0) {
                 throw new ZigBeeClusterException("ConfigureReporting answered with a Failed status: " + Status.getStatus(results.getStatus()));
             }
-        } catch (ZigBeeBasedriverException e) {
+        } catch (ZigbeeBasedriverException e) {
             throw new ZigBeeClusterException(e);
         }
 

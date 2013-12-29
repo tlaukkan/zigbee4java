@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.DeviceTemperatureConfiguration;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.Attributes;
@@ -49,7 +49,7 @@ public class DeviceTemperatureConfigurationCluster extends ZCLClusterBase
 
     private final Attribute[] attributes;
 
-    public DeviceTemperatureConfigurationCluster(ZigBeeDevice zbDevice) {
+    public DeviceTemperatureConfigurationCluster(ZigbeeEndpoint zbDevice) {
         super(zbDevice);
 
         currentTemperature = new AttributeImpl(zbDevice, this, Attributes.CURRENT_TEMPERATURE);

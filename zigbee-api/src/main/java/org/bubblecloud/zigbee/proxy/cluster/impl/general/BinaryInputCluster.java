@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.BinaryInput;
 import org.bubblecloud.zigbee.proxy.cluster.impl.attribute.Attributes;
@@ -50,7 +50,7 @@ public class BinaryInputCluster extends ZCLClusterBase implements BinaryInput {
     private final Attribute description;
     private final Attribute activeText;
 
-    public BinaryInputCluster(ZigBeeDevice zbDevice) {
+    public BinaryInputCluster(ZigbeeEndpoint zbDevice) {
         super(zbDevice);
         presentValue = new AttributeImpl(zbDevice, this, Attributes.PRESENT_VALUE);
         outOfService = new AttributeImpl(zbDevice, this, Attributes.OUT_OF_SERVICE);

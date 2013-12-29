@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.general.Alarms;
 import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
@@ -47,7 +47,7 @@ public class AlarmsImpl implements Alarms {
     private final AlarmsCluster alarmsCluster;
     private final Attribute attribute;
 
-    public AlarmsImpl(ZigBeeDevice zbDevice) {
+    public AlarmsImpl(ZigbeeEndpoint zbDevice) {
         alarmsCluster = new AlarmsCluster(zbDevice);
         attribute = alarmsCluster.getAttributeAlarmCount();
     }

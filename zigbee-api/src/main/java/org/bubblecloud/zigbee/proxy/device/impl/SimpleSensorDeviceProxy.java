@@ -22,7 +22,7 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.ZigbeeConstants;
 import org.bubblecloud.zigbee.proxy.cluster.general.BinaryInput;
@@ -39,7 +39,7 @@ public class SimpleSensorDeviceProxy extends DeviceProxyBase implements SimpleSe
 
     private BinaryInput binaryInput;
 
-    public SimpleSensorDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public SimpleSensorDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
         super(ctx, zbDevice);
         binaryInput = (BinaryInput) getCluster(ZigbeeConstants.CLUSTER_ID_BINARY_INPUT);
     }

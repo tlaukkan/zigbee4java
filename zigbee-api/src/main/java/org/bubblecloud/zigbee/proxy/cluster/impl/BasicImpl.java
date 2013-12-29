@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.general.Basic;
 import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
@@ -56,7 +56,7 @@ public class BasicImpl implements Basic {
     private Attribute alarmMask;
     private Attribute disableLocalConfig;
 
-    public BasicImpl(ZigBeeDevice zbDevice) {
+    public BasicImpl(ZigbeeEndpoint zbDevice) {
         basicCluster = new BasicCluster(zbDevice);
         zclVersion = basicCluster.getAttributeZCLVersion();
         applicationVersion = basicCluster.getAttributeApplicationVersion();

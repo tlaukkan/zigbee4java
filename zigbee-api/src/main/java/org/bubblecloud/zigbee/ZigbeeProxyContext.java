@@ -16,7 +16,7 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.proxy.*;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 
 import java.util.*;
 
@@ -57,7 +57,7 @@ public class ZigbeeProxyContext {
      * @param device the zigbee device
      * @return the best matching device factory.
      */
-    public DeviceProxyFactory getBestDeviceProxyFactory(final ZigBeeDevice device) {
+    public DeviceProxyFactory getBestDeviceProxyFactory(final ZigbeeEndpoint device) {
         synchronized (deviceProxyFactories) {
             DeviceProxyFactory bestMatchingFactory = null;
             int bestMatching = -1;

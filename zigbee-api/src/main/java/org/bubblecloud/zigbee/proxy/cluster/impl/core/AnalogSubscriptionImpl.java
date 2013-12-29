@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.AnalogSubscription;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZCLCluster;
@@ -52,7 +52,7 @@ public class AnalogSubscriptionImpl extends SubscriptionBase implements AnalogSu
 
     private Object minimumChange = null;
 
-    public AnalogSubscriptionImpl(final ZigBeeDevice zb, final ZCLCluster c, final Attribute attrib) {
+    public AnalogSubscriptionImpl(final ZigbeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
         super(zb, c, attrib);
         final ZigBeeType type = attrib.getZigBeeType();
         if (type.isAnalog() == false) {
@@ -91,7 +91,7 @@ public class AnalogSubscriptionImpl extends SubscriptionBase implements AnalogSu
             if (results[0].getStatus() != 0) {
                 throw new ZigBeeClusterException("ConfigureReporting answered with a Failed status: {} " + results[0].getStatus());
             }
-        } catch (ZigBeeBasedriverException e) {
+        } catch (ZigbeeBasedriverException e) {
             throw new ZigBeeClusterException(e);
         }
 

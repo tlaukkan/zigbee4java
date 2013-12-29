@@ -76,7 +76,7 @@ public interface ZigbeeNetworkManager {
 
     /**
      * Send LQI request cluster and wait for its response<br />
-     * This method is used for the discovering of {@link ZigBeeDevice}
+     * This method is used for the discovering of {@link ZigbeeEndpoint}
      *
      * @return the answer to the request or null in case of an error
      * @since 0.7.0

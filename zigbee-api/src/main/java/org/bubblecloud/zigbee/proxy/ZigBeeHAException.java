@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy;
 
-import org.bubblecloud.zigbee.network.impl.ZigBeeException;
+import org.bubblecloud.zigbee.network.impl.ZigbeeException;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -30,7 +30,7 @@ import org.bubblecloud.zigbee.network.impl.ZigBeeException;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public class ZigBeeHAException extends ZigBeeException {
+public class ZigBeeHAException extends ZigbeeException {
 
     public ZigBeeHAException(String msg) {
         super(msg);

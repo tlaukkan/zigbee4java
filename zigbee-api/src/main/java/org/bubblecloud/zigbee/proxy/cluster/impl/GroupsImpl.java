@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.general.Groups;
 import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
@@ -48,7 +48,7 @@ public class GroupsImpl implements Groups {
     private GroupsCluster groupCluster;
     private Attribute nameSupport;
 
-    public GroupsImpl(ZigBeeDevice zbDevice) {
+    public GroupsImpl(ZigbeeEndpoint zbDevice) {
         groupCluster = new GroupsCluster(zbDevice);
         nameSupport = groupCluster.getAttributeNameSupport();
     }

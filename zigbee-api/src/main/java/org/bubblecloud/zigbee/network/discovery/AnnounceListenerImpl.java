@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.network.AnnounceListener;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
-import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
+import org.bubblecloud.zigbee.network.impl.ZigbeeNodeImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,7 +68,7 @@ public class AnnounceListenerImpl implements AnnounceListener {
         logger.info("Received an ANNOUNCE from {} {}", senderAddress, ieeeAddress);
         queue.push(senderAddress, ieeeAddress);
         ApplicationFrameworkLayer.getAFLayer(zigbeeNetworkManager).getZigBeeNetwork().notifyNodeAnnounced(
-                new ZigBeeNodeImpl(senderAddress.get16BitValue(), ieeeAddress,
+                new ZigbeeNodeImpl(senderAddress.get16BitValue(), ieeeAddress,
                         (short) zigbeeNetworkManager.getCurrentPanId()));
     }
 

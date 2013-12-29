@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Command;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
@@ -49,11 +49,11 @@ public abstract class ZCLClusterBase implements ZCLCluster {
 
     final public static Logger logger = LoggerFactory.getLogger(ZCLClusterBase.class);
 
-    private ZigBeeDevice zbDevice;
+    private ZigbeeEndpoint zbDevice;
     private boolean isDefaultResponseEnabled;
     private HashMap<Integer, Attribute> attributes;
 
-    public ZCLClusterBase(ZigBeeDevice zbDevice) {
+    public ZCLClusterBase(ZigbeeEndpoint zbDevice) {
         this.zbDevice = zbDevice;
     }
 
@@ -63,7 +63,7 @@ public abstract class ZCLClusterBase implements ZCLCluster {
 
     public abstract Attribute[] getStandardAttributes();
 
-    protected ZigBeeDevice getZigBeeDevice() {
+    protected ZigbeeEndpoint getZigBeeDevice() {
         return zbDevice;
     }
 
@@ -108,7 +108,7 @@ public abstract class ZCLClusterBase implements ZCLCluster {
                 logger.debug("Sending ZCLFrame {} without expecting an answer", inFrame);
                 zbDevice.send(input);
                 return null;
-            } catch (ZigBeeBasedriverException e) {
+            } catch (ZigbeeBasedriverException e) {
                 throw new ZigBeeClusterException(e);
             }
         } else {
@@ -119,7 +119,7 @@ public abstract class ZCLClusterBase implements ZCLCluster {
                 Response response = new ResponseImpl(clusterMessage, getId());
                 logger.debug("Received response {} to request {}", response, inFrame);
                 return response;
-            } catch (ZigBeeBasedriverException e) {
+            } catch (ZigbeeBasedriverException e) {
                 throw new ZigBeeClusterException(e);
             }
         }

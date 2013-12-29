@@ -41,9 +41,9 @@ import java.util.*;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessageListener, ApplicationFrameworkMessageProducer {
+public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkMessageListener, ApplicationFrameworkMessageProducer {
 
-    private static final Logger logger = LoggerFactory.getLogger(ZigBeeDeviceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(ZigbeeEndpointImpl.class);
 
     private static long TIMEOUT;
     private static final long DEFAULT_TIMEOUT = 5000;
@@ -55,7 +55,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
     private final int profileId;
     private final byte deviceVersion;
 
-    private final ZigBeeNode node;
+    private final ZigbeeNode node;
     private final byte endPoint;
 
     //private final Properties properties = new Properties();
@@ -66,10 +66,10 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
     private final HashSet<ApplicationFrameworkMessageConsumer> consumers = new HashSet<ApplicationFrameworkMessageConsumer>();
     private String uuid = null;
 
-    public ZigBeeDeviceImpl(final ZigbeeNetworkManager drv, final ZigBeeNode n, byte ep) throws ZigBeeBasedriverException {
+    public ZigbeeEndpointImpl(final ZigbeeNetworkManager drv, final ZigbeeNode n, byte ep) throws ZigbeeBasedriverException {
         if (drv == null || n == null) {
-            logger.error("Creating {} with some nulls parameters {}", new Object[]{ZigBeeDevice.class, drv, n, ep});
-            throw new NullPointerException("Cannot create a device with a null ZigbeeNetworkManager or a null ZigBeeNode");
+            logger.error("Creating {} with some nulls parameters {}", new Object[]{ZigbeeEndpoint.class, drv, n, ep});
+            throw new NullPointerException("Cannot create a device with a null ZigbeeNetworkManager or a null ZigbeeNode");
         }
         driver = drv;
         endPoint = ep;
@@ -95,16 +95,6 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         node = n;
         uuid = generateUUID();
 
-        /*properties.put(ZigBeeDevice.PROFILE_ID, Integer.toString((profileId & 0xFFFF)));
-        properties.put(ZigBeeDevice.DEVICE_ID, Integer.toString((deviceId & 0xFFFF)));
-        properties.put(ZigBeeDevice.DEVICE_VERSION, Integer.toString((deviceVersion & 0xFF)));
-        properties.put(ZigBeeDevice.ENDPOINT, Integer.toString((endPoint & 0xFF)));
-        properties.put(ZigBeeDevice.CLUSTERS_INPUT_ID, inputs);
-        properties.put(ZigBeeDevice.CLUSTERS_OUTPUT_ID, outputs);
-        properties.put(ZigBeeDevice.ZIGBEE_IMPORT, drv.getClass());
-
-        properties.put("DEVICE_CATEGORY", new String[]{ZigBeeDevice.DEVICE_CATEGORY});*/
-
         TIMEOUT = DEFAULT_TIMEOUT;
     }
 
@@ -119,7 +109,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         return sb_uuid.toString();
     }
 
-    private ZDO_SIMPLE_DESC_RSP doRetrieveSimpleDescription(ZigBeeNode n) throws ZigBeeBasedriverException {
+    private ZDO_SIMPLE_DESC_RSP doRetrieveSimpleDescription(ZigbeeNode n) throws ZigbeeBasedriverException {
         //TODO Move into ZigbeeNetworkManager?!?!?
         final int nwk = n.getNetworkAddress();
         int i = 0;
@@ -152,7 +142,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
                     "Unable to receive a ZDO_SIMPLE_DESC_RSP for endpoint {} on node {}",
                     nwk, endPoint
             );
-            throw new ZigBeeBasedriverException("Unable to receive a ZDO_SIMPLE_DESC_RSP from endpoint");
+            throw new ZigbeeBasedriverException("Unable to receive a ZDO_SIMPLE_DESC_RSP from endpoint");
         }
 
         return result;
@@ -186,11 +176,11 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         return profileId;
     }
 
-    public ZigBeeNode getPhysicalNode() {
+    public ZigbeeNode getPhysicalNode() {
         return node;
     }
 
-    public void send(ClusterMessage input) throws ZigBeeBasedriverException {
+    public void send(ClusterMessage input) throws ZigbeeBasedriverException {
         final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(driver);
         final byte sender = af.getSendingEndpoint(this, input);
         final byte transaction = af.getNextTransactionId(sender);
@@ -203,13 +193,13 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         ));
 
         if (response == null) {
-            throw new ZigBeeBasedriverException("Unable to send cluster on the ZigBee network due to general error");
+            throw new ZigbeeBasedriverException("Unable to send cluster on the ZigBee network due to general error");
         } else if (response.getStatus() != 0) {
-            throw new ZigBeeBasedriverException("Unable to send cluster on the ZigBee network:" + response.getErrorMsg());
+            throw new ZigbeeBasedriverException("Unable to send cluster on the ZigBee network:" + response.getErrorMsg());
         }
     }
 
-    public ClusterMessage invoke(ClusterMessage input) throws ZigBeeBasedriverException {
+    public ClusterMessage invoke(ClusterMessage input) throws ZigbeeBasedriverException {
         final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(driver);
         final byte sender = af.getSendingEndpoint(this, input);
         /*
@@ -243,17 +233,17 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
 
         if (response == null) {
             m_removeAFMessageListener();
-            throw new ZigBeeBasedriverException("Unable to send cluster on the ZigBee network due to general error - is the device sleeping?");
+            throw new ZigbeeBasedriverException("Unable to send cluster on the ZigBee network due to general error - is the device sleeping?");
         } else if (response.getStatus() != 0) {
             m_removeAFMessageListener();
-            throw new ZigBeeBasedriverException("Unable to send cluster on the ZigBee network:" + response.getErrorMsg());
+            throw new ZigbeeBasedriverException("Unable to send cluster on the ZigBee network:" + response.getErrorMsg());
         } else {
             //FIX Can't be singelton because only a the invoke method can be invoked by multiple-thread
             //FIX Can't be singleton because the invoke method can be invoked by multiple-thread
             AF_INCOMING_MSG incoming = waiter.getResponse();
             m_removeAFMessageListener();
             if (incoming == null) {
-                throw new ZigBeeBasedriverTimeOutException();
+                throw new ZigbeeBasedriverTimeOutException();
             }
             ClusterMessage result = new ClusterMessageImpl(incoming.getData(), incoming.getClusterId());
             return result;
@@ -274,7 +264,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         return false;
     }
 
-    public boolean bindTo(ZigBeeDevice device, int clusterId) throws ZigBeeBasedriverException {
+    public boolean bindTo(ZigbeeEndpoint device, int clusterId) throws ZigbeeBasedriverException {
         logger.debug("Binding from device {} to {} for cluster {}", new Object[]{
                 getUniqueIdenfier(), device.getUniqueIdenfier(), new Integer(clusterId)
         });
@@ -298,7 +288,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         return true;
     }
 
-    public boolean unbindFrom(ZigBeeDevice device, int clusterId) throws ZigBeeBasedriverException {
+    public boolean unbindFrom(ZigbeeEndpoint device, int clusterId) throws ZigbeeBasedriverException {
         logger.debug("Un-binding from device {} to {} for cluster {}", new Object[]{
                 getUniqueIdenfier(), device.getUniqueIdenfier(), new Integer(clusterId)
         });
@@ -318,7 +308,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
     }
 
 
-    public boolean bind(int clusterId) throws ZigBeeBasedriverException {
+    public boolean bind(int clusterId) throws ZigbeeBasedriverException {
         logger.debug("Binding from cluster {} of device {}", clusterId, getUniqueIdenfier());
         if (boundCluster.contains(clusterId)) {
             logger.debug("Cluster already bound");
@@ -339,7 +329,7 @@ public class ZigBeeDeviceImpl implements ZigBeeDevice, ApplicationFrameworkMessa
         return true;
     }
 
-    public boolean unbind(int clusterId) throws ZigBeeBasedriverException {
+    public boolean unbind(int clusterId) throws ZigbeeBasedriverException {
         logger.debug("Unbinding from cluster {} of device {}", clusterId, getUniqueIdenfier());
         if (!boundCluster.contains(clusterId)) {
             logger.debug("Cluster already unbound");

@@ -24,15 +24,15 @@ package org.bubblecloud.zigbee.network.discovery;
 
 import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
+import org.bubblecloud.zigbee.network.impl.ZigbeeNetwork;
+import org.bubblecloud.zigbee.network.impl.ZigbeeNodeImpl;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_IEEE_ADDR_REQ;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_IEEE_ADDR_RSP;
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.util.RunnableThread;
 import org.bubblecloud.zigbee.util.ThreadUtils;
-import org.bubblecloud.zigbee.network.ZigBeeNode;
-import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
-import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
+import org.bubblecloud.zigbee.network.ZigbeeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +62,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
     private class NetworkAddressNodeItem {
         final NetworkAddressNodeItem parent;
         final int address;
-        ZigBeeNodeImpl node = null;
+        ZigbeeNodeImpl node = null;
 
         NetworkAddressNodeItem(NetworkAddressNodeItem parent, int address) {
             this.parent = parent;
@@ -112,7 +112,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
                                 "Inspection result from #{} with {} associated nodes.",
                                 inspecting.address, result.getAssociatedDeviceCount()
                         );
-                        inspecting.node = new ZigBeeNodeImpl(inspecting.address, result.getIEEEAddress(),
+                        inspecting.node = new ZigbeeNodeImpl(inspecting.address, result.getIEEEAddress(),
                                 (short) driver.getCurrentPanId());
 
                         ZToolAddress16 nwk = new ZToolAddress16(
@@ -184,9 +184,9 @@ public class AssociationNetworkBrowser extends RunnableThread {
     }
 
     private void notifyBrowsedNode(NetworkAddressNodeItem item) {
-        final ZigBeeNode node = item.node;
+        final ZigbeeNode node = item.node;
 
-        final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
+        final ZigbeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         network.notifyNodeBrowsed(node);
     }
 }

@@ -23,9 +23,9 @@
 package org.bubblecloud.zigbee.network;
 
 /**
- * This class represent the filter used by the {@link ZigBeeDevice} to identifies<br>
+ * This class represent the filter used by the {@link ZigbeeEndpoint} to identifies<br>
  * if the {@link ClusterListener} has to handle or not the {@link ClusterMessage}.<br>
- * In fact, the {@link ClusterListener#handleCluster(ZigBeeDevice, ClusterMessage)} must be invoked<br>
+ * In fact, the {@link ClusterListener#handleCluster(ZigbeeEndpoint, ClusterMessage)} must be invoked<br>
  * if and only if either<br>
  * - the {@link ClusterFilter} returned by {@link ClusterListener#getClusterFilter()} is <code>null</code>, or<br>
  * - the {@link ClusterFilter#match(ClusterMessage)} on the cluster return <code>true</code>
@@ -38,7 +38,7 @@ package org.bubblecloud.zigbee.network;
 public interface ClusterFilter {
 
     /**
-     * This method is invoked to check if the  {@link ZigBeeDevice} to check if {@link ClusterMessage}<br>
+     * This method is invoked to check if the  {@link ZigbeeEndpoint} to check if {@link ClusterMessage}<br>
      * can be handled by the {@link ClusterListener} associated to this {@link ClusterFilter}
      *
      * @param clusterMessage the {@link ClusterMessage} to match

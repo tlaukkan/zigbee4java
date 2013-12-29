@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy.device.impl;
 
 import org.bubblecloud.zigbee.ZigbeeConstants;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.*;
 import org.bubblecloud.zigbee.proxy.cluster.general.Groups;
 import org.bubblecloud.zigbee.proxy.cluster.general.OnOff;
@@ -45,7 +45,7 @@ public class OnOffLightDeviceProxy extends DeviceProxyBase implements OnOffLight
     private Groups groups;
     private OccupacySensing occupancySensing;
 
-    public OnOffLightDeviceProxy(ZigbeeProxyContext ctx, ZigBeeDevice zbDevice) throws ZigBeeHAException {
+    public OnOffLightDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
         super(ctx, zbDevice);
         onOff = (OnOff) getCluster(ZigbeeConstants.CLUSTER_ID_ON_OFF);
         groups = (Groups) getCluster(ZigbeeConstants.CLUSTER_ID_GROUPS);

@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl.general;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.lighting.ColorControl;
@@ -84,7 +84,7 @@ public class ColorControlCluster extends ZCLClusterBase implements ColorControl 
 
     private final Attribute[] attributes;
 
-    public ColorControlCluster(ZigBeeDevice zbDevice) {
+    public ColorControlCluster(ZigbeeEndpoint zbDevice) {
 
         super(zbDevice);
 

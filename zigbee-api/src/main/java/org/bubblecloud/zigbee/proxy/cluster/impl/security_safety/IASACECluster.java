@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.proxy.cluster.impl.security_safety;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
@@ -57,7 +57,7 @@ public class IASACECluster extends ZCLClusterBase implements IASACE {
 
     private final Logger log = LoggerFactory.getLogger(IASACECluster.class);
 
-    public IASACECluster(ZigBeeDevice zbDevice) {
+    public IASACECluster(ZigbeeEndpoint zbDevice) {
 
         super(zbDevice);
         zoneTable = new ZoneTableImpl();

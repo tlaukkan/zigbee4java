@@ -26,9 +26,9 @@ import org.bubblecloud.zigbee.ZigbeeConstants;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
 import org.bubblecloud.zigbee.network.ClusterListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.network.ZigBeeNode;
-import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigbeeNode;
+import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
 import org.bubblecloud.zigbee.proxy.cluster.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.general.Basic;
@@ -62,7 +62,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
 
     private final static Logger logger = LoggerFactory.getLogger(DeviceProxyBase.class);
 
-    protected ZigBeeDevice device;
+    protected ZigbeeEndpoint device;
     private ZigbeeProxyContext context;
 
 
@@ -84,7 +84,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     private final ProvidedClusterMode clusterMode;
 
 
-    public DeviceProxyBase(ZigbeeProxyContext context, ZigBeeDevice device) throws ZigBeeHAException {
+    public DeviceProxyBase(ZigbeeProxyContext context, ZigbeeEndpoint device) throws ZigBeeHAException {
         this.device = device;
         this.context = context;
 
@@ -168,7 +168,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
          */
         if (!device.providesInputCluster(clusterId) && getDescription().isOptional(clusterId)) {
             logger.warn(
-                    "ZigBeeDevice with DeviceId={} of Home Automation profile " +
+                    "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
                             "implements the OPTINAL cluster {} ONLY AS OUTPUT instead of input " +
                             "it may identify an error either on the Driver description or in " +
                             "in the implementation of firmware of the physical device",
@@ -183,7 +183,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
         if (!device.providesInputCluster(clusterId) && getDescription().isCustom(clusterId)) {
             //TODO check if exists custom add-on by using ProfileModule interface
             logger.warn(
-                    "ZigBeeDevice with DeviceId={} of Home Automation profile " +
+                    "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
                             "implements a CUSTOM cluster {} but HA Driver does not support them yet",
                     device.getDeviceId(), clusterId
             );
@@ -196,12 +196,12 @@ public abstract class DeviceProxyBase implements DeviceProxy {
          */
         if (!device.providesInputCluster(clusterId) && getDescription().isMandatory(clusterId)) {
             logger.warn(
-                    "ZigBeeDevice with DeviceId={} of Home Automation profile " +
+                    "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
                             "doesn't implement mandatory cluster {}", device.getDeviceId(), clusterId
             );
             if (device.providesOutputCluster(clusterId)) {
                 logger.error(
-                        "ZigBeeDevice with DeviceId={} of Home Automation profile " +
+                        "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
                                 "implements the mandatory cluster {} as output instead of as input " +
                                 "it may identify an error either on the Driver description or in " +
                                 "in the implementation of firmware of the physical device",
@@ -209,7 +209,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
                 );
             } else {
                 logger.error(
-                        "ZigBeeDevice with DeviceId={} of Home Automation profile " +
+                        "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
                                 "doesn't implements the mandatory cluster {} neither as output " +
                                 "nor as input it may identify an error either on the Driver " +
                                 "description or in in the implementation of firmware of the " +
@@ -345,17 +345,17 @@ public abstract class DeviceProxyBase implements DeviceProxy {
         }
     }
 
-    public ZigBeeDevice getDevice() {
+    public ZigbeeEndpoint getDevice() {
         return device;
     }
 
     @Override
-    public boolean bindTo(DeviceProxy deviceProxy, int clusterId) throws ZigBeeBasedriverException {
+    public boolean bindTo(DeviceProxy deviceProxy, int clusterId) throws ZigbeeBasedriverException {
         return device.bindTo(deviceProxy.getDevice(), clusterId);
     }
 
     @Override
-    public boolean unbindFrom(DeviceProxy deviceProxy, int clusterId) throws ZigBeeBasedriverException {
+    public boolean unbindFrom(DeviceProxy deviceProxy, int clusterId) throws ZigbeeBasedriverException {
         return device.unbindFrom(deviceProxy.getDevice(), clusterId);
     }
 
@@ -370,7 +370,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     }
 
     @Override
-    public ZigBeeNode getPhysicalNode() {
+    public ZigbeeNode getPhysicalNode() {
         return device.getPhysicalNode();
     }
 
@@ -405,32 +405,32 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     }
 
     @Override
-    public ClusterMessage invoke(ClusterMessage input) throws ZigBeeBasedriverException {
+    public ClusterMessage invoke(ClusterMessage input) throws ZigbeeBasedriverException {
         return device.invoke(input);
     }
 
     @Override
-    public void send(ClusterMessage input) throws ZigBeeBasedriverException {
+    public void send(ClusterMessage input) throws ZigbeeBasedriverException {
         device.send(input);
     }
 
     @Override
-    public boolean bindTo(ZigBeeDevice device, int clusterId) throws ZigBeeBasedriverException {
+    public boolean bindTo(ZigbeeEndpoint device, int clusterId) throws ZigbeeBasedriverException {
         return device.bindTo(device, clusterId);
     }
 
     @Override
-    public boolean unbindFrom(ZigBeeDevice device, int clusterId) throws ZigBeeBasedriverException {
+    public boolean unbindFrom(ZigbeeEndpoint device, int clusterId) throws ZigbeeBasedriverException {
         return device.unbindFrom(device, clusterId);
     }
 
     @Override
-    public boolean bind(int clusterId) throws ZigBeeBasedriverException {
+    public boolean bind(int clusterId) throws ZigbeeBasedriverException {
         return device.bind(clusterId);
     }
 
     @Override
-    public boolean unbind(int clusterId) throws ZigBeeBasedriverException {
+    public boolean unbind(int clusterId) throws ZigbeeBasedriverException {
         return device.unbind(clusterId);
     }
 

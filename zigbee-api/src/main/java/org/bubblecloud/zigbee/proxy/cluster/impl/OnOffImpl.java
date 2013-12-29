@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.general.event.OnOffListener;
 import org.bubblecloud.zigbee.proxy.cluster.impl.event.OnOffBridgeListeners;
@@ -50,7 +50,7 @@ public class OnOffImpl implements OnOff {
     private final OnOffCluster onOffCluster;
     private OnOffBridgeListeners eventBridge;
 
-    public OnOffImpl(ZigBeeDevice zbDevice) {
+    public OnOffImpl(ZigbeeEndpoint zbDevice) {
         onOffCluster = new OnOffCluster(zbDevice);
         onOff = onOffCluster.getAttributeOnOff();
         eventBridge = new OnOffBridgeListeners(new ReportingConfiguration(), onOff, this);

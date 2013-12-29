@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.security_safety.IASZone;
 import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
@@ -52,7 +52,7 @@ public class IASZoneImpl implements IASZone {
     private final Attribute zoneStatus;
     private final Attribute iasCIEaddress;
 
-    public IASZoneImpl(ZigBeeDevice zbDevice) {
+    public IASZoneImpl(ZigbeeEndpoint zbDevice) {
 
         cluster = new IASZoneCluster(zbDevice);
         zoneState = cluster.getAttributeZoneState();

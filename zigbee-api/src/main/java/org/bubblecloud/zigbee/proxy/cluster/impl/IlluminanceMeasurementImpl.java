@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.IlluminanceMeasurement;
 import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.event.MeasuredValueListener;
 import org.bubblecloud.zigbee.proxy.cluster.measureament_sensing.event.ToleranceListener;
@@ -52,7 +52,7 @@ public class IlluminanceMeasurementImpl implements IlluminanceMeasurement {
     private final ToleranceBridgeListeners toleranceBridge;
     //private final ToleranceBridgeListeners toleranceBridge;
 
-    public IlluminanceMeasurementImpl(ZigBeeDevice zbDevice) {
+    public IlluminanceMeasurementImpl(ZigbeeEndpoint zbDevice) {
 
         cluster = new IlluminanceMeasurementCluster(zbDevice);
         measuredValue = cluster.getMeasuredValue();

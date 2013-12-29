@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.general.PowerConfiguration;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
@@ -52,7 +52,7 @@ public class PowerConfigurationImpl implements PowerConfiguration {
     private final Attribute mainsVMax;
     private final Attribute mainsVMin;
 
-    public PowerConfigurationImpl(ZigBeeDevice zbDevice) {
+    public PowerConfigurationImpl(ZigbeeEndpoint zbDevice) {
         cluster = new PowerConfigurationCluster(zbDevice);
         batteryRating = cluster.getAttributeBatteryAHrRating();
         batteryAlarm = cluster.getAttributeBatteryAlarmMask();

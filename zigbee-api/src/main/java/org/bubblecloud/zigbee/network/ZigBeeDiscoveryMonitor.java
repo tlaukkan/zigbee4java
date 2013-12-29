@@ -28,8 +28,8 @@ package org.bubblecloud.zigbee.network;
  */
 public interface ZigBeeDiscoveryMonitor {
 
-    public void browsedNode(ZigBeeNode node);
+    public void browsedNode(ZigbeeNode node);
 
-    public void announcedNode(ZigBeeNode node);
+    public void announcedNode(ZigbeeNode node);
 
 }

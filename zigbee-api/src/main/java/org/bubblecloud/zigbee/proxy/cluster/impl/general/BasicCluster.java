@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.general;
 
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
@@ -59,7 +59,7 @@ public class BasicCluster extends ZCLClusterBase implements Basic {
 
     private final Attribute[] attributes;
 
-    public BasicCluster(ZigBeeDevice zbDevice) {
+    public BasicCluster(ZigbeeEndpoint zbDevice) {
         super(zbDevice);
         zclVersion = new AttributeImpl(zbDevice, this, Attributes.ZCL_VERSION);
         applicationVersion = new AttributeImpl(zbDevice, this, Attributes.APPLICATION_VERSION);

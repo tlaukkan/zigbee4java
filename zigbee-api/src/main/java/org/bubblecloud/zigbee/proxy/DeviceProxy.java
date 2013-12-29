@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.ZigbeeConstants;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
-import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
 import org.bubblecloud.zigbee.proxy.cluster.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.general.Alarms;
 import org.bubblecloud.zigbee.proxy.cluster.general.Basic;
@@ -39,7 +39,7 @@ import org.bubblecloud.zigbee.util.ArraysUtil;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public interface DeviceProxy extends ZigBeeDevice {
+public interface DeviceProxy extends ZigbeeEndpoint {
 
     public static final String ZIGBEE_DEVICE_SERVICE = "zigbee.service.id";
     public static final String ZIGBEE_DEVICE_UUID = "zigbee.device.uuid";
@@ -136,10 +136,10 @@ public interface DeviceProxy extends ZigBeeDevice {
 
 
     /**
-     * @return return {@link ZigBeeDevice} service that has been refined has {@link DeviceProxy}
+     * @return return {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} service that has been refined has {@link DeviceProxy}
      * @since 0.2.0
      */
-    public ZigBeeDevice getDevice();
+    public ZigbeeEndpoint getDevice();
 
     /**
      * This method modify the <i>Binding Table</i> of physical device by adding the following entry:
@@ -147,14 +147,14 @@ public interface DeviceProxy extends ZigBeeDevice {
      * this.getPhysicalNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getPhysicalNode().getIEEEAddress(), device.getDeviceId()
      * </pre>
      *
-     * @param deviceProxy {@link ZigBeeDevice} the device proxy that we want to bound to
+     * @param deviceProxy {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} the device proxy that we want to bound to
      * @param clusterId   the clusterId that we want to bound to
      * @return <code>true</code> if and only if the operation succeeded
-     * @throws org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException
+     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException
      *
      * @since 0.5.0
      */
-    public boolean bindTo(DeviceProxy deviceProxy, int clusterId) throws ZigBeeBasedriverException;
+    public boolean bindTo(DeviceProxy deviceProxy, int clusterId) throws ZigbeeBasedriverException;
 
     /**
      * This method modify the <i>Binding Table</i> of physical device by removing the entry if exists
@@ -162,11 +162,11 @@ public interface DeviceProxy extends ZigBeeDevice {
      * this.getPhysicalNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getPhysicalNode().getIEEEAddress(), device.getDeviceId()
      * </pre>
      *
-     * @param deviceProxy {@link ZigBeeDevice} the deviceProxy that we want to bound to
+     * @param deviceProxy {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} the deviceProxy that we want to bound to
      * @param clusterId   the clusterId that we want to unbound from
      * @return <code>true</code> if and only if the operation succeeded
-     * @throws ZigBeeBasedriverException
+     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException
      * @since 0.5.0
      */
-    public boolean unbindFrom(DeviceProxy deviceProxy, int clusterId) throws ZigBeeBasedriverException;
+    public boolean unbindFrom(DeviceProxy deviceProxy, int clusterId) throws ZigbeeBasedriverException;
 }

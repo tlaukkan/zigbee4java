@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl.core;
 
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.impl.ZigBeeBasedriverException;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Status;
@@ -62,12 +62,12 @@ public class AttributeImpl implements Attribute {
     private static final Logger logger = LoggerFactory.getLogger(AttributeImpl.class);
 
     final private Object LazyInstantiation = new Object();
-    private ZigBeeDevice zbDevice;
+    private ZigbeeEndpoint zbDevice;
     private ZCLCluster zclCluster;
     private Subscription subscription;
     private AttributeDescriptor descriptor;
 
-    public AttributeImpl(ZigBeeDevice zbDevice, ZCLCluster zclCluster, AttributeDescriptor descriptor) {
+    public AttributeImpl(ZigbeeEndpoint zbDevice, ZCLCluster zclCluster, AttributeDescriptor descriptor) {
         this.zbDevice = zbDevice;
         this.zclCluster = zclCluster;
         this.descriptor = descriptor;
@@ -176,7 +176,7 @@ public class AttributeImpl implements Attribute {
                                     + " Follows the ZCLFrame recieved " + ResponseImpl.toString(response)
                     );
             }
-        } catch (ZigBeeBasedriverException e) {
+        } catch (ZigbeeBasedriverException e) {
             logger.error("Error reading value.", e);
             return null;
         }
@@ -201,7 +201,7 @@ public class AttributeImpl implements Attribute {
                                 + ". Follows the ZCLFrame recieved " + ResponseImpl.toString(writeResposne)
                 );
             }
-        } catch (ZigBeeBasedriverException e) {
+        } catch (ZigbeeBasedriverException e) {
             throw new ZigBeeClusterException(e);
         }
         return;

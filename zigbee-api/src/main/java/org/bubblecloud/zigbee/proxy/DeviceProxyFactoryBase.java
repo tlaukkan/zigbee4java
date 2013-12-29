@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.proxy;
 
 import org.bubblecloud.zigbee.ZigbeeConstants;
 import org.bubblecloud.zigbee.ZigbeeProxyContext;
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,21 +78,21 @@ public abstract class DeviceProxyFactoryBase implements DeviceProxyFactory {
 
     public abstract String[] getRefinedInterfaces();
 
-    public abstract DeviceProxyBase getInstance(ZigBeeDevice zbDevice);
+    public abstract DeviceProxyBase getInstance(ZigbeeEndpoint zbDevice);
 
-    public int hasMatch(ZigBeeDevice device) {
+    public int hasMatch(ZigbeeEndpoint device) {
         int[] inputClusterIDs = device.getInputClusters();
         int[] refinedClusterIds = (int[]) getDeviceClusters();
         int score = device.getProfileId() == ZigbeeConstants.PROFILE_ID_HOME_AUTOMATION
-                ? ZigBeeDevice.MATCH_PROFILE_ID : 0;
+                ? ZigbeeEndpoint.MATCH_PROFILE_ID : 0;
 
         for (int i = 0; i < inputClusterIDs.length; i++) {
             for (int j = 0; j < refinedClusterIds.length; j++) {
-                score += inputClusterIDs[i] == refinedClusterIds[j] ? ZigBeeDevice.MATCH_CLUSTER_ID : 0;
+                score += inputClusterIDs[i] == refinedClusterIds[j] ? ZigbeeEndpoint.MATCH_CLUSTER_ID : 0;
             }
         }
 
-        score += device.getDeviceId() == getDeviceId() ? ZigBeeDevice.MATCH_DEVICE_ID : 0;
+        score += device.getDeviceId() == getDeviceId() ? ZigbeeEndpoint.MATCH_DEVICE_ID : 0;
 
         return score;
     }

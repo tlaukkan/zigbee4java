@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.impl.general;
 
-import org.bubblecloud.zigbee.network.ZigBeeDevice;
+import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
@@ -64,7 +64,7 @@ public class OnOffCluster extends ZCLClusterBase implements OnOff {
             .setManufacturerExtension(false);
 
 
-    public OnOffCluster(ZigBeeDevice zbDevice) {
+    public OnOffCluster(ZigbeeEndpoint zbDevice) {
         super(zbDevice);
         onOff = new AttributeImpl(zbDevice, this, Attributes.ON_OFF);
         attributes = new AttributeImpl[]{onOff};
