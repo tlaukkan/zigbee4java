@@ -64,7 +64,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
     public static final String RESEND_ONLY_EXCEPTION_KEY = "zigbee.driver.cc2530.resend.exceptionally";
 
     private final int TIMEOUT;
-    public static final int DEFAULT_TIMEOUT = 5000;
+    public static final int DEFAULT_TIMEOUT = 1000;
     public static final String TIMEOUT_KEY = "zigbee.driver.cc2530.timeout";
 
     private Thread driver;
@@ -170,10 +170,10 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
 
     public void open(boolean cleanCache) {
         cleanStatus = cleanCache;
-        open();
+        startup();
     }
 
-    public void open() {
+    public void startup() {
         if (state == DriverStatus.CLOSED) {
             state = DriverStatus.CREATED;
             driver = new Thread(this);
@@ -184,7 +184,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         }
     }
 
-    public void close() {
+    public void shutdown() {
         if (state == DriverStatus.CLOSED) {
             logger.debug("Already CLOSED");
             return;
@@ -476,14 +476,14 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         if (initializeHardware() == true) {
             setState(DriverStatus.HARDWARE_READY);
         } else {
-            close();
+            shutdown();
             return;
         }
 
         logger.debug("Initializing network.");
         setState(DriverStatus.NETWORK_INITIALIZING);
         if (!initializeZigBeeNetwork()) {
-            close();
+            shutdown();
             return;
         }
     }
@@ -585,7 +585,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
                 }
             }
             if (result[0] == null) {
-                logger4Waiter.warn("Timeout {} expired and no packet with {} received", timeout, waitFor);
+                logger4Waiter.trace("Timeout {} expired and no packet with {} received", timeout, waitFor);
             }
             cleanup();
             return result[0];
@@ -752,19 +752,19 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         switch (mode) {
 
             case Coordinator: {
-                logger.info("Creating network as Coordinator");
+                logger.info("Creating network as coordinator.");
             }
             ;
             break;
 
             case Router: {
-                logger.info("Creating network as Router");
+                logger.info("Creating network as router.");
             }
             ;
             break;
 
             case EndDevice: {
-                logger.info("Creating network as EndDevice");
+                logger.info("Creating network as end device.");
             }
             ;
             break;
@@ -779,19 +779,19 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         if (response == null) return false;
         switch (response.Status) {
             case 0: {
-                logger.info("Initialized ZigBee Network with OLD Network State");
+                logger.info("Initialized Zigbee network with existing network state.");
                 return true;
             }
             case 1: {
-                logger.info("Initialized ZigBee Network with NEW Network State");
+                logger.info("Initialized Zigbee network with new or reset network state.");
                 return true;
             }
             case 2: {
-                logger.warn("Failed to initialized ZigBee Network");
+                logger.warn("Initializing Zigbee network failed.");
                 return false;
             }
             default: {
-                logger.error("Unxpected response state for ZDO_STARTUP_FROM_APP {}", response.Status);
+                logger.error("Unexpected response state for ZDO_STARTUP_FROM_APP {}", response.Status);
                 return false;
             }
         }

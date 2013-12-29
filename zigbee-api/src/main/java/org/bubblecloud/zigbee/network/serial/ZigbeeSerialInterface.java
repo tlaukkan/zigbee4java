@@ -35,7 +35,7 @@ import java.io.OutputStream;
 import java.util.*;
 
 /**
- * ZigbeeSerialInterface is used to open connection to ZigBee network.
+ * ZigbeeSerialInterface is used to startup connection to ZigBee network.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
@@ -71,7 +71,7 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
     /**
      * Opens connection to Zigbee Network.
      *
-     * @return true if connection open was success.
+     * @return true if connection startup was success.
      */
     public boolean open() {
         if (!serialPort.open(serialPortName, 115200)) {
@@ -105,13 +105,13 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
         final DoubleByte cmdId = packet.getCMD();
         switch (cmdId.getMsb() & 0xE0) {
             case 0x40: { //We received a message
-                LOGGER.info("<-- {} ({})", packet.getClass().getSimpleName(), packet);
+                LOGGER.trace("<-- {} ({})", packet.getClass().getSimpleName(), packet);
                 notifyAsynchrounsCommand(packet);
             }
             break;
 
             case 0x60: { //We received a SRSP
-                LOGGER.info("<- {} ({})", packet.getClass().getSimpleName(), packet);
+                LOGGER.trace("<- {} ({})", packet.getClass().getSimpleName(), packet);
                 notifySynchrounsCommand(packet);
             }
             break;
@@ -130,7 +130,7 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
 
 
         //FIX Sending byte instead of int
-        LOGGER.info("-> {} ({}) ", packet.getClass().getSimpleName(), packet.toString());
+        LOGGER.trace("-> {} ({}) ", packet.getClass().getSimpleName(), packet.toString());
 
         final int[] pck = packet.getPacket();
         synchronized (serialPort) {

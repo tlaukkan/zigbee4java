@@ -130,14 +130,14 @@ public class ZToolPacketParser implements Runnable {
     }
 
     /**
-     * Requests parser thread to close.
+     * Requests parser thread to shutdown.
      */
     public void close() {
         this.close = true;
         try {
             parserThread.join();
         } catch (InterruptedException e) {
-            logger.warn("Interrupted in packet parser thread close join.");
+            logger.warn("Interrupted in packet parser thread shutdown join.");
         }
     }
 

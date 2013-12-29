@@ -46,9 +46,9 @@ public interface ZigbeeNetworkManager {
 
     public abstract void open(boolean cleanCache);
 
-    public abstract void open();
+    public abstract void startup();
 
-    public abstract void close();
+    public abstract void shutdown();
 
     public abstract ZDO_IEEE_ADDR_RSP sendZDOIEEEAddressRequest(ZDO_IEEE_ADDR_REQ request);
 

@@ -97,7 +97,7 @@ public class ZDO_IEEE_ADDR_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
     public int[] getAssociatedNodesList() {
         int[] values = new int[AssocDevList.length];
         for (int i = 0; i < AssocDevList.length; i++) {
-            logger.info("Associated node - msb: " + AssocDevList[i].getMsb() + " lsb: " + AssocDevList[i].getLsb());
+            logger.trace("Associated node - msb: " + AssocDevList[i].getMsb() + " lsb: " + AssocDevList[i].getLsb());
             values[i] = ((int) AssocDevList[i].get16BitValue() & 0xFFFF);
         }
         return values;

@@ -39,10 +39,7 @@ import org.bubblecloud.zigbee.network.serial.ZigbeeNetworkManagerSerialImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Zigbee Application Interface.
@@ -74,8 +71,8 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
     /**
      * Constructor to configure the serial interface.
      *
-     * @param serialPortName
-     * @param pan            the pan PROFILE_ID_HOME_AUTOMATION
+     * @param serialPortName the serial port name
+     * @param pan            the pan
      * @param channel        the channel
      * @param discoveryModes the discovery modes
      * @param resetNetwork   the flag indicating network reset on startup
@@ -89,12 +86,31 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
     }
 
     /**
+     * Constructor to configure the serial interface.
+     *
+     * @param serialPortName the serial port name
+     * @param pan            the pan
+     * @param channel        the channel
+     * @param resetNetwork   the flag indicating network reset on startup
+     */
+    public ZigbeeApi(final String serialPortName, final int pan, final int channel,
+                     final boolean resetNetwork) {
+        networkManager = new ZigbeeNetworkManagerSerialImpl(serialPortName, 115200,
+                NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
+
+        final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
+        discoveryModes.remove(DiscoveryMode.LinkQuality);
+        discoveryManager = new ZigbeeDiscoveryManager(networkManager, discoveryModes);
+    }
+
+
+    /**
      * Starts up network manager, network, context and discovery manager.
      *
      * @return true if startup was success.
      */
     public boolean startup() {
-        networkManager.open();
+        networkManager.startup();
 
         while (true) {
             if (networkManager.getDriverStatus() == DriverStatus.NETWORK_READY) {
@@ -154,6 +170,15 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
     }
 
     /**
+     * Return true if initial networking browsing based on associations is complete.
+     *
+     * @return true if initial network browsing is complete.
+     */
+    public boolean isInitialBrowsingComplete() {
+        return discoveryManager.isInitialNetworkBrowsingComplete();
+    }
+
+    /**
      * Shuts down network manager, network, context and discovery manager.
      */
     public void shutdown() {
@@ -161,7 +186,7 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
         network.removeEndpointListener(this);
 
         discoveryManager.shutdown();
-        networkManager.close();
+        networkManager.shutdown();
 
     }
 
@@ -201,6 +226,22 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
         return network;
     }
 
+    public Device getDevice(String endPointId) {
+        return context.getDevice(endPointId);
+    }
+
+    public List<Device> getDevices() {
+        return context.getDevices();
+    }
+
+    public void addDeviceListener(DeviceListener deviceListener) {
+        context.addDeviceListener(deviceListener);
+    }
+
+    public void removeDeviceListener(DeviceListener deviceListener) {
+        context.removeDeviceListener(deviceListener);
+    }
+
     @Override
     public void endpointAdded(final ZigbeeEndpoint endpoint) {
         final DeviceFactory factory = context.getBestDeviceProxyFactory(endpoint);
@@ -211,34 +252,34 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
 
         final DeviceBase haDevice = factory.getInstance(endpoint);
         context.addDevice(haDevice);
-        LOGGER.info("Endpoint added: " + endpoint.getEndpointId());
+        LOGGER.trace("Endpoint added: " + endpoint.getEndpointId());
     }
 
     @Override
     public void endpointUpdated(final ZigbeeEndpoint endpoint) {
-        LOGGER.info("Endpoint updated: " + endpoint.getEndpointId());
+        LOGGER.trace("Endpoint updated: " + endpoint.getEndpointId());
     }
 
     @Override
     public void endpointRemoved(final ZigbeeEndpoint endpoint) {
-        LOGGER.info("Endpoint removed: " + endpoint.getEndpointId());
+        LOGGER.trace("Endpoint removed: " + endpoint.getEndpointId());
     }
 
     @Override
     public void deviceAdded(final Device device) {
-        LOGGER.info(device.getClass().getSimpleName() +
+        LOGGER.trace(device.getClass().getSimpleName() +
                 " added: " + device.getDevice().getEndpointId());
     }
 
     @Override
     public void deviceUpdated(final Device device) {
-        LOGGER.info(device.getClass().getSimpleName() +
+        LOGGER.trace(device.getClass().getSimpleName() +
                 " updated: " + device.getDevice().getEndpointId());
     }
 
     @Override
     public void deviceRemoved(final Device device) {
-        LOGGER.info(device.getClass().getSimpleName() +
+        LOGGER.trace(device.getClass().getSimpleName() +
                 " removed: " + device.getDevice().getEndpointId());
     }
 }

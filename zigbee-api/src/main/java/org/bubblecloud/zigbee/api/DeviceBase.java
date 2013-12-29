@@ -264,7 +264,7 @@ public abstract class DeviceBase implements Device {
             );
             return null;
         }
-        logger.info(
+        logger.trace(
                 "Cluster {} - {} added to {} device proxy.",
                 Integer.toHexString(clusterId), cluster.getName(), device.getDeviceId()
         );

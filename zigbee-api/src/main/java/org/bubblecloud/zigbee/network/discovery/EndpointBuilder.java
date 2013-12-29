@@ -88,7 +88,7 @@ public class EndpointBuilder implements Stoppable {
 
 
     private ZDO_ACTIVE_EP_RSP doInspectEndpointOfNode(final int nwkAddress, final ZigbeeNode node) {
-        logger.info("Listing end points on node #{} to find devices.", nwkAddress);
+        logger.trace("Listing end points on node #{} to find devices.", nwkAddress);
 
         int i = 0;
         ZDO_ACTIVE_EP_RSP result = null;
@@ -122,7 +122,7 @@ public class EndpointBuilder implements Stoppable {
         }
 
         byte[] endPoints = result.getActiveEndPointList();
-        logger.info("Found {} end points on #{}.", endPoints.length, nwkAddress);
+        logger.trace("Found {} end points on #{}.", endPoints.length, nwkAddress);
         for (int i = 0; i < endPoints.length; i++) {
             doCreateZigbeeEndpoint(node, endPoints[i]);
         }
@@ -139,7 +139,7 @@ public class EndpointBuilder implements Stoppable {
                 );
                 return;
             } else {
-                logger.info(
+                logger.trace(
                         "Inspecting node {} / endpoint {}.",
                         new Object[]{node, ep}
                 );
@@ -149,7 +149,7 @@ public class EndpointBuilder implements Stoppable {
         try {
             ZigbeeEndpointImpl endpoint = new ZigbeeEndpointImpl(driver, node, ep);
             if (endpoint.getNode().getNetworkAddress() == 0) {
-                logger.info("Sender end point {} found with profile PROFILE_ID_HOME_AUTOMATION: " + endpoint.getProfileId(), endpoint.getEndpointId());
+                logger.trace("Sender end point {} found with profile PROFILE_ID_HOME_AUTOMATION: " + endpoint.getProfileId(), endpoint.getEndpointId());
                 ApplicationFrameworkLayer.getAFLayer(driver).registerSenderEndPoint(
                         ep, endpoint.getProfileId(), endpoint.getOutputClusters());
             }

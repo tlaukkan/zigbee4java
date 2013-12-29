@@ -13,8 +13,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.EnumSet;
-
 /**
  * Test for ZigbeeNetworkManagerSerialImpl.
  */
@@ -32,7 +30,7 @@ public class ZigbeeNetworkTest {
         final ZigbeeNetworkManagerSerialImpl zigbeeNetwork = new ZigbeeNetworkManagerSerialImpl(
                 "/dev/ttyACM0", 115200, NetworkMode.Coordinator, 4951, 22,
                 false, 2500L);
-        zigbeeNetwork.open();
+        zigbeeNetwork.startup();
 
         while (true) {
             if (zigbeeNetwork.getDriverStatus() == DriverStatus.NETWORK_READY) {
@@ -41,7 +39,7 @@ public class ZigbeeNetworkTest {
             Thread.sleep(1000);
         }
 
-        zigbeeNetwork.close();
+        zigbeeNetwork.shutdown();
     }
 
     @Test
@@ -55,7 +53,7 @@ public class ZigbeeNetworkTest {
         final ZigbeeDiscoveryManager zigbeeDiscoveryManager = new ZigbeeDiscoveryManager(zigbeeNetworkManager, DiscoveryMode.ALL);
         zigbeeDiscoveryManager.startup();
 
-        zigbeeNetworkManager.open();
+        zigbeeNetworkManager.startup();
 
         while (true) {
             if (zigbeeNetworkManager.getDriverStatus() == DriverStatus.NETWORK_READY) {
@@ -68,15 +66,13 @@ public class ZigbeeNetworkTest {
 
         zigbeeDiscoveryManager.shutdown();
 
-        zigbeeNetworkManager.close();
+        zigbeeNetworkManager.shutdown();
     }
 
     @Test
     @Ignore
     public void testZigbeeApi() throws Exception {
-        final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
-        discoveryModes.remove(DiscoveryMode.LinkQuality);
-        final ZigbeeApi zigbeeApi = new ZigbeeApi("/dev/ttyACM0", 4951, 11, discoveryModes, false);
+        final ZigbeeApi zigbeeApi = new ZigbeeApi("/dev/ttyACM0", 4951, 11, false);
         zigbeeApi.startup();
 
         //Thread.sleep(500);

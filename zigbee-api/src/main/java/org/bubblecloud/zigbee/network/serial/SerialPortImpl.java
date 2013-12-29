@@ -79,7 +79,7 @@ public class SerialPortImpl implements SerialPort {
     private void openSerialPort(String port, int timeoutMillis, int baudRate, int dataBits, int stopBits, int parity, int flowControl) {
         if (serialPort != null) {
             throw new RuntimeException("Serial port '" + serialPort.getSystemPortName()
-                    + "' is already open for this serial comm instance.");
+                    + "' is already startup for this serial comm instance.");
         }
 
         final SerialComm[] ports = SerialComm.getCommPorts();
@@ -100,7 +100,7 @@ public class SerialPortImpl implements SerialPort {
         serialPort = portMap.get(port);
         logger.info("Opening serial port '" + serialPort.getSystemPortName() + "'.");
         if (!serialPort.openPort()) {
-            throw new RuntimeException("Serial port '" + port + "' open failed.");
+            throw new RuntimeException("Serial port '" + port + "' startup failed.");
         }
 
         serialPort.setComPortTimeouts(SerialComm.TIMEOUT_READ_BLOCKING, timeoutMillis, 0);

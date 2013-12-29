@@ -110,4 +110,7 @@ public class ZigbeeDiscoveryManager {
     }
 
 
+    public boolean isInitialNetworkBrowsingComplete() {
+        return networkBrowser == null || networkBrowser.isInitialNetworkBrowsingComplete();
+    }
 }

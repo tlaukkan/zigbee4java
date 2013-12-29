@@ -60,7 +60,7 @@ public interface ZoneType {
 
     public final ZT STANDARD_CIE = new ZT("0000", "Standard CIE", "System Alarm", "");
     public final ZT MOTION_SENSOR = new ZT("000d", "Motion Sensor", "Intrusion detection", "Presence indication");
-    public final ZT CONTACT_SWITCH = new ZT("0015", "Contact Switch", "First portal open-close", "Second portal open-close");
+    public final ZT CONTACT_SWITCH = new ZT("0015", "Contact Switch", "First portal startup-shutdown", "Second portal startup-shutdown");
     public final ZT FIRE_SENSOR = new ZT("0028", "Fire Sensor", "Fire indication", "");
     public final ZT WATER_SENSOR = new ZT("002a", "Water Sensor", "Water overflow indication", "");
     public final ZT GAS_SENSOR = new ZT("002b", "Gas Sensor", "CO indication", "Cooking indication");

@@ -57,6 +57,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
 
     final ArrayList<NetworkAddressNodeItem> toInspect = new ArrayList<NetworkAddressNodeItem>();
     final HashMap<Integer, NetworkAddressNodeItem> alreadyInspected = new HashMap<Integer, NetworkAddressNodeItem>();
+    private boolean initialNetworkBrowsingComplete = false;
 
 
     private class NetworkAddressNodeItem {
@@ -83,6 +84,10 @@ public class AssociationNetworkBrowser extends RunnableThread {
         this.driver = driver;
     }
 
+    public boolean isInitialNetworkBrowsingComplete() {
+        return initialNetworkBrowsingComplete;
+    }
+
     public void task() {
         final String threadName = Thread.currentThread().getName();
 
@@ -99,7 +104,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
                     final NetworkAddressNodeItem inspecting = toInspect.remove(toInspect.size() - 1);
 
                     alreadyInspected.put((int) inspecting.address, inspecting);
-                    logger.info("Inspecting node #{}.", inspecting.address);
+                    logger.trace("Inspecting node #{}.", inspecting.address);
                     ZDO_IEEE_ADDR_RSP result = driver.sendZDOIEEEAddressRequest(
                             new ZDO_IEEE_ADDR_REQ((short) inspecting.address, ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED, (byte) 0)
                     );
@@ -108,7 +113,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
                         logger.debug("No answer from #{}.", inspecting.address);
                         continue;
                     } else if (result.Status == 0) {
-                        logger.info(
+                        logger.trace(
                                 "Inspection result from #{} with {} associated nodes.",
                                 inspecting.address, result.getAssociatedNodeCount()
                         );
@@ -129,7 +134,8 @@ public class AssociationNetworkBrowser extends RunnableThread {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            logger.info("Network browsing completed, waiting until {}", wakeUpTime);
+            logger.trace("Network browsing completed, waiting until {}", wakeUpTime);
+            initialNetworkBrowsingComplete = true;
             if (!isDone()) ThreadUtils.waitingUntil(wakeUpTime);
         }
         logger.debug("{} TERMINATED Succesfully", threadName);
@@ -147,7 +153,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
         do {
             int[] toAdd = result.getAssociatedNodesList();
             for (int i = 0; i < toAdd.length; i++) {
-                logger.info("Found node #{} associated to node #{}.", toAdd[i], inspecting.address);
+                logger.trace("Found node #{} associated to node #{}.", toAdd[i], inspecting.address);
                 final NetworkAddressNodeItem next = new NetworkAddressNodeItem(inspecting, toAdd[i]);
                 final NetworkAddressNodeItem found = alreadyInspected.get((int) toAdd[i]);
                 if (found != null) {

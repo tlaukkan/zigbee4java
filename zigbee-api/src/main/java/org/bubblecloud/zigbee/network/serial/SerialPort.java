@@ -37,7 +37,7 @@ public interface SerialPort {
      * @param port the port name
      * @param rate the rate
      *
-     * @return true if open was success.
+     * @return true if startup was success.
      */
     public boolean open(String port, int rate);
 
