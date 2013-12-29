@@ -22,9 +22,9 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.general;
 
+import org.bubblecloud.zigbee.proxy.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.proxy.cluster.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.general.event.PresentValueListener;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 
 
 /**
@@ -35,23 +35,23 @@ import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
  */
 public interface BinaryInput extends Cluster {
 
-    public String getActiveText() throws ZigBeeHAException;
+    public String getActiveText() throws ZigbeeDeviceException;
 
-    public String getDescription() throws ZigBeeHAException;
+    public String getDescription() throws ZigbeeDeviceException;
 
-    public String getInactiveText() throws ZigBeeHAException;
+    public String getInactiveText() throws ZigbeeDeviceException;
 
-    public boolean getOutOfService() throws ZigBeeHAException;
+    public boolean getOutOfService() throws ZigbeeDeviceException;
 
-    public boolean getPresentValue() throws ZigBeeHAException;
+    public boolean getPresentValue() throws ZigbeeDeviceException;
 
-    public int getPolarity() throws ZigBeeHAException;
+    public int getPolarity() throws ZigbeeDeviceException;
 
-    public int getReliability() throws ZigBeeHAException;
+    public int getReliability() throws ZigbeeDeviceException;
 
-    public int getStatusFlags() throws ZigBeeHAException;
+    public int getStatusFlags() throws ZigbeeDeviceException;
 
-    public long getApplicationType() throws ZigBeeHAException;
+    public long getApplicationType() throws ZigbeeDeviceException;
 
     /**
      * @param listener The {@link PresentValueListener} to subscribe for events

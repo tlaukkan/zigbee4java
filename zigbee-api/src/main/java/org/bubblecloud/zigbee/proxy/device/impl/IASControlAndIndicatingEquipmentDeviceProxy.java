@@ -49,7 +49,7 @@ public class IASControlAndIndicatingEquipmentDeviceProxy extends DeviceProxyBase
     private Scenes scenes;
     private Groups groups;
 
-    public IASControlAndIndicatingEquipmentDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public IASControlAndIndicatingEquipmentDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
 
         super(ctx, zbDevice);
 

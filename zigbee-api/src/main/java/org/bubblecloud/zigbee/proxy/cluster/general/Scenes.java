@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.general;
 
+import org.bubblecloud.zigbee.proxy.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.proxy.cluster.Cluster;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.AddScenePayload;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.AddSceneResponse;
@@ -40,19 +40,19 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.scenes.ViewSceneRes
  */
 public interface Scenes extends Cluster {
 
-    public AddSceneResponse addScene(AddScenePayload scenePayload) throws ZigBeeHAException;
+    public AddSceneResponse addScene(AddScenePayload scenePayload) throws ZigbeeDeviceException;
 
-    public GetSceneMembershipResponse getSceneMembership(int groupId) throws ZigBeeHAException;
+    public GetSceneMembershipResponse getSceneMembership(int groupId) throws ZigbeeDeviceException;
 
-    public void recallScene(int groupId, short sceneId) throws ZigBeeHAException;
+    public void recallScene(int groupId, short sceneId) throws ZigbeeDeviceException;
 
-    public RemoveAllScenesResponse removeAllScene(int groupId) throws ZigBeeHAException;
+    public RemoveAllScenesResponse removeAllScene(int groupId) throws ZigbeeDeviceException;
 
-    public RemoveSceneResponse removeScene(int groupId, short sceneId) throws ZigBeeHAException;
+    public RemoveSceneResponse removeScene(int groupId, short sceneId) throws ZigbeeDeviceException;
 
-    public StoreSceneResponse storeScene(int groupId, short sceneId) throws ZigBeeHAException;
+    public StoreSceneResponse storeScene(int groupId, short sceneId) throws ZigbeeDeviceException;
 
-    public ViewSceneResponse viewScene(int groupId, short sceneId) throws ZigBeeHAException;
+    public ViewSceneResponse viewScene(int groupId, short sceneId) throws ZigbeeDeviceException;
 
     public Attribute getSceneCount();
 

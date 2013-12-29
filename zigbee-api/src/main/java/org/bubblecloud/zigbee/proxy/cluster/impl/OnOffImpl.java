@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.proxy.cluster.general.OnOff;
 import org.bubblecloud.zigbee.proxy.cluster.general.event.OnOffListener;
 import org.bubblecloud.zigbee.proxy.cluster.impl.event.OnOffBridgeListeners;
 import org.bubblecloud.zigbee.proxy.ReportingConfiguration;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
+import org.bubblecloud.zigbee.proxy.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
@@ -56,12 +56,12 @@ public class OnOffImpl implements OnOff {
         eventBridge = new OnOffBridgeListeners(new ReportingConfiguration(), onOff, this);
     }
 
-    public boolean getOnOff() throws ZigBeeHAException {
+    public boolean getOnOff() throws ZigbeeDeviceException {
         try {
             Boolean value = (Boolean) onOff.getValue();
             return value.booleanValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
@@ -73,33 +73,33 @@ public class OnOffImpl implements OnOff {
         return eventBridge.unsubscribe(listener);
     }
 
-    public void off() throws ZigBeeHAException {
+    public void off() throws ZigbeeDeviceException {
         try {
             DefaultResponse response = onOffCluster.off();
             if (response.getStatus() != Status.SUCCESS)
-                throw new ZigBeeHAException(response.getStatus().toString());
+                throw new ZigbeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
-    public void on() throws ZigBeeHAException {
+    public void on() throws ZigbeeDeviceException {
         try {
             DefaultResponse response = onOffCluster.on();
             if (response.getStatus() != Status.SUCCESS)
-                throw new ZigBeeHAException(response.getStatus().toString());
+                throw new ZigbeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
-    public void toggle() throws ZigBeeHAException {
+    public void toggle() throws ZigbeeDeviceException {
         try {
             DefaultResponse response = onOffCluster.toggle();
             if (response.getStatus() != Status.SUCCESS)
-                throw new ZigBeeHAException(response.getStatus().toString());
+                throw new ZigbeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 

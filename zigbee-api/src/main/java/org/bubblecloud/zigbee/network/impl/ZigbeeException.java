@@ -28,7 +28,7 @@ package org.bubblecloud.zigbee.network.impl;
  * communication exception as nested Throwable<br>
  * <p/>
  * The ZCL bundle should use ZigBeeClusterException<br>
- * and HA Drive should use ZigBeeHAException.
+ * and HA Drive should use ZigbeeDeviceException.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>

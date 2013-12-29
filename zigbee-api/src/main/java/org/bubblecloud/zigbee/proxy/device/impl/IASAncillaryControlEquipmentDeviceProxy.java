@@ -43,7 +43,7 @@ public class IASAncillaryControlEquipmentDeviceProxy extends DeviceProxyBase imp
     private IASZone iasZone;
     private IASACE iasAce;
 
-    public IASAncillaryControlEquipmentDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public IASAncillaryControlEquipmentDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
 
         super(ctx, zbDevice);
         iasAce = (IASACE) getCluster(ZigbeeConstants.CLUSTER_ID_IAS_ACE);

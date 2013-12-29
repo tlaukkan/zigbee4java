@@ -39,7 +39,7 @@ public class OccupancySensorDeviceProxy extends DeviceProxyBase implements Occup
 
     private OccupacySensing occupancySensing;
 
-    public OccupancySensorDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public OccupancySensorDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
         super(ctx, zbDevice);
         occupancySensing = (OccupacySensing) getCluster(ZigbeeConstants.CLUSTER_ID_OCCUPANCY_SENSING);
     }

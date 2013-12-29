@@ -84,7 +84,7 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     private final ProvidedClusterMode clusterMode;
 
 
-    public DeviceProxyBase(ZigbeeProxyContext context, ZigbeeEndpoint device) throws ZigBeeHAException {
+    public DeviceProxyBase(ZigbeeProxyContext context, ZigbeeEndpoint device) throws ZigbeeDeviceException {
         this.device = device;
         this.context = context;
 
@@ -143,9 +143,9 @@ public abstract class DeviceProxyBase implements DeviceProxy {
      *
      * @param clusterId the id of the cluster
      * @return {@link Cluster} if it is already present or if it has been added to the {@link DeviceProxyBase}
-     * @throws ZigBeeHAException
+     * @throws ZigbeeDeviceException
      */
-    protected Cluster addCluster(int clusterId) throws ZigBeeHAException {
+    protected Cluster addCluster(int clusterId) throws ZigbeeDeviceException {
         /*
          * Verify if the cluster has already been added. For example, when the HA Driver is working with
          * ProvidedClusterMode.EitherInputAndOutput mode the HA Driver adds either inputs and outputs cluster

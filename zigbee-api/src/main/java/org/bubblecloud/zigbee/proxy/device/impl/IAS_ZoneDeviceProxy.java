@@ -38,7 +38,7 @@ public class IAS_ZoneDeviceProxy extends DeviceProxyBase implements IAS_Zone {
 
     private IASZone iasZoneCluster;
 
-    public IAS_ZoneDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public IAS_ZoneDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
 
         super(ctx, zbDevice);
 

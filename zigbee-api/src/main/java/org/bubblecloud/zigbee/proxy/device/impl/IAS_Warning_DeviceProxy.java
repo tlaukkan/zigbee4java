@@ -45,7 +45,7 @@ public class IAS_Warning_DeviceProxy extends DeviceProxyBase implements IAS_Warn
     private Scenes scenes;
     private Groups groups;
 
-    public IAS_Warning_DeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public IAS_Warning_DeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
 
         super(ctx, zbDevice);
 

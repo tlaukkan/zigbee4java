@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.proxy.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.proxy.cluster.general.Scenes;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
@@ -65,12 +65,12 @@ public class ScenesImpl implements Scenes {
 
     }
 
-    public AddSceneResponse addScene(AddScenePayload scenepayload) throws ZigBeeHAException {
+    public AddSceneResponse addScene(AddScenePayload scenepayload) throws ZigbeeDeviceException {
         try {
             AddSceneResponse response = (AddSceneResponse) scenesCluster.addScene(scenepayload);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
@@ -94,12 +94,12 @@ public class ScenesImpl implements Scenes {
         return sceneCount;
     }
 
-    public GetSceneMembershipResponse getSceneMembership(int groupId) throws ZigBeeHAException {
+    public GetSceneMembershipResponse getSceneMembership(int groupId) throws ZigbeeDeviceException {
         try {
             GetSceneMembershipResponse response = (GetSceneMembershipResponse) scenesCluster.getSceneMembership(groupId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
@@ -107,48 +107,48 @@ public class ScenesImpl implements Scenes {
         return sceneValid;
     }
 
-    public void recallScene(int groupId, short sceneId) throws ZigBeeHAException {
+    public void recallScene(int groupId, short sceneId) throws ZigbeeDeviceException {
         try {
             scenesCluster.recallScene(groupId, sceneId);
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
 
     }
 
-    public RemoveAllScenesResponse removeAllScene(int groupId) throws ZigBeeHAException {
+    public RemoveAllScenesResponse removeAllScene(int groupId) throws ZigbeeDeviceException {
         try {
             RemoveAllScenesResponse response = (RemoveAllScenesResponse) scenesCluster.removeAllScenes(groupId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
-    public RemoveSceneResponse removeScene(int groupId, short sceneId) throws ZigBeeHAException {
+    public RemoveSceneResponse removeScene(int groupId, short sceneId) throws ZigbeeDeviceException {
         try {
             RemoveSceneResponse response = (RemoveSceneResponse) scenesCluster.removeScene(groupId, sceneId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
-    public StoreSceneResponse storeScene(int groupId, short sceneId) throws ZigBeeHAException {
+    public StoreSceneResponse storeScene(int groupId, short sceneId) throws ZigbeeDeviceException {
         try {
             StoreSceneResponse response = (StoreSceneResponse) scenesCluster.storeScene(groupId, sceneId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
-    public ViewSceneResponse viewScene(int groupId, short sceneId) throws ZigBeeHAException {
+    public ViewSceneResponse viewScene(int groupId, short sceneId) throws ZigbeeDeviceException {
         try {
             ViewSceneResponse response = (ViewSceneResponse) scenesCluster.viewScene(groupId, sceneId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 

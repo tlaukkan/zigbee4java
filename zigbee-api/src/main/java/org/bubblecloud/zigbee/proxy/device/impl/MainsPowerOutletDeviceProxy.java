@@ -41,7 +41,7 @@ public class MainsPowerOutletDeviceProxy extends DeviceProxyBase implements Main
     private Scenes scenes;
     private Groups groups;
 
-    public MainsPowerOutletDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public MainsPowerOutletDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
 
         super(ctx, zbDevice);
         onOff = (OnOff) getCluster(ZigbeeConstants.CLUSTER_ID_ON_OFF);

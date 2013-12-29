@@ -41,7 +41,7 @@ public class LightSensorDeviceProxy extends DeviceProxyBase implements LightSens
     private IlluminanceMeasurement illuminanceMeasurement;
     private Groups groups;
 
-    public LightSensorDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public LightSensorDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
 
         super(ctx, zbDevice);
 

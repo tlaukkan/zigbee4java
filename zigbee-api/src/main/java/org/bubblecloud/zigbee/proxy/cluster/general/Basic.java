@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.general;
 
+import org.bubblecloud.zigbee.proxy.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.proxy.cluster.Cluster;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 
 /**
@@ -49,11 +49,11 @@ public interface Basic extends Cluster {
 
     public Attribute getPowerSource();
 
-    public String getLocationDescription() throws ZigBeeHAException;
+    public String getLocationDescription() throws ZigbeeDeviceException;
 
     public Attribute getPhysicalEnvironment();
 
-    public boolean getDeviceEnabled() throws ZigBeeHAException;
+    public boolean getDeviceEnabled() throws ZigbeeDeviceException;
 
     public Attribute getAlarmMask();
 
@@ -62,6 +62,6 @@ public interface Basic extends Cluster {
      */
     public Attribute getDisableLocalConfig();
 
-    public void resetToFactoryDefault() throws ZigBeeHAException;
+    public void resetToFactoryDefault() throws ZigbeeDeviceException;
 
 }

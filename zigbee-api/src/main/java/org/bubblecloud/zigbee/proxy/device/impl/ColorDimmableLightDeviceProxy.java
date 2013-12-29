@@ -48,7 +48,7 @@ public class ColorDimmableLightDeviceProxy extends DeviceProxyBase implements Co
     private OccupacySensing occupancySensing;
     private ColorControl colorControl;
 
-    public ColorDimmableLightDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public ColorDimmableLightDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
 
         super(ctx, zbDevice);
 

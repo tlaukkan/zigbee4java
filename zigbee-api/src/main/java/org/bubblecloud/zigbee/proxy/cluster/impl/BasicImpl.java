@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.proxy.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.proxy.cluster.general.Basic;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
@@ -89,12 +89,12 @@ public class BasicImpl implements Basic {
         return dateCode;
     }
 
-    public boolean getDeviceEnabled() throws ZigBeeHAException {
+    public boolean getDeviceEnabled() throws ZigbeeDeviceException {
         try {
             Boolean value = (Boolean) deviceEnabled.getValue();
             return value.booleanValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
@@ -102,12 +102,12 @@ public class BasicImpl implements Basic {
         return hwVersion;
     }
 
-    public String getLocationDescription() throws ZigBeeHAException {
+    public String getLocationDescription() throws ZigbeeDeviceException {
         try {
             String value = (String) locationDescription.getValue();
             return value;
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
@@ -135,13 +135,13 @@ public class BasicImpl implements Basic {
         return zclVersion;
     }
 
-    public void resetToFactoryDefault() throws ZigBeeHAException {
+    public void resetToFactoryDefault() throws ZigbeeDeviceException {
         try {
             DefaultResponse response = basicCluster.resetToFactoryDefault();
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigBeeHAException(response.getStatus().toString());
+                throw new ZigbeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 

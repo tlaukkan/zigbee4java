@@ -62,9 +62,9 @@ public class DeviceProxyFactoryImpl extends DeviceProxyFactoryBase {
      * @param ctx             {@link org.bubblecloud.zigbee.ZigbeeProxyContext} to use for registering the {@link DeviceProxyFactory} service
      * @param cInterface      {@link Class} representing the refined service that this factory will install
      * @param cImplementation {@link Class} representing the implementation of the refinement service that will be created by the factory
-     * @throws ZigBeeHAException
+     * @throws ZigbeeDeviceException
      */
-    public DeviceProxyFactoryImpl(ZigbeeProxyContext ctx, Class<?> cInterface, Class<?> cImplementation) throws ZigBeeHAException {
+    public DeviceProxyFactoryImpl(ZigbeeProxyContext ctx, Class<?> cInterface, Class<?> cImplementation) throws ZigbeeDeviceException {
         super(ctx, cInterface);
 
         this.inter = cInterface;
@@ -84,7 +84,7 @@ public class DeviceProxyFactoryImpl extends DeviceProxyFactoryBase {
             );
             logger.debug("Stack exception of the DeviceProxyFactoryImpl() error", e);
 
-            throw new ZigBeeHAException("Unable to retrieve DEVICE_ID by means of reflection", e);
+            throw new ZigbeeDeviceException("Unable to retrieve DEVICE_ID by means of reflection", e);
         }
     }
 

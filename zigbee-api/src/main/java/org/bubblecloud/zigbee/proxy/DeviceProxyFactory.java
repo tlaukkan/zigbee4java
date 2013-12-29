@@ -60,7 +60,7 @@ public interface DeviceProxyFactory {
      * @param zbd the {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} to refine
      * @return the {@link DeviceProxyBase} refined from {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} from this<br>
      *         refinement driver
-     * @throws ZigBeeHAException
+     * @throws ZigbeeDeviceException
      */
     public DeviceProxyBase getInstance(ZigbeeEndpoint zbd);
 

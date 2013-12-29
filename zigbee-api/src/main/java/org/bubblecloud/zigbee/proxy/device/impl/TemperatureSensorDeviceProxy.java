@@ -39,7 +39,7 @@ public class TemperatureSensorDeviceProxy extends DeviceProxyBase implements Tem
 
     private final TemperatureMeasurement temperature;
 
-    public TemperatureSensorDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public TemperatureSensorDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
         super(ctx, zbDevice);
         temperature = (TemperatureMeasurement) getCluster(ZigbeeConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT);
     }

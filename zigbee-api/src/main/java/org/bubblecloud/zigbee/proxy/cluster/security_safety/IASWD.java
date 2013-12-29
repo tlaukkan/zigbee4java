@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.security_safety;
 
+import org.bubblecloud.zigbee.proxy.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.proxy.cluster.Cluster;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.ias_wd.SquawkPayload;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.security_safety.ias_wd.StartWarningPayload;
@@ -38,7 +38,7 @@ public interface IASWD extends Cluster {
 
     public Attribute getMaxDuration();
 
-    public void startWarning(StartWarningPayload payload) throws ZigBeeHAException;
+    public void startWarning(StartWarningPayload payload) throws ZigbeeDeviceException;
 
-    public void squawk(SquawkPayload payload) throws ZigBeeHAException;
+    public void squawk(SquawkPayload payload) throws ZigbeeDeviceException;
 }

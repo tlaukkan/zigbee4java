@@ -39,7 +39,7 @@ public class SimpleSensorDeviceProxy extends DeviceProxyBase implements SimpleSe
 
     private BinaryInput binaryInput;
 
-    public SimpleSensorDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public SimpleSensorDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
         super(ctx, zbDevice);
         binaryInput = (BinaryInput) getCluster(ZigbeeConstants.CLUSTER_ID_BINARY_INPUT);
     }

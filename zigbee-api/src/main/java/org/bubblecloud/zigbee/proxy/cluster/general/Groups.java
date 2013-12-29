@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.general;
 
+import org.bubblecloud.zigbee.proxy.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.proxy.cluster.Cluster;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.groups.AddGroupResponse;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.groups.GetGroupMembershipResponse;
@@ -37,17 +37,17 @@ import org.bubblecloud.zigbee.proxy.cluster.impl.api.general.groups.ViewGroupRes
  */
 public interface Groups extends Cluster {
 
-    public AddGroupResponse addGroup(int groupId, String name) throws ZigBeeHAException;
+    public AddGroupResponse addGroup(int groupId, String name) throws ZigbeeDeviceException;
 
-    public void addGroupIfIdentifying(int groupId, String name) throws ZigBeeHAException;
+    public void addGroupIfIdentifying(int groupId, String name) throws ZigbeeDeviceException;
 
-    public GetGroupMembershipResponse getGroupMembership(int[] groupList) throws ZigBeeHAException;
+    public GetGroupMembershipResponse getGroupMembership(int[] groupList) throws ZigbeeDeviceException;
 
-    public void removeAllGroup() throws ZigBeeHAException;
+    public void removeAllGroup() throws ZigbeeDeviceException;
 
-    public RemoveGroupResponse removeGroup(int groupId) throws ZigBeeHAException;
+    public RemoveGroupResponse removeGroup(int groupId) throws ZigbeeDeviceException;
 
-    public ViewGroupResponse viewGroup(int groupId) throws ZigBeeHAException;
+    public ViewGroupResponse viewGroup(int groupId) throws ZigbeeDeviceException;
 
     public Attribute getNameSupport();
 

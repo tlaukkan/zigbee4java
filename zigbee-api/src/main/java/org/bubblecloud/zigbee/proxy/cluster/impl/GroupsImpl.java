@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.proxy.cluster.impl;
 
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.proxy.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.proxy.cluster.general.Groups;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
@@ -53,32 +53,32 @@ public class GroupsImpl implements Groups {
         nameSupport = groupCluster.getAttributeNameSupport();
     }
 
-    public AddGroupResponse addGroup(int groupId, String name) throws ZigBeeHAException {
+    public AddGroupResponse addGroup(int groupId, String name) throws ZigbeeDeviceException {
         try {
             AddGroupResponse response = (AddGroupResponse) groupCluster.addGroup(groupId, name);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
-    public void addGroupIfIdentifying(int groupId, String name) throws ZigBeeHAException {
+    public void addGroupIfIdentifying(int groupId, String name) throws ZigbeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) groupCluster.addGroupIfIdentifying(groupId, name);
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigBeeHAException(response.getStatus().toString());
+                throw new ZigbeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
 
     }
 
-    public GetGroupMembershipResponse getGroupMembership(int[] groupList) throws ZigBeeHAException {
+    public GetGroupMembershipResponse getGroupMembership(int[] groupList) throws ZigbeeDeviceException {
         try {
             GetGroupMembershipResponse response = (GetGroupMembershipResponse) groupCluster.getGroupMembership(groupList);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
@@ -86,31 +86,31 @@ public class GroupsImpl implements Groups {
         return nameSupport;
     }
 
-    public void removeAllGroup() throws ZigBeeHAException {
+    public void removeAllGroup() throws ZigbeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) groupCluster.removeAllGroup();
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigBeeHAException(response.getStatus().toString());
+                throw new ZigbeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
-    public RemoveGroupResponse removeGroup(int groupId) throws ZigBeeHAException {
+    public RemoveGroupResponse removeGroup(int groupId) throws ZigbeeDeviceException {
         try {
             RemoveGroupResponse response = (RemoveGroupResponse) groupCluster.removeGroup(groupId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
-    public ViewGroupResponse viewGroup(int groupId) throws ZigBeeHAException {
+    public ViewGroupResponse viewGroup(int groupId) throws ZigbeeDeviceException {
         try {
             ViewGroupResponse response = (ViewGroupResponse) groupCluster.viewGroup(groupId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 

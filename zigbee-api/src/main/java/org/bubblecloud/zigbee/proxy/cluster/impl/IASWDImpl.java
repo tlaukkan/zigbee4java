@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.proxy.cluster.impl;
 
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.security_safety.IASWD;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
+import org.bubblecloud.zigbee.proxy.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.ZigBeeClusterException;
@@ -77,19 +77,19 @@ public class IASWDImpl implements IASWD {
         return maxDuration;
     }
 
-    public void startWarning(StartWarningPayload payload) throws ZigBeeHAException {
+    public void startWarning(StartWarningPayload payload) throws ZigbeeDeviceException {
         try {
             iaswdcluster.startWarning(payload);
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
-    public void squawk(SquawkPayload payload) throws ZigBeeHAException {
+    public void squawk(SquawkPayload payload) throws ZigbeeDeviceException {
         try {
             iaswdcluster.squawk(payload);
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 }

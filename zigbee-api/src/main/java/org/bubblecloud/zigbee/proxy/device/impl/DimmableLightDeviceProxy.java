@@ -47,7 +47,7 @@ public class DimmableLightDeviceProxy extends DeviceProxyBase implements Dimmabl
     private Groups groups;
     private OccupacySensing occupancySensing;
 
-    public DimmableLightDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public DimmableLightDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
         super(ctx, zbDevice);
         levelControl = (LevelControl) getCluster(ZigbeeConstants.CLUSTER_ID_LEVEL_CONTROL);
         onOff = (OnOff) getCluster(ZigbeeConstants.CLUSTER_ID_ON_OFF);

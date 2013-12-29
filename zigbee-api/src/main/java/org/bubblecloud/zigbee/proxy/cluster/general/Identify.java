@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.proxy.cluster.general;
 
+import org.bubblecloud.zigbee.proxy.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.proxy.cluster.Cluster;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -32,11 +32,11 @@ import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
  */
 public interface Identify extends Cluster {
 
-    public void identify(int time) throws ZigBeeHAException;
+    public void identify(int time) throws ZigbeeDeviceException;
 
-    public int IdentifyQuery() throws ZigBeeHAException;
+    public int IdentifyQuery() throws ZigbeeDeviceException;
 
-    public int getIdentifyTime() throws ZigBeeHAException;
+    public int getIdentifyTime() throws ZigbeeDeviceException;
 
 
 }

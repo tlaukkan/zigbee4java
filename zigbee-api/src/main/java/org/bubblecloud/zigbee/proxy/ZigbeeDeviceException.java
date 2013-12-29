@@ -30,20 +30,20 @@ import org.bubblecloud.zigbee.network.impl.ZigbeeException;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public class ZigBeeHAException extends ZigbeeException {
+public class ZigbeeDeviceException extends ZigbeeException {
 
-    public ZigBeeHAException(String msg) {
+    public ZigbeeDeviceException(String msg) {
         super(msg);
     }
 
-    public ZigBeeHAException(Throwable ex) {
+    public ZigbeeDeviceException(Throwable ex) {
         super(ex);
     }
 
     /**
      * @since 0.4.0
      */
-    public ZigBeeHAException(String msg, Throwable ex) {
+    public ZigbeeDeviceException(String msg, Throwable ex) {
         super(msg, ex);
     }
 }

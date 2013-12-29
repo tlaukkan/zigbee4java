@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.proxy.cluster.impl;
 
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.proxy.cluster.general.Identify;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
+import org.bubblecloud.zigbee.proxy.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.proxy.cluster.impl.api.core.Subscription;
@@ -51,31 +51,31 @@ public class IdentifyImpl implements Identify {
 
     }
 
-    public int IdentifyQuery() throws ZigBeeHAException {
+    public int IdentifyQuery() throws ZigbeeDeviceException {
         try {
             IdentifyQueryResponse response = (IdentifyQueryResponse) identifyCluster.identifyQuery();
             return response.getTimeout();
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
-    public int getIdentifyTime() throws ZigBeeHAException {
+    public int getIdentifyTime() throws ZigbeeDeviceException {
         try {
             return (Integer) identifyTime.getValue();
 
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 
-    public void identify(int time) throws ZigBeeHAException {
+    public void identify(int time) throws ZigbeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) identifyCluster.identify(time);
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigBeeHAException(response.getStatus().toString());
+                throw new ZigbeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigBeeHAException(e);
+            throw new ZigbeeDeviceException(e);
         }
     }
 

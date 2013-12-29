@@ -45,7 +45,7 @@ public class OnOffLightDeviceProxy extends DeviceProxyBase implements OnOffLight
     private Groups groups;
     private OccupacySensing occupancySensing;
 
-    public OnOffLightDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public OnOffLightDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
         super(ctx, zbDevice);
         onOff = (OnOff) getCluster(ZigbeeConstants.CLUSTER_ID_ON_OFF);
         groups = (Groups) getCluster(ZigbeeConstants.CLUSTER_ID_GROUPS);

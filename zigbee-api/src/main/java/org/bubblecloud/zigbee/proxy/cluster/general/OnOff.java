@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.proxy.cluster.general;
 
 import org.bubblecloud.zigbee.proxy.cluster.Cluster;
 import org.bubblecloud.zigbee.proxy.cluster.general.event.OnOffListener;
-import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
+import org.bubblecloud.zigbee.proxy.ZigbeeDeviceException;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -35,13 +35,13 @@ import org.bubblecloud.zigbee.proxy.ZigBeeHAException;
  */
 public interface OnOff extends Cluster {
 
-    public void on() throws ZigBeeHAException;
+    public void on() throws ZigbeeDeviceException;
 
-    public void off() throws ZigBeeHAException;
+    public void off() throws ZigbeeDeviceException;
 
-    public void toggle() throws ZigBeeHAException;
+    public void toggle() throws ZigbeeDeviceException;
 
-    public boolean getOnOff() throws ZigBeeHAException;
+    public boolean getOnOff() throws ZigbeeDeviceException;
 
     /**
      * @param listener The {@link OnOffListener} to subscribe for events

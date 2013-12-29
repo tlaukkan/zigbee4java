@@ -38,7 +38,7 @@ public class LevelControlSwitchDeviceProxy extends DeviceProxyBase implements Le
 
     private OnOffSwitchConfiguration onOffSwitchConfiguration;
 
-    public LevelControlSwitchDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public LevelControlSwitchDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
         super(ctx, zbDevice);
         onOffSwitchConfiguration = (OnOffSwitchConfiguration) getCluster(ZigbeeConstants.CLUSTER_ID_ON_OFF_SWITCH_CONFIGURATION);
     }

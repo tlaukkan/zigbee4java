@@ -33,6 +33,6 @@ import org.bubblecloud.zigbee.proxy.cluster.Cluster;
  */
 public interface ClusterFactory {
 
-    public Cluster getInstance(String key, ZigbeeEndpoint zbDevice) throws ZigBeeHAException;
+    public Cluster getInstance(String key, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException;
 
 }

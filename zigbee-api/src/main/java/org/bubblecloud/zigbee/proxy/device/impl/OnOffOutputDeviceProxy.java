@@ -44,7 +44,7 @@ public class OnOffOutputDeviceProxy extends DeviceProxyBase implements OnOffOutp
     private Scenes scenes;
     private Groups groups;
 
-    public OnOffOutputDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public OnOffOutputDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
         super(ctx, zbDevice);
         onOff = (OnOff) getCluster(ZigbeeConstants.CLUSTER_ID_ON_OFF);
         groups = (Groups) getCluster(ZigbeeConstants.CLUSTER_ID_GROUPS);

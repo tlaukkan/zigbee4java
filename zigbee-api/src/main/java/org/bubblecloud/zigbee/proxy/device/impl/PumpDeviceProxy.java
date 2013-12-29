@@ -46,7 +46,7 @@ public class PumpDeviceProxy extends DeviceProxyBase implements Pump {
     private LevelControl levelControlCluster;
     private TemperatureMeasurement temperatureMeasurementCluster;
 
-    public PumpDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigBeeHAException {
+    public PumpDeviceProxy(ZigbeeProxyContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
         super(ctx, zbDevice);
 
         levelControlCluster = (LevelControl) getCluster(ZigbeeConstants.CLUSTER_ID_LEVEL_CONTROL);
