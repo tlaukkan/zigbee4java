@@ -60,7 +60,7 @@ public interface Device extends ZigbeeEndpoint {
      */
     public int getDeviceType();
 
-    public int getEndPointId();
+    public String getEndPointId();
 
     public int getProfileId();
 

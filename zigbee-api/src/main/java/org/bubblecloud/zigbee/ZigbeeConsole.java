@@ -1,5 +1,7 @@
 package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.api.Device;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -36,7 +38,7 @@ public class ZigbeeConsole {
             pan = Integer.parseInt(args[2]);
             resetNetwork = args[3].equals("true");
         } catch (final Throwable t) {
-            System.out.println("Syntax: java -jar zigbee4java.jar <serial port name> <channel> <pan> <reset network>");
+            System.out.println("Syntax: java -jar zigbee4java.jar SERIALPORT CHANNEL PAN RESET");
             return;
         }
 
@@ -83,9 +85,6 @@ public class ZigbeeConsole {
 
         String command;
         while (!shutdown && (command = read()) != null) {
-            if ("quit".equals(command) || "q".equals(command)) {
-                break;
-            }
             process(zigbeeApi, command);
         }
 
@@ -95,7 +94,12 @@ public class ZigbeeConsole {
     private static void process(final ZigbeeApi zigbeeApi, final String command) {
         final String[] args = command.split(" ");
         if (commands.containsKey(args[0])) {
-            commands.get(args[0]).process(zigbeeApi, args);
+            final ConsoleCommand consoleCommand = commands.get(args[0]);
+            if (!consoleCommand.process(zigbeeApi, args)) {
+                write(consoleCommand.getSyntax());
+            }
+        } else {
+            write("Uknown command. Use 'help' command to list available commands.");
         }
     }
 
@@ -128,22 +132,81 @@ public class ZigbeeConsole {
     }
 
     private static interface ConsoleCommand {
-        void process(final ZigbeeApi zigbeeApi, final String[] args);
+        String getDescription();
+        String getSyntax();
+        boolean process(final ZigbeeApi zigbeeApi, final String[] args);
     }
 
     static {
-        commands.put("quit", null);
-        commands.put("help", new Help());
+        commands.put("quit", new QuitCommand());
+        commands.put("help", new HelpCommand());
+        commands.put("list", new ListCommand());
     }
 
-    private static class Help implements ConsoleCommand {
-        public void process(final ZigbeeApi zigbeeApi, final String[] args) {
-            final List<String> commandList = new ArrayList<String>(commands.keySet());
-            Collections.sort(commandList);
-            write("Commands:");
-            for (final String command : commands.keySet()) {
-                write(command);
+    private static class QuitCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "Quits console.";
+        }
+
+        public String getSyntax() {
+            return "quit";
+        }
+
+        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+            shutdown = true;
+            return true;
+        }
+    }
+
+    private static class HelpCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "View command help.";
+        }
+
+        public String getSyntax() {
+            return "help [command]";
+        }
+
+        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+
+            if (args.length == 2) {
+                if (commands.containsKey(args[1])) {
+                    final ConsoleCommand command = commands.get(args[1]);
+                    System.out.println(command.getDescription());
+                    System.out.println("");
+                    System.out.println("Syntax: " + command.getSyntax());
+                } else {
+                    return false;
+                }
+            } else if (args.length == 1) {
+                final List<String> commandList = new ArrayList<String>(commands.keySet());
+                Collections.sort(commandList);
+                write("Commands:");
+                for (final String command : commands.keySet()) {
+                    write(command + " - " + commands.get(command).getDescription());
+                }
+            } else {
+                return false;
             }
+
+            return true;
+        }
+    }
+
+    private static class ListCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "Lists devices.";
+        }
+
+        public String getSyntax() {
+            return "list";
+        }
+
+        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+            for (final Device device : zigbeeApi.getDevices()) {
+                System.out.println(device.getEndPointId() + " : " + device.getName());
+            }
+            return true;
         }
     }
 }

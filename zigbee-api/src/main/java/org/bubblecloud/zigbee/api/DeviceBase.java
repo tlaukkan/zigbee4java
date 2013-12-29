@@ -120,8 +120,8 @@ public abstract class DeviceBase implements Device {
 
     public abstract String getName();
 
-    public int getEndPointId() {
-        return device.getEndPointAddress();
+    public String getEndPointId() {
+        return device.getEndpointId();
     }
 
     public int getProfileId() {
