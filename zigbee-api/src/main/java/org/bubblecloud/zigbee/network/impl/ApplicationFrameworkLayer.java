@@ -218,7 +218,7 @@ public class ApplicationFrameworkLayer {
 
     private Set<Integer> collectClusterForProfile(int profileId) {
         final HashSet<Integer> clusters = new HashSet<Integer>();
-        final Collection<ZigbeeEndpoint> devices = network.getDevices(profileId);
+        final Collection<ZigbeeEndpoint> devices = network.getEndpoints(profileId);
         logger.debug("Found {} devices belonging to profile {}", devices.size(), profileId);
         for (ZigbeeEndpoint device : devices) {
             int[] ids;

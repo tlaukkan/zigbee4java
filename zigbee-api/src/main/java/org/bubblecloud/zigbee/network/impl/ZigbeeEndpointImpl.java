@@ -176,7 +176,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         return profileId;
     }
 
-    public ZigbeeNode getPhysicalNode() {
+    public ZigbeeNode getNode() {
         return node;
     }
 
@@ -275,9 +275,9 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
          */
 
         final ZDO_BIND_RSP response = driver.sendZDOBind(new ZDO_BIND_REQ(
-                (short) getPhysicalNode().getNetworkAddress(), (short) clusterId,
-                IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPoint,
-                IEEEAddress.fromColonNotation(device.getPhysicalNode().getIEEEAddress()), (byte) device.getDeviceId()
+                (short) getNode().getNetworkAddress(), (short) clusterId,
+                IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
+                IEEEAddress.fromColonNotation(device.getNode().getIEEEAddress()), (byte) device.getDeviceId()
         ));
         if (response == null || response.Status != 0) {
             logger.debug("ZDO_BIND_REQ failed, unable to bind from device {} to {} for cluster {}", new Object[]{
@@ -294,9 +294,9 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         });
 
         final ZDO_UNBIND_RSP response = driver.sendZDOUnbind(new ZDO_UNBIND_REQ(
-                (short) getPhysicalNode().getNetworkAddress(), (short) clusterId,
-                IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPoint,
-                IEEEAddress.fromColonNotation(device.getPhysicalNode().getIEEEAddress()), (byte) device.getDeviceId()
+                (short) getNode().getNetworkAddress(), (short) clusterId,
+                IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
+                IEEEAddress.fromColonNotation(device.getNode().getIEEEAddress()), (byte) device.getDeviceId()
         ));
         if (response == null || response.Status != 0) {
             logger.debug("ZDO_BIND_REQ failed, unable to un-bind from device {} to {} for cluster {}", new Object[]{
@@ -317,8 +317,8 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
 
         byte dstEP = ApplicationFrameworkLayer.getAFLayer(driver).getSendingEndpoint(this, clusterId);
         final ZDO_BIND_RSP response = driver.sendZDOBind(new ZDO_BIND_REQ(
-                (short) getPhysicalNode().getNetworkAddress(), (short) clusterId,
-                IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPoint,
+                (short) getNode().getNetworkAddress(), (short) clusterId,
+                IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
                 driver.getIEEEAddress(), (byte) dstEP
         ));
         if (response == null || response.Status != 0) {
@@ -339,8 +339,8 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         byte dstEP = ApplicationFrameworkLayer.getAFLayer(driver).getSendingEndpoint(this, clusterId);
 
         final ZDO_UNBIND_RSP response = driver.sendZDOUnbind(new ZDO_UNBIND_REQ(
-                (short) getPhysicalNode().getNetworkAddress(), (short) clusterId,
-                IEEEAddress.fromColonNotation(getPhysicalNode().getIEEEAddress()), (byte) endPoint,
+                (short) getNode().getNetworkAddress(), (short) clusterId,
+                IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
                 driver.getIEEEAddress(), (byte) dstEP
         ));
         if (response == null || response.Status != 0) {

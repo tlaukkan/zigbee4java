@@ -63,7 +63,7 @@ public abstract class SubscriptionBase implements Subscription {
 
     protected class ReportListenerNotifier implements ClusterListener {
 
-        public void handleCluster(ZigbeeEndpoint device, ClusterMessage c) {
+        public void handleCluster(ZigbeeEndpoint endpoint, ClusterMessage c) {
             try {
                 if (c.getId() != cluster.getId()) return;
                 ResponseImpl response = new ResponseImpl(c, cluster.getId());

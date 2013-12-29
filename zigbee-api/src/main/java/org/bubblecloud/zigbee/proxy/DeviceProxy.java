@@ -144,7 +144,7 @@ public interface DeviceProxy extends ZigbeeEndpoint {
     /**
      * This method modify the <i>Binding Table</i> of physical device by adding the following entry:
      * <pre>
-     * this.getPhysicalNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getPhysicalNode().getIEEEAddress(), device.getDeviceId()
+     * this.getNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getNode().getIEEEAddress(), device.getDeviceId()
      * </pre>
      *
      * @param deviceProxy {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} the device proxy that we want to bound to
@@ -159,7 +159,7 @@ public interface DeviceProxy extends ZigbeeEndpoint {
     /**
      * This method modify the <i>Binding Table</i> of physical device by removing the entry if exists
      * <pre>
-     * this.getPhysicalNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getPhysicalNode().getIEEEAddress(), device.getDeviceId()
+     * this.getNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getNode().getIEEEAddress(), device.getDeviceId()
      * </pre>
      *
      * @param deviceProxy {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} the deviceProxy that we want to bound to

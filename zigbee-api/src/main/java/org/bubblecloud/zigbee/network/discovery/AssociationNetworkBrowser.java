@@ -110,7 +110,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
                     } else if (result.Status == 0) {
                         logger.info(
                                 "Inspection result from #{} with {} associated nodes.",
-                                inspecting.address, result.getAssociatedDeviceCount()
+                                inspecting.address, result.getAssociatedNodeCount()
                         );
                         inspecting.node = new ZigbeeNodeImpl(inspecting.address, result.getIEEEAddress(),
                                 (short) driver.getCurrentPanId());
@@ -145,7 +145,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
         int start = 0;
         final ArrayList<NetworkAddressNodeItem> adding = new ArrayList<NetworkAddressNodeItem>();
         do {
-            int[] toAdd = result.getAssociatedDeviceList();
+            int[] toAdd = result.getAssociatedNodesList();
             for (int i = 0; i < toAdd.length; i++) {
                 logger.info("Found node #{} associated to node #{}.", toAdd[i], inspecting.address);
                 final NetworkAddressNodeItem next = new NetworkAddressNodeItem(inspecting, toAdd[i]);
@@ -161,22 +161,22 @@ public class AssociationNetworkBrowser extends RunnableThread {
                     adding.add(next);
                 }
             }
-            if (toAdd.length + result.getStartIndex() >= result.getAssociatedDeviceCount()) {
+            if (toAdd.length + result.getStartIndex() >= result.getAssociatedNodeCount()) {
                 //NOTE No more node connected to inspecting
                 return adding;
             }
             start += toAdd.length;
 
             logger.info(
-                    "Node #{} as too many device connected to it received only {} out of {}, " +
+                    "Node #{} as too many endpoints connected to it received only {} out of {}, " +
                             "we need to inspect it once more", new Object[]{
-                    inspecting.address, toAdd.length, result.getAssociatedDeviceCount()
+                    inspecting.address, toAdd.length, result.getAssociatedNodeCount()
             });
             result = driver.sendZDOIEEEAddressRequest(
                     new ZDO_IEEE_ADDR_REQ((short) inspecting.address, ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED, (byte) start)
             );
             if (result == null) {
-                logger.error("Faild to further inspect connected device to node #{}", inspecting.address);
+                logger.error("Faild to further inspect connected endpoint to node #{}", inspecting.address);
             }
         } while (result != null);
 

@@ -103,7 +103,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
         } else {
             logger.debug(
                     "ZDO_IEEE_ADDR_RSP from {} with {} associated",
-                    ieee_addr_resp.getIEEEAddress(), ieee_addr_resp.getAssociatedDeviceCount()
+                    ieee_addr_resp.getIEEEAddress(), ieee_addr_resp.getAssociatedNodeCount()
             );
 
             node.node = new ZigbeeNodeImpl(node.address, ieee_addr_resp.getIEEEAddress(),

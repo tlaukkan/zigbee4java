@@ -47,7 +47,7 @@ public class ZigbeeDiscoveryManager {
     private AssociationNetworkBrowser networkBrowser = null;
     private LinkQualityIndicatorNetworkBrowser networkLQIBrowser = null;
 
-    private EndpointBuilder deviceBuilder;
+    private EndpointBuilder endpointBuilder;
     private final ImportingQueue importingQueue;
 
     private EnumSet<DiscoveryMode> enabledDiscoveries;
@@ -86,8 +86,8 @@ public class ZigbeeDiscoveryManager {
                     LinkQualityIndicatorNetworkBrowser.class);
         }
 
-        deviceBuilder = new EndpointBuilder(importingQueue, managementInterface);
-        new Thread(deviceBuilder, "EndpointBuilder[" + managementInterface + "]").start();
+        endpointBuilder = new EndpointBuilder(importingQueue, managementInterface);
+        new Thread(endpointBuilder, "EndpointBuilder[" + managementInterface + "]").start();
     }
 
     public void shutdown() {
@@ -103,8 +103,8 @@ public class ZigbeeDiscoveryManager {
             networkLQIBrowser.end();
             networkLQIBrowser.interrupt();
         }
-        if (deviceBuilder != null) {
-            deviceBuilder.end();
+        if (endpointBuilder != null) {
+            endpointBuilder.end();
         }
         importingQueue.close();
     }

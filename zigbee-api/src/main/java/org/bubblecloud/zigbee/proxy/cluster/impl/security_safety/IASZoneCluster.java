@@ -184,7 +184,7 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
             return IAS_ZoneZoneStatusChangeNotificationFilter.FILTER;
         }
 
-        public void handleCluster(ZigbeeEndpoint device, ClusterMessage c) {
+        public void handleCluster(ZigbeeEndpoint endpoint, ClusterMessage c) {
             try {
                 ResponseImpl response = new ResponseImpl(c, ID);
                 ZoneStatusChangeNotificationResponse zscnr = new ZoneStatusChangeNotificationResponseImpl(response);

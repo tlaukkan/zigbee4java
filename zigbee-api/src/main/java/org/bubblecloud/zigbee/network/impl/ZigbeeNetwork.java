@@ -74,9 +74,9 @@ public class ZigbeeNetwork {
             while (it.hasNext()) {
                 final ZigbeeEndpoint device = it.next();
                 if (device != null) {
-                    notifyDeviceRemoved(device);
+                    notifyEndpointRemoved(device);
                     it.remove();
-                    removeDeviceFromProfiles(device);
+                    removeEndpointFromProfiles(device);
                 }
             }
         }
@@ -98,11 +98,11 @@ public class ZigbeeNetwork {
         return true;
     }
 
-    public synchronized boolean removeDevice(ZigbeeEndpoint device) {
+    public synchronized boolean removeEndpoint(ZigbeeEndpoint endpoint) {
 
-        notifyDeviceRemoved(device);
+        notifyEndpointRemoved(endpoint);
 
-        final String ieee = device.getPhysicalNode().getIEEEAddress();
+        final String ieee = endpoint.getNode().getIEEEAddress();
 
         ZigbeeNode node = null;
         node = nodes.get(ieee);
@@ -112,18 +112,18 @@ public class ZigbeeNetwork {
         }
 
         final HashMap<Integer, ZigbeeEndpoint> endPoints = devices.get(node);
-        endPoints.remove(device.getEndPoint());
-        removeDeviceFromProfiles(device);
+        endPoints.remove(endpoint.getEndPoint());
+        removeEndpointFromProfiles(endpoint);
 
         return true;
     }
 
-    public synchronized boolean addDevice(ZigbeeEndpoint device) {
-        final ZigbeeNode deviceNode = device.getPhysicalNode();
+    public synchronized boolean addEndpoint(ZigbeeEndpoint endpoint) {
+        final ZigbeeNode deviceNode = endpoint.getNode();
         final String ieee = deviceNode.getIEEEAddress();
-        final short endPoint = device.getEndPoint();
-        logger.info("Adding device {} on node {} / end point {}.", device.getDeviceId(),
-                device.getPhysicalNode(), endPoint);
+        final short endPoint = endpoint.getEndPoint();
+        logger.info("Adding device {} on node {} / end point {}.", endpoint.getDeviceId(),
+                endpoint.getNode(), endPoint);
         final ZigbeeNode node = nodes.get(ieee);
         if (node == null) {
             logger.debug("No node {} found");
@@ -135,25 +135,25 @@ public class ZigbeeNetwork {
 
         HashMap<Integer, ZigbeeEndpoint> endPoints = devices.get(node);
         if (endPoints.containsKey(endPoint)) {
-            logger.debug("Device {} on node {} already registered", endPoint, node);
+            logger.debug("Endpoint {} on node {} already registered", endPoint, node);
             return false;
         }
-        endPoints.put((int) endPoint, device);
+        endPoints.put((int) endPoint, endpoint);
 
-        final int profileId = device.getProfileId();
+        final int profileId = endpoint.getProfileId();
         ArrayList<ZigbeeEndpoint> list;
         list = profiles.get(profileId);
         if (list == null) {
             list = new ArrayList<ZigbeeEndpoint>();
             profiles.put(profileId, list);
         }
-        list.add(device);
+        list.add(endpoint);
 
-        notifyEndpointAdded(device);
+        notifyEndpointAdded(endpoint);
         return true;
     }
 
-    private synchronized boolean removeDeviceFromProfiles(final ZigbeeEndpoint device) {
+    private synchronized boolean removeEndpointFromProfiles(final ZigbeeEndpoint device) {
 
         final int profileId = device.getProfileId();
         ArrayList<ZigbeeEndpoint> list = profiles.get(profileId);
@@ -172,7 +172,7 @@ public class ZigbeeNetwork {
     }
 
 
-    public synchronized Collection<ZigbeeEndpoint> getDevices(int profileId) {
+    public synchronized Collection<ZigbeeEndpoint> getEndpoints(int profileId) {
         final ArrayList<ZigbeeEndpoint> result = new ArrayList<ZigbeeEndpoint>();
         final ArrayList<ZigbeeEndpoint> values = profiles.get(profileId);
         if (values == null) {
@@ -184,7 +184,7 @@ public class ZigbeeNetwork {
         return result;
     }
 
-    public boolean containsDevice(String ieee, short endPoint) {
+    public boolean containsEndpoint(String ieee, short endPoint) {
         final ZigbeeNode node = nodes.get(ieee);
         if (node == null) {
             return false;
@@ -272,7 +272,7 @@ public class ZigbeeNetwork {
         }
     }
 
-    public void notifyDeviceUpdated(final ZigbeeEndpoint endpoint) {
+    public void notifyEndpointUpdated(final ZigbeeEndpoint endpoint) {
         synchronized (endpointListeners) {
             for (final EndpointListener endpointListener : endpointListeners) {
                 endpointListener.endpointUpdated(endpoint);
@@ -280,7 +280,7 @@ public class ZigbeeNetwork {
         }
     }
 
-    public void notifyDeviceRemoved(final ZigbeeEndpoint endpoint) {
+    public void notifyEndpointRemoved(final ZigbeeEndpoint endpoint) {
         synchronized (endpointListeners) {
             for (final EndpointListener endpointListener : endpointListeners) {
                 endpointListener.endpointRemoved(endpoint);

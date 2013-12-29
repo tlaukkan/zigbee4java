@@ -154,7 +154,7 @@ public class ZigbeeNetworkTest {
                 logger.info("" + basic.getModelIdentifier().getValue());*/
 
                 /*int networkManagerAddress= 0;
-                int address = proxy.getDevice().getPhysicalNode().getNetworkAddress();
+                int address = proxy.getDevice().getNode().getNetworkAddress();
                 ZDO_MGMT_NWK_UPDATE_REQ_SRSP response = zigbeeApi.getZigbeeNetworkManager().sendLocalRequest(
                         new ZDO_MGMT_NWK_UPDATE_REQ(
                                 address,
@@ -173,7 +173,7 @@ public class ZigbeeNetworkTest {
                 logger.info("Reading manufacturer information for: " + proxy.getDevice().getUniqueIdenfier());
                 logger.info("" + basic.getManufacturerName().getValue());*/
 
-                /*int address = proxy.getDevice().getPhysicalNode().getNetworkAddress();
+                /*int address = proxy.getDevice().getNode().getNetworkAddress();
                 zigbeeApi.getZigbeeNetworkManager().sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(
                         new ZToolAddress16(Integers.getByteAsInteger(address, 1), Integers.getByteAsInteger(address, 0)),
                         0x10,

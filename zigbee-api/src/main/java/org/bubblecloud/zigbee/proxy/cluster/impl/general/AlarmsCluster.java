@@ -87,7 +87,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
 
     private class AlarmsListenerNotifier implements ClusterListener {
 
-        public void handleCluster(ZigbeeEndpoint device, ClusterMessage c) {
+        public void handleCluster(ZigbeeEndpoint endpoint, ClusterMessage c) {
             try {
                 ResponseImpl response = new ResponseImpl(c, ID);
                 AlarmResponse alarm = new AlarmResponseImpl(response);

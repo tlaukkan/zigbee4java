@@ -806,7 +806,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             logger.warn(
                     "The channel configuration differ from the channel configuration in use: " +
                             "in use {}, while the configured is {}.\n" +
-                            "The ZigBee Stack should be flushed, try to set " + ConfigurationProperties.NETWORK_FLUSH + " to TRUE",
+                            "The Zigbee network should be reconfigured or configuration corrected.",
                     value, channel
             );
             mismatch = true;
@@ -815,7 +815,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             logger.warn(
                     "The PanId configuration differ from the channel configuration in use: " +
                             "in use {}, while the configured is {}.\n" +
-                            "The ZigBee Stack should be flushed, try to set " + ConfigurationProperties.NETWORK_FLUSH + " to TRUE",
+                            "The Zigbee network should be reconfigured or configuration corrected.",
                     value, pan
             );
             mismatch = true;
@@ -824,7 +824,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             logger.warn(
                     "The NetworkMode configuration differ from the channel configuration in use: " +
                             "in use {}, while the configured is {}.\n" +
-                            "The ZigBee Stack should be flushed, try to set " + ConfigurationProperties.NETWORK_FLUSH + " to TRUE",
+                            "The Zigbee network should be reconfigured or configuration corrected.",
                     value, mode.ordinal()
             );
             mismatch = true;
@@ -1320,7 +1320,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
     private int[] ep, prof, dev, ver;
     private short[][] inp, out;
 
-    public void addCustomDevice(String endpointNumber, String profileID, String deviceID, String version, String inputClusters, String outputCluster) {
+    public void addCustomEndpoint(String endpointNumber, String profileID, String deviceID, String version, String inputClusters, String outputCluster) {
 
         String[] inputGroupsNumber = null, outputGroupsNumber = null, inputClusterGroup = null, outputClusterGroup = null;
         if (checkString(inputClusters))

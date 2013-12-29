@@ -39,14 +39,14 @@ import java.util.Dictionary;
 public interface ZigbeeNode {
 
     /**
-     * @return int representing the current network address linked to the device
+     * @return int representing the current network address linked to the node
      */
     public int getNetworkAddress();
 
     /**
      * //TODO Define a ZigBeeAddress object
      *
-     * @return a {@link String} representing the IEEEAddress of the device
+     * @return a {@link String} representing the IEEEAddress of the node
      */
     public String getIEEEAddress();
 

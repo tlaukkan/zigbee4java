@@ -370,8 +370,8 @@ public abstract class DeviceProxyBase implements DeviceProxy {
     }
 
     @Override
-    public ZigbeeNode getPhysicalNode() {
-        return device.getPhysicalNode();
+    public ZigbeeNode getNode() {
+        return device.getNode();
     }
 
     @Override

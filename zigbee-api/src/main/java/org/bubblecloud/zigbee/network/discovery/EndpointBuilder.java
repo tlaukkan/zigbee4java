@@ -56,12 +56,12 @@ public class EndpointBuilder implements Stoppable {
     private static final Logger logger = LoggerFactory.getLogger(EndpointBuilder.class);
 
     private final ImportingQueue queue;
-    private final List<ZigBeeDeviceReference> failedDevice = new ArrayList<ZigBeeDeviceReference>();
+    private final List<ZigbeeEndpointReference> failedEndpoints = new ArrayList<ZigbeeEndpointReference>();
 
-    private Map<ZigBeeDeviceReference, Integer> failedAttempts = new HashMap<ZigBeeDeviceReference, Integer>();
-    private final int maxRetriesFailedDevices = 5;
+    private Map<ZigbeeEndpointReference, Integer> failedAttempts = new HashMap<ZigbeeEndpointReference, Integer>();
+    private final int maxRetriesFailedEndpoints = 5;
 
-    private Map<ZigBeeDeviceReference, Long> delayedReattempts = new HashMap<ZigBeeDeviceReference, Long>();
+    private Map<ZigbeeEndpointReference, Long> delayedReattempts = new HashMap<ZigbeeEndpointReference, Long>();
     private final long delay = 30000;
 
     private final ZigbeeNetworkManager driver;
@@ -70,11 +70,11 @@ public class EndpointBuilder implements Stoppable {
     private long nextInspectionSlot = 0;
     private ImportingQueue.ZigBeeNodeAddress dev;
 
-    private class ZigBeeDeviceReference {
+    private class ZigbeeEndpointReference {
         ZigbeeNode node;
         byte endPoint;
 
-        ZigBeeDeviceReference(ZigbeeNode node, byte endPoint) {
+        ZigbeeEndpointReference(ZigbeeNode node, byte endPoint) {
             super();
             this.node = node;
             this.endPoint = endPoint;
@@ -87,7 +87,7 @@ public class EndpointBuilder implements Stoppable {
     }
 
 
-    private ZDO_ACTIVE_EP_RSP doInspectDeviceOfNode(final int nwkAddress, final ZigbeeNode node) {
+    private ZDO_ACTIVE_EP_RSP doInspectEndpointOfNode(final int nwkAddress, final ZigbeeNode node) {
         logger.info("Listing end points on node #{} to find devices.", nwkAddress);
 
         int i = 0;
@@ -113,9 +113,9 @@ public class EndpointBuilder implements Stoppable {
         return result;
     }
 
-    private boolean inspectDeviceOfNode(final int nwkAddress, final ZigbeeNode node) {
+    private boolean inspectEndpointOfNode(final int nwkAddress, final ZigbeeNode node) {
 
-        final ZDO_ACTIVE_EP_RSP result = doInspectDeviceOfNode(nwkAddress, node);
+        final ZDO_ACTIVE_EP_RSP result = doInspectEndpointOfNode(nwkAddress, node);
         if (result == null) {
             logger.warn("ZDO_ACTIVE_EP_REQ FAILED on {}", node);
             return false;
@@ -124,16 +124,16 @@ public class EndpointBuilder implements Stoppable {
         byte[] endPoints = result.getActiveEndPointList();
         logger.info("Found {} end points on #{}.", endPoints.length, nwkAddress);
         for (int i = 0; i < endPoints.length; i++) {
-            doCreateZigBeeDevice(node, endPoints[i]);
+            doCreateZigbeeEndpoint(node, endPoints[i]);
         }
 
         return true;
     }
 
-    private void doCreateZigBeeDevice(ZigbeeNode node, byte ep) {
+    private void doCreateZigbeeEndpoint(ZigbeeNode node, byte ep) {
         final ZigbeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         synchronized (network) {
-            if (network.containsDevice(node.getIEEEAddress(), ep)) {
+            if (network.containsEndpoint(node.getIEEEAddress(), ep)) {
                 logger.info(
                         "Skipping device creation for endpoint {} on node {} it is already registered as a Service", ep, node
                 );
@@ -147,26 +147,26 @@ public class EndpointBuilder implements Stoppable {
 
         }
         try {
-            ZigbeeEndpointImpl device = new ZigbeeEndpointImpl(driver, node, ep);
-            if (device.getPhysicalNode().getNetworkAddress() == 0) {
-                logger.info("Sender end point {} found with profile PROFILE_ID_HOME_AUTOMATION: " + device.getProfileId(), device.getUniqueIdenfier());
+            ZigbeeEndpointImpl endpoint = new ZigbeeEndpointImpl(driver, node, ep);
+            if (endpoint.getNode().getNetworkAddress() == 0) {
+                logger.info("Sender end point {} found with profile PROFILE_ID_HOME_AUTOMATION: " + endpoint.getProfileId(), endpoint.getUniqueIdenfier());
                 ApplicationFrameworkLayer.getAFLayer(driver).registerSenderEndPoint(
-                        ep, device.getProfileId(), device.getOutputClusters());
+                        ep, endpoint.getProfileId(), endpoint.getOutputClusters());
             }
-            if (!network.addDevice(device)) {
+            if (!network.addEndpoint(endpoint)) {
                 logger.error("Failed to add endpoint {} to the network map for node {}", ep, node);
             }
         } catch (ZigbeeBasedriverException e) {
             logger.error("Error building the device: {}", node, e);
 
-            ZigBeeDeviceReference last = new ZigBeeDeviceReference(node, ep);
+            ZigbeeEndpointReference last = new ZigbeeEndpointReference(node, ep);
             if (!failedAttempts.containsKey(last))
                 failedAttempts.put(last, 0);
-            else if (failedAttempts.get(last) + 1 < maxRetriesFailedDevices)
+            else if (failedAttempts.get(last) + 1 < maxRetriesFailedEndpoints)
                 failedAttempts.put(last, failedAttempts.get(last) + 1);
             else {
                 logger.debug("Too many attempts failed, device {}:{} adding delayed of {} ms", new Object[]{node, ep, delay});
-                failedDevice.remove(last);
+                failedEndpoints.remove(last);
                 delayedReattempts.put(last, delay);
             }
         }
@@ -189,7 +189,7 @@ public class EndpointBuilder implements Stoppable {
         }
         if (isNew) {
             //logger.info("Inspecting node #{} devices.", nwk);
-            correctlyInspected = inspectDeviceOfNode(nwk, node);
+            correctlyInspected = inspectEndpointOfNode(nwk, node);
             if (correctlyInspected) {
                 return;
             } else {
@@ -208,7 +208,7 @@ public class EndpointBuilder implements Stoppable {
                  * No previous device inspection completed successfully, so we should try to inspect
                  * the device again
                  */
-                inspectDeviceOfNode(nwk, new ZigbeeNodeImpl(nwk, node.getIEEEAddress(), (short) driver.getCurrentPanId()));
+                inspectEndpointOfNode(nwk, new ZigbeeNodeImpl(nwk, node.getIEEEAddress(), (short) driver.getCurrentPanId()));
             }
             node.setNetworkAddress(nwk);
         }
@@ -254,7 +254,7 @@ public class EndpointBuilder implements Stoppable {
     }
 
 
-    private void inspectNewDevice() {
+    private void inspectNewEndpoint() {
         nextInspectionSlot = 100 + System.currentTimeMillis();
         final ImportingQueue.ZigBeeNodeAddress dev = queue.pop();
         if (dev == null) return;
@@ -262,17 +262,17 @@ public class EndpointBuilder implements Stoppable {
         final ZToolAddress64 ieee = dev.getIEEEAddress();
         logger.debug("Popped new node for inspection #{}.", nwk.get16BitValue());
         inspectNode(nwk, ieee);
-        logger.debug("Devices inspection completed, next inspetciont slot in {}",
+        logger.debug("Endpoint inspection completed, next inspetciont slot in {}",
                 Math.max(nextInspectionSlot - System.currentTimeMillis(), 0)
         );
     }
 
-    private void inspectFailedDevice() {
+    private void inspectFailedEndpoint() {
         //TODO We should add a statistical history for removing a device when we tried it too many times
         logger.info("Trying to register a node extracted from FailedQueue");
-        final ZigBeeDeviceReference failed = failedDevice.get(0);
+        final ZigbeeEndpointReference failed = failedEndpoints.get(0);
         nextInspectionSlot = 10 * 1000 + System.currentTimeMillis();
-        doCreateZigBeeDevice(failed.node, failed.endPoint);
+        doCreateZigbeeEndpoint(failed.node, failed.endPoint);
     }
 
     /**
@@ -287,8 +287,8 @@ public class EndpointBuilder implements Stoppable {
      * @return the number of Node waiting for inspection
      * @since 0.6.0 - Revision 71
      */
-    public int getPendingDevices() {
-        return failedDevice.size();
+    public int getPendingEndpoints() {
+        return failedEndpoints.size();
     }
 
     public void run() {
@@ -297,31 +297,33 @@ public class EndpointBuilder implements Stoppable {
         while (!isEnd()) {
             try {
                 if (!delayedReattempts.isEmpty()) {
-                    Iterator<Entry<ZigBeeDeviceReference, Long>> iterator = delayedReattempts.entrySet().iterator();
+                    Iterator<Entry<ZigbeeEndpointReference, Long>> iterator = delayedReattempts.entrySet().iterator();
                     while (iterator.hasNext()) {
-                        Entry<ZigBeeDeviceReference, Long> device = iterator.next();
-                        if ((device.getValue() + delay) >= System.currentTimeMillis()) {
-                            failedDevice.add(device.getKey());
+                        Entry<ZigbeeEndpointReference, Long> endpointReferenceEntry = iterator.next();
+                        if ((endpointReferenceEntry.getValue() + delay) >= System.currentTimeMillis()) {
+                            failedEndpoints.add(endpointReferenceEntry.getKey());
                             logger.debug("EP {} of node {} has been readded to queue for inspection after {} ms",
-                                    new Object[]{device.getKey().endPoint, device.getKey().node, System.currentTimeMillis() - device.getValue()});
+                                    new Object[]{endpointReferenceEntry.getKey().endPoint,
+                                            endpointReferenceEntry.getKey().node,
+                                            System.currentTimeMillis() - endpointReferenceEntry.getValue()});
                         }
                     }
                 }
                 ThreadUtils.waitingUntil(nextInspectionSlot);
 
-                if (queue.size() > 0 && failedDevice.size() > 0) {
+                if (queue.size() > 0 && failedEndpoints.size() > 0) {
                     double sel = Math.random();
                     if (sel > 0.6) {
-                        inspectFailedDevice();
+                        inspectFailedEndpoint();
                     } else {
-                        inspectNewDevice();
+                        inspectNewEndpoint();
                     }
-                } else if (queue.size() == 0 && failedDevice.size() > 0) {
-                    inspectFailedDevice();
-                } else if (queue.size() > 0 && failedDevice.size() == 0) {
-                    inspectNewDevice();
-                } else if (queue.size() == 0 && failedDevice.size() == 0) {
-                    inspectNewDevice();
+                } else if (queue.size() == 0 && failedEndpoints.size() > 0) {
+                    inspectFailedEndpoint();
+                } else if (queue.size() > 0 && failedEndpoints.size() == 0) {
+                    inspectNewEndpoint();
+                } else if (queue.size() == 0 && failedEndpoints.size() == 0) {
+                    inspectNewEndpoint();
                 }
 
             } catch (Exception e) {

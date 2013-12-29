@@ -72,7 +72,7 @@ public interface ZigbeeEndpoint {
      * @return the {@link ZigbeeNode} containing this EndPoint
      * @since 0.2.0
      */
-    public ZigbeeNode getPhysicalNode();
+    public ZigbeeNode getNode();
 
     /**
      * @return a {@link String} the represent an URI of device.
@@ -131,7 +131,7 @@ public interface ZigbeeEndpoint {
     /**
      * This method modify the <i>Binding Table</i> of physical device by adding the following entry:
      * <pre>
-     * this.getPhysicalNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getPhysicalNode().getIEEEAddress(), device.getDeviceId()
+     * this.getNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getNode().getIEEEAddress(), device.getDeviceId()
      * </pre>
      *
      * @param device    {@link ZigbeeEndpoint} the device that we want to bound to
@@ -145,7 +145,7 @@ public interface ZigbeeEndpoint {
     /**
      * This method modify the <i>Binding Table</i> of physical device by removing the entry if exists
      * <pre>
-     * this.getPhysicalNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getPhysicalNode().getIEEEAddress(), device.getDeviceId()
+     * this.getNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getNode().getIEEEAddress(), device.getDeviceId()
      * </pre>
      *
      * @param device    {@link ZigbeeEndpoint} the device that we want to bound to
