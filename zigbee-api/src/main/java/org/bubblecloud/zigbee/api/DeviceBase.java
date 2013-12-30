@@ -254,7 +254,7 @@ public abstract class DeviceBase implements Device {
             return null;
         }
         if (cluster == null) {
-            logger.error(
+            logger.trace(
                     "Cluster {} for device {} not constructed by factory.",
                     Integer.toHexString(clusterId), endpoint.getDeviceTypeId()
             );

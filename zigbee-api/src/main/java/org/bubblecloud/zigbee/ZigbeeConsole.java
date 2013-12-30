@@ -94,19 +94,33 @@ public class ZigbeeConsole {
     }
 
     private static void process(final ZigbeeApi zigbeeApi, final String command) {
+        if (command.length() == 0) {
+            return;
+        }
         final String[] args = command.split(" ");
         try {
             if (commands.containsKey(args[0])) {
-                final ConsoleCommand consoleCommand = commands.get(args[0]);
-                if (!consoleCommand.process(zigbeeApi, args)) {
-                    write(consoleCommand.getSyntax());
-                }
+                process(zigbeeApi, args, args[0]);
+                return;
             } else {
+                for (final String key : commands.keySet()) {
+                    if (key.charAt(0) == command.charAt(0)) {
+                        process(zigbeeApi, args, key);
+                        return;
+                    }
+                }
                 write("Uknown command. Use 'help' command to list available commands.");
             }
         } catch (final Exception e) {
             write("Exception in command execution: ");
             e.printStackTrace();
+        }
+    }
+
+    private static void process(ZigbeeApi zigbeeApi, String[] args, String key) {
+        final ConsoleCommand consoleCommand = commands.get(key);
+        if (!consoleCommand.process(zigbeeApi, args)) {
+            write(consoleCommand.getSyntax());
         }
     }
 
@@ -136,6 +150,22 @@ public class ZigbeeConsole {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Gets device from Zigbee API either with index or endpoint ID
+     * @param zigbeeApi the zigbee API
+     * @param deviceIdentifier the device identifier
+     * @return
+     */
+    private static Device getDeviceByIndexOrEndpointId(ZigbeeApi zigbeeApi, String deviceIdentifier) {
+        Device device;
+        try {
+            device = zigbeeApi.getDevices().get(Integer.parseInt(deviceIdentifier));
+        } catch (final NumberFormatException e) {
+            device = zigbeeApi.getDevice(deviceIdentifier);
+        }
+        return device;
     }
 
     private static interface ConsoleCommand {
@@ -211,8 +241,10 @@ public class ZigbeeConsole {
         }
 
         public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
-            for (final Device device : zigbeeApi.getDevices()) {
-                System.out.println(device.getEndPointId() + " : " + device.getDeviceType());
+            final List<Device> devices = zigbeeApi.getDevices();
+            for (int i = 0; i < devices.size(); i++) {
+                final Device device = devices.get(i);
+                System.out.println(i + ") " + device.getEndPointId() + " : " + device.getDeviceType());
             }
             return true;
         }
@@ -232,12 +264,13 @@ public class ZigbeeConsole {
                 return false;
             }
 
-            final Device device = zigbeeApi.getDevice(args[1]);
+            Device device = null;
+            device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+
             if (device == null) {
                 return false;
             }
 
-            write(device.getEndPointId() + " : " + device.getDeviceType());
             write("Network Address  : " + device.getNode().getNetworkAddress());
             write("Extended Address : " + device.getNode().getIEEEAddress());
             write("Endpoint Address : " + device.getEndPointAddress());
@@ -248,28 +281,29 @@ public class ZigbeeConsole {
             for (int i : device.getInputClusters()) {
                 final Cluster cluster = device.getCluster(i);
                 if (cluster == null) {
-                    write(i + ") No implementation.");
+                    write("                 : " + i + ") ???");
                     continue;
                 }
-                write(i + ") " + cluster.getName());
+                write("                 : " + i + ") " + cluster.getName());
                 for (final Subscription subscription : cluster.getActiveSubscriptions()) {
-                    write(" - Subscription with " + subscription.getReportListenersCount() + " report listeners.");
+                    write("                 : - Subscription: " + subscription.getReportListenersCount() + " listeners.");
                 }
             }
             write("Output Clusters  : ");
             for (int i : device.getOutputClusters()) {
                 final Cluster cluster = device.getCluster(i);
                 if (cluster == null) {
-                    write(i + ") No implementation.");
+                    write("                 : " + i + ") ???");
                     continue;
                 }
-                write(i + ") " + cluster.getName());
+                write("                 : " + i + ") " + cluster.getName());
                 for (final Subscription subscription : cluster.getActiveSubscriptions()) {
-                    write(" - Subscription with " + subscription.getReportListenersCount() + " report listeners.");
+                    write("                 : - Subscription: " + subscription.getReportListenersCount() + " listeners.");
                 }
             }
 
             return true;
         }
     }
+
 }
