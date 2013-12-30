@@ -23,12 +23,12 @@
 package org.bubblecloud.zigbee.api.cluster.impl.event;
 
 import org.bubblecloud.zigbee.api.cluster.Cluster;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.OccupancyEvent;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.OccupancyListener;
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -92,13 +92,13 @@ public class OccupancyBridgeListeners implements ReportListener {
     public boolean subscribe(OccupancyListener listener) {
         synchronized (listeners) {
             if (listeners.size() == 0) {
-                Subscription subscription = bridged.getSubscription();
-                if (configuration.getReportingOverwrite() || subscription.isActive() == false) {
-                    subscription.setMaximumReportingInterval(configuration.getReportingMaximum());
-                    subscription.setMinimumReportingInterval(configuration.getReportingMinimum());
-                    subscription.updateConfiguration();
+                Reporter reporter = bridged.getReporter();
+                if (configuration.getReportingOverwrite() || reporter.isActive() == false) {
+                    reporter.setMaximumReportingInterval(configuration.getReportingMaximum());
+                    reporter.setMinimumReportingInterval(configuration.getReportingMinimum());
+                    reporter.updateConfiguration();
                 }
-                if (subscription.addReportListner(this) == false) {
+                if (reporter.addReportListener(this) == false) {
                     return false;
                 }
             }
@@ -110,9 +110,9 @@ public class OccupancyBridgeListeners implements ReportListener {
         synchronized (listeners) {
             listeners.remove(listener);
             if (listeners.size() == 0) {
-                Subscription subscription = bridged.getSubscription();
-                if (subscription.getReportListenersCount() == 1) {
-                    subscription.clear();
+                Reporter reporter = bridged.getReporter();
+                if (reporter.getReportListenersCount() == 1) {
+                    reporter.clear();
                 }
             }
         }

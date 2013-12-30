@@ -22,10 +22,10 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.general.DeviceTemperatureConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
 import org.bubblecloud.zigbee.api.cluster.impl.general.DeviceTemperatureConfigurationCluster;
 
 /**
@@ -60,7 +60,7 @@ public class DeviceTemperatureConfigurationImpl implements DeviceTemperatureConf
         overTemperature = cluster.getAttributeOverTempTotalDwell();
     }
 
-    public Subscription[] getActiveSubscriptions() {
+    public Reporter[] getAttributeReporters() {
         return cluster.getActiveSubscriptions();
     }
 

@@ -22,16 +22,13 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.core;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.*;
 import org.bubblecloud.zigbee.network.ClusterFilter;
 import org.bubblecloud.zigbee.network.ClusterListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.AttributeReport;
 import org.bubblecloud.zigbee.api.cluster.impl.global.reporting.ReportAttributesCommand;
 
@@ -48,18 +45,24 @@ import org.slf4j.LoggerFactory;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
  */
-public abstract class SubscriptionBase implements Subscription {
+public abstract class ReporterBase implements Reporter {
 
-    private final Logger log = LoggerFactory.getLogger(SubscriptionBase.class);
+    private final Logger log = LoggerFactory.getLogger(ReporterBase.class);
 
     protected final ArrayList<ReportListener> listeners = new ArrayList<ReportListener>();
     protected final ReportListenerNotifier bridge = new ReportListenerNotifier();
     protected final ZigbeeEndpoint device;
     protected final ZCLCluster cluster;
+
+    @Override
+    public Attribute getAttribute() {
+        return attribute;
+    }
+
     protected final Attribute attribute;
 
-    protected int max = Subscription.DEFAULT_MAX_REPORTING_INTERVAL;
-    protected int min = Subscription.DEFAULT_MIN_REPORTING_INTERVAL;
+    protected int max = Reporter.DEFAULT_MAX_REPORTING_INTERVAL;
+    protected int min = Reporter.DEFAULT_MIN_REPORTING_INTERVAL;
 
     protected class ReportListenerNotifier implements ClusterListener {
 
@@ -105,7 +108,7 @@ public abstract class SubscriptionBase implements Subscription {
 
     }
 
-    public SubscriptionBase(final ZigbeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
+    public ReporterBase(final ZigbeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
         device = zb;
         cluster = c;
         attribute = attrib;
@@ -133,7 +136,7 @@ public abstract class SubscriptionBase implements Subscription {
 
     protected abstract boolean doConfigureServer() throws ZigBeeClusterException;
 
-    public boolean addReportListner(ReportListener listener) {
+    public boolean addReportListener(ReportListener listener) {
         synchronized (listeners) {
             if (listeners.size() == 0) {
                 if (!doBindToDevice()) {

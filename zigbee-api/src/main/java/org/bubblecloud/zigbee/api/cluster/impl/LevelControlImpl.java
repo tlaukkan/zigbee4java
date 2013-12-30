@@ -22,6 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
@@ -30,7 +31,6 @@ import org.bubblecloud.zigbee.api.cluster.impl.event.CurrentLevelBridgeListeners
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.DefaultResponse;
 import org.bubblecloud.zigbee.api.cluster.impl.general.LevelControlCluster;
@@ -158,7 +158,7 @@ public class LevelControlImpl implements LevelControl {
     }
 
 
-    public Subscription[] getActiveSubscriptions() {
+    public Reporter[] getAttributeReporters() {
         return levelControlCluster.getActiveSubscriptions();
     }
 

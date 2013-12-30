@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.api.cluster.general.Identify;
 import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.identify.IdentifyQueryResponse;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.DefaultResponse;
@@ -79,7 +79,7 @@ public class IdentifyImpl implements Identify {
         }
     }
 
-    public Subscription[] getActiveSubscriptions() {
+    public Reporter[] getAttributeReporters() {
         return identifyCluster.getActiveSubscriptions();
     }
 

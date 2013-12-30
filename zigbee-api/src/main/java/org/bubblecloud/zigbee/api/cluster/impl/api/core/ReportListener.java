@@ -26,7 +26,7 @@ import java.util.Dictionary;
 
 /**
  * This class represent interface that must be implemented to be reported by driver,
- * according to the {@link Subscription} where this object is added to.
+ * according to the {@link Reporter} where this object is added to.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>

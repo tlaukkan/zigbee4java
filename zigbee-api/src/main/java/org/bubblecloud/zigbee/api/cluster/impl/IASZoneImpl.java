@@ -22,12 +22,12 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASZone;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.alarms.GetAlarmResponse;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.DefaultResponse;
@@ -69,7 +69,7 @@ public class IASZoneImpl implements IASZone {
         return cluster.getName();
     }
 
-    public Subscription[] getActiveSubscriptions() {
+    public Reporter[] getAttributeReporters() {
         return cluster.getActiveSubscriptions();
     }
 

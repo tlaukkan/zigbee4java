@@ -22,14 +22,11 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.core;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.*;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.AnalogSubscription;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.AnalogReporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.AttributeReportingConfigurationRecord;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.AttributeStatusRecord;
 import org.bubblecloud.zigbee.api.cluster.impl.ClusterMessageImpl;
@@ -46,23 +43,23 @@ import org.slf4j.LoggerFactory;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
  */
-public class AnalogSubscriptionImpl extends SubscriptionBase implements AnalogSubscription {
+public class AnalogReporterImpl extends ReporterBase implements AnalogReporter {
 
-    private final Logger log = LoggerFactory.getLogger(AnalogSubscriptionImpl.class);
+    private final Logger log = LoggerFactory.getLogger(AnalogReporterImpl.class);
 
     private Object minimumChange = null;
 
-    public AnalogSubscriptionImpl(final ZigbeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
+    public AnalogReporterImpl(final ZigbeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
         super(zb, c, attrib);
         final ZigBeeType type = attrib.getZigBeeType();
         if (type.isAnalog() == false) {
             throw new IllegalArgumentException(
-                    "AnalogSubscription applies only to Attribute with analog data type, " +
+                    "AnalogReporter applies only to Attribute with analog data type, " +
                             "the attribute " + attrib.getName() + " (" + attrib.getId() + ") of type " + type.toString() +
                             " is DISCRETE"
             );
         }
-        setReportableChangeValue(new Double(AnalogSubscription.DEFAULT_REPORTABLE_CHANGE_INTERVAL));
+        setReportableChangeValue(new Double(AnalogReporter.DEFAULT_REPORTABLE_CHANGE_INTERVAL));
     }
 
     protected boolean doConfigureServer() throws ZigBeeClusterException {

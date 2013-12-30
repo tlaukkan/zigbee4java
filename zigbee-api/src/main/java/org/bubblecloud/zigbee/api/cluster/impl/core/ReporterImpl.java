@@ -22,14 +22,11 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.core;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.*;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.AttributeReportingConfigurationRecord;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.AttributeStatusRecord;
 import org.bubblecloud.zigbee.api.cluster.impl.ClusterMessageImpl;
@@ -46,17 +43,17 @@ import org.slf4j.LoggerFactory;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public class SubscriptionImpl extends SubscriptionBase implements Subscription {
+public class ReporterImpl extends ReporterBase implements Reporter {
 
-    private final Logger log = LoggerFactory.getLogger(SubscriptionImpl.class);
+    private final Logger log = LoggerFactory.getLogger(ReporterImpl.class);
 
-    public SubscriptionImpl(final ZigbeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
+    public ReporterImpl(final ZigbeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
         super(zb, c, attrib);
     }
 
     protected boolean doConfigureServer() throws ZigBeeClusterException {
-        log.debug(
-                "Subscribing to discrete attibute {} ( {} ) with the following parameter min = {}, max = {} ",
+        log.info(
+                "Subscribing to discrete attribute {} ( {} ) with the following parameter min = {}, max = {} ",
                 new Object[]{attribute.getName(), attribute.getId(), min, max}
         );
 

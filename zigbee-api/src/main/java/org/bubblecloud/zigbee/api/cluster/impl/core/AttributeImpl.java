@@ -22,16 +22,11 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.core;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.*;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.DefaultResponse;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.ReadAttributesResponse;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.ReadAttributesStatus;
@@ -64,7 +59,7 @@ public class AttributeImpl implements Attribute {
     final private Object LazyInstantiation = new Object();
     private ZigbeeEndpoint zbDevice;
     private ZCLCluster zclCluster;
-    private Subscription subscription;
+    private Reporter reporter;
     private AttributeDescriptor descriptor;
 
     public AttributeImpl(ZigbeeEndpoint zbDevice, ZCLCluster zclCluster, AttributeDescriptor descriptor) {
@@ -111,20 +106,20 @@ public class AttributeImpl implements Attribute {
         return doClusterWideRead();
     }
 
-    public Subscription getSubscription() {
+    public Reporter getReporter() {
         if (isReportable() == false)
             return null;
 
         synchronized (LazyInstantiation) {
-            if (subscription == null) {
+            if (reporter == null) {
                 if (getZigBeeType().isAnalog()) {
-                    subscription = new AnalogSubscriptionImpl(zbDevice, zclCluster, this);
+                    reporter = new AnalogReporterImpl(zbDevice, zclCluster, this);
                 } else {
-                    subscription = new SubscriptionImpl(zbDevice, zclCluster, this);
+                    reporter = new ReporterImpl(zbDevice, zclCluster, this);
                 }
             }
         }
-        return subscription;
+        return reporter;
     }
 
     private Object doClusterWideRead() throws ZigBeeClusterException {

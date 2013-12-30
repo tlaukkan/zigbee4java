@@ -35,7 +35,7 @@ import org.bubblecloud.zigbee.api.cluster.general.Basic;
 import org.bubblecloud.zigbee.api.cluster.general.DeviceTemperatureConfiguration;
 import org.bubblecloud.zigbee.api.cluster.general.Identify;
 import org.bubblecloud.zigbee.api.cluster.general.PowerConfiguration;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 
 import org.bubblecloud.zigbee.network.model.ProvidedClusterMode;
@@ -326,12 +326,12 @@ public abstract class DeviceBase implements Device {
         for (int i = 0; i < clusters.length; i++) {
             if (clusters[i] == null) continue;
 
-            Subscription[] subscriptions = clusters[i].getActiveSubscriptions();
-            if (subscriptions == null) continue;
+            Reporter[] reporters = clusters[i].getAttributeReporters();
+            if (reporters == null) continue;
 
-            for (int j = 0; j < subscriptions.length; j++) {
-                if (subscriptions[j] == null) continue;
-                subscriptions[j].clear();
+            for (int j = 0; j < reporters.length; j++) {
+                if (reporters[j] == null) continue;
+                reporters[j].clear();
             }
         }
     }

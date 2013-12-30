@@ -25,7 +25,7 @@ package org.bubblecloud.zigbee.api.cluster.impl;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.general.PowerConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.general.PowerConfigurationCluster;
 
 /**
@@ -70,7 +70,7 @@ public class PowerConfigurationImpl implements PowerConfiguration {
         mainsVMin = cluster.getAttributeMainsVoltageMinThreshold();
     }
 
-    public Subscription[] getActiveSubscriptions() {
+    public Reporter[] getAttributeReporters() {
         return cluster.getActiveSubscriptions();
     }
 

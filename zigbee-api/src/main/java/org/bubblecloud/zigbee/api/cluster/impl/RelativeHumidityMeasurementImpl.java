@@ -30,7 +30,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.event.MeasuredValueBridgeListener
 import org.bubblecloud.zigbee.api.cluster.impl.event.ToleranceBridgeListeners;
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing.RelativeHumidityMeasurementCluster;
 
 /**
@@ -80,7 +80,7 @@ public class RelativeHumidityMeasurementImpl implements RelativeHumidityMeasurem
         return tolerance;
     }
 
-    public Subscription[] getActiveSubscriptions() {
+    public Reporter[] getAttributeReporters() {
         return relativeHumidityMeasurementCluster.getActiveSubscriptions();
     }
 

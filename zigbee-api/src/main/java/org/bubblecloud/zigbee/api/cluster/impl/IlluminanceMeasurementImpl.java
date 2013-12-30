@@ -22,6 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.IlluminanceMeasurement;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.MeasuredValueListener;
@@ -30,7 +31,6 @@ import org.bubblecloud.zigbee.api.cluster.impl.event.MeasuredValueBridgeListener
 import org.bubblecloud.zigbee.api.cluster.impl.event.ToleranceBridgeListeners;
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
 import org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing.IlluminanceMeasurementCluster;
 
 /**
@@ -75,7 +75,7 @@ public class IlluminanceMeasurementImpl implements IlluminanceMeasurement {
         return cluster.getName();
     }
 
-    public Subscription[] getActiveSubscriptions() {
+    public Reporter[] getAttributeReporters() {
 
         return cluster.getActiveSubscriptions();
     }

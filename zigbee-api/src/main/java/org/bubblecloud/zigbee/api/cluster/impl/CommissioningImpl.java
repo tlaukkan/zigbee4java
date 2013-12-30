@@ -26,8 +26,8 @@ import org.bubblecloud.zigbee.api.cluster.general.Commissioning;
 import org.bubblecloud.zigbee.api.cluster.general.NetworkKeyType;
 import org.bubblecloud.zigbee.api.cluster.general.StartupControl;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
 
 /**
  * PLACEHOLDER TO IMPLEMENT
@@ -48,7 +48,7 @@ public class CommissioningImpl implements Commissioning {
         return null;
     }
 
-    public Subscription[] getActiveSubscriptions() {
+    public Reporter[] getAttributeReporters() {
         // TODO Auto-generated method stub
         return null;
     }

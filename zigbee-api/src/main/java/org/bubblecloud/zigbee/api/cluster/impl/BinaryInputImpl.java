@@ -22,6 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.BinaryInput;
@@ -29,7 +30,6 @@ import org.bubblecloud.zigbee.api.cluster.general.event.PresentValueListener;
 import org.bubblecloud.zigbee.api.cluster.impl.event.PresentValueBridgeListeners;
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.general.BinaryInputCluster;
 
@@ -64,7 +64,7 @@ public class BinaryInputImpl implements BinaryInput {
         return eventBridge.unsubscribe(listener);
     }
 
-    public Subscription[] getActiveSubscriptions() {
+    public Reporter[] getAttributeReporters() {
         return binaryInput.getActiveSubscriptions();
     }
 

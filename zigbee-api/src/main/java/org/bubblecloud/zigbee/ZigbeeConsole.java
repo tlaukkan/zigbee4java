@@ -4,7 +4,8 @@ import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 
 import java.io.BufferedReader;
@@ -296,8 +297,10 @@ public class ZigbeeConsole {
                 final Cluster cluster = device.getCluster(i);
                 write("                 : " + i + ") " + ZigbeeApiConstants.getClusterName(i));
                 if (cluster != null) {
-                    for (final Subscription subscription : cluster.getActiveSubscriptions()) {
-                        write("                 :  * Subscription: " + subscription.getReportListenersCount() + " listeners.");
+                    for (final Attribute attribute : cluster.getAttributes()) {
+                        write("                 :  * " + attribute.getName() + " "
+                                + (attribute.getReporter() != null ? "(" +
+                                Integer.toString(attribute.getReporter().getReportListenersCount()) + ")" : ""));
                     }
                 }
             }
@@ -305,11 +308,6 @@ public class ZigbeeConsole {
             for (int i : device.getOutputClusters()) {
                 final Cluster cluster = device.getCluster(i);
                 write("                 : " + i + ") " + ZigbeeApiConstants.getClusterName(i));
-                if (cluster != null) {
-                    for (final Subscription subscription : cluster.getActiveSubscriptions()) {
-                        write("                 :  * Subscription: " + subscription.getReportListenersCount() + " listeners.");
-                    }
-                }
             }
 
             return true;

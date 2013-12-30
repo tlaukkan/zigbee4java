@@ -60,7 +60,7 @@ public interface Attribute {
     public boolean isWritable();
 
     /**
-     * @return the true if and only if the attribute support the {@link Subscription}
+     * @return the true if and only if the attribute support the {@link Reporter}
      */
     public boolean isReportable();
 
@@ -77,8 +77,8 @@ public interface Attribute {
     public void setValue(Object o) throws ZigBeeClusterException;
 
     /**
-     * @return the {@link Subscription}
+     * @return the {@link Reporter}
      */
-    public Subscription getSubscription();
+    public Reporter getReporter();
 
 }

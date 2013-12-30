@@ -26,10 +26,10 @@ import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.MeasuredValueEvent;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.MeasuredValueListener;
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.AnalogSubscription;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.AnalogReporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -93,14 +93,14 @@ public class MeasuredValueBridgeListeners implements ReportListener {
     public boolean subscribe(MeasuredValueListener listener) {
         synchronized (listeners) {
             if (listeners.size() == 0) {
-                AnalogSubscription subscription = (AnalogSubscription) bridged.getSubscription();
+                AnalogReporter subscription = (AnalogReporter) bridged.getReporter();
                 if (configuration.getReportingOverwrite() || subscription.isActive() == false) {
                     subscription.setMaximumReportingInterval(configuration.getReportingMaximum());
                     subscription.setMinimumReportingInterval(configuration.getReportingMinimum());
                     subscription.setReportableChange(configuration.getReportingChange());
                     subscription.updateConfiguration();
                 }
-                if (subscription.addReportListner(this) == false) {
+                if (subscription.addReportListener(this) == false) {
                     return false;
                 }
             }
@@ -112,9 +112,9 @@ public class MeasuredValueBridgeListeners implements ReportListener {
         synchronized (listeners) {
             listeners.remove(listener);
             if (listeners.size() == 0) {
-                Subscription subscription = bridged.getSubscription();
-                if (subscription.getReportListenersCount() == 1) {
-                    subscription.clear();
+                Reporter reporter = bridged.getReporter();
+                if (reporter.getReportListenersCount() == 1) {
+                    reporter.clear();
                 }
             }
         }

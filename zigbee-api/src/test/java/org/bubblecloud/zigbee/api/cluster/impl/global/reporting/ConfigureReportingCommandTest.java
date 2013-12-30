@@ -23,7 +23,7 @@ package org.bubblecloud.zigbee.api.cluster.impl.global.reporting;
 
 import static org.junit.Assert.assertNotNull;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.AttributeReportingConfigurationRecord;
@@ -51,7 +51,7 @@ public class ConfigureReportingCommandTest {
 							public String getName() {
 								return "";
 							}
-							public Subscription getSubscription() {
+							public Reporter getReporter() {
 								return null;
 							}
 							public Class getType() {

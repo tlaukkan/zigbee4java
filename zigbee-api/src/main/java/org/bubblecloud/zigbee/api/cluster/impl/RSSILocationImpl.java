@@ -30,7 +30,7 @@ import org.bubblecloud.zigbee.api.cluster.general.RSSIPingListener;
 import org.bubblecloud.zigbee.api.cluster.general.ReportRSSIMeasurementsListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 
 import java.util.EnumSet;
 
@@ -53,7 +53,7 @@ public class RSSILocationImpl implements RSSILocation {
         return null;
     }
 
-    public Subscription[] getActiveSubscriptions() {
+    public Reporter[] getAttributeReporters() {
         // TODO Auto-generated method stub
         return null;
     }

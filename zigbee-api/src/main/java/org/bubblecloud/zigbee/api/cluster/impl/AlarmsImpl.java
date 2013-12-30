@@ -28,7 +28,7 @@ import org.bubblecloud.zigbee.api.cluster.general.Alarms;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.alarms.AlarmListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.alarms.GetAlarmResponse;
@@ -61,7 +61,7 @@ public class AlarmsImpl implements Alarms {
         }
     }
 
-    public Subscription[] getActiveSubscriptions() {
+    public Reporter[] getAttributeReporters() {
         return alarmsCluster.getActiveSubscriptions();
     }
 

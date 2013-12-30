@@ -28,7 +28,7 @@ package org.bubblecloud.zigbee.api.cluster.impl.api.core;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public interface Subscription {
+public interface Reporter {
 
     /**
      * By default all the new subscription will reported up to one per minute
@@ -40,7 +40,7 @@ public interface Subscription {
      */
     public static final int DEFAULT_MIN_REPORTING_INTERVAL = 0;
 
-    public boolean addReportListner(ReportListener listner);
+    public boolean addReportListener(ReportListener listner);
 
     public boolean removeReportListner(ReportListener listner);
 
@@ -76,4 +76,10 @@ public interface Subscription {
      * @since 0.6.0
      */
     public boolean updateConfiguration();
+
+    /**
+     * Gets the attribute subscribed to.
+     * @return the attribute
+     */
+    Attribute getAttribute();
 }

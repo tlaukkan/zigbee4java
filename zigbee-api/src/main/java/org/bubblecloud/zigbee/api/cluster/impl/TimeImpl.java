@@ -25,7 +25,7 @@ package org.bubblecloud.zigbee.api.cluster.impl;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.general.Time;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.general.TimeCluster;
 
 /**
@@ -55,7 +55,7 @@ public class TimeImpl implements Time {
         return timeStatus;
     }
 
-    public Subscription[] getActiveSubscriptions() {
+    public Reporter[] getAttributeReporters() {
         return timeCluster.getActiveSubscriptions();
     }
 

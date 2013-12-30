@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.api.cluster;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -47,12 +47,12 @@ public interface Cluster {
     public String getName();
 
     /**
-     * This method return an array of {@link Subscription} objects according to the number of reportable {@link Attribute}
+     * This method return an array of {@link org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter} objects according to the number of reportable {@link Attribute}
      * currently used.
      *
-     * @return an array of {@link Subscription}
+     * @return an array of {@link org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter}
      */
-    public Subscription[] getActiveSubscriptions();
+    public Reporter[] getAttributeReporters();
 
     /**
      * @return {@link Attribute} array with all the attribute implemented by the {@link Cluster}

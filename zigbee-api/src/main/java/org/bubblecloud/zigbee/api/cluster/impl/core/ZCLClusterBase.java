@@ -22,15 +22,11 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.core;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.*;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Command;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.ClusterMessageImpl;
 
 import java.util.ArrayList;
@@ -125,16 +121,16 @@ public abstract class ZCLClusterBase implements ZCLCluster {
         }
     }
 
-    public Subscription[] getActiveSubscriptions() {
-        final ArrayList<Subscription> actives = new ArrayList<Subscription>();
+    public Reporter[] getActiveSubscriptions() {
+        final ArrayList<Reporter> actives = new ArrayList<Reporter>();
         final Attribute[] attributes = getAvailableAttributes();
         for (int i = 0; i < attributes.length; i++) {
-            final Subscription subscription = attributes[i].getSubscription();
-            if (subscription != null) {
-                actives.add(subscription);
+            final Reporter reporter = attributes[i].getReporter();
+            if (reporter != null) {
+                actives.add(reporter);
             }
         }
-        return actives.toArray(new Subscription[]{});
+        return actives.toArray(new Reporter[]{});
     }
 
 
