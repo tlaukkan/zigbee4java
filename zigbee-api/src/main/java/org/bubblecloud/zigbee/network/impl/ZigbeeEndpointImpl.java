@@ -154,6 +154,16 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         return endpointId;
     }
 
+    @Override
+    public int getNetworkAddress() {
+        return node.getNetworkAddress();
+    }
+
+    @Override
+    public String getIEEEAddress() {
+        return node.getIEEEAddress();
+    }
+
     public short getEndPointAddress() {
         return endPoint;
     }

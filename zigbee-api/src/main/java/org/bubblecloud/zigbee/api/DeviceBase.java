@@ -69,10 +69,9 @@ public abstract class DeviceBase implements Device {
     private Cluster[] clusters;
     private int index;
 
-
     /*
-     * Mandatory clusters common to all Home Automation devices
-     */
+         * Mandatory clusters common to all Home Automation devices
+         */
     protected Basic basic;
     protected Identify identify;
     /*
@@ -115,10 +114,6 @@ public abstract class DeviceBase implements Device {
     }
 
     public abstract String getDeviceType();
-
-    public String getEndPointId() {
-        return endpoint.getEndpointId();
-    }
 
     public int getProfileId() {
         return endpoint.getProfileId();
@@ -438,5 +433,15 @@ public abstract class DeviceBase implements Device {
     @Override
     public boolean removeClusterListener(ClusterListener listener) {
         return endpoint.removeClusterListener(listener);
+    }
+
+    @Override
+    public int getNetworkAddress() {
+        return endpoint.getNetworkAddress();
+    }
+
+    @Override
+    public String getIEEEAddress() {
+        return endpoint.getIEEEAddress();
     }
 }

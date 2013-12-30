@@ -52,6 +52,15 @@ public interface ZigbeeEndpoint {
      */
     public static final int MATCH_DEVICE_ID = 4096;
 
+    /**
+     * @return int representing the current network address linked to the node
+     */
+    public int getNetworkAddress();
+
+    /**
+     * @return a {@link String} representing the IEEEAddress of the node
+     */
+    public String getIEEEAddress();
 
     /**
      * @return Address of the EndPoint represented by this object, value ranges from 1 to 240.

@@ -18,11 +18,19 @@ import java.util.*;
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
 public class ZigbeeConsole {
-
-    private static boolean shutdown = false;
-
+    /**
+     * The main thread.
+     */
     private static Thread mainThread = null;
 
+    /**
+     * The flag reflecting that shutdown is in process.
+     */
+    private static boolean shutdown = false;
+
+    /**
+     * Map of registered commands and their implementations.
+     */
     private static Map<String, ConsoleCommand> commands = new HashMap<String, ConsoleCommand>();
 
     /**
@@ -171,12 +179,6 @@ public class ZigbeeConsole {
         return device;
     }
 
-    private static interface ConsoleCommand {
-        String getDescription();
-        String getSyntax();
-        boolean process(final ZigbeeApi zigbeeApi, final String[] args);
-    }
-
     static {
         commands.put("quit", new QuitCommand());
         commands.put("help", new HelpCommand());
@@ -186,6 +188,12 @@ public class ZigbeeConsole {
         commands.put("unbind", new UnbindCommand());
         commands.put("on", new OnCommand());
         commands.put("off", new OffCommand());
+    }
+
+    private static interface ConsoleCommand {
+        String getDescription();
+        String getSyntax();
+        boolean process(final ZigbeeApi zigbeeApi, final String[] args);
     }
 
     private static class QuitCommand implements ConsoleCommand {
@@ -251,7 +259,7 @@ public class ZigbeeConsole {
             final List<Device> devices = zigbeeApi.getDevices();
             for (int i = 0; i < devices.size(); i++) {
                 final Device device = devices.get(i);
-                System.out.println(i + ") " + device.getEndPointId() + " : " + device.getDeviceType());
+                System.out.println(i + ") " + device.getEndpointId() + " : " + device.getDeviceType());
             }
             return true;
         }
@@ -277,8 +285,8 @@ public class ZigbeeConsole {
                 return false;
             }
 
-            write("Network Address  : " + device.getNode().getNetworkAddress());
-            write("Extended Address : " + device.getNode().getIEEEAddress());
+            write("Network Address  : " + device.getNetworkAddress());
+            write("Extended Address : " + device.getIEEEAddress());
             write("Endpoint Address : " + device.getEndPointAddress());
             write("Device Type      : " + ZigbeeApiConstants.getDeviceName(device.getDeviceTypeId()));
             write("Device Category  : " + ZigbeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));

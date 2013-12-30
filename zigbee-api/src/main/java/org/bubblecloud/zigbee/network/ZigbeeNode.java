@@ -44,8 +44,6 @@ public interface ZigbeeNode {
     public int getNetworkAddress();
 
     /**
-     * //TODO Define a ZigBeeAddress object
-     *
      * @return a {@link String} representing the IEEEAddress of the node
      */
     public String getIEEEAddress();
