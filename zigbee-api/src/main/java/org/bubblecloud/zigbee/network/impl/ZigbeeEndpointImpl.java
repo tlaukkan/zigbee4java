@@ -269,7 +269,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
                 IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceTypeId()
         ));
         if (response == null || response.Status != 0) {
-            logger.warn("ZDO_BIND_REQ failed, unable to bindToLocal from endpoint {} to {} for cluster {}", new Object[]{
+            logger.warn("ZDO_BIND_REQ failed, unable to bind from endpoint {} to {} for cluster {}", new Object[]{
                     getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
             });
             return false;
@@ -288,7 +288,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
                 IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceTypeId()
         ));
         if (response == null || response.Status != 0) {
-            logger.warn("ZDO_BIND_REQ failed, unable to un-bindToLocal from endpoint {} to {} for cluster {}", new Object[]{
+            logger.warn("ZDO_BIND_REQ failed, unable to un-bind from endpoint {} to {} for cluster {}", new Object[]{
                     getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
             });
             return false;
@@ -311,7 +311,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
                 driver.getIEEEAddress(), (byte) dstEP
         ));
         if (response == null || response.Status != 0) {
-            logger.warn("ZDO_BIND_REQ failed, unable to bindToLocal");
+            logger.warn("ZDO_BIND_REQ failed, unable to bind");
             return false;
         }
         boundCluster.add(clusterId);
@@ -333,7 +333,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
                 driver.getIEEEAddress(), (byte) dstEP
         ));
         if (response == null || response.Status != 0) {
-            logger.warn("ZDO_BIND_REQ failed, unable to unbindFromLocal");
+            logger.warn("ZDO_BIND_REQ failed, unable to unbind");
             return false;
         }
         boundCluster.remove(clusterId);

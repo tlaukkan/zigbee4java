@@ -150,7 +150,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
                 try {
                     getZigBeeDevice().bindToLocal(ID);
                 } catch (ZigbeeNetworkManagerException e) {
-                    log.error("Unable to bindToLocal to device for Alarms reporting", e);
+                    log.error("Unable to bind to device for Alarms reporting", e);
                     return false;
                 }
                 if (getZigBeeDevice().addClusterListener(bridge) == false) {
@@ -170,7 +170,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
                 try {
                     getZigBeeDevice().unbindFromLocal(ID);
                 } catch (ZigbeeNetworkManagerException e) {
-                    log.error("Unable to unbindFromLocal to device for Alarms reporting", e);
+                    log.error("Unable to unbind to device for Alarms reporting", e);
                     return false;
                 }
                 if (getZigBeeDevice().removeClusterListener(bridge) == false) {

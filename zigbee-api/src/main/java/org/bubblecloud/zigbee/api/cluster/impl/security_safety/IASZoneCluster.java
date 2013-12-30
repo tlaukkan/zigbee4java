@@ -143,7 +143,7 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
                 try {
                     getZigBeeDevice().bindToLocal(ID);
                 } catch (ZigbeeNetworkManagerException e) {
-                    log.error("Unable to bindToLocal to device for IASZone reporting", e);
+                    log.error("Unable to bind to device for IASZone reporting", e);
                     return false;
                 }
                 if (getZigBeeDevice().addClusterListener(bridge) == false) {
@@ -163,7 +163,7 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
                 try {
                     getZigBeeDevice().unbindFromLocal(ID);
                 } catch (ZigbeeNetworkManagerException e) {
-                    log.error("Unable to unbindFromLocal to device for IASZone reporting", e);
+                    log.error("Unable to unbind to device for IASZone reporting", e);
                     return false;
                 }
                 if (getZigBeeDevice().removeClusterListener(bridge) == false) {

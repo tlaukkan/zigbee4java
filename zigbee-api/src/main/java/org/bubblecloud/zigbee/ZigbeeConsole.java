@@ -180,8 +180,8 @@ public class ZigbeeConsole {
         commands.put("help", new HelpCommand());
         commands.put("list", new ListCommand());
         commands.put("desc", new DescribeCommand());
-        commands.put("bindToLocal", new BindCommand());
-        commands.put("unbindFromLocal", new UnbindCommand());
+        commands.put("bind", new BindCommand());
+        commands.put("unbind", new UnbindCommand());
     }
 
     private static class QuitCommand implements ConsoleCommand {
@@ -310,7 +310,7 @@ public class ZigbeeConsole {
             return "Binds a device to another device.";
         }
         public String getSyntax() {
-            return "bindToLocal [CLIENT] SERVER CLUSTERID";
+            return "bind [CLIENT] SERVER CLUSTERID";
         }
         public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
             if (args.length != 3 && args.length != 4) {
@@ -355,7 +355,7 @@ public class ZigbeeConsole {
             return "Unbinds a device from another device.";
         }
         public String getSyntax() {
-            return "bindToLocal CLIENT SERVER CLUSTERID";
+            return "bind CLIENT SERVER CLUSTERID";
         }
         public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
             if (args.length != 3 && args.length != 4) {

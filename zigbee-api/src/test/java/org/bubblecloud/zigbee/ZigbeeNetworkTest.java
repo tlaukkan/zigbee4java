@@ -111,7 +111,7 @@ public class ZigbeeNetworkTest {
 
 
                 //switchProxy.bindTo(lampProxy, ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
-                //lampProxy.bindToLocal(ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
+                //lampProxy.bind(ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
 
                 //Thread.sleep(1000);
 
@@ -146,7 +146,7 @@ public class ZigbeeNetworkTest {
                 Thread.sleep(5000);*/
                 //final LevelControl levelControl = (LevelControl) lampProxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_LEVEL_CONTROL);
                 //logger.info("Level: " + levelControl.getCurrentLevel().getValue());
-                //switchProxy.getEndpoint().bindToLocal(ZigbeeApiConstants.CLUSTER_ID_BASIC);
+                //switchProxy.getEndpoint().bind(ZigbeeApiConstants.CLUSTER_ID_BASIC);
                 /*Basic basic = (Basic) lampProxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_BASIC);
                 logger.info("" + basic.getModelIdentifier().getValue());*/
 

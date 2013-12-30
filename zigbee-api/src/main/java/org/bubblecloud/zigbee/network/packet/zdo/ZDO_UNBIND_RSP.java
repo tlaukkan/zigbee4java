@@ -38,7 +38,7 @@ public class ZDO_UNBIND_RSP extends ZToolPacket/* implements IRESPONSE_CALLBACK,
     /// <summary>the message's source network address</summary>
     public ZToolAddress16 SrcAddress;
     /// <name>TI.ZPI1.ZDO_UNBIND_RSP.Status</name>
-    /// <summary>this field indicates status of the bindToLocal request</summary>
+    /// <summary>this field indicates status of the bind request</summary>
     public int Status;
 
     /// <name>TI.ZPI1.ZDO_UNBIND_RSP</name>

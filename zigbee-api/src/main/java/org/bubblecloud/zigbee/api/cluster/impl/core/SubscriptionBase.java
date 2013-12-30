@@ -115,7 +115,7 @@ public abstract class SubscriptionBase implements Subscription {
         try {
             return device.bindToLocal(cluster.getId());
         } catch (ZigbeeNetworkManagerException e) {
-            log.debug("Unable to bindToLocal to device {} on cluster {}", device, cluster.getId());
+            log.debug("Unable to bind to device {} on cluster {}", device, cluster.getId());
             log.error("Binding failed", e);
             return false;
         }
@@ -125,7 +125,7 @@ public abstract class SubscriptionBase implements Subscription {
         try {
             return device.unbindFromLocal(cluster.getId());
         } catch (ZigbeeNetworkManagerException e) {
-            log.debug("Unable to bindToLocal to device {} on cluster {}", device, cluster.getId());
+            log.debug("Unable to bind to device {} on cluster {}", device, cluster.getId());
             log.error("Binding failed", e);
             return false;
         }

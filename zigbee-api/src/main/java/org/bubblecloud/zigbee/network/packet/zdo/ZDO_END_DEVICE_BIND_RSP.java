@@ -38,7 +38,7 @@ public class ZDO_END_DEVICE_BIND_RSP extends ZToolPacket /*implements IRESPONE_C
     /// <summary>the message's source network address</summary>
     public ZToolAddress16 SrcAddress;
     /// <name>TI.ZPI1.ZDO_END_DEVICE_BIND_RSP.Status</name>
-    /// <summary>this field indicates status of the bindToLocal request</summary>
+    /// <summary>this field indicates status of the bind request</summary>
     public int Status;
 
     /// <name>TI.ZPI1.ZDO_END_DEVICE_BIND_RSP</name>
