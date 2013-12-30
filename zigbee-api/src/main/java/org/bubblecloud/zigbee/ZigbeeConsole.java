@@ -283,25 +283,21 @@ public class ZigbeeConsole {
             write("Input Clusters   : ");
             for (int i : device.getInputClusters()) {
                 final Cluster cluster = device.getCluster(i);
-                if (cluster == null) {
-                    write("                 : " + i + ") ???");
-                    continue;
-                }
-                write("                 : " + i + ") " + cluster.getName());
-                for (final Subscription subscription : cluster.getActiveSubscriptions()) {
-                    write("                 : - Subscription: " + subscription.getReportListenersCount() + " listeners.");
+                write("                 : " + i + ") " + ZigbeeApiConstants.getClusterName(i));
+                if (cluster != null) {
+                    for (final Subscription subscription : cluster.getActiveSubscriptions()) {
+                        write("                 :  * Subscription: " + subscription.getReportListenersCount() + " listeners.");
+                    }
                 }
             }
             write("Output Clusters  : ");
             for (int i : device.getOutputClusters()) {
                 final Cluster cluster = device.getCluster(i);
-                if (cluster == null) {
-                    write("                 : " + i + ") ???");
-                    continue;
-                }
-                write("                 : " + i + ") " + cluster.getName());
-                for (final Subscription subscription : cluster.getActiveSubscriptions()) {
-                    write("                 : - Subscription: " + subscription.getReportListenersCount() + " listeners.");
+                write("                 : " + i + ") " + ZigbeeApiConstants.getClusterName(i));
+                if (cluster != null) {
+                    for (final Subscription subscription : cluster.getActiveSubscriptions()) {
+                        write("                 :  * Subscription: " + subscription.getReportListenersCount() + " listeners.");
+                    }
                 }
             }
 
