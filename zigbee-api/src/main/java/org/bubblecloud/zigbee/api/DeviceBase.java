@@ -62,7 +62,7 @@ public abstract class DeviceBase implements Device {
 
     private final static Logger logger = LoggerFactory.getLogger(DeviceBase.class);
 
-    protected ZigbeeEndpoint device;
+    protected ZigbeeEndpoint endpoint;
     private ZigbeeApiContext context;
 
 
@@ -84,25 +84,25 @@ public abstract class DeviceBase implements Device {
     private final ProvidedClusterMode clusterMode;
 
 
-    public DeviceBase(ZigbeeApiContext context, ZigbeeEndpoint device) throws ZigbeeDeviceException {
-        this.device = device;
+    public DeviceBase(ZigbeeApiContext context, ZigbeeEndpoint endpoint) throws ZigbeeDeviceException {
+        this.endpoint = endpoint;
         this.context = context;
 
         final int size;
         clusterMode = ProvidedClusterMode.HomeAutomationProfileStrict;
         if (clusterMode == ProvidedClusterMode.HomeAutomationProfileStrict) {
-            size = device.getInputClusters().length;
+            size = endpoint.getInputClusters().length;
         } else {
-            size = device.getInputClusters().length + device.getOutputClusters().length;
+            size = endpoint.getInputClusters().length + endpoint.getOutputClusters().length;
         }
         clusters = new Cluster[size];
 
-        for (int i = 0; i < device.getInputClusters().length; i++) {
-            addCluster(device.getInputClusters()[i]);
+        for (int i = 0; i < endpoint.getInputClusters().length; i++) {
+            addCluster(endpoint.getInputClusters()[i]);
         }
         if (clusterMode != ProvidedClusterMode.HomeAutomationProfileStrict) {
-            for (int i = 0; i < device.getOutputClusters().length; i++) {
-                addCluster(device.getOutputClusters()[i]);
+            for (int i = 0; i < endpoint.getOutputClusters().length; i++) {
+                addCluster(endpoint.getOutputClusters()[i]);
             }
         }
 
@@ -117,16 +117,16 @@ public abstract class DeviceBase implements Device {
     public abstract String getDeviceType();
 
     public String getEndPointId() {
-        return device.getEndpointId();
+        return endpoint.getEndpointId();
     }
 
     public int getProfileId() {
-        return device.getProfileId();
+        return endpoint.getProfileId();
     }
 
 
     protected boolean isClusterValid(int clusterId, ProvidedClusterMode complainanceMode) {
-        if (device.providesInputCluster(clusterId)) {
+        if (endpoint.providesInputCluster(clusterId)) {
             return true;
         }
         return false;
@@ -162,13 +162,13 @@ public abstract class DeviceBase implements Device {
         /*
          * We are trying to add a cluster which is not defined as input cluster and is optional then we are not going to add it
          */
-        if (!device.providesInputCluster(clusterId) && getDescription().isOptional(clusterId)) {
+        if (!endpoint.providesInputCluster(clusterId) && getDescription().isOptional(clusterId)) {
             logger.warn(
                     "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
                             "implements the OPTINAL cluster {} ONLY AS OUTPUT instead of input " +
                             "it may identify an error either on the Driver description or in " +
                             "in the implementation of firmware of the physical device",
-                    device.getDeviceTypeId(), clusterId
+                    endpoint.getDeviceTypeId(), clusterId
             );
             return null;
         }
@@ -176,12 +176,12 @@ public abstract class DeviceBase implements Device {
         /*
          * We are trying to add a cluster which is not defined as input cluster and is optional then we are not going to add it
          */
-        if (!device.providesInputCluster(clusterId) && getDescription().isCustom(clusterId)) {
+        if (!endpoint.providesInputCluster(clusterId) && getDescription().isCustom(clusterId)) {
             //TODO check if exists custom add-on by using ProfileModule interface
             logger.warn(
                     "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
                             "implements a CUSTOM cluster {} but HA Driver does not support them yet",
-                    device.getDeviceTypeId(), clusterId
+                    endpoint.getDeviceTypeId(), clusterId
             );
             return null;
         }
@@ -190,18 +190,18 @@ public abstract class DeviceBase implements Device {
          * This is the last case, when a Cluster is not defined as input but it is among the mandotory cluster of the device
          * so if ProvidedClusterMode.EitherInputAndOutput is set we will consider it as a firmware issue so we will add the cluster anyway
          */
-        if (!device.providesInputCluster(clusterId) && getDescription().isMandatory(clusterId)) {
+        if (!endpoint.providesInputCluster(clusterId) && getDescription().isMandatory(clusterId)) {
             logger.warn(
                     "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
-                            "doesn't implement mandatory cluster {}", device.getDeviceTypeId(), clusterId
+                            "doesn't implement mandatory cluster {}", endpoint.getDeviceTypeId(), clusterId
             );
-            if (device.providesOutputCluster(clusterId)) {
+            if (endpoint.providesOutputCluster(clusterId)) {
                 logger.error(
                         "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
                                 "implements the mandatory cluster {} as output instead of as input " +
                                 "it may identify an error either on the Driver description or in " +
                                 "in the implementation of firmware of the physical device",
-                        device.getDeviceTypeId(), clusterId
+                        endpoint.getDeviceTypeId(), clusterId
                 );
             } else {
                 logger.error(
@@ -210,7 +210,7 @@ public abstract class DeviceBase implements Device {
                                 "nor as input it may identify an error either on the Driver " +
                                 "description or in in the implementation of firmware of the " +
                                 "physical device",
-                        device.getDeviceTypeId(), clusterId
+                        endpoint.getDeviceTypeId(), clusterId
                 );
                 return null;
             }
@@ -220,7 +220,7 @@ public abstract class DeviceBase implements Device {
                                 "if you want to add it anyway please change the value of the property {} " +
                                 " from {} to {}", new Object[]{
                         clusterId,
-                        device.getDeviceTypeId(),
+                        endpoint.getDeviceTypeId(),
                         "undefined",
                         ProvidedClusterMode.HomeAutomationProfileStrict,
                         ProvidedClusterMode.EitherInputAndOutput
@@ -234,7 +234,7 @@ public abstract class DeviceBase implements Device {
                                 ", if you want to disable this change the value from {} to {}",
                         new Object[]{
                                 clusterId,
-                                device.getDeviceTypeId(),
+                                endpoint.getDeviceTypeId(),
                                 "undefined",
                                 ProvidedClusterMode.EitherInputAndOutput,
                                 ProvidedClusterMode.HomeAutomationProfileStrict
@@ -245,24 +245,24 @@ public abstract class DeviceBase implements Device {
 
         String key = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":" + String.valueOf(clusterId);
         ClusterFactory factory = (ClusterFactory) context.getClusterFactory();
-        Cluster cluster = factory.getInstance(key, device);
+        Cluster cluster = factory.getInstance(key, endpoint);
         if (index >= clusters.length) {
             logger.error(
                     "Device {} cluster {}. More than expected number of clusters. Skipping.",
-                    device.getDeviceTypeId(), clusterId
+                    endpoint.getDeviceTypeId(), clusterId
             );
             return null;
         }
         if (cluster == null) {
             logger.error(
                     "Cluster {} for device {} not constructed by factory.",
-                    Integer.toHexString(clusterId), device.getDeviceTypeId()
+                    Integer.toHexString(clusterId), endpoint.getDeviceTypeId()
             );
             return null;
         }
         logger.trace(
                 "Cluster {} - {} added to {} device proxy.",
-                Integer.toHexString(clusterId), cluster.getName(), device.getDeviceTypeId()
+                Integer.toHexString(clusterId), cluster.getName(), endpoint.getDeviceTypeId()
         );
 
         clusters[index++] = cluster;
@@ -341,73 +341,73 @@ public abstract class DeviceBase implements Device {
         }
     }
 
-    public ZigbeeEndpoint getDevice() {
-        return device;
+    public ZigbeeEndpoint getEndpoint() {
+        return endpoint;
     }
 
     @Override
     public boolean bindTo(Device device, int clusterId) throws ZigbeeBasedriverException {
-        return this.device.bindTo(device.getDevice(), clusterId);
+        return this.endpoint.bindTo(device.getEndpoint(), clusterId);
     }
 
     @Override
     public boolean unbindFrom(Device device, int clusterId) throws ZigbeeBasedriverException {
-        return this.device.unbindFrom(device.getDevice(), clusterId);
+        return this.endpoint.unbindFrom(device.getEndpoint(), clusterId);
     }
 
     @Override
     public short getEndPointAddress() {
-        return device.getEndPointAddress();
+        return endpoint.getEndPointAddress();
     }
 
     @Override
     public int getDeviceTypeId() {
-        return device.getDeviceTypeId();
+        return endpoint.getDeviceTypeId();
     }
 
     @Override
     public ZigbeeNode getNode() {
-        return device.getNode();
+        return endpoint.getNode();
     }
 
     @Override
     public String getEndpointId() {
-        return device.getEndpointId();
+        return endpoint.getEndpointId();
     }
 
     @Override
     public short getDeviceVersion() {
-        return device.getDeviceVersion();
+        return endpoint.getDeviceVersion();
     }
 
     @Override
     public int[] getInputClusters() {
-        return device.getInputClusters();
+        return endpoint.getInputClusters();
     }
 
     @Override
     public boolean providesInputCluster(int id) {
-        return device.providesInputCluster(id);
+        return endpoint.providesInputCluster(id);
     }
 
     @Override
     public int[] getOutputClusters() {
-        return device.getOutputClusters();
+        return endpoint.getOutputClusters();
     }
 
     @Override
     public boolean providesOutputCluster(int id) {
-        return device.providesOutputCluster(id);
+        return endpoint.providesOutputCluster(id);
     }
 
     @Override
     public ClusterMessage invoke(ClusterMessage input) throws ZigbeeBasedriverException {
-        return device.invoke(input);
+        return endpoint.invoke(input);
     }
 
     @Override
     public void send(ClusterMessage input) throws ZigbeeBasedriverException {
-        device.send(input);
+        endpoint.send(input);
     }
 
     @Override
@@ -422,21 +422,21 @@ public abstract class DeviceBase implements Device {
 
     @Override
     public boolean bind(int clusterId) throws ZigbeeBasedriverException {
-        return device.bind(clusterId);
+        return endpoint.bind(clusterId);
     }
 
     @Override
     public boolean unbind(int clusterId) throws ZigbeeBasedriverException {
-        return device.unbind(clusterId);
+        return endpoint.unbind(clusterId);
     }
 
     @Override
     public boolean addClusterListener(ClusterListener listener) {
-        return device.addClusterListener(listener);
+        return endpoint.addClusterListener(listener);
     }
 
     @Override
     public boolean removeClusterListener(ClusterListener listener) {
-        return device.removeClusterListener(listener);
+        return endpoint.removeClusterListener(listener);
     }
 }

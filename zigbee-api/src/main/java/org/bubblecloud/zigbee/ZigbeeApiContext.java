@@ -75,7 +75,7 @@ public class ZigbeeApiContext {
     }
 
     public void addDevice(final Device device) {
-        devices.put(device.getDevice().getEndpointId(), device);
+        devices.put(device.getEndpoint().getEndpointId(), device);
         notifyDeviceAdded(device);
     }
 
@@ -85,7 +85,7 @@ public class ZigbeeApiContext {
 
     public void removeDevice(final Device device) {
         notifyDeviceRemoved(device);
-        devices.remove(device.getDevice().getDeviceTypeId());
+        devices.remove(device.getEndpoint().getDeviceTypeId());
     }
 
     public void addDeviceListener(final DeviceListener deviceListener) {

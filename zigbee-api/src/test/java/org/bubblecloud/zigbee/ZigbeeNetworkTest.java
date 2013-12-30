@@ -82,7 +82,7 @@ public class ZigbeeNetworkTest {
 
         logger.info("Listing devices:");
         for (final Device device : zigbeeApi.getZigbeeApiContext().getDevices()) {
-            logger.info(device.getClass().getSimpleName() + " : " + device.getDevice().getEndpointId());
+            logger.info(device.getClass().getSimpleName() + " : " + device.getEndpoint().getEndpointId());
         }
 
         /*int networkManagerAddress= 0;
@@ -134,24 +134,24 @@ public class ZigbeeNetworkTest {
                 groups.addGroup(1, "test");*/
 
                 /*final Basic basic = (Basic) lampProxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_BASIC);
-                logger.info("Reading manufacturer information for: " + lampProxy.getDevice().getEndpointId());
+                logger.info("Reading manufacturer information for: " + lampProxy.getEndpoint().getEndpointId());
                 logger.info("" + basic.getManufacturerName().getValue());*/
                 /*final Basic basic = (Basic) proxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_BASIC);
-                logger.info("Reading manufacturer information for: " + proxy.getDevice().getEndpointId());
+                logger.info("Reading manufacturer information for: " + proxy.getEndpoint().getEndpointId());
                 logger.info("" + basic.getManufacturerName().getValue());*/
                 /*Thread.sleep(5000);
-                switchProxy.getDevice().bindTo(lampProxy.getDevice(), ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
+                switchProxy.getEndpoint().bindTo(lampProxy.getEndpoint(), ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
                 Thread.sleep(5000);
-                lampProxy.getDevice().bindTo(switchProxy.getDevice(), ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
+                lampProxy.getEndpoint().bindTo(switchProxy.getEndpoint(), ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
                 Thread.sleep(5000);*/
                 //final LevelControl levelControl = (LevelControl) lampProxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_LEVEL_CONTROL);
                 //logger.info("Level: " + levelControl.getCurrentLevel().getValue());
-                //switchProxy.getDevice().bind(ZigbeeApiConstants.CLUSTER_ID_BASIC);
+                //switchProxy.getEndpoint().bind(ZigbeeApiConstants.CLUSTER_ID_BASIC);
                 /*Basic basic = (Basic) lampProxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_BASIC);
                 logger.info("" + basic.getModelIdentifier().getValue());*/
 
                 /*int networkManagerAddress= 0;
-                int address = proxy.getDevice().getNode().getNetworkAddress();
+                int address = proxy.getEndpoint().getNode().getNetworkAddress();
                 ZDO_MGMT_NWK_UPDATE_REQ_SRSP response = zigbeeApi.getZigbeeNetworkManager().sendLocalRequest(
                         new ZDO_MGMT_NWK_UPDATE_REQ(
                                 address,
@@ -167,10 +167,10 @@ public class ZigbeeNetworkTest {
                 onOff.off();*/
 
                 /*final Basic basic = (Basic) proxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_BASIC);
-                logger.info("Reading manufacturer information for: " + proxy.getDevice().getEndpointId());
+                logger.info("Reading manufacturer information for: " + proxy.getEndpoint().getEndpointId());
                 logger.info("" + basic.getManufacturerName().getValue());*/
 
-                /*int address = proxy.getDevice().getNode().getNetworkAddress();
+                /*int address = proxy.getEndpoint().getNode().getNetworkAddress();
                 zigbeeApi.getZigbeeNetworkManager().sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(
                         new ZToolAddress16(Integers.getByteAsInteger(address, 1), Integers.getByteAsInteger(address, 0)),
                         0x10,
@@ -186,7 +186,7 @@ public class ZigbeeNetworkTest {
 
                 /*if (proxy != null) {
                     final Basic basic = (Basic) proxy.getCluster(ZigbeeApiConstants.CLUSTER_ID_BASIC);
-                    logger.info("Reading manufacturer information for: " + proxy.getDevice().getEndpointId());
+                    logger.info("Reading manufacturer information for: " + proxy.getEndpoint().getEndpointId());
                     logger.info("" + basic.getManufacturerName().getValue());
                 }
                 if (proxy != null) {

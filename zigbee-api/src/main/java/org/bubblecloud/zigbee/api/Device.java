@@ -133,7 +133,7 @@ public interface Device extends ZigbeeEndpoint {
      * @return return {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} service that has been refined has {@link Device}
      * @since 0.2.0
      */
-    public ZigbeeEndpoint getDevice();
+    public ZigbeeEndpoint getEndpoint();
 
     /**
      * This method modify the <i>Binding Table</i> of physical device by adding the following entry:

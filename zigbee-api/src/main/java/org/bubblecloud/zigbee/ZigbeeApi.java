@@ -268,18 +268,18 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
     @Override
     public void deviceAdded(final Device device) {
         LOGGER.trace(device.getClass().getSimpleName() +
-                " added: " + device.getDevice().getEndpointId());
+                " added: " + device.getEndpoint().getEndpointId());
     }
 
     @Override
     public void deviceUpdated(final Device device) {
         LOGGER.trace(device.getClass().getSimpleName() +
-                " updated: " + device.getDevice().getEndpointId());
+                " updated: " + device.getEndpoint().getEndpointId());
     }
 
     @Override
     public void deviceRemoved(final Device device) {
         LOGGER.trace(device.getClass().getSimpleName() +
-                " removed: " + device.getDevice().getEndpointId());
+                " removed: " + device.getEndpoint().getEndpointId());
     }
 }
