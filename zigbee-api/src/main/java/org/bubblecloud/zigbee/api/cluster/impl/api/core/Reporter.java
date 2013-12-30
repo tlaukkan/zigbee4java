@@ -42,7 +42,7 @@ public interface Reporter {
 
     public boolean addReportListener(ReportListener listner);
 
-    public boolean removeReportListner(ReportListener listner);
+    public boolean removeReportListener(ReportListener listner);
 
     public int getMinimumReportingInterval();
 

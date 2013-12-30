@@ -173,7 +173,7 @@ public abstract class ReporterBase implements Reporter {
         return 0;
     }
 
-    public boolean removeReportListner(ReportListener listener) {
+    public boolean removeReportListener(ReportListener listener) {
         synchronized (listeners) {
             if (listeners.size() == 1) {
                 if (!doUnbindToDevice()) {

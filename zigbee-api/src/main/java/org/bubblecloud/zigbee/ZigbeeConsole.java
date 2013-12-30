@@ -5,6 +5,7 @@ import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 
@@ -189,6 +190,8 @@ public class ZigbeeConsole {
         commands.put("unbind", new UnbindCommand());
         commands.put("on", new OnCommand());
         commands.put("off", new OffCommand());
+        commands.put("subscribe", new SubscribeCommand());
+        commands.put("unsubscribe", new UnsubscribeCommand());
     }
 
     private static interface ConsoleCommand {
@@ -293,21 +296,22 @@ public class ZigbeeConsole {
             write("Device Category  : " + ZigbeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));
             write("Device Version   : " + device.getDeviceVersion());
             write("Input Clusters   : ");
-            for (int i : device.getInputClusters()) {
-                final Cluster cluster = device.getCluster(i);
-                write("                 : " + i + ") " + ZigbeeApiConstants.getClusterName(i));
+            for (int c : device.getInputClusters()) {
+                final Cluster cluster = device.getCluster(c);
+                write("                 : " + c + " " + ZigbeeApiConstants.getClusterName(c));
                 if (cluster != null) {
-                    for (final Attribute attribute : cluster.getAttributes()) {
-                        write("                 :  * " + attribute.getName() + " "
+                    for (int a = 0; a < cluster.getAttributes().length; a++) {
+                        final Attribute attribute = cluster.getAttributes()[a];
+                        write("                 :    " + a + " " + attribute.getName() + " "
                                 + (attribute.getReporter() != null ? "(" +
                                 Integer.toString(attribute.getReporter().getReportListenersCount()) + ")" : ""));
                     }
                 }
             }
             write("Output Clusters  : ");
-            for (int i : device.getOutputClusters()) {
-                final Cluster cluster = device.getCluster(i);
-                write("                 : " + i + ") " + ZigbeeApiConstants.getClusterName(i));
+            for (int c : device.getOutputClusters()) {
+                final Cluster cluster = device.getCluster(c);
+                write("                 : " + c + " " + ZigbeeApiConstants.getClusterName(c));
             }
 
             return true;
@@ -461,4 +465,93 @@ public class ZigbeeConsole {
             return true;
         }
     }
+
+    private static class SubscribeCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "Subscribe for attribute reports.";
+        }
+        public String getSyntax() {
+            return "bind [DEVICE] [CLUSTER] [ATTRIBUTE]";
+        }
+        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+            if (args.length != 4) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            final int clusterId;
+            try {
+                clusterId = Integer.parseInt(args[2]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+            final int attributeIndex;
+            try {
+                attributeIndex = Integer.parseInt(args[3]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+
+            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeIndex).getReporter();
+
+            if (reporter == null) {
+                write("Attribute does not provide reports.");
+                return true;
+            }
+
+            reporter.addReportListener(reportListener);
+
+            return true;
+        }
+    }
+
+    private static class UnsubscribeCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "Subscribe for attribute reports.";
+        }
+        public String getSyntax() {
+            return "bind [DEVICE] [CLUSTER] [ATTRIBUTE]";
+        }
+        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+            if (args.length != 4) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            final int clusterId;
+            try {
+                clusterId = Integer.parseInt(args[2]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+            final int attributeIndex;
+            try {
+                attributeIndex = Integer.parseInt(args[3]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+
+            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeIndex).getReporter();
+
+            if (reporter == null) {
+                write("Attribute does not provide reports.");
+            }
+
+            reporter.removeReportListener(reportListener);
+
+            return true;
+        }
+    }
+
+    private static ReportListener reportListener = new ReportListener() {
+        @Override
+        public void receivedReport(final Dictionary<Attribute, Object> reports) {
+            final Enumeration<Attribute> attributes = reports.keys();
+            while (attributes.hasMoreElements()) {
+                final Attribute attribute = attributes.nextElement();
+                final Object value = reports.get(attribute);
+                write(attribute.getName() + "=" + value);
+            }
+        }
+    };
 }

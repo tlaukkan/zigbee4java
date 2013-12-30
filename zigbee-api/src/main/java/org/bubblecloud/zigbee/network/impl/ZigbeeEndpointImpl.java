@@ -23,6 +23,7 @@
 package org.bubblecloud.zigbee.network.impl;
 
 import org.bubblecloud.zigbee.network.*;
+import org.bubblecloud.zigbee.network.packet.ResponseStatus;
 import org.bubblecloud.zigbee.network.packet.af.AF_DATA_CONFIRM;
 import org.bubblecloud.zigbee.network.packet.af.AF_DATA_REQUEST;
 import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
@@ -279,8 +280,9 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
                 IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceTypeId()
         ));
         if (response == null || response.Status != 0) {
-            logger.warn("ZDO_BIND_REQ failed, unable to bind from endpoint {} to {} for cluster {}", new Object[]{
-                    getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
+            logger.warn("ZDO_BIND_REQ failed due to {}, unable to bind from endpoint {} to {} for cluster {}", new Object[]{
+                    ResponseStatus.getStatus(response.Status) ,getEndpointId(), endpoint.getEndpointId(),
+                    new Integer(clusterId)
             });
             return false;
         }
@@ -308,20 +310,28 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
 
 
     public boolean bindToLocal(int clusterId) throws ZigbeeNetworkManagerException {
-        logger.info("Binding from cluster {} of endpoint {}", clusterId, getEndpointId());
         if (boundCluster.contains(clusterId)) {
             logger.debug("Cluster already bound");
             return true;
         }
 
         byte dstEP = ApplicationFrameworkLayer.getAFLayer(driver).getSendingEndpoint(this, clusterId);
+
+        logger.info("Binding from endpoint {} to {} for cluster {}", new Object[]{
+                getEndpointId(), IEEEAddress.toString(driver.getIEEEAddress()) + "/" + dstEP, new Integer(clusterId)
+        });
+
         final ZDO_BIND_RSP response = driver.sendZDOBind(new ZDO_BIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
                 IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
                 driver.getIEEEAddress(), (byte) dstEP
         ));
         if (response == null || response.Status != 0) {
-            logger.warn("ZDO_BIND_REQ failed, unable to bind");
+            logger.warn("ZDO_BIND_REQ failed due to {}, unable to bind from endpoint {} to {} for cluster {}", new Object[]{
+                    ResponseStatus.getStatus(response.Status) ,getEndpointId(),
+                    IEEEAddress.toString(driver.getIEEEAddress()) + "/" + dstEP,
+                    new Integer(clusterId)
+            });
             return false;
         }
         boundCluster.add(clusterId);
