@@ -1,7 +1,9 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.api.Device;
+import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
+import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
 import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 
@@ -182,6 +184,8 @@ public class ZigbeeConsole {
         commands.put("desc", new DescribeCommand());
         commands.put("bind", new BindCommand());
         commands.put("unbind", new UnbindCommand());
+        commands.put("on", new OnCommand());
+        commands.put("off", new OffCommand());
     }
 
     private static class QuitCommand implements ConsoleCommand {
@@ -267,8 +271,7 @@ public class ZigbeeConsole {
                 return false;
             }
 
-            Device device = null;
-            device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
 
             if (device == null) {
                 return false;
@@ -395,5 +398,61 @@ public class ZigbeeConsole {
         }
     }
 
+    private static class OnCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "Switches device on.";
+        }
 
+        public String getSyntax() {
+            return "on DEVICEID";
+        }
+
+        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+            if (args.length != 2) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                return false;
+            }
+            final OnOff onOff = device.getCluster(OnOff.class);
+            try {
+                onOff.on();
+            } catch (ZigbeeDeviceException e) {
+                e.printStackTrace();
+            }
+
+            return true;
+        }
+    }
+
+    private static class OffCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "Switches device off.";
+        }
+
+        public String getSyntax() {
+            return "off DEVICEID";
+        }
+
+        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+            if (args.length != 2) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                return false;
+            }
+            final OnOff onOff = device.getCluster(OnOff.class);
+            try {
+                onOff.off();
+            } catch (ZigbeeDeviceException e) {
+                e.printStackTrace();
+            }
+
+            return true;
+        }
+    }
 }
