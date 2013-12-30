@@ -302,7 +302,14 @@ public class ZigbeeConsole {
                 if (cluster != null) {
                     for (int a = 0; a < cluster.getAttributes().length; a++) {
                         final Attribute attribute = cluster.getAttributes()[a];
-                        write("                 :    " + a + " " + attribute.getName() + " "
+                        write("                 :    " + a
+                                + " "
+                                + "r"
+                                + (attribute.isWritable() ? "w" : "-")
+                                + (attribute.isReportable() ? "s" : "-")
+                                + " "
+                                + attribute.getName()
+                                + " "
                                 + (attribute.getReporter() != null ? "(" +
                                 Integer.toString(attribute.getReporter().getReportListenersCount()) + ")" : ""));
                     }
