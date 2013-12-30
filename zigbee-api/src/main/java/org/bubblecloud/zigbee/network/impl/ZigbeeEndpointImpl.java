@@ -142,7 +142,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         return result;
     }
 
-    public int getDeviceId() {
+    public int getDeviceTypeId() {
         return deviceId;
     }
 
@@ -271,7 +271,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         final ZDO_BIND_RSP response = driver.sendZDOBind(new ZDO_BIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
                 IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
-                IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceId()
+                IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceTypeId()
         ));
         if (response == null || response.Status != 0) {
             logger.debug("ZDO_BIND_REQ failed, unable to bind from endpoint {} to {} for cluster {}", new Object[]{
@@ -290,7 +290,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         final ZDO_UNBIND_RSP response = driver.sendZDOUnbind(new ZDO_UNBIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
                 IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
-                IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceId()
+                IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceTypeId()
         ));
         if (response == null || response.Status != 0) {
             logger.debug("ZDO_BIND_REQ failed, unable to un-bind from endpoint {} to {} for cluster {}", new Object[]{

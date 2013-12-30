@@ -69,7 +69,7 @@ public class LevelControlSwitchDevice extends DeviceBase implements LevelControl
     }
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
         return LevelControlSwitch.NAME;
     }
 

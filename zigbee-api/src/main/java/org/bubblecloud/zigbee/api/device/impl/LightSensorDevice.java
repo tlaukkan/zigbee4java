@@ -55,7 +55,7 @@ public class LightSensorDevice extends DeviceBase implements LightSensor {
     }
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
 
         return LightSensor.NAME;
     }

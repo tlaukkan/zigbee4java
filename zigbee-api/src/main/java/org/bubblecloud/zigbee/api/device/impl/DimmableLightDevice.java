@@ -82,7 +82,7 @@ public class DimmableLightDevice extends DeviceBase implements DimmableLight {
     }
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
         return DimmableLight.NAME;
     }
 

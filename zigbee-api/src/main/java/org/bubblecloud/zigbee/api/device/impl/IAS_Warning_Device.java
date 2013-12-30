@@ -77,7 +77,7 @@ public class IAS_Warning_Device extends DeviceBase implements IAS_Warning {
     }
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
 
         return IAS_Warning_Device.NAME;
     }

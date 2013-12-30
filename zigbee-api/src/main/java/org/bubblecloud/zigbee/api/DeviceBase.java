@@ -114,11 +114,7 @@ public abstract class DeviceBase implements Device {
         alarms = (Alarms) getCluster(ZigbeeApiConstants.CLUSTER_ID_ALARMS);
     }
 
-    public int getDeviceType() {
-        return device.getDeviceId();
-    }
-
-    public abstract String getName();
+    public abstract String getDeviceType();
 
     public String getEndPointId() {
         return device.getEndpointId();
@@ -156,7 +152,7 @@ public abstract class DeviceBase implements Device {
             /*logger.warn(
                     "Cluster {}/{} already added to this device. " +
                     "It may identifies an error in the definition of the device description",
-                    duplicated.getName(), Integer.toHexString(clusterId)
+                    duplicated.getDeviceType(), Integer.toHexString(clusterId)
             );*/
             return duplicated;
         }
@@ -172,7 +168,7 @@ public abstract class DeviceBase implements Device {
                             "implements the OPTINAL cluster {} ONLY AS OUTPUT instead of input " +
                             "it may identify an error either on the Driver description or in " +
                             "in the implementation of firmware of the physical device",
-                    device.getDeviceId(), clusterId
+                    device.getDeviceTypeId(), clusterId
             );
             return null;
         }
@@ -185,7 +181,7 @@ public abstract class DeviceBase implements Device {
             logger.warn(
                     "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
                             "implements a CUSTOM cluster {} but HA Driver does not support them yet",
-                    device.getDeviceId(), clusterId
+                    device.getDeviceTypeId(), clusterId
             );
             return null;
         }
@@ -197,7 +193,7 @@ public abstract class DeviceBase implements Device {
         if (!device.providesInputCluster(clusterId) && getDescription().isMandatory(clusterId)) {
             logger.warn(
                     "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
-                            "doesn't implement mandatory cluster {}", device.getDeviceId(), clusterId
+                            "doesn't implement mandatory cluster {}", device.getDeviceTypeId(), clusterId
             );
             if (device.providesOutputCluster(clusterId)) {
                 logger.error(
@@ -205,7 +201,7 @@ public abstract class DeviceBase implements Device {
                                 "implements the mandatory cluster {} as output instead of as input " +
                                 "it may identify an error either on the Driver description or in " +
                                 "in the implementation of firmware of the physical device",
-                        device.getDeviceId(), clusterId
+                        device.getDeviceTypeId(), clusterId
                 );
             } else {
                 logger.error(
@@ -214,7 +210,7 @@ public abstract class DeviceBase implements Device {
                                 "nor as input it may identify an error either on the Driver " +
                                 "description or in in the implementation of firmware of the " +
                                 "physical device",
-                        device.getDeviceId(), clusterId
+                        device.getDeviceTypeId(), clusterId
                 );
                 return null;
             }
@@ -224,7 +220,7 @@ public abstract class DeviceBase implements Device {
                                 "if you want to add it anyway please change the value of the property {} " +
                                 " from {} to {}", new Object[]{
                         clusterId,
-                        device.getDeviceId(),
+                        device.getDeviceTypeId(),
                         "undefined",
                         ProvidedClusterMode.HomeAutomationProfileStrict,
                         ProvidedClusterMode.EitherInputAndOutput
@@ -238,7 +234,7 @@ public abstract class DeviceBase implements Device {
                                 ", if you want to disable this change the value from {} to {}",
                         new Object[]{
                                 clusterId,
-                                device.getDeviceId(),
+                                device.getDeviceTypeId(),
                                 "undefined",
                                 ProvidedClusterMode.EitherInputAndOutput,
                                 ProvidedClusterMode.HomeAutomationProfileStrict
@@ -253,20 +249,20 @@ public abstract class DeviceBase implements Device {
         if (index >= clusters.length) {
             logger.error(
                     "Device {} cluster {}. More than expected number of clusters. Skipping.",
-                    device.getDeviceId(), clusterId
+                    device.getDeviceTypeId(), clusterId
             );
             return null;
         }
         if (cluster == null) {
             logger.error(
                     "Cluster {} for device {} not constructed by factory.",
-                    Integer.toHexString(clusterId), device.getDeviceId()
+                    Integer.toHexString(clusterId), device.getDeviceTypeId()
             );
             return null;
         }
         logger.trace(
                 "Cluster {} - {} added to {} device proxy.",
-                Integer.toHexString(clusterId), cluster.getName(), device.getDeviceId()
+                Integer.toHexString(clusterId), cluster.getName(), device.getDeviceTypeId()
         );
 
         clusters[index++] = cluster;
@@ -365,8 +361,8 @@ public abstract class DeviceBase implements Device {
     }
 
     @Override
-    public int getDeviceId() {
-        return device.getDeviceId();
+    public int getDeviceTypeId() {
+        return device.getDeviceTypeId();
     }
 
     @Override

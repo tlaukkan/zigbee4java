@@ -44,7 +44,7 @@ public class TemperatureSensorDevice extends DeviceBase implements TemperatureSe
         temperature = (TemperatureMeasurement) getCluster(ZigbeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT);
     }
 
-    public String getName() {
+    public String getDeviceType() {
         return TemperatureSensor.NAME;
     }
 

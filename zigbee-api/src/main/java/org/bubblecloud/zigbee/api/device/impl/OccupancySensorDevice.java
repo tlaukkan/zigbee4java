@@ -50,7 +50,7 @@ public class OccupancySensorDevice extends DeviceBase implements OccupancySensor
 
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
         return OccupancySensor.NAME;
     }
 

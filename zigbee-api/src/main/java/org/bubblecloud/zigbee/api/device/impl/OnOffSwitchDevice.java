@@ -72,7 +72,7 @@ public class OnOffSwitchDevice extends DeviceBase implements OnOffSwitch {
     }
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
         return OnOffSwitch.NAME;
     }
 

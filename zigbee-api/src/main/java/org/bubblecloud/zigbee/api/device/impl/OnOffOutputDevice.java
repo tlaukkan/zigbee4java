@@ -66,7 +66,7 @@ public class OnOffOutputDevice extends DeviceBase implements OnOffOutput {
 
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
         return OnOffOutput.NAME;
     }
 

@@ -52,13 +52,7 @@ public interface Device extends ZigbeeEndpoint {
     public static final int[] OPTIONAL = {ZigbeeApiConstants.CLUSTER_ID_POWER_CONFIGURATION, ZigbeeApiConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION, ZigbeeApiConstants.CLUSTER_ID_ALARMS};
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
 
-    public String getName();
-
-    /**
-     * @return an <code>int</code> representing the <b>DeviceId</b> as defined by the<br>
-     *         <i>ZigBee Home Automation</i> profile documentation
-     */
-    public int getDeviceType();
+    public String getDeviceType();
 
     public String getEndPointId();
 
@@ -144,7 +138,7 @@ public interface Device extends ZigbeeEndpoint {
     /**
      * This method modify the <i>Binding Table</i> of physical device by adding the following entry:
      * <pre>
-     * this.getNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getNode().getIEEEAddress(), device.getDeviceId()
+     * this.getNode().getIEEEAddress(), this.getDeviceTypeId(), clusterId, device.getNode().getIEEEAddress(), device.getDeviceTypeId()
      * </pre>
      *
      * @param device {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} the device proxy that we want to bound to
@@ -159,7 +153,7 @@ public interface Device extends ZigbeeEndpoint {
     /**
      * This method modify the <i>Binding Table</i> of physical device by removing the entry if exists
      * <pre>
-     * this.getNode().getIEEEAddress(), this.getDeviceId(), clusterId, device.getNode().getIEEEAddress(), device.getDeviceId()
+     * this.getNode().getIEEEAddress(), this.getDeviceTypeId(), clusterId, device.getNode().getIEEEAddress(), device.getDeviceTypeId()
      * </pre>
      *
      * @param device {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} the device that we want to bound to

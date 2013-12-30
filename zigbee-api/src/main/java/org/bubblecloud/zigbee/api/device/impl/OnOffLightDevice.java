@@ -72,7 +72,7 @@ public class OnOffLightDevice extends DeviceBase implements OnOffLight {
 
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
         return OnOffLight.NAME;
     }
 

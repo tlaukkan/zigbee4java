@@ -81,7 +81,7 @@ public class PumpDevice extends DeviceBase implements Pump {
     }
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
         return Pump.NAME;
     }
 

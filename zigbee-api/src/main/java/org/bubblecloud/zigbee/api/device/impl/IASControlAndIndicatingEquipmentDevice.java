@@ -86,7 +86,7 @@ public class IASControlAndIndicatingEquipmentDevice extends DeviceBase implement
     }
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
         return IASControlAndIndicatingEquipment.NAME;
     }
 

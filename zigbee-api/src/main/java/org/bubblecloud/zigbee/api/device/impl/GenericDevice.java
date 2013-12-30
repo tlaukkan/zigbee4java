@@ -104,7 +104,7 @@ public class GenericDevice extends DeviceBase {
     }
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
         return "Generic HA Device";
     }
 

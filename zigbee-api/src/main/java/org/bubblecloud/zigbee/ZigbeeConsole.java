@@ -212,7 +212,7 @@ public class ZigbeeConsole {
 
         public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
             for (final Device device : zigbeeApi.getDevices()) {
-                System.out.println(device.getEndPointId() + " : " + device.getName());
+                System.out.println(device.getEndPointId() + " : " + device.getDeviceType());
             }
             return true;
         }
@@ -237,12 +237,12 @@ public class ZigbeeConsole {
                 return false;
             }
 
-            write(device.getEndPointId() + " : " + device.getName());
+            write(device.getEndPointId() + " : " + device.getDeviceType());
             write("Network Address  : " + device.getNode().getNetworkAddress());
             write("Extended Address : " + device.getNode().getIEEEAddress());
             write("Endpoint Address : " + device.getEndPointAddress());
-            write("Device Type      : " + ZigbeeApiConstants.getDeviceName(device.getDeviceId()));
-            write("Device Category  : " + ZigbeeApiConstants.getCategoryDeviceName(device.getDeviceId()));
+            write("Device Type      : " + ZigbeeApiConstants.getDeviceName(device.getDeviceTypeId()));
+            write("Device Category  : " + ZigbeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));
             write("Device Version   : " + device.getDeviceVersion());
             write("Input Clusters   : ");
             for (int i : device.getInputClusters()) {
@@ -256,7 +256,7 @@ public class ZigbeeConsole {
                     write(" - Subscription with " + subscription.getReportListenersCount() + " report listeners.");
                 }
             }
-            write("Output Clusters   : ");
+            write("Output Clusters  : ");
             for (int i : device.getOutputClusters()) {
                 final Cluster cluster = device.getCluster(i);
                 if (cluster == null) {

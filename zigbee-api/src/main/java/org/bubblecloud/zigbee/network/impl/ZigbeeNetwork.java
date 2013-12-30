@@ -122,7 +122,7 @@ public class ZigbeeNetwork {
         final ZigbeeNode deviceNode = endpoint.getNode();
         final String ieee = deviceNode.getIEEEAddress();
         final short endPoint = endpoint.getEndPointAddress();
-        logger.trace("Adding device {} on node {} / end point {}.", endpoint.getDeviceId(),
+        logger.trace("Adding device {} on node {} / end point {}.", endpoint.getDeviceTypeId(),
                 endpoint.getNode(), endPoint);
         final ZigbeeNode node = nodes.get(ieee);
         if (node == null) {

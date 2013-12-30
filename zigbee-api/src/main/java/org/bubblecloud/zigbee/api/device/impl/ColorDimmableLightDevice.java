@@ -104,7 +104,7 @@ public class ColorDimmableLightDevice extends DeviceBase implements ColorDimmabl
     }
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
         return ColorDimmableLight.NAME;
     }
 

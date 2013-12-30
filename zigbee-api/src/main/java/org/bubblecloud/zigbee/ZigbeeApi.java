@@ -246,7 +246,7 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
     public void endpointAdded(final ZigbeeEndpoint endpoint) {
         final DeviceFactory factory = context.getBestDeviceProxyFactory(endpoint);
         if (factory == null) { // pending services
-            LOGGER.warn("No proxy for Zigbee endpoint {} found.", endpoint.getDeviceId());
+            LOGGER.warn("No proxy for Zigbee endpoint {} found.", endpoint.getDeviceTypeId());
             return;
         }
 

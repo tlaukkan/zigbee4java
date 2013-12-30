@@ -64,7 +64,7 @@ public class IASAncillaryControlEquipmentDevice extends DeviceBase implements IA
     }*/
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
         return IASAncillaryControlEquipment.NAME;
     }
 

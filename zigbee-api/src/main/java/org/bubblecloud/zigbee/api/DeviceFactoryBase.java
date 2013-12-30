@@ -92,7 +92,7 @@ public abstract class DeviceFactoryBase implements DeviceFactory {
             }
         }
 
-        score += device.getDeviceId() == getDeviceId() ? ZigbeeEndpoint.MATCH_DEVICE_ID : 0;
+        score += device.getDeviceTypeId() == getDeviceId() ? ZigbeeEndpoint.MATCH_DEVICE_ID : 0;
 
         return score;
     }

@@ -55,8 +55,8 @@ public class DeviceFactoryImpl extends DeviceFactoryBase {
      * the constructor  <code>cImplementation(ZigbeeApiContext, ZigbeeEndpoint)</code>.<br>
      * By default the {@link #getRefinedInterfaces()} is built to return the values:<br>
      * <pre>
-     * cInterface.getName()
-     * Device.class.getName()
+     * cInterface.getDeviceType()
+     * Device.class.getDeviceType()
      * </pre>
      *
      * @param ctx             {@link org.bubblecloud.zigbee.ZigbeeApiContext} to use for registering the {@link DeviceFactory} service

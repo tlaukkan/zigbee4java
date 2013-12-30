@@ -85,7 +85,7 @@ public class ZigbeeApiContext {
 
     public void removeDevice(final Device device) {
         notifyDeviceRemoved(device);
-        devices.remove(device.getDevice().getDeviceId());
+        devices.remove(device.getDevice().getDeviceTypeId());
     }
 
     public void addDeviceListener(final DeviceListener deviceListener) {

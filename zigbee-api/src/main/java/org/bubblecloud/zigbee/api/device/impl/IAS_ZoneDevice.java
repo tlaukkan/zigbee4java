@@ -51,7 +51,7 @@ public class IAS_ZoneDevice extends DeviceBase implements IAS_Zone {
     }
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
 
         return IAS_Zone.NAME;
     }

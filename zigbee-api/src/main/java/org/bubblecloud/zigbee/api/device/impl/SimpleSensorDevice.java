@@ -70,7 +70,7 @@ public class SimpleSensorDevice extends DeviceBase implements SimpleSensor {
     }
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
         return SimpleSensor.NAME;
     }
 

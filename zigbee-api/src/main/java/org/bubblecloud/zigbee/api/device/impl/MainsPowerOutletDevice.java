@@ -65,7 +65,7 @@ public class MainsPowerOutletDevice extends DeviceBase implements MainsPowerOutl
     }
 
     @Override
-    public String getName() {
+    public String getDeviceType() {
 
         return MainsPowerOutlet.NAME;
     }
