@@ -25,7 +25,7 @@ import org.bubblecloud.zigbee.network.ClusterFilter;
 import org.bubblecloud.zigbee.network.ClusterListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
+import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
@@ -141,9 +141,9 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
         synchronized (listeners) {
             if (listeners.size() == 0) {
                 try {
-                    getZigBeeDevice().bind(ID);
-                } catch (ZigbeeBasedriverException e) {
-                    log.error("Unable to bind to device for IASZone reporting", e);
+                    getZigBeeDevice().bindToLocal(ID);
+                } catch (ZigbeeNetworkManagerException e) {
+                    log.error("Unable to bindToLocal to device for IASZone reporting", e);
                     return false;
                 }
                 if (getZigBeeDevice().addClusterListener(bridge) == false) {
@@ -161,9 +161,9 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
             boolean removed = listeners.remove(listener);
             if (listeners.size() == 0 && removed) {
                 try {
-                    getZigBeeDevice().unbind(ID);
-                } catch (ZigbeeBasedriverException e) {
-                    log.error("Unable to unbind to device for IASZone reporting", e);
+                    getZigBeeDevice().unbindFromLocal(ID);
+                } catch (ZigbeeNetworkManagerException e) {
+                    log.error("Unable to unbindFromLocal to device for IASZone reporting", e);
                     return false;
                 }
                 if (getZigBeeDevice().removeClusterListener(bridge) == false) {

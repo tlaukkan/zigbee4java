@@ -27,7 +27,7 @@ package org.bubblecloud.zigbee.network.impl;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
  */
-public class ZigbeeBasedriverTimeOutException extends ZigbeeBasedriverException {
+public class ZigbeeBasedriverTimeOutException extends ZigbeeNetworkManagerException {
 
     public ZigbeeBasedriverTimeOutException() {
         super("Timeout expired before receiving any data");

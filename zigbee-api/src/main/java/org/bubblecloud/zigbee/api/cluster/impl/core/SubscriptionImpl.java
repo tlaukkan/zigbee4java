@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.api.cluster.impl.core;
 
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
+import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
@@ -79,7 +79,7 @@ public class SubscriptionImpl extends SubscriptionBase implements Subscription {
             if (results.getStatus() != 0) {
                 throw new ZigBeeClusterException("ConfigureReporting answered with a Failed status: " + Status.getStatus(results.getStatus()));
             }
-        } catch (ZigbeeBasedriverException e) {
+        } catch (ZigbeeNetworkManagerException e) {
             throw new ZigBeeClusterException(e);
         }
 

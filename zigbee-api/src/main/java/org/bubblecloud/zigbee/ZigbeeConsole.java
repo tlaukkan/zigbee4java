@@ -3,6 +3,7 @@ package org.bubblecloud.zigbee;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
+import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -179,6 +180,8 @@ public class ZigbeeConsole {
         commands.put("help", new HelpCommand());
         commands.put("list", new ListCommand());
         commands.put("desc", new DescribeCommand());
+        commands.put("bindToLocal", new BindCommand());
+        commands.put("unbindFromLocal", new UnbindCommand());
     }
 
     private static class QuitCommand implements ConsoleCommand {
@@ -305,5 +308,96 @@ public class ZigbeeConsole {
             return true;
         }
     }
+
+    private static class BindCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "Binds a device to another device.";
+        }
+        public String getSyntax() {
+            return "bindToLocal [CLIENT] SERVER CLUSTERID";
+        }
+        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+            if (args.length != 3 && args.length != 4) {
+                return false;
+            }
+
+            if (args.length == 3) {
+                Device server = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+                final int clusterId;
+                try {
+                    clusterId = Integer.parseInt(args[2]);
+                } catch (final NumberFormatException e) {
+                    return false;
+                }
+                try {
+                    server.bindToLocal(clusterId);
+                } catch (final ZigbeeNetworkManagerException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Device client = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+                Device server = getDeviceByIndexOrEndpointId(zigbeeApi, args[2]);
+                final int clusterId;
+                try {
+                    clusterId = Integer.parseInt(args[3]);
+                } catch (final NumberFormatException e) {
+                    return false;
+                }
+                try {
+                    client.bindTo(server, clusterId);
+                } catch (final ZigbeeNetworkManagerException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return true;
+        }
+    }
+
+    private static class UnbindCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "Unbinds a device from another device.";
+        }
+        public String getSyntax() {
+            return "bindToLocal CLIENT SERVER CLUSTERID";
+        }
+        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+            if (args.length != 3 && args.length != 4) {
+                return false;
+            }
+
+            if (args.length == 3) {
+                Device server = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+                final int clusterId;
+                try {
+                    clusterId = Integer.parseInt(args[2]);
+                } catch (final NumberFormatException e) {
+                    return false;
+                }
+                try {
+                    server.unbindFromLocal(clusterId);
+                } catch (final ZigbeeNetworkManagerException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Device client = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+                Device server = getDeviceByIndexOrEndpointId(zigbeeApi, args[2]);
+                final int clusterId;
+                try {
+                    clusterId = Integer.parseInt(args[3]);
+                } catch (final NumberFormatException e) {
+                    return false;
+                }
+                try {
+                    client.unbindFrom(server, clusterId);
+                } catch (final ZigbeeNetworkManagerException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return true;
+        }
+    }
+
 
 }

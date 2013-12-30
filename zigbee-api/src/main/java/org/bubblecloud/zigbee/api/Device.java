@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.api;
 
 import org.bubblecloud.zigbee.ZigbeeApiConstants;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
+import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.general.Alarms;
 import org.bubblecloud.zigbee.api.cluster.general.Basic;
@@ -144,11 +144,11 @@ public interface Device extends ZigbeeEndpoint {
      * @param device {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} the device proxy that we want to bound to
      * @param clusterId   the clusterId that we want to bound to
      * @return <code>true</code> if and only if the operation succeeded
-     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException
+     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException
      *
      * @since 0.5.0
      */
-    public boolean bindTo(Device device, int clusterId) throws ZigbeeBasedriverException;
+    public boolean bindTo(Device device, int clusterId) throws ZigbeeNetworkManagerException;
 
     /**
      * This method modify the <i>Binding Table</i> of physical device by removing the entry if exists
@@ -159,8 +159,8 @@ public interface Device extends ZigbeeEndpoint {
      * @param device {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} the device that we want to bound to
      * @param clusterId   the clusterId that we want to unbound from
      * @return <code>true</code> if and only if the operation succeeded
-     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException
+     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException
      * @since 0.5.0
      */
-    public boolean unbindFrom(Device device, int clusterId) throws ZigbeeBasedriverException;
+    public boolean unbindFrom(Device device, int clusterId) throws ZigbeeNetworkManagerException;
 }

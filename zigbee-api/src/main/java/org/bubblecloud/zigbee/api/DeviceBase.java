@@ -28,7 +28,7 @@ import org.bubblecloud.zigbee.network.ClusterListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigbeeNode;
-import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
+import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.general.Alarms;
 import org.bubblecloud.zigbee.api.cluster.general.Basic;
@@ -346,12 +346,12 @@ public abstract class DeviceBase implements Device {
     }
 
     @Override
-    public boolean bindTo(Device device, int clusterId) throws ZigbeeBasedriverException {
+    public boolean bindTo(Device device, int clusterId) throws ZigbeeNetworkManagerException {
         return this.endpoint.bindTo(device.getEndpoint(), clusterId);
     }
 
     @Override
-    public boolean unbindFrom(Device device, int clusterId) throws ZigbeeBasedriverException {
+    public boolean unbindFrom(Device device, int clusterId) throws ZigbeeNetworkManagerException {
         return this.endpoint.unbindFrom(device.getEndpoint(), clusterId);
     }
 
@@ -401,33 +401,33 @@ public abstract class DeviceBase implements Device {
     }
 
     @Override
-    public ClusterMessage invoke(ClusterMessage input) throws ZigbeeBasedriverException {
+    public ClusterMessage invoke(ClusterMessage input) throws ZigbeeNetworkManagerException {
         return endpoint.invoke(input);
     }
 
     @Override
-    public void send(ClusterMessage input) throws ZigbeeBasedriverException {
+    public void send(ClusterMessage input) throws ZigbeeNetworkManagerException {
         endpoint.send(input);
     }
 
     @Override
-    public boolean bindTo(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeBasedriverException {
+    public boolean bindTo(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeNetworkManagerException {
         return endpoint.bindTo(endpoint, clusterId);
     }
 
     @Override
-    public boolean unbindFrom(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeBasedriverException {
+    public boolean unbindFrom(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeNetworkManagerException {
         return endpoint.unbindFrom(endpoint, clusterId);
     }
 
     @Override
-    public boolean bind(int clusterId) throws ZigbeeBasedriverException {
-        return endpoint.bind(clusterId);
+    public boolean bindToLocal(int clusterId) throws ZigbeeNetworkManagerException {
+        return endpoint.bindToLocal(clusterId);
     }
 
     @Override
-    public boolean unbind(int clusterId) throws ZigbeeBasedriverException {
-        return endpoint.unbind(clusterId);
+    public boolean unbindFromLocal(int clusterId) throws ZigbeeNetworkManagerException {
+        return endpoint.unbindFromLocal(clusterId);
     }
 
     @Override

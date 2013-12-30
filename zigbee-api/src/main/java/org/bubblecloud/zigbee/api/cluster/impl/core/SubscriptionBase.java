@@ -26,7 +26,7 @@ import org.bubblecloud.zigbee.network.ClusterFilter;
 import org.bubblecloud.zigbee.network.ClusterListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
+import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Subscription;
@@ -113,9 +113,9 @@ public abstract class SubscriptionBase implements Subscription {
 
     private boolean doBindToDevice() {
         try {
-            return device.bind(cluster.getId());
-        } catch (ZigbeeBasedriverException e) {
-            log.debug("Unable to bind to device {} on cluster {}", device, cluster.getId());
+            return device.bindToLocal(cluster.getId());
+        } catch (ZigbeeNetworkManagerException e) {
+            log.debug("Unable to bindToLocal to device {} on cluster {}", device, cluster.getId());
             log.error("Binding failed", e);
             return false;
         }
@@ -123,9 +123,9 @@ public abstract class SubscriptionBase implements Subscription {
 
     private boolean doUnbindToDevice() {
         try {
-            return device.unbind(cluster.getId());
-        } catch (ZigbeeBasedriverException e) {
-            log.debug("Unable to bind to device {} on cluster {}", device, cluster.getId());
+            return device.unbindFromLocal(cluster.getId());
+        } catch (ZigbeeNetworkManagerException e) {
+            log.debug("Unable to bindToLocal to device {} on cluster {}", device, cluster.getId());
             log.error("Binding failed", e);
             return false;
         }

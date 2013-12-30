@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.api.cluster.impl.core;
 
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
+import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
@@ -176,7 +176,7 @@ public class AttributeImpl implements Attribute {
                                     + " Follows the ZCLFrame recieved " + ResponseImpl.toString(response)
                     );
             }
-        } catch (ZigbeeBasedriverException e) {
+        } catch (ZigbeeNetworkManagerException e) {
             logger.error("Error reading value.", e);
             return null;
         }
@@ -201,7 +201,7 @@ public class AttributeImpl implements Attribute {
                                 + ". Follows the ZCLFrame recieved " + ResponseImpl.toString(writeResposne)
                 );
             }
-        } catch (ZigbeeBasedriverException e) {
+        } catch (ZigbeeNetworkManagerException e) {
             throw new ZigBeeClusterException(e);
         }
         return;

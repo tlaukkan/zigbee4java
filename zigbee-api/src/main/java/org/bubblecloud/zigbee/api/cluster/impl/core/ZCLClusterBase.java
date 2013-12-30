@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.api.cluster.impl.core;
 
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
+import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Command;
@@ -108,7 +108,7 @@ public abstract class ZCLClusterBase implements ZCLCluster {
                 logger.debug("Sending ZCLFrame {} without expecting an answer", inFrame);
                 zbDevice.send(input);
                 return null;
-            } catch (ZigbeeBasedriverException e) {
+            } catch (ZigbeeNetworkManagerException e) {
                 throw new ZigBeeClusterException(e);
             }
         } else {
@@ -119,7 +119,7 @@ public abstract class ZCLClusterBase implements ZCLCluster {
                 Response response = new ResponseImpl(clusterMessage, getId());
                 logger.debug("Received response {} to request {}", response, inFrame);
                 return response;
-            } catch (ZigbeeBasedriverException e) {
+            } catch (ZigbeeNetworkManagerException e) {
                 throw new ZigBeeClusterException(e);
             }
         }

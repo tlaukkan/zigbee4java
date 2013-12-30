@@ -156,7 +156,7 @@ public class EndpointBuilder implements Stoppable {
             if (!network.addEndpoint(endpoint)) {
                 logger.error("Failed to add endpoint {} to the network map for node {}", ep, node);
             }
-        } catch (ZigbeeBasedriverException e) {
+        } catch (ZigbeeNetworkManagerException e) {
             logger.error("Error building the device: {}", node, e);
 
             ZigbeeEndpointReference last = new ZigbeeEndpointReference(node, ep);

@@ -66,7 +66,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
     private final HashSet<ApplicationFrameworkMessageConsumer> consumers = new HashSet<ApplicationFrameworkMessageConsumer>();
     private String endpointId = null;
 
-    public ZigbeeEndpointImpl(final ZigbeeNetworkManager drv, final ZigbeeNode n, byte ep) throws ZigbeeBasedriverException {
+    public ZigbeeEndpointImpl(final ZigbeeNetworkManager drv, final ZigbeeNode n, byte ep) throws ZigbeeNetworkManagerException {
         if (drv == null || n == null) {
             logger.error("Creating {} with some nulls parameters {}", new Object[]{ZigbeeEndpoint.class, drv, n, ep});
             throw new NullPointerException("Cannot create a device with a null ZigbeeNetworkManager or a null ZigbeeNode");
@@ -103,7 +103,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         TIMEOUT = DEFAULT_TIMEOUT;
     }
 
-    private ZDO_SIMPLE_DESC_RSP doRetrieveSimpleDescription(ZigbeeNode n) throws ZigbeeBasedriverException {
+    private ZDO_SIMPLE_DESC_RSP doRetrieveSimpleDescription(ZigbeeNode n) throws ZigbeeNetworkManagerException {
         //TODO Move into ZigbeeNetworkManager?!?!?
         final int nwk = n.getNetworkAddress();
         int i = 0;
@@ -136,7 +136,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
                     "Unable to receive a ZDO_SIMPLE_DESC_RSP for endpoint {} on node {}",
                     nwk, endPoint
             );
-            throw new ZigbeeBasedriverException("Unable to receive a ZDO_SIMPLE_DESC_RSP from endpoint");
+            throw new ZigbeeNetworkManagerException("Unable to receive a ZDO_SIMPLE_DESC_RSP from endpoint");
         }
 
         return result;
@@ -174,7 +174,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         return node;
     }
 
-    public void send(ClusterMessage input) throws ZigbeeBasedriverException {
+    public void send(ClusterMessage input) throws ZigbeeNetworkManagerException {
         final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(driver);
         final byte sender = af.getSendingEndpoint(this, input);
         final byte transaction = af.getNextTransactionId(sender);
@@ -187,13 +187,13 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         ));
 
         if (response == null) {
-            throw new ZigbeeBasedriverException("Unable to send cluster on the ZigBee network due to general error");
+            throw new ZigbeeNetworkManagerException("Unable to send cluster on the ZigBee network due to general error");
         } else if (response.getStatus() != 0) {
-            throw new ZigbeeBasedriverException("Unable to send cluster on the ZigBee network:" + response.getErrorMsg());
+            throw new ZigbeeNetworkManagerException("Unable to send cluster on the ZigBee network:" + response.getErrorMsg());
         }
     }
 
-    public ClusterMessage invoke(ClusterMessage input) throws ZigbeeBasedriverException {
+    public ClusterMessage invoke(ClusterMessage input) throws ZigbeeNetworkManagerException {
         final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(driver);
         final byte sender = af.getSendingEndpoint(this, input);
         /*
@@ -227,10 +227,10 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
 
         if (response == null) {
             m_removeAFMessageListener();
-            throw new ZigbeeBasedriverException("Unable to send cluster on the ZigBee network due to general error - is the device sleeping?");
+            throw new ZigbeeNetworkManagerException("Unable to send cluster on the ZigBee network due to general error - is the device sleeping?");
         } else if (response.getStatus() != 0) {
             m_removeAFMessageListener();
-            throw new ZigbeeBasedriverException("Unable to send cluster on the ZigBee network:" + response.getErrorMsg());
+            throw new ZigbeeNetworkManagerException("Unable to send cluster on the ZigBee network:" + response.getErrorMsg());
         } else {
             //FIX Can't be singelton because only a the invoke method can be invoked by multiple-thread
             //FIX Can't be singleton because the invoke method can be invoked by multiple-thread
@@ -258,15 +258,10 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         return false;
     }
 
-    public boolean bindTo(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeBasedriverException {
-        logger.debug("Binding from endpoint {} to {} for cluster {}", new Object[]{
+    public boolean bindTo(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeNetworkManagerException {
+        logger.info("Binding from endpoint {} to {} for cluster {}", new Object[]{
                 getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
         });
-
-        /*
-         * //THINK Should you we deny the possibility to have duplicate entry inside the binding table?
-         * The ZigBee specification see page 63, seems to allow duplicate entry inside the binding table.
-         */
 
         final ZDO_BIND_RSP response = driver.sendZDOBind(new ZDO_BIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
@@ -274,7 +269,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
                 IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceTypeId()
         ));
         if (response == null || response.Status != 0) {
-            logger.debug("ZDO_BIND_REQ failed, unable to bind from endpoint {} to {} for cluster {}", new Object[]{
+            logger.warn("ZDO_BIND_REQ failed, unable to bindToLocal from endpoint {} to {} for cluster {}", new Object[]{
                     getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
             });
             return false;
@@ -282,8 +277,8 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         return true;
     }
 
-    public boolean unbindFrom(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeBasedriverException {
-        logger.debug("Un-binding from endpoint {} to {} for cluster {}", new Object[]{
+    public boolean unbindFrom(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeNetworkManagerException {
+        logger.info("Un-binding from endpoint {} to {} for cluster {}", new Object[]{
                 getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
         });
 
@@ -293,7 +288,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
                 IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceTypeId()
         ));
         if (response == null || response.Status != 0) {
-            logger.debug("ZDO_BIND_REQ failed, unable to un-bind from endpoint {} to {} for cluster {}", new Object[]{
+            logger.warn("ZDO_BIND_REQ failed, unable to un-bindToLocal from endpoint {} to {} for cluster {}", new Object[]{
                     getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
             });
             return false;
@@ -302,8 +297,8 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
     }
 
 
-    public boolean bind(int clusterId) throws ZigbeeBasedriverException {
-        logger.debug("Binding from cluster {} of endpoint {}", clusterId, getEndpointId());
+    public boolean bindToLocal(int clusterId) throws ZigbeeNetworkManagerException {
+        logger.info("Binding from cluster {} of endpoint {}", clusterId, getEndpointId());
         if (boundCluster.contains(clusterId)) {
             logger.debug("Cluster already bound");
             return true;
@@ -316,17 +311,17 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
                 driver.getIEEEAddress(), (byte) dstEP
         ));
         if (response == null || response.Status != 0) {
-            logger.debug("ZDO_BIND_REQ failed, unable to bind");
+            logger.warn("ZDO_BIND_REQ failed, unable to bindToLocal");
             return false;
         }
         boundCluster.add(clusterId);
         return true;
     }
 
-    public boolean unbind(int clusterId) throws ZigbeeBasedriverException {
-        logger.debug("Unbinding from cluster {} of endpoint {}", clusterId, getEndpointId());
+    public boolean unbindFromLocal(int clusterId) throws ZigbeeNetworkManagerException {
+        logger.info("Unbinding from cluster {} of endpoint {}", clusterId, getEndpointId());
         if (!boundCluster.contains(clusterId)) {
-            logger.debug("Cluster already unbound");
+            logger.warn("Cluster already unbound");
             return true;
         }
 
@@ -338,7 +333,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
                 driver.getIEEEAddress(), (byte) dstEP
         ));
         if (response == null || response.Status != 0) {
-            logger.debug("ZDO_BIND_REQ failed, unable to unbind");
+            logger.warn("ZDO_BIND_REQ failed, unable to unbindFromLocal");
             return false;
         }
         boundCluster.remove(clusterId);

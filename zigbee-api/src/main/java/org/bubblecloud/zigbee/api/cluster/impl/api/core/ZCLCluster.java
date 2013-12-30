@@ -102,7 +102,7 @@ public interface ZCLCluster {
      * @param if  suppressResponse true <i>Default response</i> are disabled
      * @return {@link Response} the response to the invoked {@link Command}. This method returns <code>null</code>
      * @throws IOException
-     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException
+     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException
      */
     public Response invoke(Command cmd, boolean suppressResponse) throws ZigBeeClusterException; //TODO Remove
 

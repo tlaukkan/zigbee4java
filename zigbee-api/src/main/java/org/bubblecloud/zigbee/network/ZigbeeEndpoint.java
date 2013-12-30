@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.network;
 
-import org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException;
+import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 
 
 /**
@@ -117,7 +117,7 @@ public interface ZigbeeEndpoint {
      * @return the {@link ClusterMessage} representing the response received after that the Cluster answer to<br>
      *         the request.
      */
-    public ClusterMessage invoke(ClusterMessage input) throws ZigbeeBasedriverException;
+    public ClusterMessage invoke(ClusterMessage input) throws ZigbeeNetworkManagerException;
 
     /**
      * Send the given {@link ClusterMessage} (which is supposed to be Input Cluster) to this EndPoint,<br>
@@ -126,7 +126,7 @@ public interface ZigbeeEndpoint {
      *
      * @param input the {@link ClusterMessage} containing the id of the Cluster to send to the cluster message
      */
-    public void send(ClusterMessage input) throws ZigbeeBasedriverException;
+    public void send(ClusterMessage input) throws ZigbeeNetworkManagerException;
 
     /**
      * This method modify the <i>Binding Table</i> of physical endpoint by adding the following entry:
@@ -137,10 +137,10 @@ public interface ZigbeeEndpoint {
      * @param endpoint    {@link ZigbeeEndpoint} the endpoint that we want to bound to
      * @param clusterId the clusterId that we want to bound to
      * @return <code>true</code> if and only if the operation succeeded
-     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException
+     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException
      * @since 0.5.0
      */
-    public boolean bindTo(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeBasedriverException;
+    public boolean bindTo(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeNetworkManagerException;
 
     /**
      * This method modify the <i>Binding Table</i> of physical device by removing the entry if exists
@@ -151,24 +151,24 @@ public interface ZigbeeEndpoint {
      * @param endpoint    {@link ZigbeeEndpoint} the device that we want to bound to
      * @param clusterId the clusterId that we want to unbound from
      * @return <code>true</code> if and only if the operation succeeded
-     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException
+     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException
      * @since 0.5.0
      */
-    public boolean unbindFrom(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeBasedriverException;
+    public boolean unbindFrom(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeNetworkManagerException;
 
     /**
      * @param clusterId
      * @return
-     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException
+     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException
      */
-    public boolean bind(int clusterId) throws ZigbeeBasedriverException;
+    public boolean bindToLocal(int clusterId) throws ZigbeeNetworkManagerException;
 
     /**
      * @param clusterId
      * @return
-     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeBasedriverException
+     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException
      */
-    public boolean unbind(int clusterId) throws ZigbeeBasedriverException;
+    public boolean unbindFromLocal(int clusterId) throws ZigbeeNetworkManagerException;
 
     /**
      * Add a {@link ClusterListener} to this EndPoint. The same instance of a {@link ClusterListener} will<br>
