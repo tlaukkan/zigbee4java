@@ -22,6 +22,7 @@
 
 package org.bubblecloud.zigbee.network.impl;
 
+import org.bubblecloud.zigbee.ZigbeeApiConstants;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
@@ -109,7 +110,7 @@ public class ApplicationFrameworkLayer {
 
     public byte getSendingEndpoint(ZigbeeEndpoint endpoint, int clusterId) {
         SenderIdentifier si = new SenderIdentifier(
-                endpoint.getProfileId(), (short) clusterId
+                ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION, (short) clusterId
         );
         logger.info("Looking for a registered enpoint among {}", sender2EndPoint.size());
         synchronized (sender2EndPoint) {
@@ -118,7 +119,7 @@ public class ApplicationFrameworkLayer {
                 return sender2EndPoint.get(si);
             } else {
                 logger.debug("NO endpoint registered for <profileId,clusterId>=<{},{}>", si.profileId, si.clusterId);
-                final byte ep = createEndPoint(si);
+                final byte ep = createEndPoint(si, endpoint.getProfileId());
                 return ep;
             }
         }
@@ -128,11 +129,11 @@ public class ApplicationFrameworkLayer {
         return getSendingEndpoint(endpoint, input.getId());
     }
 
-    private byte createEndPoint(SenderIdentifier si) {
+    private byte createEndPoint(SenderIdentifier si, int receiverProfileId) {
         byte endPoint = getFreeEndPoint();
         logger.debug("Registering a new endpoint for <profileId,clusterId>  <{},{}>", si.profileId, si.clusterId);
 
-        Set<Integer> clusterSet = collectClusterForProfile(si.profileId);
+        Set<Integer> clusterSet = collectClusterForProfile(receiverProfileId);
         final int[] clusters = new int[clusterSet.size()];
 
         int index = 0;
@@ -141,12 +142,6 @@ public class ApplicationFrameworkLayer {
             index++;
         }
 
-		/*
-		 * //XXX Registering clusters only as input or output would increase the number of controllable clusters  
-		 * It could be possible that the endpoint doesn't take into account if the cluster is registered as input
-		 * or as output so we could double the capacity of the dongle by distinguish between input and outpu
-		 */
-        //TODO We should use also output cluster in order to achieve 66 registration for each End Point
         if (clusters.length > 33) {
             logger.warn(
                     "We found too many cluster to implement for a single endpoint " +

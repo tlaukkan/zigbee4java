@@ -153,7 +153,8 @@ public class EndpointBuilder implements Stoppable {
                 ApplicationFrameworkLayer.getAFLayer(driver).registerSenderEndPoint(
                         ep, endpoint.getProfileId(), endpoint.getOutputClusters());
             }
-            if (!network.addEndpoint(endpoint)) {
+            if ( !(endpoint.getNode().getNetworkAddress() == 0 && endpoint.getInputClusters().length == 0)
+                    && !network.addEndpoint(endpoint)) {
                 logger.error("Failed to add endpoint {} to the network map for node {}", ep, node);
             }
         } catch (ZigbeeNetworkManagerException e) {

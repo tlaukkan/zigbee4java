@@ -1529,7 +1529,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
                             logger.trace("Starting as Zigbee Coordinator");
                             break;
                         case 9:
-                            logger.trace("Started as Zigbee Coordinator");
+                            logger.info("Started as Zigbee Coordinator");
                             setState(DriverStatus.NETWORK_READY);
                             break;
                         case 10:
