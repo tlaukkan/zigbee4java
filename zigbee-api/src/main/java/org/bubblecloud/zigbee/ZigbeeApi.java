@@ -116,6 +116,9 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
             if (networkManager.getDriverStatus() == DriverStatus.NETWORK_READY) {
                 break;
             }
+            if (networkManager.getDriverStatus() == DriverStatus.CLOSED) {
+                return false;
+            }
             try {
                 Thread.sleep(100);
             } catch (final InterruptedException e) {

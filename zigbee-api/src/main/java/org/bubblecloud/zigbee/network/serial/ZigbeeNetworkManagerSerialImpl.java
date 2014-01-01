@@ -208,10 +208,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             zigbeeSerialInterface.close();
             setState(DriverStatus.CREATED);
         }
-        if (state == DriverStatus.CREATED) {
-            setState(DriverStatus.CLOSED);
-        }
-        //logger.info("Closed");
+        setState(DriverStatus.CLOSED);
     }
 
     public <REQUEST extends ZToolPacket, RESPONSE extends ZToolPacket> RESPONSE sendLocalRequest(REQUEST request) {
@@ -274,7 +271,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         logger.trace("Sending ZDO_IEEE_ADDR_REQ {}", request);
         ZDO_IEEE_ADDR_REQ_SRSP response = (ZDO_IEEE_ADDR_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
         if (response == null || response.Status != 0) {
-            logger.trace("ZDO_IEEE_ADDR_REQ failed, received {}", response);
+            logger.warn("ZDO_IEEE_ADDR_REQ failed, received {}", response);
             waiter.cleanup();
         } else {
             result = (ZDO_IEEE_ADDR_RSP) waiter.getCommand(TIMEOUT);
@@ -473,7 +470,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
     public void run() {
         logger.trace("Initializing hardware.");
         setState(DriverStatus.HARDWARE_INITIALIZING);
-        if (initializeHardware() == true) {
+        if (initializeHardware()) {
             setState(DriverStatus.HARDWARE_READY);
         } else {
             shutdown();
@@ -563,7 +560,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             logger4Waiter.trace("received {} {}", packet.getClass(), packet.toString());
             if (packet.isError()) return;
             if (packet.getCMD().get16BitValue() != waitFor) {
-                logger4Waiter.warn("Received unexpected packet: " + packet.getClass().getSimpleName());
+                logger4Waiter.trace("Received unexpected packet: " + packet.getClass().getSimpleName());
                 return;
             }
             synchronized (result) {
@@ -1135,16 +1132,16 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
 
         if (afMessageListners.isEmpty() && isHardwareReady()) {
             if (zigbeeSerialInterface.removeAsynchrounsCommandListener(afListner)) {
-                logger.debug("Removed AsynchrounsCommandListener {} to ZigbeeSerialInterface", afListner.getClass().getName());
+                logger.trace("Removed AsynchrounsCommandListener {} to ZigbeeSerialInterface", afListner.getClass().getName());
             } else {
-                logger.debug("Could not remove AsynchrounsCommandListener {} to ZigbeeSerialInterface", afListner.getClass().getName());
+                logger.warn("Could not remove AsynchrounsCommandListener {} to ZigbeeSerialInterface", afListner.getClass().getName());
             }
         }
         if (result) {
-            logger.debug("Removed ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
+            logger.trace("Removed ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
             return true;
         } else {
-            logger.debug("Could not remove ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
+            logger.warn("Could not remove ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
             return false;
         }
     }
@@ -1152,9 +1149,9 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
     public boolean addAFMessageListner(ApplicationFrameworkMessageListener listner) {
         if (afMessageListners.isEmpty() && isHardwareReady()) {
             if (zigbeeSerialInterface.addAsynchrounsCommandListener(afListner)) {
-                logger.debug("Added AsynchrounsCommandListener {} to ZigbeeSerialInterface", afListner.getClass().getName());
+                logger.trace("Added AsynchrounsCommandListener {} to ZigbeeSerialInterface", afListner.getClass().getName());
             } else {
-                logger.debug("Could not add AsynchrounsCommandListener {} to ZigbeeSerialInterface", afListner.getClass().getName());
+                logger.trace("Could not add AsynchrounsCommandListener {} to ZigbeeSerialInterface", afListner.getClass().getName());
             }
         }
         boolean result = false;
@@ -1163,10 +1160,10 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         }
 
         if (result) {
-            logger.debug("Added ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
+            logger.trace("Added ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
             return true;
         } else {
-            logger.debug("Could not add ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
+            logger.warn("Could not add ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
             return false;
         }
     }
@@ -1558,9 +1555,9 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             if (packet.getCMD().get16BitValue() == ZToolCMD.AF_INCOMING_MSG) {
                 AF_INCOMING_MSG msg = (AF_INCOMING_MSG) packet;
                 if (listners.isEmpty()) {
-                    logger.debug("Received AF_INCOMING_MSG but no listeners. Message was: {} ", msg);
+                    logger.warn("Received AF_INCOMING_MSG but no listeners. Message was: {} ", msg);
                 } else {
-                    logger.debug("Received AF_INCOMING_MSG notifying {} listeners of {}", listners.size(), msg);
+                    logger.trace("Received AF_INCOMING_MSG notifying {} listeners of {}", listners.size(), msg);
                 }
                 ArrayList<ApplicationFrameworkMessageListener> localCopy = null;
                 synchronized (listners) {

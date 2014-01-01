@@ -259,7 +259,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
         }
 
         //gt.end();
-        logger.debug("{} TERMINATED Succesfully", threadName);
+        logger.trace("{} TERMINATED Succesfully", threadName);
     }
 
     private void cleanUpWalkingTree() {

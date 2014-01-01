@@ -112,13 +112,13 @@ public class ApplicationFrameworkLayer {
         SenderIdentifier si = new SenderIdentifier(
                 ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION, (short) clusterId
         );
-        logger.info("Looking for a registered enpoint among {}", sender2EndPoint.size());
+        logger.trace("Looking for a registered enpoint among {}", sender2EndPoint.size());
         synchronized (sender2EndPoint) {
             if (sender2EndPoint.containsKey(si)) {
-                logger.debug("An enpoint already registered for <profileId,clusterId>=<{},{}>", si.profileId, si.clusterId);
+                logger.trace("An enpoint already registered for <profileId,clusterId>=<{},{}>", si.profileId, si.clusterId);
                 return sender2EndPoint.get(si);
             } else {
-                logger.debug("NO endpoint registered for <profileId,clusterId>=<{},{}>", si.profileId, si.clusterId);
+                logger.trace("NO endpoint registered for <profileId,clusterId>=<{},{}>", si.profileId, si.clusterId);
                 final byte ep = createEndPoint(si, endpoint.getProfileId());
                 return ep;
             }
@@ -182,7 +182,7 @@ public class ApplicationFrameworkLayer {
         } while (true);
         final int profileId = si.profileId;
 
-        logger.info("Registered endpoint {} with clusters: {}", endPoint, clusters);
+        logger.debug("Registered endpoint {} with clusters: {}", endPoint, clusters);
 
         registerSenderEndPoint(endPoint, profileId, clusters);
         return endPoint;

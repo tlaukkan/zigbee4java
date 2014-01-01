@@ -237,7 +237,7 @@ public class EndpointBuilder implements Stoppable {
         final ZToolAddress64 ieee = dev.getIEEEAddress();
         logger.debug("Popped new node for inspection #{}.", nwk.get16BitValue());
         inspectNode(nwk, ieee);
-        logger.debug("Endpoint inspection completed, next inspetciont slot in {}",
+        logger.debug("Endpoint inspection completed, next inspection slot in {}",
                 Math.max(nextInspectionSlot - System.currentTimeMillis(), 0)
         );
     }
@@ -306,7 +306,7 @@ public class EndpointBuilder implements Stoppable {
             }
         }
 
-        logger.debug("{} TERMINATED Successfully", Thread.currentThread().getName());
+        logger.trace("{} TERMINATED Successfully", Thread.currentThread().getName());
     }
 
     public synchronized boolean isEnd() {

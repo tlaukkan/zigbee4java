@@ -431,13 +431,13 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         synchronized (consumers) {
             localConsumers = new ArrayList<ApplicationFrameworkMessageConsumer>(consumers);
         }
-        logger.debug("Notifying {} ApplicationFrameworkMessageConsumer", localConsumers.size());
+        logger.trace("Notifying {} ApplicationFrameworkMessageConsumer", localConsumers.size());
         for (ApplicationFrameworkMessageConsumer consumer : localConsumers) {
             if (consumer.consume(msg)) {
-                logger.debug("AF_INCOMING_MSG Consumed by {}", consumer.getClass().getName());
+                logger.trace("AF_INCOMING_MSG Consumed by {}", consumer.getClass().getName());
                 return;
             } else {
-                logger.debug("AF_INCOMING_MSG Ignored by {}", consumer.getClass().getName());
+                logger.warn("AF_INCOMING_MSG Ignored by {}", consumer.getClass().getName());
             }
         }
 

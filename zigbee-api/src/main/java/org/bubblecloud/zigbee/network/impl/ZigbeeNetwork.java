@@ -178,7 +178,7 @@ public class ZigbeeNetwork {
         if (values == null) {
             logger.warn("No endpoints found implementing the profile={}", profileId);
         } else {
-            logger.info("We found {} implementing the profile={}", values.size(), profileId);
+            logger.trace("We found {} implementing the profile={}", values.size(), profileId);
             result.addAll(values);
         }
         return result;
