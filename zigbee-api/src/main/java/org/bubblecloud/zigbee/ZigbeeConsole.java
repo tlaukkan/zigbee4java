@@ -7,6 +7,7 @@ import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 
 import java.io.BufferedReader;
@@ -192,6 +193,7 @@ public class ZigbeeConsole {
         commands.put("off", new OffCommand());
         commands.put("subscribe", new SubscribeCommand());
         commands.put("unsubscribe", new UnsubscribeCommand());
+        commands.put("read", new ReadCommand());
     }
 
     private static interface ConsoleCommand {
@@ -545,6 +547,61 @@ public class ZigbeeConsole {
             }
 
             reporter.removeReportListener(reportListener);
+
+            return true;
+        }
+    }
+
+
+    private static class ReadCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "Read an attribute.";
+        }
+        public String getSyntax() {
+            return "read [DEVICE] [CLUSTER] [ATTRIBUTE]";
+        }
+        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+            if (args.length != 4) {
+                return false;
+            }
+
+            final int clusterId;
+            try {
+                clusterId = Integer.parseInt(args[2]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+            final int attributeIndex;
+            try {
+                attributeIndex = Integer.parseInt(args[3]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                write("Device not found.");
+                return false;
+            }
+
+            final Cluster cluster = device.getCluster(clusterId);
+            if (cluster == null) {
+                write("Cluster not found.");
+                return false;
+            }
+
+            final Attribute attribute = cluster.getAttributes()[attributeIndex];
+            if (attribute == null) {
+                write("Attribute not found.");
+                return false;
+            }
+
+            try {
+                write(attribute.getName() + "=" + attribute.getValue());
+            } catch (ZigBeeClusterException e) {
+                write("Failed to read attribute.");
+                e.printStackTrace();
+            }
 
             return true;
         }
