@@ -257,23 +257,20 @@ public class ApplicationFrameworkLayer {
     }
 
     public byte getNextTransactionId(byte endPoint) {
-        if (endPoint2Transaction.containsKey(endPoint)) {
-            byte value = endPoint2Transaction.get(endPoint);
-            switch (value) {
-                case 127: {
-                    endPoint2Transaction.put(endPoint, (byte) -128);
-                    return 127;
-                }
-                default: {
-                    endPoint2Transaction.put(endPoint, (byte) (value + 1));
-                    return value;
-                }
-            }
-        } else {
-            endPoint2Transaction.put(endPoint, (byte) 0);
-            return 0;
+        if (!endPoint2Transaction.containsKey(endPoint)) {
+            endPoint2Transaction.put(endPoint, (byte) 1);
         }
-
+        byte value = endPoint2Transaction.get(endPoint);
+        switch (value) {
+            case 127: {
+                endPoint2Transaction.put(endPoint, (byte) -128);
+                return 127;
+            }
+            default: {
+                endPoint2Transaction.put(endPoint, (byte) (value + 1));
+                return value;
+            }
+        }
     }
 
     private byte getFreeEndPoint() {

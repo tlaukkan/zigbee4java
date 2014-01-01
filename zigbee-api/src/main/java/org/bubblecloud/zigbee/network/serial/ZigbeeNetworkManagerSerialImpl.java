@@ -97,36 +97,36 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         int aux = RESEND_TIMEOUT_DEFAULT;
         try {
             aux = Integer.parseInt(System.getProperty(RESEND_TIMEOUT_KEY));
-            logger.debug("Using RESEND_TIMEOUT set from enviroment {}", aux);
+            logger.trace("Using RESEND_TIMEOUT set from enviroment {}", aux);
         } catch (NumberFormatException ex) {
-            logger.debug("Using RESEND_TIMEOUT set as DEFAULT {}", aux);
+            logger.trace("Using RESEND_TIMEOUT set as DEFAULT {}", aux);
         }
         RESEND_TIMEOUT = aux;
 
         aux = (int) Math.max(DEFAULT_TIMEOUT, timeout);
         try {
             aux = Integer.parseInt(System.getProperty(TIMEOUT_KEY));
-            logger.debug("Using TIMEOUT set from enviroment {}", aux);
+            logger.trace("Using TIMEOUT set from enviroment {}", aux);
         } catch (NumberFormatException ex) {
-            logger.debug("Using TIMEOUT set as DEFAULT {}ms", aux);
+            logger.trace("Using TIMEOUT set as DEFAULT {}ms", aux);
         }
         TIMEOUT = aux;
 
         aux = RESEND_MAX_RESEND_DEFAULT;
         try {
             aux = Integer.parseInt(System.getProperty(RESEND_MAX_RESEND_KEY));
-            logger.debug("Using RESEND_MAX_RETRY set from enviroment {}", aux);
+            logger.trace("Using RESEND_MAX_RETRY set from enviroment {}", aux);
         } catch (NumberFormatException ex) {
-            logger.debug("Using RESEND_MAX_RETRY set as DEFAULT {}", aux);
+            logger.trace("Using RESEND_MAX_RETRY set as DEFAULT {}", aux);
         }
         RESEND_MAX_RETRY = aux;
 
         boolean b = RESEND_ONLY_EXCEPTION_DEFAULT;
         try {
             aux = Integer.parseInt(System.getProperty(RESEND_ONLY_EXCEPTION_KEY));
-            logger.debug("Using RESEND_MAX_RETRY set from enviroment {}", aux);
+            logger.trace("Using RESEND_MAX_RETRY set from enviroment {}", aux);
         } catch (NumberFormatException ex) {
-            logger.debug("Using RESEND_MAX_RETRY set as DEFAULT {}", aux);
+            logger.trace("Using RESEND_MAX_RETRY set as DEFAULT {}", aux);
         }
         RESEND_ONLY_EXCEPTION = b;
         state = DriverStatus.CLOSED;
@@ -191,20 +191,20 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         }
         //logger.info("Closing");
         if (Thread.currentThread() != driver) {
-            logger.debug("Waiting for initialization operation to complete before closing.");
+            logger.trace("Waiting for initialization operation to complete before closing.");
             try {
                 driver.join();
             } catch (InterruptedException ignored) {
             }
         } else {
-            logger.debug("Self closing");
+            logger.trace("Self closing");
         }
         if (state == DriverStatus.NETWORK_READY) {
-            logger.debug("Closing NETWORK");
+            logger.trace("Closing NETWORK");
             setState(DriverStatus.HARDWARE_READY);
         }
         if (state == DriverStatus.HARDWARE_READY) {
-            logger.debug("Closing HARDWARE");
+            logger.trace("Closing HARDWARE");
             zigbeeSerialInterface.close();
             setState(DriverStatus.CREATED);
         }
@@ -230,7 +230,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         waitAndLock3WayConversation(request);
         final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_MGMT_PERMIT_JOIN_RSP, zigbeeSerialInterface);
 
-        logger.debug("Sending {}", request);
+        logger.trace("Sending {}", request);
         ZToolPacket response = sendSynchrouns(zigbeeSerialInterface, request);
         if (response == null) {
             logger.error("{} timed out waiting for synchronous local response.", request.getClass().getSimpleName());
@@ -252,10 +252,10 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         waitAndLock3WayConversation(request);
         final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_MGMT_LQI_RSP, zigbeeSerialInterface);
 
-        logger.debug("Sending ZDO_MGMT_LQI_REQ {}", request);
+        logger.trace("Sending ZDO_MGMT_LQI_REQ {}", request);
         ZDO_MGMT_LQI_REQ_SRSP response = (ZDO_MGMT_LQI_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
         if (response == null || response.Status != 0) {
-            logger.debug("ZDO_MGMT_LQI_REQ failed, received {}", response);
+            logger.trace("ZDO_MGMT_LQI_REQ failed, received {}", response);
             waiter.cleanup();
         } else {
             result = (ZDO_MGMT_LQI_RSP) waiter.getCommand(TIMEOUT);
@@ -271,10 +271,10 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         waitAndLock3WayConversation(request);
         final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_IEEE_ADDR_RSP, zigbeeSerialInterface);
 
-        logger.debug("Sending ZDO_IEEE_ADDR_REQ {}", request);
+        logger.trace("Sending ZDO_IEEE_ADDR_REQ {}", request);
         ZDO_IEEE_ADDR_REQ_SRSP response = (ZDO_IEEE_ADDR_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
         if (response == null || response.Status != 0) {
-            logger.debug("ZDO_IEEE_ADDR_REQ failed, received {}", response);
+            logger.trace("ZDO_IEEE_ADDR_REQ failed, received {}", response);
             waiter.cleanup();
         } else {
             result = (ZDO_IEEE_ADDR_RSP) waiter.getCommand(TIMEOUT);
@@ -308,10 +308,10 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         waitAndLock3WayConversation(request);
         final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_ACTIVE_EP_RSP, zigbeeSerialInterface);
 
-        logger.debug("Sending ZDO_ACTIVE_EP_REQ {}", request);
+        logger.trace("Sending ZDO_ACTIVE_EP_REQ {}", request);
         ZDO_ACTIVE_EP_REQ_SRSP response = (ZDO_ACTIVE_EP_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
         if (response == null || response.Status != 0) {
-            logger.debug("ZDO_ACTIVE_EP_REQ failed, received {}", response);
+            logger.trace("ZDO_ACTIVE_EP_REQ failed, received {}", response);
             waiter.cleanup();
         } else {
             result = (ZDO_ACTIVE_EP_RSP) waiter.getCommand(TIMEOUT);
@@ -327,10 +327,10 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         waitAndLock3WayConversation(request);
         final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_MGMT_PERMIT_JOIN_RSP, zigbeeSerialInterface);
 
-        logger.debug("Sending ZDO_MGMT_PERMIT_JOIN_REQ {}", request);
+        logger.trace("Sending ZDO_MGMT_PERMIT_JOIN_REQ {}", request);
         ZDO_MGMT_PERMIT_JOIN_REQ_SRSP response = (ZDO_MGMT_PERMIT_JOIN_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
         if (response == null || response.Status != 0) {
-            logger.debug("ZDO_MGMT_PERMIT_JOIN_REQ failed, received {}", response);
+            logger.trace("ZDO_MGMT_PERMIT_JOIN_REQ failed, received {}", response);
             waiter.cleanup();
         } else {
             result = (ZDO_MGMT_PERMIT_JOIN_RSP) waiter.getCommand(TIMEOUT);
@@ -341,17 +341,17 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
 
     public boolean sendZDOLeaveRequest(ZToolAddress16[] addresses) {
         //---------ZDO GET IEEE ADDR
-        logger.debug("Reset seq: Trying GETIEEEADDR");
+        logger.trace("Reset seq: Trying GETIEEEADDR");
         ZToolAddress64[] longAddresses = new ZToolAddress64[addresses.length];
         for (int k = 0; k < addresses.length; k++) {
 //			ZDO_IEEE_ADDR_RSP responseA4 = sendZDOIEEEAddressRequest(new ZDO_IEEE_ADDR_REQ(addresses[k],ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED.getValue(),0));
 
             ZDO_IEEE_ADDR_RSP responseA4 = null;
             WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_IEEE_ADDR_RSP, zigbeeSerialInterface);
-            logger.debug("Sending ZDO_IEEE_ADDR_REQ");
+            logger.trace("Sending ZDO_IEEE_ADDR_REQ");
             ZDO_IEEE_ADDR_REQ_SRSP response = (ZDO_IEEE_ADDR_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, new ZDO_IEEE_ADDR_REQ(addresses[k], ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED.getValue(), 0));
             if (response == null || response.Status != 0) {
-                logger.debug("ZDO_IEEE_ADDR_REQ failed, received {}", response);
+                logger.trace("ZDO_IEEE_ADDR_REQ failed, received {}", response);
                 waiter.cleanup();
             } else {
                 responseA4 = (ZDO_IEEE_ADDR_RSP) waiter.getCommand(TIMEOUT);
@@ -414,7 +414,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
                     conversation3Way.put(clz, null);
                     break;
                 }
-                logger.debug(
+                logger.trace(
                         "{} is waiting for {} to complete which was issued by {} to complete",
                         new Object[]{Thread.currentThread(), clz, requestor}
                 );
@@ -471,7 +471,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
     }
 
     public void run() {
-        logger.debug("Initializing hardware.");
+        logger.trace("Initializing hardware.");
         setState(DriverStatus.HARDWARE_INITIALIZING);
         if (initializeHardware() == true) {
             setState(DriverStatus.HARDWARE_READY);
@@ -480,7 +480,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             return;
         }
 
-        logger.debug("Initializing network.");
+        logger.trace("Initializing network.");
         setState(DriverStatus.NETWORK_INITIALIZING);
         if (!initializeZigBeeNetwork()) {
             shutdown();
@@ -553,17 +553,17 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         public WaitForCommand(int waitFor, ZigbeeSerialInterface driver) {
             this.waitFor = waitFor;
             this.driver = driver;
-            logger4Waiter.debug("Waiting for asynchronous response message {}.", waitFor);
+            logger4Waiter.trace("Waiting for asynchronous response message {}.", waitFor);
             driver.addAsynchrounsCommandListener(this);
         }
 
 
         public void receivedAsynchrounsCommand(ZToolPacket packet) {
-            logger4Waiter.debug("Received a packet {} and waiting for {}", packet.getCMD().get16BitValue(), waitFor);
-            logger4Waiter.debug("received {} {}", packet.getClass(), packet.toString());
+            logger4Waiter.trace("Received a packet {} and waiting for {}", packet.getCMD().get16BitValue(), waitFor);
+            logger4Waiter.trace("received {} {}", packet.getClass(), packet.toString());
             if (packet.isError()) return;
             if (packet.getCMD().get16BitValue() != waitFor) {
-                logger4Waiter.debug("Received unexpected packet: " + packet.getClass().getSimpleName());
+                logger4Waiter.warn("Received unexpected packet: " + packet.getClass().getSimpleName());
                 return;
             }
             synchronized (result) {
@@ -632,10 +632,10 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             );
 
             if (response == null || response.Status != 0) {
-                logger.info("Couldn't set ZCD_NV_STARTUP_OPTION to CLEAN_STATE");
+                logger.warn("Couldn't set ZCD_NV_STARTUP_OPTION to CLEAN_STATE");
                 return false;
             } else {
-                logger.info("Set ZCD_NV_STARTUP_OPTION to CLEAN_STATE");
+                logger.trace("Set ZCD_NV_STARTUP_OPTION to CLEAN_STATE");
             }
         } else {
             response = (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
@@ -665,7 +665,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
 
     private boolean dongleSetChannel(int[] channelMask) {
 
-        logger.info(
+        logger.trace(
                 "Setting the channel to {}{}{}{}", new Object[]{
                 Integer.toHexString(channelMask[0]),
                 Integer.toHexString(channelMask[1]),
@@ -699,7 +699,6 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
     }
 
     private boolean dongleSetNetworkMode() {
-        logger.info("Changing the Network Mode to {}", mode);
 
         ZB_WRITE_CONFIGURATION_RSP response =
                 (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
@@ -834,28 +833,33 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
     }
 
     private boolean configureZigbeeNetwork() {
-        logger.debug("Cleaning dongle networks stack status");
+        logger.debug("Resetting network stack.");
+
+        logger.error("Setting clean state.");
         if (!dongleSetCleanState(true)) {
             logger.error("Unable to set clean state for dongle");
             return false;
         }
+        logger.debug("Setting channel to {}.", channel);
         if (!dongleSetChannel()) {
             logger.error("Unable to set CHANNEL for ZigBee Network");
             return false;
         } else {
-            logger.info("CHANNEL set");
+            logger.trace("CHANNEL set");
         }
+        logger.debug("Setting PAN to {}.", pan);
         if (!dongleSetPanId()) {
             logger.error("Unable to set PANID for ZigBee Network");
             return false;
         } else {
-            logger.info("PANID set");
+            logger.trace("PANID set");
         }
+        logger.debug("Changing the Network Mode to {}.", mode);
         if (dongleSetNetworkMode() == false) {
             logger.error("Unable to set NETWORK_MODE for ZigBee Network");
             return false;
         } else {
-            logger.info("NETWORK_MODE set");
+            logger.trace("NETWORK_MODE set");
         }
         if (!dongleReset()) {
             logger.error("Unable to reset dongle");
@@ -870,7 +874,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
 
     protected boolean dongleMasterReset() {
         //---------START FROM APP
-        logger.debug("Reset seq: Trying STARTFROMAPP");
+        logger.trace("Reset seq: Trying STARTFROMAPP");
         ZDO_STARTUP_FROM_APP_SRSP responseA1 = (ZDO_STARTUP_FROM_APP_SRSP) sendSynchrouns(
                 zigbeeSerialInterface, new ZDO_STARTUP_FROM_APP(ZDO_STARTUP_FROM_APP.RESET_TYPE.TARGET_DEVICE)
         );
@@ -879,7 +883,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             return false;
         }
         //---------ZB WRITE CONF
-        logger.debug("Reset seq: Trying WRITECONF");
+        logger.trace("Reset seq: Trying WRITECONF");
         ZB_WRITE_CONFIGURATION_RSP responseA2 = (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
                 zigbeeSerialInterface, new ZB_WRITE_CONFIGURATION(3, new int[]{2})
         );
@@ -910,17 +914,17 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             addresses[k] = new ZToolAddress16(responseA3.AssocDevicesList[k].getMsb(), responseA3.AssocDevicesList[k].getLsb());
         }
         //---------ZDO GET IEEE ADDR
-        logger.debug("Reset seq: Trying GETIEEEADDR");
+        logger.trace("Reset seq: Trying GETIEEEADDR");
         ZToolAddress64[] longAddresses = new ZToolAddress64[addresses.length];
         for (int k = 0; k < addresses.length; k++) {
 //			ZDO_IEEE_ADDR_RSP responseA4 = sendZDOIEEEAddressRequest(new ZDO_IEEE_ADDR_REQ(addresses[k],ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED.getValue(),0));
 
             ZDO_IEEE_ADDR_RSP responseA4 = null;
             WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_IEEE_ADDR_RSP, zigbeeSerialInterface);
-            logger.debug("Sending ZDO_IEEE_ADDR_REQ");
+            logger.trace("Sending ZDO_IEEE_ADDR_REQ");
             ZDO_IEEE_ADDR_REQ_SRSP response = (ZDO_IEEE_ADDR_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, new ZDO_IEEE_ADDR_REQ(addresses[k], ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED.getValue(), 0));
             if (response == null || response.Status != 0) {
-                logger.debug("ZDO_IEEE_ADDR_REQ failed, received {}", response);
+                logger.trace("ZDO_IEEE_ADDR_REQ failed, received {}", response);
                 waiter.cleanup();
             } else {
                 responseA4 = (ZDO_IEEE_ADDR_RSP) waiter.getCommand(TIMEOUT);
@@ -933,7 +937,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             }
         }
         //---------ZDO MGMT LEAVE
-        logger.debug("Reset seq: Trying LEAVE");
+        logger.trace("Reset seq: Trying LEAVE");
         long start = System.currentTimeMillis();
         for (int k = 0; k < longAddresses.length; k++) {
             if (longAddresses[k] != null) {
@@ -991,12 +995,12 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
 //		final int TIMEOUT = 1000, MAX_SEND = 3;
         int sending = 1;
 
-        logger.debug("{} sending as synchronous command.", request.getClass().getSimpleName());
+        logger.trace("{} sending as synchronous command.", request.getClass().getSimpleName());
 
         SynchrounsCommandListener listener = new SynchrounsCommandListener() {
 
             public void receivedCommandResponse(ZToolPacket packet) {
-                logger.debug(" {} received as synchronous command.", packet.getClass().getSimpleName());
+                logger.trace(" {} received as synchronous command.", packet.getClass().getSimpleName());
                 synchronized (response) {
                     response[0] = packet;
                     response.notify();
@@ -1011,12 +1015,12 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-                logger.debug("{} sent (synchronous command, retry: {}).", request.getClass().getSimpleName(), sending);
+                logger.trace("{} sent (synchronous command, retry: {}).", request.getClass().getSimpleName(), sending);
                 synchronized (response) {
                     long wakeUpTime = System.currentTimeMillis() + RESEND_TIMEOUT;
                     while (response[0] == null && wakeUpTime > System.currentTimeMillis()) {
                         final long sleeping = wakeUpTime - System.currentTimeMillis();
-                        logger.debug("Waiting for synchronous command up to {}ms till {} Unixtime", sleeping, wakeUpTime);
+                        logger.trace("Waiting for synchronous command up to {}ms till {} Unixtime", sleeping, wakeUpTime);
                         if (sleeping <= 0) {
                             break;
                         }
@@ -1041,7 +1045,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
                 }
             } catch (Exception ignored) {
                 logger.info("Failed to send {} during the {}-th tentative", request.getClass().getName(), sending);
-                logger.debug("Sending operation failed due to ", ignored);
+                logger.trace("Sending operation failed due to ", ignored);
                 sending++;
             }
         }
@@ -1289,13 +1293,13 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         );
 
         if (response == null) {
-            logger.debug("Failed getDeviceInfo for {} due to null value", type);
+            logger.warn("Failed getDeviceInfo for {} due to null value", type);
             return null;
         } else if (response.Param != type) {
-            logger.debug("Failed getDeviceInfo for {} non matching response returned {}", type, response.Param);
+            logger.warn("Failed getDeviceInfo for {} non matching response returned {}", type, response.Param);
             return null;
         } else {
-            logger.debug("Successed getDeviceInfo for {}", type);
+            logger.trace("getDeviceInfo for {} done", type);
             return response.Value;
         }
     }
@@ -1498,34 +1502,34 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
                     DEV_NWK_ORPHAN=0x0A // Device has lost information about its parent*/
                     switch (p.State) {
                         case 0:
-                            logger.debug("Initialized - not started automatically");
+                            logger.trace("Initialized - not started automatically");
                             break;
                         case 1:
-                            logger.debug("Initialized - not connected to anything");
+                            logger.trace("Initialized - not connected to anything");
                             break;
                         case 2:
-                            logger.debug("Discovering PANs to join or waiting for permit join");
+                            logger.trace("Discovering PANs to join or waiting for permit join");
                             break;
                         case 3:
-                            logger.debug("Joining a PAN");
+                            logger.trace("Joining a PAN");
                             break;
                         case 4:
-                            logger.debug("Rejoining a PAN, only for end-devices");
+                            logger.trace("Rejoining a PAN, only for end-devices");
                             break;
                         case 5:
-                            logger.debug("Joined but not yet authenticated by trust center");
+                            logger.trace("Joined but not yet authenticated by trust center");
                             break;
                         case 6:
-                            logger.debug("Started as device after authentication");
+                            logger.trace("Started as device after authentication");
                             break;
                         case 7:
-                            logger.debug("Device joined, authenticated and is a router");
+                            logger.trace("Device joined, authenticated and is a router");
                             break;
                         case 8:
-                            logger.debug("Starting as Zigbee Coordinator");
+                            logger.trace("Starting as Zigbee Coordinator");
                             break;
                         case 9:
-                            logger.debug("Started as Zigbee Coordinator");
+                            logger.trace("Started as Zigbee Coordinator");
                             setState(DriverStatus.NETWORK_READY);
                             break;
                         case 10:

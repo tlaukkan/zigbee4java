@@ -98,7 +98,7 @@ public class EndpointBuilder implements Stoppable {
 
             if (result == null) {
                 final long waiting = 1000;
-                logger.debug(
+                logger.trace(
                         "Inspecting device on node {} failed during it {}-nth attempt. " +
                                 "Waiting for {}ms before retrying",
                         new Object[]{node, i, waiting}
@@ -266,7 +266,7 @@ public class EndpointBuilder implements Stoppable {
     }
 
     public void run() {
-        logger.debug("{} STARTED Successfully", Thread.currentThread().getName());
+        logger.trace("{} STARTED Successfully", Thread.currentThread().getName());
 
         while (!isEnd()) {
             try {

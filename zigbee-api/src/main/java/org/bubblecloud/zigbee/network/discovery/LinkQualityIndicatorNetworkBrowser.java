@@ -218,7 +218,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
 
         final String threadName = Thread.currentThread().getName();
 
-        logger.debug("{} STARTED Succesfully", threadName);
+        logger.trace("{} STARTED Succesfully", threadName);
 
         while (!isDone()) {
             cleanUpWalkingTree();

@@ -104,21 +104,18 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
     public void handlePacket(final ZToolPacket packet) {
         final DoubleByte cmdId = packet.getCMD();
         switch (cmdId.getMsb() & 0xE0) {
-            case 0x40: { //We received a message
-                LOGGER.trace("<-- {} ({})", packet.getClass().getSimpleName(), packet);
+            case 0x40:  //We received a message
+                LOGGER.debug("<-- {} ({})", packet.getClass().getSimpleName(), packet);
                 notifyAsynchrounsCommand(packet);
-            }
-            break;
+                break;
 
-            case 0x60: { //We received a SRSP
-                LOGGER.trace("<- {} ({})", packet.getClass().getSimpleName(), packet);
+            case 0x60:  //We received a SRSP
+                LOGGER.debug("<- {} ({})", packet.getClass().getSimpleName(), packet);
                 notifySynchrounsCommand(packet);
-            }
-            break;
+                break;
 
-            default: {
+            default:
                 LOGGER.error("Incoming unknown packet. ({}) ({})", packet.getClass().getSimpleName(), packet);
-            }
         }
     }
 
@@ -130,7 +127,7 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
 
 
         //FIX Sending byte instead of int
-        LOGGER.trace("-> {} ({}) ", packet.getClass().getSimpleName(), packet.toString());
+        LOGGER.debug("-> {} ({}) ", packet.getClass().getSimpleName(), packet.toString());
 
         final int[] pck = packet.getPacket();
         synchronized (serialPort) {
@@ -202,7 +199,7 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
                 final short id = (short) (cmdId.get16BitValue() & 0x1FFF);
                 while (pendingSREQ.get(cmdId) != null) {
                     try {
-                        LOGGER.debug("Waiting for other request {} to complete", id);
+                        LOGGER.trace("Waiting for other request {} to complete", id);
                         pendingSREQ.wait(500);
                         cleanExpiredListener();
                     } catch (InterruptedException ignored) {
@@ -225,11 +222,11 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
                     }
                 }
                 //No listener at all registered so this is the only command that we are waiting for a response
-                LOGGER.debug("Put pendingSREQ listener for {} command", id);
+                LOGGER.trace("Put pendingSREQ listener for {} command", id);
                 pendingSREQ.put(id, listner);
             }
         }
-        LOGGER.debug("Sending SynchrounsCommand {} ", packet);
+        LOGGER.trace("Sending SynchrounsCommand {} ", packet);
         sendPacket(packet);
     }
 

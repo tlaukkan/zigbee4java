@@ -76,11 +76,11 @@ public class ZToolPacketParser implements Runnable {
      * @param packetHandler the packet handler
      */
     public ZToolPacketParser(final InputStream inputStream, final ZToolPacketHandler packetHandler) {
-        logger.debug("Creating ZToolPacketParser");
+        logger.trace("Creating ZToolPacketParser");
         if (inputStream.markSupported()) {
             this.inputStream = inputStream;
         } else {
-            logger.debug(
+            logger.trace(
                     "Provided InputStream {} doesn't provide the mark()/reset() feature, " +
                             "wrapping it up as BufferedInputStream", inputStream.getClass()
             );
@@ -96,7 +96,7 @@ public class ZToolPacketParser implements Runnable {
      * Run method executed by the parser thread.
      */
     public void run() {
-        logger.debug("ZToolPacketParser parserThread started");
+        logger.trace("ZToolPacketParser parserThread started");
         while (!close) {
             try {
                 int val = inputStream.read();
@@ -106,7 +106,7 @@ public class ZToolPacketParser implements Runnable {
                     final ZToolPacketStream packetStream = new ZToolPacketStream(inputStream);
                     final ZToolPacket response = packetStream.parsePacket();
 
-                    logger.debug("Response is {} -> {}", response.getClass(), response);
+                    logger.trace("Response is {} -> {}", response.getClass(), response);
                     if (response.isError()) {
                         logger.error("Received a BAD PACKET {}", response.getPacket());
                         inputStream.reset();

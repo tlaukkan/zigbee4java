@@ -83,18 +83,18 @@ public class ImportingQueue {
 
     public void push(ZToolAddress16 nwkAddress, ZToolAddress64 ieeeAddress) {
         ZigBeeNodeAddress inserting = new ZigBeeNodeAddress(nwkAddress, ieeeAddress);
-        logger.debug("Adding {} ({})", nwkAddress, ieeeAddress);
+        logger.trace("Adding {} ({})", nwkAddress, ieeeAddress);
         synchronized (addresses) {
             if (closing) return;
             addresses.add(inserting);
             addresses.notify();
         }
-        logger.debug("Added {} ({})", nwkAddress, ieeeAddress);
+        logger.trace("Added {} ({})", nwkAddress, ieeeAddress);
     }
 
     public ZigBeeNodeAddress pop() {
         ZigBeeNodeAddress result = null;
-        logger.debug("Removing element");
+        logger.trace("Removing element");
         synchronized (addresses) {
             if (closing) return null;
             waitingThread++;
@@ -108,9 +108,9 @@ public class ImportingQueue {
             result = addresses.remove(addresses.size() - 1);
         }
         if (result != null) {
-            logger.debug("Removed {} {}", result.networkAddress, result.ieeeAddress);
+            logger.trace("Removed {} {}", result.networkAddress, result.ieeeAddress);
         } else {
-            logger.debug("Removed null value from the queue it means that queue is closing down");
+            logger.trace("Removed null value from the queue it means that queue is closing down");
         }
         return result;
     }

@@ -176,7 +176,7 @@ public class ZigbeeConsole {
         Device device;
         try {
             device = zigbeeApi.getDevices().get(Integer.parseInt(deviceIdentifier));
-        } catch (final NumberFormatException e) {
+        } catch (final Exception e) {
             device = zigbeeApi.getDevice(deviceIdentifier);
         }
         return device;

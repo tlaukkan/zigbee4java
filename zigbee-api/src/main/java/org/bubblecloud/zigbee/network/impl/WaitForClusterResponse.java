@@ -86,8 +86,7 @@ public class WaitForClusterResponse implements ApplicationFrameworkMessageConsum
             return false;
         }
         if (msg.getTransId() != transId) {
-            logger.debug("Unable to consume AF_INCOMING_MSG, because transaction {} != {}", msg.getTransId(), transId);
-            return false;
+            logger.warn("Received different transaction {} != {}", msg.getTransId(), transId);
         }
         logger.debug(
                 "Consuming message with ClusterId: {} TransactionId: {} for thread {}/{}",

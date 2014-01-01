@@ -83,11 +83,11 @@ public class SerialPortImpl implements SerialPort {
         }
 
         final SerialComm[] ports = SerialComm.getCommPorts();
-        logger.debug("Serial ports:");
+        logger.trace("Serial ports:");
 
         final Map<String, SerialComm> portMap = new HashMap<String, SerialComm>();
         for (int i = 0; i < ports.length; ++i) {
-            logger.debug(i + ") '" + ports[i].getSystemPortName() + "': " + ports[i].getDescriptivePortName());
+            logger.trace(i + ") '" + ports[i].getSystemPortName() + "': " + ports[i].getDescriptivePortName());
 
 
             portMap.put(ports[i].getSystemPortName(), ports[i]);

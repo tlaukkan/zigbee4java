@@ -59,7 +59,7 @@ public class ZigbeeDiscoveryManager {
     }
 
     public void startup() {
-        logger.debug("Setting up all the importer data and threads");
+        logger.trace("Setting up all the importer data and threads");
         importingQueue.clear();
         ApplicationFrameworkLayer.getAFLayer(managementInterface);
 
@@ -67,14 +67,14 @@ public class ZigbeeDiscoveryManager {
             annunceListener = new AnnounceListenerImpl(importingQueue, managementInterface);
             managementInterface.addAnnunceListener(annunceListener);
         } else {
-            logger.debug("ANNUNCE discovery disabled.");
+            logger.trace("ANNOUNCE discovery disabled.");
         }
 
         if (enabledDiscoveries.contains(DiscoveryMode.Addressing)) {
             networkBrowser = new AssociationNetworkBrowser(importingQueue, managementInterface);
             new Thread(networkBrowser, "NetworkBrowser[" + managementInterface + "]").start();
         } else {
-            logger.debug("{} discovery disabled.",
+            logger.trace("{} discovery disabled.",
                     AssociationNetworkBrowser.class);
         }
 
@@ -82,7 +82,7 @@ public class ZigbeeDiscoveryManager {
             networkLQIBrowser = new LinkQualityIndicatorNetworkBrowser(importingQueue, managementInterface);
             new Thread(networkLQIBrowser, "LinkQualityIndicatorNetworkBrowser[" + managementInterface + "]").start();
         } else {
-            logger.debug("{} discovery disabled.",
+            logger.trace("{} discovery disabled.",
                     LinkQualityIndicatorNetworkBrowser.class);
         }
 
