@@ -21,6 +21,8 @@
 */
 package org.bubblecloud.zigbee.api.cluster.general;
 
+import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 
 

@@ -28,15 +28,15 @@ package org.bubblecloud.zigbee.api.cluster.general;
  * @since 0.7.0
  */
 public enum StartupControl {
-    PartOfNetwork(0x00, ""),
-    CreateExtendPANIdNetwork(0x01, ""),
-    RejoinExtendPANIdNetwork(0x02, ""),
-    JoinNetwork(0x03, "");
+    PartOfNetwork(0x00,""),
+    CreateExtendPANIdNetwork(0x01,""),
+    RejoinExtendPANIdNetwork(0x02,""),
+    JoinNetwork(0x03,"");
 
     public final int value;
     public final String description;
 
-    private StartupControl(int value, String description) {
+    private StartupControl(int value, String description){
         this.value = value;
         this.description = description;
     }

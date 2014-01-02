@@ -25,44 +25,40 @@ package org.bubblecloud.zigbee.api.cluster.general;
 import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.general.scenes.AddScenePayload;
-import org.bubblecloud.zigbee.api.cluster.impl.api.general.scenes.AddSceneResponse;
-import org.bubblecloud.zigbee.api.cluster.impl.api.general.scenes.GetSceneMembershipResponse;
-import org.bubblecloud.zigbee.api.cluster.impl.api.general.scenes.RemoveAllScenesResponse;
-import org.bubblecloud.zigbee.api.cluster.impl.api.general.scenes.RemoveSceneResponse;
-import org.bubblecloud.zigbee.api.cluster.impl.api.general.scenes.StoreSceneResponse;
-import org.bubblecloud.zigbee.api.cluster.impl.api.general.scenes.ViewSceneResponse;
+import org.bubblecloud.zigbee.api.cluster.impl.api.general.scenes.*;
 
 /**
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ *
  */
-public interface Scenes extends Cluster {
+public interface Scenes extends Cluster{
 
-    public AddSceneResponse addScene(AddScenePayload scenePayload) throws ZigbeeDeviceException;
+	public AddSceneResponse addScene(AddScenePayload scenePayload) throws ZigbeeDeviceException;
+	
+	public GetSceneMembershipResponse getSceneMembership(int groupId) throws ZigbeeDeviceException;
+	
+	public void recallScene(int groupId, short sceneId) throws ZigbeeDeviceException;
+	
+	public RemoveAllScenesResponse removeAllScene(int groupId) throws ZigbeeDeviceException;
+	
+	public RemoveSceneResponse removeScene(int groupId, short sceneId) throws ZigbeeDeviceException;
 
-    public GetSceneMembershipResponse getSceneMembership(int groupId) throws ZigbeeDeviceException;
+	public StoreSceneResponse storeScene(int groupId, short sceneId) throws ZigbeeDeviceException;
 
-    public void recallScene(int groupId, short sceneId) throws ZigbeeDeviceException;
-
-    public RemoveAllScenesResponse removeAllScene(int groupId) throws ZigbeeDeviceException;
-
-    public RemoveSceneResponse removeScene(int groupId, short sceneId) throws ZigbeeDeviceException;
-
-    public StoreSceneResponse storeScene(int groupId, short sceneId) throws ZigbeeDeviceException;
-
-    public ViewSceneResponse viewScene(int groupId, short sceneId) throws ZigbeeDeviceException;
-
-    public Attribute getSceneCount();
-
-    public Attribute getCurrentScene();
-
-    public Attribute getCurrentGroup();
-
-    public Attribute getSceneValid();
-
-    public Attribute getNameSupport();
-
-    public Attribute getLastConfiguredBy();
+	public ViewSceneResponse viewScene(int groupId, short sceneId) throws ZigbeeDeviceException;
+	
+	public Attribute getSceneCount();
+	
+	public Attribute getCurrentScene();
+	
+	public Attribute getCurrentGroup();
+	
+	public Attribute getSceneValid();
+	
+	public Attribute getNameSupport();
+	
+	public Attribute getLastConfiguredBy();
 }

@@ -91,7 +91,7 @@ public class AlarmsImpl implements Alarms {
         return attribute;
     }
 
-    public boolean addAlarmListerner(AlarmListener listener) {
+    public boolean addAlarmListener(AlarmListener listener) {
         return alarmsCluster.addAlarmListerner(listener);
     }
 

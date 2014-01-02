@@ -148,12 +148,12 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
         synchronized (listeners) {
             if (listeners.size() == 0) {
                 try {
-                    getZigBeeDevice().bindToLocal(ID);
+                    getZigbeeEndpoint().bindToLocal(ID);
                 } catch (ZigbeeNetworkManagerException e) {
                     log.error("Unable to bind to device for Alarms reporting", e);
                     return false;
                 }
-                if (getZigBeeDevice().addClusterListener(bridge) == false) {
+                if (getZigbeeEndpoint().addClusterListener(bridge) == false) {
                     log.error("Unable to register the cluster listener for Alarms reporting");
                     return false;
                 }
@@ -168,12 +168,12 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
             boolean removed = listeners.remove(listener);
             if (listeners.size() == 0 && removed) {
                 try {
-                    getZigBeeDevice().unbindFromLocal(ID);
+                    getZigbeeEndpoint().unbindFromLocal(ID);
                 } catch (ZigbeeNetworkManagerException e) {
                     log.error("Unable to unbind to device for Alarms reporting", e);
                     return false;
                 }
-                if (getZigBeeDevice().removeClusterListener(bridge) == false) {
+                if (getZigbeeEndpoint().removeClusterListener(bridge) == false) {
                     log.error("Unable to unregister the cluster listener for Alarms reporting");
                     return false;
                 }

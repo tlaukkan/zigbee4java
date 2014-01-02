@@ -31,24 +31,26 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.general.groups.RemoveGroupRes
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.groups.ViewGroupResponse;
 
 /**
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ *
  */
-public interface Groups extends Cluster {
+public interface Groups extends Cluster{
 
-    public AddGroupResponse addGroup(int groupId, String name) throws ZigbeeDeviceException;
+	public AddGroupResponse addGroup(int groupId, String name) throws ZigbeeDeviceException;
 
-    public void addGroupIfIdentifying(int groupId, String name) throws ZigbeeDeviceException;
+	public void addGroupIfIdentifying(int groupId, String name) throws ZigbeeDeviceException;
 
-    public GetGroupMembershipResponse getGroupMembership(int[] groupList) throws ZigbeeDeviceException;
+	public GetGroupMembershipResponse getGroupMembership(int[] groupList) throws ZigbeeDeviceException;
 
-    public void removeAllGroup() throws ZigbeeDeviceException;
+	public void removeAllGroup() throws ZigbeeDeviceException;
 
-    public RemoveGroupResponse removeGroup(int groupId) throws ZigbeeDeviceException;
+	public RemoveGroupResponse removeGroup(int groupId) throws ZigbeeDeviceException;
 
-    public ViewGroupResponse viewGroup(int groupId) throws ZigbeeDeviceException;
-
-    public Attribute getNameSupport();
-
+	public ViewGroupResponse viewGroup(int groupId) throws ZigbeeDeviceException;
+	
+	public Attribute getNameSupport();
+	
 }

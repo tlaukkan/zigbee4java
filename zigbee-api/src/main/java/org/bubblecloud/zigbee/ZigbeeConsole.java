@@ -8,6 +8,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.api.cluster.impl.api.lighting.ColorControl;
 import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 
 import java.io.BufferedReader;
@@ -441,6 +442,35 @@ public class ZigbeeConsole {
             } catch (ZigbeeDeviceException e) {
                 e.printStackTrace();
             }
+
+            return true;
+        }
+    }
+
+    private static class ColorCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "Changes light color.";
+        }
+
+        public String getSyntax() {
+            return "color DEVICEID";
+        }
+
+        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+            if (args.length != 2) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                return false;
+            }
+            /*inal ColorControl colorControl = device.getCluster(ColorControl.ID);
+            try {
+                onOff.on();
+            } catch (ZigbeeDeviceException e) {
+                e.printStackTrace();
+            }*/
 
             return true;
         }

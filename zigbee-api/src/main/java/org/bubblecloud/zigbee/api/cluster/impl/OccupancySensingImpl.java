@@ -22,14 +22,14 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
+import org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing.OccupancySensingCluster;
+import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.OccupancyListener;
 import org.bubblecloud.zigbee.api.cluster.impl.event.OccupancyBridgeListeners;
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
-import org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing.OccupacySensingCluster;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -39,9 +39,9 @@ import org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing.OccupacySens
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public class OccupacySensingImpl implements OccupacySensing {
+public class OccupancySensingImpl implements OccupancySensing {
 
-    private OccupacySensingCluster occupacySensingCluster;
+    private OccupancySensingCluster occupacySensingCluster;
     private Attribute occupancy;
     private Attribute occupancySensorType;
     private Attribute pirOccupiedToUnoccupiedDelay;
@@ -53,9 +53,9 @@ public class OccupacySensingImpl implements OccupacySensing {
 
     private OccupancyBridgeListeners eventBridge;
 
-    public OccupacySensingImpl(ZigbeeEndpoint zbDevice) {
+    public OccupancySensingImpl(ZigbeeEndpoint zbDevice) {
 
-        occupacySensingCluster = new OccupacySensingCluster(zbDevice);
+        occupacySensingCluster = new OccupancySensingCluster(zbDevice);
         occupancy = occupacySensingCluster.getAttributeOccupancy();
         occupancySensorType = occupacySensingCluster.getAttributeOccupancySensorType();
         pirOccupiedToUnoccupiedDelay = occupacySensingCluster.getAttributePIROccupiedToUnoccupiedDelay();

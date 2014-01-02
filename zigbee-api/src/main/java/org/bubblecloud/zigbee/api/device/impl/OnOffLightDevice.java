@@ -23,12 +23,12 @@
 package org.bubblecloud.zigbee.api.device.impl;
 
 import org.bubblecloud.zigbee.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.api.cluster.general.Scenes;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.api.device.lighting.OnOffLight;
 import org.bubblecloud.zigbee.ZigbeeApiContext;
 
@@ -43,14 +43,14 @@ public class OnOffLightDevice extends DeviceBase implements OnOffLight {
     private OnOff onOff;
     private Scenes scenes;
     private Groups groups;
-    private OccupacySensing occupancySensing;
+    private OccupancySensing occupancySensing;
 
     public OnOffLightDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
         super(ctx, zbDevice);
         onOff = (OnOff) getCluster(ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
         groups = (Groups) getCluster(ZigbeeApiConstants.CLUSTER_ID_GROUPS);
         scenes = (Scenes) getCluster(ZigbeeApiConstants.CLUSTER_ID_SCENES);
-        occupancySensing = (OccupacySensing) getCluster(ZigbeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING);
+        occupancySensing = (OccupancySensing) getCluster(ZigbeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING);
     }
 
 
@@ -58,7 +58,7 @@ public class OnOffLightDevice extends DeviceBase implements OnOffLight {
         return groups;
     }
 
-    public OccupacySensing getOccupacySensing() {
+    public OccupancySensing getOccupacySensing() {
         return occupancySensing;
     }
 

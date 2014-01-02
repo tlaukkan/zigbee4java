@@ -36,10 +36,10 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public interface OccupacySensing extends ZCLCluster {
+public interface OccupancySensing extends ZCLCluster {
 
     static final short ID = 0x0406;
-    static final String NAME = "OccupacySensing";
+    static final String NAME = "OccupancySensing";
     static final String DESCRIPTION = "Attributes and commands for configuring occupancy sensing, and reporting occupancy status.";
 
     public Attribute getAttributeOccupancy();

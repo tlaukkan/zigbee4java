@@ -45,7 +45,7 @@ public class NeighborsInformation {
      * @param rssi
      * @param samples
      */
-    public NeighborsInformation(long ieeeAddress, int x, int y, int z, int rssi, int samples) {
+    public NeighborsInformation( long ieeeAddress, int x, int y, int z, int rssi, int samples ) {
         this.ieeeAddress = ieeeAddress;
         this.x = x;
         this.y = y;

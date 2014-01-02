@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.api.cluster.general.Scenes;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupacySensing;
+import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 import org.bubblecloud.zigbee.api.Device;
 
@@ -79,10 +79,10 @@ public interface DimmableLight extends Device {
     public LevelControl getLevelControl();
 
     /**
-     * Access method for the <b>Optional</b> cluster: {@link OccupacySensing}
+     * Access method for the <b>Optional</b> cluster: {@link org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing}
      *
-     * @return the {@link OccupacySensing} cluster object if implemented by the device, otherwise <code>null</code>
+     * @return the {@link org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing} cluster object if implemented by the device, otherwise <code>null</code>
      */
-    public abstract OccupacySensing getOccupacySensing();
+    public abstract OccupancySensing getOccupacySensing();
 
 }

@@ -27,41 +27,31 @@ import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 
 /**
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ *
  */
 public interface Basic extends Cluster {
 
-    public Attribute getZCLVersion();
+	public Attribute getZCLVersion();
+	public Attribute getApplicationVersion();
+	public Attribute getStackVersion();
+	public Attribute getHWVersion();
+	public Attribute getManufacturerName();
+	public Attribute getModelIdentifier();
+	public Attribute getDateCode();
+	public Attribute getPowerSource();
+	public String getLocationDescription() throws ZigbeeDeviceException;
+	public Attribute getPhysicalEnvironment();
+	public boolean getDeviceEnabled() throws ZigbeeDeviceException;
+	public Attribute getAlarmMask();
+	/**
+	 * @since 0.7.0
+	 */
+	public Attribute getDisableLocalConfig();
 
-    public Attribute getApplicationVersion();
-
-    public Attribute getStackVersion();
-
-    public Attribute getHWVersion();
-
-    public Attribute getManufacturerName();
-
-    public Attribute getModelIdentifier();
-
-    public Attribute getDateCode();
-
-    public Attribute getPowerSource();
-
-    public String getLocationDescription() throws ZigbeeDeviceException;
-
-    public Attribute getPhysicalEnvironment();
-
-    public boolean getDeviceEnabled() throws ZigbeeDeviceException;
-
-    public Attribute getAlarmMask();
-
-    /**
-     * @since 0.7.0
-     */
-    public Attribute getDisableLocalConfig();
-
-    public void resetToFactoryDefault() throws ZigbeeDeviceException;
+	public void resetToFactoryDefault() throws ZigbeeDeviceException;
 
 }

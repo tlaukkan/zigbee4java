@@ -22,15 +22,15 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.OccupancySensing;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.OccupacySensing;
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.api.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
 
 /**
- * Implementation of the {@link OccupacySensing} interface
+ * Implementation of the {@link org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.OccupancySensing} interface
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
@@ -38,7 +38,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
  */
-public class OccupacySensingCluster extends ZCLClusterBase implements OccupacySensing {
+public class OccupancySensingCluster extends ZCLClusterBase implements OccupancySensing {
 
     private final AttributeImpl occupancy;
     private final AttributeImpl occupancySensorType;
@@ -51,7 +51,7 @@ public class OccupacySensingCluster extends ZCLClusterBase implements OccupacySe
 
     private final Attribute[] attributes;
 
-    public OccupacySensingCluster(ZigbeeEndpoint zbDevice) {
+    public OccupancySensingCluster(ZigbeeEndpoint zbDevice) {
         super(zbDevice);
         occupancy = new AttributeImpl(zbDevice, this, Attributes.OCCUPANCY);
         occupancySensorType = new AttributeImpl(zbDevice, this, Attributes.OCCUPANCY_SENSOR_TYPE);
@@ -69,12 +69,12 @@ public class OccupacySensingCluster extends ZCLClusterBase implements OccupacySe
 
     @Override
     public short getId() {
-        return OccupacySensing.ID;
+        return OccupancySensing.ID;
     }
 
     @Override
     public String getName() {
-        return OccupacySensing.NAME;
+        return OccupancySensing.NAME;
     }
 
     @Override

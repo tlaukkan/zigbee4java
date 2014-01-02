@@ -22,41 +22,34 @@
 
 package org.bubblecloud.zigbee.api.cluster.general;
 
+import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 
 /**
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ *
  */
 public interface PowerConfiguration extends Cluster {
 
-    public Attribute getMainsVoltage();
-
-    public Attribute getMainsFrequency();
-
-    public Attribute getMainsAlarmMask();
-
-    public Attribute getMainsVoltageMinThreshold();
-
-    public Attribute getMainsVoltageMaxThreshold();
-
-    public Attribute getMainsDwellTripPoint();
-
-    public Attribute getBatteryVoltage();
-
-    public Attribute getBatteryManufacturer();
-
-    public Attribute getBatterySize();
-
-    public Attribute getBatteryAHrRating();
-
-    public Attribute getBatteryQuantity();
-
-    public Attribute getBatteryRatedVoltage();
-
-    public Attribute getBatteryAlarmMask();
-
-    public Attribute getBatteryVoltageMinThreshold();
+	public Attribute getMainsVoltage();
+	public Attribute getMainsFrequency();
+	
+	public Attribute getMainsAlarmMask();
+	public Attribute getMainsVoltageMinThreshold();
+	public Attribute getMainsVoltageMaxThreshold();
+	public Attribute getMainsDwellTripPoint();
+	
+	public Attribute getBatteryVoltage();
+	
+	public Attribute getBatteryManufacturer();
+	public Attribute getBatterySize();
+	public Attribute getBatteryAHrRating();
+	public Attribute getBatteryQuantity();
+	public Attribute getBatteryRatedVoltage();
+	public Attribute getBatteryAlarmMask();
+	public Attribute getBatteryVoltageMinThreshold();
 }

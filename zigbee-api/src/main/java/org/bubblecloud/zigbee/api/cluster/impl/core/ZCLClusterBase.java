@@ -59,7 +59,7 @@ public abstract class ZCLClusterBase implements ZCLCluster {
 
     public abstract Attribute[] getStandardAttributes();
 
-    protected ZigbeeEndpoint getZigBeeDevice() {
+    protected ZigbeeEndpoint getZigbeeEndpoint() {
         return zbDevice;
     }
 

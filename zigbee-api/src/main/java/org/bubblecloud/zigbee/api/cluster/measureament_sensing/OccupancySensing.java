@@ -36,7 +36,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public interface OccupacySensing extends Cluster {
+public interface OccupancySensing extends Cluster {
 
     public Attribute getOccupancy();
 

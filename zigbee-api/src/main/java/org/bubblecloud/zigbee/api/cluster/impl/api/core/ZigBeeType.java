@@ -56,7 +56,12 @@ public enum ZigBeeType {
     SignedInteger8bit(0x28, 1, true, Integer.class),
     SignedInteger16bit(0x29, 2, true, Integer.class),
     SignedInteger24bit(0x2a, 3, true, Integer.class),
-    SignedInteger32bit(0x2b, 4, true, Integer.class);
+    SignedInteger32bit(0x2b, 4, true, Integer.class),
+    SemiPrecision(0x38, 2, true, Short.class),
+    SinglePrecision(0x39, 4, true, Float.class),
+    DoublePrecision(0x3a, 8, true, Double.class);
+
+
 
 
     static Hashtable<Byte, ZigBeeType> MAP;
@@ -66,13 +71,13 @@ public enum ZigBeeType {
     private boolean analog;
     private Class javaClass;
 
-    private ZigBeeType(int id, int length, boolean analog, Class javaClass) {
+    private ZigBeeType(int id, int length, boolean analog, Class javaClass){
         this.id = id;
         this.length = length;
         this.analog = analog;
         this.javaClass = javaClass;
         if (ZigBeeType.getMap() == null) ZigBeeType.setMap();
-        ZigBeeType.getMap().put(Byte.valueOf((byte) id), this);
+        ZigBeeType.getMap().put(Byte.valueOf((byte) id),this);
     }
 
     public int getId() {
@@ -80,8 +85,9 @@ public enum ZigBeeType {
     }
 
     /**
+     *
      * @return the length, in bytes, required for storing the data. <code>-1</code> if and
-     *         only if the type has a variable length
+     * 	only if the type has a variable length
      */
     public int getLength() {
         return length;
@@ -95,15 +101,15 @@ public enum ZigBeeType {
         return javaClass;
     }
 
-    public static ZigBeeType getType(byte b) {
+    public static ZigBeeType getType(byte b){
         return MAP.get(Byte.valueOf(b));
     }
 
-    private static Hashtable<Byte, ZigBeeType> getMap() {
+    private static Hashtable<Byte, ZigBeeType> getMap(){
         return MAP;
     }
 
-    private static void setMap() {
+    private static void setMap(){
         MAP = new Hashtable<Byte, ZigBeeType>();
     }
 }

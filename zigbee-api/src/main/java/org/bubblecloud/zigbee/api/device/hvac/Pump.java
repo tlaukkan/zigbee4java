@@ -43,11 +43,11 @@ public interface Pump extends Device {
     public static final String NAME = "Pump";
 
     public static final int[] MANDATORY = ArraysUtil.append(Device.MANDATORY, new int[]{
-            /* TODO ZigbeeApiConstants.PUMP_CONFIGURATION_AND_CONTROL, */ZigbeeApiConstants.CLUSTER_ID_ON_OFF, ZigbeeApiConstants.CLUSTER_ID_SCENES, ZigbeeApiConstants.CLUSTER_ID_GROUPS
+            /* TODO ZigbeeApiConstants.CLUSTER_ID_PUMP_CONFIGURATION_AND_CONTROL, */ZigbeeApiConstants.CLUSTER_ID_ON_OFF, ZigbeeApiConstants.CLUSTER_ID_SCENES, ZigbeeApiConstants.CLUSTER_ID_GROUPS
     });
 
     public static final int[] OPTIONAL = ArraysUtil.append(Device.OPTIONAL, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_LEVEL_CONTROL, ZigbeeApiConstants.CLUSTER_ID_ALARMS, ZigbeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT, /* TODO ZigbeeApiConstants.PRESSURE_MEASUREMENT, ZigbeeApiConstants.FLOW_MEASUREMENT*/
+            ZigbeeApiConstants.CLUSTER_ID_LEVEL_CONTROL, ZigbeeApiConstants.CLUSTER_ID_ALARMS, ZigbeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT, /* TODO ZigbeeApiConstants.CLUSTER_ID_PRESSURE_MEASUREMENT, ZigbeeApiConstants.FLOW_MEASUREMENT*/
     });
 
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
@@ -70,9 +70,9 @@ public interface Pump extends Device {
 
     public TemperatureMeasurement getTemperatureMeasurement();
 
-    //public PUMP_CONFIGURATION_AND_CONTROL getPUMP_CONFIGURATION_AND_CONTROL();
+    //public CLUSTER_ID_PUMP_CONFIGURATION_AND_CONTROL getPUMP_CONFIGURATION_AND_CONTROL();
 
-    //public PRESSURE_MEASUREMENT getPRESSURE_MEASUREMENT();
+    //public CLUSTER_ID_PRESSURE_MEASUREMENT getPRESSURE_MEASUREMENT();
 
     //public FLOW_MEASUREMENT getFLOW_MEASUREMENT();
 }

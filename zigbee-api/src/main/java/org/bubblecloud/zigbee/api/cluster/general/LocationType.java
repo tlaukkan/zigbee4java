@@ -28,16 +28,16 @@ package org.bubblecloud.zigbee.api.cluster.general;
  * @since 0.7.0
  */
 public enum LocationType {
-    AbsoluteLocation(1, 0),
-    MeasuredLocation(0, 0),
-    TwoDimensional(1, 1),
-    ThreeDimensional(0, 1),
-    Rectangular(0, 2);
+    AbsoluteLocation(1,0),
+    MeasuredLocation(0,0),
+    TwoDimensional(1,1),
+    ThreeDimensional(0,1),
+    Rectangular(0,2);
 
     public final byte value;
     public final byte bit;
 
-    private LocationType(int value, int bit) {
+    private LocationType(int value, int bit){
         this.value = (byte) value;
         this.bit = (byte) bit;
     }
