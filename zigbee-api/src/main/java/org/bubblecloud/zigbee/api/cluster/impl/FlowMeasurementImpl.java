@@ -57,7 +57,7 @@ public class FlowMeasurementImpl implements FlowMeasurement {
 	}
 
     public Reporter[] getAttributeReporters() {
-		return flowMeasurementCluster.getActiveSubscriptions();
+		return flowMeasurementCluster.getAttributeReporters();
 	}
 
 	public Attribute[] getAttributes() {

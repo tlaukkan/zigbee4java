@@ -79,7 +79,7 @@ public class TemperatureMeasurementImpl implements TemperatureMeasurement {
     }
 
     public Reporter[] getAttributeReporters() {
-        return temperatureMeasurementCluster.getActiveSubscriptions();
+        return temperatureMeasurementCluster.getAttributeReporters();
     }
 
     public int getId() {

@@ -77,7 +77,7 @@ public class IlluminanceMeasurementImpl implements IlluminanceMeasurement {
 
     public Reporter[] getAttributeReporters() {
 
-        return cluster.getActiveSubscriptions();
+        return cluster.getAttributeReporters();
     }
 
     public Attribute[] getAttributes() {

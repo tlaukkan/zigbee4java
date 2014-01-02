@@ -159,7 +159,7 @@ public class LevelControlImpl implements LevelControl {
 
 
     public Reporter[] getAttributeReporters() {
-        return levelControlCluster.getActiveSubscriptions();
+        return levelControlCluster.getAttributeReporters();
     }
 
     public int getId() {

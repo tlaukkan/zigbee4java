@@ -58,7 +58,7 @@ public class IlluminanceLevelSensingImpl implements IlluminanceLevelSensing {
 	}
 
     public Reporter[] getAttributeReporters() {
-		return illuminanceLevelSensingCluster.getActiveSubscriptions();
+		return illuminanceLevelSensingCluster.getAttributeReporters();
 	}
 
 	public Attribute[] getAttributes() {

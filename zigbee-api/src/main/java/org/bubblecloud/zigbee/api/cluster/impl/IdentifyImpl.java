@@ -80,7 +80,7 @@ public class IdentifyImpl implements Identify {
     }
 
     public Reporter[] getAttributeReporters() {
-        return identifyCluster.getActiveSubscriptions();
+        return identifyCluster.getAttributeReporters();
     }
 
     public int getId() {

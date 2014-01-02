@@ -65,7 +65,7 @@ public class BinaryInputImpl implements BinaryInput {
     }
 
     public Reporter[] getAttributeReporters() {
-        return binaryInput.getActiveSubscriptions();
+        return binaryInput.getAttributeReporters();
     }
 
     public int getId() {

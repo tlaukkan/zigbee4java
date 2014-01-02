@@ -153,7 +153,7 @@ public class ScenesImpl implements Scenes {
     }
 
     public Reporter[] getAttributeReporters() {
-        return scenesCluster.getActiveSubscriptions();
+        return scenesCluster.getAttributeReporters();
     }
 
     public int getId() {

@@ -57,7 +57,7 @@ public class ThermostatImpl implements Thermostat {
 	}
 
     public Reporter[] getAttributeReporters() {
-		return thermostatCluster.getActiveSubscriptions();
+		return thermostatCluster.getAttributeReporters();
 	}
 
 	public Attribute[] getAttributes() {

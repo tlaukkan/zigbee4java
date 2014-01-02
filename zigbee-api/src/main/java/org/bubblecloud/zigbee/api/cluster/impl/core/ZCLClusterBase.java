@@ -121,7 +121,7 @@ public abstract class ZCLClusterBase implements ZCLCluster {
         }
     }
 
-    public Reporter[] getActiveSubscriptions() {
+    public Reporter[] getAttributeReporters() {
         final ArrayList<Reporter> actives = new ArrayList<Reporter>();
         final Attribute[] attributes = getAvailableAttributes();
         for (int i = 0; i < attributes.length; i++) {

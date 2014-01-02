@@ -93,7 +93,7 @@ public class OccupancySensingImpl implements OccupancySensing {
     }
 
     public Reporter[] getAttributeReporters() {
-        return occupacySensingCluster.getActiveSubscriptions();
+        return occupacySensingCluster.getAttributeReporters();
     }
 
     public int getId() {

@@ -61,7 +61,7 @@ public class DeviceTemperatureConfigurationImpl implements DeviceTemperatureConf
     }
 
     public Reporter[] getAttributeReporters() {
-        return cluster.getActiveSubscriptions();
+        return cluster.getAttributeReporters();
     }
 
     public int getId() {

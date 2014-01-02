@@ -56,7 +56,7 @@ public class IASACEImpl implements IASACE {
     }
 
     public Reporter[] getAttributeReporters() {
-        return cluster.getActiveSubscriptions();
+        return cluster.getAttributeReporters();
     }
 
     public Attribute[] getAttributes() {

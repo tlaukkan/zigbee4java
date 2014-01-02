@@ -56,7 +56,7 @@ public class ColorControlImpl implements Metering {
 	}
 
     public Reporter[] getAttributeReporters() {
-		return colorControlCluster.getActiveSubscriptions();
+		return colorControlCluster.getAttributeReporters();
 	}
 
 	public Attribute[] getAttributes() {

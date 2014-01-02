@@ -57,7 +57,7 @@ public class FanControlImpl implements FanControl {
 	}
 
     public Reporter[] getAttributeReporters() {
-		return fanControlCluster.getActiveSubscriptions();
+		return fanControlCluster.getAttributeReporters();
 	}
 
 	public Attribute[] getAttributes() {

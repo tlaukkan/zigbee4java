@@ -59,7 +59,7 @@ public class DoorLockImpl implements DoorLock {
 	}
 
     public Reporter[] getAttributeReporters() {
-		return doorLockCluster.getActiveSubscriptions();
+		return doorLockCluster.getAttributeReporters();
 	}
 
 	public Attribute[] getAttributes() {

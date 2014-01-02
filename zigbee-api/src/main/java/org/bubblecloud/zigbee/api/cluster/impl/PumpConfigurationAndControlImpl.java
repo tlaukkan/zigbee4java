@@ -58,7 +58,7 @@ public class PumpConfigurationAndControlImpl implements PumpConfigurationAndCont
 	}
 
     public Reporter[] getAttributeReporters() {
-		return pumpConfigurationAndControlCluster.getActiveSubscriptions();
+		return pumpConfigurationAndControlCluster.getAttributeReporters();
 	}
 
 	public Attribute[] getAttributes() {

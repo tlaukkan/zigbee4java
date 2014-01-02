@@ -70,7 +70,7 @@ public class IASZoneImpl implements IASZone {
     }
 
     public Reporter[] getAttributeReporters() {
-        return cluster.getActiveSubscriptions();
+        return cluster.getAttributeReporters();
     }
 
     public Attribute[] getAttributes() {

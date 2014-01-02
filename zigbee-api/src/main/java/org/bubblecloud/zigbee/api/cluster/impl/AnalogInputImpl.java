@@ -66,7 +66,7 @@ public class AnalogInputImpl implements AnalogInput {
     }
 
     public Reporter[] getAttributeReporters() {
-		return analogInputCluster.getActiveSubscriptions();
+		return analogInputCluster.getAttributeReporters();
 	}
 
 	public int getId() {

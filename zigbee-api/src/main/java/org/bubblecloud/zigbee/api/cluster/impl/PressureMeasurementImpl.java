@@ -57,7 +57,7 @@ public class PressureMeasurementImpl implements PressureMeasurement {
 	}
 
     public Reporter[] getAttributeReporters() {
-		return pressureMeasurementCluster.getActiveSubscriptions();
+		return pressureMeasurementCluster.getAttributeReporters();
 	}
 
 	public Attribute[] getAttributes() {

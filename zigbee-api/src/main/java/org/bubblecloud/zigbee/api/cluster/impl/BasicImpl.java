@@ -146,7 +146,7 @@ public class BasicImpl implements Basic {
     }
 
     public Reporter[] getAttributeReporters() {
-        return basicCluster.getActiveSubscriptions();
+        return basicCluster.getAttributeReporters();
     }
 
     public int getId() {

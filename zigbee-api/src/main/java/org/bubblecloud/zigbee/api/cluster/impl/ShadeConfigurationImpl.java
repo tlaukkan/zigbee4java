@@ -57,7 +57,7 @@ public class ShadeConfigurationImpl implements ShadeConfiguration {
 	}
 
     public Reporter[] getAttributeReporters() {
-		return shadeConfigurationCluster.getActiveSubscriptions();
+		return shadeConfigurationCluster.getAttributeReporters();
 	}
 
 	public Attribute[] getAttributes() {

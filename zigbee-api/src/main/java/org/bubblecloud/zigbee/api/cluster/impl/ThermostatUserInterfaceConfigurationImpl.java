@@ -58,7 +58,7 @@ public class ThermostatUserInterfaceConfigurationImpl implements ThermostatUserI
 	}
 
     public Reporter[] getAttributeReporters() {
-		return thermostatUserInterfaceConfigurationCluster.getActiveSubscriptions();
+		return thermostatUserInterfaceConfigurationCluster.getAttributeReporters();
 	}
 
 	public Attribute[] getAttributes() {

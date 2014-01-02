@@ -62,7 +62,7 @@ public class AlarmsImpl implements Alarms {
     }
 
     public Reporter[] getAttributeReporters() {
-        return alarmsCluster.getActiveSubscriptions();
+        return alarmsCluster.getAttributeReporters();
     }
 
     public int getId() {

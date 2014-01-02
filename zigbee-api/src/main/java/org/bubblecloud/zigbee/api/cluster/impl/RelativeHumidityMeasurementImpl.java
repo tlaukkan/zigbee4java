@@ -81,7 +81,7 @@ public class RelativeHumidityMeasurementImpl implements RelativeHumidityMeasurem
     }
 
     public Reporter[] getAttributeReporters() {
-        return relativeHumidityMeasurementCluster.getActiveSubscriptions();
+        return relativeHumidityMeasurementCluster.getAttributeReporters();
     }
 
     public int getId() {

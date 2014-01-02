@@ -59,7 +59,7 @@ public class MeteringImpl implements Metering {
 	}
 
     public Reporter[] getAttributeReporters() {
-		return meteringCluster.getActiveSubscriptions();
+		return meteringCluster.getAttributeReporters();
 	}
 
 	public Attribute[] getAttributes() {

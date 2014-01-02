@@ -115,7 +115,7 @@ public class GroupsImpl implements Groups {
     }
 
     public Reporter[] getAttributeReporters() {
-        return groupCluster.getActiveSubscriptions();
+        return groupCluster.getAttributeReporters();
     }
 
     public int getId() {

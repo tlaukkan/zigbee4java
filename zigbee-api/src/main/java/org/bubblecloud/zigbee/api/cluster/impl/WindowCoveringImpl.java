@@ -58,7 +58,7 @@ public class WindowCoveringImpl implements WindowCovering {
 	}
 
     public Reporter[] getAttributeReporters() {
-		return windowCovering.getActiveSubscriptions();
+		return windowCovering.getAttributeReporters();
 	}
 
 	public Attribute[] getAttributes() {

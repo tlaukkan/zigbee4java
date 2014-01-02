@@ -57,7 +57,7 @@ public class IASWDImpl implements IASWD {
     }
 
     public Reporter[] getAttributeReporters() {
-        return iaswdcluster.getActiveSubscriptions();
+        return iaswdcluster.getAttributeReporters();
     }
 
     public Attribute[] getAttributes() {

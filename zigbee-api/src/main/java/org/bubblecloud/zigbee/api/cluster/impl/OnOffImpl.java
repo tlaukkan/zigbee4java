@@ -104,7 +104,7 @@ public class OnOffImpl implements OnOff {
     }
 
     public Reporter[] getAttributeReporters() {
-        return onOffCluster.getActiveSubscriptions();
+        return onOffCluster.getAttributeReporters();
     }
 
     public int getId() {

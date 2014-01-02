@@ -56,7 +56,7 @@ public class TimeImpl implements Time {
     }
 
     public Reporter[] getAttributeReporters() {
-        return timeCluster.getActiveSubscriptions();
+        return timeCluster.getAttributeReporters();
     }
 
     public int getId() {

@@ -57,7 +57,7 @@ public class OnOffSwitchConfigurationImpl implements OnOffSwitchConfiguration {
     }
 
     public Reporter[] getAttributeReporters() {
-        return onOffSwitchConfiguratioCluster.getActiveSubscriptions();
+        return onOffSwitchConfiguratioCluster.getAttributeReporters();
     }
 
     public int getId() {
