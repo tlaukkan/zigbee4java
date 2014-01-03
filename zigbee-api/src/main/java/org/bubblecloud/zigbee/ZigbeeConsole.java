@@ -8,9 +8,10 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.api.cluster.impl.api.lighting.ColorControl;
+import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
 import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 
+import java.awt.font.NumericShaper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -192,6 +193,7 @@ public class ZigbeeConsole {
         commands.put("unbind", new UnbindCommand());
         commands.put("on", new OnCommand());
         commands.put("off", new OffCommand());
+        commands.put("color", new ColorCommand());
         commands.put("subscribe", new SubscribeCommand());
         commands.put("unsubscribe", new UnsubscribeCommand());
         commands.put("read", new ReadCommand());
@@ -457,7 +459,7 @@ public class ZigbeeConsole {
         }
 
         public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
-            if (args.length != 2) {
+            if (args.length != 5) {
                 return false;
             }
 
@@ -465,12 +467,52 @@ public class ZigbeeConsole {
             if (device == null) {
                 return false;
             }
-            /*inal ColorControl colorControl = device.getCluster(ColorControl.ID);
+            final ColorControl colorControl = device.getCluster(ColorControl.class);
+            if (colorControl == null) {
+                write("Device does not support color control.");
+                return false;
+            }
+            // @param colorX x * 65536 where colorX can be in rance 0 to 65279
+            // @param colorY y * 65536 where colorY can be in rance 0 to 65279
+
+            float red;
             try {
-                onOff.on();
+                red = Float.parseFloat(args[2]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+            float green;
+            try {
+                green = Float.parseFloat(args[3]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+            float blue;
+            try {
+                blue = Float.parseFloat(args[4]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+
+            try {
+                /*
+                // RED
+                int x = (int) (0.648427f * 65536);
+                int y = (int) (0.330856f * 65536);
+                colorControl.moveToColor(x, y, 10);*/
+                Cie cie = rgb2cie(red, green ,blue);
+                int x = (int) (cie.x * 65536);
+                int y = (int) (cie.y * 65536);
+                if (x > 65279) {
+                    x = 65279;
+                }
+                if (y > 65279) {
+                    y = 65279;
+                }
+                colorControl.moveToColor(x, y, 10);
             } catch (ZigbeeDeviceException e) {
                 e.printStackTrace();
-            }*/
+            }
 
             return true;
         }
@@ -648,4 +690,22 @@ public class ZigbeeConsole {
             }
         }
     };
+
+    public static class Cie {
+        public float x;
+        public float y;
+        public float Y;
+    }
+
+    public static Cie rgb2cie(float R, float G, float B) {
+        float X = 0.4124f*R + 0.3576f*G + 0.1805f*B;
+        float Y = 0.2126f*R + 0.7152f*G + 0.0722f*B;
+        float Z = 0.0193f*R + 0.1192f*G + 0.9505f*B;
+
+        Cie cie = new Cie();
+        cie.x = X / (X + Y + Z);
+        cie.y = Y / (X + Y + Z);
+        cie.Y = (float) Math.sqrt(0.241f * R * R + 0.691f*G * G + 0.068f * B * B);
+        return cie;
+    }
 }

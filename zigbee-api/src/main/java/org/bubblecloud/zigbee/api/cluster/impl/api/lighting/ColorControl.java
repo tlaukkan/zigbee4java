@@ -25,6 +25,7 @@ package org.bubblecloud.zigbee.api.cluster.impl.api.lighting;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -38,6 +39,18 @@ public interface ColorControl extends ZCLCluster {
     static final short ID = 0x0300;
     static final String NAME = "Color Control";
     static final String DESCRIPTION = "Attributes and commands for changing the color of a light.";
+
+    public static final byte MOVE_TO_HUE_ID = 0x00;
+    public static final byte MOVE_HUE_ID = 0x01;
+    public static final byte STEP_HUE_ID = 0x02;
+    public static final byte MOVE_TO_SATURATION_ID = 0x03;
+    public static final byte MOVE_SATURATION_ID = 0x04;
+    public static final byte STEP_SATURATION_ID = 0x05;
+    public static final byte MOVE_TO_HUE_AND_SATURATION_ID = 0x06;
+    public static final byte MOVE_TO_COLOR_ID = 0x07;
+    public static final byte MOVE_COLOR_ID = 0x08;
+    public static final byte STEP_COLOR_ID = 0x09;
+    public static final byte MOVE_TO_COLOR_TEMPERATURE = 0x0a;
 
     // color information
     public Attribute getAttributeCurrentHue();
@@ -122,25 +135,25 @@ public interface ColorControl extends ZCLCluster {
     public Attribute getAttributeColorPointBIntensity();
 
     // commands
-    public Response moveToHue(short hue, byte direction, int transitionTime);
+    public Response moveToHue(short hue, byte direction, int transitionTime) throws ZigBeeClusterException;
 
-    public Response moveHue(byte moveMode, short rate);
+    public Response moveHue(byte moveMode, short rate) throws ZigBeeClusterException;
 
-    public Response stepHue(byte stepMode, short stepSize, short transtionTime);
+    public Response stepHue(byte stepMode, short stepSize, short transtionTime) throws ZigBeeClusterException;
 
-    public Response movetoSaturation(short saturation, int transitionTime);
+    public Response movetoSaturation(short saturation, int transitionTime) throws ZigBeeClusterException;
 
-    public Response moveSaturation(byte moveMode, short rate);
+    public Response moveSaturation(byte moveMode, short rate) throws ZigBeeClusterException;
 
-    public Response stepSaturation(byte stepMode, short stepSize, short transitionTime);
+    public Response stepSaturation(byte stepMode, short stepSize, short transitionTime) throws ZigBeeClusterException;
 
-    public Response movetoHue_Saturation(short hue, short saturation, int transitionTime);
+    public Response movetoHue_Saturation(short hue, short saturation, int transitionTime) throws ZigBeeClusterException;
 
-    public Response moveToColor(int colorX, int colorY, int transitionTime);
+    public Response moveToColor(int colorX, int colorY, int transitionTime) throws ZigBeeClusterException;
 
-    public Response moveColor(int rateX, int rateY);
+    public Response moveColor(int rateX, int rateY) throws ZigBeeClusterException;
 
-    public Response stepColor(int stepX, int stepY, int transitionTime);
+    public Response stepColor(int stepX, int stepY, int transitionTime) throws ZigBeeClusterException;
 
-    public Response moveToColorTemperature(int colorTemperature, int transitionTime);
+    public Response moveToColorTemperature(int colorTemperature, int transitionTime) throws ZigBeeClusterException;
 }

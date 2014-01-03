@@ -21,6 +21,10 @@
 */
 package org.bubblecloud.zigbee.api.cluster.impl.general;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.api.cluster.impl.general.color_control.MoveToColorCommand;
+import org.bubblecloud.zigbee.api.cluster.impl.general.level_control.MoveToLevelCommand;
+import org.bubblecloud.zigbee.api.cluster.impl.global.DefaultResponseImpl;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
@@ -343,9 +347,11 @@ public class ColorControlCluster extends ZCLClusterBase implements ColorControl 
         return null;
     }
 
-    public Response moveToColor(int colorX, int colorY, int transitionTime) {
-        // TODO Auto-generated method stub
-        return null;
+    public Response moveToColor(int colorX, int colorY, int transitionTime) throws ZigBeeClusterException {
+        enableDefaultResponse();
+        MoveToColorCommand command = new MoveToColorCommand(colorX, colorY, transitionTime);
+        Response response = invoke(command);
+        return new DefaultResponseImpl(response);
     }
 
     public Response moveColor(int rateX, int rateY) {

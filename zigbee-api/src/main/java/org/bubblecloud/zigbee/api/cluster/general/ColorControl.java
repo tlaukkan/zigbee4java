@@ -24,6 +24,8 @@ package org.bubblecloud.zigbee.api.cluster.general;
 
 import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 
 /**
  * 
@@ -34,6 +36,28 @@ import org.bubblecloud.zigbee.api.cluster.Cluster;
 
 public interface ColorControl extends Cluster {
     
-	 public String getDescription() throws ZigbeeDeviceException;
+    public String getDescription() throws ZigbeeDeviceException;
 
+    // commands
+    public void moveToHue(short hue, byte direction, int transitionTime) throws ZigbeeDeviceException;
+
+    public void moveHue(byte moveMode, short rate) throws ZigbeeDeviceException;
+
+    public void stepHue(byte stepMode, short stepSize, short transtionTime) throws ZigbeeDeviceException;
+
+    public void movetoSaturation(short saturation, int transitionTime) throws ZigbeeDeviceException;
+
+    public void moveSaturation(byte moveMode, short rate) throws ZigbeeDeviceException;
+
+    public void stepSaturation(byte stepMode, short stepSize, short transitionTime) throws ZigbeeDeviceException;
+
+    public void movetoHue_Saturation(short hue, short saturation, int transitionTime) throws ZigbeeDeviceException;
+
+    public void moveToColor(int colorX, int colorY, int transitionTime) throws ZigbeeDeviceException;
+
+    public void moveColor(int rateX, int rateY) throws ZigbeeDeviceException;
+
+    public void stepColor(int stepX, int stepY, int transitionTime) throws ZigbeeDeviceException;
+
+    public void moveToColorTemperature(int colorTemperature, int transitionTime) throws ZigbeeDeviceException;
 }
