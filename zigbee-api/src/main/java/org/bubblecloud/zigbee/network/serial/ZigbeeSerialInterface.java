@@ -322,13 +322,13 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
      * @param packet the packet containing the message
      */
     private void notifyAsynchronousCommand(final ZToolPacket packet) {
-        final AsynchronousCommandListener[] copy;
+        final AsynchronousCommandListener[] listeners;
 
         synchronized (asynchrounsCommandListeners) {
-            copy = asynchrounsCommandListeners.toArray(new AsynchronousCommandListener[]{});
+            listeners = asynchrounsCommandListeners.toArray(new AsynchronousCommandListener[]{});
         }
 
-        for (AsynchronousCommandListener listener : copy) {
+        for (final AsynchronousCommandListener listener : listeners) {
             try {
                 listener.receivedAsynchronousCommand(packet);
             } catch (Throwable e) {
