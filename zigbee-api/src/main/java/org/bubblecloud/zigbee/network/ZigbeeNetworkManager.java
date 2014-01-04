@@ -44,8 +44,6 @@ public interface ZigbeeNetworkManager {
 
     public abstract void setSerialPort(String serialName, int bitRate);
 
-    public abstract void open(boolean cleanCache);
-
     public abstract void startup();
 
     public abstract void shutdown();
