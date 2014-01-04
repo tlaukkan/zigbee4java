@@ -28,6 +28,11 @@ import org.bubblecloud.zigbee.util.ArraysUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -80,18 +85,23 @@ public abstract class DeviceFactoryBase implements DeviceFactory {
     public abstract DeviceBase getInstance(ZigbeeEndpoint zbDevice);
 
     public int hasMatch(ZigbeeEndpoint device) {
-        int[] inputClusterIDs = device.getInputClusters();
-        int[] refinedClusterIds = (int[]) getDeviceClusters();
+        if (device.getDeviceTypeId() == getDeviceId()) {
+            return Integer.MAX_VALUE;
+        }
+
+        final Set<Integer> factoryInputClusters = new HashSet<Integer>();
+        for (int cluster : getDeviceClusters()) {
+            factoryInputClusters.add(cluster);
+        }
+
         int score = device.getProfileId() == ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION
                 ? ZigbeeEndpoint.MATCH_PROFILE_ID : 0;
 
-        for (int i = 0; i < inputClusterIDs.length; i++) {
-            for (int j = 0; j < refinedClusterIds.length; j++) {
-                score += inputClusterIDs[i] == refinedClusterIds[j] ? ZigbeeEndpoint.MATCH_CLUSTER_ID : 0;
+        for (int c : device.getInputClusters()) {
+            if (factoryInputClusters.contains(c)) {
+                score++;
             }
         }
-
-        score += device.getDeviceTypeId() == getDeviceId() ? ZigbeeEndpoint.MATCH_DEVICE_ID : 0;
 
         return score;
     }
