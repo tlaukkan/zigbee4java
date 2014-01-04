@@ -205,15 +205,15 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
         createCustomDevicesOnDongle();
         switch (mode) {
             case Coordinator:
-                logger.info("Creating network as coordinator.");
+                logger.debug("Creating network as coordinator.");
             break;
 
             case Router:
-                logger.info("Creating network as router.");
+                logger.debug("Creating network as router.");
             break;
 
             case EndDevice:
-                logger.info("Creating network as end device.");
+                logger.debug("Creating network as end device.");
             break;
         }
 
@@ -1483,7 +1483,7 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
                             logger.trace("Starting as Zigbee Coordinator");
                             break;
                         case 9:
-                            logger.info("Started as Zigbee Coordinator");
+                            logger.debug("Started as Zigbee Coordinator");
                             setState(DriverStatus.NETWORK_READY);
                             break;
                         case 10:

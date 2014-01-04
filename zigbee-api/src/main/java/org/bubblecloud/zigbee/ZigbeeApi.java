@@ -187,10 +187,8 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
     public void shutdown() {
         context.removeDeviceListener(this);
         network.removeEndpointListener(this);
-
         discoveryManager.shutdown();
         networkManager.shutdown();
-
     }
 
     /**
