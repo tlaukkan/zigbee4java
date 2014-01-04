@@ -17,7 +17,8 @@ Prerequisites
 
 1. Java 7
 2. Maven 3
-3. Serial-comm jar with correct native library in maven repository.
+3. Serial-comm jar with correct native library in maven repository:
+    * https://code.google.com/p/serial-comm/
 4. CC2531 dongle with USB serial / coordinator firmware. Flashing new firmware requires CCDEBUGGER hardware component.
 
 Download Sources
