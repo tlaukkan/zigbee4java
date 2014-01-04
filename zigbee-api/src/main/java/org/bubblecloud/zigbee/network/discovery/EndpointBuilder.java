@@ -228,11 +228,15 @@ public class EndpointBuilder implements Stoppable {
         throw new NotImplementedException();
     }
 
-
+    boolean inspectingNewEndpoint = false;
     private void inspectNewEndpoint() {
         nextInspectionSlot = 100 + System.currentTimeMillis();
         final ImportingQueue.ZigBeeNodeAddress dev = queue.pop();
-        if (dev == null) return;
+        inspectingNewEndpoint = true;
+        if (dev == null)  {
+            inspectingNewEndpoint = false;
+            return;
+        }
         final ZToolAddress16 nwk = dev.getNetworkAddress();
         final ZToolAddress64 ieee = dev.getIEEEAddress();
         logger.debug("Popped new node for inspection #{}.", nwk.get16BitValue());
@@ -240,6 +244,7 @@ public class EndpointBuilder implements Stoppable {
         logger.debug("Endpoint inspection completed, next inspection slot in {}",
                 Math.max(nextInspectionSlot - System.currentTimeMillis(), 0)
         );
+        inspectingNewEndpoint = false;
     }
 
     private void inspectFailedEndpoint() {
@@ -315,5 +320,9 @@ public class EndpointBuilder implements Stoppable {
 
     public synchronized void end() {
         end = true;
+    }
+
+    public boolean isReady() {
+        return queue.isEmpty() && !inspectingNewEndpoint;
     }
 }

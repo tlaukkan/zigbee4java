@@ -81,7 +81,7 @@ public class ZigbeeNetworkTest {
         Thread.sleep(1000);
 
         logger.info("Listing devices:");
-        for (final Device device : zigbeeApi.getZigbeeApiContext().getDevices()) {
+        for (final Device device : zigbeeApi.getZigbeeApiContext().getIdDeviceMap()) {
             logger.info(device.getClass().getSimpleName() + " : " + device.getEndpoint().getEndpointId());
         }
 

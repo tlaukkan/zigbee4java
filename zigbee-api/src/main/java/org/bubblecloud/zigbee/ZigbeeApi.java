@@ -234,7 +234,7 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
     }
 
     public List<Device> getDevices() {
-        return context.getDevices();
+        return context.getIdDeviceMap();
     }
 
     public void addDeviceListener(DeviceListener deviceListener) {

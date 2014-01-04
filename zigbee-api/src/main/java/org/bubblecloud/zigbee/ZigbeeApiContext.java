@@ -31,7 +31,9 @@ public class ZigbeeApiContext {
 
     private List<DeviceFactory> deviceProxyFactories = new ArrayList<DeviceFactory>();
 
-    private Map<String, Device> devices = new HashMap<String, Device>();
+    private List<Device> devices = new ArrayList<Device>();
+
+    private Map<String, Device> idDeviceMap = new HashMap<String, Device>();
 
     private final List<DeviceListener> deviceListeners = new ArrayList<DeviceListener>();
 
@@ -75,7 +77,8 @@ public class ZigbeeApiContext {
     }
 
     public void addDevice(final Device device) {
-        devices.put(device.getEndpoint().getEndpointId(), device);
+        devices.add(device);
+        idDeviceMap.put(device.getEndpoint().getEndpointId(), device);
         notifyDeviceAdded(device);
     }
 
@@ -84,8 +87,9 @@ public class ZigbeeApiContext {
     }
 
     public void removeDevice(final Device device) {
+        devices.remove(device);
         notifyDeviceRemoved(device);
-        devices.remove(device.getEndpoint().getDeviceTypeId());
+        idDeviceMap.remove(device.getEndpoint().getDeviceTypeId());
     }
 
     public void addDeviceListener(final DeviceListener deviceListener) {
@@ -125,10 +129,10 @@ public class ZigbeeApiContext {
     }
 
     public Device getDevice(final String endPointId) {
-        return devices.get(endPointId);
+        return idDeviceMap.get(endPointId);
     }
 
-    public List<Device> getDevices() {
-        return Collections.unmodifiableList(new ArrayList(devices.values()));
+    public List<Device> getIdDeviceMap() {
+        return new ArrayList(devices);
     }
 }

@@ -111,6 +111,7 @@ public class ZigbeeDiscoveryManager {
 
 
     public boolean isInitialNetworkBrowsingComplete() {
-        return networkBrowser == null || networkBrowser.isInitialNetworkBrowsingComplete();
+        return (networkBrowser == null || networkBrowser.isInitialNetworkBrowsingComplete())
+                && endpointBuilder.isReady();
     }
 }
