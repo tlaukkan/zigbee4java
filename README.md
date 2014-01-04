@@ -6,9 +6,9 @@ refactored API and stability improvements.
 
 This library provides API to Zigbee network through CC2531 dongle.
 
-Example hardware that can be controlled:
+Example hardware that can be controlled with zigbee4java:
 
-1) Philips Hue Bulb
+1. Philips Hue Bulb
 
 Prerequisites
 -------------
