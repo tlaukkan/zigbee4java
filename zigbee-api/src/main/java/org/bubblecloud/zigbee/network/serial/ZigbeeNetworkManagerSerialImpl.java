@@ -508,10 +508,10 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
 
     private void postHardwareEnabled() {
         if (!afMessageListners.contains(afListner)) {
-            zigbeeSerialInterface.addAsynchrounsCommandListener(afListner);
+            zigbeeSerialInterface.addAsynchronousCommandListener(afListner);
         }
         if (!announceListeners.contains(announceListener)) {
-            zigbeeSerialInterface.addAsynchrounsCommandListener(announceListener);
+            zigbeeSerialInterface.addAsynchronousCommandListener(announceListener);
         }
     }
 
@@ -541,7 +541,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         }
     }
 
-    private class WaitForCommand implements AsynchrounsCommandListener {
+    private class WaitForCommand implements AsynchronousCommandListener {
 
         final ZToolPacket[] result = new ZToolPacket[]{null};
         final int waitFor;
@@ -551,11 +551,11 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             this.waitFor = waitFor;
             this.driver = driver;
             logger4Waiter.trace("Waiting for asynchronous response message {}.", waitFor);
-            driver.addAsynchrounsCommandListener(this);
+            driver.addAsynchronousCommandListener(this);
         }
 
 
-        public void receivedAsynchrounsCommand(ZToolPacket packet) {
+        public void receivedAsynchronousCommand(ZToolPacket packet) {
             logger4Waiter.trace("Received a packet {} and waiting for {}", packet.getCMD().get16BitValue(), waitFor);
             logger4Waiter.trace("received {} {}", packet.getClass(), packet.toString());
             if (packet.isError()) return;
@@ -590,7 +590,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
 
         public void cleanup() {
             synchronized (result) {
-                driver.removeAsynchrounsCommandListener(this);
+                driver.removeAsynchronousCommandListener(this);
                 result.notify();
             }
         }
@@ -605,7 +605,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         );
 
         try {
-            zigbeeSerialInterface.sendAsynchrounsCommand(new SYS_RESET(SYS_RESET.RESET_TYPE.SERIAL_BOOTLOADER));
+            zigbeeSerialInterface.sendAsynchronousCommand(new SYS_RESET(SYS_RESET.RESET_TYPE.SERIAL_BOOTLOADER));
         } catch (IOException e) {
             logger.error("DongleReset failed", e);
             return false;
@@ -994,7 +994,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
 
         logger.trace("{} sending as synchronous command.", request.getClass().getSimpleName());
 
-        SynchrounsCommandListener listener = new SynchrounsCommandListener() {
+        SynchronousCommandListener listener = new SynchronousCommandListener() {
 
             public void receivedCommandResponse(ZToolPacket packet) {
                 logger.trace(" {} received as synchronous command.", packet.getClass().getSimpleName());
@@ -1008,7 +1008,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         while (sending <= RESEND_MAX_RETRY) {
             try {
                 try {
-                    hwDriver.sendSynchrounsCommand(request, listener, RESEND_TIMEOUT);
+                    hwDriver.sendSynchronousCommand(request, listener, RESEND_TIMEOUT);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -1052,7 +1052,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
 
     public boolean addAnnunceListener(AnnounceListener listner) {
         if (announceListeners.isEmpty() && isHardwareReady()) {
-            zigbeeSerialInterface.addAsynchrounsCommandListener(announceListener);
+            zigbeeSerialInterface.addAsynchronousCommandListener(announceListener);
         }
         return announceListeners.add(listner);
     }
@@ -1060,7 +1060,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
     public boolean removeAnnunceListener(AnnounceListener listner) {
         boolean result = announceListeners.remove(listner);
         if (announceListeners.isEmpty() && isHardwareReady()) {
-            zigbeeSerialInterface.removeAsynchrounsCommandListener(announceListener);
+            zigbeeSerialInterface.removeAsynchronousCommandListener(announceListener);
         }
         return result;
     }
@@ -1131,7 +1131,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         }
 
         if (afMessageListners.isEmpty() && isHardwareReady()) {
-            if (zigbeeSerialInterface.removeAsynchrounsCommandListener(afListner)) {
+            if (zigbeeSerialInterface.removeAsynchronousCommandListener(afListner)) {
                 logger.trace("Removed AsynchrounsCommandListener {} to ZigbeeSerialInterface", afListner.getClass().getName());
             } else {
                 logger.warn("Could not remove AsynchrounsCommandListener {} to ZigbeeSerialInterface", afListner.getClass().getName());
@@ -1148,7 +1148,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
 
     public boolean addAFMessageListner(ApplicationFrameworkMessageListener listner) {
         if (afMessageListners.isEmpty() && isHardwareReady()) {
-            if (zigbeeSerialInterface.addAsynchrounsCommandListener(afListner)) {
+            if (zigbeeSerialInterface.addAsynchronousCommandListener(afListner)) {
                 logger.trace("Added AsynchrounsCommandListener {} to ZigbeeSerialInterface", afListner.getClass().getName());
             } else {
                 logger.trace("Could not add AsynchrounsCommandListener {} to ZigbeeSerialInterface", afListner.getClass().getName());
@@ -1466,7 +1466,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
     }
 
 
-    private class AnnunceListerFilter implements AsynchrounsCommandListener {
+    private class AnnunceListerFilter implements AsynchronousCommandListener {
 
         private final Collection<AnnounceListener> listners;
 
@@ -1474,7 +1474,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             listners = list;
         }
 
-        public void receivedAsynchrounsCommand(ZToolPacket packet) {
+        public void receivedAsynchronousCommand(ZToolPacket packet) {
             if (packet.isError()) return;
             if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_END_DEVICE_ANNCE_IND) {
                 logger.debug("Recieved announce message {} value is {}", packet.getClass(), packet);
@@ -1542,7 +1542,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
         }
     }
 
-    private class AFMessageListnerFilter implements AsynchrounsCommandListener {
+    private class AFMessageListnerFilter implements AsynchronousCommandListener {
 
         private final Collection<ApplicationFrameworkMessageListener> listners;
 
@@ -1550,7 +1550,7 @@ public class ZigbeeNetworkManagerSerialImpl implements Runnable, ZigbeeNetworkMa
             listners = list;
         }
 
-        public void receivedAsynchrounsCommand(ZToolPacket packet) {
+        public void receivedAsynchronousCommand(ZToolPacket packet) {
             if (packet.isError()) return;
             if (packet.getCMD().get16BitValue() == ZToolCMD.AF_INCOMING_MSG) {
                 AF_INCOMING_MSG msg = (AF_INCOMING_MSG) packet;

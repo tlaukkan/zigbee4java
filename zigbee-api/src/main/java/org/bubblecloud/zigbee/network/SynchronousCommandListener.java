@@ -29,7 +29,7 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public interface SynchrounsCommandListener {
+public interface SynchronousCommandListener {
 
     public void receivedCommandResponse(ZToolPacket packet);
 

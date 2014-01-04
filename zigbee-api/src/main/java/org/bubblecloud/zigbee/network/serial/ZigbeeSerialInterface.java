@@ -21,12 +21,12 @@
  */
 package org.bubblecloud.zigbee.network.serial;
 
-import org.bubblecloud.zigbee.network.SynchrounsCommandListener;
+import org.bubblecloud.zigbee.network.AsynchronousCommandListener;
+import org.bubblecloud.zigbee.network.SynchronousCommandListener;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.network.packet.ZToolPacketHandler;
 import org.bubblecloud.zigbee.network.packet.ZToolPacketParser;
 import org.bubblecloud.zigbee.util.DoubleByte;
-import org.bubblecloud.zigbee.network.AsynchrounsCommandListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,10 +57,29 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
      * The packet parser.
      */
     private ZToolPacketParser parser;
+    /**
+     * Support paraller processing of different command types. Only one command per command ID can be in process
+     * at a time.
+     */
+    private final boolean supportMultipleSynchrounsCommand = false;
+    /**
+     * Synchronous command listeners.
+     */
+    private final Hashtable<Short, SynchronousCommandListener> synchronousCommandListeners
+            = new Hashtable<Short, SynchronousCommandListener>();
+    /**
+     * Asynchronous command listeners.
+     */
+    private final HashSet<AsynchronousCommandListener> asynchrounsCommandListeners
+            = new HashSet<AsynchronousCommandListener>();
+    /**
+     * Timeout times for synchronous command listeners.
+     */
+    private final HashMap<SynchronousCommandListener, Long> synchronousCommandListenerTimeouts =
+            new HashMap<SynchronousCommandListener, Long>();
 
     /**
      * Constructor for configuring the Zigbee Network connection parameters.
-     *
      * @param serialPortName the serial port name.
      */
     public ZigbeeSerialInterface(String serialPortName) {
@@ -70,7 +89,6 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
 
     /**
      * Opens connection to Zigbee Network.
-     *
      * @return true if connection startup was success.
      */
     public boolean open() {
@@ -95,40 +113,48 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
         }
     }
 
-    // ZToolPacketHandler ------------------------------------------------------------------
+    /* ZToolPacketHandler */
 
-    public void error(Throwable th) {
-        LOGGER.error("Error in packet parsing: ", th);
+    /**
+     * Exception in packet parsing.
+     * @param th the exception
+     */
+    public void error(final Throwable th) {
+        LOGGER.error("Exception in packet parsing: ", th);
     }
 
+    /**
+     * Handle parsed packet.
+     * @param packet the packet
+     */
     public void handlePacket(final ZToolPacket packet) {
         final DoubleByte cmdId = packet.getCMD();
         switch (cmdId.getMsb() & 0xE0) {
-            case 0x40:  //We received a message
+            // Received incoming message which can be either message from dongle or remote device.
+            case 0x40:
                 LOGGER.debug("<-- {} ({})", packet.getClass().getSimpleName(), packet);
-                notifyAsynchrounsCommand(packet);
+                notifyAsynchronousCommand(packet);
                 break;
 
-            case 0x60:  //We received a SRSP
+            // Received synchronous command response.
+            case 0x60:
                 LOGGER.debug("<- {} ({})", packet.getClass().getSimpleName(), packet);
-                notifySynchrounsCommand(packet);
+                notifySynchronousCommand(packet);
                 break;
 
             default:
-                LOGGER.error("Incoming unknown packet. ({}) ({})", packet.getClass().getSimpleName(), packet);
+                LOGGER.error("Received unknown packet. ({}) ({})", packet.getClass().getSimpleName(), packet);
         }
     }
 
-    // Driver ------------------------------------------------------------------------------
-
-
-    private void sendPacket(ZToolPacket packet)
+    /**
+     * Send packet to dongle.
+     * @param packet the packet
+     * @throws IOException if IO exception occurs while sending packet
+     */
+    private void sendPacket(final ZToolPacket packet)
             throws IOException {
-
-
-        //FIX Sending byte instead of int
         LOGGER.debug("-> {} ({}) ", packet.getClass().getSimpleName(), packet.toString());
-
         final int[] pck = packet.getPacket();
         synchronized (serialPort) {
             final OutputStream out = serialPort.getOutputStream();
@@ -143,157 +169,170 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
         }
     }
 
-    private final Hashtable<Short, SynchrounsCommandListener> pendingSREQ
-            = new Hashtable<Short, SynchrounsCommandListener>();
 
-    private final HashSet<AsynchrounsCommandListener> listeners
-            = new HashSet<AsynchrounsCommandListener>();
-
-    private final boolean supportMultipleSynchrounsCommand = false;
-
-    private final HashMap<SynchrounsCommandListener, Long> timouts = new HashMap<SynchrounsCommandListener, Long>();
-
-    private void cleanExpiredListener() {
+    /**
+     * Cleans expired synchronous command listeners.
+     */
+    private void cleanExpiredSynchronousCommandListeners() {
         final long now = System.currentTimeMillis();
         final ArrayList<Short> expired = new ArrayList<Short>();
-        synchronized (pendingSREQ) {
-            Iterator<Map.Entry<Short, SynchrounsCommandListener>> i = pendingSREQ.entrySet().iterator();
+        synchronized (synchronousCommandListeners) {
+            final Iterator<Map.Entry<Short, SynchronousCommandListener>> i =
+                    synchronousCommandListeners.entrySet().iterator();
             while (i.hasNext()) {
-                Map.Entry<Short, SynchrounsCommandListener> entry = i.next();
+                Map.Entry<Short, SynchronousCommandListener> entry = i.next();
 
-                final long expiration = timouts.get(entry.getValue());
+                final long expiration = synchronousCommandListenerTimeouts.get(entry.getValue());
                 if (expiration != -1L && expiration < now) {
                     expired.add(entry.getKey());
                 }
             }
 
             for (Short key : expired) {
-                pendingSREQ.remove(key);
+                synchronousCommandListeners.remove(key);
             }
-            pendingSREQ.notifyAll();
+            synchronousCommandListeners.notifyAll();
         }
     }
 
-    public void sendSynchrounsCommand(ZToolPacket packet, SynchrounsCommandListener listener, long timeout) throws IOException {
+    /**
+     * Sends synchronous command and adds listener.
+     * @param packet the command packet
+     * @param listener the synchronous command response listener
+     * @param timeout the timeout
+     * @throws IOException if IO exception occurs in packet sending
+     */
+    public void sendSynchronousCommand(final ZToolPacket packet, final SynchronousCommandListener listener,
+                                       final long timeout)
+            throws IOException {
         if (timeout == -1L) {
-            timouts.put(listener, -1L);
+            synchronousCommandListenerTimeouts.put(listener, -1L);
         } else {
             final long expirationTime = System.currentTimeMillis() + timeout;
-            timouts.put(listener, expirationTime);
+            synchronousCommandListenerTimeouts.put(listener, expirationTime);
         }
-        m_sendSynchrounsCommand(packet, listener);
-    }
 
-    private void m_sendSynchrounsCommand(ZToolPacket packet, SynchrounsCommandListener listner) throws IOException {
         final DoubleByte cmdId = packet.getCMD();
         final int value = (cmdId.getMsb() & 0xE0);
         if (value != 0x20) {
-            throw new IllegalArgumentException("You are trying to send a non SREQ packet. "
-                    + "Evaluated " + value + " instead of " + 0x20 + "\nPacket " + packet.getClass().getName() + "\n" + packet
+            throw new IllegalArgumentException("You are trying to send a non SREQ packet as synchronous command. "
+                    + "Evaluated " + value + " instead of " + 0x20 + "\nPacket "
+                    + packet.getClass().getName() + "\n" + packet
             );
         }
-        //LOGGER.debug("Preparing to send SynchrounsCommand {} ", packet);
-        cleanExpiredListener();
+
+        cleanExpiredSynchronousCommandListeners();
+
         if (supportMultipleSynchrounsCommand) {
-            synchronized (pendingSREQ) {
+            synchronized (synchronousCommandListeners) {
                 final short id = (short) (cmdId.get16BitValue() & 0x1FFF);
-                while (pendingSREQ.get(cmdId) != null) {
+                while (synchronousCommandListeners.get(cmdId) != null) {
                     try {
                         LOGGER.trace("Waiting for other request {} to complete", id);
-                        pendingSREQ.wait(500);
-                        cleanExpiredListener();
+                        synchronousCommandListeners.wait(500);
+                        cleanExpiredSynchronousCommandListeners();
                     } catch (InterruptedException ignored) {
                     }
                 }
-                //No listener register for this type of command, so no pending request. We can proceed
-                //LOGGER.debug("Put pendingSREQ listener for {} command", id);
-                pendingSREQ.put(id, listner);
+                synchronousCommandListeners.put(id, listener);
             }
         } else {
-            synchronized (pendingSREQ) {
+            synchronized (synchronousCommandListeners) {
                 final short id = (short) (cmdId.get16BitValue() & 0x1FFF);
-                //while(pendingSREQ.isEmpty() == false || pendingSREQ.size() == 1 && pendingSREQ.get(id) == listner ) {
-                while (pendingSREQ.isEmpty() == false) {
+                while (synchronousCommandListeners.isEmpty() == false) {
                     try {
                         LOGGER.debug("Waiting for other request to complete");
-                        pendingSREQ.wait(500);
-                        cleanExpiredListener();
+                        synchronousCommandListeners.wait(500);
+                        cleanExpiredSynchronousCommandListeners();
                     } catch (InterruptedException ignored) {
                     }
                 }
-                //No listener at all registered so this is the only command that we are waiting for a response
-                LOGGER.trace("Put pendingSREQ listener for {} command", id);
-                pendingSREQ.put(id, listner);
+                LOGGER.trace("Put synchronousCommandListeners listener for {} command", id);
+                synchronousCommandListeners.put(id, listener);
             }
         }
         LOGGER.trace("Sending SynchrounsCommand {} ", packet);
         sendPacket(packet);
     }
 
-    public void sendAsynchrounsCommand(ZToolPacket packet) throws IOException {
+    /**
+     * Sends asynchronous command.
+     * @param packet the packet.
+     * @throws IOException if IO exception occurs in packet sending.
+     */
+    public void sendAsynchronousCommand(final ZToolPacket packet) throws IOException {
         int value = (packet.getCMD().getMsb() & 0xE0);
         if (value != 0x40) {
             throw new IllegalArgumentException("You are trying to send a non AREQ packet. "
-                    + "Evaluated " + value + " instead of " + 0x40 + "\nPacket " + packet.getClass().getName() + "\n" + packet
+                    + "Evaluated " + value + " instead of "
+                    + 0x40 + "\nPacket " + packet.getClass().getName() + "\n" + packet
             );
         }
-
         sendPacket(packet);
     }
 
-
-    protected void notifySynchrounsCommand(ZToolPacket packet) {
+    /**
+     * Notifies listeners about synchronous command response.
+     * @param packet the received packet
+     */
+    private void notifySynchronousCommand(final ZToolPacket packet) {
         final DoubleByte cmdId = packet.getCMD();
-
-        synchronized (pendingSREQ) {
+        synchronized (synchronousCommandListeners) {
             final short id = (short) (cmdId.get16BitValue() & 0x1FFF);
-            //TODO Invoke in a separated Thread?!?!
-            final SynchrounsCommandListener listener = pendingSREQ.get(id);
+            final SynchronousCommandListener listener = synchronousCommandListeners.get(id);
             if (listener != null) {
                 listener.receivedCommandResponse(packet);
-                pendingSREQ.remove(id);
-                pendingSREQ.notifyAll();
+                synchronousCommandListeners.remove(id);
+                synchronousCommandListeners.notifyAll();
             } else {
-                /*
-				 * This happen only if we receive a synchronous command
-				 * response but no listener registered in advance
-				 * for instance we a LowLevel driver and HighLevel driver
-				 * are working on same port
-				 */
                 LOGGER.warn("Received {} synchronous command response but no listeners were registered", id);
             }
 
         }
     }
 
-    public boolean addAsynchrounsCommandListener(AsynchrounsCommandListener listener) {
+    /**
+     * Adds asynchronous command listener.
+     * @param listener the listener
+     * @return true if listener did not already exist.
+     */
+    public boolean addAsynchronousCommandListener(AsynchronousCommandListener listener) {
         boolean result = false;
-        synchronized (listeners) {
-            result = listeners.add(listener);
+        synchronized (asynchrounsCommandListeners) {
+            result = asynchrounsCommandListeners.add(listener);
         }
         return result;
     }
 
-    public boolean removeAsynchrounsCommandListener(AsynchrounsCommandListener listener) {
+    /**
+     * Removes asynchronous command listener.
+     * @param listener the listener
+     * @return true if listener did not already exist.
+     */
+    public boolean removeAsynchronousCommandListener(AsynchronousCommandListener listener) {
         boolean result = false;
-        synchronized (listeners) {
-            result = listeners.remove(listener);
+        synchronized (asynchrounsCommandListeners) {
+            result = asynchrounsCommandListeners.remove(listener);
         }
         return result;
     }
 
-    protected void notifyAsynchrounsCommand(ZToolPacket packet) {
-        AsynchrounsCommandListener[] copy;
+    /**
+     * Notifies listeners about asynchronous message.
+     * @param packet the packet containing the message
+     */
+    private void notifyAsynchronousCommand(final ZToolPacket packet) {
+        final AsynchronousCommandListener[] copy;
 
-        synchronized (listeners) {
-            copy = listeners.toArray(new AsynchrounsCommandListener[]{});
+        synchronized (asynchrounsCommandListeners) {
+            copy = asynchrounsCommandListeners.toArray(new AsynchronousCommandListener[]{});
         }
 
-        for (AsynchrounsCommandListener listener : copy) {
+        for (AsynchronousCommandListener listener : copy) {
             try {
-                listener.receivedAsynchrounsCommand(packet);
+                listener.receivedAsynchronousCommand(packet);
             } catch (Throwable e) {
-                LOGGER.error("Error genereated by notifyAsynchrounsCommand {}", e);
+                LOGGER.error("Error in incoming asynchronous message processing.", e);
             }
         }
     }
