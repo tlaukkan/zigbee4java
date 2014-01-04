@@ -3,6 +3,7 @@ package org.bubblecloud.zigbee;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
+import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
@@ -194,6 +195,7 @@ public class ZigbeeConsole {
         commands.put("on", new OnCommand());
         commands.put("off", new OffCommand());
         commands.put("color", new ColorCommand());
+        commands.put("level", new LevelCommand());
         commands.put("subscribe", new SubscribeCommand());
         commands.put("unsubscribe", new UnsubscribeCommand());
         commands.put("read", new ReadCommand());
@@ -455,7 +457,7 @@ public class ZigbeeConsole {
         }
 
         public String getSyntax() {
-            return "color DEVICEID";
+            return "color DEVICEID RED GREEN BLUE";
         }
 
         public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
@@ -510,6 +512,58 @@ public class ZigbeeConsole {
                     y = 65279;
                 }
                 colorControl.moveToColor(x, y, 10);
+            } catch (ZigbeeDeviceException e) {
+                e.printStackTrace();
+            }
+
+            return true;
+        }
+    }
+
+    private static class LevelCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "Changes device level for example lamp brightness.";
+        }
+
+        public String getSyntax() {
+            return "color DEVICEID LEVEL";
+        }
+
+        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+            if (args.length != 3) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                return false;
+            }
+            final ColorControl colorControl = device.getCluster(ColorControl.class);
+            if (colorControl == null) {
+                write("Device does not support color control.");
+                return false;
+            }
+            // @param colorX x * 65536 where colorX can be in rance 0 to 65279
+            // @param colorY y * 65536 where colorY can be in rance 0 to 65279
+
+            float level;
+            try {
+                level = Float.parseFloat(args[2]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+
+            try {
+                int l = (int) (level * 255);
+                if (l > 255) {
+                    l = 255;
+                }
+                if (l < 0) {
+                    l = 0;
+                }
+
+                final LevelControl levelControl = device.getCluster(LevelControl.class);
+                levelControl.moveToLevel((short) l, 10);
             } catch (ZigbeeDeviceException e) {
                 e.printStackTrace();
             }
