@@ -1,7 +1,8 @@
 zigbee4java
 ===========
 
-This is a fork of ZB4OSGI for usage without OSGI, refactored API and stability improvements.
+This is a fork of ZB4OSGI for usage without OSGI. Changes include removal of OSGI related dependencies,
+refactored API and stability improvements.
 
 This library provides API to Zigbee network through CC2531 dongle.
 
