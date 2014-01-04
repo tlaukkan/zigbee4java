@@ -5,6 +5,10 @@ This is a fork of ZB4OSGI for usage without OSGI, refactored API and stability i
 
 This library provides API to Zigbee network through CC2531 dongle.
 
+Example hardware that can be controlled:
+
+1) Philips Hue Bulb
+
 Prerequisites
 -------------
 
