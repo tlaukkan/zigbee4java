@@ -1,7 +1,7 @@
 zigbee4java
 ===========
 
-This is fork of ZB4OSGI for usage without OSGI.
+This is a fork of ZB4OSGI for usage without OSGI, refactored API and stability improvements.
 
 This library provides API to Zigbee network through CC2531 dongle.
 
@@ -42,15 +42,17 @@ Usage
 ZigbeeApi zigbeeApi = new ZigbeeApi("/dev/ttyACM0", 4951, 11, false);
 zigbeeApi.startup();
 
-Device lampDevice = zigbeeApi.getZigbeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
+Device lamp = zigbeeApi.getZigbeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
 
-OnOff onOff = lampDevice.getCluster(OnOff.class);
+Basic basic = lamp.getCluster(Basic);
+String manufactureName = basic.getManufacturerName();
+
+OnOff onOff = lamp.getCluster(OnOff.class);
+onOff.on();
 
 int onOffAttributeIndex = 0;
 Reporter reporter = onOff.getAttribute(onOffAttributeIndex).getReporter();
 reporter.addReportListener(reportListener);
-
-onOff.on();
 ```
 
 Examples
