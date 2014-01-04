@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.device.lighting;
 
-import org.bubblecloud.zigbee.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;

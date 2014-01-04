@@ -23,34 +23,58 @@ import java.util.*;
 /**
  * Zigbee proxy context.
  *
+ * This class is thread safe.
+ *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
 public class ZigbeeApiContext {
-
+    /**
+     * The cluster factory.
+     */
     private ClusterFactory clusterFactory;
-
-    private List<DeviceFactory> deviceProxyFactories = new ArrayList<DeviceFactory>();
-
+    /**
+     * The device factory.
+     */
+    private List<DeviceFactory> deviceFactories = new ArrayList<DeviceFactory>();
+    /**
+     * The devices.
+     */
     private List<Device> devices = new ArrayList<Device>();
-
+    /**
+     * The id and device mapping.
+     * ID = [IEEE address]/[end point]
+     */
     private Map<String, Device> idDeviceMap = new HashMap<String, Device>();
-
+    /**
+     * The device listeners.
+     */
     private final List<DeviceListener> deviceListeners = new ArrayList<DeviceListener>();
-
+    /**
+     * @return the cluster factory.
+     */
     public ClusterFactory getClusterFactory() {
         return clusterFactory;
     }
 
+    /**
+     * @param clusterFactory the cluster factory.
+     */
     public void setClusterFactory(ClusterFactory clusterFactory) {
         this.clusterFactory = clusterFactory;
     }
 
-    public List<DeviceFactory> getDeviceProxyFactories() {
-        return deviceProxyFactories;
+    /**
+     * @return list of device factories.
+     */
+    public List<DeviceFactory> getDeviceFactories() {
+        return deviceFactories;
     }
 
-    public void setDeviceProxyFactories(List<DeviceFactory> deviceProxyFactories) {
-        this.deviceProxyFactories = deviceProxyFactories;
+    /**
+     * @param deviceFactories life of device factories
+     */
+    public void setDeviceFactories(List<DeviceFactory> deviceFactories) {
+        this.deviceFactories = deviceFactories;
     }
 
     /**
@@ -60,11 +84,11 @@ public class ZigbeeApiContext {
      * @return the best matching device factory.
      */
     public DeviceFactory getBestDeviceProxyFactory(final ZigbeeEndpoint device) {
-        synchronized (deviceProxyFactories) {
+        synchronized (deviceFactories) {
             DeviceFactory bestMatchingFactory = null;
             int bestMatching = -1;
 
-            for (final DeviceFactory factory : deviceProxyFactories) {
+            for (final DeviceFactory factory : deviceFactories) {
                 final int matching = factory.hasMatch(device);
                 if (matching > bestMatching) {
                     bestMatchingFactory = factory;
@@ -76,34 +100,66 @@ public class ZigbeeApiContext {
         }
     }
 
+    /**
+     * Adds device.
+     * @param device the device
+     */
     public void addDevice(final Device device) {
-        devices.add(device);
-        idDeviceMap.put(device.getEndpoint().getEndpointId(), device);
+        synchronized (devices) {
+            devices.add(device);
+        }
+        synchronized (idDeviceMap) {
+            idDeviceMap.put(device.getEndpoint().getEndpointId(), device);
+        }
         notifyDeviceAdded(device);
     }
 
+    /**
+     * Updates device.
+     * @param device the device
+     */
     public void updateDevice(final Device device) {
         notifyDeviceUpdated(device);
     }
 
+    /**
+     * Removes device.
+     * @param device the device
+     */
     public void removeDevice(final Device device) {
-        devices.remove(device);
         notifyDeviceRemoved(device);
-        idDeviceMap.remove(device.getEndpoint().getDeviceTypeId());
+        synchronized (devices) {
+            devices.remove(device);
+        }
+        synchronized (idDeviceMap) {
+            idDeviceMap.remove(device.getEndpoint().getDeviceTypeId());
+        }
     }
 
+    /**
+     * Adds device listener.
+     * @param deviceListener the device listener
+     */
     public void addDeviceListener(final DeviceListener deviceListener) {
         synchronized (deviceListeners) {
             deviceListeners.add(deviceListener);
         }
     }
 
+    /**
+     * Removes device listener.
+     * @param deviceListener the device listener
+     */
     public void removeDeviceListener(final DeviceListener deviceListener) {
         synchronized (deviceListeners) {
             deviceListeners.remove(deviceListener);
         }
     }
 
+    /**
+     * Notifies listeners that device has been added.
+     * @param device the device
+     */
     public void notifyDeviceAdded(final Device device) {
         synchronized (deviceListeners) {
             for (final DeviceListener deviceListener : deviceListeners) {
@@ -112,6 +168,10 @@ public class ZigbeeApiContext {
         }
     }
 
+    /**
+     * Notifies listeners that device has been updated.
+     * @param device the device
+     */
     public void notifyDeviceUpdated(final Device device) {
         synchronized (deviceListeners) {
             for (final DeviceListener deviceListener : deviceListeners) {
@@ -120,6 +180,10 @@ public class ZigbeeApiContext {
         }
     }
 
+    /**
+     * Notifies listeners that device has been removed.
+     * @param device the device
+     */
     public void notifyDeviceRemoved(final Device device) {
         synchronized (deviceListeners) {
             for (final DeviceListener deviceListener : deviceListeners) {
@@ -128,11 +192,24 @@ public class ZigbeeApiContext {
         }
     }
 
-    public Device getDevice(final String endPointId) {
-        return idDeviceMap.get(endPointId);
+    /**
+     * Gets device by device ID.
+     * @param deviceId the device ID
+     * @return the device
+     */
+    public Device getDevice(final String deviceId) {
+        synchronized (idDeviceMap) {
+            return idDeviceMap.get(deviceId);
+        }
     }
 
-    public List<Device> getIdDeviceMap() {
-        return new ArrayList(devices);
+    /**
+     * Gets list of devices.
+     * @return
+     */
+    public List<Device> getDevices() {
+        synchronized (devices) {
+            return new ArrayList(devices);
+        }
     }
 }

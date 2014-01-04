@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.device.hvac;
 
-import org.bubblecloud.zigbee.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.util.ArraysUtil;

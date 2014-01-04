@@ -1,6 +1,7 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.api.Device;
+import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
 import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
@@ -12,7 +13,6 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
 import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
 
-import java.awt.font.NumericShaper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

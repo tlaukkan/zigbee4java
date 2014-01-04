@@ -59,10 +59,10 @@ public class EndpointBuilder implements Stoppable {
     private final List<ZigbeeEndpointReference> failedEndpoints = new ArrayList<ZigbeeEndpointReference>();
 
     private Map<ZigbeeEndpointReference, Integer> failedAttempts = new HashMap<ZigbeeEndpointReference, Integer>();
-    private final int maxRetriesFailedEndpoints = 5;
+    private final int maxRetriesFailedEndpoints = 3;
 
     private Map<ZigbeeEndpointReference, Long> delayedReattempts = new HashMap<ZigbeeEndpointReference, Long>();
-    private final long delay = 30000;
+    private final long delay = 60000;
 
     private final ZigbeeNetworkManager driver;
     private boolean end;
@@ -230,7 +230,7 @@ public class EndpointBuilder implements Stoppable {
 
     boolean inspectingNewEndpoint = false;
     private void inspectNewEndpoint() {
-        nextInspectionSlot = 100 + System.currentTimeMillis();
+        nextInspectionSlot = 10 + System.currentTimeMillis();
         final ImportingQueue.ZigBeeNodeAddress dev = queue.pop();
         inspectingNewEndpoint = true;
         if (dev == null)  {
@@ -251,7 +251,7 @@ public class EndpointBuilder implements Stoppable {
         //TODO We should add a statistical history for removing a device when we tried it too many times
         logger.info("Trying to register a node extracted from FailedQueue");
         final ZigbeeEndpointReference failed = failedEndpoints.get(0);
-        nextInspectionSlot = 10 * 1000 + System.currentTimeMillis();
+        nextInspectionSlot = 10 + System.currentTimeMillis();
         doCreateZigbeeEndpoint(failed.node, failed.endPoint);
     }
 

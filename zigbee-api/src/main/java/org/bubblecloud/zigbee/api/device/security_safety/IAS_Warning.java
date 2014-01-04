@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.api.device.security_safety;
 
-import org.bubblecloud.zigbee.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASWD;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASZone;

@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASZone;
 import org.bubblecloud.zigbee.api.device.security_safety.IAS_Zone;
-import org.bubblecloud.zigbee.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>

@@ -158,7 +158,7 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
         while (i.hasNext()) {
             Map.Entry<Class<?>, Class<?>> refining = i.next();
             try {
-                context.getDeviceProxyFactories().add(
+                context.getDeviceFactories().add(
                         new DeviceFactoryImpl(context, refining.getKey(), refining.getValue()));
             } catch (Exception ex) {
                 LOGGER.error("Failed to register DeviceFactoryImpl for " + refining.getKey(), ex);
@@ -234,7 +234,7 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
     }
 
     public List<Device> getDevices() {
-        return context.getIdDeviceMap();
+        return context.getDevices();
     }
 
     public void addDeviceListener(DeviceListener deviceListener) {

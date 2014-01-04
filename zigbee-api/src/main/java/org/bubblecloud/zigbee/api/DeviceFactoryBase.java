@@ -22,7 +22,6 @@
 
 package org.bubblecloud.zigbee.api;
 
-import org.bubblecloud.zigbee.ZigbeeApiConstants;
 import org.bubblecloud.zigbee.ZigbeeApiContext;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.util.ArraysUtil;

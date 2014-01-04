@@ -20,7 +20,7 @@
    limitations under the License.
  */
 
-package org.bubblecloud.zigbee;
+package org.bubblecloud.zigbee.api;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.HVAC.FanControl;
 import org.bubblecloud.zigbee.api.cluster.impl.api.HVAC.PumpConfigurationAndControl;

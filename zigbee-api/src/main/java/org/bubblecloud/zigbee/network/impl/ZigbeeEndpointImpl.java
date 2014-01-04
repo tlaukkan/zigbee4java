@@ -60,7 +60,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
     private final byte endPoint;
 
     //private final Properties properties = new Properties();
-    private final ZigbeeNetworkManager driver;
+    private final ZigbeeNetworkManager networkManager;
 
     private final HashSet<Integer> boundCluster = new HashSet<Integer>();
     private final HashSet<ClusterListener> listeners = new HashSet<ClusterListener>();
@@ -72,7 +72,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
             logger.error("Creating {} with some nulls parameters {}", new Object[]{ZigbeeEndpoint.class, drv, n, ep});
             throw new NullPointerException("Cannot create a device with a null ZigbeeNetworkManager or a null ZigbeeNode");
         }
-        driver = drv;
+        networkManager = drv;
         endPoint = ep;
 
         final ZDO_SIMPLE_DESC_RSP result = doRetrieveSimpleDescription(n);
@@ -113,7 +113,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
         while (i < 3) {
             logger.debug("Inspecting node {} / end point {}.", n, endPoint);
 
-            result = driver.sendZDOSimpleDescriptionRequest(
+            result = networkManager.sendZDOSimpleDescriptionRequest(
                     new ZDO_SIMPLE_DESC_REQ((short) nwk, endPoint)
             );
             if (result == null) {
@@ -186,13 +186,13 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
     }
 
     public void send(ClusterMessage input) throws ZigbeeNetworkManagerException {
-        final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(driver);
+        final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
         final byte sender = af.getSendingEndpoint(this, input);
         final byte transaction = af.getNextTransactionId(sender);
         final byte[] msg = input.getClusterMsg();
 
         //TODO Create radius and options according to the current configuration
-        AF_DATA_CONFIRM response = driver.sendAFDataRequest(new AF_DATA_REQUEST(
+        AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
                 (short) node.getNetworkAddress(), (byte) endPoint, sender, input.getId(),
                 transaction, (byte) 0 /*options*/, (byte) 0 /*radius*/, msg
         ));
@@ -205,7 +205,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
     }
 
     public ClusterMessage invoke(ClusterMessage input) throws ZigbeeNetworkManagerException {
-        final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(driver);
+        final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
         final byte sender = af.getSendingEndpoint(this, input);
         /*
         //FIX Removed because transaction is always 0 for the response due to a bug of CC2480
@@ -231,7 +231,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
                 + " to end point: " + endPoint
         );
         //TODO Create radius and options according to the current configuration
-        AF_DATA_CONFIRM response = driver.sendAFDataRequest(new AF_DATA_REQUEST(
+        AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
                 node.getNetworkAddress(), endPoint, sender, input.getId(),
                 transaction, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg
         ));
@@ -274,7 +274,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
                 getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
         });
 
-        final ZDO_BIND_RSP response = driver.sendZDOBind(new ZDO_BIND_REQ(
+        final ZDO_BIND_RSP response = networkManager.sendZDOBind(new ZDO_BIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
                 IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
                 IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceTypeId()
@@ -294,7 +294,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
                 getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
         });
 
-        final ZDO_UNBIND_RSP response = driver.sendZDOUnbind(new ZDO_UNBIND_REQ(
+        final ZDO_UNBIND_RSP response = networkManager.sendZDOUnbind(new ZDO_UNBIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
                 IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
                 IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceTypeId()
@@ -315,21 +315,21 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
             return true;
         }
 
-        byte dstEP = ApplicationFrameworkLayer.getAFLayer(driver).getSendingEndpoint(this, clusterId);
+        byte dstEP = ApplicationFrameworkLayer.getAFLayer(networkManager).getSendingEndpoint(this, clusterId);
 
         logger.info("Binding from endpoint {} to {} for cluster {}", new Object[]{
-                getEndpointId(), IEEEAddress.toString(driver.getIEEEAddress()) + "/" + dstEP, new Integer(clusterId)
+                getEndpointId(), IEEEAddress.toString(networkManager.getIEEEAddress()) + "/" + dstEP, new Integer(clusterId)
         });
 
-        final ZDO_BIND_RSP response = driver.sendZDOBind(new ZDO_BIND_REQ(
+        final ZDO_BIND_RSP response = networkManager.sendZDOBind(new ZDO_BIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
                 IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
-                driver.getIEEEAddress(), (byte) dstEP
+                networkManager.getIEEEAddress(), (byte) dstEP
         ));
         if (response == null || response.Status != 0) {
             logger.warn("ZDO_BIND_REQ failed due to {}, unable to bind from endpoint {} to {} for cluster {}", new Object[]{
                     ResponseStatus.getStatus(response.Status) ,getEndpointId(),
-                    IEEEAddress.toString(driver.getIEEEAddress()) + "/" + dstEP,
+                    IEEEAddress.toString(networkManager.getIEEEAddress()) + "/" + dstEP,
                     new Integer(clusterId)
             });
             return false;
@@ -345,12 +345,12 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
             return true;
         }
 
-        byte dstEP = ApplicationFrameworkLayer.getAFLayer(driver).getSendingEndpoint(this, clusterId);
+        byte dstEP = ApplicationFrameworkLayer.getAFLayer(networkManager).getSendingEndpoint(this, clusterId);
 
-        final ZDO_UNBIND_RSP response = driver.sendZDOUnbind(new ZDO_UNBIND_REQ(
+        final ZDO_UNBIND_RSP response = networkManager.sendZDOUnbind(new ZDO_UNBIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
                 IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
-                driver.getIEEEAddress(), (byte) dstEP
+                networkManager.getIEEEAddress(), (byte) dstEP
         ));
         if (response == null || response.Status != 0) {
             logger.warn("ZDO_BIND_REQ failed, unable to unbind");
@@ -363,7 +363,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
     private void m_addAFMessageListener() {
         if (listeners.isEmpty() && consumers.size() == 0) {
             logger.debug("Registered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
-            driver.addAFMessageListner(this);
+            networkManager.addAFMessageListner(this);
         } else {
             logger.debug("Skipped to registered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             logger.trace(
@@ -376,7 +376,7 @@ public class ZigbeeEndpointImpl implements ZigbeeEndpoint, ApplicationFrameworkM
     private void m_removeAFMessageListener() {
         if (listeners.isEmpty() && consumers.size() == 0) {
             logger.debug("Unregistered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
-            driver.removeAFMessageListener(this);
+            networkManager.removeAFMessageListener(this);
         } else {
             logger.debug("Skipped unregistration of {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             logger.trace(

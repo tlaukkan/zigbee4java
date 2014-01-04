@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
 import org.bubblecloud.zigbee.ZigbeeApiContext;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
