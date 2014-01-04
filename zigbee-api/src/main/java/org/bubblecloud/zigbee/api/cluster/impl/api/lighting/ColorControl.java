@@ -50,7 +50,7 @@ public interface ColorControl extends ZCLCluster {
     public static final byte MOVE_TO_COLOR_ID = 0x07;
     public static final byte MOVE_COLOR_ID = 0x08;
     public static final byte STEP_COLOR_ID = 0x09;
-    public static final byte MOVE_TO_COLOR_TEMPERATURE = 0x0a;
+    public static final byte MOVE_TO_COLOR_TEMPERATURE_ID = 0x0a;
 
     // color information
     public Attribute getAttributeCurrentHue();
@@ -135,25 +135,100 @@ public interface ColorControl extends ZCLCluster {
     public Attribute getAttributeColorPointBIntensity();
 
     // commands
-    public Response moveToHue(short hue, byte direction, int transitionTime) throws ZigBeeClusterException;
 
-    public Response moveHue(byte moveMode, short rate) throws ZigBeeClusterException;
-
-    public Response stepHue(byte stepMode, short stepSize, short transtionTime) throws ZigBeeClusterException;
-
-    public Response movetoSaturation(short saturation, int transitionTime) throws ZigBeeClusterException;
-
-    public Response moveSaturation(byte moveMode, short rate) throws ZigBeeClusterException;
-
-    public Response stepSaturation(byte stepMode, short stepSize, short transitionTime) throws ZigBeeClusterException;
-
-    public Response movetoHue_Saturation(short hue, short saturation, int transitionTime) throws ZigBeeClusterException;
-
+    /**
+     * Sets hue according to HSV (aka HSB) color model.
+     * @param hue hue (degrees) / 360 * 254 in the range 0 - 254.
+     * @param direction 0 = shortest, 1 = longest, 2 = up, 3 = down
+     * @param transitionTime transition time in 1/10ths of a second.
+     * @return the response
+     * @throws ZigBeeClusterException if connectivity or other exception occurs with the device.
+     */
+    public Response moveToHue(int hue, int direction, int transitionTime) throws ZigBeeClusterException;
+    /**
+     * Moves hue according to HSV (aka HSB) color model.
+     * @param moveMode 0 = stop, 1 = up, 2 = reserved, 3 = down
+     * @param rate steps per second
+     * @return the response
+     * @throws ZigBeeClusterException if connectivity or other exception occurs with the device.
+     */
+    public Response moveHue(int moveMode, int rate) throws ZigBeeClusterException;
+    /**
+     * Steps hue according to HSV (aka HSB) color model.
+     * @param stepMode 0 = reserved, 1 = up, 2 = reserved, 3 = down
+     * @param stepSize step to be added or subtracted from current hue
+     * @param transtionTime transition time in 1/10ths of a second.
+     * @return the response
+     * @throws ZigBeeClusterException if connectivity or other exception occurs with the device.
+     */
+    public Response stepHue(int stepMode, int stepSize, int transtionTime) throws ZigBeeClusterException;
+    /**
+     * Moves to saturation according to HSV (aka HSB) color model.
+     * @param saturation saturation * 254 in the range 0 - 254.
+     * @param transitionTime transition time in 1/10ths of a second.
+     * @return the response
+     * @throws ZigBeeClusterException if connectivity or other exception occurs with the device.
+     */
+    public Response movetoSaturation(int saturation, int transitionTime) throws ZigBeeClusterException;
+    /**
+     * Moves saturation according to HSV (aka HSB) color model.
+     * @param moveMode 0 = stop, 1 = up, 2 = reserved, 3 = down
+     * @param rate steps per second
+     * @return the result
+     * @throws ZigBeeClusterException if connectivity or other exception occurs with the device.
+     */
+    public Response moveSaturation(int moveMode, int rate) throws ZigBeeClusterException;
+    /**
+     * Steps saturation according to HSV (aka HSB) color model.
+     * @param stepMode 0 = reserved, 1 = up, 2 = reserved, 3 = down
+     * @param stepSize step to be added or subtracted from current saturation
+     * @param transitionTime transition time in 1/10ths of a second.
+     * @return the result
+     * @throws ZigBeeClusterException if connectivity or other exception occurs with the device.
+     */
+    public Response stepSaturation(int stepMode, int stepSize, int transitionTime) throws ZigBeeClusterException;
+    /**
+     * Moves to hue and saturation according to HSV (aka HSB) color model.
+     * @param hue hue (degrees) / 360 * 254 in the range 0 - 254.
+     * @param saturation saturation * 254 in the range 0 - 254.
+     * @param transitionTime transition time in 1/10ths of a second.
+     * @return the result
+     * @throws ZigBeeClusterException if connectivity or other exception occurs with the device.
+     */
+    public Response moveToHueAndSaturation(int hue, int saturation, int transitionTime) throws ZigBeeClusterException;
+    /**
+     * Moves to color according to CIE 1931 Color Space.
+     *
+     * @param colorX x * 65536 where colorX can be in rance 0 to 65279
+     * @param colorY y * 65536 where colorY can be in rance 0 to 65279
+     * @param transitionTime transition time in 1/10ths of a second.
+     * @return the response
+     * @throws ZigBeeClusterException if connectivity or other exception occurs with the device.
+     */
     public Response moveToColor(int colorX, int colorY, int transitionTime) throws ZigBeeClusterException;
-
+    /**
+     * Moves color according to CIE 1931 Color Space.
+     * @param rateX steps per second in X value
+     * @param rateY steps per second in X value
+     * @return the response
+     * @throws ZigBeeClusterException if connectivity or other exception occurs with the device.
+     */
     public Response moveColor(int rateX, int rateY) throws ZigBeeClusterException;
-
+    /**
+     * Steps color according to CIE 1931 Color Space.
+     * @param stepX step to be added or subtracted from current X value
+     * @param stepY step to be added or subtracted from current Y value
+     * @param transitionTime transition time in 1/10ths of a second.
+     * @return the response
+     * @throws ZigBeeClusterException if connectivity or other exception occurs with the device.
+     */
     public Response stepColor(int stepX, int stepY, int transitionTime) throws ZigBeeClusterException;
-
+    /**
+     * Moves to color temperature.
+     * @param colorTemperature 1 000 000 / color temperature (Kelvins) in the range 1 to 65279
+     * @param transitionTime  transition time in 1/10ths of a second.
+     * @return the response
+     * @throws ZigBeeClusterException if connectivity or other exception occurs with the device.
+     */
     public Response moveToColorTemperature(int colorTemperature, int transitionTime) throws ZigBeeClusterException;
 }

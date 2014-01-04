@@ -24,7 +24,6 @@ package org.bubblecloud.zigbee.api.cluster.impl;
 
 import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
-import org.bubblecloud.zigbee.api.cluster.general.Metering;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
@@ -77,50 +76,90 @@ public class ColorControlImpl implements ColorControl {
 		return null;
 	}
 
-	public String getDescription() throws ZigbeeDeviceException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
     @Override
-    public void moveToHue(short hue, byte direction, int transitionTime) throws ZigbeeDeviceException {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void moveToHue(int hue, int direction, int transitionTime) throws ZigbeeDeviceException {
+        try {
+            DefaultResponse response = (DefaultResponse) colorControlCluster.moveToHue(hue, direction, transitionTime);
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigbeeDeviceException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigbeeDeviceException(e);
+        }
     }
 
     @Override
-    public void moveHue(byte moveMode, short rate) throws ZigbeeDeviceException {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void moveHue(int moveMode, int rate) throws ZigbeeDeviceException {
+        try {
+            DefaultResponse response = (DefaultResponse) colorControlCluster.moveHue(moveMode, rate);
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigbeeDeviceException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigbeeDeviceException(e);
+        }
     }
 
     @Override
-    public void stepHue(byte stepMode, short stepSize, short transtionTime) throws ZigbeeDeviceException {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void stepHue(int stepMode, int stepSize, int transtionTime) throws ZigbeeDeviceException {
+        try {
+            DefaultResponse response = (DefaultResponse) colorControlCluster.stepHue(stepMode, stepSize, transtionTime);
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigbeeDeviceException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigbeeDeviceException(e);
+        }
     }
 
     @Override
-    public void movetoSaturation(short saturation, int transitionTime) throws ZigbeeDeviceException {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void movetoSaturation(int saturation, int transitionTime) throws ZigbeeDeviceException {
+        try {
+            DefaultResponse response = (DefaultResponse) colorControlCluster.movetoSaturation(saturation, transitionTime);
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigbeeDeviceException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigbeeDeviceException(e);
+        }
     }
 
     @Override
-    public void moveSaturation(byte moveMode, short rate) throws ZigbeeDeviceException {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void moveSaturation(int moveMode, int rate) throws ZigbeeDeviceException {
+        try {
+            DefaultResponse response = (DefaultResponse) colorControlCluster.moveSaturation(moveMode, rate);
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigbeeDeviceException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigbeeDeviceException(e);
+        }
     }
 
     @Override
-    public void stepSaturation(byte stepMode, short stepSize, short transitionTime) throws ZigbeeDeviceException {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void stepSaturation(int stepMode, int stepSize, int transitionTime) throws ZigbeeDeviceException {
+        try {
+            DefaultResponse response = (DefaultResponse) colorControlCluster.stepSaturation(
+                    stepMode, stepSize, transitionTime);
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigbeeDeviceException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigbeeDeviceException(e);
+        }
     }
 
     @Override
-    public void movetoHue_Saturation(short hue, short saturation, int transitionTime) throws ZigbeeDeviceException {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void moveToHueAndSaturation(int hue, int saturation, int transitionTime) throws ZigbeeDeviceException {
+        try {
+            DefaultResponse response = (DefaultResponse) colorControlCluster.moveToHueAndSaturation(
+                    hue, saturation, transitionTime);
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigbeeDeviceException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigbeeDeviceException(e);
+        }
     }
 
     @Override
     public void moveToColor(int colorX, int colorY, int transitionTime) throws ZigbeeDeviceException {
         try {
-            DefaultResponse response = (DefaultResponse) colorControlCluster.moveToColor(colorX, colorY, transitionTime);
+            DefaultResponse response = (DefaultResponse) colorControlCluster.moveToColor(
+                    colorX, colorY, transitionTime);
             if (!response.getStatus().equals(Status.SUCCESS))
                 throw new ZigbeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
@@ -130,17 +169,38 @@ public class ColorControlImpl implements ColorControl {
 
     @Override
     public void moveColor(int rateX, int rateY) throws ZigbeeDeviceException {
-        //To change body of implemented methods use File | Settings | File Templates.
+        try {
+            DefaultResponse response = (DefaultResponse) colorControlCluster.moveColor(
+                    rateX, rateY);
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigbeeDeviceException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigbeeDeviceException(e);
+        }
     }
 
     @Override
     public void stepColor(int stepX, int stepY, int transitionTime) throws ZigbeeDeviceException {
-        //To change body of implemented methods use File | Settings | File Templates.
+        try {
+            DefaultResponse response = (DefaultResponse) colorControlCluster.stepColor(
+                    stepX, stepY, transitionTime);
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigbeeDeviceException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigbeeDeviceException(e);
+        }
     }
 
     @Override
     public void moveToColorTemperature(int colorTemperature, int transitionTime) throws ZigbeeDeviceException {
-        //To change body of implemented methods use File | Settings | File Templates.
+        try {
+            DefaultResponse response = (DefaultResponse) colorControlCluster.moveToColorTemperature(
+                    colorTemperature, transitionTime);
+            if (!response.getStatus().equals(Status.SUCCESS))
+                throw new ZigbeeDeviceException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigbeeDeviceException(e);
+        }
     }
 
 

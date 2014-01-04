@@ -22,8 +22,8 @@
 package org.bubblecloud.zigbee.api.cluster.impl.general;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.api.cluster.impl.general.color_control.MoveToColorCommand;
-import org.bubblecloud.zigbee.api.cluster.impl.general.level_control.MoveToLevelCommand;
+import org.bubblecloud.zigbee.api.cluster.impl.core.AbstractCommand;
+import org.bubblecloud.zigbee.api.cluster.impl.core.ByteArrayOutputStreamSerializer;
 import org.bubblecloud.zigbee.api.cluster.impl.global.DefaultResponseImpl;
 import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
@@ -35,8 +35,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- * @version $LastChangedRevision: 42 $ ($LastChangedDate: 2010-09-23 14:21:48 +0200 (Thu, 23 Sep 2010) $)
- * @since 0.8.0
+ * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
 public class ColorControlCluster extends ZCLClusterBase implements ColorControl {
 
@@ -310,63 +309,217 @@ public class ColorControlCluster extends ZCLClusterBase implements ColorControl 
         return attributes;
     }
 
-    public Response moveToHue(short hue, byte direction, int transitionTime) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Response moveHue(byte moveMode, short rate) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Response stepHue(byte stepMode, short stepSize, short transtionTime) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Response movetoSaturation(short saturation, int transitionTime) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Response moveSaturation(byte moveMode, short rate) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Response stepSaturation(byte stepMode, short stepSize,
-                                   short transitionTime) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Response movetoHue_Saturation(short hue, short saturation,
-                                         int transitionTime) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Response moveToColor(int colorX, int colorY, int transitionTime) throws ZigBeeClusterException {
+    @Override
+    public Response moveToHue(int hue, int direction, int transitionTime) throws ZigBeeClusterException {
         enableDefaultResponse();
-        MoveToColorCommand command = new MoveToColorCommand(colorX, colorY, transitionTime);
-        Response response = invoke(command);
+        final MoveToHueCommand command = new MoveToHueCommand(hue, direction, transitionTime);
+        final Response response = invoke(command);
         return new DefaultResponseImpl(response);
     }
 
-    public Response moveColor(int rateX, int rateY) {
-        // TODO Auto-generated method stub
-        return null;
+    private class MoveToHueCommand extends AbstractCommand {
+        public MoveToHueCommand(int hue, int direction, int transitionTime) {
+            super(ColorControl.MOVE_TO_HUE_ID);
+            payload = new byte[4];
+            ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_byte((byte) hue);
+            serializer.append_byte((byte) direction);
+            serializer.append_short((short) transitionTime);
+            payload = serializer.getPayload();
+        }
     }
 
-    public Response stepColor(int stepX, int stepY, int transitionTime) {
-        // TODO Auto-generated method stub
-        return null;
+    @Override
+    public Response moveHue(int moveMode, int rate) throws ZigBeeClusterException {
+        enableDefaultResponse();
+        final MoveHueCommand command = new MoveHueCommand(moveMode, rate);
+        final Response response = invoke(command);
+        return new DefaultResponseImpl(response);
     }
 
-    public Response moveToColorTemperature(int colorTemperature,
-                                           int transitionTime) {
-        // TODO Auto-generated method stub
-        return null;
+    private class MoveHueCommand extends AbstractCommand {
+        public MoveHueCommand(int moveMode, int rate) {
+            super(ColorControl.MOVE_HUE_ID);
+            payload = new byte[2];
+            ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_byte((byte) moveMode);
+            serializer.append_byte((byte) rate);
+            payload = serializer.getPayload();
+        }
+    }
+
+    @Override
+    public Response stepHue(int stepMode, int stepSize, int transtionTime) throws ZigBeeClusterException {
+        enableDefaultResponse();
+        final StepHueCommand command = new StepHueCommand(stepMode, stepSize, transtionTime);
+        final Response response = invoke(command);
+        return new DefaultResponseImpl(response);
+    }
+
+    private class StepHueCommand extends AbstractCommand {
+        public StepHueCommand(int stepMode, int stepSize, int transtionTime) {
+            super(ColorControl.STEP_HUE_ID);
+            payload = new byte[3];
+            ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_byte((byte) stepMode);
+            serializer.append_byte((byte) stepSize);
+            serializer.append_byte((byte) transtionTime);
+        }
+    }
+
+    @Override
+    public Response movetoSaturation(int saturation, int transitionTime) throws ZigBeeClusterException {
+        enableDefaultResponse();
+        final MoveToSaturationCommand command = new MoveToSaturationCommand(saturation, transitionTime);
+        final Response response = invoke(command);
+        return new DefaultResponseImpl(response);
+    }
+
+    private class MoveToSaturationCommand extends AbstractCommand {
+        public MoveToSaturationCommand(int saturation, int transitionTime) {
+            super(ColorControl.MOVE_TO_SATURATION_ID);
+            payload = new byte[3];
+            ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_byte((byte) saturation);
+            serializer.append_short((short) transitionTime);
+            payload = serializer.getPayload();
+        }
+    }
+
+    @Override
+    public Response moveSaturation(int moveMode, int rate) throws ZigBeeClusterException {
+        enableDefaultResponse();
+        final MoveSaturationCommand command = new MoveSaturationCommand(moveMode, rate);
+        final Response response = invoke(command);
+        return new DefaultResponseImpl(response);
+    }
+
+    private class MoveSaturationCommand extends AbstractCommand {
+        public MoveSaturationCommand(int moveMode, int rate) {
+            super(ColorControl.MOVE_SATURATION_ID);
+            payload = new byte[2];
+            ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_byte((byte) moveMode);
+            serializer.append_byte((byte) rate);
+            payload = serializer.getPayload();
+        }
+    }
+
+    @Override
+    public Response stepSaturation(int stepMode, int stepSize,
+                                   int transitionTime) throws ZigBeeClusterException {
+        enableDefaultResponse();
+        final StepSaturationCommand command = new StepSaturationCommand(stepMode, stepSize, transitionTime);
+        final Response response = invoke(command);
+        return new DefaultResponseImpl(response);
+    }
+
+    private class StepSaturationCommand extends AbstractCommand {
+        public StepSaturationCommand(int stepMode, int stepSize, int transtionTime) {
+            super(ColorControl.STEP_SATURATION_ID);
+            payload = new byte[3];
+            ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_byte((byte) stepMode);
+            serializer.append_byte((byte) stepSize);
+            serializer.append_byte((byte) transtionTime);
+        }
+    }
+
+    @Override
+    public Response moveToHueAndSaturation(int hue, int saturation,
+                                           int transitionTime) throws ZigBeeClusterException {
+        enableDefaultResponse();
+        final MoveToHueAndSaturationCommand command = new MoveToHueAndSaturationCommand(hue, saturation, transitionTime);
+        final Response response = invoke(command);
+        return new DefaultResponseImpl(response);
+    }
+
+    private class MoveToHueAndSaturationCommand extends AbstractCommand {
+        public MoveToHueAndSaturationCommand(int hue, int saturation, int transtionTime) {
+            super(ColorControl.MOVE_TO_HUE_AND_SATURATION_ID);
+            payload = new byte[4];
+            ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_byte((byte) hue);
+            serializer.append_byte((byte) saturation);
+            serializer.append_short((short) transtionTime);
+        }
+    }
+
+    @Override
+    public Response moveToColor(int colorX, int colorY, int transitionTime) throws ZigBeeClusterException {
+        enableDefaultResponse();
+        final MoveToColorCommand command = new MoveToColorCommand(colorX, colorY, transitionTime);
+        final Response response = invoke(command);
+        return new DefaultResponseImpl(response);
+    }
+
+    private class MoveToColorCommand extends AbstractCommand {
+        public MoveToColorCommand(int colorX, int colorY, int transitionTime) {
+            super(ColorControl.MOVE_TO_COLOR_ID);
+            payload = new byte[6];
+            ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_short((short) colorX);
+            serializer.append_short((short) colorY);
+            serializer.append_short((short) transitionTime);
+            payload = serializer.getPayload();
+        }
+    }
+
+    @Override
+    public Response moveColor(int rateX, int rateY) throws ZigBeeClusterException {
+        enableDefaultResponse();
+        final MoveColorCommand command = new MoveColorCommand(rateX, rateY);
+        final Response response = invoke(command);
+        return new DefaultResponseImpl(response);
+    }
+
+    private class MoveColorCommand extends AbstractCommand {
+        public MoveColorCommand(int rateX, int rateY) {
+            super(ColorControl.MOVE_COLOR_ID);
+            payload = new byte[4];
+            ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_short((short) rateX);
+            serializer.append_short((short) rateY);
+            payload = serializer.getPayload();
+        }
+    }
+
+    @Override
+    public Response stepColor(int stepX, int stepY, int transitionTime) throws ZigBeeClusterException {
+        enableDefaultResponse();
+        final StepColorCommand command = new StepColorCommand(stepX, stepY, transitionTime);
+        final Response response = invoke(command);
+        return new DefaultResponseImpl(response);
+    }
+
+    private class StepColorCommand extends AbstractCommand {
+        public StepColorCommand(int stepX, int stepY, int transitionTime) {
+            super(ColorControl.STEP_COLOR_ID);
+            payload = new byte[6];
+            ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_short((short) stepX);
+            serializer.append_short((short) stepY);
+            serializer.append_short((short) transitionTime);
+            payload = serializer.getPayload();
+        }
+    }
+
+    @Override
+    public Response moveToColorTemperature(int colorTemperature, int transitionTime) throws ZigBeeClusterException {
+        enableDefaultResponse();
+        final MoveToColorTemperatureCommand command = new MoveToColorTemperatureCommand(colorTemperature, transitionTime);
+        final Response response = invoke(command);
+        return new DefaultResponseImpl(response);
+    }
+
+    private class MoveToColorTemperatureCommand extends AbstractCommand {
+        public MoveToColorTemperatureCommand(int colorTemperature, int transitionTime) {
+            super(ColorControl.MOVE_TO_COLOR_TEMPERATURE_ID);
+            payload = new byte[4];
+            ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_short((short) colorTemperature);
+            serializer.append_short((short) transitionTime);
+            payload = serializer.getPayload();
+        }
     }
 }
