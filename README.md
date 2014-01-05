@@ -1,12 +1,12 @@
-Zigbee API for Java
+ZigBee API for Java
 ===================
 
-Zigbee API for Java is a fork of ZB4OSGI for usage without OSGI. Changes include removal of OSGI related dependencies
+ZigBee API for Java is a fork of ZB4OSGI for usage without OSGI. Changes include removal of OSGI related dependencies
 and refactored API.
 
 ZB4OSGI: http://zb4osgi.aaloa.org/
 
-This library provides API to Zigbee network through CC2531 dongle.
+This library provides API to ZigBee network through CC2531 dongle.
 
 Example hardware that can be controlled with zigbee4java:
 
@@ -47,10 +47,10 @@ Usage
 -----
 
 ```
-ZigbeeApi zigbeeApi = new ZigbeeApi("/dev/ttyACM0", 4951, 11, false);
+ZigBeeApi zigbeeApi = new ZigBeeApi("/dev/ttyACM0", 4951, 11, false);
 zigbeeApi.startup();
 
-Device lamp = zigbeeApi.getZigbeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
+Device lamp = zigbeeApi.getZigBeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
 
 Basic basic = lamp.getCluster(Basic);
 String manufactureName = basic.getManufacturerName();
@@ -66,5 +66,5 @@ reporter.addReportListener(reportListener);
 Examples
 --------
 
-1. ZigbeeConsole.java
+1. ZigBeeConsole.java
 
