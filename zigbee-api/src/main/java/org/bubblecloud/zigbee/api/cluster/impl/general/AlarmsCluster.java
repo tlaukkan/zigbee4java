@@ -25,8 +25,8 @@ package org.bubblecloud.zigbee.api.cluster.impl.general;
 import org.bubblecloud.zigbee.network.ClusterFilter;
 import org.bubblecloud.zigbee.network.ClusterListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
@@ -87,7 +87,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
 
     private class AlarmsListenerNotifier implements ClusterListener {
 
-        public void handleCluster(ZigbeeEndpoint endpoint, ClusterMessage c) {
+        public void handleCluster(ZigBeeEndpoint endpoint, ClusterMessage c) {
             try {
                 ResponseImpl response = new ResponseImpl(c, ID);
                 AlarmResponse alarm = new AlarmResponseImpl(response);
@@ -121,7 +121,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
 
     }
 
-    public AlarmsCluster(ZigbeeEndpoint zbDevice) {
+    public AlarmsCluster(ZigBeeEndpoint zbDevice) {
         super(zbDevice);
         alarmCount = new AttributeImpl(zbDevice, this, Attributes.ALLARM_COUNT);
         attributes = new AttributeImpl[]{alarmCount};
@@ -148,12 +148,12 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
         synchronized (listeners) {
             if (listeners.size() == 0) {
                 try {
-                    getZigbeeEndpoint().bindToLocal(ID);
-                } catch (ZigbeeNetworkManagerException e) {
+                    getZigBeeEndpoint().bindToLocal(ID);
+                } catch (ZigBeeNetworkManagerException e) {
                     log.error("Unable to bind to device for Alarms reporting", e);
                     return false;
                 }
-                if (getZigbeeEndpoint().addClusterListener(bridge) == false) {
+                if (getZigBeeEndpoint().addClusterListener(bridge) == false) {
                     log.error("Unable to register the cluster listener for Alarms reporting");
                     return false;
                 }
@@ -168,12 +168,12 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
             boolean removed = listeners.remove(listener);
             if (listeners.size() == 0 && removed) {
                 try {
-                    getZigbeeEndpoint().unbindFromLocal(ID);
-                } catch (ZigbeeNetworkManagerException e) {
+                    getZigBeeEndpoint().unbindFromLocal(ID);
+                } catch (ZigBeeNetworkManagerException e) {
                     log.error("Unable to unbind to device for Alarms reporting", e);
                     return false;
                 }
-                if (getZigbeeEndpoint().removeClusterListener(bridge) == false) {
+                if (getZigBeeEndpoint().removeClusterListener(bridge) == false) {
                     log.error("Unable to unregister the cluster listener for Alarms reporting");
                     return false;
                 }

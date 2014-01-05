@@ -22,13 +22,13 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.FanControl;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.general.FanControlCluster;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 /**
  * 
@@ -41,7 +41,7 @@ public class FanControlImpl implements FanControl {
 	private FanControlCluster fanControlCluster;
 
 
-	public FanControlImpl(ZigbeeEndpoint zbDevice){
+	public FanControlImpl(ZigBeeEndpoint zbDevice){
 		fanControlCluster = new FanControlCluster(zbDevice);
 		
 	}
@@ -74,11 +74,11 @@ public class FanControlImpl implements FanControl {
 		return null;
 	}
 
-	public String getDescription() throws ZigbeeDeviceException {
+	public String getDescription() throws ZigBeeDeviceException {
 		 try {
 	            return (String) fanControlCluster.getAttributeDescription().getValue();
 	        } catch (ZigBeeClusterException e) {
-	            throw new ZigbeeDeviceException(e);
+	            throw new ZigBeeDeviceException(e);
 	        }
 	}
 

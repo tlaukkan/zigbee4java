@@ -21,9 +21,9 @@
 */
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
-import org.bubblecloud.zigbee.ZigbeeApiContext;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.general.BinaryInput;
 import org.bubblecloud.zigbee.api.device.generic.SimpleSensor;
@@ -39,9 +39,9 @@ public class SimpleSensorDevice extends DeviceBase implements SimpleSensor {
 
     private BinaryInput binaryInput;
 
-    public SimpleSensorDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public SimpleSensorDevice(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
         super(ctx, zbDevice);
-        binaryInput = (BinaryInput) getCluster(ZigbeeApiConstants.CLUSTER_ID_BINARY_INPUT);
+        binaryInput = (BinaryInput) getCluster(ZigBeeApiConstants.CLUSTER_ID_BINARY_INPUT);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {

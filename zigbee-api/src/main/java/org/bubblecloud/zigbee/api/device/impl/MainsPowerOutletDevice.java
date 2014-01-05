@@ -21,9 +21,9 @@
 */
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
-import org.bubblecloud.zigbee.ZigbeeApiContext;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
@@ -41,12 +41,12 @@ public class MainsPowerOutletDevice extends DeviceBase implements MainsPowerOutl
     private Scenes scenes;
     private Groups groups;
 
-    public MainsPowerOutletDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public MainsPowerOutletDevice(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
 
         super(ctx, zbDevice);
-        onOff = (OnOff) getCluster(ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
-        groups = (Groups) getCluster(ZigbeeApiConstants.CLUSTER_ID_GROUPS);
-        scenes = (Scenes) getCluster(ZigbeeApiConstants.CLUSTER_ID_SCENES);
+        onOff = (OnOff) getCluster(ZigBeeApiConstants.CLUSTER_ID_ON_OFF);
+        groups = (Groups) getCluster(ZigBeeApiConstants.CLUSTER_ID_GROUPS);
+        scenes = (Scenes) getCluster(ZigBeeApiConstants.CLUSTER_ID_SCENES);
     }
 
     public OnOff getOnOff() {

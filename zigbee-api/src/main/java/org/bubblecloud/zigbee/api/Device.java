@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.api;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.general.Alarms;
 import org.bubblecloud.zigbee.api.cluster.general.Basic;
@@ -38,7 +38,7 @@ import org.bubblecloud.zigbee.util.ArraysUtil;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public interface Device extends ZigbeeEndpoint {
+public interface Device extends ZigBeeEndpoint {
 
     public static final String ZIGBEE_DEVICE_SERVICE = "zigbee.service.id";
     public static final String ZIGBEE_DEVICE_UUID = "zigbee.device.uuid";
@@ -47,8 +47,8 @@ public interface Device extends ZigbeeEndpoint {
     public static final String HA_DEVICE_GROUP = "zigbee.ha.group";
     public static final String HA_DEVICE_STANDARD = "zigbee.ha.standard";
 
-    public static final int[] MANDATORY = {ZigbeeApiConstants.CLUSTER_ID_BASIC, ZigbeeApiConstants.CLUSTER_ID_IDENTIFY};
-    public static final int[] OPTIONAL = {ZigbeeApiConstants.CLUSTER_ID_POWER_CONFIGURATION, ZigbeeApiConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION, ZigbeeApiConstants.CLUSTER_ID_ALARMS};
+    public static final int[] MANDATORY = {ZigBeeApiConstants.CLUSTER_ID_BASIC, ZigBeeApiConstants.CLUSTER_ID_IDENTIFY};
+    public static final int[] OPTIONAL = {ZigBeeApiConstants.CLUSTER_ID_POWER_CONFIGURATION, ZigBeeApiConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION, ZigBeeApiConstants.CLUSTER_ID_ALARMS};
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
 
     public String getDeviceType();
@@ -127,10 +127,10 @@ public interface Device extends ZigbeeEndpoint {
 
 
     /**
-     * @return return {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} service that has been refined has {@link Device}
+     * @return return {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} service that has been refined has {@link Device}
      * @since 0.2.0
      */
-    public ZigbeeEndpoint getEndpoint();
+    public ZigBeeEndpoint getEndpoint();
 
     /**
      * This method modify the <i>Binding Table</i> of physical device by adding the following entry:
@@ -138,14 +138,14 @@ public interface Device extends ZigbeeEndpoint {
      * this.getNode().getIEEEAddress(), this.getDeviceTypeId(), clusterId, device.getNode().getIEEEAddress(), device.getDeviceTypeId()
      * </pre>
      *
-     * @param device {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} the device proxy that we want to bound to
+     * @param device {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} the device proxy that we want to bound to
      * @param clusterId   the clusterId that we want to bound to
      * @return <code>true</code> if and only if the operation succeeded
-     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException
+     * @throws org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException
      *
      * @since 0.5.0
      */
-    public boolean bindTo(Device device, int clusterId) throws ZigbeeNetworkManagerException;
+    public boolean bindTo(Device device, int clusterId) throws ZigBeeNetworkManagerException;
 
     /**
      * This method modify the <i>Binding Table</i> of physical device by removing the entry if exists
@@ -153,11 +153,11 @@ public interface Device extends ZigbeeEndpoint {
      * this.getNode().getIEEEAddress(), this.getDeviceTypeId(), clusterId, device.getNode().getIEEEAddress(), device.getDeviceTypeId()
      * </pre>
      *
-     * @param device {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} the device that we want to bound to
+     * @param device {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} the device that we want to bound to
      * @param clusterId   the clusterId that we want to unbound from
      * @return <code>true</code> if and only if the operation succeeded
-     * @throws org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException
+     * @throws org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException
      * @since 0.5.0
      */
-    public boolean unbindFrom(Device device, int clusterId) throws ZigbeeNetworkManagerException;
+    public boolean unbindFrom(Device device, int clusterId) throws ZigBeeNetworkManagerException;
 }

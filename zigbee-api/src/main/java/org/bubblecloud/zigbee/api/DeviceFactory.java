@@ -22,11 +22,11 @@
 
 package org.bubblecloud.zigbee.api;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 /**
  * This class represent the main interface for the extendable architecture of the<br>
- * refinement driver. Each refinement driver from {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} to {@link Device}<br>
+ * refinement driver. Each refinement driver from {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} to {@link Device}<br>
  * has to implement this interface as OSGi Service and register it on OSGi platform.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -57,15 +57,15 @@ public interface DeviceFactory {
 
 
     /**
-     * @param zbd the {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} to refine
-     * @return the {@link DeviceBase} refined from {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} from this<br>
+     * @param zbd the {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} to refine
+     * @return the {@link DeviceBase} refined from {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} from this<br>
      *         refinement driver
-     * @throws ZigbeeDeviceException
+     * @throws ZigBeeDeviceException
      */
-    public DeviceBase getInstance(ZigbeeEndpoint zbd);
+    public DeviceBase getInstance(ZigBeeEndpoint zbd);
 
     /**
      */
-    public int hasMatch(ZigbeeEndpoint device);
+    public int hasMatch(ZigBeeEndpoint device);
 
 }

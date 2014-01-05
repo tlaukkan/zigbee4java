@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.device.generic;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.cluster.general.OnOffSwitchConfiguration;
 import org.bubblecloud.zigbee.util.ArraysUtil;
@@ -39,7 +39,7 @@ public interface OnOffSwitch extends Device {
     public static final String NAME = "OnOff Switch";
     public static final int[] MANDATORY = Device.MANDATORY;
     public static final int[] OPTIONAL = ArraysUtil.append(Device.OPTIONAL, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_ON_OFF_SWITCH_CONFIGURATION
+            ZigBeeApiConstants.CLUSTER_ID_ON_OFF_SWITCH_CONFIGURATION
     });
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

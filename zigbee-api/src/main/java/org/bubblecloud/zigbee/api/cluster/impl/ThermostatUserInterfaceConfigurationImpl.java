@@ -22,13 +22,13 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.ThermostatUserInterfaceConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.general.ThermostatUserInterfaceConfigurationCluster;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class ThermostatUserInterfaceConfigurationImpl implements ThermostatUserI
 	private ThermostatUserInterfaceConfigurationCluster thermostatUserInterfaceConfigurationCluster;
 
 
-	public ThermostatUserInterfaceConfigurationImpl(ZigbeeEndpoint zbDevice){
+	public ThermostatUserInterfaceConfigurationImpl(ZigBeeEndpoint zbDevice){
 		thermostatUserInterfaceConfigurationCluster = new ThermostatUserInterfaceConfigurationCluster(zbDevice);
 		
 	}
@@ -75,11 +75,11 @@ public class ThermostatUserInterfaceConfigurationImpl implements ThermostatUserI
 		return null;
 	}
 
-	public String getDescription() throws ZigbeeDeviceException {
+	public String getDescription() throws ZigBeeDeviceException {
 		 try {
 	            return (String) thermostatUserInterfaceConfigurationCluster.getAttributeDescription().getValue();
 	        } catch (ZigBeeClusterException e) {
-	            throw new ZigbeeDeviceException(e);
+	            throw new ZigBeeDeviceException(e);
 	        }
 	}
 

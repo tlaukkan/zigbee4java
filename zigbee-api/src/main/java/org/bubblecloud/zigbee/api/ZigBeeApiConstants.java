@@ -60,7 +60,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.IASZone;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.4.0
  */
-public class ZigbeeApiConstants {
+public class ZigBeeApiConstants {
 
     public static final int PROFILE_ID_HOME_AUTOMATION = 0x0104;
 

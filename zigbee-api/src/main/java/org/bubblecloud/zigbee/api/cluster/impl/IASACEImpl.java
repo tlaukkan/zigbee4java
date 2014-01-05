@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.api.cluster.impl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASACE;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
@@ -43,7 +43,7 @@ public class IASACEImpl implements IASACE {
 
     private final IASACECluster cluster;
 
-    public IASACEImpl(ZigbeeEndpoint zbDevice) {
+    public IASACEImpl(ZigBeeEndpoint zbDevice) {
         cluster = new IASACECluster(zbDevice);
     }
 
@@ -72,62 +72,62 @@ public class IASACEImpl implements IASACE {
         return null;
     }
 
-    public Response arm(byte armMode) throws ZigbeeDeviceException {
+    public Response arm(byte armMode) throws ZigBeeDeviceException {
         try {
             Response response = (Response) cluster.arm(armMode);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void bypass(BypassPayload payload) throws ZigbeeDeviceException {
+    public void bypass(BypassPayload payload) throws ZigBeeDeviceException {
         try {
             cluster.bypass(payload);
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void emergency() throws ZigbeeDeviceException {
+    public void emergency() throws ZigBeeDeviceException {
         try {
             cluster.emergency();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void fire() throws ZigbeeDeviceException {
+    public void fire() throws ZigBeeDeviceException {
         try {
             cluster.fire();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void panic() throws ZigbeeDeviceException {
+    public void panic() throws ZigBeeDeviceException {
         try {
             cluster.panic();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public ZoneIDMapResponse getZoneIdMap() throws ZigbeeDeviceException {
+    public ZoneIDMapResponse getZoneIdMap() throws ZigBeeDeviceException {
         try {
             ZoneIDMapResponse response = (ZoneIDMapResponse) cluster.getZoneIdMap();
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public ZoneInformationResponse getZoneInformation(int zoneID) throws ZigbeeDeviceException {
+    public ZoneInformationResponse getZoneInformation(int zoneID) throws ZigBeeDeviceException {
         try {
             ZoneInformationResponse response = (ZoneInformationResponse) cluster.getZoneInformation(zoneID);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 }

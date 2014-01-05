@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.general.AnalogInput;
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.api.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 public class AnalogInputCluster extends ZCLClusterBase implements AnalogInput {
 
@@ -48,7 +48,7 @@ public class AnalogInputCluster extends ZCLClusterBase implements AnalogInput {
 	
 	private final Attribute[] attributes;
 	
-	public AnalogInputCluster(ZigbeeEndpoint zbDevice){
+	public AnalogInputCluster(ZigBeeEndpoint zbDevice){
 		super(zbDevice);
 	
 		 description  = new AttributeImpl(zbDevice,this, Attributes.DESCRIPTION);

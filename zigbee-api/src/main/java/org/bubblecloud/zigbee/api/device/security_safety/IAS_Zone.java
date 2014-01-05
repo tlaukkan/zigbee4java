@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.api.device.security_safety;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASZone;
 import org.bubblecloud.zigbee.util.ArraysUtil;
@@ -36,7 +36,7 @@ public interface IAS_Zone extends Device {
     public static final int DEVICE_ID = 0x0402;
     public static final String NAME = "IAS Zone";
     public static final int[] MANDATORY = ArraysUtil.append(Device.MANDATORY, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_IAS_ZONE
+            ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE
     });
     public static final int[] OPTIONAL = Device.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);

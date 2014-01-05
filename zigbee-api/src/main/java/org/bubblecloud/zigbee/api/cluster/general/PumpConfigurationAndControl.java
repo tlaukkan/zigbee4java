@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.general;
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 
 /**
@@ -34,6 +34,6 @@ import org.bubblecloud.zigbee.api.cluster.Cluster;
 
 public interface PumpConfigurationAndControl extends Cluster {
     
-	 public String getDescription() throws ZigbeeDeviceException;
+	 public String getDescription() throws ZigBeeDeviceException;
 
 }

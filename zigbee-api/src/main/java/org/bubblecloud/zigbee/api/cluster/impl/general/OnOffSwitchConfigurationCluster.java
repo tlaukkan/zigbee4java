@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.general;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.OnOffSwitchConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
@@ -41,7 +41,7 @@ public class OnOffSwitchConfigurationCluster extends ZCLClusterBase implements O
 
     private final Attribute[] attributes;
 
-    public OnOffSwitchConfigurationCluster(ZigbeeEndpoint zbDevice) {
+    public OnOffSwitchConfigurationCluster(ZigBeeEndpoint zbDevice) {
         super(zbDevice);
         switchType = new AttributeImpl(zbDevice, this, Attributes.SWITCH_TYPE);
         switchAction = new AttributeImpl(zbDevice, this, Attributes.SWITCH_ACTIONS);

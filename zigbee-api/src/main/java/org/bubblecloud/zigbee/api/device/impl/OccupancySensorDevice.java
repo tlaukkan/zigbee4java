@@ -22,10 +22,10 @@
 
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
-import org.bubblecloud.zigbee.ZigbeeApiContext;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.device.lighting.OccupancySensor;
 
@@ -39,9 +39,9 @@ public class OccupancySensorDevice extends DeviceBase implements OccupancySensor
 
     private OccupancySensing occupancySensing;
 
-    public OccupancySensorDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public OccupancySensorDevice(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
         super(ctx, zbDevice);
-        occupancySensing = (OccupancySensing) getCluster(ZigbeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING);
+        occupancySensing = (OccupancySensing) getCluster(ZigBeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING);
     }
 
     public OccupancySensing getOccupacySensing() {

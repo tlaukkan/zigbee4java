@@ -16,18 +16,18 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.api.*;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 import java.util.*;
 
 /**
- * Zigbee proxy context.
+ * ZigBee proxy context.
  *
  * This class is thread safe.
  *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
-public class ZigbeeApiContext {
+public class ZigBeeApiContext {
     /**
      * The cluster factory.
      */
@@ -83,7 +83,7 @@ public class ZigbeeApiContext {
      * @param device the zigbee device
      * @return the best matching device factory.
      */
-    public DeviceFactory getBestDeviceProxyFactory(final ZigbeeEndpoint device) {
+    public DeviceFactory getBestDeviceProxyFactory(final ZigBeeEndpoint device) {
         synchronized (deviceFactories) {
             DeviceFactory bestMatchingFactory = null;
             int bestMatching = -1;

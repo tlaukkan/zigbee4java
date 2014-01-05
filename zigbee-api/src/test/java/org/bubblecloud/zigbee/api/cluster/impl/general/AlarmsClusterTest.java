@@ -28,8 +28,8 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.*;
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.Alarms;
@@ -47,8 +47,8 @@ import org.junit.Test;
  */
 public class AlarmsClusterTest {
 
-    private ZigbeeEndpoint createMockDevice() throws ZigbeeNetworkManagerException {
-        ZigbeeEndpoint mock = createMock(ZigbeeEndpoint.class);
+    private ZigBeeEndpoint createMockDevice() throws ZigBeeNetworkManagerException {
+        ZigBeeEndpoint mock = createMock(ZigBeeEndpoint.class);
 
         expect(mock.invoke( (ClusterMessage) anyObject()))
             .andReturn( new RawClusterMessageImpl(
@@ -62,11 +62,11 @@ public class AlarmsClusterTest {
     @Test
     public void testResetAlarm() {
         AlarmsCluster cluster = null;
-        ZigbeeEndpoint device = null;
+        ZigBeeEndpoint device = null;
         try {
             device = createMockDevice();
             cluster = new AlarmsCluster(device);
-        } catch (ZigbeeNetworkManagerException ignored) {
+        } catch (ZigBeeNetworkManagerException ignored) {
         }
         try {
             DefaultResponse response = (DefaultResponse) cluster.resetAlarm(1, 1);

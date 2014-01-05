@@ -23,13 +23,13 @@
 package org.bubblecloud.zigbee.api.cluster.impl;
 
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.Metering;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.general.MeteringCluster;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 /**
  * 
@@ -43,7 +43,7 @@ public class MeteringImpl implements Metering {
 	private MeteringCluster meteringCluster;
 
 
-	public MeteringImpl(ZigbeeEndpoint zbDevice){
+	public MeteringImpl(ZigBeeEndpoint zbDevice){
 		 meteringCluster = new MeteringCluster(zbDevice);
 		
 	}
@@ -76,11 +76,11 @@ public class MeteringImpl implements Metering {
 		return null;
 	}
 
-	public String getDescription() throws ZigbeeDeviceException {
+	public String getDescription() throws ZigBeeDeviceException {
 		 try {
 	            return (String) meteringCluster.getAttributeDescription().getValue();
 	        } catch (ZigBeeClusterException e) {
-	            throw new ZigbeeDeviceException(e);
+	            throw new ZigBeeDeviceException(e);
 	        }
 	}
 

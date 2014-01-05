@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.api.cluster.security_safety;
 
 import org.bubblecloud.zigbee.api.cluster.Cluster;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_zone.ZoneEnrollRequestPayload;
@@ -47,12 +47,12 @@ public interface IASZone extends Cluster {
 
     public Attribute getIASCIEAddress();
 
-    public ZoneEnrollResponse zoneEnrollRequest(ZoneEnrollRequestPayload payload) throws ZigbeeDeviceException;
+    public ZoneEnrollResponse zoneEnrollRequest(ZoneEnrollRequestPayload payload) throws ZigBeeDeviceException;
 
     /**
      * @since 0.7.0
      */
-    public Response zoneStatusChangeNotification(ZoneStatusChangeNotificationPayload payload) throws ZigbeeDeviceException;
+    public Response zoneStatusChangeNotification(ZoneStatusChangeNotificationPayload payload) throws ZigBeeDeviceException;
 
     public boolean addZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener);
 

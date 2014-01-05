@@ -19,17 +19,36 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.bubblecloud.zigbee.network;
+
+package org.bubblecloud.zigbee.network.impl;
 
 /**
+ * Root exception for all the code related to ZigBee<br>
+ * the BaseDriver should use ZibeeBasedriverException by including<br>
+ * communication exception as nested Throwable<br>
+ * <p/>
+ * The ZCL bundle should use ZigBeeClusterException<br>
+ * and HA Drive should use ZigBeeDeviceException.
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.5.1
+ * @since 0.1.0
  */
-public interface ZigbeeDiscoveryMonitor {
+public class ZigBeeException extends Exception {
 
-    public void browsedNode(ZigbeeNode node);
+    public ZigBeeException(String msg) {
+        super(msg);
+    }
 
-    public void announcedNode(ZigbeeNode node);
+    public ZigBeeException(Throwable ex) {
+        super(ex);
+    }
 
+    /**
+     * @since 0.5.0
+     */
+    public ZigBeeException(String msg, Throwable ex) {
+        super(msg, ex);
+    }
 }

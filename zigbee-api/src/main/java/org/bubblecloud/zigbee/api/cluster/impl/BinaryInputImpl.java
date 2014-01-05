@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.api.cluster.impl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.BinaryInput;
 import org.bubblecloud.zigbee.api.cluster.general.event.PresentValueListener;
 import org.bubblecloud.zigbee.api.cluster.impl.event.PresentValueBridgeListeners;
@@ -48,7 +48,7 @@ public class BinaryInputImpl implements BinaryInput {
     private final BinaryInputCluster binaryInput;
     private PresentValueBridgeListeners eventBridge;
 
-    public BinaryInputImpl(ZigbeeEndpoint zbDevice) {
+    public BinaryInputImpl(ZigBeeEndpoint zbDevice) {
         binaryInput = new BinaryInputCluster(zbDevice);
         presentValue = binaryInput.getAttributePresentValue();
         outOfService = binaryInput.getAttributeOutOfService();
@@ -90,83 +90,83 @@ public class BinaryInputImpl implements BinaryInput {
     }
 
 
-    public String getActiveText() throws ZigbeeDeviceException {
+    public String getActiveText() throws ZigBeeDeviceException {
         try {
             return (String) binaryInput.getAttributeActiveText().getValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
 
-    public String getDescription() throws ZigbeeDeviceException {
+    public String getDescription() throws ZigBeeDeviceException {
         try {
             return (String) binaryInput.getAttributeDescription().getValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
 
-    public String getInactiveText() throws ZigbeeDeviceException {
+    public String getInactiveText() throws ZigBeeDeviceException {
         try {
             return (String) binaryInput.getAttributeInactiveText().getValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
 
-    public int getPolarity() throws ZigbeeDeviceException {
+    public int getPolarity() throws ZigBeeDeviceException {
         try {
             return (Integer) binaryInput.getAttributePolarity().getValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
 
-    public int getReliability() throws ZigbeeDeviceException {
+    public int getReliability() throws ZigBeeDeviceException {
         try {
             return (Integer) binaryInput.getAttributeReliability().getValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
 
-    public long getApplicationType() throws ZigbeeDeviceException {
+    public long getApplicationType() throws ZigBeeDeviceException {
         try {
             return (Long) binaryInput.getAttributeApplicationType().getValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
 
-    public boolean getOutOfService() throws ZigbeeDeviceException {
+    public boolean getOutOfService() throws ZigBeeDeviceException {
         try {
             return (Boolean) binaryInput.getAttributeOutOfService().getValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
 
-    public boolean getPresentValue() throws ZigbeeDeviceException {
+    public boolean getPresentValue() throws ZigBeeDeviceException {
         try {
             return (Boolean) binaryInput.getAttributePresentValue().getValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
 
-    public int getStatusFlags() throws ZigbeeDeviceException {
+    public int getStatusFlags() throws ZigBeeDeviceException {
         try {
             return (Integer) binaryInput.getAttributeStatusFlags().getValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 

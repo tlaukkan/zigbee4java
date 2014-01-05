@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.api.cluster.impl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing.OccupancySensingCluster;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.OccupancyListener;
 import org.bubblecloud.zigbee.api.cluster.impl.event.OccupancyBridgeListeners;
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
@@ -53,7 +53,7 @@ public class OccupancySensingImpl implements OccupancySensing {
 
     private OccupancyBridgeListeners eventBridge;
 
-    public OccupancySensingImpl(ZigbeeEndpoint zbDevice) {
+    public OccupancySensingImpl(ZigBeeEndpoint zbDevice) {
 
         occupacySensingCluster = new OccupancySensingCluster(zbDevice);
         occupancy = occupacySensingCluster.getAttributeOccupancy();

@@ -22,9 +22,9 @@
 
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
-import org.bubblecloud.zigbee.ZigbeeApiContext;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.IlluminanceMeasurement;
@@ -41,12 +41,12 @@ public class LightSensorDevice extends DeviceBase implements LightSensor {
     private IlluminanceMeasurement illuminanceMeasurement;
     private Groups groups;
 
-    public LightSensorDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public LightSensorDevice(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
 
         super(ctx, zbDevice);
 
-        illuminanceMeasurement = (IlluminanceMeasurement) getCluster(ZigbeeApiConstants.CLUSTER_ID_ILLUMINANCE_MEASUREMENT);
-        groups = (Groups) getCluster(ZigbeeApiConstants.CLUSTER_ID_GROUPS);
+        illuminanceMeasurement = (IlluminanceMeasurement) getCluster(ZigBeeApiConstants.CLUSTER_ID_ILLUMINANCE_MEASUREMENT);
+        groups = (Groups) getCluster(ZigBeeApiConstants.CLUSTER_ID_GROUPS);
     }
 
     public IlluminanceMeasurement getIlluminanceMeasurement() {

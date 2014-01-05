@@ -22,10 +22,10 @@
 
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
-import org.bubblecloud.zigbee.ZigbeeApiContext;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
@@ -48,16 +48,16 @@ public class ColorDimmableLightDevice extends DeviceBase implements ColorDimmabl
     private OccupancySensing occupancySensing;
     private ColorControl colorControl;
 
-    public ColorDimmableLightDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public ColorDimmableLightDevice(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
 
         super(ctx, zbDevice);
 
-        onOff = (OnOff) getCluster(ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
-        scenes = (Scenes) getCluster(ZigbeeApiConstants.CLUSTER_ID_SCENES);
-        groups = (Groups) getCluster(ZigbeeApiConstants.CLUSTER_ID_GROUPS);
-        levelControl = (LevelControl) getCluster(ZigbeeApiConstants.DEVICE_ID_LEVEL_CONTROL);
-        occupancySensing = (OccupancySensing) getCluster(ZigbeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING);
-        colorControl = (ColorControl) getCluster(ZigbeeApiConstants.CLUSTER_ID_COLOR_CONTROL);
+        onOff = (OnOff) getCluster(ZigBeeApiConstants.CLUSTER_ID_ON_OFF);
+        scenes = (Scenes) getCluster(ZigBeeApiConstants.CLUSTER_ID_SCENES);
+        groups = (Groups) getCluster(ZigBeeApiConstants.CLUSTER_ID_GROUPS);
+        levelControl = (LevelControl) getCluster(ZigBeeApiConstants.DEVICE_ID_LEVEL_CONTROL);
+        occupancySensing = (OccupancySensing) getCluster(ZigBeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING);
+        colorControl = (ColorControl) getCluster(ZigBeeApiConstants.CLUSTER_ID_COLOR_CONTROL);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {

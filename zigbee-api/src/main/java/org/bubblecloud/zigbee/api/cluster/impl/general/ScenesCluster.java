@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.general;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
@@ -62,7 +62,7 @@ public class ScenesCluster extends ZCLClusterBase implements Scenes {
 
     private final Attribute[] attributes;
 
-    public ScenesCluster(ZigbeeEndpoint zbDevice) {
+    public ScenesCluster(ZigBeeEndpoint zbDevice) {
         super(zbDevice);
         sceneCount = new AttributeImpl(zbDevice, this, Attributes.SCENE_COUNT);
         currentScene = new AttributeImpl(zbDevice, this, Attributes.CURRENT_SCENE);

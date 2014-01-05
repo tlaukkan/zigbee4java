@@ -22,9 +22,9 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.general.Identify;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
@@ -46,36 +46,36 @@ public class IdentifyImpl implements Identify {
     private Attribute identifyTime;
 
 
-    public IdentifyImpl(ZigbeeEndpoint zbDevice) {
+    public IdentifyImpl(ZigBeeEndpoint zbDevice) {
         identifyCluster = new IdentifyCluster(zbDevice);
 
     }
 
-    public int IdentifyQuery() throws ZigbeeDeviceException {
+    public int IdentifyQuery() throws ZigBeeDeviceException {
         try {
             IdentifyQueryResponse response = (IdentifyQueryResponse) identifyCluster.identifyQuery();
             return response.getTimeout();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public int getIdentifyTime() throws ZigbeeDeviceException {
+    public int getIdentifyTime() throws ZigBeeDeviceException {
         try {
             return (Integer) identifyTime.getValue();
 
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void identify(int time) throws ZigbeeDeviceException {
+    public void identify(int time) throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) identifyCluster.identify(time);
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 

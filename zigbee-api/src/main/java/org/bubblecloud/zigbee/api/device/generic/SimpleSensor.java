@@ -23,7 +23,7 @@ package org.bubblecloud.zigbee.api.device.generic;
 
 
 import org.bubblecloud.zigbee.api.Device;
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.cluster.general.BinaryInput;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 
@@ -38,7 +38,7 @@ public interface SimpleSensor extends Device {
 
     public static final int DEVICE_ID = 0x000C;
     public static final String NAME = "Simple Sensor";
-    public static final int[] MANDATORY = ArraysUtil.append(Device.MANDATORY, new int[]{ZigbeeApiConstants.CLUSTER_ID_BINARY_INPUT});
+    public static final int[] MANDATORY = ArraysUtil.append(Device.MANDATORY, new int[]{ZigBeeApiConstants.CLUSTER_ID_BINARY_INPUT});
     public static final int[] OPTIONAL = Device.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

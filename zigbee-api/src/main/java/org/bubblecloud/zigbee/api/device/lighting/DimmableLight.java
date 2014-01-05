@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.device.lighting;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
@@ -41,10 +41,10 @@ public interface DimmableLight extends Device {
     public static final int DEVICE_ID = 0x0101;
     public static final String NAME = "Dimmable Light";
     public static final int[] MANDATORY = ArraysUtil.append(Device.MANDATORY, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_ON_OFF, ZigbeeApiConstants.CLUSTER_ID_LEVEL_CONTROL, ZigbeeApiConstants.CLUSTER_ID_SCENES, ZigbeeApiConstants.CLUSTER_ID_GROUPS
+            ZigBeeApiConstants.CLUSTER_ID_ON_OFF, ZigBeeApiConstants.CLUSTER_ID_LEVEL_CONTROL, ZigBeeApiConstants.CLUSTER_ID_SCENES, ZigBeeApiConstants.CLUSTER_ID_GROUPS
     });
     public static final int[] OPTIONAL = ArraysUtil.append(Device.OPTIONAL, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING
+            ZigBeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING
     });
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

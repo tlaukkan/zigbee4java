@@ -22,13 +22,13 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.ShadeConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.general.ShadeConfigurationCluster;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 /**
  * 
@@ -41,7 +41,7 @@ public class ShadeConfigurationImpl implements ShadeConfiguration {
 	private ShadeConfigurationCluster shadeConfigurationCluster;
 
 
-	public ShadeConfigurationImpl(ZigbeeEndpoint zbDevice){
+	public ShadeConfigurationImpl(ZigBeeEndpoint zbDevice){
 		shadeConfigurationCluster = new ShadeConfigurationCluster(zbDevice);
 		
 	}
@@ -74,11 +74,11 @@ public class ShadeConfigurationImpl implements ShadeConfiguration {
 		return null;
 	}
 
-	public String getDescription() throws ZigbeeDeviceException {
+	public String getDescription() throws ZigBeeDeviceException {
 		 try {
 	            return (String) shadeConfigurationCluster.getAttributeDescription().getValue();
 	        } catch (ZigBeeClusterException e) {
-	            throw new ZigbeeDeviceException(e);
+	            throw new ZigBeeDeviceException(e);
 	        }
 	}
 

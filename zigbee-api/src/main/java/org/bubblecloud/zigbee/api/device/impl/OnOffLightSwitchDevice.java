@@ -22,13 +22,13 @@
 
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.ZigbeeApiContext;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
 import org.bubblecloud.zigbee.api.DeviceBase;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.general.OnOffSwitchConfiguration;
 import org.bubblecloud.zigbee.api.device.generic.OnOffSwitch;
 import org.bubblecloud.zigbee.api.device.lighting.OnOffLightSwitch;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.AbstractDeviceDescription;
 import org.bubblecloud.zigbee.api.DeviceDescription;
 
@@ -42,7 +42,7 @@ public class OnOffLightSwitchDevice extends DeviceBase implements OnOffLightSwit
 
     private OnOffSwitchConfiguration onOffSwitchConfiguration;
 
-    public OnOffLightSwitchDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public OnOffLightSwitchDevice(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
         super(ctx, zbDevice);
     }
 

@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.RelativeHumidityMeasurement;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.MeasuredValueListener;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.ToleranceListener;
@@ -53,7 +53,7 @@ public class RelativeHumidityMeasurementImpl implements RelativeHumidityMeasurem
     private final MeasuredValueBridgeListeners measureBridge;
     private final ToleranceBridgeListeners toleranceBridge;
 
-    public RelativeHumidityMeasurementImpl(ZigbeeEndpoint zbDevice) {
+    public RelativeHumidityMeasurementImpl(ZigBeeEndpoint zbDevice) {
         relativeHumidityMeasurementCluster = new RelativeHumidityMeasurementCluster(zbDevice);
         measuredValue = relativeHumidityMeasurementCluster.getAttributeMeasuredValue();
         minMeasuredValue = relativeHumidityMeasurementCluster.getAttributeMinMeasuredValue();

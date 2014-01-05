@@ -22,12 +22,12 @@
 
 package org.bubblecloud.zigbee.network.discovery;
 
-import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
+import org.bubblecloud.zigbee.network.ZigBeeNetworkManager;
 import org.bubblecloud.zigbee.network.AnnounceListener;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
-import org.bubblecloud.zigbee.network.impl.ZigbeeNodeImpl;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,16 +47,16 @@ public class AnnounceListenerImpl implements AnnounceListener {
 
     private final ImportingQueue queue;
 
-    private final ZigbeeNetworkManager zigbeeNetworkManager;
+    private final ZigBeeNetworkManager zigbeeNetworkManager;
 
     /**
-     * Created the {@link AnnounceListenerImpl} object and register itself to the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManager}<br>
+     * Created the {@link AnnounceListenerImpl} object and register itself to the {@link org.bubblecloud.zigbee.network.ZigBeeNetworkManager}<br>
      * as {@link ImportingQueue}
      *
      * @param queue  the {@link ImportingQueue} used to add the discovered endpoints
-     * @param driver the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManager} to use for subscription
+     * @param driver the {@link org.bubblecloud.zigbee.network.ZigBeeNetworkManager} to use for subscription
      */
-    public AnnounceListenerImpl(final ImportingQueue queue, final ZigbeeNetworkManager driver) {
+    public AnnounceListenerImpl(final ImportingQueue queue, final ZigBeeNetworkManager driver) {
         this.queue = queue;
         this.zigbeeNetworkManager = driver;
     }
@@ -68,7 +68,7 @@ public class AnnounceListenerImpl implements AnnounceListener {
         logger.info("Received an ANNOUNCE from {} {}", senderAddress, ieeeAddress);
         queue.push(senderAddress, ieeeAddress);
         ApplicationFrameworkLayer.getAFLayer(zigbeeNetworkManager).getZigBeeNetwork().notifyNodeAnnounced(
-                new ZigbeeNodeImpl(senderAddress.get16BitValue(), ieeeAddress,
+                new ZigBeeNodeImpl(senderAddress.get16BitValue(), ieeeAddress,
                         (short) zigbeeNetworkManager.getCurrentPanId()));
     }
 

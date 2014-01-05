@@ -23,13 +23,13 @@
 package org.bubblecloud.zigbee.api.cluster.impl;
 
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.IlluminanceLevelSensing;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.general.IlluminanceLevelSensingCluster;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class IlluminanceLevelSensingImpl implements IlluminanceLevelSensing {
 	private IlluminanceLevelSensingCluster illuminanceLevelSensingCluster;
 
 
-	public IlluminanceLevelSensingImpl(ZigbeeEndpoint zbDevice){
+	public IlluminanceLevelSensingImpl(ZigBeeEndpoint zbDevice){
 		illuminanceLevelSensingCluster = new IlluminanceLevelSensingCluster(zbDevice);
 		
 	}
@@ -75,11 +75,11 @@ public class IlluminanceLevelSensingImpl implements IlluminanceLevelSensing {
 		return null;
 	}
 
-	public String getDescription() throws ZigbeeDeviceException {
+	public String getDescription() throws ZigBeeDeviceException {
 		 try {
 	            return (String) illuminanceLevelSensingCluster.getAttributeDescription().getValue();
 	        } catch (ZigBeeClusterException e) {
-	            throw new ZigbeeDeviceException(e);
+	            throw new ZigBeeDeviceException(e);
 	        }
 	}
 

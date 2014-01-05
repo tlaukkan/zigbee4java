@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.device.lighting;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing;
 import org.bubblecloud.zigbee.util.ArraysUtil;
@@ -44,7 +44,7 @@ public interface OccupancySensor extends Device {
     public static final String NAME = "Occupancy Sensor";
 
     public static final int[] MANDATORY = ArraysUtil.append(Device.MANDATORY, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING
+            ZigBeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING
     });
     public static final int[] OPTIONAL = Device.OPTIONAL;
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);

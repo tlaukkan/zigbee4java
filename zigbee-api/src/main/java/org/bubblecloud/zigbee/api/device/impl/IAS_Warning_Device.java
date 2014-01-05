@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.general.Scenes;
@@ -31,7 +31,7 @@ import org.bubblecloud.zigbee.api.cluster.security_safety.IASWD;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASZone;
 import org.bubblecloud.zigbee.api.device.security_safety.IAS_Warning;
 import org.bubblecloud.zigbee.api.DeviceBase;
-import org.bubblecloud.zigbee.ZigbeeApiContext;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
@@ -45,15 +45,15 @@ public class IAS_Warning_Device extends DeviceBase implements IAS_Warning {
     private Scenes scenes;
     private Groups groups;
 
-    public IAS_Warning_Device(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public IAS_Warning_Device(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
 
         super(ctx, zbDevice);
 
-        iasZoneCluster = (IASZone) getCluster(ZigbeeApiConstants.CLUSTER_ID_IAS_ZONE);
-        iasWD = (IASWD) getCluster(ZigbeeApiConstants.CLUSTER_ID_IAS_WD);
+        iasZoneCluster = (IASZone) getCluster(ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE);
+        iasWD = (IASWD) getCluster(ZigBeeApiConstants.CLUSTER_ID_IAS_WD);
 
-        scenes = (Scenes) getCluster(ZigbeeApiConstants.CLUSTER_ID_SCENES);
-        groups = (Groups) getCluster(ZigbeeApiConstants.CLUSTER_ID_GROUPS);
+        scenes = (Scenes) getCluster(ZigBeeApiConstants.CLUSTER_ID_SCENES);
+        groups = (Groups) getCluster(ZigBeeApiConstants.CLUSTER_ID_GROUPS);
     }
 
     public IASZone getIASZone() {

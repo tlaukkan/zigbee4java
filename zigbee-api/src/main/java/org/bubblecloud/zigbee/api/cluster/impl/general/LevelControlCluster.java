@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.general;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
@@ -64,7 +64,7 @@ public class LevelControlCluster extends ZCLClusterBase implements LevelControl 
             .setManufacturerExtension(false);
 
 
-    public LevelControlCluster(ZigbeeEndpoint zbDevice) {
+    public LevelControlCluster(ZigBeeEndpoint zbDevice) {
         super(zbDevice);
         currentLevel = new AttributeImpl(zbDevice, this, Attributes.CURRENT_LEVEL);
         remainingTime = new AttributeImpl(zbDevice, this, Attributes.REMAINING_TIME);

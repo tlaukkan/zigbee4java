@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.api.cluster.impl;
 
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.AnalogInput;
 import org.bubblecloud.zigbee.api.cluster.general.event.PresentValueListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
@@ -31,7 +31,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.event.PresentValueBridgeListeners;
 import org.bubblecloud.zigbee.api.cluster.impl.general.AnalogInputCluster;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 /**
  * 
@@ -48,7 +48,7 @@ public class AnalogInputImpl implements AnalogInput {
 	private AnalogInputCluster analogInputCluster;
 	private PresentValueBridgeListeners eventBridge;
 
-    public AnalogInputImpl(ZigbeeEndpoint zbDevice){
+    public AnalogInputImpl(ZigBeeEndpoint zbDevice){
     	analogInputCluster = new AnalogInputCluster(zbDevice);
         presentValue = analogInputCluster.getAttributePresentValue();
         outOfService = analogInputCluster.getAttributeOutOfService();
@@ -93,83 +93,83 @@ public class AnalogInputImpl implements AnalogInput {
 	}
 
 
-	public String getDescription() throws ZigbeeDeviceException {
+	public String getDescription() throws ZigBeeDeviceException {
 		 try {
 	            return (String) analogInputCluster.getAttributeDescription().getValue();
 	        } catch (ZigBeeClusterException e) {
-	            throw new ZigbeeDeviceException(e);
+	            throw new ZigBeeDeviceException(e);
 	        }
 	}
-	 public int getReliability() throws ZigbeeDeviceException {
+	 public int getReliability() throws ZigBeeDeviceException {
 	        try {
 	            return (Integer) analogInputCluster.getAttributeReliability().getValue();
 	        } catch (ZigBeeClusterException e) {
-	            throw new ZigbeeDeviceException(e);
+	            throw new ZigBeeDeviceException(e);
 	        }
 	    }
 
 
-	    public long getApplicationType() throws ZigbeeDeviceException {
+	    public long getApplicationType() throws ZigBeeDeviceException {
 	        try {
 	            return (Long) analogInputCluster.getAttributeApplicationType().getValue();
 	        } catch (ZigBeeClusterException e) {
-	            throw new ZigbeeDeviceException(e);
+	            throw new ZigBeeDeviceException(e);
 	        }
 	    }
 
 
-	    public boolean getOutOfService() throws ZigbeeDeviceException {
+	    public boolean getOutOfService() throws ZigBeeDeviceException {
 	        try {
 	            return (Boolean) analogInputCluster.getAttributeOutOfService().getValue();
 	        } catch (ZigBeeClusterException e) {
-	            throw new ZigbeeDeviceException(e);
+	            throw new ZigBeeDeviceException(e);
 	        }
 	    }
 
 
-	    public Float getPresentValue() throws ZigbeeDeviceException {
+	    public Float getPresentValue() throws ZigBeeDeviceException {
 	        try {
 	            return (Float) analogInputCluster.getAttributePresentValue().getValue();
 	        } catch (ZigBeeClusterException e) {
-	            throw new ZigbeeDeviceException(e);
+	            throw new ZigBeeDeviceException(e);
 	        }
 	    }
 
 
-	    public int getStatusFlags() throws ZigbeeDeviceException {
+	    public int getStatusFlags() throws ZigBeeDeviceException {
 	        try {
 	            return (Integer) analogInputCluster.getAttributeStatusFlags().getValue();
 	        } catch (ZigBeeClusterException e) {
-	            throw new ZigbeeDeviceException(e);
+	            throw new ZigBeeDeviceException(e);
 	        }
 	    }
 
 
-		public Float getMaxPresentValue() throws ZigbeeDeviceException {
+		public Float getMaxPresentValue() throws ZigBeeDeviceException {
 			 try {
 		            return (Float) analogInputCluster.getAttributeMaxPresentValue().getValue();
 		        } catch (ZigBeeClusterException e) {
-		            throw new ZigbeeDeviceException(e);
+		            throw new ZigBeeDeviceException(e);
 		        }
 		}
 
 
-		public Float getMinPresentValue() throws ZigbeeDeviceException {
+		public Float getMinPresentValue() throws ZigBeeDeviceException {
 			 try {
 		            return (Float) analogInputCluster.getAttributeMinPresentValue().getValue();
 		        } catch (ZigBeeClusterException e) {
-		            throw new ZigbeeDeviceException(e);
+		            throw new ZigBeeDeviceException(e);
 		        }
 		}
 
 
-		public float getResolution() throws ZigbeeDeviceException {
+		public float getResolution() throws ZigBeeDeviceException {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
 
-		public int getEngineeringUnits() throws ZigbeeDeviceException {
+		public int getEngineeringUnits() throws ZigBeeDeviceException {
 			// TODO Auto-generated method stub
 			return 0;
 		}

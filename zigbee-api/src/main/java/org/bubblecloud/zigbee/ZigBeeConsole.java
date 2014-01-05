@@ -1,8 +1,8 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.api.Device;
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
@@ -11,7 +11,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
-import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,11 +19,11 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
- * Zigbee command line console is an example application demonstrating usage of Zigbee API.
+ * ZigBee command line console is an example application demonstrating usage of ZigBee API.
  *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
-public class ZigbeeConsole {
+public class ZigBeeConsole {
     /**
      * The main thread.
      */
@@ -61,8 +61,8 @@ public class ZigbeeConsole {
             return;
         }
 
-        System.out.print("Zigbee API starting up...");
-        final ZigbeeApi zigbeeApi = new ZigbeeApi(serialPortName, pan, channel, resetNetwork);
+        System.out.print("ZigBee API starting up...");
+        final ZigBeeApi zigbeeApi = new ZigBeeApi(serialPortName, pan, channel, resetNetwork);
         if (!zigbeeApi.startup()) {
             write(". [FAIL]");
             return;
@@ -100,7 +100,7 @@ public class ZigbeeConsole {
         System.out.println(". [OK]");
         System.out.println("Found " + zigbeeApi.getDevices().size() + " nodes.");
 
-        System.out.println("Zigbee console ready.");
+        System.out.println("ZigBee console ready.");
 
         String command;
         while (!shutdown && (command = read()) != null) {
@@ -110,7 +110,7 @@ public class ZigbeeConsole {
         zigbeeApi.shutdown();
     }
 
-    private static void process(final ZigbeeApi zigbeeApi, final String command) {
+    private static void process(final ZigBeeApi zigbeeApi, final String command) {
         if (command.length() == 0) {
             return;
         }
@@ -134,7 +134,7 @@ public class ZigbeeConsole {
         }
     }
 
-    private static void process(ZigbeeApi zigbeeApi, String[] args, String key) {
+    private static void process(ZigBeeApi zigbeeApi, String[] args, String key) {
         final ConsoleCommand consoleCommand = commands.get(key);
         if (!consoleCommand.process(zigbeeApi, args)) {
             write(consoleCommand.getSyntax());
@@ -170,12 +170,12 @@ public class ZigbeeConsole {
     }
 
     /**
-     * Gets device from Zigbee API either with index or endpoint ID
+     * Gets device from ZigBee API either with index or endpoint ID
      * @param zigbeeApi the zigbee API
      * @param deviceIdentifier the device identifier
      * @return
      */
-    private static Device getDeviceByIndexOrEndpointId(ZigbeeApi zigbeeApi, String deviceIdentifier) {
+    private static Device getDeviceByIndexOrEndpointId(ZigBeeApi zigbeeApi, String deviceIdentifier) {
         Device device;
         try {
             device = zigbeeApi.getDevices().get(Integer.parseInt(deviceIdentifier));
@@ -204,7 +204,7 @@ public class ZigbeeConsole {
     private static interface ConsoleCommand {
         String getDescription();
         String getSyntax();
-        boolean process(final ZigbeeApi zigbeeApi, final String[] args);
+        boolean process(final ZigBeeApi zigbeeApi, final String[] args);
     }
 
     private static class QuitCommand implements ConsoleCommand {
@@ -216,7 +216,7 @@ public class ZigbeeConsole {
             return "quit";
         }
 
-        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             shutdown = true;
             return true;
         }
@@ -231,7 +231,7 @@ public class ZigbeeConsole {
             return "help [command]";
         }
 
-        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
 
             if (args.length == 2) {
                 if (commands.containsKey(args[1])) {
@@ -266,7 +266,7 @@ public class ZigbeeConsole {
             return "list";
         }
 
-        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             final List<Device> devices = zigbeeApi.getDevices();
             for (int i = 0; i < devices.size(); i++) {
                 final Device device = devices.get(i);
@@ -285,7 +285,7 @@ public class ZigbeeConsole {
             return "desc DEVICEID";
         }
 
-        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 2) {
                 return false;
             }
@@ -299,13 +299,13 @@ public class ZigbeeConsole {
             write("Network Address  : " + device.getNetworkAddress());
             write("Extended Address : " + device.getIEEEAddress());
             write("Endpoint Address : " + device.getEndPointAddress());
-            write("Device Type      : " + ZigbeeApiConstants.getDeviceName(device.getDeviceTypeId()));
-            write("Device Category  : " + ZigbeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));
+            write("Device Type      : " + ZigBeeApiConstants.getDeviceName(device.getDeviceTypeId()));
+            write("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));
             write("Device Version   : " + device.getDeviceVersion());
             write("Input Clusters   : ");
             for (int c : device.getInputClusters()) {
                 final Cluster cluster = device.getCluster(c);
-                write("                 : " + c + " " + ZigbeeApiConstants.getClusterName(c));
+                write("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c));
                 if (cluster != null) {
                     for (int a = 0; a < cluster.getAttributes().length; a++) {
                         final Attribute attribute = cluster.getAttributes()[a];
@@ -325,7 +325,7 @@ public class ZigbeeConsole {
             write("Output Clusters  : ");
             for (int c : device.getOutputClusters()) {
                 final Cluster cluster = device.getCluster(c);
-                write("                 : " + c + " " + ZigbeeApiConstants.getClusterName(c));
+                write("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c));
             }
 
             return true;
@@ -339,7 +339,7 @@ public class ZigbeeConsole {
         public String getSyntax() {
             return "bind [CLIENT] SERVER CLUSTERID";
         }
-        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 3 && args.length != 4) {
                 return false;
             }
@@ -354,7 +354,7 @@ public class ZigbeeConsole {
                 }
                 try {
                     server.bindToLocal(clusterId);
-                } catch (final ZigbeeNetworkManagerException e) {
+                } catch (final ZigBeeNetworkManagerException e) {
                     e.printStackTrace();
                 }
             } else {
@@ -368,7 +368,7 @@ public class ZigbeeConsole {
                 }
                 try {
                     client.bindTo(server, clusterId);
-                } catch (final ZigbeeNetworkManagerException e) {
+                } catch (final ZigBeeNetworkManagerException e) {
                     e.printStackTrace();
                 }
             }
@@ -384,7 +384,7 @@ public class ZigbeeConsole {
         public String getSyntax() {
             return "bind CLIENT SERVER CLUSTERID";
         }
-        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 3 && args.length != 4) {
                 return false;
             }
@@ -399,7 +399,7 @@ public class ZigbeeConsole {
                 }
                 try {
                     server.unbindFromLocal(clusterId);
-                } catch (final ZigbeeNetworkManagerException e) {
+                } catch (final ZigBeeNetworkManagerException e) {
                     e.printStackTrace();
                 }
             } else {
@@ -413,7 +413,7 @@ public class ZigbeeConsole {
                 }
                 try {
                     client.unbindFrom(server, clusterId);
-                } catch (final ZigbeeNetworkManagerException e) {
+                } catch (final ZigBeeNetworkManagerException e) {
                     e.printStackTrace();
                 }
             }
@@ -431,7 +431,7 @@ public class ZigbeeConsole {
             return "on DEVICEID";
         }
 
-        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 2) {
                 return false;
             }
@@ -443,7 +443,7 @@ public class ZigbeeConsole {
             final OnOff onOff = device.getCluster(OnOff.class);
             try {
                 onOff.on();
-            } catch (ZigbeeDeviceException e) {
+            } catch (ZigBeeDeviceException e) {
                 e.printStackTrace();
             }
 
@@ -460,7 +460,7 @@ public class ZigbeeConsole {
             return "color DEVICEID RED GREEN BLUE";
         }
 
-        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 5) {
                 return false;
             }
@@ -512,7 +512,7 @@ public class ZigbeeConsole {
                     y = 65279;
                 }
                 colorControl.moveToColor(x, y, 10);
-            } catch (ZigbeeDeviceException e) {
+            } catch (ZigBeeDeviceException e) {
                 e.printStackTrace();
             }
 
@@ -529,7 +529,7 @@ public class ZigbeeConsole {
             return "color DEVICEID LEVEL";
         }
 
-        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 3) {
                 return false;
             }
@@ -564,7 +564,7 @@ public class ZigbeeConsole {
 
                 final LevelControl levelControl = device.getCluster(LevelControl.class);
                 levelControl.moveToLevel((short) l, 10);
-            } catch (ZigbeeDeviceException e) {
+            } catch (ZigBeeDeviceException e) {
                 e.printStackTrace();
             }
 
@@ -581,7 +581,7 @@ public class ZigbeeConsole {
             return "off DEVICEID";
         }
 
-        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 2) {
                 return false;
             }
@@ -593,7 +593,7 @@ public class ZigbeeConsole {
             final OnOff onOff = device.getCluster(OnOff.class);
             try {
                 onOff.off();
-            } catch (ZigbeeDeviceException e) {
+            } catch (ZigBeeDeviceException e) {
                 e.printStackTrace();
             }
 
@@ -608,7 +608,7 @@ public class ZigbeeConsole {
         public String getSyntax() {
             return "bind [DEVICE] [CLUSTER] [ATTRIBUTE]";
         }
-        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 4) {
                 return false;
             }
@@ -647,7 +647,7 @@ public class ZigbeeConsole {
         public String getSyntax() {
             return "bind [DEVICE] [CLUSTER] [ATTRIBUTE]";
         }
-        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 4) {
                 return false;
             }
@@ -686,7 +686,7 @@ public class ZigbeeConsole {
         public String getSyntax() {
             return "read [DEVICE] [CLUSTER] [ATTRIBUTE]";
         }
-        public boolean process(final ZigbeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 4) {
                 return false;
             }

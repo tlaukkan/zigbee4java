@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.device.hvac;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.cluster.general.Alarms;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
@@ -43,11 +43,11 @@ public interface Pump extends Device {
     public static final String NAME = "Pump";
 
     public static final int[] MANDATORY = ArraysUtil.append(Device.MANDATORY, new int[]{
-            /* TODO ZigbeeApiConstants.CLUSTER_ID_PUMP_CONFIGURATION_AND_CONTROL, */ZigbeeApiConstants.CLUSTER_ID_ON_OFF, ZigbeeApiConstants.CLUSTER_ID_SCENES, ZigbeeApiConstants.CLUSTER_ID_GROUPS
+            /* TODO ZigBeeApiConstants.CLUSTER_ID_PUMP_CONFIGURATION_AND_CONTROL, */ZigBeeApiConstants.CLUSTER_ID_ON_OFF, ZigBeeApiConstants.CLUSTER_ID_SCENES, ZigBeeApiConstants.CLUSTER_ID_GROUPS
     });
 
     public static final int[] OPTIONAL = ArraysUtil.append(Device.OPTIONAL, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_LEVEL_CONTROL, ZigbeeApiConstants.CLUSTER_ID_ALARMS, ZigbeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT, /* TODO ZigbeeApiConstants.CLUSTER_ID_PRESSURE_MEASUREMENT, ZigbeeApiConstants.FLOW_MEASUREMENT*/
+            ZigBeeApiConstants.CLUSTER_ID_LEVEL_CONTROL, ZigBeeApiConstants.CLUSTER_ID_ALARMS, ZigBeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT, /* TODO ZigBeeApiConstants.CLUSTER_ID_PRESSURE_MEASUREMENT, ZigBeeApiConstants.FLOW_MEASUREMENT*/
     });
 
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);

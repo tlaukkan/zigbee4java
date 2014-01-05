@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.api;
 
-import org.bubblecloud.zigbee.ZigbeeApiContext;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,21 +50,21 @@ public class DeviceFactoryImpl extends DeviceFactoryBase {
 
 
     /**
-     * Build an {@link DeviceFactory} that refine {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} by means of <code>cImplementation</code>,<br>
+     * Build an {@link DeviceFactory} that refine {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} by means of <code>cImplementation</code>,<br>
      * into a <code>cInterface</code> service. This factory build the instance of the new service by invoking<br>
-     * the constructor  <code>cImplementation(ZigbeeApiContext, ZigbeeEndpoint)</code>.<br>
+     * the constructor  <code>cImplementation(ZigBeeApiContext, ZigBeeEndpoint)</code>.<br>
      * By default the {@link #getRefinedInterfaces()} is built to return the values:<br>
      * <pre>
      * cInterface.getDeviceType()
      * Device.class.getDeviceType()
      * </pre>
      *
-     * @param ctx             {@link org.bubblecloud.zigbee.ZigbeeApiContext} to use for registering the {@link DeviceFactory} service
+     * @param ctx             {@link org.bubblecloud.zigbee.ZigBeeApiContext} to use for registering the {@link DeviceFactory} service
      * @param cInterface      {@link Class} representing the refined service that this factory will install
      * @param cImplementation {@link Class} representing the implementation of the refinement service that will be created by the factory
-     * @throws ZigbeeDeviceException
+     * @throws ZigBeeDeviceException
      */
-    public DeviceFactoryImpl(ZigbeeApiContext ctx, Class<?> cInterface, Class<?> cImplementation) throws ZigbeeDeviceException {
+    public DeviceFactoryImpl(ZigBeeApiContext ctx, Class<?> cInterface, Class<?> cImplementation) throws ZigBeeDeviceException {
         super(ctx, cInterface);
 
         this.inter = cInterface;
@@ -84,7 +84,7 @@ public class DeviceFactoryImpl extends DeviceFactoryBase {
             );
             logger.debug("Stack exception of the DeviceFactoryImpl() error", e);
 
-            throw new ZigbeeDeviceException("Unable to retrieve DEVICE_ID by means of reflection", e);
+            throw new ZigBeeDeviceException("Unable to retrieve DEVICE_ID by means of reflection", e);
         }
     }
 
@@ -104,9 +104,9 @@ public class DeviceFactoryImpl extends DeviceFactoryBase {
     }
 
     @Override
-    public DeviceBase getInstance(ZigbeeEndpoint zbd) {
+    public DeviceBase getInstance(ZigBeeEndpoint zbd) {
         try {
-            Constructor builder = impl.getConstructor(ZigbeeApiContext.class, ZigbeeEndpoint.class);
+            Constructor builder = impl.getConstructor(ZigBeeApiContext.class, ZigBeeEndpoint.class);
             DeviceBase device = (DeviceBase) builder.newInstance(ctx, zbd);
             return device;
         } catch (Exception e) {

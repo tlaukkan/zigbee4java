@@ -22,12 +22,12 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.api.cluster.general.event.OnOffListener;
 import org.bubblecloud.zigbee.api.cluster.impl.event.OnOffBridgeListeners;
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
@@ -50,18 +50,18 @@ public class OnOffImpl implements OnOff {
     private final OnOffCluster onOffCluster;
     private OnOffBridgeListeners eventBridge;
 
-    public OnOffImpl(ZigbeeEndpoint zbDevice) {
+    public OnOffImpl(ZigBeeEndpoint zbDevice) {
         onOffCluster = new OnOffCluster(zbDevice);
         onOff = onOffCluster.getAttributeOnOff();
         eventBridge = new OnOffBridgeListeners(new ReportingConfiguration(), onOff, this);
     }
 
-    public boolean getOnOff() throws ZigbeeDeviceException {
+    public boolean getOnOff() throws ZigBeeDeviceException {
         try {
             Boolean value = (Boolean) onOff.getValue();
             return value.booleanValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
@@ -73,33 +73,33 @@ public class OnOffImpl implements OnOff {
         return eventBridge.unsubscribe(listener);
     }
 
-    public void off() throws ZigbeeDeviceException {
+    public void off() throws ZigBeeDeviceException {
         try {
             DefaultResponse response = onOffCluster.off();
             if (response.getStatus() != Status.SUCCESS)
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void on() throws ZigbeeDeviceException {
+    public void on() throws ZigBeeDeviceException {
         try {
             DefaultResponse response = onOffCluster.on();
             if (response.getStatus() != Status.SUCCESS)
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void toggle() throws ZigbeeDeviceException {
+    public void toggle() throws ZigBeeDeviceException {
         try {
             DefaultResponse response = onOffCluster.toggle();
             if (response.getStatus() != Status.SUCCESS)
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 

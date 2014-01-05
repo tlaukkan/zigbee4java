@@ -35,16 +35,16 @@ import java.io.OutputStream;
 import java.util.*;
 
 /**
- * ZigbeeSerialInterface is used to startup connection to ZigBee network.
+ * ZigBeeSerialInterface is used to startup connection to ZigBee network.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
-public class ZigbeeSerialInterface implements ZToolPacketHandler {
+public class ZigBeeSerialInterface implements ZToolPacketHandler {
     /**
      * The logger.
      */
-    private final static Logger LOGGER = LoggerFactory.getLogger(ZigbeeSerialInterface.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ZigBeeSerialInterface.class);
     /**
      * The serial port name.
      */
@@ -79,16 +79,16 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
             new HashMap<SynchronousCommandListener, Long>();
 
     /**
-     * Constructor for configuring the Zigbee Network connection parameters.
+     * Constructor for configuring the ZigBee Network connection parameters.
      * @param serialPortName the serial port name.
      */
-    public ZigbeeSerialInterface(String serialPortName) {
+    public ZigBeeSerialInterface(String serialPortName) {
         this.serialPortName = serialPortName;
         serialPort = new SerialPortImpl();
     }
 
     /**
-     * Opens connection to Zigbee Network.
+     * Opens connection to ZigBee Network.
      * @return true if connection startup was success.
      */
     public boolean open() {
@@ -100,7 +100,7 @@ public class ZigbeeSerialInterface implements ZToolPacketHandler {
     }
 
     /**
-     * Closes connection ot Zigbee Network.
+     * Closes connection ot ZigBee Network.
      */
     public void close() {
         synchronized (serialPort) {

@@ -27,8 +27,8 @@ import static org.easymock.EasyMock.*;
 
 import static org.junit.Assert.*;
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.Groups;
@@ -47,8 +47,8 @@ import org.junit.Test;
  */
 public class GroupsClusterTest {
 
-    private ZigbeeEndpoint createMockDevice(final byte[] response) throws ZigbeeNetworkManagerException {
-        ZigbeeEndpoint mock = createMock(ZigbeeEndpoint.class);
+    private ZigBeeEndpoint createMockDevice(final byte[] response) throws ZigBeeNetworkManagerException {
+        ZigBeeEndpoint mock = createMock(ZigBeeEndpoint.class);
 
         expect(mock.invoke( (ClusterMessage) anyObject()))
             .andReturn( new RawClusterMessageImpl( Groups.ID, response ) );
@@ -59,11 +59,11 @@ public class GroupsClusterTest {
     @Test
     public void testAddGroup() {
         GroupsCluster cluster = null;
-        ZigbeeEndpoint device = null;
+        ZigBeeEndpoint device = null;
         try {
             device = createMockDevice( new byte[]{0x09, 0x18, Groups.ADD_GROUP_ID, 0x00, 0x00, (byte) 0xf0 } );
             cluster = new GroupsCluster(device);
-        } catch (ZigbeeNetworkManagerException ignored) {
+        } catch (ZigBeeNetworkManagerException ignored) {
         }
         try {
             AddGroupResponse response = (AddGroupResponse) cluster.addGroup(0xFF00,"hello world!");
@@ -78,7 +78,7 @@ public class GroupsClusterTest {
     @Test
     public void testGetGroupMembership() {
         GroupsCluster cluster = null;
-        ZigbeeEndpoint device = null;
+        ZigBeeEndpoint device = null;
         try {
             device = device = createMockDevice(
                 new byte[]{0x09, 0x18, Groups.GET_GROUP_MEMBERSHIP_ID,
@@ -87,7 +87,7 @@ public class GroupsClusterTest {
                 }
             );;
             cluster = new GroupsCluster(device);
-        } catch (ZigbeeNetworkManagerException ignored) {
+        } catch (ZigBeeNetworkManagerException ignored) {
         }
         try {
             GetGroupMembershipResponse response = (GetGroupMembershipResponse) cluster.getGroupMembership(new int[]{0x03, 0x0A});

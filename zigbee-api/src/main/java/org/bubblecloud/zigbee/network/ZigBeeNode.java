@@ -20,35 +20,32 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.network.impl;
+package org.bubblecloud.zigbee.network;
+
+import java.util.Dictionary;
 
 /**
- * Root exception for all the code related to ZigBee<br>
- * the BaseDriver should use ZibeeBasedriverException by including<br>
- * communication exception as nested Throwable<br>
- * <p/>
- * The ZCL bundle should use ZigBeeClusterException<br>
- * and HA Drive should use ZigbeeDeviceException.
+ * This class represent a ZigBee node, it means a physical device that can communicate<br>
+ * using the ZigBee protocol.<br>
+ * Each physical may contain up 240 endpoints which are represented by the {@link ZigBeeEndpoint}<br>
+ * class. Each endpoint is identified by an <i>EndPoint</i> address, but shares iether the:<br>
+ * - <i>64-bit 802.15.4 IEEE Address</i><br>
+ * - <i>16-bit ZigBee Network Address</i><br>
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public class ZigbeeException extends Exception {
-
-    public ZigbeeException(String msg) {
-        super(msg);
-    }
-
-    public ZigbeeException(Throwable ex) {
-        super(ex);
-    }
+public interface ZigBeeNode {
 
     /**
-     * @since 0.5.0
+     * @return int representing the current network address linked to the node
      */
-    public ZigbeeException(String msg, Throwable ex) {
-        super(msg, ex);
-    }
+    public int getNetworkAddress();
+
+    /**
+     * @return a {@link String} representing the IEEEAddress of the node
+     */
+    public String getIEEEAddress();
+
 }

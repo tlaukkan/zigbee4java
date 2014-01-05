@@ -24,8 +24,8 @@ package org.bubblecloud.zigbee.api.cluster.impl.core;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.*;
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.DefaultResponse;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.ReadAttributesResponse;
@@ -57,12 +57,12 @@ public class AttributeImpl implements Attribute {
     private static final Logger logger = LoggerFactory.getLogger(AttributeImpl.class);
 
     final private Object LazyInstantiation = new Object();
-    private ZigbeeEndpoint zbDevice;
+    private ZigBeeEndpoint zbDevice;
     private ZCLCluster zclCluster;
     private Reporter reporter;
     private AttributeDescriptor descriptor;
 
-    public AttributeImpl(ZigbeeEndpoint zbDevice, ZCLCluster zclCluster, AttributeDescriptor descriptor) {
+    public AttributeImpl(ZigBeeEndpoint zbDevice, ZCLCluster zclCluster, AttributeDescriptor descriptor) {
         this.zbDevice = zbDevice;
         this.zclCluster = zclCluster;
         this.descriptor = descriptor;
@@ -171,7 +171,7 @@ public class AttributeImpl implements Attribute {
                                     + " Follows the ZCLFrame recieved " + ResponseImpl.toString(response)
                     );
             }
-        } catch (ZigbeeNetworkManagerException e) {
+        } catch (ZigBeeNetworkManagerException e) {
             logger.error("Error reading value.", e);
             return null;
         }
@@ -196,7 +196,7 @@ public class AttributeImpl implements Attribute {
                                 + ". Follows the ZCLFrame recieved " + ResponseImpl.toString(writeResposne)
                 );
             }
-        } catch (ZigbeeNetworkManagerException e) {
+        } catch (ZigBeeNetworkManagerException e) {
             throw new ZigBeeClusterException(e);
         }
         return;

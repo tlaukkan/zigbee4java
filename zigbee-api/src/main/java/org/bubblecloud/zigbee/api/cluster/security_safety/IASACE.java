@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.security_safety;
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_ace.BypassPayload;
@@ -36,17 +36,17 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_ace.ZoneI
  */
 public interface IASACE extends Cluster {
 
-    public Response arm(byte armMode) throws ZigbeeDeviceException;
+    public Response arm(byte armMode) throws ZigBeeDeviceException;
 
-    public void bypass(BypassPayload payload) throws ZigbeeDeviceException;
+    public void bypass(BypassPayload payload) throws ZigBeeDeviceException;
 
-    public void emergency() throws ZigbeeDeviceException;
+    public void emergency() throws ZigBeeDeviceException;
 
-    public void fire() throws ZigbeeDeviceException;
+    public void fire() throws ZigBeeDeviceException;
 
-    public void panic() throws ZigbeeDeviceException;
+    public void panic() throws ZigBeeDeviceException;
 
-    public ZoneIDMapResponse getZoneIdMap() throws ZigbeeDeviceException;
+    public ZoneIDMapResponse getZoneIdMap() throws ZigBeeDeviceException;
 
-    public ZoneInformationResponse getZoneInformation(int zoneID) throws ZigbeeDeviceException;
+    public ZoneInformationResponse getZoneInformation(int zoneID) throws ZigBeeDeviceException;
 }

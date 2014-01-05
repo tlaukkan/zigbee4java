@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.api.cluster.impl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASZone;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
@@ -52,7 +52,7 @@ public class IASZoneImpl implements IASZone {
     private final Attribute zoneStatus;
     private final Attribute iasCIEaddress;
 
-    public IASZoneImpl(ZigbeeEndpoint zbDevice) {
+    public IASZoneImpl(ZigBeeEndpoint zbDevice) {
 
         cluster = new IASZoneCluster(zbDevice);
         zoneState = cluster.getAttributeZoneState();
@@ -107,32 +107,32 @@ public class IASZoneImpl implements IASZone {
         return iasCIEaddress;
     }
 
-    public ZoneEnrollResponse zoneEnrollRequest(ZoneEnrollRequestPayload payload) throws ZigbeeDeviceException {
+    public ZoneEnrollResponse zoneEnrollRequest(ZoneEnrollRequestPayload payload) throws ZigBeeDeviceException {
 
         try {
             ZoneEnrollResponse response = (ZoneEnrollResponse) cluster.zoneEnrollRequest(payload);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public Response zoneStatusChangeNotification(ZoneStatusChangeNotificationPayload payload) throws ZigbeeDeviceException {
+    public Response zoneStatusChangeNotification(ZoneStatusChangeNotificationPayload payload) throws ZigBeeDeviceException {
         try {
             Response response = cluster.zoneStatusChangeNotification(payload);
             if (response.getZCLHeader().getCommandId() != ZoneStatusChangeNotificationResponse.ID)
-                throw new ZigbeeDeviceException(((DefaultResponse) response).getStatus().toString());
+                throw new ZigBeeDeviceException(((DefaultResponse) response).getStatus().toString());
 
             return (GetAlarmResponse) response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
 
         /*try {
             cluster.zoneStatusChangeNotification();
         }
         catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }*/
     }
 

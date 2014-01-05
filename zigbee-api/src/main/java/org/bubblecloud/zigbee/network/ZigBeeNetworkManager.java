@@ -36,7 +36,7 @@ import org.bubblecloud.zigbee.network.packet.zdo.*;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public interface ZigbeeNetworkManager {
+public interface ZigBeeNetworkManager {
 
     public abstract void setZigBeeNodeMode(NetworkMode m);
 
@@ -74,7 +74,7 @@ public interface ZigbeeNetworkManager {
 
     /**
      * Send LQI request cluster and wait for its response<br />
-     * This method is used for the discovering of {@link ZigbeeEndpoint}
+     * This method is used for the discovering of {@link ZigBeeEndpoint}
      *
      * @return the answer to the request or null in case of an error
      * @since 0.7.0

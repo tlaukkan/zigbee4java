@@ -22,9 +22,9 @@
 
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
-import org.bubblecloud.zigbee.ZigbeeApiContext;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.api.device.hvac.TemperatureSensor;
@@ -39,9 +39,9 @@ public class TemperatureSensorDevice extends DeviceBase implements TemperatureSe
 
     private final TemperatureMeasurement temperature;
 
-    public TemperatureSensorDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public TemperatureSensorDevice(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
         super(ctx, zbDevice);
-        temperature = (TemperatureMeasurement) getCluster(ZigbeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT);
+        temperature = (TemperatureMeasurement) getCluster(ZigBeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT);
     }
 
     public String getDeviceType() {

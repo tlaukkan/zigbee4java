@@ -22,12 +22,12 @@
 
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.general.OnOffSwitchConfiguration;
 import org.bubblecloud.zigbee.api.device.generic.LevelControlSwitch;
-import org.bubblecloud.zigbee.ZigbeeApiContext;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -38,9 +38,9 @@ public class LevelControlSwitchDevice extends DeviceBase implements LevelControl
 
     private OnOffSwitchConfiguration onOffSwitchConfiguration;
 
-    public LevelControlSwitchDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public LevelControlSwitchDevice(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
         super(ctx, zbDevice);
-        onOffSwitchConfiguration = (OnOffSwitchConfiguration) getCluster(ZigbeeApiConstants.CLUSTER_ID_ON_OFF_SWITCH_CONFIGURATION);
+        onOffSwitchConfiguration = (OnOffSwitchConfiguration) getCluster(ZigBeeApiConstants.CLUSTER_ID_ON_OFF_SWITCH_CONFIGURATION);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {

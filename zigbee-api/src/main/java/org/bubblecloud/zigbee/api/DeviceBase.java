@@ -22,12 +22,12 @@
 
 package org.bubblecloud.zigbee.api;
 
-import org.bubblecloud.zigbee.ZigbeeApiContext;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
 import org.bubblecloud.zigbee.network.ClusterListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.network.ZigbeeNode;
-import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeNode;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.general.Alarms;
 import org.bubblecloud.zigbee.api.cluster.general.Basic;
@@ -61,8 +61,8 @@ public abstract class DeviceBase implements Device {
 
     private final static Logger logger = LoggerFactory.getLogger(DeviceBase.class);
 
-    protected ZigbeeEndpoint endpoint;
-    private ZigbeeApiContext context;
+    protected ZigBeeEndpoint endpoint;
+    private ZigBeeApiContext context;
 
 
     private Cluster[] clusters;
@@ -82,7 +82,7 @@ public abstract class DeviceBase implements Device {
     private final ProvidedClusterMode clusterMode;
 
 
-    public DeviceBase(ZigbeeApiContext context, ZigbeeEndpoint endpoint) throws ZigbeeDeviceException {
+    public DeviceBase(ZigBeeApiContext context, ZigBeeEndpoint endpoint) throws ZigBeeDeviceException {
         this.endpoint = endpoint;
         this.context = context;
 
@@ -104,12 +104,12 @@ public abstract class DeviceBase implements Device {
             }
         }
 
-        basic = (Basic) getCluster(ZigbeeApiConstants.CLUSTER_ID_BASIC);
-        identify = (Identify) getCluster(ZigbeeApiConstants.CLUSTER_ID_IDENTIFY);
+        basic = (Basic) getCluster(ZigBeeApiConstants.CLUSTER_ID_BASIC);
+        identify = (Identify) getCluster(ZigBeeApiConstants.CLUSTER_ID_IDENTIFY);
 
-        powerConfiguration = (PowerConfiguration) getCluster(ZigbeeApiConstants.CLUSTER_ID_POWER_CONFIGURATION);
-        deviceTemperature = (DeviceTemperatureConfiguration) getCluster(ZigbeeApiConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION);
-        alarms = (Alarms) getCluster(ZigbeeApiConstants.CLUSTER_ID_ALARMS);
+        powerConfiguration = (PowerConfiguration) getCluster(ZigBeeApiConstants.CLUSTER_ID_POWER_CONFIGURATION);
+        deviceTemperature = (DeviceTemperatureConfiguration) getCluster(ZigBeeApiConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION);
+        alarms = (Alarms) getCluster(ZigBeeApiConstants.CLUSTER_ID_ALARMS);
     }
 
     public abstract String getDeviceType();
@@ -133,9 +133,9 @@ public abstract class DeviceBase implements Device {
      *
      * @param clusterId the id of the cluster
      * @return {@link Cluster} if it is already present or if it has been added to the {@link DeviceBase}
-     * @throws ZigbeeDeviceException
+     * @throws ZigBeeDeviceException
      */
-    protected Cluster addCluster(int clusterId) throws ZigbeeDeviceException {
+    protected Cluster addCluster(int clusterId) throws ZigBeeDeviceException {
         /*
          * Verify if the cluster has already been added. For example, when the HA Driver is working with
          * ProvidedClusterMode.EitherInputAndOutput mode the HA Driver adds either inputs and outputs cluster
@@ -158,7 +158,7 @@ public abstract class DeviceBase implements Device {
          */
         if (!endpoint.providesInputCluster(clusterId) && getDescription().isOptional(clusterId)) {
             logger.warn(
-                    "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
+                    "ZigBeeEndpoint with DeviceId={} of Home Automation profile " +
                             "implements the OPTINAL cluster {} ONLY AS OUTPUT instead of input " +
                             "it may identify an error either on the Driver description or in " +
                             "in the implementation of firmware of the physical device",
@@ -173,7 +173,7 @@ public abstract class DeviceBase implements Device {
         if (!endpoint.providesInputCluster(clusterId) && getDescription().isCustom(clusterId)) {
             //TODO check if exists custom add-on by using ProfileModule interface
             logger.warn(
-                    "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
+                    "ZigBeeEndpoint with DeviceId={} of Home Automation profile " +
                             "implements a CUSTOM cluster {} but HA Driver does not support them yet",
                     endpoint.getDeviceTypeId(), clusterId
             );
@@ -186,12 +186,12 @@ public abstract class DeviceBase implements Device {
          */
         if (!endpoint.providesInputCluster(clusterId) && getDescription().isMandatory(clusterId)) {
             logger.warn(
-                    "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
+                    "ZigBeeEndpoint with DeviceId={} of Home Automation profile " +
                             "doesn't implement mandatory cluster {}", endpoint.getDeviceTypeId(), clusterId
             );
             if (endpoint.providesOutputCluster(clusterId)) {
                 logger.error(
-                        "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
+                        "ZigBeeEndpoint with DeviceId={} of Home Automation profile " +
                                 "implements the mandatory cluster {} as output instead of as input " +
                                 "it may identify an error either on the Driver description or in " +
                                 "in the implementation of firmware of the physical device",
@@ -199,7 +199,7 @@ public abstract class DeviceBase implements Device {
                 );
             } else {
                 logger.error(
-                        "ZigbeeEndpoint with DeviceId={} of Home Automation profile " +
+                        "ZigBeeEndpoint with DeviceId={} of Home Automation profile " +
                                 "doesn't implements the mandatory cluster {} neither as output " +
                                 "nor as input it may identify an error either on the Driver " +
                                 "description or in in the implementation of firmware of the " +
@@ -237,7 +237,7 @@ public abstract class DeviceBase implements Device {
             }
         }
 
-        String key = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":" + String.valueOf(clusterId);
+        String key = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":" + String.valueOf(clusterId);
         ClusterFactory factory = (ClusterFactory) context.getClusterFactory();
         Cluster cluster = factory.getInstance(key, endpoint);
         if (index >= clusters.length) {
@@ -335,17 +335,17 @@ public abstract class DeviceBase implements Device {
         }
     }
 
-    public ZigbeeEndpoint getEndpoint() {
+    public ZigBeeEndpoint getEndpoint() {
         return endpoint;
     }
 
     @Override
-    public boolean bindTo(Device device, int clusterId) throws ZigbeeNetworkManagerException {
+    public boolean bindTo(Device device, int clusterId) throws ZigBeeNetworkManagerException {
         return this.endpoint.bindTo(device.getEndpoint(), clusterId);
     }
 
     @Override
-    public boolean unbindFrom(Device device, int clusterId) throws ZigbeeNetworkManagerException {
+    public boolean unbindFrom(Device device, int clusterId) throws ZigBeeNetworkManagerException {
         return this.endpoint.unbindFrom(device.getEndpoint(), clusterId);
     }
 
@@ -360,7 +360,7 @@ public abstract class DeviceBase implements Device {
     }
 
     @Override
-    public ZigbeeNode getNode() {
+    public ZigBeeNode getNode() {
         return endpoint.getNode();
     }
 
@@ -395,32 +395,32 @@ public abstract class DeviceBase implements Device {
     }
 
     @Override
-    public ClusterMessage invoke(ClusterMessage input) throws ZigbeeNetworkManagerException {
+    public ClusterMessage invoke(ClusterMessage input) throws ZigBeeNetworkManagerException {
         return endpoint.invoke(input);
     }
 
     @Override
-    public void send(ClusterMessage input) throws ZigbeeNetworkManagerException {
+    public void send(ClusterMessage input) throws ZigBeeNetworkManagerException {
         endpoint.send(input);
     }
 
     @Override
-    public boolean bindTo(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeNetworkManagerException {
+    public boolean bindTo(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException {
         return endpoint.bindTo(endpoint, clusterId);
     }
 
     @Override
-    public boolean unbindFrom(ZigbeeEndpoint endpoint, int clusterId) throws ZigbeeNetworkManagerException {
+    public boolean unbindFrom(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException {
         return endpoint.unbindFrom(endpoint, clusterId);
     }
 
     @Override
-    public boolean bindToLocal(int clusterId) throws ZigbeeNetworkManagerException {
+    public boolean bindToLocal(int clusterId) throws ZigBeeNetworkManagerException {
         return endpoint.bindToLocal(clusterId);
     }
 
     @Override
-    public boolean unbindFromLocal(int clusterId) throws ZigbeeNetworkManagerException {
+    public boolean unbindFromLocal(int clusterId) throws ZigBeeNetworkManagerException {
         return endpoint.unbindFromLocal(clusterId);
     }
 

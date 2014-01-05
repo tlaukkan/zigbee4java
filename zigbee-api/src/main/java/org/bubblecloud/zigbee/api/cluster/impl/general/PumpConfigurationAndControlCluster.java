@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.api.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 public class PumpConfigurationAndControlCluster extends ZCLClusterBase implements PumpConfigurationAndControl {
 	
@@ -36,7 +36,7 @@ public class PumpConfigurationAndControlCluster extends ZCLClusterBase implement
 	private static AttributeImpl description;
 	private final Attribute[] attributes;
 	
-	public PumpConfigurationAndControlCluster(ZigbeeEndpoint zbDevice){
+	public PumpConfigurationAndControlCluster(ZigBeeEndpoint zbDevice){
 		super(zbDevice);
 		
 		

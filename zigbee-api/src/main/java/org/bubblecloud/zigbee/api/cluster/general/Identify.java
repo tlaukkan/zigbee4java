@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.general;
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 /**
  * 
@@ -33,11 +33,11 @@ import org.bubblecloud.zigbee.api.cluster.Cluster;
  */
 public interface Identify extends Cluster{
 	
-	public void identify(int time)  throws ZigbeeDeviceException;
+	public void identify(int time)  throws ZigBeeDeviceException;
 	
-	public int IdentifyQuery() throws ZigbeeDeviceException;
+	public int IdentifyQuery() throws ZigBeeDeviceException;
 	
-	public int getIdentifyTime() throws ZigbeeDeviceException;
+	public int getIdentifyTime() throws ZigBeeDeviceException;
 
 
 }

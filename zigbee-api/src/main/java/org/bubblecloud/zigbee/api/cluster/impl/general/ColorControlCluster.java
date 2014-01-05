@@ -25,7 +25,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ByteArrayOutputStreamSerializer;
 import org.bubblecloud.zigbee.api.cluster.impl.global.DefaultResponseImpl;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.api.cluster.impl.api.lighting.ColorControl;
@@ -87,7 +87,7 @@ public class ColorControlCluster extends ZCLClusterBase implements ColorControl 
 
     private final Attribute[] attributes;
 
-    public ColorControlCluster(ZigbeeEndpoint zbDevice) {
+    public ColorControlCluster(ZigBeeEndpoint zbDevice) {
 
         super(zbDevice);
 

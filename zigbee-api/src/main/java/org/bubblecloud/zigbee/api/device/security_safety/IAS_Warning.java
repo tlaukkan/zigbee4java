@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.api.device.security_safety;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASWD;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASZone;
@@ -37,10 +37,10 @@ public interface IAS_Warning {
     public static final int DEVICE_ID = 0x0403;
     public static final String NAME = "IAS Warning Device";
     public static final int[] MANDATORY = ArraysUtil.append(Device.MANDATORY, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_IAS_WD, ZigbeeApiConstants.CLUSTER_ID_IAS_ZONE
+            ZigBeeApiConstants.CLUSTER_ID_IAS_WD, ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE
     });
     public static final int[] OPTIONAL = ArraysUtil.append(Device.OPTIONAL, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_SCENES, ZigbeeApiConstants.CLUSTER_ID_GROUPS
+            ZigBeeApiConstants.CLUSTER_ID_SCENES, ZigBeeApiConstants.CLUSTER_ID_GROUPS
     });
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

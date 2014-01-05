@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.RelativeHumidityMeasurement;
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
@@ -46,7 +46,7 @@ public class RelativeHumidityMeasurementCluster extends ZCLClusterBase implement
 
     private final Attribute[] attributes;
 
-    public RelativeHumidityMeasurementCluster(ZigbeeEndpoint zbDevice) {
+    public RelativeHumidityMeasurementCluster(ZigBeeEndpoint zbDevice) {
         super(zbDevice);
         measuredValue = new AttributeImpl(zbDevice, this, Attributes.MEASURED_VALUE_UNSIGNED_16_BIT);
         minMeasuredValue = new AttributeImpl(zbDevice, this, Attributes.MIN_MEASURED_VALUE_UNSIGNED_16_BIT);

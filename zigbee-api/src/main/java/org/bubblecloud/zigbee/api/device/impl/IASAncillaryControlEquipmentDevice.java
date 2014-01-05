@@ -22,9 +22,9 @@
 
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
-import org.bubblecloud.zigbee.ZigbeeApiContext;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.general.Identify;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASACE;
@@ -43,12 +43,12 @@ public class IASAncillaryControlEquipmentDevice extends DeviceBase implements IA
     private IASZone iasZone;
     private IASACE iasAce;
 
-    public IASAncillaryControlEquipmentDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public IASAncillaryControlEquipmentDevice(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
 
         super(ctx, zbDevice);
-        iasAce = (IASACE) getCluster(ZigbeeApiConstants.CLUSTER_ID_IAS_ACE);
-        iasZone = (IASZone) getCluster(ZigbeeApiConstants.CLUSTER_ID_IAS_ZONE);
-        identify = (Identify) getCluster(ZigbeeApiConstants.CLUSTER_ID_IDENTIFY);
+        iasAce = (IASACE) getCluster(ZigBeeApiConstants.CLUSTER_ID_IAS_ACE);
+        iasZone = (IASZone) getCluster(ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE);
+        identify = (Identify) getCluster(ZigBeeApiConstants.CLUSTER_ID_IDENTIFY);
     }
 
     public IASACE getIASACE() {

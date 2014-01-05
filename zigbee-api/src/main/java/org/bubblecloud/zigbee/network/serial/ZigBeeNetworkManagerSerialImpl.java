@@ -49,9 +49,9 @@ import java.util.HashSet;
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
-public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
+public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 
-    private final static Logger logger = LoggerFactory.getLogger(ZigbeeNetworkManagerSerialImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(ZigBeeNetworkManagerSerialImpl.class);
     private final static Logger logger4Waiter = LoggerFactory.getLogger(WaitForCommand.class);
 
     public static final int DEFAULT_TIMEOUT = 5000;
@@ -71,7 +71,7 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
     private final int RESEND_MAX_RETRY;
     private final boolean RESEND_ONLY_EXCEPTION;
 
-    private ZigbeeSerialInterface zigbeeSerialInterface;
+    private ZigBeeSerialInterface zigbeeSerialInterface;
     private String port;
     private int rate;
     private DriverStatus state;
@@ -89,7 +89,7 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
     private long ieeeAddress = -1;
     private final HashMap<Class<?>, Thread> conversation3Way = new HashMap<Class<?>, Thread>();
 
-    public ZigbeeNetworkManagerSerialImpl(String serialPort, int bitRate, NetworkMode mode, int pan, int channel,
+    public ZigBeeNetworkManagerSerialImpl(String serialPort, int bitRate, NetworkMode mode, int pan, int channel,
                                           boolean cleanNetworkStatus, long timeout) {
 
         int aux = RESEND_TIMEOUT_DEFAULT;
@@ -176,7 +176,7 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
 
     @SuppressWarnings("unchecked")
     private boolean initializeHardware() {
-        zigbeeSerialInterface = new ZigbeeSerialInterface(port);
+        zigbeeSerialInterface = new ZigBeeSerialInterface(port);
         if (!zigbeeSerialInterface.open()) {
             logger.error("Failed to initialize the dongle on port {} at rate {}", port, rate);
             return false;
@@ -186,22 +186,22 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
 
     private boolean initializeZigBeeNetwork() {
         if (cleanStatus) {
-            if (!configureZigbeeNetwork()) {
+            if (!configureZigBeeNetwork()) {
                 return false;
             }
         }
-        if (!createZigbeeNetwork()) {
+        if (!createZigBeeNetwork()) {
             logger.error("Failed to start zigbee network.");
             return false;
         }
-        if (checkZigbeeNetworkConfiguration()) {
+        if (checkZigBeeNetworkConfiguration()) {
             logger.error("Dongle configuration does not match the specified configuration.");
             return false;
         }
         return true;
     }
 
-    private boolean createZigbeeNetwork() {
+    private boolean createZigBeeNetwork() {
         createCustomDevicesOnDongle();
         switch (mode) {
             case Coordinator:
@@ -225,15 +225,15 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
         if (response == null) return false;
         switch (response.Status) {
             case 0: {
-                logger.info("Initialized Zigbee network with existing network state.");
+                logger.info("Initialized ZigBee network with existing network state.");
                 return true;
             }
             case 1: {
-                logger.info("Initialized Zigbee network with new or reset network state.");
+                logger.info("Initialized ZigBee network with new or reset network state.");
                 return true;
             }
             case 2: {
-                logger.warn("Initializing Zigbee network failed.");
+                logger.warn("Initializing ZigBee network failed.");
                 return false;
             }
             default: {
@@ -245,14 +245,14 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
 
     }
 
-    private boolean checkZigbeeNetworkConfiguration() {
+    private boolean checkZigBeeNetworkConfiguration() {
         int value = -1;
         boolean mismatch = false;
         if ((value = getCurrentChannel()) != channel) {
             logger.warn(
                     "The channel configuration differ from the channel configuration in use: " +
                             "in use {}, while the configured is {}.\n" +
-                            "The Zigbee network should be reconfigured or configuration corrected.",
+                            "The ZigBee network should be reconfigured or configuration corrected.",
                     value, channel
             );
             mismatch = true;
@@ -261,7 +261,7 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
             logger.warn(
                     "The PanId configuration differ from the channel configuration in use: " +
                             "in use {}, while the configured is {}.\n" +
-                            "The Zigbee network should be reconfigured or configuration corrected.",
+                            "The ZigBee network should be reconfigured or configuration corrected.",
                     value, pan
             );
             mismatch = true;
@@ -270,7 +270,7 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
             logger.warn(
                     "The NetworkMode configuration differ from the channel configuration in use: " +
                             "in use {}, while the configured is {}.\n" +
-                            "The Zigbee network should be reconfigured or configuration corrected.",
+                            "The ZigBee network should be reconfigured or configuration corrected.",
                     value, mode.ordinal()
             );
             mismatch = true;
@@ -279,7 +279,7 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
         return mismatch;
     }
 
-    private boolean configureZigbeeNetwork() {
+    private boolean configureZigBeeNetwork() {
         logger.debug("Resetting network stack.");
 
         logger.error("Setting clean state.");
@@ -484,7 +484,7 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
 
 
     private String buildDriverThreadName(String serialPort, int bitrate, int channel) {
-        return "ZigbeeNetworkManager[" + serialPort + "," + bitrate + "]";
+        return "ZigBeeNetworkManager[" + serialPort + "," + bitrate + "]";
     }
 
     public void setZigBeeNodeMode(NetworkMode m) {
@@ -775,9 +775,9 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
 
         final ZToolPacket[] result = new ZToolPacket[]{null};
         final int waitFor;
-        final ZigbeeSerialInterface driver;
+        final ZigBeeSerialInterface driver;
 
-        public WaitForCommand(int waitFor, ZigbeeSerialInterface driver) {
+        public WaitForCommand(int waitFor, ZigBeeSerialInterface driver) {
             this.waitFor = waitFor;
             this.driver = driver;
             logger4Waiter.trace("Waiting for asynchronous response message {}.", waitFor);
@@ -955,7 +955,7 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
         return response != null && response.Status == 0;
     }
 
-    private ZToolPacket sendSynchrouns(final ZigbeeSerialInterface hwDriver, final ZToolPacket request) {
+    private ZToolPacket sendSynchrouns(final ZigBeeSerialInterface hwDriver, final ZToolPacket request) {
         final ZToolPacket[] response = new ZToolPacket[]{null};
 //		final int TIMEOUT = 1000, MAX_SEND = 3;
         int sending = 1;
@@ -1100,9 +1100,9 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
 
         if (messageListeners.isEmpty() && isHardwareReady()) {
             if (zigbeeSerialInterface.removeAsynchronousCommandListener(afMessageListenerFilter)) {
-                logger.trace("Removed AsynchrounsCommandListener {} to ZigbeeSerialInterface", afMessageListenerFilter.getClass().getName());
+                logger.trace("Removed AsynchrounsCommandListener {} to ZigBeeSerialInterface", afMessageListenerFilter.getClass().getName());
             } else {
-                logger.warn("Could not remove AsynchrounsCommandListener {} to ZigbeeSerialInterface", afMessageListenerFilter.getClass().getName());
+                logger.warn("Could not remove AsynchrounsCommandListener {} to ZigBeeSerialInterface", afMessageListenerFilter.getClass().getName());
             }
         }
         if (result) {
@@ -1117,9 +1117,9 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
     public boolean addAFMessageListner(ApplicationFrameworkMessageListener listner) {
         if (messageListeners.isEmpty() && isHardwareReady()) {
             if (zigbeeSerialInterface.addAsynchronousCommandListener(afMessageListenerFilter)) {
-                logger.trace("Added AsynchrounsCommandListener {} to ZigbeeSerialInterface", afMessageListenerFilter.getClass().getName());
+                logger.trace("Added AsynchrounsCommandListener {} to ZigBeeSerialInterface", afMessageListenerFilter.getClass().getName());
             } else {
-                logger.trace("Could not add AsynchrounsCommandListener {} to ZigbeeSerialInterface", afMessageListenerFilter.getClass().getName());
+                logger.trace("Could not add AsynchrounsCommandListener {} to ZigBeeSerialInterface", afMessageListenerFilter.getClass().getName());
             }
         }
         boolean result = false;
@@ -1480,10 +1480,10 @@ public class ZigbeeNetworkManagerSerialImpl implements ZigbeeNetworkManager {
                             logger.trace("Device joined, authenticated and is a router");
                             break;
                         case 8:
-                            logger.trace("Starting as Zigbee Coordinator");
+                            logger.trace("Starting as ZigBee Coordinator");
                             break;
                         case 9:
-                            logger.debug("Started as Zigbee Coordinator");
+                            logger.debug("Started as ZigBee Coordinator");
                             setState(DriverStatus.NETWORK_READY);
                             break;
                         case 10:

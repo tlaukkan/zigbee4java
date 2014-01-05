@@ -26,8 +26,8 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.*;
 import org.bubblecloud.zigbee.network.ClusterFilter;
 import org.bubblecloud.zigbee.network.ClusterListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.AttributeReport;
 import org.bubblecloud.zigbee.api.cluster.impl.global.reporting.ReportAttributesCommand;
@@ -51,7 +51,7 @@ public abstract class ReporterBase implements Reporter {
 
     protected final ArrayList<ReportListener> listeners = new ArrayList<ReportListener>();
     protected final ReportListenerNotifier bridge = new ReportListenerNotifier();
-    protected final ZigbeeEndpoint device;
+    protected final ZigBeeEndpoint device;
     protected final ZCLCluster cluster;
 
     @Override
@@ -66,7 +66,7 @@ public abstract class ReporterBase implements Reporter {
 
     protected class ReportListenerNotifier implements ClusterListener {
 
-        public void handleCluster(ZigbeeEndpoint endpoint, ClusterMessage c) {
+        public void handleCluster(ZigBeeEndpoint endpoint, ClusterMessage c) {
             try {
                 if (c.getId() != cluster.getId()) return;
                 ResponseImpl response = new ResponseImpl(c, cluster.getId());
@@ -108,7 +108,7 @@ public abstract class ReporterBase implements Reporter {
 
     }
 
-    public ReporterBase(final ZigbeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
+    public ReporterBase(final ZigBeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
         device = zb;
         cluster = c;
         attribute = attrib;
@@ -117,7 +117,7 @@ public abstract class ReporterBase implements Reporter {
     private boolean doBindToDevice() {
         try {
             return device.bindToLocal(cluster.getId());
-        } catch (ZigbeeNetworkManagerException e) {
+        } catch (ZigBeeNetworkManagerException e) {
             log.debug("Unable to bind to device {} on cluster {}", device, cluster.getId());
             log.error("Binding failed", e);
             return false;
@@ -127,7 +127,7 @@ public abstract class ReporterBase implements Reporter {
     private boolean doUnbindToDevice() {
         try {
             return device.unbindFromLocal(cluster.getId());
-        } catch (ZigbeeNetworkManagerException e) {
+        } catch (ZigBeeNetworkManagerException e) {
             log.debug("Unable to bind to device {} on cluster {}", device, cluster.getId());
             log.error("Binding failed", e);
             return false;

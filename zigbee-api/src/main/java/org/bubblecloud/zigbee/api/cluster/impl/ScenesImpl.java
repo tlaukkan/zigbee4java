@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.api.cluster.impl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.Scenes;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
@@ -54,7 +54,7 @@ public class ScenesImpl implements Scenes {
     private Attribute nameSupport;
     private Attribute lastConfiguredBy;
 
-    public ScenesImpl(ZigbeeEndpoint zbDevice) {
+    public ScenesImpl(ZigBeeEndpoint zbDevice) {
         scenesCluster = new ScenesCluster(zbDevice);
         sceneCount = scenesCluster.getAttributeSceneCount();
         currentScene = scenesCluster.getAttributeCurrentScene();
@@ -65,12 +65,12 @@ public class ScenesImpl implements Scenes {
 
     }
 
-    public AddSceneResponse addScene(AddScenePayload scenepayload) throws ZigbeeDeviceException {
+    public AddSceneResponse addScene(AddScenePayload scenepayload) throws ZigBeeDeviceException {
         try {
             AddSceneResponse response = (AddSceneResponse) scenesCluster.addScene(scenepayload);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
@@ -94,12 +94,12 @@ public class ScenesImpl implements Scenes {
         return sceneCount;
     }
 
-    public GetSceneMembershipResponse getSceneMembership(int groupId) throws ZigbeeDeviceException {
+    public GetSceneMembershipResponse getSceneMembership(int groupId) throws ZigBeeDeviceException {
         try {
             GetSceneMembershipResponse response = (GetSceneMembershipResponse) scenesCluster.getSceneMembership(groupId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
@@ -107,48 +107,48 @@ public class ScenesImpl implements Scenes {
         return sceneValid;
     }
 
-    public void recallScene(int groupId, short sceneId) throws ZigbeeDeviceException {
+    public void recallScene(int groupId, short sceneId) throws ZigBeeDeviceException {
         try {
             scenesCluster.recallScene(groupId, sceneId);
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
 
     }
 
-    public RemoveAllScenesResponse removeAllScene(int groupId) throws ZigbeeDeviceException {
+    public RemoveAllScenesResponse removeAllScene(int groupId) throws ZigBeeDeviceException {
         try {
             RemoveAllScenesResponse response = (RemoveAllScenesResponse) scenesCluster.removeAllScenes(groupId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public RemoveSceneResponse removeScene(int groupId, short sceneId) throws ZigbeeDeviceException {
+    public RemoveSceneResponse removeScene(int groupId, short sceneId) throws ZigBeeDeviceException {
         try {
             RemoveSceneResponse response = (RemoveSceneResponse) scenesCluster.removeScene(groupId, sceneId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public StoreSceneResponse storeScene(int groupId, short sceneId) throws ZigbeeDeviceException {
+    public StoreSceneResponse storeScene(int groupId, short sceneId) throws ZigBeeDeviceException {
         try {
             StoreSceneResponse response = (StoreSceneResponse) scenesCluster.storeScene(groupId, sceneId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public ViewSceneResponse viewScene(int groupId, short sceneId) throws ZigbeeDeviceException {
+    public ViewSceneResponse viewScene(int groupId, short sceneId) throws ZigBeeDeviceException {
         try {
             ViewSceneResponse response = (ViewSceneResponse) scenesCluster.viewScene(groupId, sceneId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 

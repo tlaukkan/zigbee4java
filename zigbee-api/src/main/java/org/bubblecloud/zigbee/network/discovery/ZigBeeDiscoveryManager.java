@@ -21,7 +21,7 @@
  */
 package org.bubblecloud.zigbee.network.discovery;
 
-import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
+import org.bubblecloud.zigbee.network.ZigBeeNetworkManager;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.slf4j.Logger;
@@ -30,18 +30,18 @@ import org.slf4j.LoggerFactory;
 import java.util.EnumSet;
 
 /**
- * This class is tracks the {@link org.bubblecloud.zigbee.network.ZigbeeNetworkManager} service avaialable on the OSGi framework<br>
+ * This class is tracks the {@link org.bubblecloud.zigbee.network.ZigBeeNetworkManager} service avaialable on the OSGi framework<br>
  * and it creates all the resources required by this implementation of the <i>ZigBee Base Driver</i>
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
-public class ZigbeeDiscoveryManager {
+public class ZigBeeDiscoveryManager {
 
-    private final static Logger logger = LoggerFactory.getLogger(ZigbeeDiscoveryManager.class);
+    private final static Logger logger = LoggerFactory.getLogger(ZigBeeDiscoveryManager.class);
 
-    private ZigbeeNetworkManager managementInterface;
+    private ZigBeeNetworkManager managementInterface;
     private AnnounceListenerImpl annunceListener;
 
     private AssociationNetworkBrowser networkBrowser = null;
@@ -52,7 +52,7 @@ public class ZigbeeDiscoveryManager {
 
     private EnumSet<DiscoveryMode> enabledDiscoveries;
 
-    public ZigbeeDiscoveryManager(ZigbeeNetworkManager simpleDriver, final EnumSet<DiscoveryMode> enabledDiscoveries) {
+    public ZigBeeDiscoveryManager(ZigBeeNetworkManager simpleDriver, final EnumSet<DiscoveryMode> enabledDiscoveries) {
         importingQueue = new ImportingQueue();
         managementInterface = simpleDriver;
         this.enabledDiscoveries = enabledDiscoveries;

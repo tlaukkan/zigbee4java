@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.general;
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.alarms.AlarmListener;
@@ -39,13 +39,13 @@ public interface Alarms extends Cluster {
     
     public Attribute getAttributeAlarmCount();
 
-    public void resetAlarm(int clusterId, int attributeId) throws ZigbeeDeviceException;
+    public void resetAlarm(int clusterId, int attributeId) throws ZigBeeDeviceException;
 
-    public void resetAllAlarms() throws ZigbeeDeviceException;
+    public void resetAllAlarms() throws ZigBeeDeviceException;
 
-    public GetAlarmResponse getAlarm() throws ZigbeeDeviceException;
+    public GetAlarmResponse getAlarm() throws ZigBeeDeviceException;
 
-    public void resetAlarmLog() throws ZigbeeDeviceException;
+    public void resetAlarmLog() throws ZigBeeDeviceException;
 
     public boolean addAlarmListener(AlarmListener listener);
 

@@ -22,10 +22,10 @@
 
 package org.bubblecloud.zigbee.network.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeNetworkManager;
 import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER;
 import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER_SRSP;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ import java.util.*;
 
 /**
  * This class is a <i>singelton</i> aimed at share the <b>the Application Framework Layer</b><br>
- * status of the <b>ZigBee Base Drier</b> among all the {@link org.bubblecloud.zigbee.network.ZigbeeEndpoint} register by it.<br>
+ * status of the <b>ZigBee Base Drier</b> among all the {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} register by it.<br>
  * <br>
  * In particular, this class tracks the <i>Transaction Id</i> and the <i>Active End Point</i><br>
  * on the hardware providing access to <i>ZigBee Network</i> (currently the <b>Texas Instrument CC2480</b>)<br>
@@ -80,19 +80,19 @@ public class ApplicationFrameworkLayer {
     final HashMap<Integer, List<Integer>> profile2Cluster = new HashMap<Integer, List<Integer>>();
     final HashMap<Byte, Byte> endPoint2Transaction = new HashMap<Byte, Byte>();
 
-    private final ZigbeeNetworkManager driver;
-    private final ZigbeeNetwork network;
+    private final ZigBeeNetworkManager driver;
+    private final ZigBeeNetwork network;
 
     private byte firstFreeEndPoint;
 
 
-    private ApplicationFrameworkLayer(ZigbeeNetworkManager driver) {
+    private ApplicationFrameworkLayer(ZigBeeNetworkManager driver) {
         this.driver = driver;
         firstFreeEndPoint = 2;
-        network = new ZigbeeNetwork();
+        network = new ZigBeeNetwork();
     }
 
-    public static ApplicationFrameworkLayer getAFLayer(ZigbeeNetworkManager driver) {
+    public static ApplicationFrameworkLayer getAFLayer(ZigBeeNetworkManager driver) {
         synchronized (LOCK) {
             if (singelton == null) {
                 singelton = new ApplicationFrameworkLayer(driver);
@@ -108,9 +108,9 @@ public class ApplicationFrameworkLayer {
     }
 
 
-    public byte getSendingEndpoint(ZigbeeEndpoint endpoint, int clusterId) {
+    public byte getSendingEndpoint(ZigBeeEndpoint endpoint, int clusterId) {
         SenderIdentifier si = new SenderIdentifier(
-                ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION, (short) clusterId
+                ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION, (short) clusterId
         );
         logger.trace("Looking for a registered enpoint among {}", sender2EndPoint.size());
         synchronized (sender2EndPoint) {
@@ -125,7 +125,7 @@ public class ApplicationFrameworkLayer {
         }
     }
 
-    public byte getSendingEndpoint(ZigbeeEndpoint endpoint, ClusterMessage input) {
+    public byte getSendingEndpoint(ZigBeeEndpoint endpoint, ClusterMessage input) {
         return getSendingEndpoint(endpoint, input.getId());
     }
 
@@ -213,9 +213,9 @@ public class ApplicationFrameworkLayer {
 
     private Set<Integer> collectClusterForProfile(int profileId) {
         final HashSet<Integer> clusters = new HashSet<Integer>();
-        final Collection<ZigbeeEndpoint> endpoints = network.getEndpoints(profileId);
+        final Collection<ZigBeeEndpoint> endpoints = network.getEndpoints(profileId);
         logger.debug("Found {} devices belonging to profile {}", endpoints.size(), profileId);
-        for (ZigbeeEndpoint endpoint : endpoints) {
+        for (ZigBeeEndpoint endpoint : endpoints) {
             int[] ids;
             ids = endpoint.getInputClusters();
             logger.debug(
@@ -247,7 +247,7 @@ public class ApplicationFrameworkLayer {
         return clusters;
     }
 
-    public ZigbeeNetwork getZigBeeNetwork() {
+    public ZigBeeNetwork getZigBeeNetwork() {
         return network;
     }
 

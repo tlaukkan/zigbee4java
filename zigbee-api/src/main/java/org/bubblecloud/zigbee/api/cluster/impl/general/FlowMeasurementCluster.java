@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.FlowMeas
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.api.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 public class FlowMeasurementCluster extends ZCLClusterBase implements FlowMeasurement {
 	
@@ -36,7 +36,7 @@ public class FlowMeasurementCluster extends ZCLClusterBase implements FlowMeasur
 	private static AttributeImpl description;
 	private final Attribute[] attributes;
 	
-	public FlowMeasurementCluster(ZigbeeEndpoint zbDevice){
+	public FlowMeasurementCluster(ZigBeeEndpoint zbDevice){
 		super(zbDevice);
 		
 		

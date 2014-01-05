@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.api;
 
-import org.bubblecloud.zigbee.ZigbeeApiContext;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 
 import java.lang.reflect.Constructor;
@@ -39,11 +39,11 @@ import java.util.Hashtable;
  */
 public class ClusterFactoryBase implements ClusterFactory {
 
-    private ZigbeeApiContext ctx;
+    private ZigBeeApiContext ctx;
     private Hashtable<String, Class> clusters;
 
 
-    public ClusterFactoryBase(ZigbeeApiContext ctx) {
+    public ClusterFactoryBase(ZigBeeApiContext ctx) {
         this.ctx = ctx;
         clusters = new Hashtable<String, Class>();
     }
@@ -62,11 +62,11 @@ public class ClusterFactoryBase implements ClusterFactory {
         clusters.put(key, clazz);
     }
 
-    public Cluster getInstance(String key, ZigbeeEndpoint zbDevice) {
+    public Cluster getInstance(String key, ZigBeeEndpoint zbDevice) {
         Class clazz = clusters.get(key);
         if (clazz != null) {
             try {
-                Constructor<?> constructor = clazz.getConstructor(ZigbeeEndpoint.class);
+                Constructor<?> constructor = clazz.getConstructor(ZigBeeEndpoint.class);
                 Cluster cluster = (Cluster) constructor.newInstance(zbDevice);
                 return cluster;
             } catch (SecurityException e) {

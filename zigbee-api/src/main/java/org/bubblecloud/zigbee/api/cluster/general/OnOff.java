@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.general;
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.general.event.OnOffListener;
 
@@ -36,13 +36,13 @@ import org.bubblecloud.zigbee.api.cluster.general.event.OnOffListener;
  */
 public interface OnOff extends Cluster{
 
-	public void on() throws ZigbeeDeviceException;
+	public void on() throws ZigBeeDeviceException;
 	
-	public void off() throws ZigbeeDeviceException;
+	public void off() throws ZigBeeDeviceException;
 
-	public void toggle() throws ZigbeeDeviceException;
+	public void toggle() throws ZigBeeDeviceException;
 	
-	public boolean getOnOff() throws ZigbeeDeviceException;
+	public boolean getOnOff() throws ZigBeeDeviceException;
 	
 	/**
 	 * 

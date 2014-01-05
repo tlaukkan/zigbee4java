@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.device.hvac;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.util.ArraysUtil;
@@ -42,7 +42,7 @@ public interface TemperatureSensor extends Device {
     public static final String NAME = "Temperature Sensor";
 
     public static final int[] MANDATORY = ArraysUtil.append(Device.MANDATORY, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT
+            ZigBeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT
     });
 
     public static final int[] OPTIONAL = ArraysUtil.append(Device.OPTIONAL, new int[]{

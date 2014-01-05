@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.general;
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.general.event.PresentValueListener;
 
@@ -37,16 +37,16 @@ public interface AnalogInput extends Cluster{
 
 	
    
-    public String getDescription() throws ZigbeeDeviceException;
-    public Float getMaxPresentValue() throws ZigbeeDeviceException;
-    public Float getMinPresentValue() throws ZigbeeDeviceException;
-    public boolean getOutOfService() throws ZigbeeDeviceException;
-    public Float getPresentValue() throws ZigbeeDeviceException;
-    public int getReliability() throws ZigbeeDeviceException;
-    public float getResolution() throws ZigbeeDeviceException;
-    public int getStatusFlags() throws ZigbeeDeviceException;
-    public int getEngineeringUnits() throws ZigbeeDeviceException;
-    public long getApplicationType() throws ZigbeeDeviceException;
+    public String getDescription() throws ZigBeeDeviceException;
+    public Float getMaxPresentValue() throws ZigBeeDeviceException;
+    public Float getMinPresentValue() throws ZigBeeDeviceException;
+    public boolean getOutOfService() throws ZigBeeDeviceException;
+    public Float getPresentValue() throws ZigBeeDeviceException;
+    public int getReliability() throws ZigBeeDeviceException;
+    public float getResolution() throws ZigBeeDeviceException;
+    public int getStatusFlags() throws ZigBeeDeviceException;
+    public int getEngineeringUnits() throws ZigBeeDeviceException;
+    public long getApplicationType() throws ZigBeeDeviceException;
 
     /**
 	 * 

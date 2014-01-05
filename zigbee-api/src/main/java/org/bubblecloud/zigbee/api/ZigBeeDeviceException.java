@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api;
 
-import org.bubblecloud.zigbee.network.impl.ZigbeeException;
+import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -30,20 +30,20 @@ import org.bubblecloud.zigbee.network.impl.ZigbeeException;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public class ZigbeeDeviceException extends ZigbeeException {
+public class ZigBeeDeviceException extends ZigBeeException {
 
-    public ZigbeeDeviceException(String msg) {
+    public ZigBeeDeviceException(String msg) {
         super(msg);
     }
 
-    public ZigbeeDeviceException(Throwable ex) {
+    public ZigBeeDeviceException(Throwable ex) {
         super(ex);
     }
 
     /**
      * @since 0.4.0
      */
-    public ZigbeeDeviceException(String msg, Throwable ex) {
+    public ZigBeeDeviceException(String msg, Throwable ex) {
         super(msg, ex);
     }
 }

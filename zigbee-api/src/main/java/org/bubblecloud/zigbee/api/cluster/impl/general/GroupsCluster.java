@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.general;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
@@ -60,7 +60,7 @@ public class GroupsCluster extends ZCLClusterBase implements Groups {
             .setManufacturerExtension(false);
 
 
-    public GroupsCluster(ZigbeeEndpoint zbDevice) {
+    public GroupsCluster(ZigBeeEndpoint zbDevice) {
         super(zbDevice);
         nameSupport = new AttributeImpl(zbDevice, this, Attributes.NAME_SUPPORT_GROUPS);
         attributes = new AttributeImpl[]{nameSupport};

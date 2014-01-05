@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.protocol_interfaces;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.protocol_interfaces.GenericTunnel;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
@@ -36,7 +36,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
  */
 public class GenericTunnelCluster extends ZCLClusterBase implements GenericTunnel {
 
-    public GenericTunnelCluster(ZigbeeEndpoint zbDevice) {
+    public GenericTunnelCluster(ZigBeeEndpoint zbDevice) {
         super(zbDevice);
         // TODO Auto-generated constructor stub
     }

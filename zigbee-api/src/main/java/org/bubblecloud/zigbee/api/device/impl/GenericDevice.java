@@ -22,10 +22,10 @@
 
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.ZigbeeApiContext;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
 import org.bubblecloud.zigbee.api.DeviceBase;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.AbstractDeviceDescription;
 import org.bubblecloud.zigbee.api.DeviceDescription;
 
@@ -47,7 +47,7 @@ public class GenericDevice extends DeviceBase {
     private int[] standard;
     private int[] custom;
 
-    public GenericDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public GenericDevice(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
         super(ctx, zbDevice);
 
         mandatory = new int[0]; // we don't know the device so we cannot distinuish
@@ -57,7 +57,7 @@ public class GenericDevice extends DeviceBase {
         ArrayList<Integer> standardList = new ArrayList<Integer>();
         ArrayList<Integer> customList = new ArrayList<Integer>();
         for (int i = 0; i < clusterIDs.length; i++) {
-//			if (ZigbeeApiConstants.clusters.containsKey(clusterIDs[i])){
+//			if (ZigBeeApiConstants.clusters.containsKey(clusterIDs[i])){
 //				standardList.add(clusterIDs[i]);
 //			} else {
 //				customList.add(clusterIDs[i]);

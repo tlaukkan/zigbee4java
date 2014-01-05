@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
@@ -48,37 +48,37 @@ public class GroupsImpl implements Groups {
     private GroupsCluster groupCluster;
     private Attribute nameSupport;
 
-    public GroupsImpl(ZigbeeEndpoint zbDevice) {
+    public GroupsImpl(ZigBeeEndpoint zbDevice) {
         groupCluster = new GroupsCluster(zbDevice);
         nameSupport = groupCluster.getAttributeNameSupport();
     }
 
-    public AddGroupResponse addGroup(int groupId, String name) throws ZigbeeDeviceException {
+    public AddGroupResponse addGroup(int groupId, String name) throws ZigBeeDeviceException {
         try {
             AddGroupResponse response = (AddGroupResponse) groupCluster.addGroup(groupId, name);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void addGroupIfIdentifying(int groupId, String name) throws ZigbeeDeviceException {
+    public void addGroupIfIdentifying(int groupId, String name) throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) groupCluster.addGroupIfIdentifying(groupId, name);
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
 
     }
 
-    public GetGroupMembershipResponse getGroupMembership(int[] groupList) throws ZigbeeDeviceException {
+    public GetGroupMembershipResponse getGroupMembership(int[] groupList) throws ZigBeeDeviceException {
         try {
             GetGroupMembershipResponse response = (GetGroupMembershipResponse) groupCluster.getGroupMembership(groupList);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
@@ -86,31 +86,31 @@ public class GroupsImpl implements Groups {
         return nameSupport;
     }
 
-    public void removeAllGroup() throws ZigbeeDeviceException {
+    public void removeAllGroup() throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) groupCluster.removeAllGroup();
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public RemoveGroupResponse removeGroup(int groupId) throws ZigbeeDeviceException {
+    public RemoveGroupResponse removeGroup(int groupId) throws ZigBeeDeviceException {
         try {
             RemoveGroupResponse response = (RemoveGroupResponse) groupCluster.removeGroup(groupId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public ViewGroupResponse viewGroup(int groupId) throws ZigbeeDeviceException {
+    public ViewGroupResponse viewGroup(int groupId) throws ZigBeeDeviceException {
         try {
             ViewGroupResponse response = (ViewGroupResponse) groupCluster.viewGroup(groupId);
             return response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 

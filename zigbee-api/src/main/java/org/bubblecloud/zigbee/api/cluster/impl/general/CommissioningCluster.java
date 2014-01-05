@@ -21,7 +21,7 @@
  */
 package org.bubblecloud.zigbee.api.cluster.impl.general;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
@@ -39,7 +39,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
  */
 public class CommissioningCluster extends ZCLClusterBase implements Commissioning {
 
-    public CommissioningCluster(ZigbeeEndpoint zbDevice) {
+    public CommissioningCluster(ZigBeeEndpoint zbDevice) {
         super(zbDevice);
         // TODO Auto-generated constructor stub
     }

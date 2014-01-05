@@ -22,9 +22,9 @@
 
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
-import org.bubblecloud.zigbee.ZigbeeApiContext;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.general.Identify;
@@ -49,16 +49,16 @@ public class IASControlAndIndicatingEquipmentDevice extends DeviceBase implement
     private Scenes scenes;
     private Groups groups;
 
-    public IASControlAndIndicatingEquipmentDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public IASControlAndIndicatingEquipmentDevice(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
 
         super(ctx, zbDevice);
 
-        iasAce = (IASACE) getCluster(ZigbeeApiConstants.CLUSTER_ID_IAS_ACE);
-        iasZone = (IASZone) getCluster(ZigbeeApiConstants.CLUSTER_ID_IAS_ZONE);
-        identify = (Identify) getCluster(ZigbeeApiConstants.CLUSTER_ID_IDENTIFY);
-        iasWD = (IASWD) getCluster(ZigbeeApiConstants.CLUSTER_ID_IAS_WD);
-        scenes = (Scenes) getCluster(ZigbeeApiConstants.CLUSTER_ID_SCENES);
-        groups = (Groups) getCluster(ZigbeeApiConstants.CLUSTER_ID_GROUPS);
+        iasAce = (IASACE) getCluster(ZigBeeApiConstants.CLUSTER_ID_IAS_ACE);
+        iasZone = (IASZone) getCluster(ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE);
+        identify = (Identify) getCluster(ZigBeeApiConstants.CLUSTER_ID_IDENTIFY);
+        iasWD = (IASWD) getCluster(ZigBeeApiConstants.CLUSTER_ID_IAS_WD);
+        scenes = (Scenes) getCluster(ZigBeeApiConstants.CLUSTER_ID_SCENES);
+        groups = (Groups) getCluster(ZigBeeApiConstants.CLUSTER_ID_GROUPS);
     }
 
     public IASACE getIASACE() {

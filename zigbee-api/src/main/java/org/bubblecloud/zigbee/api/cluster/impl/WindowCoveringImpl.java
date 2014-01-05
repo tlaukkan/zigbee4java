@@ -22,13 +22,13 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.WindowCovering;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.general.WindowCoveringCluster;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class WindowCoveringImpl implements WindowCovering {
 	private WindowCoveringCluster windowCovering;
 
 
-	public WindowCoveringImpl(ZigbeeEndpoint zbDevice){
+	public WindowCoveringImpl(ZigBeeEndpoint zbDevice){
 		windowCovering = new WindowCoveringCluster(zbDevice);
 		
 	}
@@ -75,11 +75,11 @@ public class WindowCoveringImpl implements WindowCovering {
 		return null;
 	}
 
-	public String getDescription() throws ZigbeeDeviceException {
+	public String getDescription() throws ZigBeeDeviceException {
 		 try {
 	            return (String) windowCovering.getAttributeDescription().getValue();
 	        } catch (ZigBeeClusterException e) {
-	            throw new ZigbeeDeviceException(e);
+	            throw new ZigBeeDeviceException(e);
 	        }
 	}
 

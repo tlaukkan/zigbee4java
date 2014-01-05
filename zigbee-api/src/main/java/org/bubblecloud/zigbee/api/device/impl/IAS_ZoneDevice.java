@@ -22,12 +22,12 @@
 
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.ZigbeeApiContext;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASZone;
 import org.bubblecloud.zigbee.api.device.security_safety.IAS_Zone;
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
@@ -38,11 +38,11 @@ public class IAS_ZoneDevice extends DeviceBase implements IAS_Zone {
 
     private IASZone iasZoneCluster;
 
-    public IAS_ZoneDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public IAS_ZoneDevice(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
 
         super(ctx, zbDevice);
 
-        iasZoneCluster = (IASZone) getCluster(ZigbeeApiConstants.CLUSTER_ID_IAS_ZONE);
+        iasZoneCluster = (IASZone) getCluster(ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE);
     }
 
     public IASZone getIASZone() {

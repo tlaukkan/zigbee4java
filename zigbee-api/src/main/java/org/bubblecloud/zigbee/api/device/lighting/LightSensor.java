@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.device.lighting;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.IlluminanceMeasurement;
@@ -38,10 +38,10 @@ public interface LightSensor extends Device {
     public static final int DEVICE_ID = 0x0106;
     public static final String NAME = "Light Sensor";
     public static final int[] MANDATORY = ArraysUtil.append(Device.MANDATORY, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_ILLUMINANCE_MEASUREMENT
+            ZigBeeApiConstants.CLUSTER_ID_ILLUMINANCE_MEASUREMENT
     });
     public static final int[] OPTIONAL = ArraysUtil.append(Device.OPTIONAL, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_GROUPS
+            ZigBeeApiConstants.CLUSTER_ID_GROUPS
     });
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

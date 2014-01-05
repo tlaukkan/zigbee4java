@@ -23,9 +23,9 @@
 package org.bubblecloud.zigbee.api.cluster.impl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASWD;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.SquawkPayload;
@@ -42,7 +42,7 @@ public class IASWDImpl implements IASWD {
     private final IASWDCluster iaswdcluster;
     private final Attribute maxDuration;
 
-    public IASWDImpl(ZigbeeEndpoint zbDevice) {
+    public IASWDImpl(ZigBeeEndpoint zbDevice) {
 
         iaswdcluster = new IASWDCluster(zbDevice);
         maxDuration = iaswdcluster.getAttributeMaxDuration();
@@ -77,19 +77,19 @@ public class IASWDImpl implements IASWD {
         return maxDuration;
     }
 
-    public void startWarning(StartWarningPayload payload) throws ZigbeeDeviceException {
+    public void startWarning(StartWarningPayload payload) throws ZigBeeDeviceException {
         try {
             iaswdcluster.startWarning(payload);
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void squawk(SquawkPayload payload) throws ZigbeeDeviceException {
+    public void squawk(SquawkPayload payload) throws ZigBeeDeviceException {
         try {
             iaswdcluster.squawk(payload);
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 }

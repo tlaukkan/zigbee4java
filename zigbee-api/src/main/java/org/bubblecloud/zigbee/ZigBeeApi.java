@@ -16,9 +16,9 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.network.EndpointListener;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.network.discovery.ZigbeeDiscoveryManager;
-import org.bubblecloud.zigbee.network.impl.ZigbeeNetwork;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
@@ -35,38 +35,38 @@ import org.bubblecloud.zigbee.api.device.security_safety.IAS_Warning;
 import org.bubblecloud.zigbee.api.device.security_safety.IAS_Zone;
 import org.bubblecloud.zigbee.api.device.impl.*;
 import org.bubblecloud.zigbee.api.DeviceBase;
-import org.bubblecloud.zigbee.network.serial.ZigbeeNetworkManagerSerialImpl;
+import org.bubblecloud.zigbee.network.serial.ZigBeeNetworkManagerSerialImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 /**
- * Zigbee Application Interface.
+ * ZigBee Application Interface.
  *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
-public class ZigbeeApi implements EndpointListener, DeviceListener {
+public class ZigBeeApi implements EndpointListener, DeviceListener {
     /**
      * The logger.
      */
-    private final static Logger LOGGER = LoggerFactory.getLogger(ZigbeeDiscoveryManager.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ZigBeeDiscoveryManager.class);
     /**
-     * The Zigbee network manager.
+     * The ZigBee network manager.
      */
-    private final ZigbeeNetworkManagerSerialImpl networkManager;
+    private final ZigBeeNetworkManagerSerialImpl networkManager;
     /**
-     * The Zigbee discovery manager.
+     * The ZigBee discovery manager.
      */
-    private final ZigbeeDiscoveryManager discoveryManager;
+    private final ZigBeeDiscoveryManager discoveryManager;
     /**
-     * The Zigbee context.
+     * The ZigBee context.
      */
-    private ZigbeeApiContext context;
+    private ZigBeeApiContext context;
     /**
      * The zigbee network.
      */
-    private ZigbeeNetwork network;
+    private ZigBeeNetwork network;
 
     /**
      * Constructor to configure the serial interface.
@@ -77,12 +77,12 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
      * @param discoveryModes the discovery modes
      * @param resetNetwork   the flag indicating network reset on startup
      */
-    public ZigbeeApi(final String serialPortName, final int pan, final int channel,
+    public ZigBeeApi(final String serialPortName, final int pan, final int channel,
             final EnumSet<DiscoveryMode> discoveryModes, final boolean resetNetwork) {
-        networkManager = new ZigbeeNetworkManagerSerialImpl(serialPortName, 115200,
+        networkManager = new ZigBeeNetworkManagerSerialImpl(serialPortName, 115200,
                 NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
 
-        discoveryManager = new ZigbeeDiscoveryManager(networkManager, discoveryModes);
+        discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
     }
 
     /**
@@ -93,14 +93,14 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
      * @param channel        the channel
      * @param resetNetwork   the flag indicating network reset on startup
      */
-    public ZigbeeApi(final String serialPortName, final int pan, final int channel,
+    public ZigBeeApi(final String serialPortName, final int pan, final int channel,
                      final boolean resetNetwork) {
-        networkManager = new ZigbeeNetworkManagerSerialImpl(serialPortName, 115200,
+        networkManager = new ZigBeeNetworkManagerSerialImpl(serialPortName, 115200,
                 NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
 
         final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
         discoveryModes.remove(DiscoveryMode.LinkQuality);
-        discoveryManager = new ZigbeeDiscoveryManager(networkManager, discoveryModes);
+        discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
     }
 
 
@@ -129,7 +129,7 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
         network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
         network.addEndpointListenerListener(this);
 
-        context = new ZigbeeApiContext();
+        context = new ZigBeeApiContext();
 
         final ClusterFactory clusterFactory = new ClusterFactoryImpl(context);
         context.setClusterFactory(clusterFactory);
@@ -192,38 +192,38 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
     }
 
     /**
-     * Gets Zigbee network manager.
+     * Gets ZigBee network manager.
      *
-     * @return the Zigbee network manager.
+     * @return the ZigBee network manager.
      */
-    public ZigbeeNetworkManagerSerialImpl getZigbeeNetworkManager() {
+    public ZigBeeNetworkManagerSerialImpl getZigBeeNetworkManager() {
         return networkManager;
     }
 
     /**
-     * Gets Zigbee discovery manager.
+     * Gets ZigBee discovery manager.
      *
-     * @return the Zigbee discovery manager.
+     * @return the ZigBee discovery manager.
      */
-    public ZigbeeDiscoveryManager getZigbeeDiscoveryManager() {
+    public ZigBeeDiscoveryManager getZigBeeDiscoveryManager() {
         return discoveryManager;
     }
 
     /**
-     * Gets Zigbee proxy context.
+     * Gets ZigBee proxy context.
      *
-     * @return the Zigbee proxy context.
+     * @return the ZigBee proxy context.
      */
-    public ZigbeeApiContext getZigbeeApiContext() {
+    public ZigBeeApiContext getZigBeeApiContext() {
         return context;
     }
 
     /**
-     * Gets Zigbee network.
+     * Gets ZigBee network.
      *
-     * @return the Zigbee network.
+     * @return the ZigBee network.
      */
-    public ZigbeeNetwork getZigbeeNetwork() {
+    public ZigBeeNetwork getZigBeeNetwork() {
         return network;
     }
 
@@ -244,10 +244,10 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
     }
 
     @Override
-    public void endpointAdded(final ZigbeeEndpoint endpoint) {
+    public void endpointAdded(final ZigBeeEndpoint endpoint) {
         final DeviceFactory factory = context.getBestDeviceProxyFactory(endpoint);
         if (factory == null) { // pending services
-            LOGGER.warn("No proxy for Zigbee endpoint {} found.", endpoint.getDeviceTypeId());
+            LOGGER.warn("No proxy for ZigBee endpoint {} found.", endpoint.getDeviceTypeId());
             return;
         }
 
@@ -257,12 +257,12 @@ public class ZigbeeApi implements EndpointListener, DeviceListener {
     }
 
     @Override
-    public void endpointUpdated(final ZigbeeEndpoint endpoint) {
+    public void endpointUpdated(final ZigBeeEndpoint endpoint) {
         LOGGER.trace("Endpoint updated: " + endpoint.getEndpointId());
     }
 
     @Override
-    public void endpointRemoved(final ZigbeeEndpoint endpoint) {
+    public void endpointRemoved(final ZigBeeEndpoint endpoint) {
         LOGGER.trace("Endpoint removed: " + endpoint.getEndpointId());
     }
 

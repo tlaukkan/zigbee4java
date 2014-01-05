@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.api;
 
-import org.bubblecloud.zigbee.ZigbeeApiContext;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,16 +43,16 @@ public abstract class DeviceFactoryBase implements DeviceFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(DeviceFactoryBase.class);
 
-    protected ZigbeeApiContext ctx;
+    protected ZigBeeApiContext ctx;
 
     private Class<?> refinement;
     protected int[] clusters;
 
     /**
-     * @param ctx        {@link org.bubblecloud.zigbee.ZigbeeApiContext} of the bundle extending the refinement capabilities
+     * @param ctx        {@link org.bubblecloud.zigbee.ZigBeeApiContext} of the bundle extending the refinement capabilities
      * @param refinement {@link Class} of the most refined interfaces provided by this factory
      */
-    public DeviceFactoryBase(ZigbeeApiContext ctx, Class<?> refinement) {
+    public DeviceFactoryBase(ZigBeeApiContext ctx, Class<?> refinement) {
         this.ctx = ctx;
         this.refinement = refinement;
     }
@@ -82,9 +82,9 @@ public abstract class DeviceFactoryBase implements DeviceFactory {
 
     public abstract String[] getRefinedInterfaces();
 
-    public abstract DeviceBase getInstance(ZigbeeEndpoint zbDevice);
+    public abstract DeviceBase getInstance(ZigBeeEndpoint zbDevice);
 
-    public int hasMatch(ZigbeeEndpoint device) {
+    public int hasMatch(ZigBeeEndpoint device) {
         if (device.getDeviceTypeId() == getDeviceId()) {
             return Integer.MAX_VALUE;
         }
@@ -94,8 +94,8 @@ public abstract class DeviceFactoryBase implements DeviceFactory {
             factoryInputClusters.add(cluster);
         }
 
-        int score = device.getProfileId() == ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION
-                ? ZigbeeEndpoint.MATCH_PROFILE_ID : 0;
+        int score = device.getProfileId() == ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION
+                ? ZigBeeEndpoint.MATCH_PROFILE_ID : 0;
 
         for (int c : device.getInputClusters()) {
             if (factoryInputClusters.contains(c)) {

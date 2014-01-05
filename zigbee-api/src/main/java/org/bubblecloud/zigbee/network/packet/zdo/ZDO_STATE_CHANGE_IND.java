@@ -65,8 +65,8 @@ public class ZDO_STATE_CHANGE_IND extends ZToolPacket /*implements IRESPONSE_CAL
         DEV_END_DEVICE_UNAUTH(0x05), // Joined but not yet authenticated by trust center
         DEV_END_DEVICE(0x06), // Started as device after authentication
         DEV_ROUTER(0x07), // Device joined, authenticated and is a router
-        DEV_COORD_STARTING(0x08), // Started as Zigbee Coordinator
-        DEV_ZB_COORD(0x09), // Started as Zigbee Coordinator
+        DEV_COORD_STARTING(0x08), // Started as ZigBee Coordinator
+        DEV_ZB_COORD(0x09), // Started as ZigBee Coordinator
         DEV_NWK_ORPHAN(0x0A); // Device has lost information about its parent
 
         private static Map<Integer, CMD_STATUS> mapping = new HashMap<Integer, CMD_STATUS>();

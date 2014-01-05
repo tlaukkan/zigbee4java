@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.general;
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.general.event.CurrentLevelListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
@@ -57,29 +57,29 @@ public interface LevelControl extends Cluster {
 	public boolean unsubscribe(CurrentLevelListener listener);
 	
 	
-	public void moveToLevel(short level, int time) throws ZigbeeDeviceException;
-	public void move(byte mode, short rate) throws ZigbeeDeviceException;
-	public void step(byte mode, short step, int time) throws ZigbeeDeviceException;
-	public void stop() throws ZigbeeDeviceException;
+	public void moveToLevel(short level, int time) throws ZigBeeDeviceException;
+	public void move(byte mode, short rate) throws ZigBeeDeviceException;
+	public void step(byte mode, short step, int time) throws ZigBeeDeviceException;
+	public void stop() throws ZigBeeDeviceException;
 
 	/**
 	 * @since 0.6.0
 	 */
-	public void moveToLevelWithOnOff(short level, int time) throws ZigbeeDeviceException;
+	public void moveToLevelWithOnOff(short level, int time) throws ZigBeeDeviceException;
 
 	/**
 	 * @since 0.6.0
 	 */
-	public void moveWithOnOff(byte mode, short rate) throws ZigbeeDeviceException;
+	public void moveWithOnOff(byte mode, short rate) throws ZigBeeDeviceException;
 
 	/**
 	 * @since 0.6.0
 	 */
-	public void stepWithOnOff(byte mode, short step, int time) throws ZigbeeDeviceException;
+	public void stepWithOnOff(byte mode, short step, int time) throws ZigBeeDeviceException;
 	
 	/**
 	 * @since 0.6.0
 	 */
-	public void stopWithOnOff() throws ZigbeeDeviceException;
+	public void stopWithOnOff() throws ZigBeeDeviceException;
 	
 }

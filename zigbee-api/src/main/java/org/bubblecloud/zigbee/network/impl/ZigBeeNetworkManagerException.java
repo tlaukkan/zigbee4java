@@ -20,32 +20,21 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.network;
-
-import java.util.Dictionary;
+package org.bubblecloud.zigbee.network.impl;
 
 /**
- * This class represent a ZigBee node, it means a physical device that can communicate<br>
- * using the ZigBee protocol.<br>
- * Each physical may contain up 240 endpoints which are represented by the {@link ZigbeeEndpoint}<br>
- * class. Each endpoint is identified by an <i>EndPoint</i> address, but shares iether the:<br>
- * - <i>64-bit 802.15.4 IEEE Address</i><br>
- * - <i>16-bit ZigBee Network Address</i><br>
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- * @since 0.1.0
+ * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
-public interface ZigbeeNode {
+public class ZigBeeNetworkManagerException extends ZigBeeException {
 
-    /**
-     * @return int representing the current network address linked to the node
-     */
-    public int getNetworkAddress();
+    public ZigBeeNetworkManagerException(String msg) {
+        super(msg);
+    }
 
-    /**
-     * @return a {@link String} representing the IEEEAddress of the node
-     */
-    public String getIEEEAddress();
+    public ZigBeeNetworkManagerException(Throwable ex) {
+        super(ex);
+    }
 
 }

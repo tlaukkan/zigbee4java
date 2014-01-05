@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.general;
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 
@@ -43,15 +43,15 @@ public interface Basic extends Cluster {
 	public Attribute getModelIdentifier();
 	public Attribute getDateCode();
 	public Attribute getPowerSource();
-	public String getLocationDescription() throws ZigbeeDeviceException;
+	public String getLocationDescription() throws ZigBeeDeviceException;
 	public Attribute getPhysicalEnvironment();
-	public boolean getDeviceEnabled() throws ZigbeeDeviceException;
+	public boolean getDeviceEnabled() throws ZigBeeDeviceException;
 	public Attribute getAlarmMask();
 	/**
 	 * @since 0.7.0
 	 */
 	public Attribute getDisableLocalConfig();
 
-	public void resetToFactoryDefault() throws ZigbeeDeviceException;
+	public void resetToFactoryDefault() throws ZigBeeDeviceException;
 
 }

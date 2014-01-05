@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 
 /**
@@ -33,6 +33,6 @@ import org.bubblecloud.zigbee.api.cluster.Cluster;
  */
 public interface ClusterFactory {
 
-    public Cluster getInstance(String key, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException;
+    public Cluster getInstance(String key, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException;
 
 }

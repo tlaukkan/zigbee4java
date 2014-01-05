@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.api;
 
 import org.bubblecloud.zigbee.api.cluster.impl.*;
-import org.bubblecloud.zigbee.ZigbeeApiContext;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -33,51 +33,51 @@ import org.bubblecloud.zigbee.ZigbeeApiContext;
 public class ClusterFactoryImpl extends ClusterFactoryBase {
 
     //General
-    final static String BASIC_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":" + ZigbeeApiConstants.CLUSTER_ID_BASIC;
-    final static String POWER_CONFIGURATION_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_POWER_CONFIGURATION;
-    final static String DEVICE_TEMPERATURE_CONFIGURATION_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION;
-    final static String IDENTIFY_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_IDENTIFY;
-    final static String GROUPS_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_GROUPS;
-    final static String SCENES_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_SCENES;
-    final static String ONOFF_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_ON_OFF;
-    final static String ON_OFF_SWITCH_CONFIGURATION_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_ON_OFF_SWITCH_CONFIGURATION;
-    final static String LEVEL_CONTROL_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_LEVEL_CONTROL;
-    final static String ALARMS_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_ALARMS;
-    final static String BINARY_INPUT_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_BINARY_INPUT;
+    final static String BASIC_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":" + ZigBeeApiConstants.CLUSTER_ID_BASIC;
+    final static String POWER_CONFIGURATION_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_POWER_CONFIGURATION;
+    final static String DEVICE_TEMPERATURE_CONFIGURATION_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION;
+    final static String IDENTIFY_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_IDENTIFY;
+    final static String GROUPS_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_GROUPS;
+    final static String SCENES_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_SCENES;
+    final static String ONOFF_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_ON_OFF;
+    final static String ON_OFF_SWITCH_CONFIGURATION_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_ON_OFF_SWITCH_CONFIGURATION;
+    final static String LEVEL_CONTROL_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_LEVEL_CONTROL;
+    final static String ALARMS_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_ALARMS;
+    final static String BINARY_INPUT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_BINARY_INPUT;
 
     //Smart Energy
-    final static String METERING_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_METERING;
+    final static String METERING_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_METERING;
 
     //Measurement and Sensing
-    final static String ILLUMINANCE_LEVEL_SENSING_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_ILLUMINANCE_LEVEL_SENSING; // new
-    final static String ILLUMINANCE_MEASUREMENT_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_ILLUMINANCE_MEASUREMENT; // new
-    final static String TEMPERATURE_MEASUREMENT_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT;
-    final static String PRESSURE_MEASUREMENT_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_PRESSURE_MEASUREMENT;
-    final static String FLOW_MEASUREMENT_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_FLOW_MEASUREMENT;
-    final static String RELATIVE_HUMIDITY_MEASUREMENT_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_RELATIVE_HUMIDITY_MEASUREMENT;
-    final static String OCCUPANCY_SENSING_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING;
+    final static String ILLUMINANCE_LEVEL_SENSING_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_ILLUMINANCE_LEVEL_SENSING; // new
+    final static String ILLUMINANCE_MEASUREMENT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_ILLUMINANCE_MEASUREMENT; // new
+    final static String TEMPERATURE_MEASUREMENT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT;
+    final static String PRESSURE_MEASUREMENT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_PRESSURE_MEASUREMENT;
+    final static String FLOW_MEASUREMENT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_FLOW_MEASUREMENT;
+    final static String RELATIVE_HUMIDITY_MEASUREMENT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_RELATIVE_HUMIDITY_MEASUREMENT;
+    final static String OCCUPANCY_SENSING_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING;
     //Security and Safety
-    final static String IAS_ZONE_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_IAS_ZONE;
-    final static String IAS_WD_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_IAS_WD;
-    final static String IAS_ACE_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_IAS_ACE;
+    final static String IAS_ZONE_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE;
+    final static String IAS_WD_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_IAS_WD;
+    final static String IAS_ACE_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_IAS_ACE;
     //fuori profilo HA
-    final static String TIME_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_TIME;
-    final static String COMMISSIONING_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_COMMISSIONING;
-    final static String ANALOG_INPUT_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_ANALOG_INPUT;
+    final static String TIME_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_TIME;
+    final static String COMMISSIONING_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_COMMISSIONING;
+    final static String ANALOG_INPUT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_ANALOG_INPUT;
 
     //HVAC
-    private static final String THERMOSTAT_USER_INTERFACE_CONFIGURATION_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_THERMOSTAT_USER_INTERFACE_CONFIGURATION;
-    private static final String FAN_CONTROL_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_FAN_CONTROL;
-    private static final String THERMOSTAT_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_THERMOSTAT;
-    private static final String PUMP_CONFIGURATION_AND_CONTROL_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_PUMP_CONFIGURATION_AND_CONTROL;
+    private static final String THERMOSTAT_USER_INTERFACE_CONFIGURATION_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_THERMOSTAT_USER_INTERFACE_CONFIGURATION;
+    private static final String FAN_CONTROL_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_FAN_CONTROL;
+    private static final String THERMOSTAT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_THERMOSTAT;
+    private static final String PUMP_CONFIGURATION_AND_CONTROL_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_PUMP_CONFIGURATION_AND_CONTROL;
     //Closures
-    private static final String SHADE_CONFIGURATION_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_SHADE_CONFIGURATION;
-    private static final String DOOR_LOCK_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_DOOR_LOCK;
-    private static final String WINDOW_COVERING_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_WINDOW_COVERING;
+    private static final String SHADE_CONFIGURATION_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_SHADE_CONFIGURATION;
+    private static final String DOOR_LOCK_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_DOOR_LOCK;
+    private static final String WINDOW_COVERING_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_WINDOW_COVERING;
     //Lightening
-    private static final String COLOR_CONTROL_KEY = ZigbeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigbeeApiConstants.CLUSTER_ID_COLOR_CONTROL;
+    private static final String COLOR_CONTROL_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_COLOR_CONTROL;
 
-    public ClusterFactoryImpl(ZigbeeApiContext context){
+    public ClusterFactoryImpl(ZigBeeApiContext context){
         super(context);
 
         //General

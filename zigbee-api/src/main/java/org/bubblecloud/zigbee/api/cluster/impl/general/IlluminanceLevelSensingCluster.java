@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.Illumina
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.api.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 public class IlluminanceLevelSensingCluster extends ZCLClusterBase implements IlluminanceLevelSensing {
 	
@@ -36,7 +36,7 @@ public class IlluminanceLevelSensingCluster extends ZCLClusterBase implements Il
 	private static AttributeImpl description;
 	private final Attribute[] attributes;
 	
-	public IlluminanceLevelSensingCluster(ZigbeeEndpoint zbDevice){
+	public IlluminanceLevelSensingCluster(ZigBeeEndpoint zbDevice){
 		super(zbDevice);
 		
 		

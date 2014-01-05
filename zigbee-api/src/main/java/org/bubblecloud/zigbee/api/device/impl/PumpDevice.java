@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.api.device.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
@@ -31,7 +31,7 @@ import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.api.cluster.general.Scenes;
 import org.bubblecloud.zigbee.api.cluster.measureament_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.api.device.hvac.Pump;
-import org.bubblecloud.zigbee.ZigbeeApiContext;
+import org.bubblecloud.zigbee.ZigBeeApiContext;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
@@ -46,14 +46,14 @@ public class PumpDevice extends DeviceBase implements Pump {
     private LevelControl levelControlCluster;
     private TemperatureMeasurement temperatureMeasurementCluster;
 
-    public PumpDevice(ZigbeeApiContext ctx, ZigbeeEndpoint zbDevice) throws ZigbeeDeviceException {
+    public PumpDevice(ZigBeeApiContext ctx, ZigBeeEndpoint zbDevice) throws ZigBeeDeviceException {
         super(ctx, zbDevice);
 
-        levelControlCluster = (LevelControl) getCluster(ZigbeeApiConstants.CLUSTER_ID_LEVEL_CONTROL);
-        onOffCluster = (OnOff) getCluster(ZigbeeApiConstants.CLUSTER_ID_ON_OFF);
-        scenesCluster = (Scenes) getCluster(ZigbeeApiConstants.CLUSTER_ID_SCENES);
-        groupsCluster = (Groups) getCluster(ZigbeeApiConstants.CLUSTER_ID_GROUPS);
-        temperatureMeasurementCluster = (TemperatureMeasurement) getCluster(ZigbeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT);
+        levelControlCluster = (LevelControl) getCluster(ZigBeeApiConstants.CLUSTER_ID_LEVEL_CONTROL);
+        onOffCluster = (OnOff) getCluster(ZigBeeApiConstants.CLUSTER_ID_ON_OFF);
+        scenesCluster = (Scenes) getCluster(ZigBeeApiConstants.CLUSTER_ID_SCENES);
+        groupsCluster = (Groups) getCluster(ZigBeeApiConstants.CLUSTER_ID_GROUPS);
+        temperatureMeasurementCluster = (TemperatureMeasurement) getCluster(ZigBeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT);
     }
 
     final static DeviceDescription DEVICE_DESCRIPTOR = new AbstractDeviceDescription() {

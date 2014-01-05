@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.general.Time;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
@@ -41,7 +41,7 @@ public class TimeImpl implements Time {
     private Attribute time;
     private Attribute timeStatus;
 
-    public TimeImpl(ZigbeeEndpoint zbDevice) {
+    public TimeImpl(ZigBeeEndpoint zbDevice) {
         timeCluster = new TimeCluster(zbDevice);
         time = timeCluster.getAttributeTime();
         timeStatus = timeCluster.getAttributeTimeStatus();

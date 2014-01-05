@@ -1,10 +1,10 @@
 /*
-   Copyright 2013-2013 CNR-ISTI, http://isti.cnr.it
-   Institute of Information Science and Technologies
-   of the Italian National Research Council
+   Copyright 2008-2013 CNR-ISTI, http://isti.cnr.it
+   Institute of Information Science and Technologies 
+   of the Italian National Research Council 
 
 
-   See the NOTICE file distributed with this work for additional
+   See the NOTICE file distributed with this work for additional 
    information regarding copyright ownership
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,26 +19,17 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-
-package org.bubblecloud.zigbee.network.impl;
+package org.bubblecloud.zigbee.network;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.6.0
+ * @since 0.5.1
  */
-public class ZigbeeBasedriverTimeOutException extends ZigbeeNetworkManagerException {
+public interface ZigBeeDiscoveryMonitor {
 
-    public ZigbeeBasedriverTimeOutException() {
-        super("Timeout expired before receiving any data");
-    }
+    public void browsedNode(ZigBeeNode node);
 
-    public ZigbeeBasedriverTimeOutException(String msg) {
-        super(msg);
-    }
-
-    public ZigbeeBasedriverTimeOutException(Throwable ex) {
-        super(ex);
-    }
+    public void announcedNode(ZigBeeNode node);
 
 }

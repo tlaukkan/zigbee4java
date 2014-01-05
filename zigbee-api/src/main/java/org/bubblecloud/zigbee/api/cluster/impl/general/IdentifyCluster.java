@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.general;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
@@ -52,7 +52,7 @@ public class IdentifyCluster extends ZCLClusterBase implements Identify {
             .setClusterSpecific(true)
             .setManufacturerExtension(false);
 
-    public IdentifyCluster(ZigbeeEndpoint zbDevice) {
+    public IdentifyCluster(ZigBeeEndpoint zbDevice) {
         super(zbDevice);
         identifyTime = new AttributeImpl(zbDevice, this, Attributes.IDENTIFY_TIME);
         attributes = new AttributeImpl[]{identifyTime};

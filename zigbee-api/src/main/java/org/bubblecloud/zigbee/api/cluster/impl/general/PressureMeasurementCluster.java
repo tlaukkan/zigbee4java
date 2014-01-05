@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.Pressure
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.api.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 public class PressureMeasurementCluster extends ZCLClusterBase implements PressureMeasurement {
 	
@@ -35,7 +35,7 @@ public class PressureMeasurementCluster extends ZCLClusterBase implements Pressu
 	private static AttributeImpl description;
 	private final Attribute[] attributes;
 	
-	public PressureMeasurementCluster(ZigbeeEndpoint zbDevice){
+	public PressureMeasurementCluster(ZigBeeEndpoint zbDevice){
 		super(zbDevice);
 		
 		

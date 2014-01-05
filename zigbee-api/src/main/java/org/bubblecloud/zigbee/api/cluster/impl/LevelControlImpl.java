@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.api.cluster.impl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
 import org.bubblecloud.zigbee.api.cluster.general.event.CurrentLevelListener;
 import org.bubblecloud.zigbee.api.cluster.impl.event.CurrentLevelBridgeListeners;
@@ -49,7 +49,7 @@ public class LevelControlImpl implements LevelControl {
     private Attribute onLevel;
     private final CurrentLevelBridgeListeners eventBridge;
 
-    public LevelControlImpl(ZigbeeEndpoint zbDevice) {
+    public LevelControlImpl(ZigBeeEndpoint zbDevice) {
         levelControlCluster = new LevelControlCluster(zbDevice);
         currentLevel = levelControlCluster.getAttributeCurrentLevel();
         remainingTime = levelControlCluster.getAttributeRemainingTime();
@@ -75,85 +75,85 @@ public class LevelControlImpl implements LevelControl {
         return remainingTime;
     }
 
-    public void move(byte mode, short rate) throws ZigbeeDeviceException {
+    public void move(byte mode, short rate) throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) levelControlCluster.move(mode, rate);
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void moveWithOnOff(byte mode, short rate) throws ZigbeeDeviceException {
+    public void moveWithOnOff(byte mode, short rate) throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) levelControlCluster.moveWithOnOff(mode, rate);
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
 
-    public void moveToLevel(short level, int time) throws ZigbeeDeviceException {
+    public void moveToLevel(short level, int time) throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) levelControlCluster.moveToLevel(level, time);
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void moveToLevelWithOnOff(short level, int time) throws ZigbeeDeviceException {
+    public void moveToLevelWithOnOff(short level, int time) throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) levelControlCluster.moveToLevelWithOnOff(level, time);
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void step(byte mode, short step, int time) throws ZigbeeDeviceException {
+    public void step(byte mode, short step, int time) throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) levelControlCluster.step(mode, step, time);
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void stepWithOnOff(byte mode, short step, int time) throws ZigbeeDeviceException {
+    public void stepWithOnOff(byte mode, short step, int time) throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) levelControlCluster.stepWithOnOff(mode, step, time);
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
 
-    public void stop() throws ZigbeeDeviceException {
+    public void stop() throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) levelControlCluster.stop();
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void stopWithOnOff() throws ZigbeeDeviceException {
+    public void stopWithOnOff() throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) levelControlCluster.stopWithOnOff();
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 

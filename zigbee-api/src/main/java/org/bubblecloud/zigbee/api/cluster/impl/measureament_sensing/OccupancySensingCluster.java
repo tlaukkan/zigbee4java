@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.OccupancySensing;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.api.cluster.impl.core.AttributeImpl;
@@ -51,7 +51,7 @@ public class OccupancySensingCluster extends ZCLClusterBase implements Occupancy
 
     private final Attribute[] attributes;
 
-    public OccupancySensingCluster(ZigbeeEndpoint zbDevice) {
+    public OccupancySensingCluster(ZigBeeEndpoint zbDevice) {
         super(zbDevice);
         occupancy = new AttributeImpl(zbDevice, this, Attributes.OCCUPANCY);
         occupancySensorType = new AttributeImpl(zbDevice, this, Attributes.OCCUPANCY_SENSOR_TYPE);

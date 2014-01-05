@@ -9,10 +9,10 @@ package org.bubblecloud.zigbee.network;
  */
 public interface EndpointListener {
 
-    public void endpointAdded(final ZigbeeEndpoint endpoint);
+    public void endpointAdded(final ZigBeeEndpoint endpoint);
 
-    public void endpointUpdated(final ZigbeeEndpoint endpoint);
+    public void endpointUpdated(final ZigBeeEndpoint endpoint);
 
-    public void endpointRemoved(final ZigbeeEndpoint endpoint);
+    public void endpointRemoved(final ZigBeeEndpoint endpoint);
 
 }

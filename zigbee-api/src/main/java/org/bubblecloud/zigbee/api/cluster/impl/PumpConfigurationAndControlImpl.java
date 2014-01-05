@@ -22,13 +22,13 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.PumpConfigurationAndControl;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.general.PumpConfigurationAndControlCluster;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class PumpConfigurationAndControlImpl implements PumpConfigurationAndCont
 	private PumpConfigurationAndControlCluster pumpConfigurationAndControlCluster;
 
 
-	public PumpConfigurationAndControlImpl(ZigbeeEndpoint zbDevice){
+	public PumpConfigurationAndControlImpl(ZigBeeEndpoint zbDevice){
 		pumpConfigurationAndControlCluster = new PumpConfigurationAndControlCluster(zbDevice);
 		
 	}
@@ -75,11 +75,11 @@ public class PumpConfigurationAndControlImpl implements PumpConfigurationAndCont
 		return null;
 	}
 
-	public String getDescription() throws ZigbeeDeviceException {
+	public String getDescription() throws ZigBeeDeviceException {
 		 try {
 	            return (String) pumpConfigurationAndControlCluster.getAttributeDescription().getValue();
 	        } catch (ZigBeeClusterException e) {
-	            throw new ZigbeeDeviceException(e);
+	            throw new ZigBeeDeviceException(e);
 	        }
 	}
 

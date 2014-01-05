@@ -21,7 +21,7 @@
 */
 package org.bubblecloud.zigbee.api.device.security_safety;
 
-import org.bubblecloud.zigbee.api.ZigbeeApiConstants;
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.general.Identify;
@@ -41,10 +41,10 @@ public interface IASControlAndIndicatingEquipment extends Device {
     public static final int DEVICE_ID = 0x0400;
     public static final String NAME = "IAS Control and Indicating Equipment";
     public static final int[] MANDATORY = ArraysUtil.append(Device.MANDATORY, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_IAS_ZONE, ZigbeeApiConstants.CLUSTER_ID_IDENTIFY, ZigbeeApiConstants.CLUSTER_ID_IAS_ACE, ZigbeeApiConstants.CLUSTER_ID_IAS_WD
+            ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE, ZigBeeApiConstants.CLUSTER_ID_IDENTIFY, ZigBeeApiConstants.CLUSTER_ID_IAS_ACE, ZigBeeApiConstants.CLUSTER_ID_IAS_WD
     });
     public static final int[] OPTIONAL = ArraysUtil.append(Device.OPTIONAL, new int[]{
-            ZigbeeApiConstants.CLUSTER_ID_SCENES, ZigbeeApiConstants.CLUSTER_ID_GROUPS
+            ZigBeeApiConstants.CLUSTER_ID_SCENES, ZigBeeApiConstants.CLUSTER_ID_GROUPS
     });
     public static final int[] STANDARD = ArraysUtil.append(MANDATORY, OPTIONAL);
     public static final int[] CUSTOM = {};

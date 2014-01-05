@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.Alarms;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
@@ -47,17 +47,17 @@ public class AlarmsImpl implements Alarms {
     private final AlarmsCluster alarmsCluster;
     private final Attribute attribute;
 
-    public AlarmsImpl(ZigbeeEndpoint zbDevice) {
+    public AlarmsImpl(ZigBeeEndpoint zbDevice) {
         alarmsCluster = new AlarmsCluster(zbDevice);
         attribute = alarmsCluster.getAttributeAlarmCount();
     }
 
-    public boolean getOnOff() throws ZigbeeDeviceException {
+    public boolean getOnOff() throws ZigBeeDeviceException {
         try {
             Boolean value = (Boolean) attribute.getValue();
             return value.booleanValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
@@ -99,45 +99,45 @@ public class AlarmsImpl implements Alarms {
         return alarmsCluster.removeAlarmListerner(listener);
     }
 
-    public GetAlarmResponse getAlarm() throws ZigbeeDeviceException {
+    public GetAlarmResponse getAlarm() throws ZigBeeDeviceException {
         try {
             Response response = alarmsCluster.getAlarm();
             if (response.getZCLHeader().getCommandId() != GetAlarmResponse.ID)
-                throw new ZigbeeDeviceException(((DefaultResponse) response).getStatus().toString());
+                throw new ZigBeeDeviceException(((DefaultResponse) response).getStatus().toString());
 
             return (GetAlarmResponse) response;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void resetAlarm(int clusterId, int attributeId) throws ZigbeeDeviceException {
+    public void resetAlarm(int clusterId, int attributeId) throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) alarmsCluster.resetAlarm(clusterId, attributeId);
             if (response.getStatus() != Status.SUCCESS)
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void resetAlarmLog() throws ZigbeeDeviceException {
+    public void resetAlarmLog() throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) alarmsCluster.resetAlarmLog();
             if (response.getStatus() != Status.SUCCESS)
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
-    public void resetAllAlarms() throws ZigbeeDeviceException {
+    public void resetAllAlarms() throws ZigBeeDeviceException {
         try {
             DefaultResponse response = (DefaultResponse) alarmsCluster.resetAllAlarms();
             if (response.getStatus() != Status.SUCCESS)
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 }

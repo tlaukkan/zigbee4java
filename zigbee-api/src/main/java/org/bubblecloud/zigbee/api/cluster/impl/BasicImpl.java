@@ -23,8 +23,8 @@
 package org.bubblecloud.zigbee.api.cluster.impl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.api.ZigbeeDeviceException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.Basic;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
@@ -56,7 +56,7 @@ public class BasicImpl implements Basic {
     private Attribute alarmMask;
     private Attribute disableLocalConfig;
 
-    public BasicImpl(ZigbeeEndpoint zbDevice) {
+    public BasicImpl(ZigBeeEndpoint zbDevice) {
         basicCluster = new BasicCluster(zbDevice);
         zclVersion = basicCluster.getAttributeZCLVersion();
         applicationVersion = basicCluster.getAttributeApplicationVersion();
@@ -89,12 +89,12 @@ public class BasicImpl implements Basic {
         return dateCode;
     }
 
-    public boolean getDeviceEnabled() throws ZigbeeDeviceException {
+    public boolean getDeviceEnabled() throws ZigBeeDeviceException {
         try {
             Boolean value = (Boolean) deviceEnabled.getValue();
             return value.booleanValue();
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
@@ -102,12 +102,12 @@ public class BasicImpl implements Basic {
         return hwVersion;
     }
 
-    public String getLocationDescription() throws ZigbeeDeviceException {
+    public String getLocationDescription() throws ZigBeeDeviceException {
         try {
             String value = (String) locationDescription.getValue();
             return value;
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 
@@ -135,13 +135,13 @@ public class BasicImpl implements Basic {
         return zclVersion;
     }
 
-    public void resetToFactoryDefault() throws ZigbeeDeviceException {
+    public void resetToFactoryDefault() throws ZigBeeDeviceException {
         try {
             DefaultResponse response = basicCluster.resetToFactoryDefault();
             if (!response.getStatus().equals(Status.SUCCESS))
-                throw new ZigbeeDeviceException(response.getStatus().toString());
+                throw new ZigBeeDeviceException(response.getStatus().toString());
         } catch (ZigBeeClusterException e) {
-            throw new ZigbeeDeviceException(e);
+            throw new ZigBeeDeviceException(e);
         }
     }
 

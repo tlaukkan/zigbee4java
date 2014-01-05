@@ -26,7 +26,7 @@ package org.bubblecloud.zigbee.network;
 import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
 
 /**
- * This class reppresent the callback invoked by the {@link ZigbeeNetworkManager} whenever a message<br>
+ * This class reppresent the callback invoked by the {@link ZigBeeNetworkManager} whenever a message<br>
  * that belongs to the <i>Application Framework</i> arrives from the <i>ZigBee Network</i>
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi - ISTI-CNR
@@ -36,7 +36,7 @@ import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
 public interface ApplicationFrameworkMessageListener {
 
     /**
-     * This method is invoked by the {@link ZigbeeNetworkManager} on all the {@link ApplicationFrameworkMessageListener}<br>
+     * This method is invoked by the {@link ZigBeeNetworkManager} on all the {@link ApplicationFrameworkMessageListener}<br>
      * when a {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG} command arrive from the ZigBee NIC
      *
      * @param msg the {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG} arrived that has to be handled

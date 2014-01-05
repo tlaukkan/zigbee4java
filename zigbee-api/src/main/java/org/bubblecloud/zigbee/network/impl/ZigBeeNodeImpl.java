@@ -22,7 +22,7 @@
 
 package org.bubblecloud.zigbee.network.impl;
 
-import org.bubblecloud.zigbee.network.ZigbeeNode;
+import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 
@@ -35,7 +35,7 @@ import java.util.Properties;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public class ZigbeeNodeImpl implements ZigbeeNode {
+public class ZigBeeNodeImpl implements ZigBeeNode {
 
     private int nwkAddress;
     final private String ieeeAddress;
@@ -46,13 +46,13 @@ public class ZigbeeNodeImpl implements ZigbeeNode {
      * @param pan
      * @since 0.6.0 - Revision 67
      */
-    public ZigbeeNodeImpl(int nwk, String ieee, short pan) {
+    public ZigBeeNodeImpl(int nwk, String ieee, short pan) {
         this.nwkAddress = nwk;
         this.ieeeAddress = ieee;
         IEEEAddress.fromColonNotation(ieee); //Only for checking the IEEE format
     }
 
-    public ZigbeeNodeImpl(int nwk, ZToolAddress64 ieee, short pan) {
+    public ZigBeeNodeImpl(int nwk, ZToolAddress64 ieee, short pan) {
         this.ieeeAddress = IEEEAddress.toString(ieee.getLong());
         setNetworkAddress(nwk);
     }
@@ -80,8 +80,8 @@ public class ZigbeeNodeImpl implements ZigbeeNode {
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
-        } else if (obj instanceof ZigbeeNode) {
-            ZigbeeNode node = (ZigbeeNode) obj;
+        } else if (obj instanceof ZigBeeNode) {
+            ZigBeeNode node = (ZigBeeNode) obj;
             return nwkAddress == node.getNetworkAddress() && ieeeAddress.equals(node.getIEEEAddress());
         } else {
             return false;

@@ -24,8 +24,8 @@ package org.bubblecloud.zigbee.api.cluster.impl.core;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.*;
 import org.bubblecloud.zigbee.network.ClusterMessage;
-import org.bubblecloud.zigbee.network.ZigbeeEndpoint;
-import org.bubblecloud.zigbee.network.impl.ZigbeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.AnalogReporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.AttributeReportingConfigurationRecord;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.AttributeStatusRecord;
@@ -49,7 +49,7 @@ public class AnalogReporterImpl extends ReporterBase implements AnalogReporter {
 
     private Object minimumChange = null;
 
-    public AnalogReporterImpl(final ZigbeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
+    public AnalogReporterImpl(final ZigBeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
         super(zb, c, attrib);
         final ZigBeeType type = attrib.getZigBeeType();
         if (type.isAnalog() == false) {
@@ -88,7 +88,7 @@ public class AnalogReporterImpl extends ReporterBase implements AnalogReporter {
             if (results[0].getStatus() != 0) {
                 throw new ZigBeeClusterException("ConfigureReporting answered with a Failed status: {} " + results[0].getStatus());
             }
-        } catch (ZigbeeNetworkManagerException e) {
+        } catch (ZigBeeNetworkManagerException e) {
             throw new ZigBeeClusterException(e);
         }
 

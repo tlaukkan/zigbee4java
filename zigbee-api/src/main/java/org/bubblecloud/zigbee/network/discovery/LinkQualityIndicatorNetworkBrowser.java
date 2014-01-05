@@ -22,8 +22,8 @@
 
 package org.bubblecloud.zigbee.network.discovery;
 
-import org.bubblecloud.zigbee.network.ZigbeeNetworkManager;
-import org.bubblecloud.zigbee.network.impl.ZigbeeNetwork;
+import org.bubblecloud.zigbee.network.ZigBeeNetworkManager;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_IEEE_ADDR_REQ;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_IEEE_ADDR_RSP;
@@ -33,9 +33,9 @@ import org.bubblecloud.zigbee.network.packet.zdo.ZDO_MGMT_LQI_RSP.NeighborLqiLis
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.util.RunnableThread;
 import org.bubblecloud.zigbee.util.ThreadUtils;
-import org.bubblecloud.zigbee.network.ZigbeeNode;
+import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
-import org.bubblecloud.zigbee.network.impl.ZigbeeNodeImpl;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +59,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
     private static final short LQI_START_INDEX = 0;
 
     private final ImportingQueue queue;
-    final ZigbeeNetworkManager driver;
+    final ZigBeeNetworkManager driver;
 
     final ArrayList<NetworkAddressNodeItem> toInspect = new ArrayList<NetworkAddressNodeItem>();
     final HashMap<Integer, NetworkAddressNodeItem> alreadyInspected = new HashMap<Integer, NetworkAddressNodeItem>();
@@ -68,7 +68,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
     private class NetworkAddressNodeItem {
         final NetworkAddressNodeItem parent;
         final short address;
-        ZigbeeNodeImpl node = null;
+        ZigBeeNodeImpl node = null;
 
         NetworkAddressNodeItem(NetworkAddressNodeItem addressTreeParent, short networkAddress) {
             parent = addressTreeParent;
@@ -84,7 +84,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
         }
     }
 
-    public LinkQualityIndicatorNetworkBrowser(ImportingQueue queue, ZigbeeNetworkManager driver) {
+    public LinkQualityIndicatorNetworkBrowser(ImportingQueue queue, ZigBeeNetworkManager driver) {
         this.queue = queue;
         this.driver = driver;
     }
@@ -106,7 +106,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                     ieee_addr_resp.getIEEEAddress(), ieee_addr_resp.getAssociatedNodeCount()
             );
 
-            node.node = new ZigbeeNodeImpl(node.address, ieee_addr_resp.getIEEEAddress(),
+            node.node = new ZigBeeNodeImpl(node.address, ieee_addr_resp.getIEEEAddress(),
                     (short) driver.getCurrentPanId());
 
             ZToolAddress16 nwk = new ZToolAddress16(
@@ -268,8 +268,8 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
     }
 
     private void notifyBrowsedNode(NetworkAddressNodeItem item) {
-        final ZigbeeNode child = item.node;
-        final ZigbeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
+        final ZigBeeNode child = item.node;
+        final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         network.notifyNodeBrowsed(child);
     }
 }
