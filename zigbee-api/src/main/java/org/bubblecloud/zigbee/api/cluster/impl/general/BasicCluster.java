@@ -105,7 +105,7 @@ public class BasicCluster extends ZCLClusterBase implements Basic {
     }
 
     public Attribute getAttributeApplicationVersion() {
-        return alarmMask;
+        return applicationVersion;
     }
 
     public Attribute getAttributeDateCode() {
