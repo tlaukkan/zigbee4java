@@ -543,8 +543,6 @@ public class ZigBeeConsole {
                 write("Device does not support color control.");
                 return false;
             }
-            // @param colorX x * 65536 where colorX can be in rance 0 to 65279
-            // @param colorY y * 65536 where colorY can be in rance 0 to 65279
 
             float level;
             try {
@@ -554,9 +552,9 @@ public class ZigBeeConsole {
             }
 
             try {
-                int l = (int) (level * 255);
-                if (l > 255) {
-                    l = 255;
+                int l = (int) (level * 254);
+                if (l > 254) {
+                    l = 254;
                 }
                 if (l < 0) {
                     l = 0;
