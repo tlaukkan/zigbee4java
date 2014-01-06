@@ -287,10 +287,10 @@ public abstract class DeviceBase implements Device {
 
     public abstract DeviceDescription getDescription();
 
-    public Cluster getCluster(int id) {
+    public <T extends Cluster> T getCluster(int id) {
         for (int i = 0; i < clusters.length; i++) {
             if (clusters[i] != null && clusters[i].getId() == id)
-                return clusters[i];
+                return (T) clusters[i];
         }
         return null;
     }
@@ -298,7 +298,7 @@ public abstract class DeviceBase implements Device {
 
     public <T extends Cluster> T getCluster(Class<T> clusterIntercace) {
         for (int i = 0; i < clusters.length; i++) {
-            if (clusters[i] != null && Arrays.asList(clusters[i].getClass().getInterfaces()).contains(clusterIntercace))
+            if (clusters[i] != null && clusterIntercace.isInstance(clusters[i]))
                 return (T) clusters[i];
         }
         return null;

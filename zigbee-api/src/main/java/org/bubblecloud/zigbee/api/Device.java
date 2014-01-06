@@ -109,7 +109,7 @@ public interface Device extends ZigBeeEndpoint {
      *         otherwise <code>null</code>
      * @since 0.2.0
      */
-    public Cluster getCluster(int id);
+    public <T extends Cluster> T getCluster(int id);
 
     /**
      * @param clusterIntercace the cluster interface
