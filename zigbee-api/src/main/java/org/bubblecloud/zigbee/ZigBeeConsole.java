@@ -12,6 +12,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
+import org.bubblecloud.zigbee.util.Cie;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -502,7 +503,7 @@ public class ZigBeeConsole {
                 int x = (int) (0.648427f * 65536);
                 int y = (int) (0.330856f * 65536);
                 colorControl.moveToColor(x, y, 10);*/
-                Cie cie = rgb2cie(red, green ,blue);
+                Cie cie = Cie.rgb2cie(red, green ,blue);
                 int x = (int) (cie.x * 65536);
                 int y = (int) (cie.y * 65536);
                 if (x > 65279) {
@@ -743,21 +744,4 @@ public class ZigBeeConsole {
         }
     };
 
-    public static class Cie {
-        public float x;
-        public float y;
-        public float Y;
-    }
-
-    public static Cie rgb2cie(float R, float G, float B) {
-        float X = 0.4124f*R + 0.3576f*G + 0.1805f*B;
-        float Y = 0.2126f*R + 0.7152f*G + 0.0722f*B;
-        float Z = 0.0193f*R + 0.1192f*G + 0.9505f*B;
-
-        Cie cie = new Cie();
-        cie.x = X / (X + Y + Z);
-        cie.y = Y / (X + Y + Z);
-        cie.Y = (float) Math.sqrt(0.241f * R * R + 0.691f*G * G + 0.068f * B * B);
-        return cie;
-    }
 }
