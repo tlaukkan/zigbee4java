@@ -99,9 +99,9 @@ public abstract class ZCLClusterBase implements ZCLCluster {
     public Response invoke(Command cmd, boolean suppressResponse) throws ZigBeeClusterException {
         ZCLFrame inFrame = new ZCLFrame(cmd, isDefaultResponseEnabled);
         ClusterMessage input = new ClusterMessageImpl(getId(), inFrame);
+        logger.info("Sending {} command to {}.", cmd.getClass().getSimpleName(), zbDevice.getIEEEAddress());
         if (suppressResponse) {
             try {
-                logger.debug("Sending ZCLFrame {} without expecting an answer", inFrame);
                 zbDevice.send(input);
                 return null;
             } catch (ZigBeeNetworkManagerException e) {
@@ -110,7 +110,6 @@ public abstract class ZCLClusterBase implements ZCLCluster {
         } else {
             ClusterMessage clusterMessage;
             try {
-                logger.debug("Sending ZCLFrame {} and waiting for response", inFrame);
                 clusterMessage = zbDevice.invoke(input);
                 Response response = new ResponseImpl(clusterMessage, getId());
                 logger.debug("Received response {} to request {}", response, inFrame);
