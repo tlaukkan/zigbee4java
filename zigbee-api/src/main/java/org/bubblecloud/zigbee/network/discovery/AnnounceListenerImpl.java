@@ -24,12 +24,15 @@ package org.bubblecloud.zigbee.network.discovery;
 
 import org.bubblecloud.zigbee.network.ZigBeeNetworkManager;
 import org.bubblecloud.zigbee.network.AnnounceListener;
+import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.ForkJoinWorkerThread;
 
 /**
  * <b>NOTE:</b>This class doesn't implement a real {@link Thread}, anyway<br>
@@ -61,15 +64,21 @@ public class AnnounceListenerImpl implements AnnounceListener {
         this.zigbeeNetworkManager = driver;
     }
 
-    public void notify(ZToolAddress16 senderAddress,
-                       ZToolAddress64 ieeeAddress, ZToolAddress16 destinationAddress,
-                       int capabilitiesBitmask) {
+    public void notify(final ZToolAddress16 senderAddress,
+                       final ZToolAddress64 ieeeAddress, final ZToolAddress16 destinationAddress,
+                       final int capabilitiesBitmask) {
 
-        logger.info("Received an ANNOUNCE from {} {}", senderAddress, ieeeAddress);
+        logger.info("Device announced Network Address: {} IEEE Address: {}", senderAddress.get16BitValue(),
+                IEEEAddress.toColonNotation(ieeeAddress.getLong()));
         queue.push(senderAddress, ieeeAddress);
-        ApplicationFrameworkLayer.getAFLayer(zigbeeNetworkManager).getZigBeeNetwork().notifyNodeAnnounced(
-                new ZigBeeNodeImpl(senderAddress.get16BitValue(), ieeeAddress,
-                        (short) zigbeeNetworkManager.getCurrentPanId()));
+        final Thread notifyThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ApplicationFrameworkLayer.getAFLayer(zigbeeNetworkManager).getZigBeeNetwork().notifyNodeAnnounced(
+                        new ZigBeeNodeImpl(senderAddress.get16BitValue(), ieeeAddress,
+                                (short) zigbeeNetworkManager.getCurrentPanId()));
+            }
+        });
     }
 
 }
