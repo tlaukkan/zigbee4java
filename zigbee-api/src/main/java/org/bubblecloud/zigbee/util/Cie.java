@@ -9,14 +9,14 @@ public class Cie {
     public double Y;
 
     public static Cie rgb2cie(double R, double G, double B) {
-        double X = 0.4124f*R + 0.3576f*G + 0.1805f*B;
-        double Y = 0.2126f*R + 0.7152f*G + 0.0722f*B;
-        double Z = 0.0193f*R + 0.1192f*G + 0.9505f*B;
+        double X = 0.412315f*R + 0.357600f*G + 0.180500f*B;
+        double Y = 0.212600f*R + 0.715200f*G + 0.072200f*B;
+        double Z = 0.019327f*R + 0.119200f*G + 0.950633f*B;
 
         Cie cie = new Cie();
         cie.x = X / (X + Y + Z);
         cie.y = Y / (X + Y + Z);
-        cie.Y = (float) Math.sqrt(0.241f * R * R + 0.691f*G * G + 0.068f * B * B);
+        cie.Y = Y;
         return cie;
     }
 }
