@@ -967,6 +967,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
             public void receivedCommandResponse(ZToolPacket packet) {
                 logger.trace(" {} received as synchronous command.", packet.getClass().getSimpleName());
                 synchronized (response) {
+                    // Do not set response[0] again.
                     response[0] = packet;
                     response.notify();
                 }
@@ -998,6 +999,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
                 if (response[0] != null) {
                     logger.trace("{} -> {}",
                             request.getClass().getSimpleName(), response[0].getClass().getSimpleName());
+                    break; // Break out as we have response.
                 } else {
                     logger.warn("{} executed and timed out while waiting for response.",
                             request.getClass().getSimpleName());
