@@ -245,13 +245,12 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
 
             if (responseStatus == ResponseStatus.Z_MAC_NO_ACK)  {
                 logger.info("Removing unresponsive device: " + getIEEEAddress());
-                ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork().removeEndpoint(this);
+                ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork().removeNode(this.getNode());
             }
 
             throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to: "
                     + responseStatus + " (" + response.getErrorMsg() + ")");
         } else {
-            //FIX Can't be singelton because only a the invoke method can be invoked by multiple-thread
             //FIX Can't be singleton because the invoke method can be invoked by multiple-thread
             AF_INCOMING_MSG incoming = waiter.getResponse();
             m_removeAFMessageListener();

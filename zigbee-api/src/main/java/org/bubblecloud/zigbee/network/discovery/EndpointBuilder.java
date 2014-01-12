@@ -135,7 +135,7 @@ public class EndpointBuilder implements Stoppable {
         synchronized (network) {
             if (network.containsEndpoint(node.getIEEEAddress(), ep)) {
                 logger.info(
-                        "Skipping device creation for endpoint {} on node {} it is already registered as a Service", ep, node
+                        "Skipping device creation for endpoint {} on node {} as it is created.", ep, node
                 );
                 return;
             } else {
@@ -239,7 +239,7 @@ public class EndpointBuilder implements Stoppable {
         }
         final ZToolAddress16 nwk = dev.getNetworkAddress();
         final ZToolAddress64 ieee = dev.getIEEEAddress();
-        logger.debug("Popped new node for inspection #{}.", nwk.get16BitValue());
+        logger.info("Inspecting device {}.", IEEEAddress.toString(ieee.getLong()));
         inspectNode(nwk, ieee);
         logger.debug("Endpoint inspection completed, next inspection slot in {}",
                 Math.max(nextInspectionSlot - System.currentTimeMillis(), 0)

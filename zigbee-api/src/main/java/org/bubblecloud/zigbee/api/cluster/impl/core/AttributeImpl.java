@@ -173,8 +173,7 @@ public class AttributeImpl implements Attribute {
                     );
             }
         } catch (ZigBeeNetworkManagerException e) {
-            logger.error("Error reading value.", e);
-            return null;
+            throw new ZigBeeClusterException("Read Attribute of " + getId() + " failed due to:  " + e);
         }
     }
 
