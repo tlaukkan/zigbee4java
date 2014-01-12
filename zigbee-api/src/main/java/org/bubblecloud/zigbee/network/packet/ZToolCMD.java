@@ -104,10 +104,10 @@ public class ZToolCMD {
     /// <summary>Response for NLME_GET_REQUEST</summary>
     public static final int NLME_GET_RESPONSE = 0x6307;
     /// <name>TI.ZPI2.MESSAGE_ID.NLME_JOIN_CONFIRMATION</name>
-    /// <summary>This command is issued by the target NWK (to tester) to notify the next higher layer of the results of its request to join itself or another device to a network.</summary>
+    /// <summary>This command is issued by the target NWK (to tester) to announce the next higher layer of the results of its request to join itself or another device to a network.</summary>
     public static final int NLME_JOIN_CONFIRMATION = 0x4383;
     /// <name>TI.ZPI2.MESSAGE_ID.NLME_JOIN_INDICATION</name>
-    /// <summary>This message is sent by the target to notify the next higher layer of a remote join request.</summary>
+    /// <summary>This message is sent by the target to announce the next higher layer of a remote join request.</summary>
     public static final int NLME_JOIN_INDICATION = 0x4384;
     /// <name>TI.ZPI2.MESSAGE_ID.NLME_JOIN_REQUEST</name>
     /// <summary>This command is used by tester to make a request (on behalf of the next higher layer) to join the device itself or another device to a network.</summary>
@@ -215,7 +215,7 @@ public class ZToolCMD {
     /// <summary>This function is used to indicate the reception of a disassociation notification command.</summary>
     public static final int NWK_DISASSOCIATE_INDICATION = 0x2386;
     /// <name>TI.ZPI2.MESSAGE_ID.NWK_ORPHAN_INDICATION</name>
-    /// <summary>This function allows the MLME to notify the next higher layer of an orphaned device</summary>
+    /// <summary>This function allows the MLME to announce the next higher layer of an orphaned device</summary>
     public static final int NWK_ORPHAN_INDICATION = 0x238a;
     /// <name>TI.ZPI2.MESSAGE_ID.NWK_POLL_CONFIRMATION</name>
     /// <summary>This function reports the results of a polling attempt.</summary>

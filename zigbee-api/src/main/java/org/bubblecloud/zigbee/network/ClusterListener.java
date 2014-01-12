@@ -50,7 +50,7 @@ public interface ClusterListener {
     public ClusterFilter getClusterFilter();
 
     /**
-     * The callback invoked by the ZigBee Base Driver to notify for a new {@link ClusterMessage}
+     * The callback invoked by the ZigBee Base Driver to announce for a new {@link ClusterMessage}
      *
      * @param endpoint         reference to the {@link ZigBeeEndpoint} receiving the {@link ClusterMessage}
      * @param clusterMessage reference to the received {@link ClusterMessage}

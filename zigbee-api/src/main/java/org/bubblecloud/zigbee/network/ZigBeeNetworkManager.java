@@ -30,6 +30,8 @@ import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER;
 import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER_SRSP;
 import org.bubblecloud.zigbee.network.packet.zdo.*;
 
+import java.util.HashSet;
+
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi - ISTI-CNR</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco - ISTI-CNR</a>
@@ -151,4 +153,5 @@ public interface ZigBeeNetworkManager {
      */
     public abstract DriverStatus getDriverStatus();
 
+    HashSet<AnnounceListener> getAnnounceListeners();
 }

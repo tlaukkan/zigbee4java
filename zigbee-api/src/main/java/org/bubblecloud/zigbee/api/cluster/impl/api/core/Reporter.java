@@ -36,7 +36,7 @@ public interface Reporter {
     public static final int DEFAULT_MAX_REPORTING_INTERVAL = 60;
 
     /**
-     * By default all the new subscription will notify only when the value of the attribute change
+     * By default all the new subscription will announce only when the value of the attribute change
      */
     public static final int DEFAULT_MIN_REPORTING_INTERVAL = 0;
 

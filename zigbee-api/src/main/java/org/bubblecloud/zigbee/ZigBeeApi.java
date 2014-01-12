@@ -264,6 +264,10 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
     @Override
     public void endpointRemoved(final ZigBeeEndpoint endpoint) {
         LOGGER.trace("Endpoint removed: " + endpoint.getEndpointId());
+        final Device device = context.getDevice(endpoint.getEndpointId());
+        if (device != null) {
+            context.removeDevice(device);
+        }
     }
 
     @Override

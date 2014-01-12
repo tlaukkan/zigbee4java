@@ -82,7 +82,7 @@ public class WaitForClusterResponse implements ApplicationFrameworkMessageConsum
     public boolean consume(AF_INCOMING_MSG msg) {
         //THINK  Is the following matching algorithm correct?!?!?
         if (msg.getClusterId() != clusterId) {
-            logger.warn("Unable to consume AF_INCOMING_MSG, because cluster {} != {}", msg.getClusterId(), clusterId);
+            logger.trace("Unable to consume AF_INCOMING_MSG, because cluster {} != {}", msg.getClusterId(), clusterId);
             return false;
         }
         if (msg.getTransId() != transId) {

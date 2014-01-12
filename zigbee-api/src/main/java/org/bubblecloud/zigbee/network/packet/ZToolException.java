@@ -27,7 +27,7 @@ package org.bubblecloud.zigbee.network.packet;
 
 /**
  * I usually detest checked exceptions but given this is a public api, it is reasonable to
- * notify users what they can expect.
+ * announce users what they can expect.
  *
  * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>

@@ -32,12 +32,10 @@ import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.ForkJoinWorkerThread;
-
 /**
  * <b>NOTE:</b>This class doesn't implement a real {@link Thread}, anyway<br>
  * because it is a {@link org.bubblecloud.zigbee.network.AnnounceListener} a different thread then the application will call
- * the {@link #notify(org.bubblecloud.zigbee.network.packet.ZToolAddress16, org.bubblecloud.zigbee.network.packet.ZToolAddress64, org.bubblecloud.zigbee.network.packet.ZToolAddress16, int)} method.
+ * the {@link #announce(org.bubblecloud.zigbee.network.packet.ZToolAddress16, org.bubblecloud.zigbee.network.packet.ZToolAddress64, org.bubblecloud.zigbee.network.packet.ZToolAddress16, int)} method.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
@@ -64,9 +62,9 @@ public class AnnounceListenerImpl implements AnnounceListener {
         this.zigbeeNetworkManager = driver;
     }
 
-    public void notify(final ZToolAddress16 senderAddress,
-                       final ZToolAddress64 ieeeAddress, final ZToolAddress16 destinationAddress,
-                       final int capabilitiesBitmask) {
+    public void announce(final ZToolAddress16 senderAddress,
+                         final ZToolAddress64 ieeeAddress, final ZToolAddress16 destinationAddress,
+                         final int capabilitiesBitmask) {
 
         logger.info("Device announced Network Address: {} IEEE Address: {}", senderAddress.get16BitValue(),
                 IEEEAddress.toColonNotation(ieeeAddress.getLong()));

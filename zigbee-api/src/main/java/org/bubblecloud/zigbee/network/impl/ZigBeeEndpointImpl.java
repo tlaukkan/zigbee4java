@@ -67,12 +67,12 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     private final HashSet<ApplicationFrameworkMessageConsumer> consumers = new HashSet<ApplicationFrameworkMessageConsumer>();
     private String endpointId = null;
 
-    public ZigBeeEndpointImpl(final ZigBeeNetworkManager drv, final ZigBeeNode n, byte ep) throws ZigBeeNetworkManagerException {
-        if (drv == null || n == null) {
-            logger.error("Creating {} with some nulls parameters {}", new Object[]{ZigBeeEndpoint.class, drv, n, ep});
+    public ZigBeeEndpointImpl(final ZigBeeNetworkManager zigBeeNetworkManager, final ZigBeeNode n, byte ep) throws ZigBeeNetworkManagerException {
+        if (zigBeeNetworkManager == null || n == null) {
+            logger.error("Creating {} with some nulls parameters {}", new Object[]{ZigBeeEndpoint.class, zigBeeNetworkManager, n, ep});
             throw new NullPointerException("Cannot create a device with a null ZigBeeNetworkManager or a null ZigBeeNode");
         }
-        networkManager = drv;
+        networkManager = zigBeeNetworkManager;
         endPoint = ep;
 
         final ZDO_SIMPLE_DESC_RSP result = doRetrieveSimpleDescription(n);
@@ -241,7 +241,15 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to general error - is the device sleeping?");
         } else if (response.getStatus() != 0) {
             m_removeAFMessageListener();
-            throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network:" + response.getErrorMsg());
+            final ResponseStatus responseStatus = ResponseStatus.getStatus(Integers.getByteAsInteger(response.getStatus(), 0));
+
+            if (responseStatus == ResponseStatus.Z_MAC_NO_ACK)  {
+                logger.info("Removing unresponsive device: " + getIEEEAddress());
+                ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork().removeEndpoint(this);
+            }
+
+            throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to: "
+                    + responseStatus + " (" + response.getErrorMsg() + ")");
         } else {
             //FIX Can't be singelton because only a the invoke method can be invoked by multiple-thread
             //FIX Can't be singleton because the invoke method can be invoked by multiple-thread
@@ -437,7 +445,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
                 logger.trace("AF_INCOMING_MSG Consumed by {}", consumer.getClass().getName());
                 return;
             } else {
-                logger.warn("AF_INCOMING_MSG Ignored by {}", consumer.getClass().getName());
+                logger.trace("AF_INCOMING_MSG Ignored by {}", consumer.getClass().getName());
             }
         }
 

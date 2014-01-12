@@ -515,6 +515,11 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         rate = bitRate;
     }
 
+    @Override
+    public HashSet<AnnounceListener> getAnnounceListeners() {
+        return announceListeners;
+    }
+
     public <REQUEST extends ZToolPacket, RESPONSE extends ZToolPacket> RESPONSE sendLocalRequest(REQUEST request) {
         if (waitForNetwork() == false) return null;
         RESPONSE result = (RESPONSE) sendSynchrouns(zigbeeSerialInterface, request);
@@ -1056,6 +1061,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
             result = (AF_DATA_CONFIRM) waiter.getCommand(TIMEOUT);
         }
         unLock3WayConversation(request);
+
         return result;
     }
 
@@ -1450,7 +1456,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
                 logger.debug("Recieved announce message {} value is {}", packet.getClass(), packet);
                 ZDO_END_DEVICE_ANNCE_IND annunce = (ZDO_END_DEVICE_ANNCE_IND) packet;
                 for (AnnounceListener l : listners) {
-                    l.notify(annunce.SrcAddr, annunce.IEEEAddr, annunce.NwkAddr, annunce.Capabilities);
+                    l.announce(annunce.SrcAddr, annunce.IEEEAddr, annunce.NwkAddr, annunce.Capabilities);
 
                 }
             } else if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_STATE_CHANGE_IND) {
