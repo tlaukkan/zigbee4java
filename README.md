@@ -6,6 +6,11 @@ and refactored API.
 
 ZB4OSGI: http://zb4osgi.aaloa.org/
 
+Questions can be sent to the following email address: 'tommi.s.e.laukkanen@gmail.com'.
+
+Hardware
+--------
+
 This library provides API to ZigBee network through CC2531 dongle.
 
 Example hardware that can be controlled with zigbee4java:
