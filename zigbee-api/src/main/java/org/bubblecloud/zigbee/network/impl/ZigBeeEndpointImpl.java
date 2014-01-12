@@ -243,10 +243,10 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             m_removeAFMessageListener();
             final ResponseStatus responseStatus = ResponseStatus.getStatus(Integers.getByteAsInteger(response.getStatus(), 0));
 
-            if (responseStatus == ResponseStatus.Z_MAC_NO_ACK)  {
+            /*if (responseStatus == ResponseStatus.Z_MAC_NO_ACK)  {
                 logger.info("Removing unresponsive device: " + getIEEEAddress());
                 ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork().removeNode(this.getNode());
-            }
+            }*/
 
             throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to: "
                     + responseStatus + " (" + response.getErrorMsg() + ")");
