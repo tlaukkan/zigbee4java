@@ -36,6 +36,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.general.groups.AddGroupRespon
 import org.bubblecloud.zigbee.api.cluster.impl.RawClusterMessageImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.groups.GetGroupMembershipResponse;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -57,6 +58,7 @@ public class GroupsClusterTest {
     }
 
     @Test
+    @Ignore
     public void testAddGroup() {
         GroupsCluster cluster = null;
         ZigBeeEndpoint device = null;
@@ -76,6 +78,7 @@ public class GroupsClusterTest {
     }
 
     @Test
+    @Ignore
     public void testGetGroupMembership() {
         GroupsCluster cluster = null;
         ZigBeeEndpoint device = null;

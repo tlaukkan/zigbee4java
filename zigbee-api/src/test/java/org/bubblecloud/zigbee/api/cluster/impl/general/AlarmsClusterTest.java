@@ -36,6 +36,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.general.Alarms;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.DefaultResponse;
 import org.bubblecloud.zigbee.api.cluster.impl.RawClusterMessageImpl;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -60,6 +61,7 @@ public class AlarmsClusterTest {
     }
 
     @Test
+    @Ignore
     public void testResetAlarm() {
         AlarmsCluster cluster = null;
         ZigBeeEndpoint device = null;
