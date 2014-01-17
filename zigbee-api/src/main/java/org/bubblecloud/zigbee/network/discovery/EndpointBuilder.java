@@ -22,6 +22,7 @@
 
 package org.bubblecloud.zigbee.network.discovery;
 
+import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.ZigBeeNetworkManager;
 import org.bubblecloud.zigbee.network.impl.*;
@@ -186,6 +187,8 @@ public class EndpointBuilder implements Stoppable {
                 isNew = true;
                 network.addNode(node);
                 logger.debug("Created node object for {} that was not available on the network", node);
+            } else {
+
             }
         }
         if (isNew) {
@@ -199,19 +202,24 @@ public class EndpointBuilder implements Stoppable {
                 logger.debug("Node {} removed from network because attempts to instantiate devices on it are failed", node);
                 network.removeNode(node);
             }
-        } else if (node.getNetworkAddress() != nwk) { //TODO We have to verify this step by means of JUnit
-            logger.warn(
-                    "The device {} has been found again with a new network address {} ",
-                    node, nwkAddress.get16BitValue()
-            );
-            if (!changedNetworkAddress(node, nwk)) {
-                /*
-                 * No previous device inspection completed successfully, so we should try to inspect
-                 * the device again
-                 */
-                inspectEndpointOfNode(nwk, new ZigBeeNodeImpl(nwk, node.getIEEEAddress(), (short) driver.getCurrentPanId()));
-            }
+        } else {
+            if (node.getNetworkAddress() != nwk) { //TODO We have to verify this step by means of JUnit
+                logger.warn(
+                        "The device {} has been found again with a new network address {} ",
+                        node, nwkAddress.get16BitValue()
+                );
+                if (!changedNetworkAddress(node, nwk)) {
+                    /*
+                     * No previous device inspection completed successfully, so we should try to inspect
+                     * the device again
+                     */
+                    inspectEndpointOfNode(nwk, new ZigBeeNodeImpl(nwk, node.getIEEEAddress(), (short) driver.getCurrentPanId()));
+                }
             node.setNetworkAddress(nwk);
+           }
+           for (final ZigBeeEndpoint endpoint : network.getEndPoints(node)) {
+               network.notifyEndpointUpdated(endpoint);
+           }
         }
     }
 

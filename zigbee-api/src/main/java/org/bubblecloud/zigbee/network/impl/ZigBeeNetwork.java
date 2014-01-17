@@ -204,6 +204,10 @@ public class ZigBeeNetwork {
         return nodes.get(ieeeAddress);
     }
 
+    public List<ZigBeeEndpoint> getEndPoints(final ZigBeeNode node) {
+        return new ArrayList(devices.get(node).values());
+    }
+
     /**
      * Adds discovery monitor.
      *

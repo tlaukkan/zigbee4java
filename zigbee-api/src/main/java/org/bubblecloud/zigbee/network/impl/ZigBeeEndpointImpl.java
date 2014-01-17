@@ -186,79 +186,83 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     }
 
     public void send(ClusterMessage input) throws ZigBeeNetworkManagerException {
-        final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
-        final byte sender = af.getSendingEndpoint(this, input);
-        final byte transaction = af.getNextTransactionId(sender);
-        final byte[] msg = input.getClusterMsg();
+        synchronized (networkManager) {
+            final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
+            final byte sender = af.getSendingEndpoint(this, input);
+            final byte transaction = af.getNextTransactionId(sender);
+            final byte[] msg = input.getClusterMsg();
 
-        //TODO Create radius and options according to the current configuration
-        AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
-                (short) node.getNetworkAddress(), (byte) endPoint, sender, input.getId(),
-                transaction, (byte) 0 /*options*/, (byte) 0 /*radius*/, msg
-        ));
+            //TODO Create radius and options according to the current configuration
+            AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
+                    (short) node.getNetworkAddress(), (byte) endPoint, sender, input.getId(),
+                    transaction, (byte) 0 /*options*/, (byte) 0 /*radius*/, msg
+            ));
 
-        if (response == null) {
-            throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to general error");
-        } else if (response.getStatus() != 0) {
-            throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network:" + response.getErrorMsg());
+            if (response == null) {
+                throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to general error");
+            } else if (response.getStatus() != 0) {
+                throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network:" + response.getErrorMsg());
+            }
         }
     }
 
     public ClusterMessage invoke(ClusterMessage input) throws ZigBeeNetworkManagerException {
-        final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
-        final byte sender = af.getSendingEndpoint(this, input);
-        /*
-        //FIX Removed because transaction is always 0 for the response due to a bug of CC2480
-        final byte transaction = af.getNextTransactionId(sender);
-        the next line is a workaround for the problem
-        */
-        final byte transaction = af.getNextTransactionId(sender);
-        final byte[] msg = input.getClusterMsg();
+        synchronized (networkManager) {
+            final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
+            final byte sender = af.getSendingEndpoint(this, input);
+            /*
+            //FIX Removed because transaction is always 0 for the response due to a bug of CC2480
+            final byte transaction = af.getNextTransactionId(sender);
+            the next line is a workaround for the problem
+            */
+            final byte transaction = af.getNextTransactionId(sender);
+            final byte[] msg = input.getClusterMsg();
 
-        m_addAFMessageListener();
+            m_addAFMessageListener();
 
-        //Registering the waiter before sending the message, so that they will be captured
-        WaitForClusterResponse waiter = new WaitForClusterResponse(
-                this, transaction, input.getId(), TIMEOUT
-        );
+            //Registering the waiter before sending the message, so that they will be captured
+            WaitForClusterResponse waiter = new WaitForClusterResponse(
+                    this, transaction, input.getId(), TIMEOUT
+            );
 
-        logger.trace("---> SENDING transaction: " + transaction + " TO: " + node.getNetworkAddress() + " with"
-                + " byte 0 " + Integers.getByteAsInteger(node.getNetworkAddress(), 0)
-                + " byte 1 " + Integers.getByteAsInteger(node.getNetworkAddress(), 1)
-                + " byte 2 " + Integers.getByteAsInteger(node.getNetworkAddress(), 2)
-                + " byte 3 " + Integers.getByteAsInteger(node.getNetworkAddress(), 3)
-                + " from end point: " + sender
-                + " to end point: " + endPoint
-        );
-        //TODO Create radius and options according to the current configuration
-        AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
-                node.getNetworkAddress(), endPoint, sender, input.getId(),
-                transaction, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg
-        ));
+            logger.trace("---> SENDING transaction: " + transaction + " TO: " + node.getNetworkAddress() + " with"
+                    + " byte 0 " + Integers.getByteAsInteger(node.getNetworkAddress(), 0)
+                    + " byte 1 " + Integers.getByteAsInteger(node.getNetworkAddress(), 1)
+                    + " byte 2 " + Integers.getByteAsInteger(node.getNetworkAddress(), 2)
+                    + " byte 3 " + Integers.getByteAsInteger(node.getNetworkAddress(), 3)
+                    + " from end point: " + sender
+                    + " to end point: " + endPoint
+            );
+            //TODO Create radius and options according to the current configuration
+            AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
+                    node.getNetworkAddress(), endPoint, sender, input.getId(),
+                    transaction, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg
+            ));
 
-        if (response == null) {
-            m_removeAFMessageListener();
-            throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to general error - is the device sleeping?");
-        } else if (response.getStatus() != 0) {
-            m_removeAFMessageListener();
-            final ResponseStatus responseStatus = ResponseStatus.getStatus(Integers.getByteAsInteger(response.getStatus(), 0));
+            if (response == null) {
+                m_removeAFMessageListener();
+                throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to general error - is the device sleeping?");
+            } else if (response.getStatus() != 0) {
+                m_removeAFMessageListener();
+                final ResponseStatus responseStatus = ResponseStatus.getStatus(Integers.getByteAsInteger(response.getStatus(), 0));
 
-            /*if (responseStatus == ResponseStatus.Z_MAC_NO_ACK)  {
-                logger.info("Removing unresponsive device: " + getIEEEAddress());
-                ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork().removeNode(this.getNode());
-            }*/
+                /*if (responseStatus == ResponseStatus.Z_MAC_NO_ACK)  {
+                    logger.info("Removing unresponsive device: " + getIEEEAddress());
+                    ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork().removeNode(this.getNode());
+                }*/
 
-            throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to: "
-                    + responseStatus + " (" + response.getErrorMsg() + ")");
-        } else {
-            //FIX Can't be singleton because the invoke method can be invoked by multiple-thread
-            AF_INCOMING_MSG incoming = waiter.getResponse();
-            m_removeAFMessageListener();
-            if (incoming == null) {
-                throw new ZigBeeBasedriverTimeOutException();
+                throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to: "
+                        + responseStatus + " (" + response.getErrorMsg() + ")");
+            } else {
+                //FIX Can't be singleton because the invoke method can be invoked by multiple-thread
+                AF_INCOMING_MSG incoming = waiter.getResponse();
+                m_removeAFMessageListener();
+                if (incoming == null) {
+                    throw new ZigBeeBasedriverTimeOutException();
+                }
+                ClusterMessage result = new ClusterMessageImpl(incoming.getData(), incoming.getClusterId());
+                return result;
             }
-            ClusterMessage result = new ClusterMessageImpl(incoming.getData(), incoming.getClusterId());
-            return result;
         }
     }
 

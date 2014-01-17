@@ -259,6 +259,10 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
     @Override
     public void endpointUpdated(final ZigBeeEndpoint endpoint) {
         LOGGER.trace("Endpoint updated: " + endpoint.getEndpointId());
+        final Device device = context.getDevice(endpoint.getEndpointId());
+        if (device != null) {
+            context.updateDevice(device);
+        }
     }
 
     @Override
