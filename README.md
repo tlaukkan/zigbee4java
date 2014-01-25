@@ -24,6 +24,21 @@ Prerequisites
 2. Maven 3
 3. CC2531 dongle with USB serial / coordinator firmware. Flashing new firmware requires CCDEBUGGER hardware component.
 
+Buying Hardware
+---------------
+
+You need to buy the following items:
+
+1. http://www.ti.com/tool/cc2531emk
+2. http://www.ti.com/tool/cc-debugger
+
+Flashing Dongle
+---------------
+
+You need to execute the steps as described in this guide provided by ZB4OSGI project:
+
+* http://zb4osgi.aaloa.org/redmine/attachments/download/42/CC2531_Dongle_Firmware_compilation_guide.docx
+
 Maven Repository
 ----------------
 
