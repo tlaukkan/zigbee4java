@@ -1,17 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.bubblecloud.zigbee4java</groupId>
     <artifactId>zigbee4java</artifactId>
-    <name>zigbee4java</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <scm>
+        <url>https://github.com/tlaukkan/vaadin-sitekit.git</url>
+        <connection>scm:git:git://github.com:tlaukkan/vaadin-sitekit.git</connection>
+        <developerConnection>scm:git:git@github.com:tlaukkan/vaadin-sitekit.git</developerConnection>
+        <tag>zigbee4java-1.0</tag>
+    </scm>
+
+    <!-- Deploy releases and snapshots to the CloudBees maven repositories -->
+    <distributionManagement>
+        <downloadUrl>http://repository-tlaukkan.forge.cloudbees.com/snapshot/</downloadUrl>
+        <repository>
+            <id>tlaukkan-cloudbees-release</id>
+            <name>tlaukkan-cloudbees-release</name>
+            <url>dav:https://repository-tlaukkan.forge.cloudbees.com/release/</url>
+        </repository>
+        <snapshotRepository>
+            <id>tlaukkan-cloudbees-snapshot</id>
+            <name>tlaukkan-cloudbees-snapshot</name>
+            <url>dav:https://repository-tlaukkan.forge.cloudbees.com/snapshot/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <modules>
         <module>zigbee-api</module>
     </modules>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav-jackrabbit</artifactId>
+                <version>1.0-beta-7</version>
+            </extension>
+        </extensions>
+    </build>
 
 </project>
