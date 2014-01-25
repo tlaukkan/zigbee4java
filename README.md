@@ -54,9 +54,11 @@ Using Maven Dependency
 Building from Sources
 ---------------------
 
+```
 git clone https://github.com/tlaukkan/zigbee4java.git zigbee4java
 cd zigbee4java
 mvn clean install
+```
 
 Usage
 -----
