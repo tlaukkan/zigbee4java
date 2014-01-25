@@ -8,10 +8,10 @@
     <packaging>pom</packaging>
 
     <scm>
-        <url>https://github.com/tlaukkan/vaadin-sitekit.git</url>
-        <connection>scm:git:git://github.com:tlaukkan/vaadin-sitekit.git</connection>
-        <developerConnection>scm:git:git@github.com:tlaukkan/vaadin-sitekit.git</developerConnection>
-        <tag>zigbee4java-1.0</tag>
+        <url>https://github.com/tlaukkan/zigbee4java.git</url>
+        <connection>scm:git:git://github.com:tlaukkan/zigbee4java.git</connection>
+        <developerConnection>scm:git:git@github.com:tlaukkan/zigbee4java.git</developerConnection>
+        <tag>HEAD</tag>
     </scm>
 
     <!-- Deploy releases and snapshots to the CloudBees maven repositories -->
