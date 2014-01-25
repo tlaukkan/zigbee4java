@@ -14,6 +14,13 @@
         <tag>HEAD</tag>
     </scm>
 
+    <repositories>
+        <repository>
+            <id>tlaukkan-cloudbees-release</id>
+            <url>http://repository-tlaukkan.forge.cloudbees.com/release/</url>
+        </repository>
+    </repositories>
+
     <!-- Deploy releases and snapshots to the CloudBees maven repositories -->
     <distributionManagement>
         <downloadUrl>http://repository-tlaukkan.forge.cloudbees.com/snapshot/</downloadUrl>

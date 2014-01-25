@@ -22,31 +22,41 @@ Prerequisites
 
 1. Java 7
 2. Maven 3
-3. Serial-comm jar with correct native library in maven repository:
-    * https://code.google.com/p/serial-comm/
-4. CC2531 dongle with USB serial / coordinator firmware. Flashing new firmware requires CCDEBUGGER hardware component.
+3. CC2531 dongle with USB serial / coordinator firmware. Flashing new firmware requires CCDEBUGGER hardware component.
 
-Download Sources
+Maven Repository
 ----------------
+
+Serial-comm and zigbee4java dependencies can be found from the following repository for convenience.
+
+```
+<repositories>
+    <repository>
+        <id>tlaukkan-cloudbees-release</id>
+        <url>http://repository-tlaukkan.forge.cloudbees.com/release/</url>
+    </repository>
+</repositories>
+```
+
+Using Maven Dependency
+----------------------
+
+```
+<dependencies>
+    <dependency>
+        <groupId>org.bubblecloud.zigbee4java</groupId>
+        <artifactId>zigbee-api</artifactId>
+        <version>1.0.6</version>
+    </dependency>
+</dependencies>
+```
+
+Building from Sources
+---------------------
 
 git clone https://github.com/tlaukkan/zigbee4java.git zigbee4java
-
-Build
------
-
 cd zigbee4java
 mvn clean install
-
-Maven Dependency
-----------------
-
-```
-<dependency>
-    <groupId>org.bubblecloud.zigbee4java</groupId>
-    <artifactId>zigbee-api</artifactId>
-    <version>1.0-SNAPSHOT</version>
-</dependency>
-```
 
 Usage
 -----
@@ -72,4 +82,3 @@ Examples
 --------
 
 1. ZigBeeConsole.java
-
