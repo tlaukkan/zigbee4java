@@ -8,9 +8,12 @@ ZB4OSGI: http://zb4osgi.aaloa.org/
 
 Questions can be sent to the following email address: 'zigbee4java@googlegroups.com'.
 
-The URL to group web interface: https://groups.google.com/d/forum/zigbee4java
-
 You can also contact me directly: 'tommi.s.e.laukkanen@gmail.com'.
+
+FAQ
+---
+
+The URL to the discussion group web interface and FAQ: https://groups.google.com/d/forum/zigbee4java
 
 Hardware
 --------
