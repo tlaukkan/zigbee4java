@@ -27,13 +27,14 @@ Prerequisites
 1. Java 7
 2. Maven 3
 3. CC2531 dongle with USB serial / coordinator firmware. Flashing new firmware requires CCDEBUGGER hardware component.
+4. Second CC2531 dongle if you want to have cheap packet sniffer. There are probably better packet sniffers out there.
 
 Buying Hardware
 ---------------
 
 You need to buy the following items:
 
-1. http://www.ti.com/tool/cc2531emk
+1. http://www.ti.com/tool/cc2531emk (NOTE: Buy two if you want to use another as packet sniffer.)
 2. http://www.ti.com/tool/cc-debugger
 
 Flashing Dongle
