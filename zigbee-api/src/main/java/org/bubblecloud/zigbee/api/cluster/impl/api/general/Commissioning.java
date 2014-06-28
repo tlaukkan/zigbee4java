@@ -41,7 +41,7 @@ public interface Commissioning extends ZCLCluster {
 
     static final short ID = 0x0015;
     static final String NAME = "Commissioning";
-    static final String DESCRIPTION = "Attributes and commands pertaining to the commissioning and management of ZigBee devices operating in a network.";
+    static final String DESCRIPTION = "Attributes and commands pertaining to the commissioning and api of ZigBee devices operating in a network.";
 
     static final byte RESTART_DEVICE_ID = 0x00;
     static final byte SAVE_STARTUP_PARAMETERS_ID = 0x01;

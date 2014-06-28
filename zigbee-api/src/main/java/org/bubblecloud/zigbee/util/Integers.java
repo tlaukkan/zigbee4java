@@ -222,7 +222,7 @@ public class Integers {
 
 
     ///////////////////////////////////////////////////////////
-    // serialization routines to be use for payload management
+    // serialization routines to be use for payload api
     ///////////////////////////////////////////////////////////
 
     final public static class InvalidObject {

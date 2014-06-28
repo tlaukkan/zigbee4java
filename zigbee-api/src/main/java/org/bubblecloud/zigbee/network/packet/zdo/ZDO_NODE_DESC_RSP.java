@@ -38,7 +38,7 @@ public class ZDO_NODE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
     /// <summary>Node Flags assigned for APS. For V1.0 all bits are reserved</summary>
     public int APSFlags;
     /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.BufferSize</name>
-    /// <summary>Indicates size of maximum NPDU. This field is used as a high level indication for management</summary>
+    /// <summary>Indicates size of maximum NPDU. This field is used as a high level indication for api</summary>
     public int BufferSize;
     /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.Capabilities</name>
     /// <summary>Capability flags stored for the MAC</summary>
