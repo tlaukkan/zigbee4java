@@ -7,6 +7,11 @@
     <version>1.0.7-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
     <scm>
         <url>https://github.com/tlaukkan/zigbee4java.git</url>
         <connection>scm:git:git://github.com:tlaukkan/zigbee4java.git</connection>

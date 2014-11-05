@@ -55,8 +55,8 @@ Serial-comm and zigbee4java dependencies can be found from the following reposit
 ```
 <repositories>
     <repository>
-        <id>tlaukkan-cloudbees-release</id>
-        <url>http://repository-tlaukkan.forge.cloudbees.com/release/</url>
+        <id>bubblecloud-cloudbees-release</id>
+        <url>http://repository-bubblecloud.forge.cloudbees.com/release/</url>
     </repository>
 </repositories>
 ```

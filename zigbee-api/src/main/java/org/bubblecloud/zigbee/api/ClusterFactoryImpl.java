@@ -28,7 +28,7 @@ import org.bubblecloud.zigbee.ZigBeeApiContext;
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- * @author <a href="mailto:giancarlo.riolo@isti.cnr.it">§Giancarlo Riolo</a>
+ * @author <a href="mailto:giancarlo.riolo@isti.cnr.it">Giancarlo Riolo</a>
  */
 public class ClusterFactoryImpl extends ClusterFactoryBase {
 
