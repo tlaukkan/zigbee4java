@@ -605,7 +605,7 @@ public class ZigBeeConsole {
             return "Subscribe for attribute reports.";
         }
         public String getSyntax() {
-            return "bind [DEVICE] [CLUSTER] [ATTRIBUTE]";
+            return "subscribe [DEVICE] [CLUSTER] [ATTRIBUTE]";
         }
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 4) {
@@ -644,7 +644,7 @@ public class ZigBeeConsole {
             return "Subscribe for attribute reports.";
         }
         public String getSyntax() {
-            return "bind [DEVICE] [CLUSTER]�[ATTRIBUTE]";
+            return "unsubscribe [DEVICE] [CLUSTER]�[ATTRIBUTE]";
         }
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 4) {
