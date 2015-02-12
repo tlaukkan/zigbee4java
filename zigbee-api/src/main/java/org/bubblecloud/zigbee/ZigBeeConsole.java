@@ -200,6 +200,7 @@ public class ZigBeeConsole {
         commands.put("subscribe", new SubscribeCommand());
         commands.put("unsubscribe", new UnsubscribeCommand());
         commands.put("read", new ReadCommand());
+        commands.put("write", new WriteCommand());
     }
 
     private static interface ConsoleCommand {
@@ -319,7 +320,8 @@ public class ZigBeeConsole {
                                 + attribute.getName()
                                 + " "
                                 + (attribute.getReporter() != null ? "(" +
-                                Integer.toString(attribute.getReporter().getReportListenersCount()) + ")" : ""));
+                                Integer.toString(attribute.getReporter().getReportListenersCount()) + ")" : "")
+                                + "  [" + attribute.getZigBeeType() + "]");
                     }
                 }
             }
@@ -644,7 +646,7 @@ public class ZigBeeConsole {
             return "Subscribe for attribute reports.";
         }
         public String getSyntax() {
-            return "unsubscribe [DEVICE] [CLUSTER]�[ATTRIBUTE]";
+            return "unsubscribe [DEVICE] [CLUSTER] [ATTRIBUTE]";
         }
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 4) {
@@ -683,7 +685,7 @@ public class ZigBeeConsole {
             return "Read an attribute.";
         }
         public String getSyntax() {
-            return "read [DEVICE] [CLUSTER]�[ATTRIBUTE]";
+            return "read [DEVICE] [CLUSTER] [ATTRIBUTE]";
         }
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 4) {
@@ -725,6 +727,125 @@ public class ZigBeeConsole {
                 write(attribute.getName() + "=" + attribute.getValue());
             } catch (ZigBeeClusterException e) {
                 write("Failed to read attribute.");
+                e.printStackTrace();
+            }
+
+            return true;
+        }
+    }
+
+    private static class WriteCommand implements ConsoleCommand {
+        public String getDescription() {
+            return "Write an attribute.";
+        }
+        public String getSyntax() {
+            return "write [DEVICE] [CLUSTER] [ATTRIBUTE] [VALUE]";
+        }
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+            if (args.length != 5) {
+                return false;
+            }
+
+            final int clusterId;
+            try {
+                clusterId = Integer.parseInt(args[2]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+            final int attributeIndex;
+            try {
+                attributeIndex = Integer.parseInt(args[3]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                write("Device not found.");
+                return false;
+            }
+
+            final Cluster cluster = device.getCluster(clusterId);
+            if (cluster == null) {
+                write("Cluster not found.");
+                return false;
+            }
+
+            final Attribute attribute = cluster.getAttributes()[attributeIndex];
+            if (attribute == null) {
+                write("Attribute not found.");
+                return false;
+            }
+            
+            if(attribute.isWritable() == false) {
+            	write(attribute.getName() + " is not writable");
+            	return true;
+            }
+
+            try {
+            	Object val = null;
+            	switch(attribute.getZigBeeType()) {
+				case Bitmap16bit:
+					break;
+				case Bitmap24bit:
+					break;
+				case Bitmap32bit:
+					break;
+				case Bitmap8bit:
+					break;
+				case Boolean:
+					break;
+				case CharacterString:
+					val = new String(args[4]);
+					break;
+				case Data16bit:
+					break;
+				case Data24bit:
+					break;
+				case Data32bit:
+					break;
+				case Data8bit:
+					break;
+				case DoublePrecision:
+					break;
+				case Enumeration16bit:
+					break;
+				case Enumeration8bit:
+					break;
+				case IEEEAddress:
+					break;
+				case LongCharacterString:
+					break;
+				case LongOctectString:
+					break;
+				case OctectString:
+					break;
+				case SemiPrecision:
+					break;
+				case SignedInteger16bit:
+					break;
+				case SignedInteger24bit:
+					break;
+				case SignedInteger32bit:
+					break;
+				case SignedInteger8bit:
+					break;
+				case SinglePrecision:
+					break;
+				case UnsignedInteger16bit:
+					break;
+				case UnsignedInteger24bit:
+					break;
+				case UnsignedInteger32bit:
+					break;
+				case UnsignedInteger8bit:
+					break;
+				default:
+					break;
+            	}
+                attribute.setValue(val);
+            } catch (ZigBeeClusterException e) {
+                write("Failed to write attribute.");
                 e.printStackTrace();
             }
 
