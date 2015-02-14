@@ -385,7 +385,7 @@ public class ZigBeeConsole {
             return "Unbinds a device from another device.";
         }
         public String getSyntax() {
-            return "bind CLIENT SERVER CLUSTERID";
+            return "unbind CLIENT SERVER CLUSTERID";
         }
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 3 && args.length != 4) {

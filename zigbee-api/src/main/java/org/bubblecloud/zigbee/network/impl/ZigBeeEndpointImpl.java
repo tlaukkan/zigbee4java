@@ -339,7 +339,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         ));
         if (response == null || response.Status != 0) {
             logger.warn("ZDO_BIND_REQ failed due to {}, unable to bind from endpoint {} to {} for cluster {}", new Object[]{
-                    response==null?"null":ResponseStatus.getStatus(response.Status) ,getEndpointId(),
+                    response==null?"Timeout":ResponseStatus.getStatus(response.Status) ,getEndpointId(),
                     IEEEAddress.toString(networkManager.getIEEEAddress()) + "/" + dstEP,
                     new Integer(clusterId)
             });
