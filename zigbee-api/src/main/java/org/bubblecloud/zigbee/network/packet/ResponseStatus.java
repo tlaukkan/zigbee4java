@@ -54,10 +54,12 @@ public enum ResponseStatus {
     ZDP_NOT_SUPPORTED(0x84),
     ZDP_TIMEOUT(0x85),
     ZDP_NO_MATCH(0x86),
-    ZDP_TABLE_FULL(0x87),
     ZDP_NO_ENTRY(0x88),
+    ZDP_NO_DESCRIPTOR(0x89),
     ZDP_INSUFFICIENT_SPACE(0x8a),
     ZDP_NOT_PERMITTED(0x8b),
+    ZDP_TABLE_FULL(0x8c),
+    ZDP_NOT_AUTHORIZED(0x8d),
     Z_APS_FAIL(0xb1),
     Z_APS_TABLE_FULL(0xb2),
     Z_APS_ILLEGAL_REQUEST(0xb3),
@@ -128,7 +130,7 @@ public enum ResponseStatus {
 
     public static ResponseStatus getStatus(int value) {
         if (!mapping.containsKey(value)) {
-            logger.warn("Uknown status value: " + value);
+            logger.warn("Unknown status value: " + value);
         }
         return mapping.get(value);
     }
