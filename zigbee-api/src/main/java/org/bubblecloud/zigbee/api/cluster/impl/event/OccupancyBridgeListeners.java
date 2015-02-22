@@ -74,7 +74,7 @@ public class OccupancyBridgeListeners implements ReportListener {
         configuration = conf;
     }
 
-    public void receivedReport(Dictionary<Attribute, Object> reports) {
+    public void receivedReport(final String endPointId, final short clusterId, Dictionary<Attribute, Object> reports) {
         if (reports.get(bridged) == null) {
             return;
         }

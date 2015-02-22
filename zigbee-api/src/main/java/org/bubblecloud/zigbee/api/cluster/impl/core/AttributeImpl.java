@@ -152,7 +152,7 @@ public class AttributeImpl implements Attribute {
                     } else {
                         Status state = Status.getStatus(attributeStatus.getStatus());
                         throw new ZigBeeClusterException(
-                                "Read Attribute of " + getId() + " failed." +
+                                "Read Attribute of " + getName() + " (" + getId() + " ) failed." +
                                         "Due to " + state + " that means " + state.description
                         );
                     }
