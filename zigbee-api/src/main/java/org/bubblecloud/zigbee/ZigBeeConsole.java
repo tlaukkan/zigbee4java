@@ -1041,12 +1041,13 @@ public class ZigBeeConsole {
      */
     private static ReportListener consoleReportListener = new ReportListener() {
         @Override
-        public void receivedReport(final Dictionary<Attribute, Object> reports) {
+        public void receivedReport(final String endPointId, final short clusterId,
+                                   final Dictionary<Attribute, Object> reports) {
             final Enumeration<Attribute> attributes = reports.keys();
             while (attributes.hasMoreElements()) {
                 final Attribute attribute = attributes.nextElement();
                 final Object value = reports.get(attribute);
-                print(attribute.getName() + "=" + value);
+                print(endPointId + "->" + clusterId + "->" + attribute.getName() + "=" + value);
             }
         }
     };
