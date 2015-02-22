@@ -277,7 +277,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
 
     @Override
     public void deviceAdded(final Device device) {
-        LOGGER.trace(device.getClass().getSimpleName() +
+        LOGGER.debug(device.getClass().getSimpleName() +
                 " added: " + device.getEndpoint().getEndpointId());
     }
 
@@ -289,7 +289,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
 
     @Override
     public void deviceRemoved(final Device device) {
-        LOGGER.trace(device.getClass().getSimpleName() +
+        LOGGER.debug(device.getClass().getSimpleName() +
                 " removed: " + device.getEndpoint().getEndpointId());
     }
 }

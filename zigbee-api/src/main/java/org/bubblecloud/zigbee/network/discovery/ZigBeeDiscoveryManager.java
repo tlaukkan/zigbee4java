@@ -21,6 +21,7 @@
  */
 package org.bubblecloud.zigbee.network.discovery;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.network.ApplicationFrameworkMessageListener;
 import org.bubblecloud.zigbee.network.ZigBeeNetworkManager;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
@@ -153,14 +154,17 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
      * @param nwkAddress the network address to inspect
      */
     private synchronized void inspectNetworkAddress(final short nwkAddress) {
-        logger.info("Inspecting network address based on incoming AF message from network address #{}.",
+        logger.info("Inspecting node based on incoming AF message from network address #{}.",
                 NetworkAddressUtil.shortToInt(nwkAddress));
 
         final ZDO_IEEE_ADDR_RSP result = networkManager.sendZDOIEEEAddressRequest(
-                new ZDO_IEEE_ADDR_REQ(nwkAddress, ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED, (byte) 0)
+                new ZDO_IEEE_ADDR_REQ(nwkAddress, ZDO_IEEE_ADDR_REQ.REQ_TYPE.SINGLE_DEVICE_RESPONSE, (byte) 0)
         );
 
-        if (result != null && result.Status == 0) {
+        if (result == null) {
+            logger.info("Node did not respond to ZDO_IEEE_ADDR_REQ #{}", NetworkAddressUtil.shortToInt(nwkAddress));
+        } else if (result.Status == 0) {
+            logger.info("Node network address #{} resolved to IEEE address {}.", NetworkAddressUtil.shortToInt(nwkAddress), result.getIEEEAddress());
             final ZigBeeNodeImpl node = new ZigBeeNodeImpl(nwkAddress, result.getIEEEAddress(),
                     (short) networkManager.getCurrentPanId());
 
@@ -172,6 +176,9 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
 
             final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
             network.notifyNodeBrowsed(node);
+        } else {
+            logger.info("Node #{} ZDO_IEEE_ADDR_REQ failed with status {} ", NetworkAddressUtil.shortToInt(nwkAddress),
+                    Status.getStatus((byte) result.Status));
         }
     }
 
