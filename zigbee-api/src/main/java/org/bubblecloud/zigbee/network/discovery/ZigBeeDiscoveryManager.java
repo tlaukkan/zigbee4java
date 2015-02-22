@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.util.EnumSet;
 
 /**
- * This class is tracks the {@link org.bubblecloud.zigbee.network.ZigBeeNetworkManager} service avaialable on the OSGi framework<br>
+ * This class is tracks the {@link org.bubblecloud.zigbee.network.ZigBeeNetworkManager} service available <br>
  * and it creates all the resources required by this implementation of the <i>ZigBee Base Driver</i>
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
