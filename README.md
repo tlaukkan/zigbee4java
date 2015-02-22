@@ -87,8 +87,7 @@ Usage
 -----
 
 ```
-final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
-ZigBeeApi zigbeeApi = new ZigBeeApi("/dev/ttyACM0", 4951, 11, false, discoveryModes);
+ZigBeeApi zigbeeApi = new ZigBeeApi("/dev/ttyACM0", 4951, 11, false, DiscoveryMode.ALL);
 zigbeeApi.startup();
 
 Device lamp = zigbeeApi.getZigBeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
