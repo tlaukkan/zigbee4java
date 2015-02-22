@@ -301,7 +301,7 @@ public class ZigBeeConsole {
             write("Network Address  : " + device.getNetworkAddress());
             write("Extended Address : " + device.getIEEEAddress());
             write("Endpoint Address : " + device.getEndPointAddress());
-            write("Device Type      : " + ZigBeeApiConstants.getDeviceName(device.getDeviceTypeId()));
+            write("Device Type      : " + device.getDeviceType());
             write("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));
             write("Device Version   : " + device.getDeviceVersion());
             write("Input Clusters   : ");
