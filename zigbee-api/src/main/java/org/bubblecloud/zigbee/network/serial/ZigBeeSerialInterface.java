@@ -104,6 +104,9 @@ public class ZigBeeSerialInterface implements ZToolPacketHandler {
      */
     public void close() {
         synchronized (serialPort) {
+            if (parser != null) {
+                parser.setClosing();
+            }
             if (serialPort != null) {
                 serialPort.close();
             }

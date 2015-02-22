@@ -145,17 +145,16 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
             if (index == 0)
                 connectedNodesFound.clear();
 
-            short nwk = node.address;
             ZToolAddress16 nwk16 = new ZToolAddress16(
                     Integers.getByteAsInteger(node.address, 1),
                     Integers.getByteAsInteger(node.address, 0)
             );
 
-            logger.debug("ZDO_MGMT_LQI_REQ to {} from index {}", node.address, index);
+            logger.debug("ZDO_MGMT_LQI_REQ to {} from index {}", nwk16.get16BitValue(), index);
             ZDO_MGMT_LQI_RSP lqi_resp = driver.sendLQIRequest(new ZDO_MGMT_LQI_REQ(nwk16, index));
 
             if (lqi_resp == null) {
-                logger.debug("No LQI answer from #{}", nwk);
+                logger.debug("No LQI answer from #{}", nwk16.get16BitValue());
                 return null;
             } else {
                 logger.debug(
@@ -168,17 +167,18 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                     for (int i = 0; i < neighbors.length; i++) {
                         NeighborLqiListItemClass neighbor = (NeighborLqiListItemClass) neighbors[i];
 
-                        logger.info("Node #{} visible from node #{} with LQI value {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), nwk, neighbor.RxLQI});
+                        logger.debug("Node #{} visible from node #{} with LQI value {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), nwk16.get16BitValue(), neighbor.RxLQI});
 
                         NetworkAddressNodeItem result = getIEEEAddress((short) neighbor.NetworkAddress.get16BitValue());
                         NetworkAddressNodeItem newNode;
                         if (result != null) {
+                            logger.debug("Node #{} is {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), result.node.getIEEEAddress()});
                             newNode = new NetworkAddressNodeItem(node, result.address);
                             connectedNodesFound.add(newNode);
                         } else {
                             newNode = new NetworkAddressNodeItem(node, (short) neighbor.NetworkAddress.get16BitValue());
                             connectedNodesFound.add(newNode);
-                            logger.info("No response to ZDO_IEEE_ADDR_REQ from node {}", neighbor.NetworkAddress.get16BitValue());
+                            logger.debug("No response to ZDO_IEEE_ADDR_REQ from node {}", neighbor.NetworkAddress.get16BitValue());
                         }
                     }
                 }
@@ -249,7 +249,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                     toInspect.clear();
                 }
 
-                long wakeUpTime = System.currentTimeMillis() + 20000;
+                long wakeUpTime = System.currentTimeMillis() + 5 * 60 * 1000;
                 if (!isDone()) ThreadUtils.waitingUntil(wakeUpTime);
                 logger.info("Network browsing completed, waiting until {}", wakeUpTime);
                 //gt.run();

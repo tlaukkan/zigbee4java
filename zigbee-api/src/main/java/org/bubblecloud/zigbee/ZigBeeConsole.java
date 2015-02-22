@@ -1,6 +1,7 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.api.Device;
+import org.bubblecloud.zigbee.api.DeviceListener;
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
@@ -12,6 +13,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.util.Cie;
 
 import java.io.BufferedReader;
@@ -58,18 +60,36 @@ public class ZigBeeConsole {
             pan = Integer.parseInt(args[2]);
             resetNetwork = args[3].equals("true");
         } catch (final Throwable t) {
-            System.out.println("Syntax: java -jar zigbee4java.jar SERIALPORT CHANNEL PAN RESET");
+            print("Syntax: java -jar zigbee4java.jar SERIALPORT CHANNEL PAN RESET");
             return;
         }
 
-        System.out.print("ZigBee API starting up...");
-        final ZigBeeApi zigbeeApi = new ZigBeeApi(serialPortName, pan, channel, resetNetwork);
+        System.out.println("ZigBee API starting up ...");
+        final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
+        //discoveryModes.remove(DiscoveryMode.LinkQuality);
+        final ZigBeeApi zigbeeApi = new ZigBeeApi(serialPortName, pan, channel, resetNetwork, discoveryModes);
         if (!zigbeeApi.startup()) {
-            print(". [FAIL]");
+            print("ZigBee API starting up ... [FAIL]");
             return;
         } else {
-            print(". [OK]");
+            print("ZigBee API starting up ... [OK]");
         }
+
+        zigbeeApi.addDeviceListener(new DeviceListener() {
+            @Override
+            public void deviceAdded(Device device) {
+                print("Device added: " + device.getEndpointId());
+            }
+
+            @Override
+            public void deviceUpdated(Device device) {
+            }
+
+            @Override
+            public void deviceRemoved(Device device) {
+                print("Device removed: " + device.getEndpointId());
+            }
+        });
 
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             @Override
@@ -89,7 +109,7 @@ public class ZigBeeConsole {
             }
         }));
 
-        System.out.print("Browsing network ...");
+        print("Browsing network ...");
         while (!shutdown && !zigbeeApi.isInitialBrowsingComplete()) {
             System.out.print('.');
             try {
@@ -98,10 +118,10 @@ public class ZigBeeConsole {
                 break;
             }
         }
-        System.out.println(". [OK]");
-        System.out.println("Found " + zigbeeApi.getDevices().size() + " nodes.");
+        print("Browsing network ... [OK]");
+        print("Found " + zigbeeApi.getDevices().size() + " nodes.");
 
-        System.out.println("ZigBee console ready.");
+        print("ZigBee console ready.");
 
         String inputLine;
         while (!shutdown && (inputLine = readLine()) != null) {
@@ -159,7 +179,8 @@ public class ZigBeeConsole {
      * @param line the line
      */
     private static void print(final String line) {
-        System.out.println(line);
+        System.out.println("\r" + line);
+        System.out.print("> ");
     }
 
     /**
@@ -168,7 +189,7 @@ public class ZigBeeConsole {
      * @return line readLine from console or null if exception occurred.
      */
     private static String readLine() {
-        System.out.print("> ");
+        System.out.print("\r> ");
         try {
             final BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
             final String inputLine = bufferRead.readLine();
@@ -738,14 +759,14 @@ public class ZigBeeConsole {
     }
 
     /**
-     * Subscribes  for reports of given attribute.
+     * Subscribes to reports of given attribute.
      */
     private static class SubscribeCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
         public String getDescription() {
-            return "Subscribe for attribute reports.";
+            return "Subscribe to attribute reports.";
         }
         /**
          * {@inheritDoc}
@@ -775,6 +796,7 @@ public class ZigBeeConsole {
                 return false;
             }
 
+
             final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeIndex).getReporter();
 
             if (reporter == null) {
@@ -789,14 +811,14 @@ public class ZigBeeConsole {
     }
 
     /**
-     * Unsubscribes for reports from given attribute.
+     * Unsubscribes from reports of given attribute.
      */
     private static class UnsubscribeCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
         public String getDescription() {
-            return "Subscribe for attribute reports.";
+            return "Unsubscribe from attribute reports.";
         }
         /**
          * {@inheritDoc}

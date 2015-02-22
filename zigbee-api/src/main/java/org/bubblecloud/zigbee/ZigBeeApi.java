@@ -94,12 +94,10 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
      * @param resetNetwork   the flag indicating network reset on startup
      */
     public ZigBeeApi(final String serialPortName, final int pan, final int channel,
-                     final boolean resetNetwork) {
+                     final boolean resetNetwork, final EnumSet<DiscoveryMode> discoveryModes) {
         networkManager = new ZigBeeNetworkManagerSerialImpl(serialPortName, 115200,
                 NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
 
-        final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
-        discoveryModes.remove(DiscoveryMode.LinkQuality);
         discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
     }
 

@@ -122,11 +122,20 @@ public class ZToolPacketParser implements Runnable {
                     }
                 }
             } catch (final IOException e) {
-                logger.error("Exception inputStream reader parserThread", e);
-                packetHandler.error(e);
+                if (!close) {
+                    logger.error("Exception inputStream reader parserThread", e);
+                    packetHandler.error(e);
+                }
             }
         }
         logger.debug("ZToolPacketParser parserThread exited.");
+    }
+
+    /**
+     * Set the close flag to true.
+     */
+    public void setClosing() {
+        this.close = true;
     }
 
     /**
