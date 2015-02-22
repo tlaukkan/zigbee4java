@@ -32,6 +32,7 @@ import org.bubblecloud.zigbee.network.packet.util.UTIL_GET_DEVICE_INFO_RESPONSE;
 import org.bubblecloud.zigbee.network.packet.zdo.*;
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.network.model.*;
+import org.bubblecloud.zigbee.util.NetworkAddressUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1521,9 +1522,14 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
             if (packet.getCMD().get16BitValue() == ZToolCMD.AF_INCOMING_MSG) {
                 AF_INCOMING_MSG msg = (AF_INCOMING_MSG) packet;
                 if (listners.isEmpty()) {
-                    logger.warn("Received AF_INCOMING_MSG but no listeners. Message was: {} ", msg);
+                    logger.warn("Received AF_INCOMING_MSG but no listeners. " +
+                                    "Message was from {} and cluster {} to end point {}. Data: {}",
+                            NetworkAddressUtil.shortToInt(msg.getSrcAddr()), msg.getClusterId(),
+                            msg.getDstEndpoint(), msg);
                 } else {
-                    logger.trace("Received AF_INCOMING_MSG notifying {} listeners of {}", listners.size(), msg);
+                    logger.debug("Received AF_INCOMING_MSG from {} and cluster {} to end point {}. Data: {}",
+                            NetworkAddressUtil.shortToInt(msg.getSrcAddr()), msg.getClusterId(),
+                            msg.getDstEndpoint(), msg);
                 }
                 ArrayList<ApplicationFrameworkMessageListener> localCopy = null;
                 synchronized (listners) {
