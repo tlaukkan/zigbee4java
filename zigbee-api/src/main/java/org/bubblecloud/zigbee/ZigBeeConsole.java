@@ -78,7 +78,7 @@ public class ZigBeeConsole {
         zigbeeApi.addDeviceListener(new DeviceListener() {
             @Override
             public void deviceAdded(Device device) {
-                print("Device added: " + device.getEndpointId());
+                print("Device added: " + device.getEndpointId() + " (#" + device.getNetworkAddress() + ")");
             }
 
             @Override
@@ -87,7 +87,7 @@ public class ZigBeeConsole {
 
             @Override
             public void deviceRemoved(Device device) {
-                print("Device removed: " + device.getEndpointId());
+                print("Device removed: " + device.getEndpointId() + " (#" + device.getNetworkAddress() + ")");
             }
         });
 
