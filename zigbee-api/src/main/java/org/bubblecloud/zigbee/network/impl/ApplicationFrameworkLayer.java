@@ -23,6 +23,7 @@
 package org.bubblecloud.zigbee.network.impl;
 
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigBeeNetworkManager;
@@ -88,7 +89,7 @@ public class ApplicationFrameworkLayer {
 
     private ApplicationFrameworkLayer(ZigBeeNetworkManager driver) {
         this.driver = driver;
-        firstFreeEndPoint = 2;
+        firstFreeEndPoint = 1;
         network = new ZigBeeNetwork();
     }
 
@@ -118,7 +119,7 @@ public class ApplicationFrameworkLayer {
                 logger.trace("An enpoint already registered for <profileId,clusterId>=<{},{}>", si.profileId, si.clusterId);
                 return sender2EndPoint.get(si);
             } else {
-                logger.trace("NO endpoint registered for <profileId,clusterId>=<{},{}>", si.profileId, si.clusterId);
+                logger.info("No endpoint registered for <profileId,clusterId>=<{},{}>", si.profileId, si.clusterId);
                 final byte ep = createEndPoint(si, endpoint.getProfileId());
                 return ep;
             }
@@ -127,6 +128,77 @@ public class ApplicationFrameworkLayer {
 
     public byte getSendingEndpoint(ZigBeeEndpoint endpoint, ClusterMessage input) {
         return getSendingEndpoint(endpoint, input.getId());
+    }
+
+    /**
+     * Creates default sending end point.
+     */
+    public void createDefaultSendingEndPoint() {
+        final SenderIdentifier si = new SenderIdentifier(
+                ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION,
+                (short) ZigBeeApiConstants.CLUSTER_ID_BASIC
+        );
+        final byte endPoint = getFreeEndPoint();
+        final List<Integer> clusterSet = Arrays.asList(
+            ZigBeeApiConstants.CLUSTER_ID_BASIC,
+            ZigBeeApiConstants.CLUSTER_ID_POWER_CONFIGURATION,
+            ZigBeeApiConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION,
+            ZigBeeApiConstants.CLUSTER_ID_IDENTIFY,
+            ZigBeeApiConstants.CLUSTER_ID_GROUPS,
+            ZigBeeApiConstants.CLUSTER_ID_SCENES,
+            ZigBeeApiConstants.CLUSTER_ID_ON_OFF,
+            ZigBeeApiConstants.CLUSTER_ID_ON_OFF_SWITCH_CONFIGURATION ,
+            ZigBeeApiConstants.CLUSTER_ID_LEVEL_CONTROL,
+            ZigBeeApiConstants.CLUSTER_ID_ALARMS,
+            ZigBeeApiConstants.CLUSTER_ID_BINARY_INPUT,
+            ZigBeeApiConstants.CLUSTER_ID_TIME,
+            ZigBeeApiConstants.CLUSTER_ID_ANALOG_INPUT,
+            ZigBeeApiConstants.CLUSTER_ID_COMMISSIONING,
+            ZigBeeApiConstants.CLUSTER_ID_METERING,
+            ZigBeeApiConstants.CLUSTER_ID_SHADE_CONFIGURATION,
+            ZigBeeApiConstants.CLUSTER_ID_DOOR_LOCK,
+            ZigBeeApiConstants.CLUSTER_ID_WINDOW_COVERING,
+            ZigBeeApiConstants.CLUSTER_ID_PUMP_CONFIGURATION_AND_CONTROL,
+            ZigBeeApiConstants.CLUSTER_ID_THERMOSTAT,
+            ZigBeeApiConstants.CLUSTER_ID_FAN_CONTROL,
+            ZigBeeApiConstants.CLUSTER_ID_THERMOSTAT_USER_INTERFACE_CONFIGURATION,
+            ZigBeeApiConstants.CLUSTER_ID_COLOR_CONTROL,
+            ZigBeeApiConstants.CLUSTER_ID_PRESSURE_MEASUREMENT,
+            ZigBeeApiConstants.CLUSTER_ID_ILLUMINANCE_MEASUREMENT,
+            ZigBeeApiConstants.CLUSTER_ID_ILLUMINANCE_LEVEL_SENSING,
+            ZigBeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT,
+            ZigBeeApiConstants.CLUSTER_ID_FLOW_MEASUREMENT,
+            ZigBeeApiConstants.CLUSTER_ID_RELATIVE_HUMIDITY_MEASUREMENT,
+            ZigBeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING,
+            ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE,
+            ZigBeeApiConstants.CLUSTER_ID_IAS_ACE,
+            ZigBeeApiConstants.CLUSTER_ID_IAS_WD
+        );
+
+        final int[] clusters = new int[clusterSet.size()];
+        if (clusters.length > 33) {
+            throw new RuntimeException("Too many default clusters.");
+        }
+
+        int index = 0;
+        for (final Integer cluster : clusterSet) {
+            clusters[index] = cluster;
+            index++;
+        }
+
+        final AF_REGISTER_SRSP result = driver.sendAFRegister(new AF_REGISTER(
+                endPoint, si.profileId, (short) 0, (byte) 0,
+                new int[0], clusters
+        ));
+
+        if (result.getStatus() != 0) {
+            // Default end point creation failed probably due to end point already exists.
+            logger.warn("Default end point creation failed with status: {} ", Status.getStatus((byte) result.getStatus()));
+            return;
+        }
+
+        logger.info("Registered default sending endpoint {} with clusters: {}", endPoint, clusters);
+        registerSenderEndPoint(endPoint, si.profileId, clusters);
     }
 
     private byte createEndPoint(SenderIdentifier si, int receiverProfileId) {
@@ -203,6 +275,9 @@ public class ApplicationFrameworkLayer {
                 list.add(clusters[i]);
                 SenderIdentifier adding = new SenderIdentifier(profileId, clusters[i]);
                 if (sender2EndPoint.containsKey(adding)) {
+                    if (sender2EndPoint.get(adding).equals(endPoint)) {
+                        continue;
+                    }
                     logger.warn("Overriding a valid <profileId,clusterId> endpoint with this {}", adding);
                 }
                 logger.debug("Adding <profileId,clusterId> <{},{}> to sender2EndPoint hashtable", adding.profileId, adding.clusterId);

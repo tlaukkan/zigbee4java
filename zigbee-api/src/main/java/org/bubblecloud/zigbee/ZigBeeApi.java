@@ -125,6 +125,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
         }
 
         network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
+
         network.addEndpointListenerListener(this);
 
         context = new ZigBeeApiContext();
@@ -162,6 +163,8 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
                 LOGGER.error("Failed to register DeviceFactoryImpl for " + refining.getKey(), ex);
             }
         }
+
+        ApplicationFrameworkLayer.getAFLayer(networkManager).createDefaultSendingEndPoint();
 
         context.addDeviceListener(this);
 
