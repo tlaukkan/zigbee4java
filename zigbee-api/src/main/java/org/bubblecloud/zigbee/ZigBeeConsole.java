@@ -354,7 +354,9 @@ public class ZigBeeConsole {
             final List<Device> devices = zigbeeApi.getDevices();
             for (int i = 0; i < devices.size(); i++) {
                 final Device device = devices.get(i);
-                System.out.println(i + ") " + device.getEndpointId() + " : " + device.getDeviceType());
+                System.out.println(i + ") " + device.getEndpointId() +
+                		" [" + device.getNetworkAddress() + "]" +
+                		" : " + device.getDeviceType());
             }
             return true;
         }
