@@ -369,13 +369,13 @@ public class ZigBeeConsole {
                 return false;
             }
 
-            write("Network Address  : " + device.getNetworkAddress());
-            write("Extended Address : " + device.getIEEEAddress());
-            write("Endpoint Address : " + device.getEndPointAddress());
-            write("Device Type      : " + device.getDeviceType());
-            write("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));
-            write("Device Version   : " + device.getDeviceVersion());
-            write("Input Clusters   : ");
+            print("Network Address  : " + device.getNetworkAddress());
+            print("Extended Address : " + device.getIEEEAddress());
+            print("Endpoint Address : " + device.getEndPointAddress());
+            print("Device Type      : " + device.getDeviceType());
+            print("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));
+            print("Device Version   : " + device.getDeviceVersion());
+            print("Input Clusters   : ");
             for (int c : device.getInputClusters()) {
                 final Cluster cluster = device.getCluster(c);
                 print("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c));
