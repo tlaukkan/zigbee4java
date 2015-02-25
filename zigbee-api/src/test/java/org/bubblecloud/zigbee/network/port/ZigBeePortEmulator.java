@@ -19,7 +19,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package org.bubblecloud.zigbee.network.serial;
+package org.bubblecloud.zigbee.network.port;
 
 import org.bubblecloud.zigbee.network.packet.ZToolPacketParser;
 import org.bubblecloud.zigbee.util.ThreadUtils;
@@ -34,9 +34,10 @@ import java.util.ArrayList;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
  */
-public class SerialEmulator implements SerialPort {
+public class ZigBeePortEmulator implements ZigBeePort
+{
 
-    private final static Logger logger = LoggerFactory.getLogger(SerialEmulator.class);
+    private final static Logger logger = LoggerFactory.getLogger(ZigBeePortEmulator.class);
 
     private static final int INDEX_OF_END_OF_HEX_DATA = 50;
     private static final int INDEX_OF_START_OF_HEX_DATA = 1;
@@ -98,7 +99,7 @@ public class SerialEmulator implements SerialPort {
     class EmulatorInputStream extends InputStream {
 
         /**
-         * @return an {@link java.io.ByteArrayInputStream} with <b>all</b> the data parsed from the serial log
+         * @return an {@link java.io.ByteArrayInputStream} with <b>all</b> the data parsed from the port log
          * @since 0.6.0
          */
         public InputStream getFullInputStream() {
@@ -179,7 +180,7 @@ public class SerialEmulator implements SerialPort {
     /**
      * Only for JUnit purpose
      */
-    SerialEmulator() {
+    ZigBeePortEmulator() {
         eis = new EmulatorInputStream();
         eos = new EmulatorOutputStream();
     }
@@ -202,15 +203,15 @@ public class SerialEmulator implements SerialPort {
         return eos;
     }
 
-    public SerialEmulator(String log) throws IOException {
+    public ZigBeePortEmulator(String log) throws IOException {
         this(new FileInputStream(log), false);
     }
 
-    public SerialEmulator(InputStream in) throws IOException {
+    public ZigBeePortEmulator(InputStream in) throws IOException {
         this(in, true);
     }
 
-    public SerialEmulator(InputStream in, boolean useTiming) throws IOException {
+    public ZigBeePortEmulator(InputStream in, boolean useTiming) throws IOException {
         reader = new BufferedReader(new InputStreamReader(in));
         status = State.Loaded;
         simulate();
@@ -302,7 +303,7 @@ public class SerialEmulator implements SerialPort {
         return eis;
     }
 
-    public boolean open(String port, int baudRate) {
+    public boolean open() {
         /*if (timeing) {
             parser = new ZToolPacketParser(eis, packethandler);
         } else {

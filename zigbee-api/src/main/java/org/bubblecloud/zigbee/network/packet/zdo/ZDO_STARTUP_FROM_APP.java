@@ -35,7 +35,7 @@ import org.bubblecloud.zigbee.util.DoubleByte;
  */
 public class ZDO_STARTUP_FROM_APP extends ZToolPacket /*implements IREQUEST,ISYSTEM*/ {
     /// <name>TI.ZPI1.SYS_RESET.Type</name>
-    /// <summary>requests a target device reset (0) or serial bootloader reset (1). If the target device does not support serial bootloading, bootloader reset commands are ignored and no response is sent from the target.</summary>
+    /// <summary>requests a target device reset (0) or port bootloader reset (1). If the target device does not support port bootloading, bootloader reset commands are ignored and no response is sent from the target.</summary>
     public int Type;
 
     /// <name>TI.ZPI1.SYS_RESET</name>

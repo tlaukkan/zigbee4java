@@ -12,6 +12,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.bubblecloud.zigbee.util.Cie;
 
 import java.io.BufferedReader;
@@ -20,50 +21,66 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
- * ZigBee command line console is an example application demonstrating usage of ZigBee API.
+ * ZigBee command line console is an example usage of ZigBee API.
+ * It requires a ZigBeePort implementation to function.
+ *
+ * For a ready-to-run demonstration on a Desktop PC equipped with CC2531 dongle:
+ * - Check-out the 'zigbee4java-serialPort' module
+ * - Execute class 'ZigBeeSerialConsole' with appropriate params
  *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
+ * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
-public class ZigBeeConsole {
+public final class ZigBeeConsole {
     /**
      * The main thread.
      */
-    private static Thread mainThread = null;
+    private Thread mainThread = null;
 
     /**
      * The flag reflecting that shutdown is in process.
      */
-    private static boolean shutdown = false;
+    private boolean shutdown = false;
 
     /**
      * Map of registered commands and their implementations.
      */
-    private static Map<String, ConsoleCommand> commands = new HashMap<String, ConsoleCommand>();
+    private Map<String, ConsoleCommand> commands = new HashMap<String, ConsoleCommand>();
 
-    /**
-     * Main method of this console application.
-     *
-     * @param args the console arguments
+	private ZigBeePort port;
+	private int pan;
+	private int channel;
+	private boolean resetNetwork;
+	
+	public ZigBeeConsole(ZigBeePort port, int pan, int channel, boolean resetNetwork) {
+		this.port         = port;
+		this.pan          = pan;
+		this.channel      = channel;
+		this.resetNetwork = resetNetwork;
+
+		commands.put("quit", new QuitCommand());
+		commands.put("help", new HelpCommand());
+		commands.put("list", new ListCommand());
+		commands.put("desc", new DescribeCommand());
+		commands.put("bind", new BindCommand());
+		commands.put("unbind", new UnbindCommand());
+		commands.put("on", new OnCommand());
+		commands.put("off", new OffCommand());
+		commands.put("color", new ColorCommand());
+		commands.put("level", new LevelCommand());
+		commands.put("subscribe", new SubscribeCommand());
+		commands.put("unsubscribe", new UnsubscribeCommand());
+		commands.put("read", new ReadCommand());
+	}
+
+	/**
+     * Starts this console application
      */
-    public static void main(final String[] args) {
-        mainThread = Thread.currentThread();
-
-        final String serialPortName;
-        final int channel;
-        final int pan;
-        final boolean resetNetwork;
-        try {
-            serialPortName = args[0];
-            channel = Integer.parseInt(args[1]);
-            pan = Integer.parseInt(args[2]);
-            resetNetwork = args[3].equals("true");
-        } catch (final Throwable t) {
-            System.out.println("Syntax: java -jar zigbee4java.jar SERIALPORT CHANNEL PAN RESET");
-            return;
-        }
+    public void start() {
+        
 
         System.out.print("ZigBee API starting up...");
-        final ZigBeeApi zigbeeApi = new ZigBeeApi(serialPortName, pan, channel, resetNetwork);
+        final ZigBeeApi zigbeeApi = new ZigBeeApi(port, pan, channel, resetNetwork);
         if (!zigbeeApi.startup()) {
             write(". [FAIL]");
             return;
@@ -111,7 +128,7 @@ public class ZigBeeConsole {
         zigbeeApi.shutdown();
     }
 
-    private static void process(final ZigBeeApi zigbeeApi, final String command) {
+    private void process(final ZigBeeApi zigbeeApi, final String command) {
         if (command.length() == 0) {
             return;
         }
@@ -135,7 +152,7 @@ public class ZigBeeConsole {
         }
     }
 
-    private static void process(ZigBeeApi zigbeeApi, String[] args, String key) {
+    private void process(ZigBeeApi zigbeeApi, String[] args, String key) {
         final ConsoleCommand consoleCommand = commands.get(key);
         if (!consoleCommand.process(zigbeeApi, args)) {
             write(consoleCommand.getSyntax());
@@ -156,7 +173,7 @@ public class ZigBeeConsole {
      *
      * @return line read from console or null if exception occurred.
      */
-    private static String read() {
+    private String read() {
         System.out.print("> ");
         try {
             BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
@@ -176,7 +193,7 @@ public class ZigBeeConsole {
      * @param deviceIdentifier the device identifier
      * @return
      */
-    private static Device getDeviceByIndexOrEndpointId(ZigBeeApi zigbeeApi, String deviceIdentifier) {
+    private Device getDeviceByIndexOrEndpointId(ZigBeeApi zigbeeApi, String deviceIdentifier) {
         Device device;
         try {
             device = zigbeeApi.getDevices().get(Integer.parseInt(deviceIdentifier));
@@ -186,29 +203,13 @@ public class ZigBeeConsole {
         return device;
     }
 
-    static {
-        commands.put("quit", new QuitCommand());
-        commands.put("help", new HelpCommand());
-        commands.put("list", new ListCommand());
-        commands.put("desc", new DescribeCommand());
-        commands.put("bind", new BindCommand());
-        commands.put("unbind", new UnbindCommand());
-        commands.put("on", new OnCommand());
-        commands.put("off", new OffCommand());
-        commands.put("color", new ColorCommand());
-        commands.put("level", new LevelCommand());
-        commands.put("subscribe", new SubscribeCommand());
-        commands.put("unsubscribe", new UnsubscribeCommand());
-        commands.put("read", new ReadCommand());
-    }
-
-    private static interface ConsoleCommand {
+    private interface ConsoleCommand {
         String getDescription();
         String getSyntax();
         boolean process(final ZigBeeApi zigbeeApi, final String[] args);
     }
 
-    private static class QuitCommand implements ConsoleCommand {
+    private class QuitCommand implements ConsoleCommand {
         public String getDescription() {
             return "Quits console.";
         }
@@ -223,7 +224,7 @@ public class ZigBeeConsole {
         }
     }
 
-    private static class HelpCommand implements ConsoleCommand {
+    private class HelpCommand implements ConsoleCommand {
         public String getDescription() {
             return "View command help.";
         }
@@ -258,7 +259,7 @@ public class ZigBeeConsole {
         }
     }
 
-    private static class ListCommand implements ConsoleCommand {
+    private class ListCommand implements ConsoleCommand {
         public String getDescription() {
             return "Lists devices.";
         }
@@ -277,7 +278,7 @@ public class ZigBeeConsole {
         }
     }
 
-    private static class DescribeCommand implements ConsoleCommand {
+    private class DescribeCommand implements ConsoleCommand {
         public String getDescription() {
             return "Describes a device.";
         }
@@ -333,7 +334,7 @@ public class ZigBeeConsole {
         }
     }
 
-    private static class BindCommand implements ConsoleCommand {
+    private class BindCommand implements ConsoleCommand {
         public String getDescription() {
             return "Binds a device to another device.";
         }
@@ -378,7 +379,7 @@ public class ZigBeeConsole {
         }
     }
 
-    private static class UnbindCommand implements ConsoleCommand {
+    private class UnbindCommand implements ConsoleCommand {
         public String getDescription() {
             return "Unbinds a device from another device.";
         }
@@ -423,7 +424,7 @@ public class ZigBeeConsole {
         }
     }
 
-    private static class OnCommand implements ConsoleCommand {
+    private class OnCommand implements ConsoleCommand {
         public String getDescription() {
             return "Switches device on.";
         }
@@ -452,7 +453,7 @@ public class ZigBeeConsole {
         }
     }
 
-    private static class ColorCommand implements ConsoleCommand {
+    private class ColorCommand implements ConsoleCommand {
         public String getDescription() {
             return "Changes light color.";
         }
@@ -521,7 +522,7 @@ public class ZigBeeConsole {
         }
     }
 
-    private static class LevelCommand implements ConsoleCommand {
+    private class LevelCommand implements ConsoleCommand {
         public String getDescription() {
             return "Changes device level for example lamp brightness.";
         }
@@ -571,7 +572,7 @@ public class ZigBeeConsole {
         }
     }
 
-    private static class OffCommand implements ConsoleCommand {
+    private class OffCommand implements ConsoleCommand {
         public String getDescription() {
             return "Switches device off.";
         }
@@ -600,7 +601,7 @@ public class ZigBeeConsole {
         }
     }
 
-    private static class SubscribeCommand implements ConsoleCommand {
+    private class SubscribeCommand implements ConsoleCommand {
         public String getDescription() {
             return "Subscribe for attribute reports.";
         }
@@ -639,7 +640,7 @@ public class ZigBeeConsole {
         }
     }
 
-    private static class UnsubscribeCommand implements ConsoleCommand {
+    private class UnsubscribeCommand implements ConsoleCommand {
         public String getDescription() {
             return "Subscribe for attribute reports.";
         }
@@ -678,7 +679,7 @@ public class ZigBeeConsole {
     }
 
 
-    private static class ReadCommand implements ConsoleCommand {
+    private class ReadCommand implements ConsoleCommand {
         public String getDescription() {
             return "Read an attribute.";
         }

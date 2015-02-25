@@ -35,7 +35,8 @@ import org.bubblecloud.zigbee.api.device.security_safety.IAS_Warning;
 import org.bubblecloud.zigbee.api.device.security_safety.IAS_Zone;
 import org.bubblecloud.zigbee.api.device.impl.*;
 import org.bubblecloud.zigbee.api.DeviceBase;
-import org.bubblecloud.zigbee.network.serial.ZigBeeNetworkManagerSerialImpl;
+import org.bubblecloud.zigbee.network.port.ZigBeeNetworkManagerImpl;
+import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +46,7 @@ import java.util.*;
  * ZigBee Application Interface.
  *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
+ * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
 public class ZigBeeApi implements EndpointListener, DeviceListener {
     /**
@@ -54,7 +56,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
     /**
      * The ZigBee network manager.
      */
-    private final ZigBeeNetworkManagerSerialImpl networkManager;
+    private final ZigBeeNetworkManagerImpl networkManager;
     /**
      * The ZigBee discovery manager.
      */
@@ -69,33 +71,33 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
     private ZigBeeNetwork network;
 
     /**
-     * Constructor to configure the serial interface.
+     * Constructor to configure the port interface.
      *
-     * @param serialPortName the serial port name
+     * @param port           the ZigBee interface port (reference implementation provided by the zigbee4java-serialPort module)
      * @param pan            the pan
      * @param channel        the channel
      * @param discoveryModes the discovery modes
      * @param resetNetwork   the flag indicating network reset on startup
      */
-    public ZigBeeApi(final String serialPortName, final int pan, final int channel,
+    public ZigBeeApi(final ZigBeePort port, final int pan, final int channel,
             final EnumSet<DiscoveryMode> discoveryModes, final boolean resetNetwork) {
-        networkManager = new ZigBeeNetworkManagerSerialImpl(serialPortName, 115200,
+        networkManager = new ZigBeeNetworkManagerImpl(port,
                 NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
 
         discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
     }
 
     /**
-     * Constructor to configure the serial interface.
+     * Constructor to configure the port interface.
      *
-     * @param serialPortName the serial port name
+     * @param port           the ZigBee interface port (reference implementation provided by the zigbee4java-serialPort module)
      * @param pan            the pan
      * @param channel        the channel
      * @param resetNetwork   the flag indicating network reset on startup
      */
-    public ZigBeeApi(final String serialPortName, final int pan, final int channel,
+    public ZigBeeApi(final ZigBeePort port, final int pan, final int channel,
                      final boolean resetNetwork) {
-        networkManager = new ZigBeeNetworkManagerSerialImpl(serialPortName, 115200,
+        networkManager = new ZigBeeNetworkManagerImpl(port,
                 NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
 
         final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
@@ -196,7 +198,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
      *
      * @return the ZigBee network manager.
      */
-    public ZigBeeNetworkManagerSerialImpl getZigBeeNetworkManager() {
+    public ZigBeeNetworkManagerImpl getZigBeeNetworkManager() {
         return networkManager;
     }
 

@@ -28,8 +28,6 @@ package org.bubblecloud.zigbee.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 /**
  * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
@@ -286,4 +284,11 @@ public class ByteUtils {
         return "base10=" + Integer.toString(b) + ",base16=" + toBase16(b) + ",base2=" + toBase2(b);
     }
 
+	public static byte unsignedByteFromInt(int i) {
+		return (byte) (i > 127 ? i - 256 : i); // This is an explicit form of the conversion java performs anyway
+	}
+
+	public static int intFromUnsignedByte(byte b) {
+		return (b < 0 ? b + 256 : b);
+	}
 }

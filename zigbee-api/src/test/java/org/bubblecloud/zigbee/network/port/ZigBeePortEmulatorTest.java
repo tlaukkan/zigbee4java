@@ -18,13 +18,14 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.bubblecloud.zigbee.network.serial;
+package org.bubblecloud.zigbee.network.port;
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class SerialEmulatorTest {
+public class ZigBeePortEmulatorTest
+{
 
     @Test
     public void testExtractTimeMillis() {
@@ -41,7 +42,7 @@ public class SerialEmulatorTest {
                 0l, "Answer: 06/08/2010 17:03:12.46464 (+0.0000 seconds)"
             }
         };
-        final SerialEmulator e = new SerialEmulator( );
+        final ZigBeePortEmulator e = new ZigBeePortEmulator( );
         for ( int i = 0; i < lines.length; i++ ) {
             assertEquals( ( (Long) lines[i][0] ).longValue(), e.extractTimeMillis( (String) lines[i][1] ) );
         }
@@ -63,7 +64,7 @@ public class SerialEmulatorTest {
             }
 
         };
-        final SerialEmulator e = new SerialEmulator( );
+        final ZigBeePortEmulator e = new ZigBeePortEmulator( );
         for ( int i = 0; i < lines.length; i++ ) {
             final byte[] parsed = e.extractBytes( (String) lines[i][1] );
             //System.out.println( Arrays.toString( (byte[]) lines[i][0] ) );
@@ -75,7 +76,7 @@ public class SerialEmulatorTest {
     @Test
     public void testSimulate(){
         try {
-            final SerialEmulator e = new SerialEmulator( this.getClass().getResourceAsStream( "session.fsm" ) );
+            final ZigBeePortEmulator e = new ZigBeePortEmulator( this.getClass().getResourceAsStream( "session.fsm" ) );
         }
         catch ( Exception ex ) {
             ex.printStackTrace( );
@@ -85,15 +86,15 @@ public class SerialEmulatorTest {
 
     @Test
     public void testParsing(){
-        SerialEmulator e;
+        ZigBeePortEmulator e;
         try {
-            e = new SerialEmulator( this.getClass().getResourceAsStream( "session.size.0.fsm" ) );
+            e = new ZigBeePortEmulator( this.getClass().getResourceAsStream( "session.size.0.fsm" ) );
             assertEquals(
                     "The number of input byte parsed is wrong",
                     0,
                     e.getEmulatorInputStream().getFullInputStream().available()
             );
-            e = new SerialEmulator( this.getClass().getResourceAsStream( "session.size.27.fsm" ) );
+            e = new ZigBeePortEmulator( this.getClass().getResourceAsStream( "session.size.27.fsm" ) );
             assertEquals(
                     "The number of input byte parsed is wrong",
                     27,
