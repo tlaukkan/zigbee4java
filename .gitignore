@@ -3,3 +3,4 @@ target/
 .svn
 *.iml
 *.log
+zigbee-api/build

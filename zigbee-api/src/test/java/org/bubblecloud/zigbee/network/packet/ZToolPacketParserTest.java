@@ -20,7 +20,7 @@
 */
 package org.bubblecloud.zigbee.network.packet;
 
-import org.bubblecloud.zigbee.network.serial.SerialEmulator;
+import org.bubblecloud.zigbee.network.port.ZigBeePortEmulator;
 import org.bubblecloud.zigbee.network.packet.simple.ZB_GET_DEVICE_INFO_RSP;
 import org.bubblecloud.zigbee.util.ByteUtils;
 import org.junit.Ignore;
@@ -69,11 +69,11 @@ public class ZToolPacketParserTest {
     public void testOverwrittenPacketHandling() throws Exception {
         final ZToolPacket[] packets = new ZToolPacket[1];
         final int TOTAL_GOD_PACKET = 26;
-        SerialEmulator serial;
+        ZigBeePortEmulator serial;
         final ZToolPacketParser parser;
 
-        serial = new SerialEmulator( ZToolPacketParserTest.class.getResourceAsStream( "overwritten.packet.fsm" ), false );
-        serial.open("VIRTUAL", 19200);
+        serial = new ZigBeePortEmulator( ZToolPacketParserTest.class.getResourceAsStream( "overwritten.packet.fsm" ), false );
+        serial.open();
         parser = new ZToolPacketParser(serial.getInputStream(), new ZToolPacketHandler(){
 
             public void error(Throwable th) {

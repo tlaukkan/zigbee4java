@@ -19,35 +19,35 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package org.bubblecloud.zigbee.network.serial;
+package org.bubblecloud.zigbee.network.port;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Generic serial port interface.
+ * Generic ZigBee interface port.
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
+ * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
-public interface SerialPort {
+public interface ZigBeePort
+{
     /**
-     * Open the serial port.
-     * @param port the port name
-     * @param rate the rate
+     * Open the port.
      * @return true if startup was success.
      */
-    public boolean open(String port, int rate);
+    public boolean open();
     /**
-     * Close the serial port.
+     * Close the port.
      */
     public void close();
     /**
-     * Gets output stream connected to the serial port.
+     * Gets output stream connected to the port.
      * @return the output stream
      */
     public OutputStream getOutputStream();
     /**
-     * Gets input stream connected to the serial port.
+     * Gets input stream connected to the port.
      * @return the input stream
      */
     public InputStream getInputStream();
