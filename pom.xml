@@ -47,7 +47,8 @@
             <id>android</id>
             <modules>
                 <module>zigbee-api</module>
-                <module>zigbee4java-android-serial</module>
+                <module>zigbee-console</module>
+                <module>zigbee-serial-android</module>
             </modules>
         </profile>
         <profile>
@@ -61,11 +62,11 @@
             </activation>
             <modules>
                 <module>zigbee-api</module>
-                <module>zigbee4java-default-serial</module>
+                <module>zigbee-console</module>
+                <module>zigbee-serial-default</module>
             </modules>
         </profile>
     </profiles>
-
 
     <build>
         <plugins>

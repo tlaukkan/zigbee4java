@@ -96,12 +96,9 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
      * @param resetNetwork   the flag indicating network reset on startup
      */
     public ZigBeeApi(final ZigBeePort port, final int pan, final int channel,
-                     final boolean resetNetwork) {
-        networkManager = new ZigBeeNetworkManagerImpl(port,
-                NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
+                     final boolean resetNetwork, final EnumSet<DiscoveryMode> discoveryModes) {
+        networkManager = new ZigBeeNetworkManagerImpl(port, NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
 
-        final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
-        discoveryModes.remove(DiscoveryMode.LinkQuality);
         discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
     }
 
@@ -129,6 +126,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
         }
 
         network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
+
         network.addEndpointListenerListener(this);
 
         context = new ZigBeeApiContext();
@@ -166,6 +164,8 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
                 LOGGER.error("Failed to register DeviceFactoryImpl for " + refining.getKey(), ex);
             }
         }
+
+        ApplicationFrameworkLayer.getAFLayer(networkManager).createDefaultSendingEndPoint();
 
         context.addDeviceListener(this);
 
@@ -278,7 +278,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
 
     @Override
     public void deviceAdded(final Device device) {
-        LOGGER.trace(device.getClass().getSimpleName() +
+        LOGGER.debug(device.getClass().getSimpleName() +
                 " added: " + device.getEndpoint().getEndpointId());
     }
 
@@ -290,7 +290,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
 
     @Override
     public void deviceRemoved(final Device device) {
-        LOGGER.trace(device.getClass().getSimpleName() +
+        LOGGER.debug(device.getClass().getSimpleName() +
                 " removed: " + device.getEndpoint().getEndpointId());
     }
 }

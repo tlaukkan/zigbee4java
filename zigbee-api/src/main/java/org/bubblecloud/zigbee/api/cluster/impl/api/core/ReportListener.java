@@ -37,6 +37,10 @@ public interface ReportListener {
 
     /**
      * This is the method invoked by the driver when a report arrives
+     *
+     * @param endPointId the end point ID
+     * @param clusterId the cluster ID
+     * @param reports the reports
      */
-    public void receivedReport(Dictionary<Attribute, Object> reports);
+    public void receivedReport(String endPointId, short clusterId, Dictionary<Attribute, Object> reports);
 }

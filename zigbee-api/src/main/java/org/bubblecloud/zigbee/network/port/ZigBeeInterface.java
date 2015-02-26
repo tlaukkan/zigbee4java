@@ -100,6 +100,9 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      */
     public void close() {
         synchronized (port) {
+            if (parser != null) {
+                parser.setClosing();
+            }
             if (port != null) {
                 port.close();
             }

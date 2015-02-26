@@ -86,7 +86,7 @@ public abstract class ReporterBase implements Reporter {
                 for (ReportListener reportListner : localCopy) {
                     try {
                         log.debug("Notifying {}:{}", reportListner.getClass().getName(), reportListner);
-                        reportListner.receivedReport(event);
+                        reportListner.receivedReport(endpoint.getEndpointId(), cluster.getId(), event);
                     } catch (Exception e) {
                         log.error("Error while notifying {}:{} caused by {}", new Object[]{
                                 reportListner.getClass().getName(), reportListner, e.getStackTrace()

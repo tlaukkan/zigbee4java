@@ -4,6 +4,7 @@
 
     <groupId>org.bubblecloud.zigbee4java</groupId>
     <artifactId>zigbee-api</artifactId>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>org.bubblecloud.zigbee4java</groupId>

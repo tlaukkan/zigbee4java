@@ -57,7 +57,7 @@ public class ZDO_BIND_RSP extends ZToolPacket /*implements IRESPONSE_CALLBACK,IZ
     public String toString() {
         return "ZDO_BIND_RSP{" +
                 "SrcAddress=" + SrcAddress +
-                "Status=" + ResponseStatus.getStatus(Status) +
+                " Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
 }

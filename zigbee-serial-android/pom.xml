@@ -9,11 +9,11 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-  <artifactId>zigbee4java-android-serial</artifactId>
+  <artifactId>zigbee-serial-android</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>zigbee4java-android-serial</name>
+  <name>zigbee-serial-android</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

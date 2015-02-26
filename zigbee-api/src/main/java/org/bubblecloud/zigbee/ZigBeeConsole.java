@@ -1,6 +1,7 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.api.Device;
+import org.bubblecloud.zigbee.api.DeviceListener;
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
@@ -13,6 +14,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.port.ZigBeePort;
+import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.util.Cie;
 
 import java.io.BufferedReader;
@@ -78,15 +80,32 @@ public final class ZigBeeConsole {
      */
     public void start() {
         
-
         System.out.print("ZigBee API starting up...");
-        final ZigBeeApi zigbeeApi = new ZigBeeApi(port, pan, channel, resetNetwork);
+        final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
+        //discoveryModes.remove(DiscoveryMode.LinkQuality);
+        final ZigBeeApi zigbeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, discoveryModes);
         if (!zigbeeApi.startup()) {
-            write(". [FAIL]");
+            print("ZigBee API starting up ... [FAIL]");
             return;
         } else {
-            write(". [OK]");
+            print("ZigBee API starting up ... [OK]");
         }
+
+        zigbeeApi.addDeviceListener(new DeviceListener() {
+            @Override
+            public void deviceAdded(Device device) {
+                print("Device added: " + device.getEndpointId() + " (#" + device.getNetworkAddress() + ")");
+            }
+
+            @Override
+            public void deviceUpdated(Device device) {
+            }
+
+            @Override
+            public void deviceRemoved(Device device) {
+                print("Device removed: " + device.getEndpointId() + " (#" + device.getNetworkAddress() + ")");
+            }
+        });
 
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             @Override
@@ -106,7 +125,7 @@ public final class ZigBeeConsole {
             }
         }));
 
-        System.out.print("Browsing network ...");
+        print("Browsing network ...");
         while (!shutdown && !zigbeeApi.isInitialBrowsingComplete()) {
             System.out.print('.');
             try {
@@ -115,73 +134,83 @@ public final class ZigBeeConsole {
                 break;
             }
         }
-        System.out.println(". [OK]");
-        System.out.println("Found " + zigbeeApi.getDevices().size() + " nodes.");
+        print("Browsing network ... [OK]");
+        print("Found " + zigbeeApi.getDevices().size() + " nodes.");
 
-        System.out.println("ZigBee console ready.");
+        print("ZigBee console ready.");
 
-        String command;
-        while (!shutdown && (command = read()) != null) {
-            process(zigbeeApi, command);
+        String inputLine;
+        while (!shutdown && (inputLine = readLine()) != null) {
+            processInputLine(zigbeeApi, inputLine);
         }
 
         zigbeeApi.shutdown();
     }
 
-    private void process(final ZigBeeApi zigbeeApi, final String command) {
-        if (command.length() == 0) {
+    /**
+     * Processes text input line.
+     * @param zigbeeApi the ZigBee API
+     * @param inputLine the input line
+     */
+    private void processInputLine(final ZigBeeApi zigbeeApi, final String inputLine) {
+        if (inputLine.length() == 0) {
             return;
         }
-        final String[] args = command.split(" ");
+        final String[] args = inputLine.split(" ");
         try {
             if (commands.containsKey(args[0])) {
-                process(zigbeeApi, args, args[0]);
+                executeCommand(zigbeeApi, args[0], args);
                 return;
             } else {
-                for (final String key : commands.keySet()) {
-                    if (key.charAt(0) == command.charAt(0)) {
-                        process(zigbeeApi, args, key);
+                for (final String command : commands.keySet()) {
+                    if (command.charAt(0) == inputLine.charAt(0)) {
+                        executeCommand(zigbeeApi, command, args);
                         return;
                     }
                 }
-                write("Uknown command. Use 'help' command to list available commands.");
+                print("Uknown command. Use 'help' command to list available commands.");
             }
         } catch (final Exception e) {
-            write("Exception in command execution: ");
+            print("Exception in command execution: ");
             e.printStackTrace();
         }
     }
 
-    private void process(ZigBeeApi zigbeeApi, String[] args, String key) {
-        final ConsoleCommand consoleCommand = commands.get(key);
+    /**
+     * Executes command.
+     * @param zigbeeApi the ZigBee API
+     * @param command the command
+     * @param args the arguments including the command
+     */
+    private void executeCommand(final ZigBeeApi zigbeeApi, final String command, final String[] args) {
+        final ConsoleCommand consoleCommand = commands.get(command);
         if (!consoleCommand.process(zigbeeApi, args)) {
-            write(consoleCommand.getSyntax());
+            print(consoleCommand.getSyntax());
         }
     }
 
     /**
-     * Writes line to console.
+     * Prints line to console.
      *
      * @param line the line
      */
-    private static void write(final String line) {
-        System.out.println(line);
+    private static void print(final String line) {
+        System.out.println("\r" + line);
+        System.out.print("> ");
     }
 
     /**
      * Reads line from console.
      *
-     * @return line read from console or null if exception occurred.
+     * @return line readLine from console or null if exception occurred.
      */
-    private String read() {
-        System.out.print("> ");
+    private String readLine() {
+        System.out.print("\r> ");
         try {
-            BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-            String s = bufferRead.readLine();
-            return s;
-        }
-        catch(IOException e)
-        {
+            final BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+            final String inputLine = bufferRead.readLine();
+            return inputLine;
+        } catch(final IOException e) {
             e.printStackTrace();
             return null;
         }
@@ -203,36 +232,97 @@ public final class ZigBeeConsole {
         return device;
     }
 
+    /*
+     * Static initialization of console commands.
+     */
+        /*
+    static {
+        commands.put("quit", new QuitCommand());
+        commands.put("help", new HelpCommand());
+        commands.put("list", new ListCommand());
+        commands.put("desc", new DescribeCommand());
+        commands.put("bind", new BindCommand());
+        commands.put("unbind", new UnbindCommand());
+        commands.put("on", new OnCommand());
+        commands.put("off", new OffCommand());
+        commands.put("color", new ColorCommand());
+        commands.put("level", new LevelCommand());
+        commands.put("subscribe", new SubscribeCommand());
+        commands.put("unsubscribe", new UnsubscribeCommand());
+        commands.put("read", new ReadCommand());
+        commands.put("write", new WriteCommand());
+    }
+        */
+
+    /**
+     * Interface for console commands.
+     */
     private interface ConsoleCommand {
+        /**
+         * Get command description.
+         * @return the command description
+         */
         String getDescription();
+
+        /**
+         * Get command syntax.
+         * @return the command syntax
+         */
         String getSyntax();
+
+        /**
+         *
+         * @param zigbeeApi
+         * @param args
+         * @return
+         */
         boolean process(final ZigBeeApi zigbeeApi, final String[] args);
     }
 
+    /**
+     * Quits console.
+     */
     private class QuitCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
         public String getDescription() {
             return "Quits console.";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public String getSyntax() {
             return "quit";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             shutdown = true;
             return true;
         }
     }
 
+    /**
+     * Prints help on console.
+     */
     private class HelpCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
         public String getDescription() {
             return "View command help.";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public String getSyntax() {
             return "help [command]";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
 
             if (args.length == 2) {
@@ -247,9 +337,9 @@ public final class ZigBeeConsole {
             } else if (args.length == 1) {
                 final List<String> commandList = new ArrayList<String>(commands.keySet());
                 Collections.sort(commandList);
-                write("Commands:");
+                print("Commands:");
                 for (final String command : commands.keySet()) {
-                    write(command + " - " + commands.get(command).getDescription());
+                    print(command + " - " + commands.get(command).getDescription());
                 }
             } else {
                 return false;
@@ -259,15 +349,25 @@ public final class ZigBeeConsole {
         }
     }
 
+    /**
+     * Prints list of devices to console.
+     */
     private class ListCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
         public String getDescription() {
             return "Lists devices.";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public String getSyntax() {
             return "list";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             final List<Device> devices = zigbeeApi.getDevices();
             for (int i = 0; i < devices.size(); i++) {
@@ -278,15 +378,25 @@ public final class ZigBeeConsole {
         }
     }
 
+    /**
+     * Prints device information to console.
+     */
     private class DescribeCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
         public String getDescription() {
             return "Describes a device.";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public String getSyntax() {
             return "desc DEVICEID";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 2) {
                 return false;
@@ -298,20 +408,20 @@ public final class ZigBeeConsole {
                 return false;
             }
 
-            write("Network Address  : " + device.getNetworkAddress());
-            write("Extended Address : " + device.getIEEEAddress());
-            write("Endpoint Address : " + device.getEndPointAddress());
-            write("Device Type      : " + ZigBeeApiConstants.getDeviceName(device.getDeviceTypeId()));
-            write("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));
-            write("Device Version   : " + device.getDeviceVersion());
-            write("Input Clusters   : ");
+            print("Network Address  : " + device.getNetworkAddress());
+            print("Extended Address : " + device.getIEEEAddress());
+            print("Endpoint Address : " + device.getEndPointAddress());
+            print("Device Type      : " + ZigBeeApiConstants.getDeviceName(device.getDeviceTypeId()));
+            print("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));
+            print("Device Version   : " + device.getDeviceVersion());
+            print("Input Clusters   : ");
             for (int c : device.getInputClusters()) {
                 final Cluster cluster = device.getCluster(c);
-                write("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c));
+                print("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c));
                 if (cluster != null) {
                     for (int a = 0; a < cluster.getAttributes().length; a++) {
                         final Attribute attribute = cluster.getAttributes()[a];
-                        write("                 :    " + a
+                        print("                 :    " + a
                                 + " "
                                 + "r"
                                 + (attribute.isWritable() ? "w" : "-")
@@ -320,27 +430,40 @@ public final class ZigBeeConsole {
                                 + attribute.getName()
                                 + " "
                                 + (attribute.getReporter() != null ? "(" +
-                                Integer.toString(attribute.getReporter().getReportListenersCount()) + ")" : ""));
+                                Integer.toString(attribute.getReporter().getReportListenersCount()) + ")" : "")
+                                + "  [" + attribute.getZigBeeType() + "]");
                     }
                 }
             }
-            write("Output Clusters  : ");
+            print("Output Clusters  : ");
             for (int c : device.getOutputClusters()) {
                 final Cluster cluster = device.getCluster(c);
-                write("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c));
+                print("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c));
             }
 
             return true;
         }
     }
 
+    /**
+     * Binds client device to server device with given cluster ID.
+     */
     private class BindCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
         public String getDescription() {
             return "Binds a device to another device.";
         }
+        /**
+         * {@inheritDoc}
+         */
         public String getSyntax() {
             return "bind [CLIENT] SERVER CLUSTERID";
         }
+        /**
+         * {@inheritDoc}
+         */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 3 && args.length != 4) {
                 return false;
@@ -379,13 +502,25 @@ public final class ZigBeeConsole {
         }
     }
 
+    /**
+     * Unbinds device from another device with given cluster ID.
+     */
     private class UnbindCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
         public String getDescription() {
             return "Unbinds a device from another device.";
         }
+        /**
+         * {@inheritDoc}
+         */
         public String getSyntax() {
-            return "bind CLIENT SERVER CLUSTERID";
+            return "unbind CLIENT SERVER CLUSTERID";
         }
+        /**
+         * {@inheritDoc}
+         */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 3 && args.length != 4) {
                 return false;
@@ -424,15 +559,25 @@ public final class ZigBeeConsole {
         }
     }
 
+    /**
+     * Switches a device on.
+     */
     private class OnCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
         public String getDescription() {
             return "Switches device on.";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public String getSyntax() {
             return "on DEVICEID";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 2) {
                 return false;
@@ -453,15 +598,25 @@ public final class ZigBeeConsole {
         }
     }
 
+    /**
+     * Changes a light color on device.
+     */
     private class ColorCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
         public String getDescription() {
             return "Changes light color.";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public String getSyntax() {
             return "color DEVICEID RED GREEN BLUE";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 5) {
                 return false;
@@ -473,7 +628,7 @@ public final class ZigBeeConsole {
             }
             final ColorControl colorControl = device.getCluster(ColorControl.class);
             if (colorControl == null) {
-                write("Device does not support color control.");
+                print("Device does not support color control.");
                 return false;
             }
             // @param colorX x * 65536 where colorX can be in rance 0 to 65279
@@ -522,15 +677,25 @@ public final class ZigBeeConsole {
         }
     }
 
+    /**
+     * Changes a device level for example lamp brightness.
+     */
     private class LevelCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
         public String getDescription() {
             return "Changes device level for example lamp brightness.";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public String getSyntax() {
             return "color DEVICEID LEVEL";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 3) {
                 return false;
@@ -542,7 +707,7 @@ public final class ZigBeeConsole {
             }
             final ColorControl colorControl = device.getCluster(ColorControl.class);
             if (colorControl == null) {
-                write("Device does not support color control.");
+                print("Device does not support color control.");
                 return false;
             }
 
@@ -572,15 +737,25 @@ public final class ZigBeeConsole {
         }
     }
 
+    /**
+     * Switches a device off.
+     */
     private class OffCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
         public String getDescription() {
             return "Switches device off.";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public String getSyntax() {
             return "off DEVICEID";
         }
-
+        /**
+         * {@inheritDoc}
+         */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 2) {
                 return false;
@@ -601,13 +776,25 @@ public final class ZigBeeConsole {
         }
     }
 
+    /**
+     * Subscribes to reports of given attribute.
+     */
     private class SubscribeCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
         public String getDescription() {
-            return "Subscribe for attribute reports.";
+            return "Subscribe to attribute reports.";
         }
+        /**
+         * {@inheritDoc}
+         */
         public String getSyntax() {
-            return "bind [DEVICE] [CLUSTER] [ATTRIBUTE]";
+            return "subscribe [DEVICE] [CLUSTER] [ATTRIBUTE]";
         }
+        /**
+         * {@inheritDoc}
+         */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 4) {
                 return false;
@@ -627,26 +814,39 @@ public final class ZigBeeConsole {
                 return false;
             }
 
+
             final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeIndex).getReporter();
 
             if (reporter == null) {
-                write("Attribute does not provide reports.");
+                print("Attribute does not provide reports.");
                 return true;
             }
 
-            reporter.addReportListener(reportListener);
+            reporter.addReportListener(consoleReportListener);
 
             return true;
         }
     }
 
+    /**
+     * Unsubscribes from reports of given attribute.
+     */
     private class UnsubscribeCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
         public String getDescription() {
-            return "Subscribe for attribute reports.";
+            return "Unsubscribe from attribute reports.";
         }
+        /**
+         * {@inheritDoc}
+         */
         public String getSyntax() {
-            return "bind [DEVICE] [CLUSTER]�[ATTRIBUTE]";
+            return "unsubscribe [DEVICE] [CLUSTER] [ATTRIBUTE]";
         }
+        /**
+         * {@inheritDoc}
+         */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 4) {
                 return false;
@@ -669,23 +869,34 @@ public final class ZigBeeConsole {
             final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeIndex).getReporter();
 
             if (reporter == null) {
-                write("Attribute does not provide reports.");
+                print("Attribute does not provide reports.");
             }
 
-            reporter.removeReportListener(reportListener);
+            reporter.removeReportListener(consoleReportListener);
 
             return true;
         }
     }
 
-
+    /**
+     * Reads an attribute from a device.
+     */
     private class ReadCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
         public String getDescription() {
             return "Read an attribute.";
         }
+        /**
+         * {@inheritDoc}
+         */
         public String getSyntax() {
-            return "read [DEVICE] [CLUSTER]�[ATTRIBUTE]";
+            return "read [DEVICE] [CLUSTER] [ATTRIBUTE]";
         }
+        /**
+         * {@inheritDoc}
+         */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
             if (args.length != 4) {
                 return false;
@@ -706,26 +917,26 @@ public final class ZigBeeConsole {
 
             final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
             if (device == null) {
-                write("Device not found.");
+                print("Device not found.");
                 return false;
             }
 
             final Cluster cluster = device.getCluster(clusterId);
             if (cluster == null) {
-                write("Cluster not found.");
+                print("Cluster not found.");
                 return false;
             }
 
             final Attribute attribute = cluster.getAttributes()[attributeIndex];
             if (attribute == null) {
-                write("Attribute not found.");
+                print("Attribute not found.");
                 return false;
             }
 
             try {
-                write(attribute.getName() + "=" + attribute.getValue());
+                print(attribute.getName() + "=" + attribute.getValue());
             } catch (ZigBeeClusterException e) {
-                write("Failed to read attribute.");
+                print("Failed to read attribute.");
                 e.printStackTrace();
             }
 
@@ -733,14 +944,150 @@ public final class ZigBeeConsole {
         }
     }
 
-    private static ReportListener reportListener = new ReportListener() {
+    /**
+     * Writes an attribute to a device.
+     */
+    private class WriteCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Write an attribute.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "write [DEVICE] [CLUSTER] [ATTRIBUTE] [VALUE]";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+            if (args.length != 5) {
+                return false;
+            }
+
+            final int clusterId;
+            try {
+                clusterId = Integer.parseInt(args[2]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+            final int attributeIndex;
+            try {
+                attributeIndex = Integer.parseInt(args[3]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                print("Device not found.");
+                return false;
+            }
+
+            final Cluster cluster = device.getCluster(clusterId);
+            if (cluster == null) {
+                print("Cluster not found.");
+                return false;
+            }
+
+            final Attribute attribute = cluster.getAttributes()[attributeIndex];
+            if (attribute == null) {
+                print("Attribute not found.");
+                return false;
+            }
+            
+            if(attribute.isWritable() == false) {
+                print(attribute.getName() + " is not writable");
+            	return true;
+            }
+
+            try {
+            	Object val = null;
+                //TODO Handle other value types.
+            	switch(attribute.getZigBeeType()) {
+                    case Bitmap16bit:
+                        break;
+                    case Bitmap24bit:
+                        break;
+                    case Bitmap32bit:
+                        break;
+                    case Bitmap8bit:
+                        break;
+                    case Boolean:
+                        break;
+                    case CharacterString:
+                        val = new String(args[4]);
+                        break;
+                    case Data16bit:
+                        break;
+                    case Data24bit:
+                        break;
+                    case Data32bit:
+                        break;
+                    case Data8bit:
+                        break;
+                    case DoublePrecision:
+                        break;
+                    case Enumeration16bit:
+                        break;
+                    case Enumeration8bit:
+                        break;
+                    case IEEEAddress:
+                        break;
+                    case LongCharacterString:
+                        break;
+                    case LongOctectString:
+                        break;
+                    case OctectString:
+                        break;
+                    case SemiPrecision:
+                        break;
+                    case SignedInteger16bit:
+                        break;
+                    case SignedInteger24bit:
+                        break;
+                    case SignedInteger32bit:
+                        break;
+                    case SignedInteger8bit:
+                        break;
+                    case SinglePrecision:
+                        break;
+                    case UnsignedInteger16bit:
+                        break;
+                    case UnsignedInteger24bit:
+                        break;
+                    case UnsignedInteger32bit:
+                        break;
+                    case UnsignedInteger8bit:
+                        break;
+                    default:
+                        break;
+            	}
+                attribute.setValue(val);
+            } catch (ZigBeeClusterException e) {
+                print("Failed to write attribute.");
+                e.printStackTrace();
+            }
+
+            return true;
+        }
+    }
+
+    /**
+     * Anonymous class report listener implementation which prints the reports to console.
+     */
+    private static ReportListener consoleReportListener = new ReportListener() {
         @Override
-        public void receivedReport(final Dictionary<Attribute, Object> reports) {
+        public void receivedReport(final String endPointId, final short clusterId,
+                                   final Dictionary<Attribute, Object> reports) {
             final Enumeration<Attribute> attributes = reports.keys();
             while (attributes.hasMoreElements()) {
                 final Attribute attribute = attributes.nextElement();
                 final Object value = reports.get(attribute);
-                write(attribute.getName() + "=" + value);
+                print(endPointId + "->" + clusterId + "->" + attribute.getName() + "=" + value);
             }
         }
     };
