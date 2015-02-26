@@ -42,9 +42,30 @@
         </snapshotRepository>
     </distributionManagement>
 
-    <modules>
-        <module>zigbee-api</module>
-    </modules>
+    <profiles>
+        <profile>
+            <id>android</id>
+            <modules>
+                <module>zigbee-api</module>
+                <module>zigbee4java-android-serial</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>default</name>
+                    <value>!disabled</value>
+                </property>
+            </activation>
+            <modules>
+                <module>zigbee-api</module>
+                <module>zigbee4java-default-serial</module>
+            </modules>
+        </profile>
+    </profiles>
+
 
     <build>
         <plugins>
@@ -70,22 +91,26 @@
     </build>
 
     <dependencies>
+
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.5</version>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
 </project>
