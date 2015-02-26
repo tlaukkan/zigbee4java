@@ -60,19 +60,20 @@ public final class ZigBeeConsole {
 		this.channel      = channel;
 		this.resetNetwork = resetNetwork;
 
-		commands.put("quit", new QuitCommand());
-		commands.put("help", new HelpCommand());
-		commands.put("list", new ListCommand());
-		commands.put("desc", new DescribeCommand());
-		commands.put("bind", new BindCommand());
-		commands.put("unbind", new UnbindCommand());
-		commands.put("on", new OnCommand());
-		commands.put("off", new OffCommand());
-		commands.put("color", new ColorCommand());
-		commands.put("level", new LevelCommand());
-		commands.put("subscribe", new SubscribeCommand());
+		commands.put("quit", 		new QuitCommand());
+		commands.put("help", 		new HelpCommand());
+		commands.put("list", 		new ListCommand());
+		commands.put("desc", 		new DescribeCommand());
+		commands.put("bind", 		new BindCommand());
+		commands.put("unbind", 		new UnbindCommand());
+		commands.put("on", 			new OnCommand());
+		commands.put("off", 		new OffCommand());
+		commands.put("color",		new ColorCommand());
+		commands.put("level", 		new LevelCommand());
+		commands.put("subscribe", 	new SubscribeCommand());
 		commands.put("unsubscribe", new UnsubscribeCommand());
-		commands.put("read", new ReadCommand());
+		commands.put("read", 		new ReadCommand());
+		commands.put("write", 		new WriteCommand());
 	}
 
 	/**
@@ -231,28 +232,6 @@ public final class ZigBeeConsole {
         }
         return device;
     }
-
-    /*
-     * Static initialization of console commands.
-     */
-        /*
-    static {
-        commands.put("quit", new QuitCommand());
-        commands.put("help", new HelpCommand());
-        commands.put("list", new ListCommand());
-        commands.put("desc", new DescribeCommand());
-        commands.put("bind", new BindCommand());
-        commands.put("unbind", new UnbindCommand());
-        commands.put("on", new OnCommand());
-        commands.put("off", new OffCommand());
-        commands.put("color", new ColorCommand());
-        commands.put("level", new LevelCommand());
-        commands.put("subscribe", new SubscribeCommand());
-        commands.put("unsubscribe", new UnsubscribeCommand());
-        commands.put("read", new ReadCommand());
-        commands.put("write", new WriteCommand());
-    }
-        */
 
     /**
      * Interface for console commands.
