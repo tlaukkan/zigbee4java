@@ -6,7 +6,7 @@ import java.util.LinkedList;
  * Implementation of FIFOByteBuffer.
  * Distinguishing features vs. CircularFIFOByteBufferImpl:
  * - Can expand to any size
- * - Less memory efficient by a factor of >=3 (each byte forms the node in a LinkedList)
+ * - Less memory efficient by a factor of at least 3 (each byte resides in the node of a LinkedList)
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
 public class LinkedListFIFOByteBufferImpl implements FIFOByteBuffer

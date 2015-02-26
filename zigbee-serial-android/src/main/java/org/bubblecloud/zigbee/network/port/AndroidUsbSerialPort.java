@@ -17,7 +17,10 @@ import java.util.Map;
 
 
 /**
- * Implementation of ZigBeePort intended for use with CC2531 dongle plugged into an Android USB port ('OTG')
+ * Android implementation of ZigBeePort
+ * Intended for use with CC2531 dongle plugged into an Android USB port.
+ * Requires a device with USB Host feature enabled (most do?).
+ * Tested on a Samsung Galaxy S2 with OTG cable.
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
 public class AndroidUsbSerialPort implements ZigBeePort
