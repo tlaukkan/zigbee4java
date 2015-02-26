@@ -1524,11 +1524,11 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
                 if (listners.isEmpty()) {
                     logger.warn("Received AF_INCOMING_MSG but no listeners. " +
                                     "Message was from {} and cluster {} to end point {}. Data: {}",
-                            NetworkAddressUtil.shortToInt(msg.getSrcAddr()), msg.getClusterId(),
+                            msg.getSrcAddr(), msg.getClusterId(),
                             msg.getDstEndpoint(), msg);
                 } else {
                     logger.debug("Received AF_INCOMING_MSG from {} and cluster {} to end point {}. Data: {}",
-                            NetworkAddressUtil.shortToInt(msg.getSrcAddr()), msg.getClusterId(),
+                            msg.getSrcAddr(), msg.getClusterId(),
                             msg.getDstEndpoint(), msg);
                 }
                 ArrayList<ApplicationFrameworkMessageListener> localCopy = null;
