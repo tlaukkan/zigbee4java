@@ -57,7 +57,7 @@ public class ZDO_ACTIVE_EP_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
     /// <name>TI.ZPI1.ZDO_ACTIVE_EP_RSP.Status</name>
     /// <summary>this field indicates either SUCCESS or FAILURE</summary>
     public int Status;
-    private byte[] list;
+    private short[] list;
 
     /// <name>TI.ZPI1.ZDO_ACTIVE_EP_RSP</name>
     /// <summary>Constructor</summary>
@@ -80,11 +80,11 @@ public class ZDO_ACTIVE_EP_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
     }
 
 
-    public byte[] getActiveEndPointList() {
+    public short[] getActiveEndPointList() {
         if (list == null) {
-            list = new byte[super.packet[ZToolPacket.PAYLOAD_START_INDEX + 5]];
+            list = new short[super.packet[ZToolPacket.PAYLOAD_START_INDEX + 5]];
             for (int i = 0; i < list.length; i++) {
-                list[i] = (byte) super.packet[ZToolPacket.PAYLOAD_START_INDEX + 6 + i];
+                list[i] = (short) super.packet[ZToolPacket.PAYLOAD_START_INDEX + 6 + i];
             }
         }
         return list;
