@@ -1,0 +1,6 @@
+
+description = ''
+dependencies {
+  compile project(':zigbee-api')
+  compile project(':zigbee-serial-default')
+}

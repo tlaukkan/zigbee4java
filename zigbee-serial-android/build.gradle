@@ -1,0 +1,6 @@
+
+description = 'zigbee-serial-android'
+dependencies {
+  compile project(':zigbee-api')
+  testCompile project(':zigbee-api')
+}

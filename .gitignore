@@ -4,3 +4,6 @@ target/
 *.iml
 *.log
 zigbee-api/build
+.gradle
+zigbee-console/build
+zigbee-serial-default/build
