@@ -403,7 +403,7 @@ public class ZigBeeConsole {
                 if (cluster != null) {
                     for (int a = 0; a < cluster.getAttributes().length; a++) {
                         final Attribute attribute = cluster.getAttributes()[a];
-                        print("                 :    " + a
+                        print("                 :    " + attribute.getId()
                                 + " "
                                 + "r"
                                 + (attribute.isWritable() ? "w" : "-")
@@ -789,15 +789,15 @@ public class ZigBeeConsole {
             } catch (final NumberFormatException e) {
                 return false;
             }
-            final int attributeIndex;
+            final int attributeId;
             try {
-                attributeIndex = Integer.parseInt(args[3]);
+                attributeId = Integer.parseInt(args[3]);
             } catch (final NumberFormatException e) {
                 return false;
             }
 
 
-            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeIndex).getReporter();
+            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
 
             if (reporter == null) {
                 print("Attribute does not provide reports.");
@@ -841,14 +841,14 @@ public class ZigBeeConsole {
             } catch (final NumberFormatException e) {
                 return false;
             }
-            final int attributeIndex;
+            final int attributeId;
             try {
-                attributeIndex = Integer.parseInt(args[3]);
+                attributeId = Integer.parseInt(args[3]);
             } catch (final NumberFormatException e) {
                 return false;
             }
 
-            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeIndex).getReporter();
+            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
 
             if (reporter == null) {
                 print("Attribute does not provide reports.");
@@ -890,9 +890,9 @@ public class ZigBeeConsole {
             } catch (final NumberFormatException e) {
                 return false;
             }
-            final int attributeIndex;
+            final int attributeId;
             try {
-                attributeIndex = Integer.parseInt(args[3]);
+                attributeId = Integer.parseInt(args[3]);
             } catch (final NumberFormatException e) {
                 return false;
             }
@@ -909,7 +909,7 @@ public class ZigBeeConsole {
                 return false;
             }
 
-            final Attribute attribute = cluster.getAttributes()[attributeIndex];
+            final Attribute attribute = cluster.getAttribute(attributeId);
             if (attribute == null) {
                 print("Attribute not found.");
                 return false;
@@ -956,9 +956,9 @@ public class ZigBeeConsole {
             } catch (final NumberFormatException e) {
                 return false;
             }
-            final int attributeIndex;
+            final int attributeId;
             try {
-                attributeIndex = Integer.parseInt(args[3]);
+                attributeId = Integer.parseInt(args[3]);
             } catch (final NumberFormatException e) {
                 return false;
             }
@@ -975,7 +975,7 @@ public class ZigBeeConsole {
                 return false;
             }
 
-            final Attribute attribute = cluster.getAttributes()[attributeIndex];
+            final Attribute attribute = cluster.getAttribute(attributeId);
             if (attribute == null) {
                 print("Attribute not found.");
                 return false;
