@@ -1,14 +1,14 @@
 package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.api.Device;
+import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
-import org.bubblecloud.zigbee.api.Device;
-import org.bubblecloud.zigbee.api.cluster.general.OnOff;
-import org.bubblecloud.zigbee.network.serial.ZigBeeNetworkManagerSerialImpl;
+import org.bubblecloud.zigbee.network.port.ZigBeeNetworkManagerImpl;
+import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,19 +18,23 @@ import java.util.EnumSet;
 /**
  * Test for ZigBeeNetworkManagerSerialImpl.
  */
-public class ZigBeeNetworkTest {
+public abstract class ZigBeeNetworkTest {
     private final static Logger logger = LoggerFactory.getLogger(ZigBeeNetworkTest.class);
+	private final ZigBeePort port;
+
+	protected ZigBeeNetworkTest(ZigBeePort port) {
+		this.port = port;
+	}
 
     @Before
     public void setup() {
     }
 
-    @Test
-    @Ignore
+	@Test
     public void testOpenNetwork() throws Exception {
 
-        final ZigBeeNetworkManagerSerialImpl zigbeeNetwork = new ZigBeeNetworkManagerSerialImpl(
-                "/dev/ttyACM0", 115200, NetworkMode.Coordinator, 4951, 22,
+        final ZigBeeNetworkManagerImpl zigbeeNetwork = new ZigBeeNetworkManagerImpl(
+                port, NetworkMode.Coordinator, 4951, 22,
                 false, 2500L);
         zigbeeNetwork.startup();
 
@@ -44,12 +48,11 @@ public class ZigBeeNetworkTest {
         zigbeeNetwork.shutdown();
     }
 
-    @Test
-    @Ignore
+	@Test
     public void testDiscoverNetwork() throws Exception {
 
-        final ZigBeeNetworkManagerSerialImpl zigbeeNetworkManager = new ZigBeeNetworkManagerSerialImpl(
-                "/dev/ttyACM0", 115200, NetworkMode.Coordinator, 4951, 22,
+        final ZigBeeNetworkManagerImpl zigbeeNetworkManager = new ZigBeeNetworkManagerImpl(
+                port, NetworkMode.Coordinator, 4951, 22,
                 false, 2500L);
 
         final ZigBeeDiscoveryManager zigbeeDiscoveryManager = new ZigBeeDiscoveryManager(zigbeeNetworkManager, DiscoveryMode.ALL);
@@ -71,12 +74,11 @@ public class ZigBeeNetworkTest {
         zigbeeNetworkManager.shutdown();
     }
 
-    @Test
-    @Ignore
     public void testZigBeeApi() throws Exception {
+        
         final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
         discoveryModes.remove(DiscoveryMode.LinkQuality);
-        final ZigBeeApi zigbeeApi = new ZigBeeApi("/dev/ttyACM0", 4951, 11, false, discoveryModes);
+        final ZigBeeApi zigbeeApi = new ZigBeeApi(port, 4951, 11, false, discoveryModes);
         zigbeeApi.startup();
 
         //Thread.sleep(500);

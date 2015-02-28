@@ -1,4 +1,4 @@
-package org.bubblecloud.zigbee.network.serial;
+package org.bubblecloud.zigbee.network.port;
 
 import j.extensions.comm.SerialComm;
 import org.slf4j.Logger;
@@ -10,32 +10,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * The serial-comm implementation of SerialPort.
+ * The system serial-port implementation of ZigBeePort.
  *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
+ * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
-public class SerialPortImpl implements SerialPort {
+public class ZigBeeSerialPortImpl implements ZigBeePort
+{
     /**
      * The logger.
      */
-    private final static Logger logger = LoggerFactory.getLogger(SerialPortImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(ZigBeeSerialPortImpl.class);
     /**
-     * The serial port.
+     * The portIdentifier portIdentifier.
      */
     private SerialComm serialPort;
     /**
-     * The serial port input stream.
+     * The portIdentifier portIdentifier input stream.
      */
     private InputStream inputStream;
     /**
-     * The serial port output stream.
+     * The portIdentifier portIdentifier output stream.
      */
     private OutputStream outputStream;
 
+	private final String portIdentifier;
+	private final int    baudRate;
+
+	public ZigBeeSerialPortImpl(final String portIdentifier, final int baudRate) {
+		this.portIdentifier = portIdentifier;
+		this.baudRate = baudRate;
+	}
+
     @Override
-    public boolean open(final String port, final int baudRate) {
+    public boolean open() {
         try {
-            openSerialPort(port, 0, baudRate, 8, SerialComm.ONE_STOP_BIT,
+            openSerialPort(portIdentifier, 0, baudRate, 8, SerialComm.ONE_STOP_BIT,
                     SerialComm.NO_PARITY, SerialComm.FLOW_CONTROL_DISABLED);
             return true;
         } catch (Exception e) {
@@ -45,9 +55,9 @@ public class SerialPortImpl implements SerialPort {
     }
 
     /**
-     * Opens serial port.
+     * Opens portIdentifier portIdentifier.
      *
-     * @param port          the port
+     * @param port          the portIdentifier
      * @param timeoutMillis the timeout in milliseconds
      * @param baudRate      the baud rate
      * @param dataBits      the data bits count
@@ -57,8 +67,8 @@ public class SerialPortImpl implements SerialPort {
      */
     private void openSerialPort(String port, int timeoutMillis, int baudRate, int dataBits, int stopBits, int parity, int flowControl) {
         if (serialPort != null) {
-            throw new RuntimeException("Serial port '" + serialPort.getSystemPortName()
-                    + "' is already startup for this serial comm instance.");
+            throw new RuntimeException("Serial portIdentifier '" + serialPort.getSystemPortName()
+                    + "' is already startup for this portIdentifier comm instance.");
         }
 
         final SerialComm[] ports = SerialComm.getCommPorts();
@@ -73,13 +83,13 @@ public class SerialPortImpl implements SerialPort {
         }
 
         if (!portMap.containsKey(port)) {
-            throw new RuntimeException("Serial port '" + port + "' not found.");
+            throw new RuntimeException("Serial portIdentifier '" + port + "' not found.");
         }
 
         serialPort = portMap.get(port);
-        logger.info("Opening serial port '" + serialPort.getSystemPortName() + "'.");
+        logger.info("Opening portIdentifier portIdentifier '" + serialPort.getSystemPortName() + "'.");
         if (!serialPort.openPort()) {
-            throw new RuntimeException("Serial port '" + port + "' startup failed.");
+            throw new RuntimeException("Serial portIdentifier '" + port + "' startup failed.");
         }
 
         serialPort.setComPortTimeouts(SerialComm.TIMEOUT_READ_BLOCKING, timeoutMillis, 0);
@@ -108,13 +118,13 @@ public class SerialPortImpl implements SerialPort {
                 outputStream.flush();
                 outputStream.close();
                 serialPort.closePort();
-                logger.info("Serial port '" + serialPort.getSystemPortName() + "' closed.");
+                logger.info("Serial portIdentifier '" + serialPort.getSystemPortName() + "' closed.");
                 serialPort = null;
                 inputStream = null;
                 outputStream = null;
             }
         } catch (Exception e) {
-            logger.warn("Error closing serial port: '" + serialPort.getSystemPortName() + "'", e);
+            logger.warn("Error closing portIdentifier portIdentifier: '" + serialPort.getSystemPortName() + "'", e);
         }
     }
 

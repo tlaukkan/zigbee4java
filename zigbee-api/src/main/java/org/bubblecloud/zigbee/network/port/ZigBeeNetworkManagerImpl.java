@@ -19,7 +19,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package org.bubblecloud.zigbee.network.serial;
+package org.bubblecloud.zigbee.network.port;
 
 import org.bubblecloud.zigbee.network.*;
 import org.bubblecloud.zigbee.network.packet.*;
@@ -43,16 +43,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * The zigbee network manager serial port implementation.
+ * The zigbee network manager port port implementation.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:michele.girolami@isti.cnr.it">Michele Girolami</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
+ * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
-public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
+public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
-    private final static Logger logger = LoggerFactory.getLogger(ZigBeeNetworkManagerSerialImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(ZigBeeNetworkManagerImpl.class);
     private final static Logger logger4Waiter = LoggerFactory.getLogger(WaitForCommand.class);
 
     public static final int DEFAULT_TIMEOUT = 5000;
@@ -72,9 +73,8 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
     private final int RESEND_MAX_RETRY;
     private final boolean RESEND_ONLY_EXCEPTION;
 
-    private ZigBeeSerialInterface zigbeeSerialInterface;
-    private String port;
-    private int rate;
+    private ZigBeeInterface zigbeeInterface;
+    private ZigBeePort port;
     private DriverStatus state;
     private NetworkMode mode;
     private short pan;
@@ -90,8 +90,8 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
     private long ieeeAddress = -1;
     private final HashMap<Class<?>, Thread> conversation3Way = new HashMap<Class<?>, Thread>();
 
-    public ZigBeeNetworkManagerSerialImpl(String serialPort, int bitRate, NetworkMode mode, int pan, int channel,
-                                          boolean cleanNetworkStatus, long timeout) {
+    public ZigBeeNetworkManagerImpl(ZigBeePort port, NetworkMode mode, int pan, int channel,
+									boolean cleanNetworkStatus, long timeout) {
 
         int aux = RESEND_TIMEOUT_DEFAULT;
         try {
@@ -130,7 +130,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         RESEND_ONLY_EXCEPTION = b;
         state = DriverStatus.CLOSED;
         this.cleanStatus = cleanNetworkStatus;
-        setSerialPort(serialPort, bitRate);
+        setPort(port);
         setZigBeeNetwork((byte) channel, (short) pan);
         setZigBeeNodeMode(mode);
     }
@@ -170,7 +170,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         if (state == DriverStatus.NETWORK_INITIALIZING || state == DriverStatus.HARDWARE_READY) {
             logger.trace("Closing HARDWARE");
             dongleReset();
-            zigbeeSerialInterface.close();
+            zigbeeInterface.close();
             setState(DriverStatus.CREATED);
         }
         setState(DriverStatus.CLOSED);
@@ -178,9 +178,9 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 
     @SuppressWarnings("unchecked")
     private boolean initializeHardware() {
-        zigbeeSerialInterface = new ZigBeeSerialInterface(port);
-        if (!zigbeeSerialInterface.open()) {
-            logger.error("Failed to initialize the dongle on port {} at rate {}", port, rate);
+        zigbeeInterface = new ZigBeeInterface(port);
+        if (!zigbeeInterface.open()) {
+            logger.error("Failed to initialize the dongle on port {}.", port);
             return false;
         }
         return true;
@@ -222,7 +222,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         final int INSTANT_STARTUP = 0;
 
         ZDO_STARTUP_FROM_APP_SRSP response = (ZDO_STARTUP_FROM_APP_SRSP) sendSynchrouns(
-                zigbeeSerialInterface, new ZDO_STARTUP_FROM_APP(INSTANT_STARTUP)
+				zigbeeInterface, new ZDO_STARTUP_FROM_APP(INSTANT_STARTUP)
         );
         if (response == null) return false;
         switch (response.Status) {
@@ -325,7 +325,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         //---------START FROM APP
         logger.trace("Reset seq: Trying STARTFROMAPP");
         ZDO_STARTUP_FROM_APP_SRSP responseA1 = (ZDO_STARTUP_FROM_APP_SRSP) sendSynchrouns(
-                zigbeeSerialInterface, new ZDO_STARTUP_FROM_APP(ZDO_STARTUP_FROM_APP.RESET_TYPE.TARGET_DEVICE)
+				zigbeeInterface, new ZDO_STARTUP_FROM_APP(ZDO_STARTUP_FROM_APP.RESET_TYPE.TARGET_DEVICE)
         );
         if (responseA1 == null) {
             logger.error("Reset seq: Failed STARTFROMAPP");
@@ -334,7 +334,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         //---------ZB WRITE CONF
         logger.trace("Reset seq: Trying WRITECONF");
         ZB_WRITE_CONFIGURATION_RSP responseA2 = (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
-                zigbeeSerialInterface, new ZB_WRITE_CONFIGURATION(3, new int[]{2})
+				zigbeeInterface, new ZB_WRITE_CONFIGURATION(3, new int[]{2})
         );
         if (responseA2 == null) {
             logger.error("Reset seq: Failed WRITECONF");
@@ -353,7 +353,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 //			return false;
 //		}
 //		UTIL_GET_DEVICE_INFO_RESPONSE responseA3 = (UTIL_GET_DEVICE_INFO_RESPONSE) waiter1.getCommand(TIMEOUT);
-        UTIL_GET_DEVICE_INFO_RESPONSE responseA3 = (UTIL_GET_DEVICE_INFO_RESPONSE) sendSynchrouns(zigbeeSerialInterface, new UTIL_GET_DEVICE_INFO());
+        UTIL_GET_DEVICE_INFO_RESPONSE responseA3 = (UTIL_GET_DEVICE_INFO_RESPONSE) sendSynchrouns(zigbeeInterface, new UTIL_GET_DEVICE_INFO());
         if (responseA3 == null) {
             logger.error("Reset seq: Failed GETDEVICEINFO");
             return false;
@@ -369,9 +369,9 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 //			ZDO_IEEE_ADDR_RSP responseA4 = sendZDOIEEEAddressRequest(new ZDO_IEEE_ADDR_REQ(addresses[k],ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED.getValue(),0));
 
             ZDO_IEEE_ADDR_RSP responseA4 = null;
-            WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_IEEE_ADDR_RSP, zigbeeSerialInterface);
+            WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_IEEE_ADDR_RSP, zigbeeInterface);
             logger.trace("Sending ZDO_IEEE_ADDR_REQ");
-            ZDO_IEEE_ADDR_REQ_SRSP response = (ZDO_IEEE_ADDR_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, new ZDO_IEEE_ADDR_REQ(addresses[k], ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED.getValue(), 0));
+            ZDO_IEEE_ADDR_REQ_SRSP response = (ZDO_IEEE_ADDR_REQ_SRSP) sendSynchrouns(zigbeeInterface, new ZDO_IEEE_ADDR_REQ(addresses[k], ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED.getValue(), 0));
             if (response == null || response.Status != 0) {
                 logger.trace("ZDO_IEEE_ADDR_REQ failed, received {}", response);
                 waiter.cleanup();
@@ -390,9 +390,9 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         long start = System.currentTimeMillis();
         for (int k = 0; k < longAddresses.length; k++) {
             if (longAddresses[k] != null) {
-                WaitForCommand waiter3 = new WaitForCommand(ZToolCMD.ZDO_MGMT_LEAVE_RSP, zigbeeSerialInterface);
+                WaitForCommand waiter3 = new WaitForCommand(ZToolCMD.ZDO_MGMT_LEAVE_RSP, zigbeeInterface);
 
-                ZDO_MGMT_LEAVE_REQ_SRSP response = (ZDO_MGMT_LEAVE_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, new ZDO_MGMT_LEAVE_REQ(addresses[k], longAddresses[k], 3));
+                ZDO_MGMT_LEAVE_REQ_SRSP response = (ZDO_MGMT_LEAVE_REQ_SRSP) sendSynchrouns(zigbeeInterface, new ZDO_MGMT_LEAVE_REQ(addresses[k], longAddresses[k], 3));
                 if ((System.currentTimeMillis() - start) > TIMEOUT) {
                     logger.error("Reset seq: Failed LEAVE");
                     return false;
@@ -451,10 +451,10 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 
     private void postHardwareEnabled() {
         if (!messageListeners.contains(afMessageListenerFilter)) {
-            zigbeeSerialInterface.addAsynchronousCommandListener(afMessageListenerFilter);
+            zigbeeInterface.addAsynchronousCommandListener(afMessageListenerFilter);
         }
         if (!announceListeners.contains(announceListenerFilter)) {
-            zigbeeSerialInterface.addAsynchronousCommandListener(announceListenerFilter);
+            zigbeeInterface.addAsynchronousCommandListener(announceListenerFilter);
         }
     }
 
@@ -508,13 +508,12 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         pan = panId;
     }
 
-    public void setSerialPort(String serialName, int bitRate) {
+    public void setPort(ZigBeePort port) {
         if (state != DriverStatus.CLOSED) {
             throw new IllegalStateException("Serial port can be changed only " +
                     "if driver is CLOSED while it is:" + state);
         }
-        port = serialName;
-        rate = bitRate;
+        this.port = port;
     }
 
     @Override
@@ -524,7 +523,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 
     public <REQUEST extends ZToolPacket, RESPONSE extends ZToolPacket> RESPONSE sendLocalRequest(REQUEST request) {
         if (waitForNetwork() == false) return null;
-        RESPONSE result = (RESPONSE) sendSynchrouns(zigbeeSerialInterface, request);
+        RESPONSE result = (RESPONSE) sendSynchrouns(zigbeeInterface, request);
         if (result == null) {
             logger.error("{} timed out waiting for synchronous local response.", request.getClass().getSimpleName());
         }
@@ -536,10 +535,10 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         RESPONSE result = null;
 
         waitAndLock3WayConversation(request);
-        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_MGMT_PERMIT_JOIN_RSP, zigbeeSerialInterface);
+        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_MGMT_PERMIT_JOIN_RSP, zigbeeInterface);
 
         logger.trace("Sending {}", request);
-        ZToolPacket response = sendSynchrouns(zigbeeSerialInterface, request);
+        ZToolPacket response = sendSynchrouns(zigbeeInterface, request);
         if (response == null) {
             logger.error("{} timed out waiting for synchronous local response.", request.getClass().getSimpleName());
             waiter.cleanup();
@@ -558,10 +557,10 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         ZDO_MGMT_LQI_RSP result = null;
 
         waitAndLock3WayConversation(request);
-        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_MGMT_LQI_RSP, zigbeeSerialInterface);
+        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_MGMT_LQI_RSP, zigbeeInterface);
 
         logger.trace("Sending ZDO_MGMT_LQI_REQ {}", request);
-        ZDO_MGMT_LQI_REQ_SRSP response = (ZDO_MGMT_LQI_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
+        ZDO_MGMT_LQI_REQ_SRSP response = (ZDO_MGMT_LQI_REQ_SRSP) sendSynchrouns(zigbeeInterface, request);
         if (response == null || response.Status != 0) {
             logger.trace("ZDO_MGMT_LQI_REQ failed, received {}", response);
             waiter.cleanup();
@@ -577,10 +576,10 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         ZDO_IEEE_ADDR_RSP result = null;
 
         waitAndLock3WayConversation(request);
-        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_IEEE_ADDR_RSP, zigbeeSerialInterface);
+        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_IEEE_ADDR_RSP, zigbeeInterface);
 
         logger.trace("Sending ZDO_IEEE_ADDR_REQ {}", request);
-        ZDO_IEEE_ADDR_REQ_SRSP response = (ZDO_IEEE_ADDR_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
+        ZDO_IEEE_ADDR_REQ_SRSP response = (ZDO_IEEE_ADDR_REQ_SRSP) sendSynchrouns(zigbeeInterface, request);
         if (response == null || response.Status != 0) {
             logger.warn("ZDO_IEEE_ADDR_REQ failed, received {}", response);
             waiter.cleanup();
@@ -596,9 +595,9 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         ZDO_NODE_DESC_RSP result = null;
 
         waitAndLock3WayConversation(request);
-        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_NODE_DESC_RSP, zigbeeSerialInterface);
+        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_NODE_DESC_RSP, zigbeeInterface);
 
-        ZDO_NODE_DESC_REQ_SRSP response = (ZDO_NODE_DESC_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
+        ZDO_NODE_DESC_REQ_SRSP response = (ZDO_NODE_DESC_REQ_SRSP) sendSynchrouns(zigbeeInterface, request);
         if (response == null || response.Status != 0) {
             waiter.cleanup();
         } else {
@@ -614,10 +613,10 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         ZDO_ACTIVE_EP_RSP result = null;
 
         waitAndLock3WayConversation(request);
-        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_ACTIVE_EP_RSP, zigbeeSerialInterface);
+        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_ACTIVE_EP_RSP, zigbeeInterface);
 
         logger.trace("Sending ZDO_ACTIVE_EP_REQ {}", request);
-        ZDO_ACTIVE_EP_REQ_SRSP response = (ZDO_ACTIVE_EP_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
+        ZDO_ACTIVE_EP_REQ_SRSP response = (ZDO_ACTIVE_EP_REQ_SRSP) sendSynchrouns(zigbeeInterface, request);
         if (response == null || response.Status != 0) {
             logger.trace("ZDO_ACTIVE_EP_REQ failed, received {}", response);
             waiter.cleanup();
@@ -633,10 +632,10 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         ZDO_MGMT_PERMIT_JOIN_RSP result = null;
 
         waitAndLock3WayConversation(request);
-        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_MGMT_PERMIT_JOIN_RSP, zigbeeSerialInterface);
+        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_MGMT_PERMIT_JOIN_RSP, zigbeeInterface);
 
         logger.trace("Sending ZDO_MGMT_PERMIT_JOIN_REQ {}", request);
-        ZDO_MGMT_PERMIT_JOIN_REQ_SRSP response = (ZDO_MGMT_PERMIT_JOIN_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
+        ZDO_MGMT_PERMIT_JOIN_REQ_SRSP response = (ZDO_MGMT_PERMIT_JOIN_REQ_SRSP) sendSynchrouns(zigbeeInterface, request);
         if (response == null || response.Status != 0) {
             logger.trace("ZDO_MGMT_PERMIT_JOIN_REQ failed, received {}", response);
             waiter.cleanup();
@@ -655,9 +654,9 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 //			ZDO_IEEE_ADDR_RSP responseA4 = sendZDOIEEEAddressRequest(new ZDO_IEEE_ADDR_REQ(addresses[k],ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED.getValue(),0));
 
             ZDO_IEEE_ADDR_RSP responseA4 = null;
-            WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_IEEE_ADDR_RSP, zigbeeSerialInterface);
+            WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_IEEE_ADDR_RSP, zigbeeInterface);
             logger.trace("Sending ZDO_IEEE_ADDR_REQ");
-            ZDO_IEEE_ADDR_REQ_SRSP response = (ZDO_IEEE_ADDR_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, new ZDO_IEEE_ADDR_REQ(addresses[k], ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED.getValue(), 0));
+            ZDO_IEEE_ADDR_REQ_SRSP response = (ZDO_IEEE_ADDR_REQ_SRSP) sendSynchrouns(zigbeeInterface, new ZDO_IEEE_ADDR_REQ(addresses[k], ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED.getValue(), 0));
             if (response == null || response.Status != 0) {
                 logger.trace("ZDO_IEEE_ADDR_REQ failed, received {}", response);
                 waiter.cleanup();
@@ -676,9 +675,9 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         long start = System.currentTimeMillis();
         for (int k = 0; k < longAddresses.length; k++) {
             if (longAddresses[k] != null) {
-                WaitForCommand waiter3 = new WaitForCommand(ZToolCMD.ZDO_MGMT_LEAVE_RSP, zigbeeSerialInterface);
+                WaitForCommand waiter3 = new WaitForCommand(ZToolCMD.ZDO_MGMT_LEAVE_RSP, zigbeeInterface);
 
-                ZDO_MGMT_LEAVE_REQ_SRSP response = (ZDO_MGMT_LEAVE_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, new ZDO_MGMT_LEAVE_REQ(addresses[k], longAddresses[k], 0));
+                ZDO_MGMT_LEAVE_REQ_SRSP response = (ZDO_MGMT_LEAVE_REQ_SRSP) sendSynchrouns(zigbeeInterface, new ZDO_MGMT_LEAVE_REQ(addresses[k], longAddresses[k], 0));
                 if (response == null) {
                     logger.error("Leave request time out.");
                     return false;
@@ -765,9 +764,9 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         if (waitForNetwork() == false) return null;
         ZDO_SIMPLE_DESC_RSP result = null;
         waitAndLock3WayConversation(request);
-        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_SIMPLE_DESC_RSP, zigbeeSerialInterface);
+        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_SIMPLE_DESC_RSP, zigbeeInterface);
 
-        ZDO_SIMPLE_DESC_REQ_SRSP response = (ZDO_SIMPLE_DESC_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
+        ZDO_SIMPLE_DESC_REQ_SRSP response = (ZDO_SIMPLE_DESC_REQ_SRSP) sendSynchrouns(zigbeeInterface, request);
         if (response == null || response.Status != 0) {
             waiter.cleanup();
         } else {
@@ -782,9 +781,9 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 
         final ZToolPacket[] result = new ZToolPacket[]{null};
         final int waitFor;
-        final ZigBeeSerialInterface driver;
+        final ZigBeeInterface driver;
 
-        public WaitForCommand(int waitFor, ZigBeeSerialInterface driver) {
+        public WaitForCommand(int waitFor, ZigBeeInterface driver) {
             this.waitFor = waitFor;
             this.driver = driver;
             logger4Waiter.trace("Waiting for asynchronous response message {}.", waitFor);
@@ -838,11 +837,11 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 
         final WaitForCommand waiter = new WaitForCommand(
                 ZToolCMD.SYS_RESET_RESPONSE,
-                zigbeeSerialInterface
+				zigbeeInterface
         );
 
         try {
-            zigbeeSerialInterface.sendAsynchronousCommand(new SYS_RESET(SYS_RESET.RESET_TYPE.SERIAL_BOOTLOADER));
+            zigbeeInterface.sendAsynchronousCommand(new SYS_RESET(SYS_RESET.RESET_TYPE.SERIAL_BOOTLOADER));
         } catch (IOException e) {
             logger.error("DongleReset failed", e);
             return false;
@@ -858,7 +857,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         ZB_WRITE_CONFIGURATION_RSP response;
         if (clean) {
             response = (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
-                    zigbeeSerialInterface,
+					zigbeeInterface,
                     new ZB_WRITE_CONFIGURATION(
                             ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_STARTUP_OPTION,
                             new int[]{0x00000002}
@@ -873,7 +872,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
             }
         } else {
             response = (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
-                    zigbeeSerialInterface,
+					zigbeeInterface,
                     new ZB_WRITE_CONFIGURATION(
                             ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_STARTUP_OPTION,
                             new int[]{0x00000000}
@@ -910,7 +909,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 
         ZB_WRITE_CONFIGURATION_RSP response =
                 (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
-                        zigbeeSerialInterface,
+						zigbeeInterface,
                         new ZB_WRITE_CONFIGURATION(
                                 ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_CHANLIST,
                                 channelMask
@@ -936,7 +935,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 
         ZB_WRITE_CONFIGURATION_RSP response =
                 (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
-                        zigbeeSerialInterface,
+						zigbeeInterface,
                         new ZB_WRITE_CONFIGURATION(
                                 ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_LOGICAL_TYPE,
                                 new int[]{mode.ordinal()}
@@ -949,7 +948,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
     private boolean dongleSetPanId() {
         ZB_WRITE_CONFIGURATION_RSP response =
                 (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
-                        zigbeeSerialInterface,
+						zigbeeInterface,
                         new ZB_WRITE_CONFIGURATION(
                                 ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_PANID,
                                 new int[]{
@@ -962,7 +961,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         return response != null && response.Status == 0;
     }
 
-    private ZToolPacket sendSynchrouns(final ZigBeeSerialInterface hwDriver, final ZToolPacket request) {
+    private ZToolPacket sendSynchrouns(final ZigBeeInterface hwDriver, final ZToolPacket request) {
         final ZToolPacket[] response = new ZToolPacket[]{null};
 //		final int TIMEOUT = 1000, MAX_SEND = 3;
         int sending = 1;
@@ -1029,7 +1028,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 
     public boolean addAnnunceListener(AnnounceListener listner) {
         if (announceListeners.isEmpty() && isHardwareReady()) {
-            zigbeeSerialInterface.addAsynchronousCommandListener(announceListenerFilter);
+            zigbeeInterface.addAsynchronousCommandListener(announceListenerFilter);
         }
         return announceListeners.add(listner);
     }
@@ -1037,7 +1036,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
     public boolean removeAnnunceListener(AnnounceListener listner) {
         boolean result = announceListeners.remove(listner);
         if (announceListeners.isEmpty() && isHardwareReady()) {
-            zigbeeSerialInterface.removeAsynchronousCommandListener(announceListenerFilter);
+            zigbeeInterface.removeAsynchronousCommandListener(announceListenerFilter);
         }
         return result;
     }
@@ -1045,7 +1044,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
     public AF_REGISTER_SRSP sendAFRegister(AF_REGISTER request) {
         if (waitForNetwork() == false) return null;
 
-        AF_REGISTER_SRSP response = (AF_REGISTER_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
+        AF_REGISTER_SRSP response = (AF_REGISTER_SRSP) sendSynchrouns(zigbeeInterface, request);
         return response;
     }
 
@@ -1054,9 +1053,9 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         AF_DATA_CONFIRM result = null;
 
         waitAndLock3WayConversation(request);
-        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.AF_DATA_CONFIRM, zigbeeSerialInterface);
+        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.AF_DATA_CONFIRM, zigbeeInterface);
 
-        AF_DATA_SRSP response = (AF_DATA_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
+        AF_DATA_SRSP response = (AF_DATA_SRSP) sendSynchrouns(zigbeeInterface, request);
         if (response == null || response.Status != 0) {
             waiter.cleanup();
         } else {
@@ -1072,9 +1071,9 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         ZDO_BIND_RSP result = null;
 
         waitAndLock3WayConversation(request);
-        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_BIND_RSP, zigbeeSerialInterface);
+        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_BIND_RSP, zigbeeInterface);
 
-        ZDO_BIND_REQ_SRSP response = (ZDO_BIND_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
+        ZDO_BIND_REQ_SRSP response = (ZDO_BIND_REQ_SRSP) sendSynchrouns(zigbeeInterface, request);
         if (response == null || response.Status != 0) {
             waiter.cleanup();
         } else {
@@ -1089,9 +1088,9 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         ZDO_UNBIND_RSP result = null;
 
         waitAndLock3WayConversation(request);
-        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_UNBIND_RSP, zigbeeSerialInterface);
+        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_UNBIND_RSP, zigbeeInterface);
 
-        ZDO_UNBIND_REQ_SRSP response = (ZDO_UNBIND_REQ_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
+        ZDO_UNBIND_REQ_SRSP response = (ZDO_UNBIND_REQ_SRSP) sendSynchrouns(zigbeeInterface, request);
         if (response == null || response.Status != 0) {
             waiter.cleanup();
         } else {
@@ -1109,7 +1108,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
         }
 
         if (messageListeners.isEmpty() && isHardwareReady()) {
-            if (zigbeeSerialInterface.removeAsynchronousCommandListener(afMessageListenerFilter)) {
+            if (zigbeeInterface.removeAsynchronousCommandListener(afMessageListenerFilter)) {
                 logger.trace("Removed AsynchrounsCommandListener {} to ZigBeeSerialInterface", afMessageListenerFilter.getClass().getName());
             } else {
                 logger.warn("Could not remove AsynchrounsCommandListener {} to ZigBeeSerialInterface", afMessageListenerFilter.getClass().getName());
@@ -1126,7 +1125,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 
     public boolean addAFMessageListner(ApplicationFrameworkMessageListener listner) {
         if (messageListeners.isEmpty() && isHardwareReady()) {
-            if (zigbeeSerialInterface.addAsynchronousCommandListener(afMessageListenerFilter)) {
+            if (zigbeeInterface.addAsynchronousCommandListener(afMessageListenerFilter)) {
                 logger.trace("Added AsynchrounsCommandListener {} to ZigBeeSerialInterface", afMessageListenerFilter.getClass().getName());
             } else {
                 logger.trace("Could not add AsynchrounsCommandListener {} to ZigBeeSerialInterface", afMessageListenerFilter.getClass().getName());
@@ -1264,7 +1263,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
 
     private int[] getDeviceInfo(int type) {
         ZB_GET_DEVICE_INFO_RSP response = (ZB_GET_DEVICE_INFO_RSP) sendSynchrouns(
-                zigbeeSerialInterface, new ZB_GET_DEVICE_INFO(type)
+				zigbeeInterface, new ZB_GET_DEVICE_INFO(type)
         );
 
         if (response == null) {
@@ -1282,7 +1281,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
     public int getZigBeeNodeMode() {
         ZB_READ_CONFIGURATION_RSP response =
                 (ZB_READ_CONFIGURATION_RSP) sendSynchrouns(
-                        zigbeeSerialInterface,
+						zigbeeInterface,
                         new ZB_READ_CONFIGURATION(ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_LOGICAL_TYPE)
                 );
         if (response != null && response.Status == 0) {
@@ -1433,7 +1432,7 @@ public class ZigBeeNetworkManagerSerialImpl implements ZigBeeNetworkManager {
     public boolean newDevice(AF_REGISTER request) {
 
         try {
-            AF_REGISTER_SRSP response = (AF_REGISTER_SRSP) sendSynchrouns(zigbeeSerialInterface, request);
+            AF_REGISTER_SRSP response = (AF_REGISTER_SRSP) sendSynchrouns(zigbeeInterface, request);
             if (response != null && response.Status == 0)
                 return true;
         } catch (Exception e) {

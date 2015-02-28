@@ -67,7 +67,7 @@ Using Maven Dependency
 ```
 <dependencies>
     <dependency>
-        <groupId>org.bubblecloud.zigbee4java</groupId>
+        <groupId>org.bubblecloud.zigbee</groupId>
         <artifactId>zigbee-api</artifactId>
         <version>1.0.8</version>
     </dependency>

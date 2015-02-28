@@ -1,0 +1,12 @@
+
+rootProject.name = 'zigbee4java'
+
+include ':zigbee-api'
+include ':zigbee-console'
+include ':zigbee-serial-android'
+include ':zigbee-serial-default'
+
+project(':zigbee-api').projectDir            = "$rootDir/zigbee-api"            as File
+project(':zigbee-console').projectDir        = "$rootDir/zigbee-console"        as File
+project(':zigbee-serial-default').projectDir = "$rootDir/zigbee-serial-default" as File
+project(':zigbee-serial-android').projectDir = "$rootDir/zigbee-serial-android" as File

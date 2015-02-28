@@ -19,7 +19,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package org.bubblecloud.zigbee.network.serial;
+package org.bubblecloud.zigbee.network.port;
 
 import org.bubblecloud.zigbee.network.AsynchronousCommandListener;
 import org.bubblecloud.zigbee.network.SynchronousCommandListener;
@@ -39,20 +39,17 @@ import java.util.*;
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
+ * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
-public class ZigBeeSerialInterface implements ZToolPacketHandler {
+public class ZigBeeInterface implements ZToolPacketHandler {
     /**
      * The logger.
      */
-    private final static Logger LOGGER = LoggerFactory.getLogger(ZigBeeSerialInterface.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ZigBeeInterface.class);
     /**
-     * The serial port name.
+     * The port interface.
      */
-    final String serialPortName;
-    /**
-     * The serial interface.
-     */
-    final SerialPortImpl serialPort;
+    final ZigBeePort port;
     /**
      * The packet parser.
      */
@@ -80,11 +77,10 @@ public class ZigBeeSerialInterface implements ZToolPacketHandler {
 
     /**
      * Constructor for configuring the ZigBee Network connection parameters.
-     * @param serialPortName the serial port name.
+     * @param port the ZigBee transport implementation.
      */
-    public ZigBeeSerialInterface(String serialPortName) {
-        this.serialPortName = serialPortName;
-        serialPort = new SerialPortImpl();
+    public ZigBeeInterface(ZigBeePort port) {
+        this.port = port;
     }
 
     /**
@@ -92,10 +88,10 @@ public class ZigBeeSerialInterface implements ZToolPacketHandler {
      * @return true if connection startup was success.
      */
     public boolean open() {
-        if (!serialPort.open(serialPortName, 115200)) {
+        if (!port.open()) {
             return false;
         }
-        parser = new ZToolPacketParser(serialPort.getInputStream(), this);
+        parser = new ZToolPacketParser(port.getInputStream(), this);
         return true;
     }
 
@@ -103,12 +99,12 @@ public class ZigBeeSerialInterface implements ZToolPacketHandler {
      * Closes connection ot ZigBee Network.
      */
     public void close() {
-        synchronized (serialPort) {
+        synchronized (port) {
             if (parser != null) {
                 parser.setClosing();
             }
-            if (serialPort != null) {
-                serialPort.close();
+            if (port != null) {
+                port.close();
             }
             if (parser != null) {
                 parser.close();
@@ -159,8 +155,8 @@ public class ZigBeeSerialInterface implements ZToolPacketHandler {
             throws IOException {
         LOGGER.debug("-> {} ({}) ", packet.getClass().getSimpleName(), packet.toString());
         final int[] pck = packet.getPacket();
-        synchronized (serialPort) {
-            final OutputStream out = serialPort.getOutputStream();
+        synchronized (port) {
+            final OutputStream out = port.getOutputStream();
             if (out == null) {
                 // Socket has not been opened or is already closed.
                 return;

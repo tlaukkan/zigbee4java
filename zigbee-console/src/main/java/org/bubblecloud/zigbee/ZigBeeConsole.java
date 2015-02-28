@@ -13,6 +13,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.util.Cie;
 
@@ -22,52 +23,68 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
- * ZigBee command line console is an example application demonstrating usage of ZigBee API.
+ * ZigBee command line console is an example usage of ZigBee API.
+ * It requires a ZigBeePort implementation to function.
+ *
+ * For a ready-to-run demonstration on a Desktop PC equipped with CC2531 dongle:
+ * - Check-out the 'zigbee4java-serialPort' module
+ * - Execute class 'ZigBeeSerialConsole' with appropriate params
  *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
+ * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
-public class ZigBeeConsole {
+public final class ZigBeeConsole {
     /**
      * The main thread.
      */
-    private static Thread mainThread = null;
+    private Thread mainThread = null;
 
     /**
      * The flag reflecting that shutdown is in process.
      */
-    private static boolean shutdown = false;
+    private boolean shutdown = false;
 
     /**
      * Map of registered commands and their implementations.
      */
-    private static Map<String, ConsoleCommand> commands = new HashMap<String, ConsoleCommand>();
+    private Map<String, ConsoleCommand> commands = new HashMap<String, ConsoleCommand>();
 
-    /**
-     * Main method of this console application.
-     *
-     * @param args the console arguments
+	private ZigBeePort port;
+	private int pan;
+	private int channel;
+	private boolean resetNetwork;
+	
+	public ZigBeeConsole(ZigBeePort port, int pan, int channel, boolean resetNetwork) {
+		this.port         = port;
+		this.pan          = pan;
+		this.channel      = channel;
+		this.resetNetwork = resetNetwork;
+
+		commands.put("quit", 		new QuitCommand());
+		commands.put("help", 		new HelpCommand());
+		commands.put("list", 		new ListCommand());
+		commands.put("desc", 		new DescribeCommand());
+		commands.put("bind", 		new BindCommand());
+		commands.put("unbind", 		new UnbindCommand());
+		commands.put("on", 			new OnCommand());
+		commands.put("off", 		new OffCommand());
+		commands.put("color",		new ColorCommand());
+		commands.put("level", 		new LevelCommand());
+		commands.put("subscribe", 	new SubscribeCommand());
+		commands.put("unsubscribe", new UnsubscribeCommand());
+		commands.put("read", 		new ReadCommand());
+		commands.put("write", 		new WriteCommand());
+	}
+
+	/**
+     * Starts this console application
      */
-    public static void main(final String[] args) {
-        mainThread = Thread.currentThread();
-
-        final String serialPortName;
-        final int channel;
-        final int pan;
-        final boolean resetNetwork;
-        try {
-            serialPortName = args[0];
-            channel = Integer.parseInt(args[1]);
-            pan = Integer.parseInt(args[2]);
-            resetNetwork = args[3].equals("true");
-        } catch (final Throwable t) {
-            print("Syntax: java -jar zigbee4java.jar SERIALPORT CHANNEL PAN RESET");
-            return;
-        }
-
-        System.out.println("ZigBee API starting up ...");
+    public void start() {
+        
+        System.out.print("ZigBee API starting up...");
         final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
         //discoveryModes.remove(DiscoveryMode.LinkQuality);
-        final ZigBeeApi zigbeeApi = new ZigBeeApi(serialPortName, pan, channel, resetNetwork, discoveryModes);
+        final ZigBeeApi zigbeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, discoveryModes);
         if (!zigbeeApi.startup()) {
             print("ZigBee API starting up ... [FAIL]");
             return;
@@ -136,7 +153,7 @@ public class ZigBeeConsole {
      * @param zigbeeApi the ZigBee API
      * @param inputLine the input line
      */
-    private static void processInputLine(final ZigBeeApi zigbeeApi, final String inputLine) {
+    private void processInputLine(final ZigBeeApi zigbeeApi, final String inputLine) {
         if (inputLine.length() == 0) {
             return;
         }
@@ -166,7 +183,7 @@ public class ZigBeeConsole {
      * @param command the command
      * @param args the arguments including the command
      */
-    private static void executeCommand(final ZigBeeApi zigbeeApi, final String command, final String[] args) {
+    private void executeCommand(final ZigBeeApi zigbeeApi, final String command, final String[] args) {
         final ConsoleCommand consoleCommand = commands.get(command);
         if (!consoleCommand.process(zigbeeApi, args)) {
             print(consoleCommand.getSyntax());
@@ -188,7 +205,7 @@ public class ZigBeeConsole {
      *
      * @return line readLine from console or null if exception occurred.
      */
-    private static String readLine() {
+    private String readLine() {
         System.out.print("\r> ");
         try {
             final BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
@@ -206,7 +223,7 @@ public class ZigBeeConsole {
      * @param deviceIdentifier the device identifier
      * @return
      */
-    private static Device getDeviceByIndexOrEndpointId(ZigBeeApi zigbeeApi, String deviceIdentifier) {
+    private Device getDeviceByIndexOrEndpointId(ZigBeeApi zigbeeApi, String deviceIdentifier) {
         Device device;
         try {
             device = zigbeeApi.getDevices().get(Integer.parseInt(deviceIdentifier));
@@ -216,30 +233,10 @@ public class ZigBeeConsole {
         return device;
     }
 
-    /*
-     * Static initialization of console commands.
-     */
-    static {
-        commands.put("quit", new QuitCommand());
-        commands.put("help", new HelpCommand());
-        commands.put("list", new ListCommand());
-        commands.put("desc", new DescribeCommand());
-        commands.put("bind", new BindCommand());
-        commands.put("unbind", new UnbindCommand());
-        commands.put("on", new OnCommand());
-        commands.put("off", new OffCommand());
-        commands.put("color", new ColorCommand());
-        commands.put("level", new LevelCommand());
-        commands.put("subscribe", new SubscribeCommand());
-        commands.put("unsubscribe", new UnsubscribeCommand());
-        commands.put("read", new ReadCommand());
-        commands.put("write", new WriteCommand());
-    }
-
     /**
      * Interface for console commands.
      */
-    private static interface ConsoleCommand {
+    private interface ConsoleCommand {
         /**
          * Get command description.
          * @return the command description
@@ -264,7 +261,7 @@ public class ZigBeeConsole {
     /**
      * Quits console.
      */
-    private static class QuitCommand implements ConsoleCommand {
+    private class QuitCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -289,7 +286,7 @@ public class ZigBeeConsole {
     /**
      * Prints help on console.
      */
-    private static class HelpCommand implements ConsoleCommand {
+    private class HelpCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -334,7 +331,7 @@ public class ZigBeeConsole {
     /**
      * Prints list of devices to console.
      */
-    private static class ListCommand implements ConsoleCommand {
+    private class ListCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -363,7 +360,7 @@ public class ZigBeeConsole {
     /**
      * Prints device information to console.
      */
-    private static class DescribeCommand implements ConsoleCommand {
+    private class DescribeCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -430,7 +427,7 @@ public class ZigBeeConsole {
     /**
      * Binds client device to server device with given cluster ID.
      */
-    private static class BindCommand implements ConsoleCommand {
+    private class BindCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -487,7 +484,7 @@ public class ZigBeeConsole {
     /**
      * Unbinds device from another device with given cluster ID.
      */
-    private static class UnbindCommand implements ConsoleCommand {
+    private class UnbindCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -544,7 +541,7 @@ public class ZigBeeConsole {
     /**
      * Switches a device on.
      */
-    private static class OnCommand implements ConsoleCommand {
+    private class OnCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -583,7 +580,7 @@ public class ZigBeeConsole {
     /**
      * Changes a light color on device.
      */
-    private static class ColorCommand implements ConsoleCommand {
+    private class ColorCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -662,7 +659,7 @@ public class ZigBeeConsole {
     /**
      * Changes a device level for example lamp brightness.
      */
-    private static class LevelCommand implements ConsoleCommand {
+    private class LevelCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -722,7 +719,7 @@ public class ZigBeeConsole {
     /**
      * Switches a device off.
      */
-    private static class OffCommand implements ConsoleCommand {
+    private class OffCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -761,7 +758,7 @@ public class ZigBeeConsole {
     /**
      * Subscribes to reports of given attribute.
      */
-    private static class SubscribeCommand implements ConsoleCommand {
+    private class SubscribeCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -813,7 +810,7 @@ public class ZigBeeConsole {
     /**
      * Unsubscribes from reports of given attribute.
      */
-    private static class UnsubscribeCommand implements ConsoleCommand {
+    private class UnsubscribeCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -863,7 +860,7 @@ public class ZigBeeConsole {
     /**
      * Reads an attribute from a device.
      */
-    private static class ReadCommand implements ConsoleCommand {
+    private class ReadCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -929,7 +926,7 @@ public class ZigBeeConsole {
     /**
      * Writes an attribute to a device.
      */
-    private static class WriteCommand implements ConsoleCommand {
+    private class WriteCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
