@@ -65,7 +65,7 @@ public class ZDO_SIMPLE_DESC_REQ extends ZToolPacket /*implements IREQUEST,IZDO*
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_SIMPLE_DESC_REQ), framedata);
     }
 
-    public ZDO_SIMPLE_DESC_REQ(short nwkAddress, byte endPoint) {
+    public ZDO_SIMPLE_DESC_REQ(short nwkAddress, short endPoint) {
         int[] framedata = new int[5];
 
         framedata[0] = Integers.getByteAsInteger(nwkAddress, 0);

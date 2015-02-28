@@ -107,8 +107,8 @@ public class AF_DATA_REQUEST extends ZToolPacket/* implements IREQUEST,IAF*/ {
         super.buildPacket(new DoubleByte(ZToolCMD.AF_DATA_REQUEST), framedata);
     }
 
-    public AF_DATA_REQUEST(int nwkDstAddress, byte dstEndPoint,
-                           byte srcEndPoint, short clusterId, byte transId, byte bitmapOpt, byte radius,
+    public AF_DATA_REQUEST(int nwkDstAddress, short dstEndPoint,
+                           short srcEndPoint, short clusterId, byte transId, byte bitmapOpt, byte radius,
                            byte[] msg) {
 
         //TODO Check compatibility with other Constructor
