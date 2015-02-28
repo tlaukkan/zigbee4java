@@ -89,7 +89,7 @@ public class ApplicationFrameworkLayer {
 
     private ApplicationFrameworkLayer(ZigBeeNetworkManager driver) {
         this.driver = driver;
-        firstFreeEndPoint = 2;
+        firstFreeEndPoint = 1;
         network = new ZigBeeNetwork();
     }
 
