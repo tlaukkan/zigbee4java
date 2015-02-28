@@ -50,7 +50,7 @@ public class ZDO_ACTIVE_EP_RSPTest {
 			assertEquals(list[i] & 0xFF, response.ActiveEndpointList[i]);
 		}
 		for (int i = 0; i < list.length; i++) {
-			assertEquals(list[i], (byte) response.ActiveEndpointList[i]);
+			assertEquals(list[i], (short) response.ActiveEndpointList[i]);
 		}
 	}
 
