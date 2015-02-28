@@ -57,7 +57,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     private final byte deviceVersion;
 
     private final ZigBeeNode node;
-    private final byte endPoint;
+    private final short endPoint;
 
     //private final Properties properties = new Properties();
     private final ZigBeeNetworkManager networkManager;
@@ -67,7 +67,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     private final HashSet<ApplicationFrameworkMessageConsumer> consumers = new HashSet<ApplicationFrameworkMessageConsumer>();
     private String endpointId = null;
 
-    public ZigBeeEndpointImpl(final ZigBeeNetworkManager zigBeeNetworkManager, final ZigBeeNode n, byte ep) throws ZigBeeNetworkManagerException {
+    public ZigBeeEndpointImpl(final ZigBeeNetworkManager zigBeeNetworkManager, final ZigBeeNode n, short ep) throws ZigBeeNetworkManagerException {
         if (zigBeeNetworkManager == null || n == null) {
             logger.error("Creating {} with some nulls parameters {}", new Object[]{ZigBeeEndpoint.class, zigBeeNetworkManager, n, ep});
             throw new NullPointerException("Cannot create a device with a null ZigBeeNetworkManager or a null ZigBeeNode");
@@ -188,7 +188,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     public void send(ClusterMessage input) throws ZigBeeNetworkManagerException {
         synchronized (networkManager) {
             final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
-            final byte sender = af.getSendingEndpoint(this, input);
+            final short sender = af.getSendingEndpoint(this, input);
             final byte transaction = af.getNextTransactionId(sender);
             final byte[] msg = input.getClusterMsg();
 
@@ -209,7 +209,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     public ClusterMessage invoke(ClusterMessage input) throws ZigBeeNetworkManagerException {
         synchronized (networkManager) {
             final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
-            final byte sender = af.getSendingEndpoint(this, input);
+            final short sender = af.getSendingEndpoint(this, input);
             /*
             //FIX Removed because transaction is always 0 for the response due to a bug of CC2480
             final byte transaction = af.getNextTransactionId(sender);
@@ -326,7 +326,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             return true;
         }
 
-        byte dstEP = ApplicationFrameworkLayer.getAFLayer(networkManager).getSendingEndpoint(this, clusterId);
+        short dstEP = ApplicationFrameworkLayer.getAFLayer(networkManager).getSendingEndpoint(this, clusterId);
 
         logger.info("Binding from endpoint {} to {} for cluster {}", new Object[]{
                 getEndpointId(), IEEEAddress.toString(networkManager.getIEEEAddress()) + "/" + dstEP, new Integer(clusterId)
@@ -356,7 +356,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             return true;
         }
 
-        byte dstEP = ApplicationFrameworkLayer.getAFLayer(networkManager).getSendingEndpoint(this, clusterId);
+        short dstEP = ApplicationFrameworkLayer.getAFLayer(networkManager).getSendingEndpoint(this, clusterId);
 
         final ZDO_UNBIND_RSP response = networkManager.sendZDOUnbind(new ZDO_UNBIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,

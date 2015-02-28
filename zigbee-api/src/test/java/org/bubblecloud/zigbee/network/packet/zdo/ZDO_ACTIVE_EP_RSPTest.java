@@ -44,7 +44,7 @@ public class ZDO_ACTIVE_EP_RSPTest {
 			0x05,							// Active End Point Count
 			0x80, 0x8F, 0x10, 0x20, 0xF0	// Active End Point List
 		});
-		byte[] list = response.getActiveEndPointList();
+		short[] list = response.getActiveEndPointList();
 		assertEquals(list.length, response.ActiveEndpointCount);
 		for (int i = 0; i < list.length; i++) {
 			assertEquals(list[i] & 0xFF, response.ActiveEndpointList[i]);
