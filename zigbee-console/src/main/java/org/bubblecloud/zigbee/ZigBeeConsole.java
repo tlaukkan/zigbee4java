@@ -80,7 +80,7 @@ public final class ZigBeeConsole {
      * Starts this console application
      */
     public void start() {
-        
+        mainThread = Thread.currentThread();
         System.out.print("ZigBee API starting up...");
         final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
         //discoveryModes.remove(DiscoveryMode.LinkQuality);
