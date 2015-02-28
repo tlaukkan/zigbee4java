@@ -69,7 +69,7 @@ public class ZDO_IEEE_ADDR_REQ extends ZToolPacket /*implements IREQUEST,IZDo*/ 
     }
 
 
-    public ZDO_IEEE_ADDR_REQ(short nwkAddress, REQ_TYPE type, byte startIndex) {
+    public ZDO_IEEE_ADDR_REQ(int nwkAddress, REQ_TYPE type, byte startIndex) {
         int[] framedata = new int[4];
         framedata[0] = Integers.getByteAsInteger(nwkAddress, 0);
         framedata[1] = Integers.getByteAsInteger(nwkAddress, 1);
