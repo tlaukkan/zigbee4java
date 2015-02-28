@@ -10,7 +10,7 @@ public final class ZigBeeSerialNetworkTest extends ZigBeeNetworkTest
 	public static final String SerialPortIdentifier = "/dev/ttyACM0";
 	public static final int    BaudRate             = 115200;
 
-	protected ZigBeeSerialNetworkTest()
+	public ZigBeeSerialNetworkTest()
 	{
 		super(new ZigBeeSerialPortImpl(SerialPortIdentifier, BaudRate));
 	}
