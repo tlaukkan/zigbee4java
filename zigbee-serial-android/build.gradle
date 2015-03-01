@@ -1,6 +1,12 @@
 
+apply plugin: 'java'
+
 description = 'zigbee-serial-android'
+
+//project('zigbee-api').projectDir            = "../zigbee-api"            as File
+
 dependencies {
+
   compile project(':zigbee-api')
   testCompile project(':zigbee-api')
 }
