@@ -77,9 +77,9 @@ public class ApplicationFrameworkLayer {
 
     private static ApplicationFrameworkLayer singelton;
 
-    final HashMap<SenderIdentifier, Byte> sender2EndPoint = new HashMap<SenderIdentifier, Byte>();
+    final HashMap<SenderIdentifier, Short> sender2EndPoint = new HashMap<SenderIdentifier, Short>();
     final HashMap<Integer, List<Integer>> profile2Cluster = new HashMap<Integer, List<Integer>>();
-    final HashMap<Byte, Byte> endPoint2Transaction = new HashMap<Byte, Byte>();
+    final HashMap<Short, Byte> endPoint2Transaction = new HashMap<Short, Byte>();
 
     private final ZigBeeNetworkManager driver;
     private final ZigBeeNetwork network;
@@ -89,7 +89,7 @@ public class ApplicationFrameworkLayer {
 
     private ApplicationFrameworkLayer(ZigBeeNetworkManager driver) {
         this.driver = driver;
-        firstFreeEndPoint = 2;
+        firstFreeEndPoint = 1;
         network = new ZigBeeNetwork();
     }
 
@@ -109,7 +109,7 @@ public class ApplicationFrameworkLayer {
     }
 
 
-    public byte getSendingEndpoint(ZigBeeEndpoint endpoint, int clusterId) {
+    public short getSendingEndpoint(ZigBeeEndpoint endpoint, int clusterId) {
         SenderIdentifier si = new SenderIdentifier(
                 ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION, (short) clusterId
         );
@@ -126,7 +126,7 @@ public class ApplicationFrameworkLayer {
         }
     }
 
-    public byte getSendingEndpoint(ZigBeeEndpoint endpoint, ClusterMessage input) {
+    public short getSendingEndpoint(ZigBeeEndpoint endpoint, ClusterMessage input) {
         return getSendingEndpoint(endpoint, input.getId());
     }
 
@@ -260,7 +260,7 @@ public class ApplicationFrameworkLayer {
         return endPoint;
     }
 
-    public void registerSenderEndPoint(byte endPoint, int profileId, int[] clusters) {
+    public void registerSenderEndPoint(short endPoint, int profileId, int[] clusters) {
         final List<Integer> list;
         synchronized (profile2Cluster) {
             if (profile2Cluster.containsKey(profileId)) {
@@ -326,7 +326,7 @@ public class ApplicationFrameworkLayer {
         return network;
     }
 
-    public byte getNextTransactionId(byte endPoint) {
+    public byte getNextTransactionId(short endPoint) {
         if (!endPoint2Transaction.containsKey(endPoint)) {
             endPoint2Transaction.put(endPoint, (byte) 1);
         }

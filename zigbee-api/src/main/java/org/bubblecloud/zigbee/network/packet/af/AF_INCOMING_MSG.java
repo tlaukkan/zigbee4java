@@ -144,8 +144,8 @@ public class AF_INCOMING_MSG extends ZToolPacket /*implements IINDICATION,IAF*/ 
         return (byte) super.packet[ZToolPacket.PAYLOAD_START_INDEX + 7];
     }
 
-    public short getSrcAddr() {
-        return (short) ((super.packet[ZToolPacket.PAYLOAD_START_INDEX + 5] << 8)
+    public int getSrcAddr() {
+        return (int) ((super.packet[ZToolPacket.PAYLOAD_START_INDEX + 5] << 8)
                 + (super.packet[ZToolPacket.PAYLOAD_START_INDEX + 4]));
     }
 
