@@ -63,7 +63,7 @@
             <modules>
                 <module>zigbee-api</module>
                 <module>zigbee-console</module>
-                <module>zigbee-serial-default</module>
+                <module>zigbee-serial-desktop</module>
             </modules>
         </profile>
     </profiles>

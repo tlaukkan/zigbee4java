@@ -2,6 +2,11 @@
 rootProject.name = 'zigbee4java'
 
 include ':zigbee-api'
-include ':zigbee-console'
+
 include ':zigbee-serial-android'
-include ':zigbee-serial-default'
+include ':zigbee-serial-desktop'
+
+include ':zigbee-console-common'
+include ':zigbee-console-default'
+include ':zigbee-console-android'
+

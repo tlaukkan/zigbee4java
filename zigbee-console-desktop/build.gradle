@@ -1,0 +1,18 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+version = '1.0'
+
+repositories
+{
+    mavenCentral()
+}
+
+dependencies
+{
+    compile project(':zigbee-console-common')
+    compile project(':zigbee-serial-desktop')
+    compile project(':zigbee-api')
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}

@@ -58,7 +58,7 @@
 
         <dependency>
             <groupId>org.bubblecloud.zigbee4java</groupId>
-            <artifactId>zigbee-serial-default</artifactId>
+            <artifactId>zigbee-serial-desktop</artifactId>
             <version>1.0.9-SNAPSHOT</version>
         </dependency>
     </dependencies>

@@ -6,5 +6,5 @@ target/
 zigbee-api/build
 .gradle
 zigbee-console/build
-zigbee-serial-default/build
+zigbee-serial-desktop/build
 local.properties

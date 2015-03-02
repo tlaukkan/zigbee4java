@@ -1,7 +1,0 @@
-
-description = ''
-dependencies {
-    apply plugin: 'java'
-  compile project(':zigbee-api')
-  compile project(':zigbee-serial-default')
-}

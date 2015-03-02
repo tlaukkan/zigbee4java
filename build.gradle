@@ -1,16 +1,13 @@
+
+
+group = 'org.bubblecloud.zigbee4java'
+
 allprojects
 {
     apply plugin: 'maven'
 
     group   = 'org.bubblecloud.zigbee4java'
     version = '1.0.9-SNAPSHOT'
-}
-
-subprojects
-{
-    apply plugin: 'java'
-    sourceCompatibility = 1.5
-    targetCompatibility = 1.5
 
     repositories
     {
@@ -19,11 +16,13 @@ subprojects
         maven { url "http://repo.maven.apache.org/maven2" }
     }
 
-
     dependencies
     {
-        compile     group: 'log4j',     name: 'log4j',          version:'1.2.17'
-        compile     group: 'org.slf4j', name: 'slf4j-log4j12',  version:'1.7.5'
-        testCompile group: 'junit',     name: 'junit',          version:'4.11'
+        compile     'org.slf4j:slf4j-log4j12:1.7.5'
+        compile     'log4j:log4j:1.2.17'
+        testCompile 'junit:junit:4.11'
     }
 }
+
+
+
