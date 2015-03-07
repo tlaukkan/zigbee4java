@@ -70,6 +70,8 @@ public final class ZigBeeConsole {
 		commands.put("off", 		new OffCommand());
 		commands.put("color",		new ColorCommand());
 		commands.put("level", 		new LevelCommand());
+        commands.put("listen", 	    new ListenCommand());
+        commands.put("unlisten",    new UnlistenCommand());
 		commands.put("subscribe", 	new SubscribeCommand());
 		commands.put("unsubscribe", new UnsubscribeCommand());
 		commands.put("read", 		new ReadCommand());
@@ -758,6 +760,108 @@ public final class ZigBeeConsole {
     }
 
     /**
+     * Starts listening to reports of given attribute.
+     */
+    private class ListenCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Listen to attribute reports.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "listen [DEVICE] [CLUSTER] [ATTRIBUTE]";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+            if (args.length != 4) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            final int clusterId;
+            try {
+                clusterId = Integer.parseInt(args[2]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+            final int attributeId;
+            try {
+                attributeId = Integer.parseInt(args[3]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+
+
+            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
+
+            if (reporter == null) {
+                print("Attribute does not provide reports.");
+                return true;
+            }
+
+            reporter.addReportListener(false, consoleReportListener);
+
+            return true;
+        }
+    }
+
+    /**
+     * Unlisten from reports of given attribute.
+     */
+    private class UnlistenCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Unlisten from attribute reports.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "unlisten [DEVICE] [CLUSTER] [ATTRIBUTE]";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+            if (args.length != 4) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            final int clusterId;
+            try {
+                clusterId = Integer.parseInt(args[2]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+            final int attributeId;
+            try {
+                attributeId = Integer.parseInt(args[3]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+
+            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
+
+            if (reporter == null) {
+                print("Attribute does not provide reports.");
+            }
+
+            reporter.removeReportListener(false, consoleReportListener);
+
+            return true;
+        }
+    }
+
+    /**
      * Subscribes to reports of given attribute.
      */
     private class SubscribeCommand implements ConsoleCommand {
@@ -803,7 +907,7 @@ public final class ZigBeeConsole {
                 return true;
             }
 
-            reporter.addReportListener(consoleReportListener);
+            reporter.addReportListener(true, consoleReportListener);
 
             return true;
         }
@@ -853,7 +957,7 @@ public final class ZigBeeConsole {
                 print("Attribute does not provide reports.");
             }
 
-            reporter.removeReportListener(consoleReportListener);
+            reporter.removeReportListener(true, consoleReportListener);
 
             return true;
         }

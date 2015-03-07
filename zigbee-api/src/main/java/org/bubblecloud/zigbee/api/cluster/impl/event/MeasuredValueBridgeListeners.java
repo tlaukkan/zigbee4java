@@ -94,14 +94,14 @@ public class MeasuredValueBridgeListeners implements ReportListener {
     public boolean subscribe(MeasuredValueListener listener) {
         synchronized (listeners) {
             if (listeners.size() == 0) {
-                AnalogReporter subscription = (AnalogReporter) bridged.getReporter();
-                if (configuration.getReportingOverwrite() || subscription.isActive() == false) {
-                    subscription.setMaximumReportingInterval(configuration.getReportingMaximum());
-                    subscription.setMinimumReportingInterval(configuration.getReportingMinimum());
-                    subscription.setReportableChange(configuration.getReportingChange());
-                    subscription.updateConfiguration();
+                AnalogReporter reporter = (AnalogReporter) bridged.getReporter();
+                if (configuration.getReportingOverwrite() || reporter.isActive() == false) {
+                    reporter.setMaximumReportingInterval(configuration.getReportingMaximum());
+                    reporter.setMinimumReportingInterval(configuration.getReportingMinimum());
+                    reporter.setReportableChange(configuration.getReportingChange());
+                    reporter.updateConfiguration();
                 }
-                if (subscription.addReportListener(this) == false) {
+                if (reporter.addReportListener(true, this) == false) {
                     return false;
                 }
             }
