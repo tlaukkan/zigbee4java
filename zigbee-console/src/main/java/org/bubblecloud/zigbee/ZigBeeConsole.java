@@ -1,5 +1,7 @@
 package org.bubblecloud.zigbee;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.DeviceListener;
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
@@ -17,9 +19,7 @@ import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.util.Cie;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -87,6 +87,18 @@ public final class ZigBeeConsole {
         final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
         //discoveryModes.remove(DiscoveryMode.LinkQuality);
         final ZigBeeApi zigbeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, discoveryModes);
+
+        final File networkStateFile = new File("network.json");
+        if (networkStateFile.exists()) {
+            try {
+                final String networkState = FileUtils.readFileToString(networkStateFile);
+                zigbeeApi.deserializeNetworkState(networkState);
+            } catch (final Exception e) {
+                e.printStackTrace();
+                return;
+            }
+        }
+
         if (!zigbeeApi.startup()) {
             print("ZigBee API starting up ... [FAIL]");
             return;
@@ -128,8 +140,8 @@ public final class ZigBeeConsole {
             }
         }));
 
-        print("Browsing network ...");
-        while (!shutdown && !zigbeeApi.isInitialBrowsingComplete()) {
+        print("Browsing network for the first time...");
+        while (!shutdown && !networkStateFile.exists() && !zigbeeApi.isInitialBrowsingComplete()) {
             System.out.print('.');
             try {
                 Thread.sleep(250);
@@ -137,8 +149,8 @@ public final class ZigBeeConsole {
                 break;
             }
         }
-        print("Browsing network ... [OK]");
-        print("Found " + zigbeeApi.getDevices().size() + " nodes.");
+        print("Browsing network for the first time... [OK]");
+        print("There are " + zigbeeApi.getDevices().size() + " known devices in the network.");
 
         print("ZigBee console ready.");
 
@@ -148,6 +160,12 @@ public final class ZigBeeConsole {
         }
 
         zigbeeApi.shutdown();
+
+        try {
+            FileUtils.writeStringToFile(networkStateFile, zigbeeApi.serializeNetworkState(), false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -392,7 +410,7 @@ public final class ZigBeeConsole {
             }
 
             print("Network Address  : " + device.getNetworkAddress());
-            print("Extended Address : " + device.getIEEEAddress());
+            print("Extended Address : " + device.getIeeeAddress());
             print("Endpoint Address : " + device.getEndPointAddress());
             print("Device Type      : " + device.getDeviceType());
             print("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));

@@ -46,6 +46,6 @@ public interface ZigBeeNode {
     /**
      * @return a {@link String} representing the IEEEAddress of the node
      */
-    public String getIEEEAddress();
+    public String getIeeeAddress();
 
 }

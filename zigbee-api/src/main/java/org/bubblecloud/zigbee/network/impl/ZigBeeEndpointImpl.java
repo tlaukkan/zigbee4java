@@ -31,6 +31,7 @@ import org.bubblecloud.zigbee.network.packet.zdo.*;
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.util.ThreadUtils;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,29 +44,102 @@ import java.util.*;
  * @since 0.1.0
  */
 public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkMessageListener, ApplicationFrameworkMessageProducer {
-
+    /**
+     * The logger.
+     */
     private static final Logger logger = LoggerFactory.getLogger(ZigBeeEndpointImpl.class);
 
-    private static long TIMEOUT;
-    private static final long DEFAULT_TIMEOUT = 5000;
+    /**
+     * The cluster message response timeout value millis.
+     */
+    private static final long CLUSTER_MESSAGE_RESPONSE_TIME_MILLIS = 5000;
 
-    private final int[] inputs;
-    private final int[] outputs;
+    /**
+     * The network manager.
+     */
+    @JsonIgnore
+    private ZigBeeNetworkManager networkManager;
 
-    private final int deviceId;
-    private final int profileId;
-    private final byte deviceVersion;
+    /**
+     * The ZigBee node this EndPoint belongs to.
+     */
+    private ZigBeeNode node;
 
-    private final ZigBeeNode node;
-    private final short endPoint;
+    /**
+     * The device ID.
+     */
+    private int deviceTypeId;
+    /**
+     * The profile ID.
+     */
+    private int profileId;
+    /**
+     * The device version.
+     */
+    private byte deviceVersion;
+    /**
+     * The end point.
+     */
+    private short endPointAddress;
+    /**
+     * Input clusters.
+     */
+    private int[] inputClusters;
+    /**
+     * Output clusters.
+     */
+    private int[] outputClusters;
 
-    //private final Properties properties = new Properties();
-    private final ZigBeeNetworkManager networkManager;
-
-    private final HashSet<Integer> boundCluster = new HashSet<Integer>();
-    private final HashSet<ClusterListener> listeners = new HashSet<ClusterListener>();
-    private final HashSet<ApplicationFrameworkMessageConsumer> consumers = new HashSet<ApplicationFrameworkMessageConsumer>();
+    /**
+     * Aggregate EndPoint ID.
+     */
     private String endpointId = null;
+
+    /**
+     * The bound clusters.
+     */
+    @JsonIgnore
+    private final HashSet<Integer> boundCluster = new HashSet<Integer>();
+
+    /**
+     * The clusters.
+     */
+    @JsonIgnore
+    private final HashSet<ClusterListener> listeners = new HashSet<ClusterListener>();
+
+    /**
+     * The application framework message consumers.
+     */
+    @JsonIgnore
+    private final HashSet<ApplicationFrameworkMessageConsumer> consumers = new HashSet<ApplicationFrameworkMessageConsumer>();
+
+    /**
+     * Constructor which sets Endpoint base information.
+     * @param node the node
+     * @param profileId the profile ID
+     * @param deviceId the device ID
+     * @param deviceVersion the device version
+     * @param endPoint the endpoint
+     * @param inputs the input clusters
+     * @param outputs the output clusters
+     */
+    public ZigBeeEndpointImpl(final ZigBeeNode node, int profileId, int deviceId, byte deviceVersion, short endPoint, int[] inputs, int[] outputs) {
+        this.node = node;
+        this.deviceTypeId = deviceId;
+        this.deviceVersion = deviceVersion;
+        this.endPointAddress = endPoint;
+        this.inputClusters = inputs;
+        this.outputClusters = outputs;
+        this.profileId = profileId;
+
+        buildEndpointId();
+    }
+
+    /**
+     * Default constructor.
+     */
+    public ZigBeeEndpointImpl() {
+    }
 
     public ZigBeeEndpointImpl(final ZigBeeNetworkManager zigBeeNetworkManager, final ZigBeeNode n, short ep) throws ZigBeeNetworkManagerException {
         if (zigBeeNetworkManager == null || n == null) {
@@ -73,35 +147,45 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             throw new NullPointerException("Cannot create a device with a null ZigBeeNetworkManager or a null ZigBeeNode");
         }
         networkManager = zigBeeNetworkManager;
-        endPoint = ep;
+        endPointAddress = ep;
 
         final ZDO_SIMPLE_DESC_RSP result = doRetrieveSimpleDescription(n);
         short[] ins = result.getInputClustersList();
-        inputs = new int[ins.length];
+        inputClusters = new int[ins.length];
         for (int i = 0; i < ins.length; i++) {
-            inputs[i] = ins[i];
+            inputClusters[i] = ins[i];
         }
-        Arrays.sort(inputs);
+        Arrays.sort(inputClusters);
         short[] outs = result.getOutputClustersList();
-        outputs = new int[outs.length];
+        outputClusters = new int[outs.length];
         for (int i = 0; i < outs.length; i++) {
-            outputs[i] = outs[i];
+            outputClusters[i] = outs[i];
         }
-        Arrays.sort(outputs);
+        Arrays.sort(outputClusters);
 
-        deviceId = (int) result.getDeviceId() & 0xFFFF;
+        deviceTypeId = (int) result.getDeviceId() & 0xFFFF;
         profileId = (int) result.getProfileId() & 0xFFFF;
         deviceVersion = result.getDeviceVersion();
 
         node = n;
 
-        final StringBuffer sb_uuid = new StringBuffer()
-                .append(node.getIEEEAddress())
-                .append("/")
-                .append(endPoint);
-        endpointId = sb_uuid.toString();
+        buildEndpointId();
+    }
 
-        TIMEOUT = DEFAULT_TIMEOUT;
+    private void buildEndpointId() {
+        final StringBuffer sb_uuid = new StringBuffer()
+                .append(node.getIeeeAddress())
+                .append("/")
+                .append(endPointAddress);
+        endpointId = sb_uuid.toString();
+    }
+
+    /**
+     * Sets node.
+     * @param node the node
+     */
+    public void setNode(ZigBeeNode node) {
+        this.node = node;
     }
 
     private ZDO_SIMPLE_DESC_RSP doRetrieveSimpleDescription(ZigBeeNode n) throws ZigBeeNetworkManagerException {
@@ -111,10 +195,10 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         ZDO_SIMPLE_DESC_RSP result = null;
 
         while (i < 3) {
-            logger.debug("Inspecting node {} / end point {}.", n, endPoint);
+            logger.debug("Inspecting node {} / end point {}.", n, endPointAddress);
 
             result = networkManager.sendZDOSimpleDescriptionRequest(
-                    new ZDO_SIMPLE_DESC_REQ((short) nwk, endPoint)
+                    new ZDO_SIMPLE_DESC_REQ((short) nwk, endPointAddress)
             );
             if (result == null) {
                 //long waiting = (long) (Math.random() * (double) Activator.getCurrentConfiguration().getMessageRetryDelay())
@@ -124,7 +208,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
                 logger.debug(
                         "Inspecting ZigBee EndPoint <{},{}> failed during it {}-th attempts. " +
                                 "Waiting for {}ms before retrying",
-                        new Object[]{nwk, endPoint, i, waiting}
+                        new Object[]{nwk, endPointAddress, i, waiting}
                 );
 
             } else {
@@ -135,7 +219,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         if (result == null) {
             logger.error(
                     "Unable to receive a ZDO_SIMPLE_DESC_RSP for endpoint {} on node {}",
-                    nwk, endPoint
+                    nwk, endPointAddress
             );
             throw new ZigBeeNetworkManagerException("Unable to receive a ZDO_SIMPLE_DESC_RSP from endpoint");
         }
@@ -144,7 +228,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     }
 
     public int getDeviceTypeId() {
-        return deviceId;
+        return deviceTypeId;
     }
 
     public short getDeviceVersion() {
@@ -156,25 +240,27 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     }
 
     @Override
+    @JsonIgnore
     public int getNetworkAddress() {
         return node.getNetworkAddress();
     }
 
     @Override
-    public String getIEEEAddress() {
-        return node.getIEEEAddress();
+    @JsonIgnore
+    public String getIeeeAddress() {
+        return node.getIeeeAddress();
     }
 
     public short getEndPointAddress() {
-        return endPoint;
+        return endPointAddress;
     }
 
     public int[] getInputClusters() {
-        return inputs;
+        return inputClusters;
     }
 
     public int[] getOutputClusters() {
-        return outputs;
+        return outputClusters;
     }
 
     public int getProfileId() {
@@ -183,6 +269,38 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
 
     public ZigBeeNode getNode() {
         return node;
+    }
+
+    public void setDeviceTypeId(int deviceTypeId) {
+        this.deviceTypeId = deviceTypeId;
+    }
+
+    public void setDeviceVersion(byte deviceVersion) {
+        this.deviceVersion = deviceVersion;
+    }
+
+    public void setEndPointAddress(short endPointAddress) {
+        this.endPointAddress = endPointAddress;
+    }
+
+    public void setEndpointId(String endpointId) {
+        this.endpointId = endpointId;
+    }
+
+    public void setInputClusters(int[] inputClusters) {
+        this.inputClusters = inputClusters;
+    }
+
+    public void setNetworkManager(ZigBeeNetworkManager networkManager) {
+        this.networkManager = networkManager;
+    }
+
+    public void setOutputClusters(int[] outputClusters) {
+        this.outputClusters = outputClusters;
+    }
+
+    public void setProfileId(int profileId) {
+        this.profileId = profileId;
     }
 
     public void send(ClusterMessage input) throws ZigBeeNetworkManagerException {
@@ -194,7 +312,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
 
             //TODO Create radius and options according to the current configuration
             AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
-                    (short) node.getNetworkAddress(), (byte) endPoint, sender, input.getId(),
+                    (short) node.getNetworkAddress(), (byte) endPointAddress, sender, input.getId(),
                     transaction, (byte) 0 /*options*/, (byte) 0 /*radius*/, msg
             ));
 
@@ -222,7 +340,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
 
             //Registering the waiter before sending the message, so that they will be captured
             WaitForClusterResponse waiter = new WaitForClusterResponse(
-                    this, transaction, input.getId(), TIMEOUT
+                    this, transaction, input.getId(), CLUSTER_MESSAGE_RESPONSE_TIME_MILLIS
             );
 
             logger.trace("---> SENDING transaction: " + transaction + " TO: " + node.getNetworkAddress() + " with"
@@ -231,11 +349,11 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
                     + " byte 2 " + Integers.getByteAsInteger(node.getNetworkAddress(), 2)
                     + " byte 3 " + Integers.getByteAsInteger(node.getNetworkAddress(), 3)
                     + " from end point: " + sender
-                    + " to end point: " + endPoint
+                    + " to end point: " + endPointAddress
             );
             //TODO Create radius and options according to the current configuration
             AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
-                    node.getNetworkAddress(), endPoint, sender, input.getId(),
+                    node.getNetworkAddress(), endPointAddress, sender, input.getId(),
                     transaction, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg
             ));
 
@@ -247,7 +365,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
                 final ResponseStatus responseStatus = ResponseStatus.getStatus(Integers.getByteAsInteger(response.getStatus(), 0));
 
                 /*if (responseStatus == ResponseStatus.Z_MAC_NO_ACK)  {
-                    logger.info("Removing unresponsive device: " + getIEEEAddress());
+                    logger.info("Removing unresponsive device: " + getIeeeAddress());
                     ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork().removeNode(this.getNode());
                 }*/
 
@@ -267,15 +385,15 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     }
 
     public boolean providesInputCluster(int id) {
-        for (int i = 0; i < inputs.length; i++) {
-            if (inputs[i] == id) return true;
+        for (int i = 0; i < inputClusters.length; i++) {
+            if (inputClusters[i] == id) return true;
         }
         return false;
     }
 
     public boolean providesOutputCluster(int id) {
-        for (int i = 0; i < outputs.length; i++) {
-            if (outputs[i] == id) return true;
+        for (int i = 0; i < outputClusters.length; i++) {
+            if (outputClusters[i] == id) return true;
         }
         return false;
     }
@@ -287,8 +405,8 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
 
         final ZDO_BIND_RSP response = networkManager.sendZDOBind(new ZDO_BIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
-                IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
-                IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceTypeId()
+                IEEEAddress.fromColonNotation(getNode().getIeeeAddress()), (byte) endPointAddress,
+                IEEEAddress.fromColonNotation(endpoint.getNode().getIeeeAddress()), (byte) endpoint.getDeviceTypeId()
         ));
         if (response == null || response.Status != 0) {
             logger.warn("ZDO_BIND_REQ failed due to {}, unable to bind from endpoint {} to {} for cluster {}", new Object[]{
@@ -307,8 +425,8 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
 
         final ZDO_UNBIND_RSP response = networkManager.sendZDOUnbind(new ZDO_UNBIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
-                IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
-                IEEEAddress.fromColonNotation(endpoint.getNode().getIEEEAddress()), (byte) endpoint.getDeviceTypeId()
+                IEEEAddress.fromColonNotation(getNode().getIeeeAddress()), (byte) endPointAddress,
+                IEEEAddress.fromColonNotation(endpoint.getNode().getIeeeAddress()), (byte) endpoint.getDeviceTypeId()
         ));
         if (response == null || response.Status != 0) {
             logger.warn("ZDO_BIND_REQ failed, unable to un-bind from endpoint {} to {} for cluster {}", new Object[]{
@@ -334,7 +452,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
 
         final ZDO_BIND_RSP response = networkManager.sendZDOBind(new ZDO_BIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
-                IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
+                IEEEAddress.fromColonNotation(getNode().getIeeeAddress()), (byte) endPointAddress,
                 networkManager.getIEEEAddress(), (byte) dstEP
         ));
         if (response == null || response.Status != 0) {
@@ -360,7 +478,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
 
         final ZDO_UNBIND_RSP response = networkManager.sendZDOUnbind(new ZDO_UNBIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
-                IEEEAddress.fromColonNotation(getNode().getIEEEAddress()), (byte) endPoint,
+                IEEEAddress.fromColonNotation(getNode().getIeeeAddress()), (byte) endPointAddress,
                 networkManager.getIEEEAddress(), (byte) dstEP
         ));
         if (response == null || response.Status != 0) {
@@ -453,7 +571,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         }
 
         if (msg.getSrcAddr() != node.getNetworkAddress()) return;
-        if (msg.getSrcEndpoint() != endPoint) return;
+        if (msg.getSrcEndpoint() != endPointAddress) return;
         logger.debug("Notifying cluster listener for received by {}", endpointId);
         notifyClusterListener(new ClusterMessageImpl(msg.getData(), msg.getClusterId()));
     }

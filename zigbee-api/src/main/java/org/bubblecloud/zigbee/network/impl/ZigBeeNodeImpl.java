@@ -26,9 +26,6 @@ import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 
-import java.util.Dictionary;
-import java.util.Properties;
-
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
@@ -36,9 +33,24 @@ import java.util.Properties;
  * @since 0.1.0
  */
 public class ZigBeeNodeImpl implements ZigBeeNode {
+    /**
+     * The network address.
+     */
+    private int networkAddress;
+    /**
+     * The IEEE address.
+     */
+    private String ieeeAddress;
+    /**
+     * The pan.
+     */
+    private short pan;
 
-    private int nwkAddress;
-    final private String ieeeAddress;
+    /**
+     * Default constructor.
+     */
+    public ZigBeeNodeImpl() {
+    }
 
     /**
      * @param nwk
@@ -47,18 +59,28 @@ public class ZigBeeNodeImpl implements ZigBeeNode {
      * @since 0.6.0 - Revision 67
      */
     public ZigBeeNodeImpl(int nwk, String ieee, short pan) {
-        this.nwkAddress = nwk;
+        this.networkAddress = nwk;
         this.ieeeAddress = ieee;
+        this.pan = pan;
         IEEEAddress.fromColonNotation(ieee); //Only for checking the IEEE format
     }
 
     public ZigBeeNodeImpl(int nwk, ZToolAddress64 ieee, short pan) {
         this.ieeeAddress = IEEEAddress.toString(ieee.getLong());
         setNetworkAddress(nwk);
+        this.pan = pan;
     }
 
-    public String getIEEEAddress() {
+    public String getIeeeAddress() {
         return ieeeAddress;
+    }
+
+    public void setIeeeAddress(String ieeeAddress) {
+        this.ieeeAddress = ieeeAddress;
+    }
+
+    public void setPan(short pan) {
+        this.pan = pan;
     }
 
     /**
@@ -66,15 +88,20 @@ public class ZigBeeNodeImpl implements ZigBeeNode {
      * @since 0.6.0 - Revision 74
      */
     public void setNetworkAddress(int nwk) {
-        nwkAddress = nwk;
+        networkAddress = nwk;
     }
 
     public int getNetworkAddress() {
-        return nwkAddress;
+        return networkAddress;
+    }
+
+
+    public short getPan() {
+        return pan;
     }
 
     public String toString() {
-        return "#" + nwkAddress + " (" + ieeeAddress + ")";
+        return "#" + networkAddress + " (" + ieeeAddress + ")";
     }
 
     public boolean equals(Object obj) {
@@ -82,7 +109,7 @@ public class ZigBeeNodeImpl implements ZigBeeNode {
             return true;
         } else if (obj instanceof ZigBeeNode) {
             ZigBeeNode node = (ZigBeeNode) obj;
-            return nwkAddress == node.getNetworkAddress() && ieeeAddress.equals(node.getIEEEAddress());
+            return networkAddress == node.getNetworkAddress() && ieeeAddress.equals(node.getIeeeAddress());
         } else {
             return false;
         }

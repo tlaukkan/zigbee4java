@@ -18,6 +18,7 @@ package org.bubblecloud.zigbee;
 import org.bubblecloud.zigbee.network.EndpointListener;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
+import org.bubblecloud.zigbee.network.impl.NetworkStateSerializer;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.DriverStatus;
@@ -98,33 +99,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
     public ZigBeeApi(final ZigBeePort port, final int pan, final int channel,
                      final boolean resetNetwork, final EnumSet<DiscoveryMode> discoveryModes) {
         networkManager = new ZigBeeNetworkManagerImpl(port, NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
-
         discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
-    }
-
-
-    /**
-     * Starts up network manager, network, context and discovery manager.
-     *
-     * @return true if startup was success.
-     */
-    public boolean startup() {
-        networkManager.startup();
-
-        while (true) {
-            if (networkManager.getDriverStatus() == DriverStatus.NETWORK_READY) {
-                break;
-            }
-            if (networkManager.getDriverStatus() == DriverStatus.CLOSED) {
-                return false;
-            }
-            try {
-                Thread.sleep(100);
-            } catch (final InterruptedException e) {
-                return false;
-            }
-        }
-
         network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
 
         network.addEndpointListenerListener(this);
@@ -165,9 +140,33 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
             }
         }
 
-        ApplicationFrameworkLayer.getAFLayer(networkManager).createDefaultSendingEndPoint();
+    }
 
+
+    /**
+     * Starts up network manager, network, context and discovery manager.
+     *
+     * @return true if startup was success.
+     */
+    public boolean startup() {
+        networkManager.startup();
         context.addDeviceListener(this);
+
+        while (true) {
+            if (networkManager.getDriverStatus() == DriverStatus.NETWORK_READY) {
+                break;
+            }
+            if (networkManager.getDriverStatus() == DriverStatus.CLOSED) {
+                return false;
+            }
+            try {
+                Thread.sleep(100);
+            } catch (final InterruptedException e) {
+                return false;
+            }
+        }
+
+        ApplicationFrameworkLayer.getAFLayer(networkManager).createDefaultSendingEndPoint();
 
         discoveryManager.startup();
 
@@ -192,6 +191,25 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
         discoveryManager.shutdown();
         networkManager.shutdown();
     }
+
+    /**
+     * Serializes network state.
+     * @return the network state
+     */
+    public String serializeNetworkState() {
+        final NetworkStateSerializer networkStateSerializer = new NetworkStateSerializer();
+        return networkStateSerializer.serialize(network);
+    }
+
+    /**
+     * Deserialize network state.
+     * @param networkState the network state
+     */
+    public void deserializeNetworkState(final String networkState) {
+        final NetworkStateSerializer networkStateSerializer = new NetworkStateSerializer();
+        networkStateSerializer.deserialize(networkManager, network, networkState);
+    }
+
 
     /**
      * Gets ZigBee network manager.

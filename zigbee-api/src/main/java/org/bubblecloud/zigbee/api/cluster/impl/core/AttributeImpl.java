@@ -124,7 +124,7 @@ public class AttributeImpl implements Attribute {
 
     private Object doClusterWideRead() throws ZigBeeClusterException {
 
-        logger.info("Reading " + getName() + " from " + zbDevice.getIEEEAddress());
+        logger.info("Reading " + getName() + " from " + zbDevice.getIeeeAddress());
         ReadAttributeCommand readAttrCom = new ReadAttributeCommand(new int[]{getId()});
         ZCLFrame frame = new ZCLFrame(readAttrCom, zclCluster.isDefaultResponseEnabled());
         ClusterMessageImpl input;

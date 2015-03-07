@@ -3,6 +3,7 @@ target/
 .svn
 *.iml
 *.log
+*.json
 zigbee-api/build
 .gradle
 zigbee-console/build
