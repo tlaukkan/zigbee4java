@@ -99,7 +99,7 @@ public class OnOffBridgeListeners implements ReportListener {
                     reporter.setMinimumReportingInterval(configuration.getReportingMinimum());
                     reporter.updateConfiguration();
                 }
-                if (reporter.addReportListener(true, this) == false) {
+                if (reporter.addReportListener(this, true) == false) {
                     return false;
                 }
             }

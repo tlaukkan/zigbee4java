@@ -1,7 +1,6 @@
 package org.bubblecloud.zigbee;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.DeviceListener;
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
@@ -823,7 +822,7 @@ public final class ZigBeeConsole {
                 return true;
             }
 
-            reporter.addReportListener(false, consoleReportListener);
+            reporter.addReportListener(consoleReportListener, false);
 
             return true;
         }
@@ -873,7 +872,7 @@ public final class ZigBeeConsole {
                 print("Attribute does not provide reports.");
             }
 
-            reporter.removeReportListener(false, consoleReportListener);
+            reporter.removeReportListener(consoleReportListener, false);
 
             return true;
         }
@@ -925,7 +924,7 @@ public final class ZigBeeConsole {
                 return true;
             }
 
-            reporter.addReportListener(true, consoleReportListener);
+            reporter.addReportListener(consoleReportListener, true);
 
             return true;
         }
@@ -975,7 +974,7 @@ public final class ZigBeeConsole {
                 print("Attribute does not provide reports.");
             }
 
-            reporter.removeReportListener(true, consoleReportListener);
+            reporter.removeReportListener(consoleReportListener, true);
 
             return true;
         }

@@ -45,7 +45,6 @@ import java.util.*;
 
 /**
  * ZigBee Application Interface.
- *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */

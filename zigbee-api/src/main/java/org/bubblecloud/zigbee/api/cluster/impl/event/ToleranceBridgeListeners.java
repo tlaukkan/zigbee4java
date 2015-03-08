@@ -100,7 +100,7 @@ public class ToleranceBridgeListeners implements ReportListener {
                     reporter.setReportableChange(configuration.getReportingChange());
                     reporter.updateConfiguration();
                 }
-                if (reporter.addReportListener(true, this) == false) {
+                if (reporter.addReportListener(this, true) == false) {
                     return false;
                 }
             }

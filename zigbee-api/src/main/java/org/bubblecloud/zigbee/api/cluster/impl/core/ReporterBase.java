@@ -136,7 +136,7 @@ public abstract class ReporterBase implements Reporter {
 
     protected abstract boolean doConfigureServer() throws ZigBeeClusterException;
 
-    public boolean addReportListener(boolean subscribe, ReportListener listener) {
+    public boolean addReportListener(ReportListener listener, boolean subscribe) {
         synchronized (listeners) {
             if (subscribe) {
                 if (!doBindToDevice()) {
@@ -173,7 +173,7 @@ public abstract class ReporterBase implements Reporter {
         return 0;
     }
 
-    public boolean removeReportListener(boolean unsubscribe, ReportListener listener) {
+    public boolean removeReportListener(ReportListener listener, boolean unsubscribe) {
         synchronized (listeners) {
             if (unsubscribe) {
                 if (!doUnbindToDevice()) {
