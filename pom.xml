@@ -47,8 +47,16 @@
             <id>android</id>
             <modules>
                 <module>zigbee-api</module>
-                <module>zigbee-console</module>
                 <module>zigbee-serial-android</module>
+                <module>zigbee-console</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>desktop</id>
+            <modules>
+                <module>zigbee-api</module>
+                <module>zigbee-serial-default</module>
+                <module>zigbee-console</module>
             </modules>
         </profile>
         <profile>
@@ -62,8 +70,9 @@
             </activation>
             <modules>
                 <module>zigbee-api</module>
-                <module>zigbee-console</module>
                 <module>zigbee-serial-default</module>
+                <module>zigbee-serial-android</module>
+                <module>zigbee-console</module>
             </modules>
         </profile>
     </profiles>
