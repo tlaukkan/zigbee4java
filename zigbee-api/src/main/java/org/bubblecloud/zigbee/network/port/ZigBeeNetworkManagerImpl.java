@@ -183,6 +183,11 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             logger.error("Failed to initialize the dongle on port {}.", port);
             return false;
         }
+        if (!dongleReset()) {
+            logger.error("Unable to reset dongle");
+            return false;
+        }
+
         return true;
     }
 
@@ -842,8 +847,6 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     private boolean dongleReset() {
-        if (waitForHardware() == false) return false;
-
         final WaitForCommand waiter = new WaitForCommand(
                 ZToolCMD.SYS_RESET_RESPONSE,
 				zigbeeInterface
