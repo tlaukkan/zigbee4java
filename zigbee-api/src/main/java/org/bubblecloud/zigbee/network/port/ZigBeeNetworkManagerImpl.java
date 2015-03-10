@@ -30,9 +30,9 @@ import org.bubblecloud.zigbee.network.packet.system.SYS_RESET_RESPONSE;
 import org.bubblecloud.zigbee.network.packet.util.UTIL_GET_DEVICE_INFO;
 import org.bubblecloud.zigbee.network.packet.util.UTIL_GET_DEVICE_INFO_RESPONSE;
 import org.bubblecloud.zigbee.network.packet.zdo.*;
+import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.network.model.*;
-import org.bubblecloud.zigbee.util.NetworkAddressUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -183,6 +183,11 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             logger.error("Failed to initialize the dongle on port {}.", port);
             return false;
         }
+        if (!dongleReset()) {
+            logger.error("Unable to reset dongle");
+            return false;
+        }
+
         return true;
     }
 
@@ -217,6 +222,15 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             case EndDevice:
                 logger.debug("Creating network as end device.");
             break;
+        }
+        final int ALL_CLUSTERS = 0xFFFF;
+
+        logger.trace("Reset seq: Trying MSG_CB_REGISTER");
+        ZDO_MSG_CB_REGISTER_SRSP responseCb = (ZDO_MSG_CB_REGISTER_SRSP) sendSynchrouns(
+				zigbeeInterface, new ZDO_MSG_CB_REGISTER(new DoubleByte(ALL_CLUSTERS))
+        );
+        if (responseCb == null) {
+            logger.warn("Reset seq: Failed MSG_CB_REGISTER");
         }
 
         final int INSTANT_STARTUP = 0;
@@ -833,8 +847,6 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     private boolean dongleReset() {
-        if (waitForHardware() == false) return false;
-
         final WaitForCommand waiter = new WaitForCommand(
                 ZToolCMD.SYS_RESET_RESPONSE,
 				zigbeeInterface
@@ -963,7 +975,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
     private ZToolPacket sendSynchrouns(final ZigBeeInterface hwDriver, final ZToolPacket request) {
         final ZToolPacket[] response = new ZToolPacket[]{null};
-//		final int TIMEOUT = 1000, MAX_SEND = 3;
+//		final int RESEND_TIMEOUT = 1000, RESEND_MAX_RETRY = 3;
         int sending = 1;
 
         logger.trace("{} sending as synchronous command.", request.getClass().getSimpleName());

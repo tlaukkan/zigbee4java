@@ -144,6 +144,10 @@ public class ZToolPacket {
         return this.FCS;
     }
 
+    public void setFCS(int fcs) {
+        this.FCS = fcs;
+    }
+
     public static boolean isSpecialByte(int b) {
         if (b == ZToolPacket.START_BYTE) {
             return true;

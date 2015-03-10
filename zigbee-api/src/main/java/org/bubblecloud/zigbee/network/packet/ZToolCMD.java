@@ -593,6 +593,15 @@ public class ZToolCMD {
     /// <name>TI.ZPI2.MESSAGE_ID.ZDO_MGMT_RTG_RSP</name>
     /// <summary>This callback message is in response to the ZDO Management Routing Table Request. </summary>
     public static final int ZDO_MGMT_RTG_RSP = 0x45b2;
+    /// <name>TI.ZPI2.MESSAGE_ID.ZDO_MSG_CB_REGISTER</name>
+    /// <summary>This command registers for a ZDO callback.</summary>
+    public static final int ZDO_MSG_CB_REGISTER = 0x253e;
+    /// <name>TI.ZPI2.MESSAGE_ID.ZDO_MSG_CB_REGISTER_SRSP</name>
+    /// <summary>Response for ZDO_MSG_CB_REGISTER.</summary>
+    public static final int ZDO_MSG_CB_REGISTER_SRSP = 0x653e;
+    /// <name>TI.ZPI2.MESSAGE_ID.ZDO_MSG_CB_INCOMING</name>
+    /// <summary>This callback message contains a ZDO cluster response.</summary>
+    public static final int ZDO_MSG_CB_INCOMING = 0x45ff;
     /// <name>TI.ZPI2.MESSAGE_ID.ZDO_NODE_DESC_REQ</name>
     /// <summary>This command is generated to inquire as to the Node Descriptor of the destination device</summary>
     public static final int ZDO_NODE_DESC_REQ = 0x2502;
