@@ -302,6 +302,11 @@ public class ZToolPacketStream
                 return new ZDO_MGMT_PERMIT_JOIN_REQ_SRSP(payload);
             case ZToolCMD.ZDO_MGMT_PERMIT_JOIN_RSP:
                 return new ZDO_MGMT_PERMIT_JOIN_RSP(payload);
+            case ZToolCMD.ZDO_MSG_CB_REGISTER_SRSP:
+                return new ZDO_MSG_CB_REGISTER_SRSP(payload);
+            case ZToolCMD.ZDO_MSG_CB_INCOMING:
+                ZDO_MSG_CB_INCOMING incoming = new ZDO_MSG_CB_INCOMING(payload);
+                return incoming.translate();
             case ZToolCMD.ZDO_NODE_DESC_REQ_SRSP:
                 return new ZDO_NODE_DESC_REQ_SRSP(payload);
             case ZToolCMD.ZDO_NODE_DESC_RSP:
