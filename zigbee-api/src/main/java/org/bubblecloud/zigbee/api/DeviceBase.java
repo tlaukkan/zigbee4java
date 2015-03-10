@@ -41,8 +41,6 @@ import org.bubblecloud.zigbee.network.model.ProvidedClusterMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-
 
 /**
  * This class represent a generic <b>Home Automation Device</b> as defined by the document:<br>
@@ -440,7 +438,7 @@ public abstract class DeviceBase implements Device {
     }
 
     @Override
-    public String getIEEEAddress() {
-        return endpoint.getIEEEAddress();
+    public String getIeeeAddress() {
+        return endpoint.getIeeeAddress();
     }
 }

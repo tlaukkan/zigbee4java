@@ -1,61 +1,62 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.1.0'
-    }
-}
-apply plugin: 'com.android.application'
 
-repositories {
+repositories
+{
     jcenter()
 }
 
-android {
+//apply plugin: 'com.android.library'
+
+/*
+android
+{
     compileSdkVersion 18
     buildToolsVersion '19.1.0'
-    defaultConfig {
+    defaultConfig
+    {
         minSdkVersion 18
         targetSdkVersion 18
         versionCode 1
         versionName "1.0"
     }
-    buildTypes {
-        release {
+
+    buildTypes
+    {
+        release
+        {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
     compileOptions
-            {
-                sourceCompatibility JavaVersion.VERSION_1_6
-                targetCompatibility JavaVersion.VERSION_1_6
-            }
+    {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
+    }
 
     packagingOptions
-            {
-                exclude 'META-INF/DEPENDENCIES.txt'
-                exclude 'META-INF/LICENSE.txt'
-                exclude 'META-INF/NOTICE.txt'
-                exclude 'META-INF/NOTICE'
-                exclude 'META-INF/LICENSE'
-                exclude 'META-INF/DEPENDENCIES'
-                exclude 'META-INF/notice.txt'
-                exclude 'META-INF/license.txt'
-                exclude 'META-INF/dependencies.txt'
-                exclude 'META-INF/LGPL2.1'
-            }
+    {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
 
     productFlavors
-            {
-            }
+    {
+    }
 }
+*/
 
 dependencies
 {
-    //compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile project(':zigbee-api')
 
@@ -64,5 +65,5 @@ dependencies
 
     compile 'de.mindpipe.android:android-logging-log4j:1.0.3'
 
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile 'junit:junit:4.11'
 }

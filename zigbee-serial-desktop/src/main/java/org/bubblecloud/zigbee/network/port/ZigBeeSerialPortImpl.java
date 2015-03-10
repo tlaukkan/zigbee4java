@@ -87,7 +87,7 @@ public class ZigBeeSerialPortImpl implements ZigBeePort
         }
 
         serialPort = portMap.get(port);
-        logger.info("Opening portIdentifier portIdentifier '" + serialPort.getSystemPortName() + "'.");
+        logger.debug("Opening portIdentifier portIdentifier '" + serialPort.getSystemPortName() + "'.");
         if (!serialPort.openPort()) {
             throw new RuntimeException("Serial portIdentifier '" + port + "' startup failed.");
         }
@@ -118,7 +118,7 @@ public class ZigBeeSerialPortImpl implements ZigBeePort
                 outputStream.flush();
                 outputStream.close();
                 serialPort.closePort();
-                logger.info("Serial portIdentifier '" + serialPort.getSystemPortName() + "' closed.");
+                logger.debug("Serial portIdentifier '" + serialPort.getSystemPortName() + "' closed.");
                 serialPort = null;
                 inputStream = null;
                 outputStream = null;

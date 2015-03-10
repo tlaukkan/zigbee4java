@@ -1,0 +1,10 @@
+project(':zigbee-serial-desktop')
+{
+    dependencies
+    {
+        compile 'serial-comm:serial-comm:0.9'
+
+        compile project(':zigbee-api')
+        testCompile project(':zigbee-api')
+    }
+}

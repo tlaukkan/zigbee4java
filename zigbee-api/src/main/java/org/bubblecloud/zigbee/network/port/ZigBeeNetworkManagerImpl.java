@@ -1201,7 +1201,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         }
 
         if (waitForNetwork() == false) {
-            logger.info("Failed to reach the {} level: getIEEEAddress() failed", DriverStatus.NETWORK_READY);
+            logger.info("Failed to reach the {} level: getIeeeAddress() failed", DriverStatus.NETWORK_READY);
             return -1;
         }
 

@@ -96,7 +96,7 @@ public class PresentValueBridgeListeners implements ReportListener {
                     reporter.setMinimumReportingInterval(configuration.getReportingMinimum());
                     reporter.updateConfiguration();
                 }
-                if (reporter.addReportListener(this) == false) {
+                if (reporter.addReportListener(this, true) == false) {
                     return false;
                 }
             }

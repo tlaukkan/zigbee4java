@@ -1,21 +1,29 @@
-buildscript {
-    repositories {
+buildscript
+{
+    repositories
+    {
         jcenter()
     }
-    dependencies {
+
+    dependencies
+    {
         classpath 'com.android.tools.build:gradle:1.1.0'
     }
 }
+
 apply plugin: 'com.android.application'
 
-repositories {
+repositories
+{
     jcenter()
 }
 
-android {
+android
+{
     compileSdkVersion 18
     buildToolsVersion '19.1.0'
-    defaultConfig {
+    defaultConfig
+    {
         minSdkVersion 18
         targetSdkVersion 18
         versionCode 1

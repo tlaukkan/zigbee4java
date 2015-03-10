@@ -172,7 +172,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                         NetworkAddressNodeItem result = getIEEEAddress((short) neighbor.NetworkAddress.get16BitValue());
                         NetworkAddressNodeItem newNode;
                         if (result != null) {
-                            logger.debug("Node #{} is {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), result.node.getIEEEAddress()});
+                            logger.debug("Node #{} is {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), result.node.getIeeeAddress()});
                             newNode = new NetworkAddressNodeItem(node, result.address);
                             connectedNodesFound.add(newNode);
                         } else {
@@ -251,7 +251,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
 
                 long wakeUpTime = System.currentTimeMillis() + 5 * 60 * 1000;
                 if (!isDone()) ThreadUtils.waitingUntil(wakeUpTime);
-                logger.info("Network browsing completed, waiting until {}", wakeUpTime);
+                logger.debug("Network browsing completed, waiting until {}", wakeUpTime);
                 //gt.run();
             } catch (Exception e) {
                 e.printStackTrace();

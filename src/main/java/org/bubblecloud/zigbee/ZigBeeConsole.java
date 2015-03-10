@@ -1,6 +1,5 @@
 package org.bubblecloud.zigbee;
 
-import org.apache.commons.io.FileUtils;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.DeviceListener;
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
@@ -18,7 +17,9 @@ import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.util.Cie;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -69,8 +70,6 @@ public final class ZigBeeConsole {
 		commands.put("off", 		new OffCommand());
 		commands.put("color",		new ColorCommand());
 		commands.put("level", 		new LevelCommand());
-        commands.put("listen", 	    new ListenCommand());
-        commands.put("unlisten",    new UnlistenCommand());
 		commands.put("subscribe", 	new SubscribeCommand());
 		commands.put("unsubscribe", new UnsubscribeCommand());
 		commands.put("read", 		new ReadCommand());
@@ -86,18 +85,6 @@ public final class ZigBeeConsole {
         final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
         //discoveryModes.remove(DiscoveryMode.LinkQuality);
         final ZigBeeApi zigbeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, discoveryModes);
-
-        final File networkStateFile = new File("network.json");
-        if (networkStateFile.exists()) {
-            try {
-                final String networkState = FileUtils.readFileToString(networkStateFile);
-                zigbeeApi.deserializeNetworkState(networkState);
-            } catch (final Exception e) {
-                e.printStackTrace();
-                return;
-            }
-        }
-
         if (!zigbeeApi.startup()) {
             print("ZigBee API starting up ... [FAIL]");
             return;
@@ -139,8 +126,8 @@ public final class ZigBeeConsole {
             }
         }));
 
-        print("Browsing network for the first time...");
-        while (!shutdown && !networkStateFile.exists() && !zigbeeApi.isInitialBrowsingComplete()) {
+        print("Browsing network ...");
+        while (!shutdown && !zigbeeApi.isInitialBrowsingComplete()) {
             System.out.print('.');
             try {
                 Thread.sleep(250);
@@ -148,8 +135,8 @@ public final class ZigBeeConsole {
                 break;
             }
         }
-        print("Browsing network for the first time... [OK]");
-        print("There are " + zigbeeApi.getDevices().size() + " known devices in the network.");
+        print("Browsing network ... [OK]");
+        print("Found " + zigbeeApi.getDevices().size() + " nodes.");
 
         print("ZigBee console ready.");
 
@@ -159,12 +146,6 @@ public final class ZigBeeConsole {
         }
 
         zigbeeApi.shutdown();
-
-        try {
-            FileUtils.writeStringToFile(networkStateFile, zigbeeApi.serializeNetworkState(), false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -409,7 +390,7 @@ public final class ZigBeeConsole {
             }
 
             print("Network Address  : " + device.getNetworkAddress());
-            print("Extended Address : " + device.getIeeeAddress());
+            print("Extended Address : " + device.getIEEEAddress());
             print("Endpoint Address : " + device.getEndPointAddress());
             print("Device Type      : " + device.getDeviceType());
             print("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));
@@ -777,108 +758,6 @@ public final class ZigBeeConsole {
     }
 
     /**
-     * Starts listening to reports of given attribute.
-     */
-    private class ListenCommand implements ConsoleCommand {
-        /**
-         * {@inheritDoc}
-         */
-        public String getDescription() {
-            return "Listen to attribute reports.";
-        }
-        /**
-         * {@inheritDoc}
-         */
-        public String getSyntax() {
-            return "listen [DEVICE] [CLUSTER] [ATTRIBUTE]";
-        }
-        /**
-         * {@inheritDoc}
-         */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
-            if (args.length != 4) {
-                return false;
-            }
-
-            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
-            final int clusterId;
-            try {
-                clusterId = Integer.parseInt(args[2]);
-            } catch (final NumberFormatException e) {
-                return false;
-            }
-            final int attributeId;
-            try {
-                attributeId = Integer.parseInt(args[3]);
-            } catch (final NumberFormatException e) {
-                return false;
-            }
-
-
-            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
-
-            if (reporter == null) {
-                print("Attribute does not provide reports.");
-                return true;
-            }
-
-            reporter.addReportListener(consoleReportListener, false);
-
-            return true;
-        }
-    }
-
-    /**
-     * Unlisten from reports of given attribute.
-     */
-    private class UnlistenCommand implements ConsoleCommand {
-        /**
-         * {@inheritDoc}
-         */
-        public String getDescription() {
-            return "Unlisten from attribute reports.";
-        }
-        /**
-         * {@inheritDoc}
-         */
-        public String getSyntax() {
-            return "unlisten [DEVICE] [CLUSTER] [ATTRIBUTE]";
-        }
-        /**
-         * {@inheritDoc}
-         */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
-            if (args.length != 4) {
-                return false;
-            }
-
-            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
-            final int clusterId;
-            try {
-                clusterId = Integer.parseInt(args[2]);
-            } catch (final NumberFormatException e) {
-                return false;
-            }
-            final int attributeId;
-            try {
-                attributeId = Integer.parseInt(args[3]);
-            } catch (final NumberFormatException e) {
-                return false;
-            }
-
-            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
-
-            if (reporter == null) {
-                print("Attribute does not provide reports.");
-            }
-
-            reporter.removeReportListener(consoleReportListener, false);
-
-            return true;
-        }
-    }
-
-    /**
      * Subscribes to reports of given attribute.
      */
     private class SubscribeCommand implements ConsoleCommand {
@@ -924,7 +803,7 @@ public final class ZigBeeConsole {
                 return true;
             }
 
-            reporter.addReportListener(consoleReportListener, true);
+            reporter.addReportListener(consoleReportListener);
 
             return true;
         }
@@ -974,7 +853,7 @@ public final class ZigBeeConsole {
                 print("Attribute does not provide reports.");
             }
 
-            reporter.removeReportListener(consoleReportListener, true);
+            reporter.removeReportListener(consoleReportListener);
 
             return true;
         }

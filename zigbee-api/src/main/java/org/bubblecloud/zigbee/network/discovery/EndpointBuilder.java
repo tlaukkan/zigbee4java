@@ -134,7 +134,7 @@ public class EndpointBuilder implements Stoppable {
     private void doCreateZigBeeEndpoint(ZigBeeNode node, short ep) {
         final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         synchronized (network) {
-            if (network.containsEndpoint(node.getIEEEAddress(), ep)) {
+            if (network.containsEndpoint(node.getIeeeAddress(), ep)) {
                 logger.info(
                         "Skipping device creation for endpoint {} on node {} as it is created.", ep, node
                 );
@@ -181,14 +181,12 @@ public class EndpointBuilder implements Stoppable {
         boolean isNew = false, correctlyInspected = false;
         final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         synchronized (network) {
-            node = network.containsNode(ieee);
+            node = network.getNode(ieee);
             if (node == null) {
                 node = new ZigBeeNodeImpl(nwk, ieeeAddress, (short) driver.getCurrentPanId());
                 isNew = true;
                 network.addNode(node);
                 logger.debug("Created node object for {} that was not available on the network", node);
-            } else {
-
             }
         }
         if (isNew) {
@@ -213,7 +211,7 @@ public class EndpointBuilder implements Stoppable {
                      * No previous device inspection completed successfully, so we should try to inspect
                      * the device again
                      */
-                    inspectEndpointOfNode(nwk, new ZigBeeNodeImpl(nwk, node.getIEEEAddress(), (short) driver.getCurrentPanId()));
+                    inspectEndpointOfNode(nwk, new ZigBeeNodeImpl(nwk, node.getIeeeAddress(), (short) driver.getCurrentPanId()));
                 }
             node.setNetworkAddress(nwk);
            }
@@ -240,11 +238,10 @@ public class EndpointBuilder implements Stoppable {
     private void inspectNewEndpoint() {
         nextInspectionSlot = 10 + System.currentTimeMillis();
         final ImportingQueue.ZigBeeNodeAddress dev = queue.pop();
-        inspectingNewEndpoint = true;
         if (dev == null)  {
-            inspectingNewEndpoint = false;
             return;
         }
+        inspectingNewEndpoint = true;
         final ZToolAddress16 nwk = dev.getNetworkAddress();
         final ZToolAddress64 ieee = dev.getIEEEAddress();
         logger.debug("Inspecting device {}.", IEEEAddress.toString(ieee.getLong()));

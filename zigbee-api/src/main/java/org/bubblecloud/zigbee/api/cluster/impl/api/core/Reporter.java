@@ -40,9 +40,21 @@ public interface Reporter {
      */
     public static final int DEFAULT_MIN_REPORTING_INTERVAL = 0;
 
-    public boolean addReportListener(ReportListener listner);
+    /**
+     * Adds report listener and optionally adds ZigBee subscription.
+     * @param listener the listener
+     * @param subscribe ZigBee level subscription should be added
+     * @return true if operation was successful.
+     */
+    public boolean addReportListener(ReportListener listener, boolean subscribe);
 
-    public boolean removeReportListener(ReportListener listner);
+    /**
+     * Removes report listener and optionally removes ZigBee subscription.
+     * @param listener the listener
+     * @param unsubscribe whether ZigBee level subscription should be removed
+     * @return true if operation was successful.
+     */
+    public boolean removeReportListener(ReportListener listener, boolean unsubscribe);
 
     public int getMinimumReportingInterval();
 

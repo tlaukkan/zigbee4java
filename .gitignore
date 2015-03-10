@@ -3,8 +3,12 @@ target/
 .svn
 *.iml
 *.log
+*.json
 zigbee-api/build
 .gradle
 zigbee-console/build
 zigbee-serial-desktop/build
 local.properties
+zigbee-serial-android/build
+zigbee-console-common/build
+build

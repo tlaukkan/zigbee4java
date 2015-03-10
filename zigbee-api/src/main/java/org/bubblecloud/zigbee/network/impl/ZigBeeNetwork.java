@@ -52,6 +52,14 @@ public class ZigBeeNetwork {
     private final List<EndpointListener> endpointListeners = new ArrayList<EndpointListener>();
 
     /**
+     * Gets Node, EndPoint map.
+     * @return
+     */
+    public Hashtable<ZigBeeNode, HashMap<Integer, ZigBeeEndpoint>> getDevices() {
+        return devices;
+    }
+
+    /**
      * <b>NOT IN USE, the Driver does not define a logic for unregister devices</b><br>
      * This method is require for implementing issues:
      * <ul>
@@ -63,7 +71,7 @@ public class ZigBeeNetwork {
      * @return
      */
     public synchronized boolean removeNode(ZigBeeNode node) {
-        final String ieee = node.getIEEEAddress();
+        final String ieee = node.getIeeeAddress();
 
         if (!nodes.containsKey(ieee)) {
             return false;
@@ -85,7 +93,7 @@ public class ZigBeeNetwork {
     }
 
     public synchronized boolean addNode(ZigBeeNodeImpl node) {
-        final String ieee = node.getIEEEAddress();
+        final String ieee = node.getIeeeAddress();
 
         if (nodes.containsKey(ieee)) {
             logger.debug("Node {} already present on the network", node);
@@ -102,7 +110,7 @@ public class ZigBeeNetwork {
 
         notifyEndpointRemoved(endpoint);
 
-        final String ieee = endpoint.getNode().getIEEEAddress();
+        final String ieee = endpoint.getNode().getIeeeAddress();
 
         ZigBeeNode node = null;
         node = nodes.get(ieee);
@@ -120,7 +128,7 @@ public class ZigBeeNetwork {
 
     public synchronized boolean addEndpoint(ZigBeeEndpoint endpoint) {
         final ZigBeeNode deviceNode = endpoint.getNode();
-        final String ieee = deviceNode.getIEEEAddress();
+        final String ieee = deviceNode.getIeeeAddress();
         final short endPoint = endpoint.getEndPointAddress();
         logger.trace("Adding device {} on node {} / end point {}.", endpoint.getDeviceTypeId(),
                 endpoint.getNode(), endPoint);
@@ -200,7 +208,7 @@ public class ZigBeeNetwork {
         return endPoints.containsKey(endPoint);
     }
 
-    public ZigBeeNodeImpl containsNode(String ieeeAddress) {
+    public ZigBeeNodeImpl getNode(String ieeeAddress) {
         return nodes.get(ieeeAddress);
     }
 

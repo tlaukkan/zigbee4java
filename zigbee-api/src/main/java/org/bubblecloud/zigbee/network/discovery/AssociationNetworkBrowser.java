@@ -134,7 +134,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            logger.trace("Network browsing completed, waiting until {}", wakeUpTime);
+            logger.debug("Network browsing completed, waiting until {}", wakeUpTime);
             initialNetworkBrowsingComplete = true;
             if (!isDone()) ThreadUtils.waitingUntil(wakeUpTime);
         }

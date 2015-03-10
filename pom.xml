@@ -4,7 +4,7 @@
 
     <groupId>org.bubblecloud.zigbee4java</groupId>
     <artifactId>zigbee4java</artifactId>
-    <version>1.0.9-SNAPSHOT</version>
+    <version>2.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -47,8 +47,18 @@
             <id>android</id>
             <modules>
                 <module>zigbee-api</module>
-                <module>zigbee-console</module>
                 <module>zigbee-serial-android</module>
+                <module>zigbee-console-android</module>
+                <module>zigbee-console-common</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>desktop</id>
+            <modules>
+                <module>zigbee-api</module>
+                <module>zigbee-serial-desktop</module>
+                <module>zigbee-console-desktop</module>
+                <module>zigbee-console-common</module>
             </modules>
         </profile>
         <profile>
@@ -62,8 +72,7 @@
             </activation>
             <modules>
                 <module>zigbee-api</module>
-                <module>zigbee-console</module>
-                <module>zigbee-serial-desktop</module>
+                <module>zigbee-console-common</module>
             </modules>
         </profile>
     </profiles>

@@ -10,10 +10,15 @@ Questions can be sent to the following email address: 'zigbee4java@googlegroups.
 
 You can also contact me directly: 'tommi.s.e.laukkanen@gmail.com'.
 
+Discussion Group
+----------------
+
+The URL to the discussion group: https://groups.google.com/d/forum/zigbee4java
+
 FAQ
 ---
 
-The URL to the discussion group web interface and FAQ: https://groups.google.com/d/forum/zigbee4java
+The URL to the FAQ: https://groups.google.com/d/forum/zigbee4java
 
 Hardware
 --------
