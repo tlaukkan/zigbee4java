@@ -43,6 +43,7 @@ public class ZDO_MSG_CB_INCOMING extends ZToolPacket /*implements IRESPONSE_CALL
 
     final ImmutableMap<Integer, Class<? extends ZToolPacket>> clusterToRSP =
             ImmutableMap.<Integer, Class<? extends ZToolPacket>>builder()
+            .put(0x0013, ZDO_END_DEVICE_ANNCE_IND.class)
             .put(0x8000, ZDO_NWK_ADDR_RSP.class)
             .put(0x8001, ZDO_IEEE_ADDR_RSP.class)
             .put(0x8002, ZDO_NODE_DESC_RSP.class)
