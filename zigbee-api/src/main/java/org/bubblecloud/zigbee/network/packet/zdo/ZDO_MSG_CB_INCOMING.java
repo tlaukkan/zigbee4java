@@ -43,6 +43,7 @@ public class ZDO_MSG_CB_INCOMING extends ZToolPacket /*implements IRESPONSE_CALL
 
     final ImmutableMap<Integer, Class<? extends ZToolPacket>> clusterToRSP =
             ImmutableMap.<Integer, Class<? extends ZToolPacket>>builder()
+            .put(0x0013, ZDO_END_DEVICE_ANNCE_IND.class)
             .put(0x8000, ZDO_NWK_ADDR_RSP.class)
             .put(0x8001, ZDO_IEEE_ADDR_RSP.class)
             .put(0x8002, ZDO_NODE_DESC_RSP.class)
@@ -123,10 +124,8 @@ public class ZDO_MSG_CB_INCOMING extends ZToolPacket /*implements IRESPONSE_CALL
         Class<? extends ZToolPacket> newPacketClass = clusterToRSP.get(ClusterId.get16BitValue());
 
         if(newPacketClass == null) {
-            newPacket = new ZToolPacket();
-            newPacket.setError(true);
             logger.error("Unhandled ZDO cluster callback {}", ClusterId);
-            return newPacket;
+            return this;
         } else if (newPacketClass == ZDO_NWK_ADDR_RSP.class || newPacketClass == ZDO_IEEE_ADDR_RSP.class) {
             // The address responses don't need SrcAddr.  NumAssocDev and StartIndex positions are reversed.
 
@@ -153,9 +152,8 @@ public class ZDO_MSG_CB_INCOMING extends ZToolPacket /*implements IRESPONSE_CALL
         try {
             newPacket = (ZToolPacket) newPacketClass.getConstructor(int[].class).newInstance(frame);
         } catch (Exception e) {
-            newPacket = new ZToolPacket();
-            newPacket.setError(true);
             logger.error("Error constructing response packet {}", e);
+            return this;
         }
 
         // Set checksum with original packet checksum
