@@ -1,8 +1,26 @@
 
+import org.codehaus.groovy.tools.StringHelper;
+
+/**
+ * zigbee4java Gradle settings
+ *
+ * @author Chris Hatton (christopherhattonuk@gmail.com)
+ */
+
+def zigbee4javaProfilesArray = StringHelper.tokenizeUnquoted(zigbee4javaProfiles)
+
+/* Gradle settings applicable to all profiles */
+
 rootProject.name = 'zigbee4java'
 
 include ':zigbee-api'
 include ':zigbee-console-common'
 
-println 'zigbee4java: Applying \'' + zigbee4javaProfile  +'\' settings profile'
-apply from: ("settings-"+zigbee4javaProfile+".gradle")
+
+/* Include settings from all profiles selected in 'gradle.properties' */
+
+for(zigbee4javaProfile in zigbee4javaProfilesArray)
+{
+    println 'zigbee4java: Applying \'' + zigbee4javaProfile + '\' settings profile'
+    apply from: ("settings-" + zigbee4javaProfile + ".gradle")
+}

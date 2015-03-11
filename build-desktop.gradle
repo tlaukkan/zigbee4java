@@ -1,4 +1,6 @@
 
+/* Gradle build script for sub-projects included only in the 'desktop' profile  */
+
 project(':zigbee-console-desktop')
 {
     dependencies

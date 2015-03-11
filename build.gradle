@@ -1,9 +1,20 @@
+import org.codehaus.groovy.tools.StringHelper
+
+/**
+ * zigbee4java Gradle build
+ *
+ * @author Chris Hatton (christopherhattonuk@gmail.com)
+ */
+
+def zigbee4javaProfilesArray = StringHelper.tokenizeUnquoted(zigbee4javaProfiles)
+
 buildscript
 {
     repositories
     {
         jcenter()
     }
+
     dependencies
     {
         classpath 'com.android.tools.build:gradle:1.1.0'
@@ -12,16 +23,16 @@ buildscript
 
 group = 'org.bubblecloud'
 
-// Apply Java plugin for all non-Android sub-projects
+/* Apply Java plugin for all non-Android sub-projects */
 configure(allprojects.findAll { project -> project.name.indexOf('android') == -1 })
 {
     apply plugin: 'java'
 }
 
-// Apply Android plugin for specific Android sub-projects
-switch(zigbee4javaProfile)
+/* Apply Android plugins for specific Android sub-projects */
+
+if(zigbee4javaProfilesArray.contains('android'))
 {
-    case 'android':
 
     project(':zigbee-console-android')
     {
@@ -85,7 +96,12 @@ project(':zigbee-console-common')
     }
 }
 
-println 'zigbee4java: Applying \'' + zigbee4javaProfile  +'\' build profile'
-apply from: ("build-"+zigbee4javaProfile+".gradle")
+/* Include build scripts from all profiles selected in 'gradle.properties' */
+
+for(zigbee4javaProfile in zigbee4javaProfilesArray)
+{
+    println 'zigbee4java: Applying \'' + zigbee4javaProfiles + '\' build profiles'
+    apply from: ("build-" + zigbee4javaProfile + ".gradle")
+}
 
 
