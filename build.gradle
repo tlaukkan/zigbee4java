@@ -12,23 +12,26 @@ buildscript
 
 group = 'org.bubblecloud'
 
-// Apply plugins
-
-// Java for all non-Android subprojects
+// Apply Java plugin for all non-Android sub-projects
 configure(allprojects.findAll { project -> project.name.indexOf('android') == -1 })
 {
     apply plugin: 'java'
 }
 
-// Android subprojects
-project(':zigbee-console-android')
+// Apply Android plugin for specific Android sub-projects
+switch(zigbee4javaProfile)
 {
-    apply plugin: 'com.android.application'
-}
+    case 'android':
 
-project(':zigbee-serial-android')
-{
-    apply plugin: 'com.android.library'
+    project(':zigbee-console-android')
+    {
+        apply plugin: 'com.android.application'
+    }
+
+    project(':zigbee-serial-android')
+    {
+        apply plugin: 'com.android.library'
+    }
 }
 
 allprojects
@@ -63,12 +66,14 @@ project(':zigbee-api')
 {
     dependencies
     {
-        compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.49'
-        compile group: 'org.bouncycastle', name: 'bcmail-jdk15on', version: '1.49'
-        compile group: 'commons-io', name: 'commons-io', version: '2.4'
-        compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
-        compile group: 'commons-codec', name: 'commons-codec', version: '1.8'
-        testCompile group: 'org.easymock', name: 'easymock', version: '3.2'
+        compile     group: 'com.google.collections', name: 'google-collections', version: '1.0'
+        compile     group: 'org.bouncycastle',       name: 'bcprov-jdk15on',     version: '1.49'
+        compile     group: 'org.bouncycastle',       name: 'bcmail-jdk15on',     version: '1.49'
+        compile     group: 'commons-io',             name: 'commons-io',         version: '2.4'
+        compile     group: 'commons-lang',           name: 'commons-lang',       version: '2.6'
+        compile     group: 'commons-codec',          name: 'commons-codec',      version: '1.8'
+        compile     group: 'org.codehaus.jackson',   name: 'jackson-mapper-asl', version: '1.9.2'
+        testCompile group: 'org.easymock',           name: 'easymock',           version: '3.2'
     }
 }
 
@@ -80,7 +85,7 @@ project(':zigbee-console-common')
     }
 }
 
-
-
+println 'zigbee4java: Applying \'' + zigbee4javaProfile  +'\' build profile'
+apply from: ("build-"+zigbee4javaProfile+".gradle")
 
 

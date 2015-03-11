@@ -4,8 +4,5 @@ rootProject.name = 'zigbee4java'
 include ':zigbee-api'
 include ':zigbee-console-common'
 
-def zigbee4javaProfile = rootProject.properties['zigbee4javaProfile']
-
-println 'Applying settings-' + zigbee4javaProfile
-
+println 'zigbee4java: Applying \'' + zigbee4javaProfile  +'\' settings profile'
 apply from: ("settings-"+zigbee4javaProfile+".gradle")

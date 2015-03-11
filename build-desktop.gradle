@@ -1,3 +1,14 @@
+
+project(':zigbee-console-desktop')
+{
+    dependencies
+    {
+        compile project(':zigbee-api')
+        compile project(':zigbee-console-common')
+        compile project(':zigbee-serial-desktop')
+    }
+}
+
 project(':zigbee-serial-desktop')
 {
     dependencies
@@ -5,6 +16,7 @@ project(':zigbee-serial-desktop')
         compile 'serial-comm:serial-comm:0.9'
 
         compile project(':zigbee-api')
+
         testCompile project(':zigbee-api')
     }
 }

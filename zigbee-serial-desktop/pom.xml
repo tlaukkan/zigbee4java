@@ -8,13 +8,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-<<<<<<< HEAD:zigbee-serial-desktop/pom.xml
   <artifactId>zigbee-serial-desktop</artifactId>
-  <version>1.0.9-SNAPSHOT</version>
-=======
-  <artifactId>zigbee-serial-default</artifactId>
   <version>2.0.1-SNAPSHOT</version>
->>>>>>> 32b116675cb0dbc72b42d195ee9492b3ed5f1515:zigbee-serial-default/pom.xml
   <packaging>jar</packaging>
 
   <name>zigbee-serial-desktop</name>
