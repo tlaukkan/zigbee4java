@@ -3,6 +3,10 @@
 
 project(':zigbee-console-desktop')
 {
+    apply plugin: 'application'
+
+    mainClassName = "org.bubblecloud.zigbee.ZigBeeConsoleDesktop"
+
     dependencies
     {
         compile project(':zigbee-api')

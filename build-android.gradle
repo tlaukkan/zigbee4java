@@ -42,6 +42,7 @@ project(':zigbee-console-android')
         buildToolsVersion '19.1.0'
         defaultConfig
         {
+            applicationId 'org.bubblecloud.zigbee4java.android.console'
             minSdkVersion 18
             targetSdkVersion 18
             versionCode 1

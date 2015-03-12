@@ -21,7 +21,7 @@ buildscript
     }
 }
 
-group = 'org.bubblecloud'
+group = 'org.bubblecloud.zigbee4java'
 
 /* Apply Java plugin for all non-Android sub-projects */
 configure(allprojects.findAll { project -> project.name.indexOf('android') == -1 })
@@ -49,7 +49,7 @@ allprojects
 {
     apply plugin: 'maven'
 
-    group = 'org.bubblecloud.zigbee4java'
+    group = 'org.bubblecloud.zigbee'
     version = '1.0.9-SNAPSHOT'
 
     repositories
