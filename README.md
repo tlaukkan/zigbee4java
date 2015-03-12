@@ -107,7 +107,7 @@ Gradle:
 ```
 git clone https://github.com/tlaukkan/zigbee4java.git zigbee4java
 cd zigbee4java
-gradlew zigbee-apiinstall
+gradlew clean build
 ```
 
 

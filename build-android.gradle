@@ -38,6 +38,11 @@ project(':zigbee-console-android')
 
     android
     {
+        lintOptions
+        {
+            abortOnError false
+        }
+
         packagingOptions
         {
             exclude 'META-INF/ASL2.0'
@@ -87,7 +92,7 @@ project(':zigbee-console-android')
 
     dependencies
     {
-        //compile fileTree(dir: 'libs', include: ['*.jar'])
+        compile fileTree(dir: 'libs', include: ['*.jar'])
 
         compile project(':zigbee-api')
         compile project(':zigbee-console-common')
@@ -114,6 +119,11 @@ project(':zigbee-serial-android')
 
     android
     {
+        lintOptions
+        {
+            abortOnError false
+        }
+
         packagingOptions
         {
             /* Prevent duplicate files of this name, from the transitive jackson-core dependencies, from causing a build error. */
@@ -166,7 +176,7 @@ project(':zigbee-serial-android')
 
     dependencies
     {
-        //compile fileTree(dir: 'libs', include: ['*.jar'])
+        compile fileTree(dir: 'libs', include: ['*.jar'])
 
         compile project(':zigbee-api')
 
