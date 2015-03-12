@@ -33,7 +33,7 @@ Prerequisites
 -------------
 
 1. Java 7
-2. Maven 3
+2. Maven 3 and/or Gradle
 3. CC2531 dongle with USB serial / coordinator firmware. Flashing new firmware requires CCDEBUGGER hardware component.
 4. Second CC2531 dongle if you want to have cheap packet sniffer. There are probably better packet sniffers out there.
 
@@ -66,8 +66,10 @@ Serial-comm and zigbee4java dependencies can be found from the following reposit
 </repositories>
 ```
 
-Using Maven Dependency
-----------------------
+Using as a Dependency
+---------------------
+
+Maven:
 
 ```
 <dependencies>
@@ -79,14 +81,35 @@ Using Maven Dependency
 </dependencies>
 ```
 
+Gradle:
+
+```
+dependencies
+{
+    compile 'org.bubblecloud.zigbee:zigbee-api:1.0.8'
+}
+```
+
+
 Building from Sources
 ---------------------
+
+Maven:
 
 ```
 git clone https://github.com/tlaukkan/zigbee4java.git zigbee4java
 cd zigbee4java
 mvn clean install
 ```
+
+Gradle:
+
+```
+git clone https://github.com/tlaukkan/zigbee4java.git zigbee4java
+cd zigbee4java
+gradlew zigbee-apiinstall
+```
+
 
 Usage
 -----

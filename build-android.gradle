@@ -38,6 +38,11 @@ project(':zigbee-console-android')
 
     android
     {
+        packagingOptions
+        {
+            exclude 'META-INF/ASL2.0'
+        }
+
         compileSdkVersion 18
         buildToolsVersion '19.1.0'
         defaultConfig
@@ -109,6 +114,12 @@ project(':zigbee-serial-android')
 
     android
     {
+        packagingOptions
+        {
+            /* Prevent duplicate files of this name, from the transitive jackson-core dependencies, from causing a build error. */
+            exclude 'META-INF/ASL2.0'
+        }
+
         compileSdkVersion 18
         buildToolsVersion '19.1.0'
         defaultConfig

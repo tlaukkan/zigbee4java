@@ -1,15 +1,13 @@
 package org.bubblecloud.zigbee;
 
 import android.app.Application;
-import android.content.Intent;
 import android.os.Environment;
-
+import de.mindpipe.android.logging.log4j.LogConfigurator;
 import org.apache.log4j.Level;
 
 import java.io.File;
 
-import au.com.arvis.hub.Arvis;
-import de.mindpipe.android.logging.log4j.LogConfigurator;
+//import au.com.arvis.hub.Arvis;
 
 public class ZigBeeConsoleAndroid extends Application{
 
@@ -20,7 +18,7 @@ public class ZigBeeConsoleAndroid extends Application{
 
 		// configureLog4j();
 
-		startService(new Intent(this.getApplicationContext(), Arvis.class));
+		//startService(new Intent(this.getApplicationContext(), Arvis.class));
 	}
 
 	private void configureLog4j()

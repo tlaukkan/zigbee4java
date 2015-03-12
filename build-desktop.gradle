@@ -1,4 +1,6 @@
 
+import org.codehaus.groovy.tools.StringHelper
+
 /* Gradle build script for sub-projects included only in the 'desktop' profile  */
 
 project(':zigbee-console-desktop')
@@ -6,6 +8,16 @@ project(':zigbee-console-desktop')
     apply plugin: 'application'
 
     mainClassName = "org.bubblecloud.zigbee.ZigBeeConsoleDesktop"
+
+    run
+    {
+        if ( zigbee4javaDesktopConsoleArgs )
+        {
+            println("Evaluating runtime arguments: " + zigbee4javaDesktopConsoleArgs)
+            String[] argsArray = StringHelper.tokenizeUnquoted(zigbee4javaDesktopConsoleArgs)
+            args argsArray
+        }
+    }
 
     dependencies
     {
