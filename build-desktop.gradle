@@ -36,6 +36,7 @@ project(':zigbee-serial-desktop')
         compile project(':zigbee-api')
 
         testCompile project(':zigbee-api')
+
         testCompile project(path: ':zigbee-api', configuration: 'testOutput')
     }
 }

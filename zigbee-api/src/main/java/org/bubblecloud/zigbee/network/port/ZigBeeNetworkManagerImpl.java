@@ -1472,6 +1472,13 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                     l.announce(annunce.SrcAddr, annunce.IEEEAddr, annunce.NwkAddr, annunce.Capabilities);
 
                 }
+            } else if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_TC_DEVICE_IND) {
+                    logger.debug("Recieved TC announce message {} value is {}", packet.getClass(), packet);
+                    ZDO_TC_DEVICE_IND annunce = (ZDO_TC_DEVICE_IND) packet;
+                    for (AnnounceListener l : listners) {
+                        l.announce(annunce.SrcAddr, annunce.IEEEAddr, annunce.NwkAddr, 0);
+
+                    }
             } else if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_STATE_CHANGE_IND) {
                 try {
                     ZDO_STATE_CHANGE_IND p = ((ZDO_STATE_CHANGE_IND) packet);

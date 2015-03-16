@@ -33,7 +33,6 @@ configure(subprojects.findAll { project -> project.name.indexOf('android') == -1
 
 if(zigbee4javaProfilesArray.contains('android'))
 {
-
     project(':zigbee-console-android')
     {
         apply plugin: 'com.android.application'
@@ -100,7 +99,6 @@ project(':zigbee-api')
 
     dependencies
     {
-        compile     group: 'com.google.collections', name: 'google-collections', version: '1.0'
         compile     group: 'org.bouncycastle',       name: 'bcprov-jdk15on',     version: '1.49'
         compile     group: 'org.bouncycastle',       name: 'bcmail-jdk15on',     version: '1.49'
         compile     group: 'commons-io',             name: 'commons-io',         version: '2.4'

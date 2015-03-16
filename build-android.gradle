@@ -1,6 +1,10 @@
 
 /* Gradle build script for sub-projects included only in the 'android' profile  */
 
+/**
+ * TODO: Find a good way to reduce repetition of common settings between both Android modules.
+ */
+
 buildscript
 {
 	repositories
