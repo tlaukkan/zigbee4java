@@ -659,6 +659,9 @@ public class ZToolCMD {
     /// <name>TI.ZPI2.MESSAGE_ID.ZDO_STATUS_ERROR_RSP</name>
     /// <summary>This message is the default message for error status.</summary>
     public static final int ZDO_STATUS_ERROR_RSP = 0x45c3;
+    /// <name>TI.ZPI2.MESSAGE_ID.ZDO_TC_DEVICE_IND</name>
+    /// <summary>ZDO Trust Center end device announce indication.</summary>
+    public static final int ZDO_TC_DEVICE_IND = 0x45ca;
     /// <name>TI.ZPI2.MESSAGE_ID.ZDO_UNBIND_REQ</name>
     /// <summary>This command is generated to request an UnBind</summary>
     public static final int ZDO_UNBIND_REQ = 0x2522;
