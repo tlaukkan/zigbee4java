@@ -406,7 +406,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         final ZDO_BIND_RSP response = networkManager.sendZDOBind(new ZDO_BIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
                 IEEEAddress.fromColonNotation(getNode().getIeeeAddress()), (byte) endPointAddress,
-                IEEEAddress.fromColonNotation(endpoint.getNode().getIeeeAddress()), (byte) endpoint.getDeviceTypeId()
+                IEEEAddress.fromColonNotation(endpoint.getNode().getIeeeAddress()), (byte) endpoint.getEndPointAddress()
         ));
         if (response == null || response.Status != 0) {
             logger.warn("ZDO_BIND_REQ failed due to {}, unable to bind from endpoint {} to {} for cluster {}", new Object[]{
