@@ -1,5 +1,0 @@
-
-/* Gradle settings applicable only to 'desktop' profile */
-
-include ':zigbee-serial-desktop'
-include ':zigbee-console-desktop'

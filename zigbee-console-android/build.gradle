@@ -1,0 +1,24 @@
+
+buildscript {
+    repositories { jcenter() }
+    dependencies { classpath 'com.android.tools.build:gradle:1.1.0' }
+}
+
+apply plugin: 'com.android.application'
+
+apply from: '../build-common-android.gradle'
+apply from: '../build-common.gradle'
+
+android {
+    defaultConfig {
+        applicationId 'org.bubblecloud.zigbee4java.android.console'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile project(':zigbee-api')
+    compile project(':zigbee-console-common')
+    compile project(':zigbee-serial-android')
+}

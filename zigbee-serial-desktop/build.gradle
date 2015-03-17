@@ -1,0 +1,19 @@
+
+apply from: '../build-common-java.gradle'
+apply from: '../build-common.gradle'
+
+repositories
+{
+    jcenter()
+}
+
+dependencies
+{
+    compile 'serial-comm:serial-comm:0.9'
+
+    compile project(':zigbee-api')
+
+    testCompile project(':zigbee-api')
+
+    testCompile project(path: ':zigbee-api', configuration: 'testOutput')
+}

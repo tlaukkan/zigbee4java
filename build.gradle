@@ -1,4 +1,3 @@
-import org.codehaus.groovy.tools.StringHelper
 
 /**
  * zigbee4java Gradle build
@@ -6,123 +5,35 @@ import org.codehaus.groovy.tools.StringHelper
  * @author Chris Hatton (christopherhattonuk@gmail.com)
  */
 
-def zigbee4javaProfilesArray = StringHelper.tokenizeUnquoted(zigbee4javaProfiles)
+import org.codehaus.groovy.tools.StringHelper
 
-buildscript
-{
-    repositories
-    {
-        jcenter()
-    }
-
-    dependencies
-    {
-        classpath 'com.android.tools.build:gradle:1.1.0'
-    }
+buildscript {
+    repositories { jcenter() }
 }
+
+def zigbee4javaProfilesArray = StringHelper.tokenizeUnquoted(zigbee4javaProfiles)
 
 group = 'org.bubblecloud.zigbee4java'
 
-/* Apply Java plugin for all non-Android sub-projects */
-configure(subprojects.findAll { project -> project.name.indexOf('android') == -1 })
-{
-    apply plugin: 'java'
-}
-
-/* Apply Android plugins for specific Android sub-projects */
-
-if(zigbee4javaProfilesArray.contains('android'))
-{
-    project(':zigbee-console-android')
-    {
-        apply plugin: 'com.android.application'
-    }
-
-    project(':zigbee-serial-android')
-    {
-        apply plugin: 'com.android.library'
-    }
-}
-
-subprojects
-{
-    apply plugin: 'maven'
-
-    group = 'org.bubblecloud.zigbee'
-    version = '1.0.9-SNAPSHOT'
-
-    sourceCompatibility = 1.6
-    targetCompatibility = 1.6
-
-    repositories
-    {
-        mavenLocal()
-        mavenCentral()
-        maven { url "http://repository-bubblecloud.forge.cloudbees.com/release/" }
-        maven { url "http://repo.maven.apache.org/maven2" }
-    }
-
-    plugins.withType(JavaPlugin).whenPluginAdded
-    {
-        // do Java specific configurations
-    }
-
-    dependencies
-    {
-        compile 'org.slf4j:slf4j-log4j12:1.7.5'
-        compile 'log4j:log4j:1.2.17'
-        testCompile 'junit:junit:4.11'
-    }
-}
-
-project(':zigbee-api')
-{
-    /**
-     * The method used here to provide a separate test-jar artifact was learned from:
-     * https://softnoise.wordpress.com/2014/09/07/gradle-sub-project-test-dependencies-in-multi-project-builds/
-     */
-
-    configurations
-    {
-        testOutput.extendsFrom (testCompile)
-    }
-
-    task jarTest (type: Jar, dependsOn: testClasses) {
-        from sourceSets.test.output
-        classifier = 'test'
-    }
-
-    artifacts
-    {
-        testOutput jarTest
-    }
-
-    dependencies
-    {
-        compile     group: 'org.bouncycastle',       name: 'bcprov-jdk15on',     version: '1.49'
-        compile     group: 'org.bouncycastle',       name: 'bcmail-jdk15on',     version: '1.49'
-        compile     group: 'commons-io',             name: 'commons-io',         version: '2.4'
-        compile     group: 'commons-lang',           name: 'commons-lang',       version: '2.6'
-        compile     group: 'commons-codec',          name: 'commons-codec',      version: '1.8'
-        compile     group: 'org.codehaus.jackson',   name: 'jackson-mapper-asl', version: '1.9.2'
-        testCompile group: 'org.easymock',           name: 'easymock',           version: '3.2'
-    }
-}
-
-project(':zigbee-console-common')
-{
-    dependencies
-    {
-        compile project(':zigbee-api')
-    }
-}
+apply plugin: 'java'
 
 /* Include build scripts from all profiles selected in 'gradle.properties' */
 
-for(zigbee4javaProfile in zigbee4javaProfilesArray)
-{
-    println 'zigbee4java: Applying \'' + zigbee4javaProfiles + '\' build profiles'
-    apply from: ("build-" + zigbee4javaProfile + ".gradle")
-}
+dependencies {
+    for (zigbee4javaProfile in zigbee4javaProfilesArray) {
+        switch (zigbee4javaProfile) {
+            case 'android':
+                println 'zigbee4java: Including android build'
+                compile project(':zigbee-serial-android')
+                compile project(':zigbee-console-android')
+                break;
 
+            case 'desktop':
+                println 'zigbee4java: Including desktop build'
+                compile project(':zigbee-serial-desktop')
+                compile project(':zigbee-console-desktop')
+                break;
+        }
+    }
+}
 

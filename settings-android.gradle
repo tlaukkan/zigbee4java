@@ -1,5 +1,0 @@
-
-/* Gradle settings applicable only to 'android' profile */
-
-include ':zigbee-serial-android'
-include ':zigbee-console-android'
