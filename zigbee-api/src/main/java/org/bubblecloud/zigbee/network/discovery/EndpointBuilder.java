@@ -243,7 +243,7 @@ public class EndpointBuilder implements Stoppable {
         }
         inspectingNewEndpoint = true;
         final ZToolAddress16 nwk = dev.getNetworkAddress();
-        final ZToolAddress64 ieee = dev.getIEEEAddress();
+        final ZToolAddress64 ieee = dev.getIeeeAddress();
         logger.debug("Inspecting device {}.", IEEEAddress.toString(ieee.getLong()));
         inspectNode(nwk, ieee);
         logger.debug("Endpoint inspection completed, next inspection slot in {}",

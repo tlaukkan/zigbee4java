@@ -7,7 +7,7 @@ buildscript {
     }
 }
 
-apply plugin: 'maven'
+//apply plugin: 'maven'
 
 group = 'org.bubblecloud.zigbee'
 version = '1.0.9-SNAPSHOT'

@@ -30,7 +30,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
  */
 public interface MatchProtocolAddressResponse extends Response {
 
-    public long getIEEEAddress();
+    public long getIeeeAddress();
 
     public String getProtocolAddress();
 

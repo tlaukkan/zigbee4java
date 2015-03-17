@@ -16,6 +16,7 @@ def zigbee4javaProfilesArray = StringHelper.tokenizeUnquoted(zigbee4javaProfiles
 group = 'org.bubblecloud.zigbee4java'
 
 apply plugin: 'java'
+apply from: 'build-common.gradle'
 
 /* Include build scripts from all profiles selected in 'gradle.properties' */
 

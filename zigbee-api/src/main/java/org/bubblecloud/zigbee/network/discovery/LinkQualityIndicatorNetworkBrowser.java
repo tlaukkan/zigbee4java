@@ -89,7 +89,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
         this.driver = driver;
     }
 
-    private NetworkAddressNodeItem getIEEEAddress(short nwkAddress) {
+    private NetworkAddressNodeItem getIeeeAddress(short nwkAddress) {
 
         NetworkAddressNodeItem node = new NetworkAddressNodeItem(null, nwkAddress);
 
@@ -103,10 +103,10 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
         } else {
             logger.debug(
                     "ZDO_IEEE_ADDR_RSP from {} with {} associated",
-                    ieee_addr_resp.getIEEEAddress(), ieee_addr_resp.getAssociatedNodeCount()
+                    ieee_addr_resp.getIeeeAddress(), ieee_addr_resp.getAssociatedNodeCount()
             );
 
-            node.node = new ZigBeeNodeImpl(node.address, ieee_addr_resp.getIEEEAddress(),
+            node.node = new ZigBeeNodeImpl(node.address, ieee_addr_resp.getIeeeAddress(),
                     (short) driver.getCurrentPanId());
 
             ZToolAddress16 nwk = new ZToolAddress16(
@@ -115,7 +115,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
             );
 
             if (!alreadyInspected.containsKey((int) node.address)) {
-                queue.push(nwk, ieee_addr_resp.getIEEEAddress());
+                queue.push(nwk, ieee_addr_resp.getIeeeAddress());
             }
             announceNode(node);
 
@@ -169,7 +169,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
 
                         logger.debug("Node #{} visible from node #{} with LQI value {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), nwk16.get16BitValue(), neighbor.RxLQI});
 
-                        NetworkAddressNodeItem result = getIEEEAddress((short) neighbor.NetworkAddress.get16BitValue());
+                        NetworkAddressNodeItem result = getIeeeAddress((short) neighbor.NetworkAddress.get16BitValue());
                         NetworkAddressNodeItem newNode;
                         if (result != null) {
                             logger.debug("Node #{} is {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), result.node.getIeeeAddress()});
@@ -226,7 +226,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
             logger.debug("Inspecting ZigBee network for new nodes.");
 
             try {
-                NetworkAddressNodeItem coordinator = getIEEEAddress(COORDINATOR_NWK_ADDRESS);
+                NetworkAddressNodeItem coordinator = getIeeeAddress(COORDINATOR_NWK_ADDRESS);
                 if (coordinator != null) {
 
                     //gt = new GraphThread();

@@ -164,15 +164,15 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
         if (result == null) {
             logger.debug("Node did not respond to ZDO_IEEE_ADDR_REQ #{}", sourceNetworkAddress);
         } else if (result.Status == 0) {
-            logger.debug("Node network address #{} resolved to IEEE address {}.", sourceNetworkAddress, result.getIEEEAddress());
-            final ZigBeeNodeImpl node = new ZigBeeNodeImpl(sourceNetworkAddress, result.getIEEEAddress(),
+            logger.debug("Node network address #{} resolved to IEEE address {}.", sourceNetworkAddress, result.getIeeeAddress());
+            final ZigBeeNodeImpl node = new ZigBeeNodeImpl(sourceNetworkAddress, result.getIeeeAddress(),
                     (short) networkManager.getCurrentPanId());
 
             ZToolAddress16 nwk = new ZToolAddress16(
                     Integers.getByteAsInteger(sourceNetworkAddress, 1),
                     Integers.getByteAsInteger(sourceNetworkAddress, 0)
             );
-            importingQueue.push(nwk, result.getIEEEAddress());
+            importingQueue.push(nwk, result.getIeeeAddress());
 
             final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
             network.notifyNodeBrowsed(node);

@@ -2,13 +2,15 @@
 apply from: '../build-common-java.gradle'
 apply from: '../build-common.gradle'
 
-repositories
-{
+repositories {
     jcenter()
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repository-bubblecloud.forge.cloudbees.com/release/" }
+    maven { url "http://repo.maven.apache.org/maven2" }
 }
 
-dependencies
-{
+dependencies {
     compile 'serial-comm:serial-comm:0.9'
 
     compile project(':zigbee-api')

@@ -390,7 +390,7 @@ public final class ZigBeeConsole {
             }
 
             print("Network Address  : " + device.getNetworkAddress());
-            print("Extended Address : " + device.getIEEEAddress());
+            print("Extended Address : " + device.getIeeeAddress());
             print("Endpoint Address : " + device.getEndPointAddress());
             print("Device Type      : " + device.getDeviceType());
             print("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));
@@ -803,7 +803,7 @@ public final class ZigBeeConsole {
                 return true;
             }
 
-            reporter.addReportListener(consoleReportListener);
+            reporter.addReportListener(consoleReportListener, true);
 
             return true;
         }
@@ -853,7 +853,7 @@ public final class ZigBeeConsole {
                 print("Attribute does not provide reports.");
             }
 
-            reporter.removeReportListener(consoleReportListener);
+            reporter.removeReportListener(consoleReportListener, true);
 
             return true;
         }

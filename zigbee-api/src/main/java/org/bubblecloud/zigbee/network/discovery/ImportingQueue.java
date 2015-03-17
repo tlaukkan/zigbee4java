@@ -55,7 +55,7 @@ public class ImportingQueue {
             return networkAddress;
         }
 
-        public final ZToolAddress64 getIEEEAddress() {
+        public final ZToolAddress64 getIeeeAddress() {
             return ieeeAddress;
         }
     }
