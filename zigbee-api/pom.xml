@@ -69,15 +69,9 @@
         </dependency>
 
         <dependency>
-<<<<<<< HEAD
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.2</version>
-=======
-            <groupId>com.google.collections</groupId>
-            <artifactId>google-collections</artifactId>
-            <version>1.0-rc2</version>
->>>>>>> cdc869af5406470d8f0f70d62c39931688715ba2
         </dependency>
 
     </dependencies>
