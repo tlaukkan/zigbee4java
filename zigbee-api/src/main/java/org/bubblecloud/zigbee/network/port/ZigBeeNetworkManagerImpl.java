@@ -59,6 +59,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     public static final int DEFAULT_TIMEOUT = 5000;
     public static final String TIMEOUT_KEY = "zigbee.driver.cc2530.timeout";
 
+    public static final int STARTUP_TIMEOUT_DEFAULT = 5000;
+    public static final String STARTUP_TIMEOUT_KEY = "zigbee.driver.cc2530.startup.timeout";
+
     public static final int RESEND_TIMEOUT_DEFAULT = 1000;
     public static final String RESEND_TIMEOUT_KEY = "zigbee.driver.cc2530.resend.timeout";
 
@@ -69,6 +72,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     public static final String RESEND_ONLY_EXCEPTION_KEY = "zigbee.driver.cc2530.resend.exceptionally";
 
     private final int TIMEOUT;
+    private final int STARTUP_TIMEOUT;
     private final int RESEND_TIMEOUT;
     private final int RESEND_MAX_RETRY;
     private final boolean RESEND_ONLY_EXCEPTION;
@@ -110,6 +114,15 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             logger.trace("Using TIMEOUT set as DEFAULT {}ms", aux);
         }
         TIMEOUT = aux;
+
+        aux = (int) Math.max(STARTUP_TIMEOUT_DEFAULT, timeout);
+        try {
+            aux = Integer.parseInt(System.getProperty(STARTUP_TIMEOUT_KEY));
+            logger.trace("Using STARTUP_TIMEOUT set from enviroment {}", aux);
+        } catch (NumberFormatException ex) {
+            logger.trace("Using STARTUP_TIMEOUT set as DEFAULT {}ms", aux);
+        }
+        STARTUP_TIMEOUT = aux;
 
         aux = RESEND_MAX_RESEND_DEFAULT;
         try {
@@ -236,7 +249,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         final int INSTANT_STARTUP = 0;
 
         ZDO_STARTUP_FROM_APP_SRSP response = (ZDO_STARTUP_FROM_APP_SRSP) sendSynchrouns(
-				zigbeeInterface, new ZDO_STARTUP_FROM_APP(INSTANT_STARTUP)
+				zigbeeInterface, new ZDO_STARTUP_FROM_APP(INSTANT_STARTUP), STARTUP_TIMEOUT
         );
         if (response == null) return false;
         switch (response.Status) {
@@ -974,8 +987,13 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     private ZToolPacket sendSynchrouns(final ZigBeeInterface hwDriver, final ZToolPacket request) {
+//        final int RESEND_TIMEOUT = 1000;
+        return sendSynchrouns(hwDriver, request, RESEND_TIMEOUT);
+    }
+
+    private ZToolPacket sendSynchrouns(final ZigBeeInterface hwDriver, final ZToolPacket request, int timeout) {
         final ZToolPacket[] response = new ZToolPacket[]{null};
-//		final int RESEND_TIMEOUT = 1000, RESEND_MAX_RETRY = 3;
+//        final int RESEND_MAX_RETRY = 3;
         int sending = 1;
 
         logger.trace("{} sending as synchronous command.", request.getClass().getSimpleName());
@@ -995,13 +1013,13 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         while (sending <= RESEND_MAX_RETRY) {
             try {
                 try {
-                    hwDriver.sendSynchronousCommand(request, listener, RESEND_TIMEOUT);
+                    hwDriver.sendSynchronousCommand(request, listener, timeout);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 logger.trace("{} sent (synchronous command, retry: {}).", request.getClass().getSimpleName(), sending);
                 synchronized (response) {
-                    long wakeUpTime = System.currentTimeMillis() + RESEND_TIMEOUT;
+                    long wakeUpTime = System.currentTimeMillis() + timeout;
                     while (response[0] == null && wakeUpTime > System.currentTimeMillis()) {
                         final long sleeping = wakeUpTime - System.currentTimeMillis();
                         logger.trace("Waiting for synchronous command up to {}ms till {} Unixtime", sleeping, wakeUpTime);
