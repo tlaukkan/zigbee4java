@@ -8,7 +8,14 @@
 import org.codehaus.groovy.tools.StringHelper
 
 buildscript {
-    repositories { jcenter() }
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.1.0'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
 }
 
 def zigbee4javaProfilesArray = StringHelper.tokenizeUnquoted(zigbee4javaProfiles)
@@ -19,6 +26,16 @@ apply plugin: 'java'
 apply from: 'build-common.gradle'
 
 /* Include build scripts from all profiles selected in 'gradle.properties' */
+
+allprojects {
+    repositories {
+        jcenter()
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repository-bubblecloud.forge.cloudbees.com/release/" }
+        maven { url "http://repo.maven.apache.org/maven2" }
+    }
+}
 
 dependencies {
     for (zigbee4javaProfile in zigbee4javaProfilesArray) {

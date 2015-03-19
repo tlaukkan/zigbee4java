@@ -13,14 +13,14 @@ android {
         exclude 'META-INF/ASL2.0'
     }
 
-    compileSdkVersion 18
-    buildToolsVersion '19.1.0'
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
-        minSdkVersion    18
-        targetSdkVersion 18
-        versionCode      1
-        versionName      "1.0"
+        minSdkVersion 18
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
     }
 
     buildTypes {
