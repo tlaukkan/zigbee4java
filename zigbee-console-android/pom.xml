@@ -10,28 +10,55 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <sourceDirectory>src</sourceDirectory>
+
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                    <groupId>com.simpligility.maven.plugins</groupId>
                     <artifactId>android-maven-plugin</artifactId>
-                    <version>4.0.0</version>
-                    <extensions>true</extensions>
+                    <version>4.1.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
+            <!--
             <plugin>
                 <groupId>com.jayway.maven.plugins.android.generation2</groupId>
                 <artifactId>android-maven-plugin</artifactId>
                 <configuration>
                     <sdk>
-                        <!-- platform or api level (api level 16 = platform 4.1)-->
+
                         <platform>18</platform>
                     </sdk>
                     <androidManifestFile>${project.basedir}/src/main/AndroidManifest.xml</androidManifestFile>
                     <resourceDirectory>${project.basedir}/src/main/res</resourceDirectory>
                 </configuration>
+            </plugin>
+            -->
+
+            <plugin>
+                <groupId>com.simpligility.maven.plugins</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <version>4.1.0</version>
+                <!--
+                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                -->
+                <configuration>
+                    <!-- <androidManifestFile>${project.basedir}/src/main/AndroidManifest.xml</androidManifestFile>-->
+                    <!--<assetsDirectory>${project.basedir}/assets</assetsDirectory>-->
+                    <!--<resourceDirectory>${project.basedir}/src/main/res</resourceDirectory>-->
+                   <!--<nativeLibrariesDirectory>${project.basedir}/src/main/native</nativeLibrariesDirectory>-->
+                    <sdk>
+                        <platform>18</platform>
+                    </sdk>
+                    <emulator>
+                        <avd>Device</avd>
+                    </emulator>
+                    <undeployBeforeDeploy>true</undeployBeforeDeploy>
+                </configuration>
+                <extensions>true</extensions>
             </plugin>
         </plugins>
     </build>
@@ -39,15 +66,43 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.android.support</groupId>
-            <artifactId>appcompat-v7</artifactId>
-            <version>18.0.0</version>
+            <groupId>android.support</groupId>
+            <artifactId>compatibility-v7-appcompat</artifactId>
+            <version>21.0.3</version>
+            <type>apklib</type>
+        </dependency>
+        <dependency>
+            <groupId>android.support</groupId>
+            <artifactId>compatibility-v7-appcompat</artifactId>
+            <version>21.0.3</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>android.support</groupId>
+            <artifactId>compatibility-v4</artifactId>
+            <version>21.0.3</version>
+        </dependency>
+
+        <!--
+        <dependency>
+            <groupId>android.support</groupId>
+            <artifactId>compatibility-v7-appcompat</artifactId>
+            <version>21.0.3</version>
+            <type>apklib</type>
         </dependency>
 
         <dependency>
-            <groupId>com.google.android</groupId>
+            <groupId>android.support</groupId>
+            <artifactId>compatibility-v7-appcompat</artifactId>
+            <version>21.0.3</version>
+            <type>jar</type>
+        </dependency>
+        -->
+
+        <dependency>
+            <groupId>android</groupId>
             <artifactId>android</artifactId>
-            <version>4.1.1.4</version>
+            <version>4.3.1_r3</version>
             <scope>provided</scope>
         </dependency>
 

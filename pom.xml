@@ -46,10 +46,10 @@
         <profile>
             <id>android</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
                 <property>
                     <name>default</name>
-                    <value>!disabled</value>
+                    <value>disabled</value>
                 </property>
             </activation>
             <modules>

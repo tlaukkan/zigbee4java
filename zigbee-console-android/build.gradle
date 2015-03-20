@@ -8,6 +8,9 @@ android {
     defaultConfig {
         applicationId "org.bubblecloud.zigbee.androidconsole"
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
