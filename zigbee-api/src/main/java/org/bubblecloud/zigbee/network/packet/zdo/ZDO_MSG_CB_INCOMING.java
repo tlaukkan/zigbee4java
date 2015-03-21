@@ -24,6 +24,9 @@
 package org.bubblecloud.zigbee.network.packet.zdo;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
@@ -32,8 +35,6 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.ImmutableMap;
-
 /**
  * @author <a href="mailto:ryan@presslab.us">Ryan Press</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2015-03-09 19:00:05 +0300 (Mon, 09 Mar 2015) $)
@@ -41,32 +42,23 @@ import com.google.common.collect.ImmutableMap;
 public class ZDO_MSG_CB_INCOMING extends ZToolPacket /*implements IRESPONSE_CALLBACK,IZDO*/ {
     private final static Logger logger = LoggerFactory.getLogger(ZDO_MSG_CB_INCOMING.class);
 
-    final ImmutableMap<Integer, Class<? extends ZToolPacket>> clusterToRSP =
-            ImmutableMap.<Integer, Class<? extends ZToolPacket>>builder()
-            .put(0x0013, ZDO_END_DEVICE_ANNCE_IND.class)
-            .put(0x8000, ZDO_NWK_ADDR_RSP.class)
-            .put(0x8001, ZDO_IEEE_ADDR_RSP.class)
-            .put(0x8002, ZDO_NODE_DESC_RSP.class)
-            .put(0x8004, ZDO_SIMPLE_DESC_RSP.class)
-            .put(0x8005, ZDO_ACTIVE_EP_RSP.class)
-            .put(0x8006, ZDO_MATCH_DESC_RSP.class)
-            .put(0x8020, ZDO_END_DEVICE_BIND_RSP.class)
-            .put(0x8021, ZDO_BIND_RSP.class)
-            .put(0x8031, ZDO_MGMT_LQI_RSP.class)
-            .put(0x8034, ZDO_MGMT_LEAVE_RSP.class)
-            .put(0x8036, ZDO_MGMT_PERMIT_JOIN_RSP.class)
-            .build();
-    /* These clusters currently have no associated class
-            .put(0x8003, ZDO_POWER_DESC_RSP.class)
-            .put(0x8010, ZDO_COMPLEX_DESC_RSP.class)
-            .put(0x8011, ZDO_USER_DESC.class)
-            .put(0x8015, ZDO_SERVER_DISC_RSP.class)
-            .put(0x8022, ZDO_UNBIND.class)
-            .put(0x8030, ZDO_MGMT_NWK_DISC_RSP.class)
-            .put(0x8032, ZDO_MGMT_RTG_RSP.class)
-            .put(0x8033, ZDO_MGMT_BIND_RSP.class)
-            .put(0x8035, ZDO_MGMT_DIRECT_JOIN_RSP.class)
-     */
+    static final Map<Integer, Class<? extends ZToolPacket>> clusterToRSP;
+    static {
+        final Map<Integer, Class<? extends ZToolPacket>> build = new HashMap<Integer, Class<? extends ZToolPacket>>();
+        build.put(0x0013, ZDO_END_DEVICE_ANNCE_IND.class);
+        build.put(0x8000, ZDO_NWK_ADDR_RSP.class);
+        build.put(0x8001, ZDO_IEEE_ADDR_RSP.class);
+        build.put(0x8002, ZDO_NODE_DESC_RSP.class);
+        build.put(0x8004, ZDO_SIMPLE_DESC_RSP.class);
+        build.put(0x8005, ZDO_ACTIVE_EP_RSP.class);
+        build.put(0x8006, ZDO_MATCH_DESC_RSP.class);
+        build.put(0x8020, ZDO_END_DEVICE_BIND_RSP.class);
+        build.put(0x8021, ZDO_BIND_RSP.class);
+        build.put(0x8031, ZDO_MGMT_LQI_RSP.class);
+        build.put(0x8034, ZDO_MGMT_LEAVE_RSP.class);
+        build.put(0x8036, ZDO_MGMT_PERMIT_JOIN_RSP.class);
+        clusterToRSP = Collections.unmodifiableMap(build);
+    }
 
     int FCS;
 
