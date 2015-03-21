@@ -8,5 +8,6 @@ dependencies {
     compile group: 'commons-io', name: 'commons-io', version:'2.4'
     compile group: 'commons-lang', name: 'commons-lang', version:'2.6'
     compile group: 'commons-codec', name: 'commons-codec', version:'1.8'
+    compile group: 'com.google.collections', name: 'google-collections', version: '1.0-rc2'
     testCompile group: 'org.easymock', name: 'easymock', version:'3.2'
 }

@@ -23,6 +23,7 @@
 
 package org.bubblecloud.zigbee.network.packet.zdo;
 
+import org.bubblecloud.zigbee.network.packet.ZToolAddress;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
@@ -33,6 +34,9 @@ import org.bubblecloud.zigbee.util.DoubleByte;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
 public class ZDO_MGMT_PERMIT_JOIN_REQ extends ZToolPacket /*implements IREQUEST,IZDO*/ {
+    /// <name>TI.ZPI1.ZDO_MGMT_PERMIT_JOIN_REQ.AddrMode</name>
+    /// <summary>Destination address type: 0x02 – Address 16 bit, 0x0F – Broadcast.</summary>
+    public byte AddrMode;
     /// <name>TI.ZPI1.ZDO_MGMT_PERMIT_JOIN_REQ.DstAddr</name>
     /// <summary>Destination network address.</summary>
     public ZToolAddress16 DstAddr;
@@ -50,16 +54,18 @@ public class ZDO_MGMT_PERMIT_JOIN_REQ extends ZToolPacket /*implements IREQUEST,
 
     /// <name>TI.ZPI1.ZDO_MGMT_PERMIT_JOIN_REQ</name>
     /// <summary>Constructor</summary>
-    public ZDO_MGMT_PERMIT_JOIN_REQ(ZToolAddress16 num1, int num2, int num3) {
-        this.DstAddr = num1;
-        this.Duration = num2;
-        this.TCSignificance = num3;
+    public ZDO_MGMT_PERMIT_JOIN_REQ(byte num1, ZToolAddress16 num2, int num3, int num4) {
+        this.AddrMode = num1;
+        this.DstAddr = num2;
+        this.Duration = num3;
+        this.TCSignificance = num4;
 
-        int[] framedata = new int[4];
-        framedata[0] = this.DstAddr.getLsb();
-        framedata[1] = this.DstAddr.getMsb();
-        framedata[2] = this.Duration;
-        framedata[3] = this.TCSignificance;
+        int[] framedata = new int[5];
+        framedata[0] = this.AddrMode;
+        framedata[1] = this.DstAddr.getLsb();
+        framedata[2] = this.DstAddr.getMsb();
+        framedata[3] = this.Duration;
+        framedata[4] = this.TCSignificance;
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_MGMT_PERMIT_JOIN_REQ), framedata);
     }
 }

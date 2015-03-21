@@ -30,9 +30,9 @@ import org.bubblecloud.zigbee.network.packet.system.SYS_RESET_RESPONSE;
 import org.bubblecloud.zigbee.network.packet.util.UTIL_GET_DEVICE_INFO;
 import org.bubblecloud.zigbee.network.packet.util.UTIL_GET_DEVICE_INFO_RESPONSE;
 import org.bubblecloud.zigbee.network.packet.zdo.*;
+import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.network.model.*;
-import org.bubblecloud.zigbee.util.NetworkAddressUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +59,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     public static final int DEFAULT_TIMEOUT = 5000;
     public static final String TIMEOUT_KEY = "zigbee.driver.cc2530.timeout";
 
+    public static final int STARTUP_TIMEOUT_DEFAULT = 5000;
+    public static final String STARTUP_TIMEOUT_KEY = "zigbee.driver.cc2530.startup.timeout";
+
     public static final int RESEND_TIMEOUT_DEFAULT = 1000;
     public static final String RESEND_TIMEOUT_KEY = "zigbee.driver.cc2530.resend.timeout";
 
@@ -69,6 +72,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     public static final String RESEND_ONLY_EXCEPTION_KEY = "zigbee.driver.cc2530.resend.exceptionally";
 
     private final int TIMEOUT;
+    private final int STARTUP_TIMEOUT;
     private final int RESEND_TIMEOUT;
     private final int RESEND_MAX_RETRY;
     private final boolean RESEND_ONLY_EXCEPTION;
@@ -110,6 +114,15 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             logger.trace("Using TIMEOUT set as DEFAULT {}ms", aux);
         }
         TIMEOUT = aux;
+
+        aux = (int) Math.max(STARTUP_TIMEOUT_DEFAULT, timeout);
+        try {
+            aux = Integer.parseInt(System.getProperty(STARTUP_TIMEOUT_KEY));
+            logger.trace("Using STARTUP_TIMEOUT set from enviroment {}", aux);
+        } catch (NumberFormatException ex) {
+            logger.trace("Using STARTUP_TIMEOUT set as DEFAULT {}ms", aux);
+        }
+        STARTUP_TIMEOUT = aux;
 
         aux = RESEND_MAX_RESEND_DEFAULT;
         try {
@@ -183,6 +196,11 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             logger.error("Failed to initialize the dongle on port {}.", port);
             return false;
         }
+        if (!dongleReset()) {
+            logger.error("Unable to reset dongle");
+            return false;
+        }
+
         return true;
     }
 
@@ -218,11 +236,20 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                 logger.debug("Creating network as end device.");
             break;
         }
+        final int ALL_CLUSTERS = 0xFFFF;
+
+        logger.trace("Reset seq: Trying MSG_CB_REGISTER");
+        ZDO_MSG_CB_REGISTER_SRSP responseCb = (ZDO_MSG_CB_REGISTER_SRSP) sendSynchrouns(
+				zigbeeInterface, new ZDO_MSG_CB_REGISTER(new DoubleByte(ALL_CLUSTERS))
+        );
+        if (responseCb == null) {
+            logger.warn("Reset seq: Failed MSG_CB_REGISTER");
+        }
 
         final int INSTANT_STARTUP = 0;
 
         ZDO_STARTUP_FROM_APP_SRSP response = (ZDO_STARTUP_FROM_APP_SRSP) sendSynchrouns(
-				zigbeeInterface, new ZDO_STARTUP_FROM_APP(INSTANT_STARTUP)
+				zigbeeInterface, new ZDO_STARTUP_FROM_APP(INSTANT_STARTUP), STARTUP_TIMEOUT
         );
         if (response == null) return false;
         switch (response.Status) {
@@ -833,8 +860,6 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     private boolean dongleReset() {
-        if (waitForHardware() == false) return false;
-
         final WaitForCommand waiter = new WaitForCommand(
                 ZToolCMD.SYS_RESET_RESPONSE,
 				zigbeeInterface
@@ -962,8 +987,13 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     private ZToolPacket sendSynchrouns(final ZigBeeInterface hwDriver, final ZToolPacket request) {
+//        final int RESEND_TIMEOUT = 1000;
+        return sendSynchrouns(hwDriver, request, RESEND_TIMEOUT);
+    }
+
+    private ZToolPacket sendSynchrouns(final ZigBeeInterface hwDriver, final ZToolPacket request, int timeout) {
         final ZToolPacket[] response = new ZToolPacket[]{null};
-//		final int TIMEOUT = 1000, MAX_SEND = 3;
+//        final int RESEND_MAX_RETRY = 3;
         int sending = 1;
 
         logger.trace("{} sending as synchronous command.", request.getClass().getSimpleName());
@@ -983,13 +1013,13 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         while (sending <= RESEND_MAX_RETRY) {
             try {
                 try {
-                    hwDriver.sendSynchronousCommand(request, listener, RESEND_TIMEOUT);
+                    hwDriver.sendSynchronousCommand(request, listener, timeout);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 logger.trace("{} sent (synchronous command, retry: {}).", request.getClass().getSimpleName(), sending);
                 synchronized (response) {
-                    long wakeUpTime = System.currentTimeMillis() + RESEND_TIMEOUT;
+                    long wakeUpTime = System.currentTimeMillis() + timeout;
                     while (response[0] == null && wakeUpTime > System.currentTimeMillis()) {
                         final long sleeping = wakeUpTime - System.currentTimeMillis();
                         logger.trace("Waiting for synchronous command up to {}ms till {} Unixtime", sleeping, wakeUpTime);
@@ -1460,6 +1490,13 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                     l.announce(annunce.SrcAddr, annunce.IEEEAddr, annunce.NwkAddr, annunce.Capabilities);
 
                 }
+            } else if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_TC_DEVICE_IND) {
+                    logger.debug("Recieved TC announce message {} value is {}", packet.getClass(), packet);
+                    ZDO_TC_DEVICE_IND annunce = (ZDO_TC_DEVICE_IND) packet;
+                    for (AnnounceListener l : listners) {
+                        l.announce(annunce.SrcAddr, annunce.IEEEAddr, annunce.NwkAddr, 0);
+
+                    }
             } else if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_STATE_CHANGE_IND) {
                 try {
                     ZDO_STATE_CHANGE_IND p = ((ZDO_STATE_CHANGE_IND) packet);
