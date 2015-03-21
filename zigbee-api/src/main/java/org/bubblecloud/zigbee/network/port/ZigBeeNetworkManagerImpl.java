@@ -311,7 +311,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     private boolean configureZigBeeNetwork() {
         logger.debug("Resetting network stack.");
 
-        logger.error("Setting clean state.");
+        logger.info("Setting clean state.");
         if (!dongleSetCleanState(true)) {
             logger.error("Unable to set clean state for dongle");
             return false;
