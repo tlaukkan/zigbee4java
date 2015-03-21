@@ -113,7 +113,7 @@ public class AF_INCOMING_MSG extends ZToolPacket /*implements IINDICATION,IAF*/ 
         this.Timestamp = ByteUtils.convertMultiByteToLong(bytes);
         this.TransSeqNumber = framedata[15];
         this.Len = framedata[16];
-        this.Data = new int[framedata.length - 17];
+        this.Data = new int[this.Len];
         for (int i = 0; i < this.Data.length; i++) {
             this.Data[i] = framedata[17 + i];
         }
