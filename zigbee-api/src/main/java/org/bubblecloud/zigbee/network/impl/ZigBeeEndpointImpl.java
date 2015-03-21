@@ -447,18 +447,18 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         short dstEP = ApplicationFrameworkLayer.getAFLayer(networkManager).getSendingEndpoint(this, clusterId);
 
         logger.info("Binding from endpoint {} to {} for cluster {}", new Object[]{
-                getEndpointId(), IEEEAddress.toString(networkManager.getIEEEAddress()) + "/" + dstEP, new Integer(clusterId)
+                getEndpointId(), IEEEAddress.toString(networkManager.getIeeeAddress()) + "/" + dstEP, new Integer(clusterId)
         });
 
         final ZDO_BIND_RSP response = networkManager.sendZDOBind(new ZDO_BIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
                 IEEEAddress.fromColonNotation(getNode().getIeeeAddress()), (byte) endPointAddress,
-                networkManager.getIEEEAddress(), (byte) dstEP
+                networkManager.getIeeeAddress(), (byte) dstEP
         ));
         if (response == null || response.Status != 0) {
             logger.warn("ZDO_BIND_REQ failed due to {}, unable to bind from endpoint {} to {} for cluster {}", new Object[]{
                     response==null?"Timeout":ResponseStatus.getStatus(response.Status) ,getEndpointId(),
-                    IEEEAddress.toString(networkManager.getIEEEAddress()) + "/" + dstEP,
+                    IEEEAddress.toString(networkManager.getIeeeAddress()) + "/" + dstEP,
                     new Integer(clusterId)
             });
             return false;
@@ -479,7 +479,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         final ZDO_UNBIND_RSP response = networkManager.sendZDOUnbind(new ZDO_UNBIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
                 IEEEAddress.fromColonNotation(getNode().getIeeeAddress()), (byte) endPointAddress,
-                networkManager.getIEEEAddress(), (byte) dstEP
+                networkManager.getIeeeAddress(), (byte) dstEP
         ));
         if (response == null || response.Status != 0) {
             logger.warn("ZDO_BIND_REQ failed, unable to unbind");

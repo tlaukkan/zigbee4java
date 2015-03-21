@@ -1,12 +1,16 @@
 
-apply plugin: 'java'
+buildscript {
+    repositories { jcenter() }
+    dependencies { classpath 'com.android.tools.build:gradle:1.1.0' }
+}
 
-description = 'zigbee-serial-android'
+apply plugin: 'com.android.library'
 
-//project('zigbee-api').projectDir            = "../zigbee-api"            as File
+apply from: '../build-common-android.gradle'
+apply from: '../build-common.gradle'
 
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 
-  compile project(':zigbee-api')
-  testCompile project(':zigbee-api')
+    compile project(':zigbee-api')
 }

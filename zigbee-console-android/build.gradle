@@ -1,0 +1,23 @@
+
+apply plugin: 'com.android.application'
+
+apply from: '../build-common-android.gradle'
+apply from: '../build-common.gradle'
+
+android {
+    defaultConfig {
+        applicationId "org.bubblecloud.zigbee.androidconsole"
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:21.0.3'
+
+    compile project(':zigbee-api')
+    compile project(':zigbee-console-common')
+    compile project(':zigbee-serial-android')
+}

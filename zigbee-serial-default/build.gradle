@@ -1,7 +1,0 @@
-
-description = 'zigbee-serial-default'
-dependencies {
-  compile project(':zigbee-api')
-    compile group: 'serial-comm', name: 'serial-comm', version:'0.9'
-  testCompile project(':zigbee-api')
-}

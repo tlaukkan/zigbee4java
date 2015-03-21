@@ -53,7 +53,7 @@ public class ZoneInformationResponseImpl extends ResponseImpl implements ZoneInf
         return zoneType;
     }
 
-    public String getIEEEAddress() {
+    public String getIeeeAddress() {
         return IEEEaddress;
     }
 }

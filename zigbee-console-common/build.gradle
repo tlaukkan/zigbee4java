@@ -1,0 +1,8 @@
+
+apply from: '../build-common-java.gradle'
+apply from: '../build-common.gradle'
+
+dependencies
+{
+    compile project(':zigbee-api')
+}

@@ -117,14 +117,14 @@ public class AssociationNetworkBrowser extends RunnableThread {
                                 "Inspection result from #{} with {} associated nodes.",
                                 inspecting.address, result.getAssociatedNodeCount()
                         );
-                        inspecting.node = new ZigBeeNodeImpl(inspecting.address, result.getIEEEAddress(),
+                        inspecting.node = new ZigBeeNodeImpl(inspecting.address, result.getIeeeAddress(),
                                 (short) driver.getCurrentPanId());
 
                         ZToolAddress16 nwk = new ZToolAddress16(
                                 Integers.getByteAsInteger(inspecting.address, 1),
                                 Integers.getByteAsInteger(inspecting.address, 0)
                         );
-                        queue.push(nwk, result.getIEEEAddress());
+                        queue.push(nwk, result.getIeeeAddress());
 
                         notifyBrowsedNode(inspecting);
                     }

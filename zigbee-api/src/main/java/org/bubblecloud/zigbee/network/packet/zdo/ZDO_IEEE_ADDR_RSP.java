@@ -90,7 +90,7 @@ public class ZDO_IEEE_ADDR_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_IEEE_ADDR_RSP), framedata);
     }
 
-    public ZToolAddress64 getIEEEAddress() {
+    public ZToolAddress64 getIeeeAddress() {
         return IEEEAddr;
     }
 

@@ -6,12 +6,11 @@ import org.bubblecloud.zigbee.network.port.ZigBeeSerialPortImpl;
  * Example runtime arguments on Mac OS-X: /dev/cu.usbmodem1411 4951 22 false
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
-public class ZigBeeSerialConsole
+public class ZigBeeConsoleDesktop
 {
-
 	private static final int DefaultBaudRate = 38400;
 
-	private ZigBeeSerialConsole(){}
+	private ZigBeeConsoleDesktop(){}
 
 	public static void main(final String[] args) {
 		final String serialPortName;

@@ -407,7 +407,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             }
 
             if (responseA4 != null) {
-                longAddresses[k] = responseA4.getIEEEAddress();
+                longAddresses[k] = responseA4.getIeeeAddress();
             } else {
                 longAddresses[k] = null;
             }
@@ -692,7 +692,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             }
 
             if (responseA4 != null) {
-                longAddresses[k] = responseA4.getIEEEAddress();
+                longAddresses[k] = responseA4.getIeeeAddress();
             } else {
                 longAddresses[k] = null;
             }
@@ -1212,7 +1212,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
      * @return
      * @since 0.2.0
      */
-    public long getIEEEAddress() {
+    public long getIeeeAddress() {
 
         if (ieeeAddress != -1) {
             return ieeeAddress;

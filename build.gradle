@@ -1,29 +1,57 @@
-allprojects
-{
-    apply plugin: 'maven'
 
-    group   = 'org.bubblecloud.zigbee4java'
-    version = '1.0.9-SNAPSHOT'
+/**
+ * zigbee4java Gradle build
+ *
+ * @author Chris Hatton (christopherhattonuk@gmail.com)
+ */
+
+import org.codehaus.groovy.tools.StringHelper
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.1.0'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
 }
 
-subprojects
-{
-    apply plugin: 'java'
-    sourceCompatibility = 1.5
-    targetCompatibility = 1.5
+def zigbee4javaProfilesArray = StringHelper.tokenizeUnquoted(zigbee4javaProfiles)
 
-    repositories
-    {
+group = 'org.bubblecloud.zigbee4java'
+
+apply plugin: 'java'
+apply from: 'build-common.gradle'
+
+/* Include build scripts from all profiles selected in 'gradle.properties' */
+
+allprojects {
+    repositories {
+        jcenter()
         mavenLocal()
+        mavenCentral()
         maven { url "http://repository-bubblecloud.forge.cloudbees.com/release/" }
         maven { url "http://repo.maven.apache.org/maven2" }
     }
+}
 
+dependencies {
+    for (zigbee4javaProfile in zigbee4javaProfilesArray) {
+        switch (zigbee4javaProfile) {
+            case 'android':
+                println 'zigbee4java: Including android build'
+                compile project(':zigbee-serial-android')
+                compile project(':zigbee-console-android')
+                break;
 
-    dependencies
-    {
-        compile     group: 'log4j',     name: 'log4j',          version:'1.2.17'
-        compile     group: 'org.slf4j', name: 'slf4j-log4j12',  version:'1.7.5'
-        testCompile group: 'junit',     name: 'junit',          version:'4.11'
+            case 'desktop':
+                println 'zigbee4java: Including desktop build'
+                compile project(':zigbee-serial-desktop')
+                compile project(':zigbee-console-desktop')
+                break;
+        }
     }
 }
+

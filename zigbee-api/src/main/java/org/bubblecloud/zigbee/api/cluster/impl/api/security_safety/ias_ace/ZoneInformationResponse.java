@@ -36,5 +36,5 @@ public interface ZoneInformationResponse extends Response {
 
     public short getZoneType();
 
-    public String getIEEEAddress();
+    public String getIeeeAddress();
 }

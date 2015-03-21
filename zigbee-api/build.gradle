@@ -1,13 +1,44 @@
 
+buildscript
+{
+    repositories
+    {
+        jcenter()
+    }
+}
+
+apply from: '../build-common-java.gradle'
+apply from: '../build-common.gradle'
+
 description = ''
 
+/**
+ * The method used here to provide a separate test-jar artifact was learned from:
+ * https://softnoise.wordpress.com/2014/09/07/gradle-sub-project-test-dependencies-in-multi-project-builds/
+ */
+
+configurations
+{
+    testOutput.extendsFrom (testCompile)
+}
+
+task jarTest (type: Jar, dependsOn: testClasses) {
+    from sourceSets.test.output
+    classifier = 'test'
+}
+
+artifacts
+{
+    testOutput jarTest
+}
+
 dependencies {
-    apply plugin: 'java'
-    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version:'1.49'
-    compile group: 'org.bouncycastle', name: 'bcmail-jdk15on', version:'1.49'
-    compile group: 'commons-io', name: 'commons-io', version:'2.4'
-    compile group: 'commons-lang', name: 'commons-lang', version:'2.6'
-    compile group: 'commons-codec', name: 'commons-codec', version:'1.8'
-    compile group: 'com.google.collections', name: 'google-collections', version: '1.0-rc2'
-    testCompile group: 'org.easymock', name: 'easymock', version:'3.2'
+    compile     group: 'org.bouncycastle',       name: 'bcprov-jdk15on',     version: '1.49'
+    compile     group: 'org.bouncycastle',       name: 'bcmail-jdk15on',     version: '1.49'
+    compile     group: 'commons-io',             name: 'commons-io',         version: '2.4'
+    compile     group: 'commons-lang',           name: 'commons-lang',       version: '2.6'
+    compile     group: 'commons-codec',          name: 'commons-codec',      version: '1.8'
+    compile     group: 'org.codehaus.jackson',   name: 'jackson-mapper-asl', version: '1.9.2'
+
+    testCompile group: 'org.easymock',           name: 'easymock',           version: '3.2'
 }

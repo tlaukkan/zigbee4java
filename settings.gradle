@@ -1,7 +1,37 @@
 
+import org.codehaus.groovy.tools.StringHelper;
+
+/**
+ * zigbee4java Gradle settings
+ *
+ * @author Chris Hatton (christopherhattonuk@gmail.com)
+ */
+
+def zigbee4javaProfilesArray = StringHelper.tokenizeUnquoted(zigbee4javaProfiles)
+
+/* Gradle settings applicable to all profiles */
+
 rootProject.name = 'zigbee4java'
 
-include ':zigbee-api'
-include ':zigbee-console'
-include ':zigbee-serial-android'
-include ':zigbee-serial-default'
+include ':zigbee-api', ':zigbee-console-android'
+include ':zigbee-console-common'
+
+/* Include settings from all profiles selected in 'gradle.properties' */
+
+for(zigbee4javaProfile in zigbee4javaProfilesArray)
+{
+    switch(zigbee4javaProfile)
+    {
+        case 'android':
+            println 'zigbee4java: Including android settings'
+            include ':zigbee-serial-android'
+            include ':zigbee-console-android'
+            break;
+
+        case 'desktop':
+            println 'zigbee4java: Including desktop settings'
+            include ':zigbee-serial-desktop'
+            include ':zigbee-console-desktop'
+            break;
+    }
+}

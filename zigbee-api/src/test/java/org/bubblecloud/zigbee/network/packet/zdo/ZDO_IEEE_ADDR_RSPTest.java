@@ -47,7 +47,7 @@ public class ZDO_IEEE_ADDR_RSPTest {
 				0xF0, 0xFB, 0x80, 0x8F, 0x10, 0x01				//Associated Device List				
 		});
 		
-		assertArrayEquals(response.getIEEEAddress().getAddress(), response.IEEEAddr.getAddress());
+		assertArrayEquals(response.getIeeeAddress().getAddress(), response.IEEEAddr.getAddress());
 	}
 
 	@Test
