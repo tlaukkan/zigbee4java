@@ -139,16 +139,16 @@ public final class ZigBeeConsole {
             }
         }));
 
-        print("Browsing network for the first time...");
         while (!shutdown && !networkStateFile.exists() && !zigbeeApi.isInitialBrowsingComplete()) {
+            print("Browsing network for the first time...");
             System.out.print('.');
             try {
                 Thread.sleep(250);
             } catch (InterruptedException e) {
                 break;
             }
+            print("Browsing network for the first time... [OK]");
         }
-        print("Browsing network for the first time... [OK]");
         print("There are " + zigbeeApi.getDevices().size() + " known devices in the network.");
 
         print("ZigBee console ready.");
@@ -231,7 +231,6 @@ public final class ZigBeeConsole {
             final String inputLine = bufferRead.readLine();
             return inputLine;
         } catch(final IOException e) {
-            e.printStackTrace();
             return null;
         }
     }
