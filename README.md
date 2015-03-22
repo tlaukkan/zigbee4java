@@ -48,9 +48,9 @@ You need to buy the following items:
 Flashing Dongle
 ---------------
 
-You need to execute the steps as described in this guide provided by ZB4OSGI project:
-
-* http://zb4osgi.aaloa.org/redmine/attachments/download/42/CC2531_Dongle_Firmware_compilation_guide.docx
+1. Download and install Z-STACK-HOME from http://www.ti.com/tool/z-stack
+2. View CCDEBUGGER user guide: http://www.ti.com/lit/ug/swru197h/swru197h.pdf
+2. Flash CC2531ZNP-Pro-Secure_Standard.hex with Smart RF Studio included in Z-STACK-HOME.
 
 Maven Repository
 ----------------
@@ -74,9 +74,15 @@ Maven:
 ```
 <dependencies>
     <dependency>
-        <groupId>org.bubblecloud.zigbee</groupId>
+        <groupId>org.bubblecloud.zigbee4java</groupId>
         <artifactId>zigbee-api</artifactId>
-        <version>2.0.1</version>
+        <version>2.0.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.bubblecloud.zigbee4java</groupId>
+        <artifactId>zigbee-serial-javase</artifactId>
+        <version>2.0.2</version>
     </dependency>
 </dependencies>
 ```
@@ -86,7 +92,8 @@ Gradle:
 ```
 dependencies
 {
-    compile 'org.bubblecloud.zigbee:zigbee-api:2.0.1'
+    compile 'org.bubblecloud.zigbee:zigbee-api:2.0.2'
+    compile 'org.bubblecloud.zigbee:zigbee-serial-javase:2.0.2'
 }
 ```
 
@@ -115,7 +122,8 @@ Usage
 -----
 
 ```
-ZigBeeApi zigbeeApi = new ZigBeeApi("/dev/ttyACM0", 4951, 11, false, DiscoveryMode.ALL);
+ZigBeeSerialPortImpl serialPort = new ZigBeeSerialPortImpl("/dev/ttyACM0", 38400);
+ZigBeeConsole console = new ZigBeeConsole(serialPort, 4951, 11, false);
 zigbeeApi.startup();
 
 Device lamp = zigbeeApi.getZigBeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
