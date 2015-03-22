@@ -76,7 +76,7 @@ Maven:
     <dependency>
         <groupId>org.bubblecloud.zigbee</groupId>
         <artifactId>zigbee-api</artifactId>
-        <version>1.0.8</version>
+        <version>2.0.1</version>
     </dependency>
 </dependencies>
 ```
@@ -86,7 +86,7 @@ Gradle:
 ```
 dependencies
 {
-    compile 'org.bubblecloud.zigbee:zigbee-api:1.0.8'
+    compile 'org.bubblecloud.zigbee:zigbee-api:2.0.1'
 }
 ```
 
