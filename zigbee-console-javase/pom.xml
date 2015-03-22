@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>zigbee-console-desktop</artifactId>
+    <artifactId>zigbee-console-javase</artifactId>
     <packaging>jar</packaging>
 
     <parent>
@@ -19,7 +19,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.1</version>
                 <configuration>
-                    <mainClass>org.bubblecloud.zigbee.ZigBeeConsoleDesktop</mainClass>
+                    <mainClass>org.bubblecloud.zigbee.ZigBeeConsoleJavaSE</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -49,7 +49,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.bubblecloud.zigbee.ZigBeeConsoleDesktop</mainClass>
+                            <mainClass>org.bubblecloud.zigbee.ZigBeeConsoleJavaSE</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -73,7 +73,7 @@
 
         <dependency>
             <groupId>org.bubblecloud.zigbee4java</groupId>
-            <artifactId>zigbee-serial-desktop</artifactId>
+            <artifactId>zigbee-serial-javase</artifactId>
             <version>2.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

@@ -1,5 +1,5 @@
 
-apply from: '../build-common-java.gradle'
+apply from: '../build-common-javase.gradle'
 apply from: '../build-common.gradle'
 
 repositories {

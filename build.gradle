@@ -41,15 +41,15 @@ dependencies {
     for (zigbee4javaProfile in zigbee4javaProfilesArray) {
         switch (zigbee4javaProfile) {
             case 'android':
-                println 'zigbee4java: Including android build'
+                println 'zigbee4java: Including Android build'
                 compile project(':zigbee-serial-android')
                 compile project(':zigbee-console-android')
                 break;
 
-            case 'desktop':
-                println 'zigbee4java: Including desktop build'
-                compile project(':zigbee-serial-desktop')
-                compile project(':zigbee-console-desktop')
+            case 'javase':
+                println 'zigbee4java: Including JavaSE build'
+                compile project(':zigbee-serial-javase')
+                compile project(':zigbee-console-javase')
                 break;
         }
     }

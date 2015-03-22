@@ -60,7 +60,7 @@
             </modules>
         </profile>
         <profile>
-            <id>desktop</id>
+            <id>javase</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
                 <property>
@@ -70,8 +70,8 @@
             </activation>
             <modules>
                 <module>zigbee-api</module>
-                <module>zigbee-serial-desktop</module>
-                <module>zigbee-console-desktop</module>
+                <module>zigbee-serial-javase</module>
+                <module>zigbee-console-javase</module>
                 <module>zigbee-console-common</module>
             </modules>
         </profile>
@@ -86,9 +86,9 @@
             </activation>
             <modules>
                 <module>zigbee-api</module>
-                <module>zigbee-serial-desktop</module>
+                <module>zigbee-serial-javase</module>
                 <module>zigbee-serial-android</module>
-                <module>zigbee-console-desktop</module>
+                <module>zigbee-console-javase</module>
                 <module>zigbee-console-common</module>
             </modules>
         </profile>

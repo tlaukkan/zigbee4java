@@ -23,15 +23,15 @@ for(zigbee4javaProfile in zigbee4javaProfilesArray)
     switch(zigbee4javaProfile)
     {
         case 'android':
-            println 'zigbee4java: Including android settings'
+            println 'zigbee4java: Including Android settings'
             include ':zigbee-serial-android'
             include ':zigbee-console-android'
             break;
 
-        case 'desktop':
-            println 'zigbee4java: Including desktop settings'
-            include ':zigbee-serial-desktop'
-            include ':zigbee-console-desktop'
+        case 'javase':
+            println 'zigbee4java: Including JavaSE settings'
+            include ':zigbee-serial-javase'
+            include ':zigbee-console-javase'
             break;
     }
 }

@@ -8,11 +8,11 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-  <artifactId>zigbee-serial-desktop</artifactId>
+  <artifactId>zigbee-serial-javase</artifactId>
   <version>2.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>zigbee-serial-desktop</name>
+  <name>zigbee-serial-javase</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

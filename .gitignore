@@ -7,7 +7,7 @@ target/
 zigbee-api/build
 .gradle
 zigbee-console/build
-zigbee-serial-desktop/build
+zigbee-serial-javase/build
 local.properties
 zigbee-serial-android/build
 zigbee-console-common/build
