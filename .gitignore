@@ -12,3 +12,4 @@ local.properties
 zigbee-serial-android/build
 zigbee-console-common/build
 build
+zigbee-console-android/gen-external-apklibs

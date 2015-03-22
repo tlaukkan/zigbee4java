@@ -49,7 +49,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.bubblecloud.zigbee.ZigBeeSerialConsole</mainClass>
+                            <mainClass>org.bubblecloud.zigbee.ZigBeeConsoleDesktop</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
