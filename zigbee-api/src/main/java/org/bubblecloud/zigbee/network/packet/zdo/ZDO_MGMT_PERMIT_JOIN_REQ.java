@@ -54,11 +54,11 @@ public class ZDO_MGMT_PERMIT_JOIN_REQ extends ZToolPacket /*implements IREQUEST,
 
     /// <name>TI.ZPI1.ZDO_MGMT_PERMIT_JOIN_REQ</name>
     /// <summary>Constructor</summary>
-    public ZDO_MGMT_PERMIT_JOIN_REQ(byte num1, ZToolAddress16 num2, int num3, int num4) {
-        this.AddrMode = num1;
-        this.DstAddr = num2;
-        this.Duration = num3;
-        this.TCSignificance = num4;
+    public ZDO_MGMT_PERMIT_JOIN_REQ(byte AddrMode, ZToolAddress16 DstAddr, int Duration, int TCSignificance) {
+        this.AddrMode = AddrMode;
+        this.DstAddr = DstAddr;
+        this.Duration = Duration;
+        this.TCSignificance = TCSignificance;
 
         int[] framedata = new int[5];
         framedata[0] = this.AddrMode;
