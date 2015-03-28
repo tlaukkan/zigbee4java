@@ -20,34 +20,33 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.impl.api.closures;
+package org.bubblecloud.zigbee.api.cluster.impl.general.security;
 
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBDeserializer;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.security.DoorLockResponse;
+import org.bubblecloud.zigbee.api.cluster.impl.core.DefaultDeserializer;
+import org.bubblecloud.zigbee.api.cluster.impl.core.ResponseImpl;
 
 
-/**
- * This class represent the <b>Door Lock</b> Cluster as defined by the document:<br>
- * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
- * @author <a href="mailto:giancarlo.riolo@isti.cnr.it">Giancarlo Riolo</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 18:00:05 +0200 (mar, 06 ago 2013) $)
- * @since 0.8.0
- */
+public class DoorLockResponseImpl extends ResponseImpl implements DoorLockResponse {
 
-public interface DoorLock extends ZCLCluster {
-	
-	public static final short  ID = 0x101;
-	static final String NAME = "Door Lock";
-	static final String DESCRIPTION = "Attributes and commands for controlling smart door.";
-	
-	static final byte LOCK_ID = 0x0;
-	
-	public DoorLockResponse lock() throws ZigBeeClusterException;
-	public DoorLockResponse lock(String pinCode) throws ZigBeeClusterException;
-	
-	public Attribute getAttributeDescription();
-	public Attribute getAttributeLockState();
+    private byte responseCode;
+
+    public DoorLockResponseImpl(Response response) throws ZigBeeClusterException {
+        super(response);
+        ResponseImpl.checkSpecificCommandFrame(response, ID);
+
+        ZBDeserializer deserializer = new DefaultDeserializer(getPayload(), 0);
+        responseCode = deserializer.read_byte();
+        //clusterIdentifier = deserializer.read_short();
+    }
+
+    public Status getStatus() {
+        return Status.getStatus(responseCode);
+    }
+
+
 }

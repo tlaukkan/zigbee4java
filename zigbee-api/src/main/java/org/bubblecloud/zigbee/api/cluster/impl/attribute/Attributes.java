@@ -33,6 +33,13 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
  */
 public class Attributes {
 
+    final static public   AttributeDescriptor LOCK_STATE = new AbstractAttribute()
+		    .setId(0x0)
+		    .setName("LockState")
+		    .setReportable(true)
+		    .setZigBeeType(ZigBeeType.UnsignedInteger8bit)
+		    .setWritable(false);
+	
     final static public  AttributeDescriptor ON_OFF = new AbstractAttribute()
             .setId(0x0000)
             .setName("OnOff")
