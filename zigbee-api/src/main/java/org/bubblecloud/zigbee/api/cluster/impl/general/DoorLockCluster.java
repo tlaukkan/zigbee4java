@@ -33,6 +33,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.core.EmptyPayloadCommand;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Command;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
+import org.bubblecloud.zigbee.api.cluster.impl.general.security.DoorLockCommandImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.general.security.DoorLockResponseImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.global.DefaultResponseImpl;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
@@ -46,50 +47,6 @@ public class DoorLockCluster extends ZCLClusterBase implements DoorLock {
 	private static AttributeImpl lockState;
 	private final Attribute[] attributes;
 	
-    private static Command LOCK_DOOR = new Command() {
-		@Override
-		public boolean isManufacturerExtension() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-		
-		@Override
-		public boolean isClusterSpecific() {
-			// TODO Auto-generated method stub
-			return true;
-		}
-		
-		@Override
-		public boolean isClientServerDirection() {
-			// TODO Auto-generated method stub
-			return true;
-		}
-		
-		@Override
-		public byte[] getPayload() {
-			// TODO Auto-generated method stub
-			return new byte[] {0x4,0x31,0x32,0x33,0x34};
-		}
-		
-		@Override
-		public byte[] getManufacturerId() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-		@Override
-		public byte getHeaderCommandId() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-		
-		@Override
-		public byte[] getAllowedResponseId() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-	};
-	
 	public DoorLockCluster(ZigBeeEndpoint zbDevice){
 		super(zbDevice);
 		
@@ -100,7 +57,13 @@ public class DoorLockCluster extends ZCLClusterBase implements DoorLock {
 
 	public DoorLockResponse lock() throws ZigBeeClusterException {
 		 enableDefaultResponse();
-	     Response response = invoke(LOCK_DOOR);
+	     Response response = invoke(new DoorLockCommandImpl());
+	     return new DoorLockResponseImpl(response);
+	}
+	
+	public DoorLockResponse lock(String pinCode) throws ZigBeeClusterException {
+		 enableDefaultResponse();
+	     Response response = invoke(new DoorLockCommandImpl(pinCode));
 	     return new DoorLockResponseImpl(response);
 	}
 

@@ -46,6 +46,7 @@ public interface DoorLock extends ZCLCluster {
 	static final byte LOCK_ID = 0x0;
 	
 	public DoorLockResponse lock() throws ZigBeeClusterException;
+	public DoorLockResponse lock(String pinCode) throws ZigBeeClusterException;
 	
 	public Attribute getAttributeDescription();
 	public Attribute getAttributeLockState();
