@@ -20,23 +20,18 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.general;
+package org.bubblecloud.zigbee.api.cluster.impl.api.general.security;
 
-import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
-import org.bubblecloud.zigbee.api.cluster.Cluster;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 
-/**
- * 
- * @author <a href="mailto:giancarlo.riolo@isti.cnr.it">Giancarlo Riolo</a>
- * @version $LastChangedRevision:  $ ($LastChangedDate: $)
- *
- */
+public interface DoorLockResponse extends Response {
 
-public interface DoorLock extends Cluster {
-    
-	 public String getDescription() throws ZigBeeDeviceException;
+    public static final byte ID = 0x00;
 
-	 public void lock() throws ZigBeeDeviceException;
-	 
-	 public int getLockState() throws ZigBeeDeviceException;
+    /**
+     * @return the int representing the <i>Alarm Code</i> field.
+     */
+    public Status getStatus();
+
 }

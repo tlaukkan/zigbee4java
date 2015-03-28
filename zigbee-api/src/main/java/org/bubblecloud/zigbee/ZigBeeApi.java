@@ -37,6 +37,7 @@ import org.bubblecloud.zigbee.api.device.security_safety.IASAncillaryControlEqui
 import org.bubblecloud.zigbee.api.device.security_safety.IASControlAndIndicatingEquipment;
 import org.bubblecloud.zigbee.api.device.security_safety.IAS_Warning;
 import org.bubblecloud.zigbee.api.device.security_safety.IAS_Zone;
+import org.bubblecloud.zigbee.api.device.security_safety.IDoorLock;
 import org.bubblecloud.zigbee.api.device.impl.*;
 import org.bubblecloud.zigbee.api.DeviceBase;
 import org.bubblecloud.zigbee.network.port.ZigBeeNetworkManagerImpl;
@@ -113,13 +114,14 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
 
         final Map<Class<?>, Class<?>> deviceIntefaceImplemetnationMap = new HashMap<Class<?>, Class<?>>();
         deviceIntefaceImplemetnationMap.put(ColorDimmableLight.class, ColorDimmableLightDevice.class);
-        deviceIntefaceImplemetnationMap.put(DimmableLight.class, DimmableLightDevice.class);
+        //deviceIntefaceImplemetnationMap.put(DimmableLight.class, DimmableLightDevice.class);
         deviceIntefaceImplemetnationMap.put(IAS_Zone.class, IAS_ZoneDevice.class);
         deviceIntefaceImplemetnationMap.put(IASAncillaryControlEquipment.class, IASAncillaryControlEquipmentDevice.class);
         deviceIntefaceImplemetnationMap.put(IASControlAndIndicatingEquipment.class, IASControlAndIndicatingEquipmentDevice.class);
         deviceIntefaceImplemetnationMap.put(LevelControlSwitch.class, LevelControlSwitchDevice.class);
         deviceIntefaceImplemetnationMap.put(LightSensor.class, LightSensorDevice.class);
         deviceIntefaceImplemetnationMap.put(MainsPowerOutlet.class, MainsPowerOutletDevice.class);
+        deviceIntefaceImplemetnationMap.put(IDoorLock.class, DoorLockDevice.class);
         deviceIntefaceImplemetnationMap.put(OccupancySensor.class, OccupancySensorDevice.class);
         deviceIntefaceImplemetnationMap.put(OnOffLight.class, OnOffLightDevice.class);
         deviceIntefaceImplemetnationMap.put(OnOffLightSwitch.class, OnOffLightSwitchDevice.class);
