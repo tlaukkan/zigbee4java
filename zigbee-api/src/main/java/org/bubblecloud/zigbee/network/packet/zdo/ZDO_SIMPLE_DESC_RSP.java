@@ -81,6 +81,8 @@ public class ZDO_SIMPLE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALL
     private short[] inputs;
     private short[] outputs;
 
+    private final int MIN_DESC_LEN = 8;
+
     /// <name>TI.ZPI1.ZDO_SIMPLE_DESC_RSP</name>
     /// <summary>Constructor</summary>
     public ZDO_SIMPLE_DESC_RSP() {
@@ -93,21 +95,25 @@ public class ZDO_SIMPLE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALL
         this.Status = framedata[2];
         this.nwkAddr = new ZToolAddress16(framedata[4], framedata[3]);
         this.len = framedata[5];
-        this.Endpoint = framedata[6];
-        this.ProfID = new DoubleByte(framedata[8], framedata[7]);
-        this.DevID = new DoubleByte(framedata[10], framedata[9]);
-        this.DevVer = framedata[11];
 
-        this.InClusterCount = framedata[12];
-        this.InClusterList = new DoubleByte[this.InClusterCount];
+        /* Only parse simple descriptor if there is enough data */
+        if (this.len >= MIN_DESC_LEN) {
+            this.Endpoint = framedata[6];
+            this.ProfID = new DoubleByte(framedata[8], framedata[7]);
+            this.DevID = new DoubleByte(framedata[10], framedata[9]);
+            this.DevVer = framedata[11];
 
-        for (int i = 0; i < this.InClusterCount; i++) {
-            this.InClusterList[i] = new DoubleByte(framedata[(i * 2) + 14], framedata[(i * 2) + 13]);
-        }
-        this.OutClusterCount = framedata[((this.InClusterCount) * 2) + 13];
-        this.OutClusterList = new DoubleByte[this.OutClusterCount];
-        for (int i = 0; i < this.OutClusterCount; i++) {
-            this.OutClusterList[i] = new DoubleByte(framedata[(i * 2) + ((this.InClusterCount) * 2) + 15], framedata[(i * 2) + ((this.InClusterCount) * 2) + 14]);
+            this.InClusterCount = framedata[12];
+            this.InClusterList = new DoubleByte[this.InClusterCount];
+
+            for (int i = 0; i < this.InClusterCount; i++) {
+                this.InClusterList[i] = new DoubleByte(framedata[(i * 2) + 14], framedata[(i * 2) + 13]);
+            }
+            this.OutClusterCount = framedata[((this.InClusterCount) * 2) + 13];
+            this.OutClusterList = new DoubleByte[this.OutClusterCount];
+            for (int i = 0; i < this.OutClusterCount; i++) {
+                this.OutClusterList[i] = new DoubleByte(framedata[(i * 2) + ((this.InClusterCount) * 2) + 15], framedata[(i * 2) + ((this.InClusterCount) * 2) + 14]);
+           }
         }
 
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_SIMPLE_DESC_RSP), framedata);
@@ -123,15 +129,19 @@ public class ZDO_SIMPLE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALL
 
     public short[] getInputClustersList() {
         if (inputs == null) {
-            inputs = new short[super.packet[ZToolPacket.PAYLOAD_START_INDEX + 12]];
-            int j = 0;
-            for (int i = 0; i < inputs.length; i++) {
-                inputs[i] = Integers.shortFromInts(
-                        super.packet,
-                        ZToolPacket.PAYLOAD_START_INDEX + 14 + j,
-                        ZToolPacket.PAYLOAD_START_INDEX + 13 + j
-                );
-                j += 2;
+            if (len >= MIN_DESC_LEN) {
+                inputs = new short[super.packet[ZToolPacket.PAYLOAD_START_INDEX + 12]];
+                int j = 0;
+                for (int i = 0; i < inputs.length; i++) {
+                    inputs[i] = Integers.shortFromInts(
+                            super.packet,
+                            ZToolPacket.PAYLOAD_START_INDEX + 14 + j,
+                            ZToolPacket.PAYLOAD_START_INDEX + 13 + j
+                    );
+                    j += 2;
+                }
+            } else {
+                inputs = new short[0];
             }
         }
         return inputs;
@@ -144,15 +154,19 @@ public class ZDO_SIMPLE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALL
 
     public short[] getOutputClustersList() {
         if (outputs == null) {
-            int j = getInputClustersCount() * 2;
-            outputs = new short[super.packet[ZToolPacket.PAYLOAD_START_INDEX + 13 + j]];
-            for (int i = 0; i < outputs.length; i++) {
-                outputs[i] = Integers.shortFromInts(
-                        super.packet,
-                        ZToolPacket.PAYLOAD_START_INDEX + 15 + j,
-                        ZToolPacket.PAYLOAD_START_INDEX + 14 + j
-                );
-                j += 2;
+            if (len >= MIN_DESC_LEN) {
+                int j = getInputClustersCount() * 2;
+                outputs = new short[super.packet[ZToolPacket.PAYLOAD_START_INDEX + 13 + j]];
+                for (int i = 0; i < outputs.length; i++) {
+                    outputs[i] = Integers.shortFromInts(
+                            super.packet,
+                            ZToolPacket.PAYLOAD_START_INDEX + 15 + j,
+                            ZToolPacket.PAYLOAD_START_INDEX + 14 + j
+                    );
+                    j += 2;
+                }
+            } else {
+                outputs = new short[0];
             }
         }
         return outputs;
@@ -163,27 +177,43 @@ public class ZDO_SIMPLE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALL
     }
 
     public byte getEndPoint() {
-        return (byte) (super.packet[ZToolPacket.PAYLOAD_START_INDEX + 6]);
+        if (len >= MIN_DESC_LEN) {
+            return (byte) (super.packet[ZToolPacket.PAYLOAD_START_INDEX + 6]);
+        } else {
+            return -1;
+        }
     }
 
     public short getProfileId() {
-        return Integers.shortFromInts(
-                super.packet,
-                ZToolPacket.PAYLOAD_START_INDEX + 8,
-                ZToolPacket.PAYLOAD_START_INDEX + 7
-        );
+        if (len >= MIN_DESC_LEN) {
+            return Integers.shortFromInts(
+                    super.packet,
+                    ZToolPacket.PAYLOAD_START_INDEX + 8,
+                    ZToolPacket.PAYLOAD_START_INDEX + 7
+            );
+        } else {
+            return -1;
+        }
     }
 
     public short getDeviceId() {
-        return Integers.shortFromInts(
-                super.packet,
-                ZToolPacket.PAYLOAD_START_INDEX + 10,
-                ZToolPacket.PAYLOAD_START_INDEX + 9
-        );
+        if (len >= MIN_DESC_LEN) {
+            return Integers.shortFromInts(
+                    super.packet,
+                    ZToolPacket.PAYLOAD_START_INDEX + 10,
+                    ZToolPacket.PAYLOAD_START_INDEX + 9
+            );
+        } else {
+            return -1;
+        }
     }
 
     public byte getDeviceVersion() {
-        return (byte) super.packet[ZToolPacket.PAYLOAD_START_INDEX + 11];
+        if (len >= MIN_DESC_LEN) {
+            return (byte) super.packet[ZToolPacket.PAYLOAD_START_INDEX + 11];
+        } else {
+            return -1;
+        }
     }
 
     @Override

@@ -182,7 +182,6 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         }
         if (state == DriverStatus.NETWORK_INITIALIZING || state == DriverStatus.HARDWARE_READY) {
             logger.trace("Closing HARDWARE");
-            dongleReset();
             zigbeeInterface.close();
             setState(DriverStatus.CREATED);
         }

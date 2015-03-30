@@ -38,6 +38,7 @@ public class ZToolAddress16 extends ZToolAddress {
 
     public static final ZToolAddress16 BROADCAST = new ZToolAddress16(0xFF, 0xFF);
     public static final ZToolAddress16 ZNET_BROADCAST = new ZToolAddress16(0xFF, 0xFE);
+    public static final ZToolAddress16 ZCZR_BROADCAST = new ZToolAddress16(0xFF, 0xFC);
 
     private DoubleByte doubleByte = new DoubleByte();
 

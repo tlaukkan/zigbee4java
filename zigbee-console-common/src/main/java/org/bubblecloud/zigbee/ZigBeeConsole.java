@@ -105,6 +105,14 @@ public final class ZigBeeConsole {
             print("ZigBee API starting up ... [OK]");
         }
 
+        /* TODO Use something like a command line parameter to decide if permit join is re-enabled */
+        if (!zigbeeApi.permitJoin(true)) {
+            print("ZigBee API permit join enable ... [FAIL]");
+            return;
+        } else {
+            print("ZigBee API permit join enable ... [OK]");
+        }
+
         zigbeeApi.addDeviceListener(new DeviceListener() {
             @Override
             public void deviceAdded(Device device) {

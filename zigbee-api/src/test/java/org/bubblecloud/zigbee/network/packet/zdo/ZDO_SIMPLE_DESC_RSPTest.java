@@ -55,7 +55,7 @@ public class ZDO_SIMPLE_DESC_RSPTest {
 				0x00, 0x10,										//16-bit Source Address
 				0x00,											//Status
 				0xF0, 0x10,										//16-bit Network Address
-				0x00,											//Length
+				0x18,											//Length
 				0x10,											//End Point Address
 				0x00, 0x10,										//Profile Id
 				0x00, 0x10,										//Device Id
@@ -70,7 +70,7 @@ public class ZDO_SIMPLE_DESC_RSPTest {
 				0xF0, 0xFA,										//16-bit Source Address
 				0x00,											//Status
 				0xF0, 0xFA,										//16-bit Network Address
-				0x00,											//Length
+				0x18,											//Length
 				0x80,											//End Point Address
 				0xF0, 0xFA,										//Profile Id
 				0xF0, 0xFA,										//Device Id

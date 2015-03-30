@@ -23,6 +23,9 @@ import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
+import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
+import org.bubblecloud.zigbee.network.packet.zdo.ZDO_MGMT_PERMIT_JOIN_REQ;
+import org.bubblecloud.zigbee.network.packet.zdo.ZDO_MGMT_PERMIT_JOIN_RSP;
 import org.bubblecloud.zigbee.api.DeviceListener;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.api.*;
@@ -167,6 +170,9 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
 
         ApplicationFrameworkLayer.getAFLayer(networkManager).createDefaultSendingEndPoint();
 
+        /* disable permit join by default */
+        permitJoin(false);
+
         discoveryManager.startup();
 
         return true;
@@ -181,6 +187,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
         return discoveryManager.isInitialNetworkBrowsingComplete();
     }
 
+
     /**
      * Shuts down network manager, network, context and discovery manager.
      */
@@ -189,6 +196,64 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
         network.removeEndpointListener(this);
         discoveryManager.shutdown();
         networkManager.shutdown();
+    }
+
+    /**
+     * Changes the permit join state.
+     *
+     * @param joinState boolean join state, true for enabled indefinetly, false for disabled
+     *
+     * @return true if success
+     */
+    public boolean permitJoin(boolean joinState) {
+        if (joinState) {
+            return sendPermitJoin((byte)0xFF);
+        } else {
+            return sendPermitJoin((byte)0);
+        }
+    }
+
+    /**
+     * Changes the permit join state with a timeout duration.
+     *
+     * @param durationSeconds join duration in seconds, from 1-254
+     *
+     * @return true if success
+     */
+    public boolean permitJoin(int durationSeconds) {
+        if (durationSeconds < 1 || durationSeconds > 254) {
+            LOGGER.error("permitJoin durationSeconds out of range: {}", durationSeconds);
+            return false;
+        }
+        return sendPermitJoin((byte)durationSeconds);
+    }
+
+    /**
+     * Sends the permit join state to routers and coordinators.
+     *
+     * @param data the data in the permit join request
+     *
+     * @return true if success
+     */
+    private boolean sendPermitJoin(byte data) {
+        ZDO_MGMT_PERMIT_JOIN_RSP result;
+        final byte AddrBroadcast = 0x0F;
+        final byte AddrUnicast = 0x02;
+
+        LOGGER.debug("Sending permit join with data: {}", data);
+
+        /* Notify routers of permit join change; don't check result because they're not obligated to respond */
+        result = networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrBroadcast, ZToolAddress16.ZCZR_BROADCAST, data, 1));
+
+        /* Notify coordinator of permit join change */
+        result = networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrUnicast, new ZToolAddress16(0, 0), data, 1));
+
+        if (result == null || result.Status != 0) {
+            LOGGER.error("Error sending ZDO_MGMT_PERMIT_JOIN_REQ");
+            return false;
+        }
+
+        return true;
     }
 
     /**
