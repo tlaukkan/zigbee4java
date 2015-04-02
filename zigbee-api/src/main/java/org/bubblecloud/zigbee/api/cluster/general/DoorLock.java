@@ -35,12 +35,14 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.general.security.DoorLockResp
  */
 
 public interface DoorLock extends Cluster {
-    
-	 public String getDescription() throws ZigBeeDeviceException;
 
-	 public void lock() throws ZigBeeDeviceException;
+   String getDescription() throws ZigBeeDeviceException;
+
+   void lock() throws ZigBeeDeviceException;
 	 
-	 public void lock(String pinCode) throws ZigBeeDeviceException;
-	 
-	 public int getLockState() throws ZigBeeDeviceException;
+   void lock(String pinCode) throws ZigBeeDeviceException;
+
+   void unlock() throws ZigBeeDeviceException;
+
+   int getLockState() throws ZigBeeDeviceException;
 }
