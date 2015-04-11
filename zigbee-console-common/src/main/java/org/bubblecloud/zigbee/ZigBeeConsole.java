@@ -75,6 +75,7 @@ public final class ZigBeeConsole {
 		commands.put("unsubscribe", new UnsubscribeCommand());
 		commands.put("read", 		new ReadCommand());
 		commands.put("write", 		new WriteCommand());
+		commands.put("join",        new JoinCommand());
 	}
 
 	/**
@@ -1185,6 +1186,41 @@ public final class ZigBeeConsole {
         }
     }
 
+    private class JoinCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Enable or diable network join.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "join [en|dis]";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+            if (args.length != 2) {
+                return false;
+            }
+            
+            boolean join = false;
+            if(args[1].toLowerCase().startsWith("e")) {
+            	join = true;
+            }
+
+            if (!zigbeeApi.permitJoin(join)) {
+                print("ZigBee API permit join enable ... [FAIL]");
+            } else {
+                print("ZigBee API permit join enable ... [OK]");
+            }
+            return true;
+        }
+    }
+    
     /**
      * Anonymous class report listener implementation which prints the reports to console.
      */
