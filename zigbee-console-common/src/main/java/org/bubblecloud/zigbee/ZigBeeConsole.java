@@ -109,7 +109,6 @@ public final class ZigBeeConsole {
         /* TODO Use something like a command line parameter to decide if permit join is re-enabled */
         if (!zigbeeApi.permitJoin(true)) {
             print("ZigBee API permit join enable ... [FAIL]");
-            return;
         } else {
             print("ZigBee API permit join enable ... [OK]");
         }
@@ -122,6 +121,7 @@ public final class ZigBeeConsole {
 
             @Override
             public void deviceUpdated(Device device) {
+                print("Device updated: " + device.getEndpointId() + " (#" + device.getNetworkAddress() + ")");
             }
 
             @Override
