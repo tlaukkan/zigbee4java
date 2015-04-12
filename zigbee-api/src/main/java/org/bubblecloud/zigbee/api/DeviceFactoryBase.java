@@ -28,9 +28,7 @@ import org.bubblecloud.zigbee.util.ArraysUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -85,6 +83,7 @@ public abstract class DeviceFactoryBase implements DeviceFactory {
     public abstract DeviceBase getInstance(ZigBeeEndpoint zbDevice);
 
     public int hasMatch(ZigBeeEndpoint device) {
+    	// If this is an exact match for the device type, then return the maximum score
         if (device.getDeviceTypeId() == getDeviceId()) {
             return Integer.MAX_VALUE;
         }
