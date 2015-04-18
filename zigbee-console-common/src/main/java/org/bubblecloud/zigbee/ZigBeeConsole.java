@@ -13,6 +13,8 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
+import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
+import org.bubblecloud.zigbee.network.discovery.LinkQualityIndicatorNetworkBrowser.NetworkAddressNodeItem;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
@@ -75,6 +77,7 @@ public final class ZigBeeConsole {
 		commands.put("unsubscribe", new UnsubscribeCommand());
 		commands.put("read", 		new ReadCommand());
 		commands.put("write", 		new WriteCommand());
+		commands.put("lqi", 		new LqiCommand());
 	}
 
 	/**
@@ -1179,6 +1182,45 @@ public final class ZigBeeConsole {
             } catch (ZigBeeClusterException e) {
                 print("Failed to write attribute.");
                 e.printStackTrace();
+            }
+
+            return true;
+        }
+    }
+    /**
+     * Writes an attribute to a device.
+     */
+    private class LqiCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "List LQI neighbours for a device.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "lqi [DEVICE]";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+            if (args.length != 2) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                print("Device not found.");
+                return false;
+            }
+
+            ZigBeeDiscoveryManager discoveryMan = zigbeeApi.getZigBeeDiscoveryManager();
+            
+            for (NetworkAddressNodeItem addr : discoveryMan.getLinkQualityInfo()) {
+            	print("From " + addr.getParent() + " to " + addr.getAddress() + " has LQI " + addr.getLqi());
             }
 
             return true;

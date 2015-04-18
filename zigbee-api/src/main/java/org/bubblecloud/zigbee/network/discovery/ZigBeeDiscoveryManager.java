@@ -24,6 +24,7 @@ package org.bubblecloud.zigbee.network.discovery;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.network.ApplicationFrameworkMessageListener;
 import org.bubblecloud.zigbee.network.ZigBeeNetworkManager;
+import org.bubblecloud.zigbee.network.discovery.LinkQualityIndicatorNetworkBrowser.NetworkAddressNodeItem;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
@@ -39,6 +40,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -182,4 +184,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
         }
     }
 
+    public List<NetworkAddressNodeItem> getLinkQualityInfo() {
+    	return linkQualityIndicatorNetworkBrowser.getConnectedNodes();
+    }
 }

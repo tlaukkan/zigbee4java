@@ -65,9 +65,10 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
     final HashMap<Integer, NetworkAddressNodeItem> alreadyInspected = new HashMap<Integer, NetworkAddressNodeItem>();
     private List<NetworkAddressNodeItem> connectedNodesFound = new ArrayList<NetworkAddressNodeItem>();
 
-    private class NetworkAddressNodeItem {
+    public class NetworkAddressNodeItem {
         final NetworkAddressNodeItem parent;
         final short address;
+        int lqi = -1;
         ZigBeeNodeImpl node = null;
 
         NetworkAddressNodeItem(NetworkAddressNodeItem addressTreeParent, short networkAddress) {
@@ -75,6 +76,24 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
             address = networkAddress;
         }
 
+        NetworkAddressNodeItem(NetworkAddressNodeItem addressTreeParent, short networkAddress, int quality) {
+            parent = addressTreeParent;
+            address = networkAddress;
+            lqi = quality;
+        }
+
+        public int getParent() {
+        	return parent.address;
+        }
+        
+        public int getAddress() {
+        	return address;
+        }
+
+        public int getLqi() {
+        	return lqi;
+        }
+        
         public String toString() {
             if (parent != null) {
                 return "<" + parent.address + " / " + parent.node + "," + address + " / " + node + ">";
@@ -142,8 +161,9 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
         if (alreadyInspected.get((int) node.address) == null) {
             alreadyInspected.put((int) node.address, node);
 
-            if (index == 0)
+            if (index == 0) {
                 connectedNodesFound.clear();
+            }
 
             ZToolAddress16 nwk16 = new ZToolAddress16(
                     Integers.getByteAsInteger(node.address, 1),
@@ -173,10 +193,10 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                         NetworkAddressNodeItem newNode;
                         if (result != null) {
                             logger.debug("Node #{} is {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), result.node.getIeeeAddress()});
-                            newNode = new NetworkAddressNodeItem(node, result.address);
+                            newNode = new NetworkAddressNodeItem(node, result.address, neighbor.RxLQI);
                             connectedNodesFound.add(newNode);
                         } else {
-                            newNode = new NetworkAddressNodeItem(node, (short) neighbor.NetworkAddress.get16BitValue());
+                            newNode = new NetworkAddressNodeItem(node, (short) neighbor.NetworkAddress.get16BitValue(), neighbor.RxLQI);
                             connectedNodesFound.add(newNode);
                             logger.debug("No response to ZDO_IEEE_ADDR_REQ from node {}", neighbor.NetworkAddress.get16BitValue());
                         }
@@ -271,5 +291,9 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
         final ZigBeeNode child = item.node;
         final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         network.notifyNodeBrowsed(child);
+    }
+
+    public List<NetworkAddressNodeItem> getConnectedNodes() {
+    	return connectedNodesFound;
     }
 }
