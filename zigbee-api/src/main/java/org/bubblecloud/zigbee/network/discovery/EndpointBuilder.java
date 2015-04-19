@@ -197,7 +197,7 @@ public class EndpointBuilder implements Stoppable {
             } else {
                 // if you don't remove node with devices not yet inspected from network, you won't be able to re-inspect them later
                 // maybe device is sleeping and you have to wait for a non-sleeping period
-                logger.debug("Node {} removed from network because attempts to instantiate devices on it are failed", node);
+                logger.debug("Node {} removed from network because attempts to instantiate devices on it have failed", node);
                 network.removeNode(node);
             }
         } else {
@@ -213,11 +213,13 @@ public class EndpointBuilder implements Stoppable {
                      */
                     inspectEndpointOfNode(nwk, new ZigBeeNodeImpl(nwk, node.getIeeeAddress(), (short) driver.getCurrentPanId()));
                 }
-            node.setNetworkAddress(nwk);
-           }
-           for (final ZigBeeEndpoint endpoint : network.getEndPoints(node)) {
-               network.notifyEndpointUpdated(endpoint);
-           }
+                node.setNetworkAddress(nwk);
+
+                // Notify listeners that the device has been updated
+                for (final ZigBeeEndpoint endpoint : network.getEndPoints(node)) {
+                    network.notifyEndpointUpdated(endpoint);
+                }
+            }
         }
     }
 

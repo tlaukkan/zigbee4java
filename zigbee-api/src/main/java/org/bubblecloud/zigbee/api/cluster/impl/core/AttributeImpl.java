@@ -152,7 +152,7 @@ public class AttributeImpl implements Attribute {
                     } else {
                         Status state = Status.getStatus(attributeStatus.getStatus());
                         throw new ZigBeeClusterException(
-                                "Read Attribute of " + getName() + " (" + getId() + " ) failed." +
+                                "Read Attribute '" + getName() + "' (" + getId() + ") failed." +
                                         "Due to " + state + " that means " + state.description
                         );
                     }
@@ -161,19 +161,19 @@ public class AttributeImpl implements Attribute {
                     final DefaultResponse result = new DefaultResponseImpl(response);
                     Status state = result.getStatus();
                     throw new ZigBeeClusterException(
-                            "Read Attribute of " + getId() + " failed because command is not supported."
+                            "Read Attribute " + getId() + " failed because command is not supported."
                                     + "Due to " + state + " that means " + state.description
                                     + " Follows the ZCLFrame recieved " + ResponseImpl.toString(response)
                     );
 
                 default:
                     throw new ZigBeeClusterException(
-                            "Read Attribute of " + getId() + " failed due to: Unsupported answer: " + response
+                            "Read Attribute " + getId() + " failed due to: Unsupported answer: " + response
                                     + " Follows the ZCLFrame recieved " + ResponseImpl.toString(response)
                     );
             }
         } catch (ZigBeeNetworkManagerException e) {
-            throw new ZigBeeClusterException("Read Attribute of " + getId() + " failed due to:  " + e);
+            throw new ZigBeeClusterException("Read Attribute " + getId() + " failed due to:  " + e);
         }
     }
 
