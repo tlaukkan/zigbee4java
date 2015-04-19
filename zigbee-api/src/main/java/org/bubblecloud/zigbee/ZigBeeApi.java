@@ -26,6 +26,7 @@ import org.bubblecloud.zigbee.network.model.NetworkMode;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_MGMT_PERMIT_JOIN_REQ;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_MGMT_PERMIT_JOIN_RSP;
+import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.DeviceListener;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.api.*;
@@ -111,37 +112,28 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
         final ClusterFactory clusterFactory = new ClusterFactoryImpl(context);
         context.setClusterFactory(clusterFactory);
 
-        final Map<Class<?>, Class<?>> deviceIntefaceImplemetnationMap = new HashMap<Class<?>, Class<?>>();
-        deviceIntefaceImplemetnationMap.put(ColorDimmableLight.class, ColorDimmableLightDevice.class);
-        deviceIntefaceImplemetnationMap.put(DimmableLight.class, DimmableLightDevice.class);
-        deviceIntefaceImplemetnationMap.put(IAS_Zone.class, IAS_ZoneDevice.class);
-        deviceIntefaceImplemetnationMap.put(IASAncillaryControlEquipment.class, IASAncillaryControlEquipmentDevice.class);
-        deviceIntefaceImplemetnationMap.put(IASControlAndIndicatingEquipment.class, IASControlAndIndicatingEquipmentDevice.class);
-        deviceIntefaceImplemetnationMap.put(LevelControlSwitch.class, LevelControlSwitchDevice.class);
-        deviceIntefaceImplemetnationMap.put(LightSensor.class, LightSensorDevice.class);
-        deviceIntefaceImplemetnationMap.put(MainsPowerOutlet.class, MainsPowerOutletDevice.class);
-        deviceIntefaceImplemetnationMap.put(OccupancySensor.class, OccupancySensorDevice.class);
-        deviceIntefaceImplemetnationMap.put(OnOffLight.class, OnOffLightDevice.class);
-        deviceIntefaceImplemetnationMap.put(OnOffLightSwitch.class, OnOffLightSwitchDevice.class);
-        deviceIntefaceImplemetnationMap.put(OnOffOutput.class, OnOffOutputDevice.class);
-        deviceIntefaceImplemetnationMap.put(OnOffSwitch.class, OnOffSwitchDevice.class);
-        deviceIntefaceImplemetnationMap.put(OnOffLight.class, OnOffLightDevice.class);
-        deviceIntefaceImplemetnationMap.put(Pump.class, PumpDevice.class);
-        deviceIntefaceImplemetnationMap.put(TemperatureSensor.class, TemperatureSensorDevice.class);
-        deviceIntefaceImplemetnationMap.put(IAS_Warning.class, IAS_Warning_Device.class);
-        deviceIntefaceImplemetnationMap.put(SimpleSensor.class, SimpleSensorDevice.class);
-
-        final Iterator<Map.Entry<Class<?>, Class<?>>> i = deviceIntefaceImplemetnationMap.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry<Class<?>, Class<?>> refining = i.next();
-            try {
-                context.getDeviceFactories().add(
-                        new DeviceFactoryImpl(context, refining.getKey(), refining.getValue()));
-            } catch (Exception ex) {
-                LOGGER.error("Failed to register DeviceFactoryImpl for " + refining.getKey(), ex);
-            }
-        }
-
+        try {
+	        context.getDeviceFactories().put(ColorDimmableLight.DEVICE_ID, new DeviceFactoryImpl(context, ColorDimmableLight.class, ColorDimmableLightDevice.class));
+	        context.getDeviceFactories().put(DimmableLight.DEVICE_ID, new DeviceFactoryImpl(context, DimmableLight.class, DimmableLightDevice.class));
+	        context.getDeviceFactories().put(IAS_Zone.DEVICE_ID, new DeviceFactoryImpl(context, IAS_Zone.class, IAS_ZoneDevice.class));
+	        context.getDeviceFactories().put(IASAncillaryControlEquipment.DEVICE_ID, new DeviceFactoryImpl(context, IASAncillaryControlEquipment.class, IASAncillaryControlEquipmentDevice.class));
+	        context.getDeviceFactories().put(IASControlAndIndicatingEquipment.DEVICE_ID, new DeviceFactoryImpl(context, IASControlAndIndicatingEquipment.class, IASControlAndIndicatingEquipmentDevice.class));
+	        context.getDeviceFactories().put(LevelControlSwitch.DEVICE_ID, new DeviceFactoryImpl(context, LevelControlSwitch.class, LevelControlSwitchDevice.class));
+	        context.getDeviceFactories().put(LightSensor.DEVICE_ID, new DeviceFactoryImpl(context, LightSensor.class, LightSensorDevice.class));
+	        context.getDeviceFactories().put(MainsPowerOutlet.DEVICE_ID, new DeviceFactoryImpl(context, MainsPowerOutlet.class, MainsPowerOutletDevice.class));
+	        context.getDeviceFactories().put(OccupancySensor.DEVICE_ID, new DeviceFactoryImpl(context, OccupancySensor.class, OccupancySensorDevice.class));
+	        context.getDeviceFactories().put(OnOffLight.DEVICE_ID, new DeviceFactoryImpl(context, OnOffLight.class, OnOffLightDevice.class));
+	        context.getDeviceFactories().put(OnOffLightSwitch.DEVICE_ID, new DeviceFactoryImpl(context, OnOffLightSwitch.class, OnOffLightSwitchDevice.class));
+	        context.getDeviceFactories().put(OnOffOutput.DEVICE_ID, new DeviceFactoryImpl(context, OnOffOutput.class, OnOffOutputDevice.class));
+	        context.getDeviceFactories().put(OnOffSwitch.DEVICE_ID, new DeviceFactoryImpl(context, OnOffSwitch.class, OnOffSwitchDevice.class));
+	        context.getDeviceFactories().put(OnOffLight.DEVICE_ID, new DeviceFactoryImpl(context, OnOffLight.class, OnOffLightDevice.class));
+	        context.getDeviceFactories().put(Pump.DEVICE_ID, new DeviceFactoryImpl(context, Pump.class, PumpDevice.class));
+	        context.getDeviceFactories().put(TemperatureSensor.DEVICE_ID, new DeviceFactoryImpl(context, TemperatureSensor.class, TemperatureSensorDevice.class));
+	        context.getDeviceFactories().put(IAS_Warning.DEVICE_ID, new DeviceFactoryImpl(context, IAS_Warning.class, IAS_Warning_Device.class));
+	        context.getDeviceFactories().put(SimpleSensorDevice.DEVICE_ID, new DeviceFactoryImpl(context, SimpleSensor.class, SimpleSensorDevice.class));
+	    } catch (Exception ex) {
+	        LOGGER.error("Failed to register DeviceFactoryImpl ", ex);
+	    }
     }
 
 
@@ -201,7 +193,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
     /**
      * Changes the permit join state.
      *
-     * @param joinState boolean join state, true for enabled indefinetly, false for disabled
+     * @param joinState boolean join state, true for enabled indefinitely, false for disabled
      *
      * @return true if success
      */
@@ -331,7 +323,8 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
     public void endpointAdded(final ZigBeeEndpoint endpoint) {
         final DeviceFactory factory = context.getBestDeviceProxyFactory(endpoint);
         if (factory == null) { // pending services
-            LOGGER.warn("No proxy for ZigBee endpoint {} found.", endpoint.getDeviceTypeId());
+            LOGGER.warn("No proxy for ZigBee device type {} found with endpoint {}.",
+            		endpoint.getDeviceTypeId(), endpoint.getEndpointId());
             return;
         }
 

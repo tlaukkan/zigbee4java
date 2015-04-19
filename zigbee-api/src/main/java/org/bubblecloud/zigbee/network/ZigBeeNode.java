@@ -22,7 +22,6 @@
 
 package org.bubblecloud.zigbee.network;
 
-import java.util.Dictionary;
 
 /**
  * This class represent a ZigBee node, it means a physical device that can communicate<br>
