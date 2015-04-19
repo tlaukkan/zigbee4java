@@ -213,11 +213,13 @@ public class EndpointBuilder implements Stoppable {
                      */
                     inspectEndpointOfNode(nwk, new ZigBeeNodeImpl(nwk, node.getIeeeAddress(), (short) driver.getCurrentPanId()));
                 }
-            node.setNetworkAddress(nwk);
-           }
-           for (final ZigBeeEndpoint endpoint : network.getEndPoints(node)) {
-               network.notifyEndpointUpdated(endpoint);
-           }
+                node.setNetworkAddress(nwk);
+
+                // Notify listeners that the device has been updated
+                for (final ZigBeeEndpoint endpoint : network.getEndPoints(node)) {
+                    network.notifyEndpointUpdated(endpoint);
+                }
+            }
         }
     }
 
