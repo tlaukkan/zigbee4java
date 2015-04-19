@@ -106,12 +106,13 @@ public final class ZigBeeConsole {
             print("ZigBee API starting up ... [OK]");
         }
 
-        /* TODO Use something like a command line parameter to decide if permit join is re-enabled */
-        if (!zigbeeApi.permitJoin(true)) {
+        // TODO Use something like a command line parameter to decide if permit join is re-enabled
+        // Lets disable the join functionality in console by default to improve security.
+        /*if (!zigbeeApi.permitJoin(true)) {
             print("ZigBee API permit join enable ... [FAIL]");
         } else {
             print("ZigBee API permit join enable ... [OK]");
-        }
+        }*/
 
         zigbeeApi.addDeviceListener(new DeviceListener() {
             @Override
@@ -225,7 +226,6 @@ public final class ZigBeeConsole {
      */
     private static void print(final String line) {
         System.out.println("\r" + line);
-        System.out.print("> ");
     }
 
     /**
@@ -1197,7 +1197,7 @@ public final class ZigBeeConsole {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "join [en|dis]";
+            return "join [enable|disable]";
         }
         /**
          * {@inheritDoc}
@@ -1213,9 +1213,17 @@ public final class ZigBeeConsole {
             }
 
             if (!zigbeeApi.permitJoin(join)) {
-                print("ZigBee API permit join enable ... [FAIL]");
+                if (join) {
+                    print("ZigBee API permit join enable ... [FAIL]");
+                } else {
+                    print("ZigBee API permit join disable ... [FAIL]");
+                }
             } else {
-                print("ZigBee API permit join enable ... [OK]");
+                if (join) {
+                    print("ZigBee API permit join enable ... [OK]");
+                } else {
+                    print("ZigBee API permit join disable ... [OK]");
+                }
             }
             return true;
         }
