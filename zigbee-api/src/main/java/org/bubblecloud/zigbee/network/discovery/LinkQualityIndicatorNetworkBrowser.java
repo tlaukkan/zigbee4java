@@ -158,8 +158,8 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                 return null;
             } else {
                 logger.debug(
-                        "Found {} neighbors on node {}",
-                        lqi_resp.getNeighborLQICount(), node.address);
+                        "Found {} neighbors on node #{}",
+                        lqi_resp.getNeighborLQICount(), nwk16.get16BitValue());
 
                 NeighborLqiListItemClass[] neighbors = (NeighborLqiListItemClass[]) lqi_resp.getNeighborLqiList();
 

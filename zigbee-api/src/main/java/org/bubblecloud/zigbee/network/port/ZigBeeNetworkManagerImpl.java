@@ -1483,14 +1483,14 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         public void receivedAsynchronousCommand(ZToolPacket packet) {
             if (packet.isError()) return;
             if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_END_DEVICE_ANNCE_IND) {
-                logger.debug("Recieved announce message {} value is {}", packet.getClass(), packet);
+                logger.debug("Received announce message {} value is {}", packet.getClass(), packet);
                 ZDO_END_DEVICE_ANNCE_IND annunce = (ZDO_END_DEVICE_ANNCE_IND) packet;
                 for (AnnounceListener l : listners) {
                     l.announce(annunce.SrcAddr, annunce.IEEEAddr, annunce.NwkAddr, annunce.Capabilities);
 
                 }
             } else if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_TC_DEVICE_IND) {
-                    logger.debug("Recieved TC announce message {} value is {}", packet.getClass(), packet);
+                    logger.debug("Received TC announce message {} value is {}", packet.getClass(), packet);
                     ZDO_TC_DEVICE_IND annunce = (ZDO_TC_DEVICE_IND) packet;
                     for (AnnounceListener l : listners) {
                         l.announce(annunce.SrcAddr, annunce.IEEEAddr, annunce.NwkAddr, 0);
