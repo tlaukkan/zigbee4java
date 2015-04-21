@@ -282,7 +282,10 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                     logger.debug("ZDO_MGMT_LQI_REQ new request to {} because of too many entries for a single request," +
                             " restarting from index {}", node.address, lqi_resp.getNeighborLQICount() + index + 1);
                     // Poll any further neighbors, adding them to our list
-                    nodesFound.addAll(lqiRequestToNode(node, lqi_resp.getNeighborLQICount() + index + 1));
+                    List<NetworkAddressNodeItem> neighborsFound = lqiRequestToNode(node, lqi_resp.getNeighborLQICount() + index + 1);
+                    if(neighborsFound != null) {
+                    	nodesFound.addAll(neighborsFound);
+                    }
                 }
 
                 return nodesFound;
