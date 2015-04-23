@@ -110,7 +110,8 @@ public enum ResponseStatus {
     Z_MAC_UN_AVAILABLE_KEY(0xf3),
     Z_MAC_UNSUPPORTED_ATTRIBUTE(0xf4),
     Z_MAC_UNSUPPORTED(0xf5),
-    Z_MAC_SRC_MATCH_INVALID_INDEX(0xff);
+    Z_MAC_SRC_MATCH_INVALID_INDEX(0xff),
+    UNKNOWN(-1);
 
     /**
      * The logger.
@@ -131,6 +132,7 @@ public enum ResponseStatus {
     public static ResponseStatus getStatus(int value) {
         if (!mapping.containsKey(value)) {
             logger.warn("Unknown status value: " + value);
+            return mapping.get(-1);
         }
         return mapping.get(value);
     }

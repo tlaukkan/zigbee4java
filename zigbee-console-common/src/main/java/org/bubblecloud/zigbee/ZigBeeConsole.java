@@ -1221,7 +1221,7 @@ public final class ZigBeeConsole {
             	final Device dst = devices.get(j);
             	int lqi = neighbors.getLast(0, dst.getNetworkAddress());
             	if(lqi != -1) {
-                	print("From #" + 0 + " to #" + dst.getNetworkAddress() + " has LQI " + lqi);    		
+            		System.out.println("Node #" + 0 + " receives node #" + dst.getNetworkAddress() + " with LQI " + lqi);    		
             	}
             }
         	
@@ -1230,14 +1230,14 @@ public final class ZigBeeConsole {
 
             	int lqi = neighbors.getLast(src.getNetworkAddress(), 0);
             	if(lqi != -1) {
-            		System.out.println("From #" + src.getNetworkAddress() + " to #" + 0 + " has LQI " + lqi);    		
+            		System.out.println("Node #" + src.getNetworkAddress() + " receives node #" + 0 + " with LQI " + lqi);    		
             	}
 
             	for (int j = 0; j < devices.size(); j++) {
                 	final Device dst = devices.get(j);
                 	lqi = neighbors.getLast(src.getNetworkAddress(), dst.getNetworkAddress());
                 	if(lqi != -1) {
-                		System.out.println("From #" + src.getNetworkAddress() + " to #" + dst.getNetworkAddress() + " has LQI " + lqi);    		
+                		System.out.println("Node #" + src.getNetworkAddress() + " receives node #" + dst.getNetworkAddress() + " with LQI " + lqi);    		
                 	}
                 }
             }
