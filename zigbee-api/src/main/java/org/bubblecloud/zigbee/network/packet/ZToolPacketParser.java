@@ -100,7 +100,6 @@ public class ZToolPacketParser implements Runnable {
         while (!close) {
             try {
                 int val = inputStream.read();
-                logger.trace("Read {} from input stream ", ByteUtils.formatByte(val));
                 if (val == ZToolPacket.START_BYTE) {
                     inputStream.mark(256);
                     final ZToolPacketStream packetStream = new ZToolPacketStream(inputStream);
@@ -114,12 +113,10 @@ public class ZToolPacketParser implements Runnable {
                     }
 
                     packetHandler.handlePacket(response);
-                } else {
-                    if (val != -1) {
-                        // Log if not end of stream.
-                        logger.warn("Discarded stream: expected start byte but received this {}",
-                                ByteUtils.toBase16(val));
-                    }
+                } else if (val != -1) {
+                    // Log if not end of stream.
+                    logger.warn("Discarded stream: expected start byte but received this {}",
+                            ByteUtils.toBase16(val));
                 }
             } catch (final IOException e) {
                 if (!close) {
