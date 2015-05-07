@@ -152,15 +152,25 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         if (state == DriverStatus.CLOSED) {
             state = DriverStatus.CREATED;
             logger.trace("Initializing hardware.");
+            
+            // Open the hardware port
             setState(DriverStatus.HARDWARE_INITIALIZING);
-            if (initializeHardware()) {
-                setState(DriverStatus.HARDWARE_READY);
-            } else {
+            if (!initializeHardware()) {
+                shutdown();
+                return;
+            }
+            
+            // Now reset the dongle
+            setState(DriverStatus.HARDWARE_OPEN);
+            if (!dongleReset()) {
+                logger.error("Unable to reset dongle");
                 shutdown();
                 return;
             }
 
+            // And finally initialise the network
             logger.trace("Initializing network.");
+            setState(DriverStatus.HARDWARE_READY);
             setState(DriverStatus.NETWORK_INITIALIZING);
             if (!initializeZigBeeNetwork()) {
                 shutdown();
@@ -180,7 +190,8 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             logger.trace("Closing NETWORK");
             setState(DriverStatus.HARDWARE_READY);
         }
-        if (state == DriverStatus.NETWORK_INITIALIZING || state == DriverStatus.HARDWARE_READY) {
+        if (state == DriverStatus.HARDWARE_OPEN || state == DriverStatus.HARDWARE_READY || 
+        		state == DriverStatus.NETWORK_INITIALIZING) {
             logger.trace("Closing HARDWARE");
             zigbeeInterface.close();
             setState(DriverStatus.CREATED);
@@ -193,10 +204,6 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         zigbeeInterface = new ZigBeeInterface(port);
         if (!zigbeeInterface.open()) {
             logger.error("Failed to initialize the dongle on port {}.", port);
-            return false;
-        }
-        if (!dongleReset()) {
-            logger.error("Unable to reset dongle");
             return false;
         }
 
