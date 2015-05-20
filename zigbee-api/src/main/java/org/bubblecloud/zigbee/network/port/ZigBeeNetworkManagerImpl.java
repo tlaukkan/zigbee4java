@@ -60,6 +60,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     public static final int DEFAULT_TIMEOUT = 5000;
     public static final String TIMEOUT_KEY = "zigbee.driver.cc2530.timeout";
 
+    public static final int RESET_TIMEOUT_DEFAULT = 60000;
+    public static final String RESET_TIMEOUT_KEY = "zigbee.driver.cc2530.reset.timeout";
+
     public static final int STARTUP_TIMEOUT_DEFAULT = 5000;
     public static final String STARTUP_TIMEOUT_KEY = "zigbee.driver.cc2530.startup.timeout";
 
@@ -73,6 +76,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     public static final String RESEND_ONLY_EXCEPTION_KEY = "zigbee.driver.cc2530.resend.exceptionally";
 
     private final int TIMEOUT;
+    private final int RESET_TIMEOUT;
     private final int STARTUP_TIMEOUT;
     private final int RESEND_TIMEOUT;
     private final int RESEND_MAX_RETRY;
@@ -113,6 +117,15 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             logger.trace("Using TIMEOUT set as DEFAULT {}ms", aux);
         }
         TIMEOUT = aux;
+
+        aux = (int) Math.max(RESET_TIMEOUT_DEFAULT, timeout);
+        try {
+            aux = Integer.parseInt(System.getProperty(RESET_TIMEOUT_KEY));
+            logger.trace("Using RESET_TIMEOUT set from enviroment {}", aux);
+        } catch (NumberFormatException ex) {
+            logger.trace("Using RESET_TIMEOUT set as DEFAULT {}ms", aux);
+        }
+        RESET_TIMEOUT = aux;
 
         aux = (int) Math.max(STARTUP_TIMEOUT_DEFAULT, timeout);
         try {
@@ -886,7 +899,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         }
 
         SYS_RESET_RESPONSE response =
-                (SYS_RESET_RESPONSE) waiter.getCommand(TIMEOUT);
+                (SYS_RESET_RESPONSE) waiter.getCommand(RESET_TIMEOUT);
 
         return response != null;
     }
