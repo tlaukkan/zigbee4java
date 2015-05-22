@@ -36,6 +36,12 @@ public enum DriverStatus {
     CREATED,
 
     /**
+     * The driver has opened the hardware resources, and it is waiting for<br>
+     * the hardware to complete the reset process
+     */
+    HARDWARE_OPEN,
+
+    /**
      * The driver has already initialized all the hardware resources, and it is waiting for<br>
      * the hardware to complete the initialization process
      */

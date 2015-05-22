@@ -73,6 +73,10 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
      * The zigbee network.
      */
     private ZigBeeNetwork network;
+    /**
+     * Flag to reset the network on startup
+     */
+	private boolean resetNetwork = false;
 
     /**
      * Constructor to configure the port interface.
@@ -85,8 +89,25 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
      */
     public ZigBeeApi(final ZigBeePort port, final int pan, final int channel,
             final EnumSet<DiscoveryMode> discoveryModes, final boolean resetNetwork) {
+    	this.resetNetwork = resetNetwork;
+
         networkManager = new ZigBeeNetworkManagerImpl(port,
-                NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
+                NetworkMode.Coordinator, pan, channel, 2500L);
+
+        discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
+    }
+
+    /**
+     * Constructor to configure the port interface.
+     *
+     * @param port           the ZigBee interface port (reference implementation provided by the zigbee4java-serialPort module)
+     * @param pan            the pan
+     * @param channel        the channel
+     * @param discoveryModes the discovery modes
+     */
+    public ZigBeeApi(final ZigBeePort port, final int pan, final int channel, final EnumSet<DiscoveryMode> discoveryModes) {
+        networkManager = new ZigBeeNetworkManagerImpl(port,
+                NetworkMode.Coordinator, pan, channel, 2500L);
 
         discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
     }
@@ -101,7 +122,9 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
      */
     public ZigBeeApi(final ZigBeePort port, final int pan, final int channel,
                      final boolean resetNetwork, final EnumSet<DiscoveryMode> discoveryModes) {
-        networkManager = new ZigBeeNetworkManagerImpl(port, NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
+    	this.resetNetwork = resetNetwork;
+
+        networkManager = new ZigBeeNetworkManagerImpl(port, NetworkMode.Coordinator, pan, channel, 2500L);
         discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
         network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
 
@@ -136,7 +159,6 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
 	    }
     }
 
-
     /**
      * Starts up network manager, network, context and discovery manager.
      *
@@ -144,7 +166,26 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
      */
     public boolean startup() {
         networkManager.startup();
+
+        return initializeNetwork(this.resetNetwork);
+    }
+
+    /**
+     * Initialize the zigbee hardware
+     */
+    public boolean initializeHardware() {
+        return networkManager.startup();    	
+    }
+
+    /**
+     * Initializes the zigbee network.
+     * This is only required if the port is opened using initializeHardware
+     * @param resetNetwork true to reset the network to the current panid and channel
+     * @return
+     */
+    public boolean initializeNetwork(boolean resetNetwork) {
         context.addDeviceListener(this);
+        networkManager.initializeZigBeeNetwork(resetNetwork);
 
         while (true) {
             if (networkManager.getDriverStatus() == DriverStatus.NETWORK_READY) {
