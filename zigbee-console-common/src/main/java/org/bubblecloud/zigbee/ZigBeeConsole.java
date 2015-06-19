@@ -500,7 +500,7 @@ public final class ZigBeeConsole {
                     return false;
                 }
                 try {
-                    client.bindTo(server, clusterId);
+                    server.bindTo(client, clusterId);
                 } catch (final ZigBeeNetworkManagerException e) {
                     e.printStackTrace();
                 }
