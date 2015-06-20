@@ -32,6 +32,7 @@ import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.device.generic.*;
 import org.bubblecloud.zigbee.api.device.hvac.Pump;
+import org.bubblecloud.zigbee.api.device.hvac.ThermostatControl;
 import org.bubblecloud.zigbee.api.device.hvac.TemperatureSensor;
 import org.bubblecloud.zigbee.api.device.lighting.*;
 import org.bubblecloud.zigbee.api.device.security_safety.IASAncillaryControlEquipment;
@@ -151,6 +152,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
 	        context.getDeviceFactories().put(OnOffSwitch.DEVICE_ID, new DeviceFactoryImpl(context, OnOffSwitch.class, OnOffSwitchDevice.class));
 	        context.getDeviceFactories().put(OnOffLight.DEVICE_ID, new DeviceFactoryImpl(context, OnOffLight.class, OnOffLightDevice.class));
 	        context.getDeviceFactories().put(Pump.DEVICE_ID, new DeviceFactoryImpl(context, Pump.class, PumpDevice.class));
+	        context.getDeviceFactories().put(ThermostatControl.DEVICE_ID, new DeviceFactoryImpl(context, ThermostatControl.class, ThermostatControlDevice.class));
 	        context.getDeviceFactories().put(TemperatureSensor.DEVICE_ID, new DeviceFactoryImpl(context, TemperatureSensor.class, TemperatureSensorDevice.class));
 	        context.getDeviceFactories().put(IAS_Warning.DEVICE_ID, new DeviceFactoryImpl(context, IAS_Warning.class, IAS_Warning_Device.class));
 	        context.getDeviceFactories().put(SimpleSensorDevice.DEVICE_ID, new DeviceFactoryImpl(context, SimpleSensor.class, SimpleSensorDevice.class));
