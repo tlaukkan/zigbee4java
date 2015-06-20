@@ -56,7 +56,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
     /**
      * The logger.
      */
-    private final static Logger LOGGER = LoggerFactory.getLogger(ZigBeeDiscoveryManager.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ZigBeeApi.class);
     /**
      * The ZigBee network manager.
      */
