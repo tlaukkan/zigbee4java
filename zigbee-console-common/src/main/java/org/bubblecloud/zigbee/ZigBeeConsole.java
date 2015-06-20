@@ -524,7 +524,7 @@ public final class ZigBeeConsole {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "unbind CLIENT SERVER CLUSTERID";
+            return "unbind [CLIENT] SERVER CLUSTERID";
         }
         /**
          * {@inheritDoc}
@@ -557,7 +557,7 @@ public final class ZigBeeConsole {
                     return false;
                 }
                 try {
-                    client.unbindFrom(server, clusterId);
+                    server.unbindFrom(client, clusterId);
                 } catch (final ZigBeeNetworkManagerException e) {
                     e.printStackTrace();
                 }
