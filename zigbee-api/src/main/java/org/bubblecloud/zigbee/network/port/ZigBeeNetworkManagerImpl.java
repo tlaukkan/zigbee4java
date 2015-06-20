@@ -654,6 +654,26 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         return result;
     }
 
+    public ZDO_POWER_DESC_RSP sendZDOPowerDescriptionRequest(ZDO_POWER_DESC_REQ request) {
+        if (waitForNetwork() == false) {
+        	return null;
+        }
+        ZDO_POWER_DESC_RSP result = null;
+
+        waitAndLock3WayConversation(request);
+        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_POWER_DESC_RSP, zigbeeInterface);
+
+        ZDO_POWER_DESC_REQ_SRSP response = (ZDO_POWER_DESC_REQ_SRSP) sendSynchrouns(zigbeeInterface, request);
+        if (response == null || response.Status != 0) {
+            waiter.cleanup();
+        } else {
+            result = (ZDO_POWER_DESC_RSP) waiter.getCommand(TIMEOUT);
+        }
+
+        unLock3WayConversation(request);
+        return result;
+    }
+
     public ZDO_ACTIVE_EP_RSP sendZDOActiveEndPointRequest(ZDO_ACTIVE_EP_REQ request) {
         if (waitForNetwork() == false) {
         	return null;

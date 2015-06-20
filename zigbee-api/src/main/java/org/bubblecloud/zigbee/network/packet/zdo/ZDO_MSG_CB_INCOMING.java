@@ -49,6 +49,7 @@ public class ZDO_MSG_CB_INCOMING extends ZToolPacket /*implements IRESPONSE_CALL
         build.put(0x8000, ZDO_NWK_ADDR_RSP.class);
         build.put(0x8001, ZDO_IEEE_ADDR_RSP.class);
         build.put(0x8002, ZDO_NODE_DESC_RSP.class);
+        build.put(0x8003, ZDO_POWER_DESC_RSP.class);
         build.put(0x8004, ZDO_SIMPLE_DESC_RSP.class);
         build.put(0x8005, ZDO_ACTIVE_EP_RSP.class);
         build.put(0x8006, ZDO_MATCH_DESC_RSP.class);

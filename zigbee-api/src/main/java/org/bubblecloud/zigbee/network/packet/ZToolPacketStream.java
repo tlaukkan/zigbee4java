@@ -311,6 +311,10 @@ public class ZToolPacketStream
                 return new ZDO_NODE_DESC_REQ_SRSP(payload);
             case ZToolCMD.ZDO_NODE_DESC_RSP:
                 return new ZDO_NODE_DESC_RSP(payload);
+            case ZToolCMD.ZDO_POWER_DESC_REQ_SRSP:
+                return new ZDO_POWER_DESC_REQ_SRSP(payload);
+            case ZToolCMD.ZDO_POWER_DESC_RSP:
+                return new ZDO_POWER_DESC_RSP(payload);
             case ZToolCMD.ZDO_NWK_ADDR_REQ_SRSP:
                 return new ZDO_NWK_ADDR_REQ_SRSP(payload);
             case ZToolCMD.ZDO_NWK_ADDR_RSP:

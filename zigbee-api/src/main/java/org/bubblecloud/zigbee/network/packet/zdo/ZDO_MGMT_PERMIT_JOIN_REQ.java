@@ -23,7 +23,6 @@
 
 package org.bubblecloud.zigbee.network.packet.zdo;
 
-import org.bubblecloud.zigbee.network.packet.ZToolAddress;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;

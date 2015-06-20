@@ -55,8 +55,8 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      */
     private ZToolPacketParser parser;
     /**
-     * Support paraller processing of different command types. Only one command per command ID can be in process
-     * at a time.
+     * Support parallel processing of different command types.
+     * Only one command per command ID can be in process at a time.
      */
     private final boolean supportMultipleSynchrounsCommand = false;
     /**
@@ -96,7 +96,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
     }
 
     /**
-     * Closes connection ot ZigBee Network.
+     * Closes connection to ZigBee Network.
      */
     public void close() {
         synchronized (port) {
