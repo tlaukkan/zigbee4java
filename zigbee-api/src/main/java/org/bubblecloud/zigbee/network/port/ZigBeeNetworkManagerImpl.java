@@ -675,7 +675,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         return result;
     }
 
-    public ZDO_MGMT_PERMIT_JOIN_RSP sendPermitJoinRequest(ZDO_MGMT_PERMIT_JOIN_REQ request) {
+    public ZDO_MGMT_PERMIT_JOIN_RSP sendPermitJoinRequest(ZDO_MGMT_PERMIT_JOIN_REQ request, boolean waitForCommand) {
         if (waitForNetwork() == false) {
         	return null;
         }
@@ -689,7 +689,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         if (response == null || response.Status != 0) {
             logger.trace("ZDO_MGMT_PERMIT_JOIN_REQ failed, received {}", response);
             waiter.cleanup();
-        } else {
+        } else if (waitForCommand == true) {
             result = (ZDO_MGMT_PERMIT_JOIN_RSP) waiter.getCommand(TIMEOUT);
         }
         unLock3WayConversation(request);

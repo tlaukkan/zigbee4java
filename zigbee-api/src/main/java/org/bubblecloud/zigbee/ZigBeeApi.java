@@ -278,10 +278,10 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
         LOGGER.debug("Sending permit join with data: {}", data);
 
         /* Notify routers of permit join change; don't check result because they're not obligated to respond */
-        result = networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrBroadcast, ZToolAddress16.ZCZR_BROADCAST, data, 1));
+        result = networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrBroadcast, ZToolAddress16.ZCZR_BROADCAST, data, 1), false);
 
         /* Notify coordinator of permit join change */
-        result = networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrUnicast, new ZToolAddress16(0, 0), data, 1));
+        result = networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrUnicast, new ZToolAddress16(0, 0), data, 1), true);
 
         if (result == null || result.Status != 0) {
             LOGGER.error("Error sending ZDO_MGMT_PERMIT_JOIN_REQ");
