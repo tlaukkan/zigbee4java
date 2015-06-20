@@ -43,7 +43,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * The zigbee network manager port port implementation.
+ * The zigbee network manager port implementation.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:michele.girolami@isti.cnr.it">Michele Girolami</a>
@@ -205,7 +205,6 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         setState(DriverStatus.CLOSED);
     }
 
-    @SuppressWarnings("unchecked")
     private boolean initializeHardware() {
         zigbeeInterface = new ZigBeeInterface(port);
         if (!zigbeeInterface.open()) {
