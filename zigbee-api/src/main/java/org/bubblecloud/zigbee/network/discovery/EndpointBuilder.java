@@ -94,7 +94,7 @@ public class EndpointBuilder implements Stoppable {
         int i = 0;
         ZDO_ACTIVE_EP_RSP result = null;
 
-        while (i < 1) {
+        while (i <= 1) {
             result = driver.sendZDOActiveEndPointRequest(new ZDO_ACTIVE_EP_REQ(nwkAddress));
 
             if (result == null) {
