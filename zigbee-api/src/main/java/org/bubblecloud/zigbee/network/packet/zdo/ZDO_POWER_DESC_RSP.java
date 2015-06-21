@@ -30,6 +30,13 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
+ * Processes the response of the Power Descriptor. Only a single Power Descriptor
+ * is available per node.
+ * <p>
+ * The node power descriptor gives a dynamic indication of the power status of
+ * the node and is mandatory for each node. There shall be only one node
+ * power descriptor in a node.
+ * 
  * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
 public class ZDO_POWER_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALLBACK,IZDO*/ {

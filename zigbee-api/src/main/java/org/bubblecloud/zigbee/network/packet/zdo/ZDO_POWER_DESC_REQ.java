@@ -34,6 +34,8 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.util.Integers;
 
 /**
+ * Requests the Power Descriptor for a node.
+ * 
  * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
 public class ZDO_POWER_DESC_REQ extends ZToolPacket /*implements IREQUEST,IZDO*/ {

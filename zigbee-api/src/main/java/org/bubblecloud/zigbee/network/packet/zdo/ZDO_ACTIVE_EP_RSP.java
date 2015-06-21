@@ -36,9 +36,19 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import java.util.Arrays;
 
 /**
+ * Processes the ACTIVE_EP_RSP packet.
+ * <p>
+ * On receipt of the ACTIVE_EP_RSP command, the recipient is either notified of
+ * the active endpoints of the remote device indicated in the original
+ * ACTIVE_EP_REQ command or notified of an error. If the Active_EP_rsp command
+ * is received with a Status of SUCCESS, the ActiveEPCount field indicates the
+ * number of entries in the ActiveEPList field. Otherwise, the Status field
+ * indicates the error and the ActiveEPList field is not included.
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05
+ *          +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
 public class ZDO_ACTIVE_EP_RSP extends ZToolPacket /*implements IRESPONSE_CALLBACK,IZDO*/ {

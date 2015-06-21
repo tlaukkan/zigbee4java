@@ -30,6 +30,13 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
+ * Processes the Node Descriptor response. Only a single Node Descriptor is
+ * available for each node.
+ * <p>
+ * The node descriptor contains information about the capabilities of the ZigBee
+ * node and is mandatory for each node. There shall be only one node descriptor
+ * in a node.
+ * 
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
