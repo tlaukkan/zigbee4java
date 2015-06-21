@@ -15,6 +15,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor;
+import org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
@@ -33,6 +34,7 @@ import java.util.*;
  *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
+ * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
 public final class ZigBeeConsole {
     /**
@@ -422,9 +424,16 @@ public final class ZigBeeConsole {
 	        		print("                 : Max Buffer Size    " + nodeDescriptor.getMaximumBufferSize());
 	        		print("                 : Max Transfer Size  " + nodeDescriptor.getMaximumTransferSize());
 	        	}
+	        	
+	        	ZigBeeNodePowerDescriptor powerDescriptor = node.getPowerDescriptor();
+	        	if(powerDescriptor != null) {
+		            print("Power Descriptor : Power Mode         " + powerDescriptor.getPowerMode());
+		            print("                 : Power Source       " + powerDescriptor.getPowerSource());
+		            print("                 : Power Level        " + powerDescriptor.getPowerLevel());
+		            print("                 : Power Available    " + powerDescriptor.getPowerSourcesAvailable());
+	        	}
 	            print("-");
             }
-            
 
             return true;
         }

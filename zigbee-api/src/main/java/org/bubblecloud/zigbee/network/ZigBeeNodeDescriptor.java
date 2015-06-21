@@ -32,7 +32,6 @@ public class ZigBeeNodeDescriptor {
 		typeIndexes.put(LOGICAL_TYPE.COORDINATOR, 0);
 		typeIndexes.put(LOGICAL_TYPE.ROUTER, 1);
 		typeIndexes.put(LOGICAL_TYPE.END_DEVICE, 2);
-		typeIndexes.put(LOGICAL_TYPE.UNKNOWN, -1);
 	}
 
 	public ZigBeeNodeDescriptor(ZDO_NODE_DESC_RSP descriptorResponse) {

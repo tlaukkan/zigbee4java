@@ -26,6 +26,7 @@ import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.ZigBeeNetworkManager;
 import org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor;
+import org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor;
 import org.bubblecloud.zigbee.network.impl.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
@@ -212,12 +213,13 @@ public class EndpointBuilder implements Stoppable {
 
             // Get the power descriptor
             ZDO_POWER_DESC_REQ powerDescriptorReq = new ZDO_POWER_DESC_REQ(nwkAddress.get16BitValue());
-            final ZDO_POWER_DESC_RSP result = driver.sendZDOPowerDescriptionRequest(powerDescriptorReq);
-            if (result == null) {
+            final ZDO_POWER_DESC_RSP powerResult = driver.sendZDOPowerDescriptionRequest(powerDescriptorReq);
+            if (powerResult == null) {
                 logger.warn("ZDO_POWER_DESC_REQ FAILED on {}", node);
             }
             else {
-            	// TODO: Save the power descriptor
+            	// Save the power descriptor
+            	node.setPowerDescriptor(new ZigBeeNodePowerDescriptor(powerResult));
             }
 
             // Get a list of supported endpoints

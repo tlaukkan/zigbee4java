@@ -47,8 +47,9 @@ public class ZigBeeNodeImpl implements ZigBeeNode {
      * The pan.
      */
     private short pan;
-    
+
     private ZigBeeNodeDescriptor nodeDescriptor;
+    private ZigBeeNodePowerDescriptor powerDescriptor;
 
     /**
      * Default constructor.
@@ -135,14 +136,12 @@ public class ZigBeeNodeImpl implements ZigBeeNode {
 
 	@Override
 	public void setPowerDescriptor(ZigBeeNodePowerDescriptor descriptor) {
-		// TODO Auto-generated method stub
-		
+		powerDescriptor = descriptor;
 	}
 
 	@Override
 	public ZigBeeNodePowerDescriptor getPowerDescriptor() {
-		// TODO Auto-generated method stub
-		return null;
+		return powerDescriptor;
 	}
 
 }
