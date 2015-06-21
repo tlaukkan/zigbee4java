@@ -690,7 +690,7 @@ public class ZToolCMD {
     /// <summary>Response for ZDO_USER_DESC_SET</summary>
     public static final int ZDO_USER_DESC_SET_SRSP = 0x650b;
     /// <name>TI.ZPI2.MESSAGE_ID.ZMAC_ASSOCIATE_CNF</name>
-    /// <summary>This sends a associat confirm command</summary>
+    /// <summary>This sends an associate confirm command</summary>
     public static final int ZMAC_ASSOCIATE_CNF = 0x4282;
     /// <name>TI.ZPI2.MESSAGE_ID.ZMAC_ASSOCIATE_IND</name>
     /// <summary>This command is used to send (on behalf of the next higher layer) an association indication message</summary>
@@ -705,7 +705,7 @@ public class ZToolCMD {
     /// <summary>Beacon Notify Indication</summary>
     public static final int ZMAC_BEACON_NOTIFY_IND = 0x4283;
     /// <name>TI.ZPI2.MESSAGE_ID.ZMAC_COMM_STATUS_IND</name>
-    /// <summary>Communcation status indication</summary>
+    /// <summary>Communication status indication</summary>
     public static final int ZMAC_COMM_STATUS_IND = 0x428d;
     /// <name>TI.ZPI2.MESSAGE_ID.ZMAC_DATA_CNF</name>
     /// <summary>Data Request Confirmation</summary>

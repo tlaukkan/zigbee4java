@@ -28,25 +28,28 @@ import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
-
 /**
- * Response for requesting the network to switch channel or change PAN PROFILE_ID_HOME_AUTOMATION.
- *
- * @author <a href="mailto:tommmi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
+ * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
-public class ZDO_MGMT_NWK_UPDATE_REQ_SRSP extends ZToolPacket {
+public class ZDO_POWER_DESC_REQ_SRSP extends ZToolPacket/* implements IRESPONSE,IZDo*/ {
+    /// <name>TI.ZPI1.ZDO_POWER_DESC_REQ_SRSP.Status</name>
+    /// <summary>Status</summary>
     public int Status;
 
-    public ZDO_MGMT_NWK_UPDATE_REQ_SRSP(int[] framedata) {
+    /// <name>TI.ZPI1.ZDO_POWER_DESC_REQ_SRSP</name>
+    /// <summary>Constructor</summary>
+    public ZDO_POWER_DESC_REQ_SRSP() {
+    }
+
+    public ZDO_POWER_DESC_REQ_SRSP(int[] framedata) {
         this.Status = framedata[0];
-        super.buildPacket(new DoubleByte(ZToolCMD.ZDO_MGMT_NWK_UPDATE_REQ_SRSP), framedata);
+        super.buildPacket(new DoubleByte(ZToolCMD.ZDO_POWER_DESC_REQ_SRSP), framedata);
     }
 
     @Override
     public String toString() {
-        return "ZDO_MGMT_NWK_UPDATE_REQ_SRSP{" +
+        return "ZDO_POWER_DESC_REQ_SRSP{" +
                 "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
     }
-
 }

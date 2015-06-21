@@ -17,6 +17,7 @@ package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.network.EndpointListener;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
+import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.impl.NetworkStateSerializer;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
@@ -52,6 +53,7 @@ import java.util.*;
  * ZigBee Application Interface.
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
+ * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
 public class ZigBeeApi implements EndpointListener, DeviceListener {
     /**
@@ -352,6 +354,15 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
 
     public List<Device> getDevices() {
         return context.getDevices();
+    }
+
+    public List<ZigBeeNode> getNodes() {
+    	ArrayList<ZigBeeNode> nodes = new ArrayList<ZigBeeNode>();
+        for(ZigBeeNode n : network.getNodes().values()) {
+        	nodes.add(n);
+        }
+
+        return nodes;
     }
 
     public void addDeviceListener(DeviceListener deviceListener) {

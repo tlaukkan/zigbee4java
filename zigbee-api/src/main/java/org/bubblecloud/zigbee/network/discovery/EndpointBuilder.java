@@ -25,16 +25,23 @@ package org.bubblecloud.zigbee.network.discovery;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.ZigBeeNetworkManager;
+import org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor;
+import org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor;
 import org.bubblecloud.zigbee.network.impl.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_ACTIVE_EP_REQ;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_ACTIVE_EP_RSP;
+import org.bubblecloud.zigbee.network.packet.zdo.ZDO_NODE_DESC_REQ;
+import org.bubblecloud.zigbee.network.packet.zdo.ZDO_NODE_DESC_RSP;
+import org.bubblecloud.zigbee.network.packet.zdo.ZDO_POWER_DESC_REQ;
+import org.bubblecloud.zigbee.network.packet.zdo.ZDO_POWER_DESC_RSP;
 import org.bubblecloud.zigbee.util.Stoppable;
 import org.bubblecloud.zigbee.util.ThreadUtils;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
@@ -49,7 +56,7 @@ import java.util.Map.Entry;
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  * @since 0.1.0
  */
 public class EndpointBuilder implements Stoppable {
@@ -87,10 +94,7 @@ public class EndpointBuilder implements Stoppable {
         this.driver = driver;
     }
 
-
-    private ZDO_ACTIVE_EP_RSP doInspectEndpointOfNode(final int nwkAddress, final ZigBeeNode node) {
-        logger.trace("Listing end points on node #{} to find devices.", nwkAddress);
-
+    private boolean inspectEndpointOfNode(final int nwkAddress, final ZigBeeNode node) {
         int i = 0;
         ZDO_ACTIVE_EP_RSP result = null;
 
@@ -100,7 +104,7 @@ public class EndpointBuilder implements Stoppable {
             if (result == null) {
                 final long waiting = 1000;
                 logger.trace(
-                        "Inspecting device on node {} failed during it {}-nth attempt. " +
+                        "Inspecting device on node {} failed during the {}-nth attempt. " +
                                 "Waiting for {}ms before retrying",
                         new Object[]{node, i, waiting}
                 );
@@ -111,12 +115,6 @@ public class EndpointBuilder implements Stoppable {
             }
         }
 
-        return result;
-    }
-
-    private boolean inspectEndpointOfNode(final int nwkAddress, final ZigBeeNode node) {
-
-        final ZDO_ACTIVE_EP_RSP result = doInspectEndpointOfNode(nwkAddress, node);
         if (result == null) {
             logger.warn("ZDO_ACTIVE_EP_REQ FAILED on {}", node);
             return false;
@@ -124,7 +122,7 @@ public class EndpointBuilder implements Stoppable {
 
         short[] endPoints = result.getActiveEndPointList();
         logger.trace("Found {} end points on #{}.", endPoints.length, nwkAddress);
-        for (int i = 0; i < endPoints.length; i++) {
+        for (i = 0; i < endPoints.length; i++) {
             doCreateZigBeeEndpoint(node, endPoints[i]);
         }
 
@@ -190,7 +188,41 @@ public class EndpointBuilder implements Stoppable {
             }
         }
         if (isNew) {
-            //logger.info("Inspecting node #{} devices.", nwk);
+        	// This is a new node
+
+        	// Get the node descriptor
+            ZDO_NODE_DESC_REQ nodeDescriptorReq = new ZDO_NODE_DESC_REQ(nwkAddress.get16BitValue());
+            final ZDO_NODE_DESC_RSP nodeResult = driver.sendZDONodeDescriptionRequest(nodeDescriptorReq);
+            if (nodeResult == null) {
+                logger.warn("ZDO_NODE_DESC_REQ FAILED on {}", node);
+            }
+            else {
+            	// Save the descriptor in the node
+            	node.setNodeDescriptor(new ZigBeeNodeDescriptor(nodeResult));
+
+                // If there's an advanced descriptor, get it
+                if(nodeResult.ComplexDescriptorAvailable == 1) {
+                	// TODO: Save node complex descriptor
+                }
+
+                // If there's a user defined descriptor, get it
+                if(nodeResult.UserDescriptorAvailable == 1) {
+                	// TODO: Save node user descriptor
+                }
+            }
+
+            // Get the power descriptor
+            ZDO_POWER_DESC_REQ powerDescriptorReq = new ZDO_POWER_DESC_REQ(nwkAddress.get16BitValue());
+            final ZDO_POWER_DESC_RSP powerResult = driver.sendZDOPowerDescriptionRequest(powerDescriptorReq);
+            if (powerResult == null) {
+                logger.warn("ZDO_POWER_DESC_REQ FAILED on {}", node);
+            }
+            else {
+            	// Save the power descriptor
+            	node.setPowerDescriptor(new ZigBeeNodePowerDescriptor(powerResult));
+            }
+
+            // Get a list of supported endpoints
             correctlyInspected = inspectEndpointOfNode(nwk, node);
             if (correctlyInspected) {
                 return;

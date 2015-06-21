@@ -24,15 +24,22 @@ package org.bubblecloud.zigbee.network;
 
 
 /**
- * This class represent a ZigBee node, it means a physical device that can communicate<br>
- * using the ZigBee protocol.<br>
- * Each physical may contain up 240 endpoints which are represented by the {@link ZigBeeEndpoint}<br>
- * class. Each endpoint is identified by an <i>EndPoint</i> address, but shares iether the:<br>
+ * This class represent a ZigBee node, it means a physical device that can communicate
+ * using the ZigBee protocol.
+ * <p>
+ * Each physical may contain up 240 endpoints which are represented by the {@link ZigBeeEndpoint}
+ * class. Each endpoint is identified by an <i>EndPoint</i> address, but shares either the:<br>
  * - <i>64-bit 802.15.4 IEEE Address</i><br>
  * - <i>16-bit ZigBee Network Address</i><br>
+ * <p>
+ * The node descriptors are also available through the node. These provide basic information
+ * about the device itself and are only available in the node (ie they are the same for all
+ * endpoints).
+ * <p>
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
+ * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  * @since 0.1.0
  */
 public interface ZigBeeNode {
@@ -47,4 +54,37 @@ public interface ZigBeeNode {
      */
     public String getIeeeAddress();
 
+    /**
+     * Sets the {@link ZigBeeNodeDescriptor Node Descriptor}.
+     * <p>
+     * The node descriptor contains information about the capabilities of the ZigBee
+     * node and is mandatory for each node.
+     * @param descriptor
+     */
+    public void setNodeDescriptor(ZigBeeNodeDescriptor descriptor);
+
+    /*
+     * Gets the {@link ZigBeeNodeDescriptor Node Descriptor}.
+     * <p>
+     * The node descriptor contains information about the capabilities of the ZigBee
+     * node and is mandatory for each node.
+     */
+    public ZigBeeNodeDescriptor getNodeDescriptor();
+
+    /**
+     * This sets the {@link ZigBeeNodePowerDescriptor Node Power Descriptor}.
+     * <p>
+     * The node power descriptor gives a dynamic indication of the power status of the
+     * node and is mandatory for each node.
+     * @param descriptor
+     */
+    public void setPowerDescriptor(ZigBeeNodePowerDescriptor descriptor);
+
+    /**
+     * This gets the {@link ZigBeeNodePowerDescriptor Node Power Descriptor}.
+     * <p>
+     * The node power descriptor gives a dynamic indication of the power status of the
+     * node and is mandatory for each node.
+     */
+    public ZigBeeNodePowerDescriptor getPowerDescriptor();
 }
