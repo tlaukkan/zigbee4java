@@ -50,4 +50,9 @@ public interface ZigBeeNode {
      */
     public String getIeeeAddress();
 
+    public void setNodeDescriptor(ZigBeeNodeDescriptor descriptor);
+    public ZigBeeNodeDescriptor getNodeDescriptor();
+
+    public void setPowerDescriptor(ZigBeeNodePowerDescriptor descriptor);
+    public ZigBeeNodePowerDescriptor getPowerDescriptor();
 }

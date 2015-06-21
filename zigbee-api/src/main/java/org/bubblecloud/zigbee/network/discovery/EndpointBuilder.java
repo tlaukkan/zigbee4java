@@ -25,6 +25,7 @@ package org.bubblecloud.zigbee.network.discovery;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.ZigBeeNetworkManager;
+import org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor;
 import org.bubblecloud.zigbee.network.impl.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
@@ -188,14 +189,15 @@ public class EndpointBuilder implements Stoppable {
         if (isNew) {
         	// This is a new node
 
-        	// Get the device descriptor
+        	// Get the node descriptor
             ZDO_NODE_DESC_REQ nodeDescriptorReq = new ZDO_NODE_DESC_REQ(nwkAddress.get16BitValue());
             final ZDO_NODE_DESC_RSP nodeResult = driver.sendZDONodeDescriptionRequest(nodeDescriptorReq);
             if (nodeResult == null) {
                 logger.warn("ZDO_NODE_DESC_REQ FAILED on {}", node);
             }
             else {
-            	// TODO: Save the relevant parts of the descriptor in the node
+            	// Save the descriptor in the node
+            	node.setNodeDescriptor(new ZigBeeNodeDescriptor(nodeResult));
 
                 // If there's an advanced descriptor, get it
                 if(nodeResult.ComplexDescriptorAvailable == 1) {
