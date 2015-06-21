@@ -48,10 +48,20 @@ import java.util.*;
 import java.util.Map.Entry;
 
 /**
- * This class implements the {@link Thread} that completes the discovery of the node<br>
- * found either by {@link AssociationNetworkBrowser} or {@link AnnounceListenerImpl} by<br>
- * inspecting the <i>End Point</i> on the node.<br>
- * The inspection of each <i>End Point</i> lead to the creation {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint}..
+ * This class implements the {@link Thread} that completes the discovery of the node
+ * found either by {@link AssociationNetworkBrowser} or {@link AnnounceListenerImpl} by
+ * inspecting the <i>Node<i> and then the <i>End Point</i> on the node.
+ * <p>
+ * Before discovery, the {@link ZigBeeNode} is created.
+ * <p>
+ * The initial discovery requests the node descriptors from the device. These are only available
+ * at device level (ie not for each endpoint). These are simply stored in the node class for later
+ * use.
+ * <p>
+ * After this the endpoints are queried and generated. The inspection of each <i>End Point</i>
+ * leads to the creation of {@link ZigBeeEndpoint}.
+ * <p>
+ * If no endpoints are found on the device, the {@link ZigBeeNode} is removed from the nodes list.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
@@ -76,7 +86,7 @@ public class EndpointBuilder implements Stoppable {
     private boolean end;
 
     private long nextInspectionSlot = 0;
-    private ImportingQueue.ZigBeeNodeAddress dev;
+//    private ImportingQueue.ZigBeeNodeAddress dev;
 
     private class ZigBeeEndpointReference {
         ZigBeeNode node;

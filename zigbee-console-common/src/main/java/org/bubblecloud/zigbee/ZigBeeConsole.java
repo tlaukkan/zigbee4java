@@ -1261,35 +1261,22 @@ public final class ZigBeeConsole {
          * {@inheritDoc}
          */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
-            if (args.length != 1) {
-                return false;
-            }
-
             ZigBeeDiscoveryManager discoveryMan = zigbeeApi.getZigBeeDiscoveryManager();
-
             NetworkNeighbourLinks neighbors = discoveryMan.getLinkQualityInfo();
-            final List<Device> devices = zigbeeApi.getDevices();
-        	for (int j = 0; j < devices.size(); j++) {
-            	final Device dst = devices.get(j);
-            	int lqi = neighbors.getLast(0, dst.getNetworkAddress());
-            	if(lqi != -1) {
-            		System.out.println("Node #" + 0 + " receives node #" + dst.getNetworkAddress() + " with LQI " + lqi);    		
-            	}
-            }
-        	
-            for (int i = 0; i < devices.size(); i++) {
-            	final Device src = devices.get(i);
+            final List<ZigBeeNode> nodes = zigbeeApi.getNodes();
+            for (int i = 0; i < nodes.size(); i++) {
+            	final ZigBeeNode src = nodes.get(i);
 
-            	int lqi = neighbors.getLast(src.getNetworkAddress(), 0);
-            	if(lqi != -1) {
-            		System.out.println("Node #" + src.getNetworkAddress() + " receives node #" + 0 + " with LQI " + lqi);    		
-            	}
-
-            	for (int j = 0; j < devices.size(); j++) {
-                	final Device dst = devices.get(j);
-                	lqi = neighbors.getLast(src.getNetworkAddress(), dst.getNetworkAddress());
-                	if(lqi != -1) {
-                		System.out.println("Node #" + src.getNetworkAddress() + " receives node #" + dst.getNetworkAddress() + " with LQI " + lqi);    		
+            	for (int j = 0; j < nodes.size(); j++) {
+                	final ZigBeeNode dst = nodes.get(j);
+                	int lqiLast = neighbors.getLast(src.getNetworkAddress(), dst.getNetworkAddress());
+                	if(lqiLast != -1) {
+                		System.out.println("Node #" + src.getNetworkAddress() + " receives node #" + dst.getNetworkAddress() +
+                				" with LQI " + lqiLast + "(" +
+                				neighbors.getMin(src.getNetworkAddress(), dst.getNetworkAddress()) + "/" +
+                				neighbors.getAvg(src.getNetworkAddress(), dst.getNetworkAddress()) + "/" +
+                				neighbors.getMax(src.getNetworkAddress(), dst.getNetworkAddress()) + ")"
+                				);    		
                 	}
                 }
             }

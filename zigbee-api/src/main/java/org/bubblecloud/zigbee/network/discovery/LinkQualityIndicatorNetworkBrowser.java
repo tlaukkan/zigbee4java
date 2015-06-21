@@ -50,7 +50,7 @@ import java.util.TreeMap;
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- * @version $LastChangedRevision: 67 $ ($LastChangedDate: 2010-10-01 04:08:24 +0200 (ven, 01 ott 2010) $)
+ * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  * @since 0.7.0
  */
 public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
@@ -67,6 +67,11 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
     final HashMap<Integer, NetworkAddressNodeItem> alreadyInspected = new HashMap<Integer, NetworkAddressNodeItem>();
     private NetworkNeighbourLinks connectedNodeLinks = new NetworkNeighbourLinks();
 
+    /**
+     * This class maintains the link quality information for all nodes and links on the network.
+     *
+     * TODO: Add methods to remove stale information
+     */
     public class NetworkNeighbourLinks {
         private class NetworkLQI {
         	private int lqiMin = 255;
@@ -79,7 +84,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
         		if(lqi < lqiMin) {
         			lqiMin = lqi;
         		}
-        		if(lqi > lqiMin) {
+        		if(lqi > lqiMax) {
         			lqiMax = lqi;
         		}
         		lqiLast = lqi;
@@ -120,16 +125,49 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
         	dstMap.updateLQI(lqi);
         }
 
-        public int getLast(int source, int dest) {
+        private NetworkLQI getLink(int source, int dest) {
         	TreeMap<Integer, NetworkLQI> srcMap = lqiStatistics.get(source);
         	if(srcMap == null) {
-        		return -1;
+        		return null;
         	}
         	NetworkLQI dstMap = srcMap.get(dest);
+        	if(dstMap == null) {
+        		return null;
+        	}
+        	return dstMap;        	
+        }
+        
+
+        public int getLast(int source, int dest) {
+        	NetworkLQI dstMap = getLink(source, dest);
         	if(dstMap == null) {
         		return -1;
         	}
         	return dstMap.getLast();        	
+        }
+        
+        public int getMin(int source, int dest) {
+        	NetworkLQI dstMap = getLink(source, dest);
+        	if(dstMap == null) {
+        		return -1;
+        	}
+        	return dstMap.getMin();        	
+        }
+        
+        public int getMax(int source, int dest) {
+        	NetworkLQI dstMap = getLink(source, dest);
+        	if(dstMap == null) {
+        		return -1;
+        	}
+        	return dstMap.getMax();        	
+        }
+        
+        public int getAvg(int source, int dest) {
+        	NetworkLQI dstMap = getLink(source, dest);
+        	if(dstMap == null) {
+        		return -1;
+        	}
+        	return dstMap.getAvg();        	
         }
     }
 

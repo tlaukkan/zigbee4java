@@ -34,13 +34,11 @@ import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_IEEE_ADDR_REQ;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_IEEE_ADDR_RSP;
 import org.bubblecloud.zigbee.util.Integers;
-import org.bubblecloud.zigbee.util.NetworkAddressUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.EnumSet;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -50,6 +48,7 @@ import java.util.Set;
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
+ * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
 public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListener {
 
@@ -127,7 +126,6 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
         importingQueue.close();
     }
 
-
     public boolean isInitialNetworkBrowsingComplete() {
         return (associationNetworkBrowser == null || associationNetworkBrowser.isInitialNetworkBrowsingComplete())
                 && endpointBuilder.isReady();
@@ -184,6 +182,10 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
         }
     }
 
+    /**
+     * Returns the link quality information
+     * @return
+     */
     public NetworkNeighbourLinks getLinkQualityInfo() {
     	return linkQualityIndicatorNetworkBrowser.getConnectedNodes();
     }
