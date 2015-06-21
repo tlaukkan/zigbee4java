@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_NODE_DESC_RSP;
 
-/*
+/**
  * This implements the Node Descriptor.
  * <p>
  * The node descriptor contains information about the capabilities of the ZigBee

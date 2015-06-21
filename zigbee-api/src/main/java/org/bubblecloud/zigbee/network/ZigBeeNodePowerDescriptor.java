@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_POWER_DESC_RSP;
 
-/*
+/**
  * This implements the Node Power Descriptor.
  * <p>
  * The node power descriptor gives a dynamic indication of the power status of the

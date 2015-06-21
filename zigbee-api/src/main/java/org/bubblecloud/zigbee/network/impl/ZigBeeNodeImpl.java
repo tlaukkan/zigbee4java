@@ -48,7 +48,14 @@ public class ZigBeeNodeImpl implements ZigBeeNode {
      */
     private short pan;
 
+    /*
+     * The basic node descriptor
+     */
     private ZigBeeNodeDescriptor nodeDescriptor;
+    
+    /*
+     * The node power descriptor
+     */
     private ZigBeeNodePowerDescriptor powerDescriptor;
 
     /**
