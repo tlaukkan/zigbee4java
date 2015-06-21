@@ -33,7 +33,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <b>NOTE:</b>This class doesn't implement a real {@link Thread}, anyway<br>
+ * This class is called when a device announces itself on the network.
+ * <p>
+ * <b>NOTE:</b>This class doesn't implement a real {@link Thread}, 
  * because it is a {@link org.bubblecloud.zigbee.network.AnnounceListener} a different thread then the application will call
  * the {@link #announce(org.bubblecloud.zigbee.network.packet.ZToolAddress16, org.bubblecloud.zigbee.network.packet.ZToolAddress64, org.bubblecloud.zigbee.network.packet.ZToolAddress16, int)} method.
  *
@@ -66,7 +68,7 @@ public class AnnounceListenerImpl implements AnnounceListener {
                          final ZToolAddress64 ieeeAddress, final ZToolAddress16 destinationAddress,
                          final int capabilitiesBitmask) {
 
-        logger.info("Device announced Network Address: {} IEEE Address: {}", senderAddress.get16BitValue(),
+        logger.info("Device announcement received - Network Address: #{}, IEEE Address: {}", senderAddress.get16BitValue(),
                 IEEEAddress.toColonNotation(ieeeAddress.getLong()));
         queue.push(senderAddress, ieeeAddress);
         final Thread notifyThread = new Thread(new Runnable() {

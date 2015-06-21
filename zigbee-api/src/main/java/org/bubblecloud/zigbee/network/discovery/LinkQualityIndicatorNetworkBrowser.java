@@ -47,6 +47,12 @@ import java.util.TreeMap;
 
 
 /**
+ * Performs a scan of the network getting the Link Quality Information for the different
+ * links. If a new device is found, then it's added to the network.
+ * <p>
+ * Also keeps statistics of the LQI information to allow this to be provided to the user
+ * to establish and monitor network quality.
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>

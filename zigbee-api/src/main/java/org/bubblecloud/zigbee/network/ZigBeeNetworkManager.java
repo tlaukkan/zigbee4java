@@ -63,9 +63,9 @@ public interface ZigBeeNetworkManager {
 
     public abstract ZDO_SIMPLE_DESC_RSP sendZDOSimpleDescriptionRequest(ZDO_SIMPLE_DESC_REQ request);
 
-    public abstract boolean addAnnunceListener(AnnounceListener listner);
+    public abstract boolean addAnnounceListener(AnnounceListener listner);
 
-    public abstract boolean removeAnnunceListener(AnnounceListener listner);
+    public abstract boolean removeAnnounceListener(AnnounceListener listner);
 
     public abstract AF_REGISTER_SRSP sendAFRegister(AF_REGISTER request);
 

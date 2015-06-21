@@ -1101,14 +1101,14 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         return response[0];
     }
 
-    public boolean addAnnunceListener(AnnounceListener listner) {
+    public boolean addAnnounceListener(AnnounceListener listner) {
         if (announceListeners.isEmpty() && isHardwareReady()) {
             zigbeeInterface.addAsynchronousCommandListener(announceListenerFilter);
         }
         return announceListeners.add(listner);
     }
 
-    public boolean removeAnnunceListener(AnnounceListener listner) {
+    public boolean removeAnnounceListener(AnnounceListener listner) {
         boolean result = announceListeners.remove(listner);
         if (announceListeners.isEmpty() && isHardwareReady()) {
             zigbeeInterface.removeAsynchronousCommandListener(announceListenerFilter);

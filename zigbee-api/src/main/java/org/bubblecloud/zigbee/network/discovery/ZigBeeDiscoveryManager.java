@@ -80,7 +80,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
 
         if (enabledDiscoveries.contains(DiscoveryMode.Announce)) {
             announceListener = new AnnounceListenerImpl(importingQueue, networkManager);
-            networkManager.addAnnunceListener(announceListener);
+            networkManager.addAnnounceListener(announceListener);
         } else {
             logger.trace("ANNOUNCE discovery disabled.");
         }
@@ -110,7 +110,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
     public void shutdown() {
         //logger.info("Driver used left:clean up all the data and closing all the threads");
 
-        networkManager.removeAnnunceListener(announceListener);
+        networkManager.removeAnnounceListener(announceListener);
 
         if (associationNetworkBrowser != null) {
             associationNetworkBrowser.end();

@@ -418,7 +418,7 @@ public final class ZigBeeConsole {
             for (int i = 0; i < nodes.size(); i++) {
                 final ZigBeeNode node = nodes.get(i);
                 print("IEEE Address     : " + node.getIeeeAddress());
-                print("Network Address  : " + String.format("%04X", node.getNetworkAddress()));
+                print("Network Address  : #" + node.getNetworkAddress());
 
 	        	ZigBeeNodeDescriptor nodeDescriptor = node.getNodeDescriptor();
 	        	if(nodeDescriptor != null) {
@@ -1272,7 +1272,7 @@ public final class ZigBeeConsole {
                 	int lqiLast = neighbors.getLast(src.getNetworkAddress(), dst.getNetworkAddress());
                 	if(lqiLast != -1) {
                 		System.out.println("Node #" + src.getNetworkAddress() + " receives node #" + dst.getNetworkAddress() +
-                				" with LQI " + lqiLast + "(" +
+                				" with LQI " + lqiLast + " (" +
                 				neighbors.getMin(src.getNetworkAddress(), dst.getNetworkAddress()) + "/" +
                 				neighbors.getAvg(src.getNetworkAddress(), dst.getNetworkAddress()) + "/" +
                 				neighbors.getMax(src.getNetworkAddress(), dst.getNetworkAddress()) + ")"

@@ -239,13 +239,13 @@ public class EndpointBuilder implements Stoppable {
             } else {
                 // if you don't remove node with devices not yet inspected from network, you won't be able to re-inspect them later
                 // maybe device is sleeping and you have to wait for a non-sleeping period
-                logger.debug("Node {} removed from network because attempts to instantiate devices on it have failed", node);
+                logger.warn("Node {} removed from network because no endpoints have been discovered", node);
                 network.removeNode(node);
             }
         } else {
             if (node.getNetworkAddress() != nwk) { //TODO We have to verify this step by means of JUnit
                 logger.warn(
-                        "The device {} has been found again with a new network address {} ",
+                        "The device {} has been found again with a new network address #{} ",
                         node, nwkAddress.get16BitValue()
                 );
                 if (!changedNetworkAddress(node, nwk)) {
