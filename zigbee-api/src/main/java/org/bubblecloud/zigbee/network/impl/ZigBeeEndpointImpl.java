@@ -426,7 +426,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         final ZDO_UNBIND_RSP response = networkManager.sendZDOUnbind(new ZDO_UNBIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,
                 IEEEAddress.fromColonNotation(getNode().getIeeeAddress()), (byte) endPointAddress,
-                IEEEAddress.fromColonNotation(endpoint.getNode().getIeeeAddress()), (byte) endpoint.getDeviceTypeId()
+                IEEEAddress.fromColonNotation(endpoint.getNode().getIeeeAddress()), (byte) endpoint.getEndPointAddress()
         ));
         if (response == null || response.Status != 0) {
             logger.warn("ZDO_BIND_REQ failed, unable to un-bind from endpoint {} to {} for cluster {}", new Object[]{
