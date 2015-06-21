@@ -405,6 +405,42 @@ public class Attributes {
             .setZigBeeType(ZigBeeType.UnsignedInteger24bit)
             .setWritable(true);
 
+    final static public   AttributeDescriptor LOCAL_TEMPERATURE = new AbstractAttribute()
+            .setId(0x0000)
+            .setName("LocalTemperature")
+            .setReportable(true)
+            .setZigBeeType(ZigBeeType.SignedInteger16bit)
+            .setWritable(false);
+
+
+    final static public   AttributeDescriptor OCCUPIED_COOLING_SETPOINT = new AbstractAttribute()
+            .setId(0x0011)
+            .setName("OccupiedCoolingSetpoint")
+            .setReportable(true)
+            .setZigBeeType(ZigBeeType.SignedInteger16bit)
+            .setWritable(true);
+
+    final static public   AttributeDescriptor OCCUPIED_HEATING_SETPOINT = new AbstractAttribute()
+            .setId(0x0012)
+            .setName("OccupiedHeatingSetpoint")
+            .setReportable(true)
+            .setZigBeeType(ZigBeeType.SignedInteger16bit)
+            .setWritable(true);
+
+    final static public   AttributeDescriptor CONTROL_SEQUENCE_OF_OPERATION = new AbstractAttribute()
+            .setId(0x001B)
+            .setName("ControlSequenceOfOperation")
+            .setReportable(false)
+            .setZigBeeType(ZigBeeType.Enumeration8bit)
+            .setWritable(true);
+
+    final static public   AttributeDescriptor SYSTEM_MODE = new AbstractAttribute()
+            .setId(0x001C)
+            .setName("SystemMode")
+            .setReportable(true)
+            .setZigBeeType(ZigBeeType.Enumeration8bit)
+            .setWritable(true);
+
     final static public   AttributeDescriptor SWITCH_TYPE = new AbstractAttribute()
             .setId(0x0000)
             .setName("SwitchType")

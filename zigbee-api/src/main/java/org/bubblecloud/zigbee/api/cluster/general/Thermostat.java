@@ -22,8 +22,9 @@
 
 package org.bubblecloud.zigbee.api.cluster.general;
 
-import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.MeasuredValueListener;
 
 /**
  * 
@@ -33,7 +34,27 @@ import org.bubblecloud.zigbee.api.cluster.Cluster;
  */
 
 public interface Thermostat extends Cluster {
+	
+    public Attribute getlocalTemperature();
     
-	 public String getDescription() throws ZigBeeDeviceException;
+    public Attribute getoccupiedCoolingSetpoint();
+
+    public Attribute getoccupiedHeatingSetpoint();
+
+    public Attribute getcontrolSequenceOfOperation();
+
+    public Attribute getsystemMode();
+
+    /**
+     * @param mvl The {@link MeasuredValueListener} to subscribe for events
+     * @since 0.6.0
+     */
+    public boolean subscribe(MeasuredValueListener mvl);
+
+    /**
+     * @param mvl The {@link MeasuredValueListener} to unsubscribe
+     * @since 0.6.0
+     */
+    public boolean unsubscribe(MeasuredValueListener mvl);
 
 }

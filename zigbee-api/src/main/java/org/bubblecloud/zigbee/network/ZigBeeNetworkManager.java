@@ -37,6 +37,7 @@ import java.util.HashSet;
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi - ISTI-CNR</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco - ISTI-CNR</a>
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
+ * @author <a href="mailto:chris@cd-jackson.com>Chris Jackson</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
@@ -48,7 +49,7 @@ public interface ZigBeeNetworkManager {
 
     public abstract void setPort(ZigBeePort port);
 
-    public abstract void startup();
+    public abstract boolean startup();
 
     public abstract void shutdown();
 

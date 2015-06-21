@@ -32,6 +32,7 @@ import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.device.generic.*;
 import org.bubblecloud.zigbee.api.device.hvac.Pump;
+import org.bubblecloud.zigbee.api.device.hvac.ThermostatControl;
 import org.bubblecloud.zigbee.api.device.hvac.TemperatureSensor;
 import org.bubblecloud.zigbee.api.device.lighting.*;
 import org.bubblecloud.zigbee.api.device.security_safety.IASAncillaryControlEquipment;
@@ -56,7 +57,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
     /**
      * The logger.
      */
-    private final static Logger LOGGER = LoggerFactory.getLogger(ZigBeeDiscoveryManager.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ZigBeeApi.class);
     /**
      * The ZigBee network manager.
      */
@@ -73,6 +74,10 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
      * The zigbee network.
      */
     private ZigBeeNetwork network;
+    /**
+     * Flag to reset the network on startup
+     */
+	private boolean resetNetwork = false;
 
     /**
      * Constructor to configure the port interface.
@@ -85,8 +90,25 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
      */
     public ZigBeeApi(final ZigBeePort port, final int pan, final int channel,
             final EnumSet<DiscoveryMode> discoveryModes, final boolean resetNetwork) {
+    	this.resetNetwork = resetNetwork;
+
         networkManager = new ZigBeeNetworkManagerImpl(port,
-                NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
+                NetworkMode.Coordinator, pan, channel, 2500L);
+
+        discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
+    }
+
+    /**
+     * Constructor to configure the port interface.
+     *
+     * @param port           the ZigBee interface port (reference implementation provided by the zigbee4java-serialPort module)
+     * @param pan            the pan
+     * @param channel        the channel
+     * @param discoveryModes the discovery modes
+     */
+    public ZigBeeApi(final ZigBeePort port, final int pan, final int channel, final EnumSet<DiscoveryMode> discoveryModes) {
+        networkManager = new ZigBeeNetworkManagerImpl(port,
+                NetworkMode.Coordinator, pan, channel, 2500L);
 
         discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
     }
@@ -101,7 +123,9 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
      */
     public ZigBeeApi(final ZigBeePort port, final int pan, final int channel,
                      final boolean resetNetwork, final EnumSet<DiscoveryMode> discoveryModes) {
-        networkManager = new ZigBeeNetworkManagerImpl(port, NetworkMode.Coordinator, pan, channel, resetNetwork, 2500L);
+    	this.resetNetwork = resetNetwork;
+
+        networkManager = new ZigBeeNetworkManagerImpl(port, NetworkMode.Coordinator, pan, channel, 2500L);
         discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
         network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
 
@@ -128,6 +152,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
 	        context.getDeviceFactories().put(OnOffSwitch.DEVICE_ID, new DeviceFactoryImpl(context, OnOffSwitch.class, OnOffSwitchDevice.class));
 	        context.getDeviceFactories().put(OnOffLight.DEVICE_ID, new DeviceFactoryImpl(context, OnOffLight.class, OnOffLightDevice.class));
 	        context.getDeviceFactories().put(Pump.DEVICE_ID, new DeviceFactoryImpl(context, Pump.class, PumpDevice.class));
+	        context.getDeviceFactories().put(ThermostatControl.DEVICE_ID, new DeviceFactoryImpl(context, ThermostatControl.class, ThermostatControlDevice.class));
 	        context.getDeviceFactories().put(TemperatureSensor.DEVICE_ID, new DeviceFactoryImpl(context, TemperatureSensor.class, TemperatureSensorDevice.class));
 	        context.getDeviceFactories().put(IAS_Warning.DEVICE_ID, new DeviceFactoryImpl(context, IAS_Warning.class, IAS_Warning_Device.class));
 	        context.getDeviceFactories().put(SimpleSensorDevice.DEVICE_ID, new DeviceFactoryImpl(context, SimpleSensor.class, SimpleSensorDevice.class));
@@ -136,7 +161,6 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
 	    }
     }
 
-
     /**
      * Starts up network manager, network, context and discovery manager.
      *
@@ -144,7 +168,26 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
      */
     public boolean startup() {
         networkManager.startup();
+
+        return initializeNetwork(this.resetNetwork);
+    }
+
+    /**
+     * Initialize the zigbee hardware
+     */
+    public boolean initializeHardware() {
+        return networkManager.startup();    	
+    }
+
+    /**
+     * Initializes the zigbee network.
+     * This is only required if the port is opened using initializeHardware
+     * @param resetNetwork true to reset the network to the current panid and channel
+     * @return
+     */
+    public boolean initializeNetwork(boolean resetNetwork) {
         context.addDeviceListener(this);
+        networkManager.initializeZigBeeNetwork(resetNetwork);
 
         while (true) {
             if (networkManager.getDriverStatus() == DriverStatus.NETWORK_READY) {
@@ -235,10 +278,10 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
         LOGGER.debug("Sending permit join with data: {}", data);
 
         /* Notify routers of permit join change; don't check result because they're not obligated to respond */
-        result = networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrBroadcast, ZToolAddress16.ZCZR_BROADCAST, data, 1));
+        result = networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrBroadcast, ZToolAddress16.ZCZR_BROADCAST, data, 1), false);
 
         /* Notify coordinator of permit join change */
-        result = networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrUnicast, new ZToolAddress16(0, 0), data, 1));
+        result = networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrUnicast, new ZToolAddress16(0, 0), data, 1), true);
 
         if (result == null || result.Status != 0) {
             LOGGER.error("Error sending ZDO_MGMT_PERMIT_JOIN_REQ");

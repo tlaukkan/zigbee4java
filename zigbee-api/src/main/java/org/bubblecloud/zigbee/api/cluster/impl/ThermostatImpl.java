@@ -22,12 +22,13 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
-import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
+import org.bubblecloud.zigbee.api.ReportingConfiguration;
 import org.bubblecloud.zigbee.api.cluster.general.Thermostat;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.api.cluster.impl.event.MeasuredValueBridgeListeners;
 import org.bubblecloud.zigbee.api.cluster.impl.general.ThermostatCluster;
+import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.MeasuredValueListener;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 /**
@@ -37,14 +38,46 @@ import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
  *
  */
 public class ThermostatImpl implements Thermostat {
-	
-	private ThermostatCluster thermostatCluster;
 
+	private final ThermostatCluster thermostatCluster;
+    private final Attribute localTemperature;
+    private final Attribute occupiedCoolingSetpoint;
+    private final Attribute occupiedHeatingSetpoint;
+    private final Attribute controlSequenceOfOperation;
+    private final Attribute systemMode;
+
+    private final MeasuredValueBridgeListeners measureBridge;
 
 	public ThermostatImpl(ZigBeeEndpoint zbDevice){
 		thermostatCluster = new ThermostatCluster(zbDevice);
-		
+		localTemperature = thermostatCluster.getAttributeLocalTemperature();
+		occupiedCoolingSetpoint = thermostatCluster.getAttributeOccupiedCoolingSetpoint();
+		occupiedHeatingSetpoint = thermostatCluster.getAttributeOccupiedHeatingSetpoint();
+		controlSequenceOfOperation = thermostatCluster.getAttributeControlSequenceOfOperation();
+		systemMode = thermostatCluster.getAttributeSystemMode();
+
+		measureBridge = new MeasuredValueBridgeListeners(new ReportingConfiguration(), localTemperature, this);
 	}
+
+    public Attribute getlocalTemperature() {
+        return localTemperature;
+    }
+
+    public Attribute getoccupiedCoolingSetpoint() {
+        return occupiedCoolingSetpoint;
+    }
+
+    public Attribute getoccupiedHeatingSetpoint() {
+        return occupiedHeatingSetpoint;
+    }
+
+    public Attribute getcontrolSequenceOfOperation() {
+        return controlSequenceOfOperation;
+    }
+
+    public Attribute getsystemMode() {
+        return systemMode;
+    }
 
 	public int getId() {
 		
@@ -74,13 +107,11 @@ public class ThermostatImpl implements Thermostat {
 		return null;
 	}
 
-	public String getDescription() throws ZigBeeDeviceException {
-		 try {
-	            return (String) thermostatCluster.getAttributeDescription().getValue();
-	        } catch (ZigBeeClusterException e) {
-	            throw new ZigBeeDeviceException(e);
-	        }
-	}
+    public boolean subscribe(MeasuredValueListener listener) {
+        return measureBridge.subscribe(listener);
+    }
 
-
+    public boolean unsubscribe(MeasuredValueListener listener) {
+        return measureBridge.unsubscribe(listener);
+    }
 }

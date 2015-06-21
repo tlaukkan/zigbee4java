@@ -503,7 +503,7 @@ public final class ZigBeeConsole {
                     return false;
                 }
                 try {
-                    client.bindTo(server, clusterId);
+                    server.bindTo(client, clusterId);
                 } catch (final ZigBeeNetworkManagerException e) {
                     e.printStackTrace();
                 }
@@ -527,7 +527,7 @@ public final class ZigBeeConsole {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "unbind CLIENT SERVER CLUSTERID";
+            return "unbind [CLIENT] SERVER CLUSTERID";
         }
         /**
          * {@inheritDoc}
@@ -560,7 +560,7 @@ public final class ZigBeeConsole {
                     return false;
                 }
                 try {
-                    client.unbindFrom(server, clusterId);
+                    server.unbindFrom(client, clusterId);
                 } catch (final ZigBeeNetworkManagerException e) {
                     e.printStackTrace();
                 }
@@ -696,13 +696,13 @@ public final class ZigBeeConsole {
          * {@inheritDoc}
          */
         public String getDescription() {
-            return "Changes device level for example lamp brightness.";
+            return "Changes device level for example lamp brightness, where LEVEL is between 0 and 1.";
         }
         /**
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "color DEVICEID LEVEL";
+            return "level DEVICEID LEVEL";
         }
         /**
          * {@inheritDoc}
@@ -716,9 +716,9 @@ public final class ZigBeeConsole {
             if (device == null) {
                 return false;
             }
-            final ColorControl colorControl = device.getCluster(ColorControl.class);
-            if (colorControl == null) {
-                print("Device does not support color control.");
+            final LevelControl levelControl = device.getCluster(LevelControl.class);
+            if (levelControl == null) {
+                print("Device does not support level control.");
                 return false;
             }
 
@@ -738,7 +738,6 @@ public final class ZigBeeConsole {
                     l = 0;
                 }
 
-                final LevelControl levelControl = device.getCluster(LevelControl.class);
                 levelControl.moveToLevel((short) l, 10);
             } catch (ZigBeeDeviceException e) {
                 e.printStackTrace();

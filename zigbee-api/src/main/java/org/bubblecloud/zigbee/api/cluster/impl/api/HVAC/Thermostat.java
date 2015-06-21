@@ -38,8 +38,15 @@ public interface Thermostat extends ZCLCluster {
 	
 	public static final short  ID = 0x0201;
 	static final String NAME = "Thermostat";
-	static final String DESCRIPTION = "blablabla";
+	static final String DESCRIPTION = "Attributes and commands for configuring the thermostat, and reporting local temperature measurements.";
 	
-	public Attribute getAttributeDescription();
+	public Attribute getAttributeLocalTemperature();
 
+	public Attribute getAttributeOccupiedCoolingSetpoint();
+
+	public Attribute getAttributeOccupiedHeatingSetpoint();
+
+	public Attribute getAttributeControlSequenceOfOperation();
+
+	public Attribute getAttributeSystemMode();
 }

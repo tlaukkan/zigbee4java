@@ -37,7 +37,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 public interface ThermostatUserInterfaceConfiguration extends ZCLCluster {
 	
 	public static final short  ID = 0x0204;
-	static final String NAME = "Pump Configuration And Control";
+	static final String NAME = "Thermostat User Interface Configuration ";
 	static final String DESCRIPTION = "blablabla";
 	
 	public Attribute getAttributeDescription();

@@ -38,6 +38,7 @@ import org.bubblecloud.zigbee.api.device.generic.OnOffOutput;
 import org.bubblecloud.zigbee.api.device.generic.SimpleSensor;
 import org.bubblecloud.zigbee.api.device.generic.OnOffSwitch;
 import org.bubblecloud.zigbee.api.device.hvac.Pump;
+import org.bubblecloud.zigbee.api.device.hvac.ThermostatControl;
 import org.bubblecloud.zigbee.api.device.hvac.TemperatureSensor;
 import org.bubblecloud.zigbee.api.device.lighting.DimmableLight;
 import org.bubblecloud.zigbee.api.device.lighting.LightSensor;
@@ -121,6 +122,7 @@ public class ZigBeeApiConstants {
     public static final int DEVICE_ID_LIGHT_SENSOR = LightSensor.DEVICE_ID;
     public static final int DEVICE_ID_OCCUPANCY_SENSOR = OccupancySensor.DEVICE_ID;
     // HVAC - 0x0300 - 0x3FF
+    public static final int DEVICE_ID_THERMOSTAT_CONTROL = ThermostatControl.DEVICE_ID;
     public static final int DEVICE_ID_TEMPERATURE_SENSOR = TemperatureSensor.DEVICE_ID;
     public static final int DEVICE_ID_PUMP = Pump.DEVICE_ID;
     // Intruder Alarm Systems 0x0400 - 0xFFFF
@@ -154,6 +156,8 @@ public class ZigBeeApiConstants {
                 return LightSensor.NAME;
             else if(id.equals(Integer.toHexString(DEVICE_ID_OCCUPANCY_SENSOR)))
                 return OccupancySensor.NAME;
+            else if(id.equals(Integer.toHexString(DEVICE_ID_THERMOSTAT_CONTROL)))
+                return ThermostatControl.NAME;
             else if(id.equals(Integer.toHexString(DEVICE_ID_TEMPERATURE_SENSOR)))
                 return TemperatureSensor.NAME;
             else if(id.equals(Integer.toHexString(DEVICE_ID_IAS_CONTROL_INDICATING_EQUIPMENT)))
@@ -209,6 +213,12 @@ public class ZigBeeApiConstants {
                 return ColorControl.NAME;
             else if(id.equals(Integer.toHexString(CLUSTER_ID_ILLUMINANCE_MEASUREMENT)))
                 return IlluminanceMeasurement.NAME;
+            else if(id.equals(Integer.toHexString(CLUSTER_ID_THERMOSTAT)))
+                return Thermostat.NAME;
+            else if(id.equals(Integer.toHexString(CLUSTER_ID_THERMOSTAT_USER_INTERFACE_CONFIGURATION)))
+                return ThermostatUserInterfaceConfiguration.NAME;
+            else if(id.equals(Integer.toHexString(CLUSTER_ID_FAN_CONTROL)))
+                return FanControl.NAME;
             else if(id.equals(Integer.toHexString(CLUSTER_ID_TEMPERATURE_MEASUREMENT)))
                 return TemperatureMeasurement.NAME;
             else if(id.equals(Integer.toHexString(CLUSTER_ID_RELATIVE_HUMIDITY_MEASUREMENT)))
