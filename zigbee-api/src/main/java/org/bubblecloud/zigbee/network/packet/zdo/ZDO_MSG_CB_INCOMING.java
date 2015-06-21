@@ -74,7 +74,7 @@ public class ZDO_MSG_CB_INCOMING extends ZToolPacket /*implements IRESPONSE_CALL
     /// <summary>The ZDO Cluster Id of this message.</summary>
     public DoubleByte ClusterId;
     /// <name>TI.ZPI2.ZDO_MSG_CB_INCOMING.SecurityUse</name>
-    /// <summary>N/A – not used.</summary>
+    /// <summary>N/A - not used.</summary>
     public int SecurityUse;
     /// <name>TI.ZPI2.ZDO_MSG_CB_INCOMING.SeqNum</name>
     /// <summary>The sequence number of this ZDO message.</summary>
@@ -106,8 +106,6 @@ public class ZDO_MSG_CB_INCOMING extends ZToolPacket /*implements IRESPONSE_CALL
 
     /**
      * Translates the ZigBee ZDO cluster packet into a ZTool RSP packet
-     *
-     * @param packet
      */
     public ZToolPacket translate() {
         ZToolPacket newPacket;

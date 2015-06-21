@@ -50,9 +50,10 @@ public class DeviceFactoryImpl extends DeviceFactoryBase {
 
 
     /**
-     * Build an {@link DeviceFactory} that refine {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} by means of <code>cImplementation</code>,<br>
-     * into a <code>cInterface</code> service. This factory build the instance of the new service by invoking<br>
-     * the constructor  <code>cImplementation(ZigBeeApiContext, ZigBeeEndpoint)</code>.<br>
+     * Build an {@link DeviceFactory} that refine {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint}
+     * by means of <code>cImplementation</code>, into a <code>cInterface</code> service. This factory build
+     * the instance of the new service by invoking the constructor <code>cImplementation(ZigBeeApiContext, ZigBeeEndpoint)</code>.
+     * <p>
      * By default the {@link #getRefinedInterfaces()} is built to return the values:<br>
      * <pre>
      * cInterface.getDeviceType()

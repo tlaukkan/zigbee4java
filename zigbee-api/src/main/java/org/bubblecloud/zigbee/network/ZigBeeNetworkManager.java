@@ -80,7 +80,8 @@ public interface ZigBeeNetworkManager {
     public abstract boolean addAFMessageListner(ApplicationFrameworkMessageListener listner);
 
     /**
-     * Send LQI request cluster and wait for its response<br />
+     * Send LQI request cluster and wait for its response
+     * <p>
      * This method is used for the discovering of {@link ZigBeeEndpoint}
      *
      * @return the answer to the request or null in case of an error
@@ -89,8 +90,10 @@ public interface ZigBeeNetworkManager {
     public abstract ZDO_MGMT_LQI_RSP sendLQIRequest(ZDO_MGMT_LQI_REQ request);
 
     /**
-     * This method is used for the creation of an virtual device on the dongle<br />
-     * Note: a proper {@link addAFMessageListner} has to be register for answering to request coming from the network
+     * This method is used for the creation of an virtual device on the dongle
+     * <p>
+     * Note: a proper {@link addAFMessageListner} has to be register for answering to request coming
+     * from the network
      *
      * @since 0.7.0
      * @deprecated
@@ -98,7 +101,7 @@ public interface ZigBeeNetworkManager {
     public abstract void addCustomEndpoint(String endpointNumber, String profileID, String deviceID, String version, String inputClusters, String outputCluster);
 
     /**
-     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network<br>
+     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network
      * thus, it may be quite slow or end up in a deadlock of the application
      *
      * @return The long representing the IEEE Address of coordinator of the ZigBee network in use, or -1 if and only if the method failed
@@ -107,7 +110,7 @@ public interface ZigBeeNetworkManager {
     public abstract long getExtendedPanId();
 
     /**
-     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network<br>
+     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network
      * thus, it may be quite slow or end up in a deadlock of the application
      *
      * @return The long representing the IEEE Address of ZigBee device in use, or -1 if and only if the method failed
@@ -116,7 +119,7 @@ public interface ZigBeeNetworkManager {
     public abstract long getIeeeAddress();
 
     /**
-     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network<br>
+     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network
      * thus, it may be quite slow or end up in a deadlock of the application
      *
      * @return The panId of ZigBee network configured in use, or -1 if and only if the method failed
@@ -125,7 +128,7 @@ public interface ZigBeeNetworkManager {
     public abstract int getCurrentPanId();
 
     /**
-     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network<br>
+     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network
      * thus, it may be quite slow or end up in a deadlock of the application
      *
      * @return The ZigBee network channel in use, or -1 if and only if the method failed
@@ -134,7 +137,7 @@ public interface ZigBeeNetworkManager {
     public abstract int getCurrentChannel();
 
     /**
-     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network<br>
+     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network
      * thus, it may be quite slow or end up in a deadlock of the application
      *
      * @return The ZStack state of the device, or -1 if and only if the method failed
@@ -144,7 +147,7 @@ public interface ZigBeeNetworkManager {
     public abstract int getCurrentState();
 
     /**
-     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network<br>
+     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network
      * thus, it may be quite slow or end up in a deadlock of the application
      *
      * @return The int representation of the {@link NetworkMode} in use, or -1 if and only if the method failed
