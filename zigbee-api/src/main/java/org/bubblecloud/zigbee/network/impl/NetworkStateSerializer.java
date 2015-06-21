@@ -72,8 +72,13 @@ public class NetworkStateSerializer {
             throw new RuntimeException("Error serializing network state.", e);
         }
         for (final ZigBeeEndpoint endpoint : endpoints) {
-            if (zigBeeNetwork.getNode(endpoint.getNode().getIeeeAddress()) == null) {
+            ZigBeeNodeImpl existingNode = zigBeeNetwork.getNode(endpoint.getNode().getIeeeAddress());
+            if (existingNode == null) {
                 zigBeeNetwork.addNode((ZigBeeNodeImpl) endpoint.getNode());
+            }
+            else
+            {
+                ((ZigBeeEndpointImpl) endpoint).setNode(existingNode);
             }
             ((ZigBeeEndpointImpl) endpoint).setNetworkManager(zigBeeNetworkManager);
             zigBeeNetwork.addEndpoint(endpoint);

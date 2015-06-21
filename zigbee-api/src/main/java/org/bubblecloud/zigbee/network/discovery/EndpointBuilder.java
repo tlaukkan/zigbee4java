@@ -35,7 +35,6 @@ import org.bubblecloud.zigbee.util.ThreadUtils;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -206,13 +205,7 @@ public class EndpointBuilder implements Stoppable {
                         "The device {} has been found again with a new network address {} ",
                         node, nwkAddress.get16BitValue()
                 );
-                if (!changedNetworkAddress(node, nwk)) {
-                    /*
-                     * No previous device inspection completed successfully, so we should try to inspect
-                     * the device again
-                     */
-                    inspectEndpointOfNode(nwk, new ZigBeeNodeImpl(nwk, node.getIeeeAddress(), (short) driver.getCurrentPanId()));
-                }
+
                 node.setNetworkAddress(nwk);
 
                 // Notify listeners that the device has been updated
@@ -221,19 +214,6 @@ public class EndpointBuilder implements Stoppable {
                 }
             }
         }
-    }
-
-    /**
-     * This method updates the network address on all the device belonging the node<br>
-     * with the change network address<br>
-     *
-     * @param node {@link org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl} the old node with the obsoleted network address
-     * @param nwk  the new network address of the node
-     * @return if at least a device has been updated
-     * @since 0.6.0 - Revision 74
-     */
-    private boolean changedNetworkAddress(ZigBeeNodeImpl node, int nwk) {
-        throw new NotImplementedException();
     }
 
     boolean inspectingNewEndpoint = false;
