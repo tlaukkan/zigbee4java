@@ -6,6 +6,7 @@ target/
 *.json
 zigbee-api/build
 .gradle
+.metadata
 zigbee-console/build
 zigbee-serial-javase/build
 local.properties
