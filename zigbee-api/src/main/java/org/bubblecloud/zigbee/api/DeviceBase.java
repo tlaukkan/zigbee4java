@@ -43,11 +43,11 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * This class represent a generic <b>Home Automation Device</b> as defined by the document:<br>
+ * This class represent a generic <b>Home Automation Device</b> as defined by the document
  * <i>ZigBee Home Automation</i> public release version 075123r01ZB
- * <br>
- * <b>NOTE</b>: In general the mapping between <b>ClusterId</b> and <b>Cluster</b> is defined<br>
- * by the profile, while the mapping between <b><i>Name</i></b> and <b>Cluster</b> is defined where the<br>
+ * <p>
+ * <b>NOTE</b>: In general the mapping between <b>ClusterId</b> and <b>Cluster</b> is defined
+ * by the profile, while the mapping between <b><i>Name</i></b> and <b>Cluster</b> is defined where the
  * <b>Cluster</b> is defined: usually inside a <i>Cluster Library</i>
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

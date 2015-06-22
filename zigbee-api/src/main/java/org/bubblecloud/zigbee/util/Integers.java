@@ -25,7 +25,7 @@ package org.bubblecloud.zigbee.util;
 
 /**
  * An utility class that contains method for:<br>
- * -  creating <b>long</b>, <b>int</b>, and <b>short</b> from <code>int[]</code><br>
+ * - creating <b>long</b>, <b>int</b>, and <b>short</b> from <code>int[]</code><br>
  * - extracting a byte configuration from a:<b>long</b>, <b>int</b>, and <b>short</b>
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -130,7 +130,7 @@ public class Integers {
             case 3:
                 return (byte) ((x & 0xFF000000) >> 24);
             default:
-                throw new IllegalArgumentException("int is reppresented as 4 bytes," +
+                throw new IllegalArgumentException("int is represented as 4 bytes," +
                         " hence value of n must be between 0 and 3: you have tryed to use " + n);
         }
     }
@@ -147,7 +147,7 @@ public class Integers {
             case 1:
                 return (byte) ((x & 0xFF00) >> 8);
             default:
-                throw new IllegalArgumentException("short is reppresented as 2 bytes," +
+                throw new IllegalArgumentException("short is represented as 2 bytes," +
                         " hence value of n must be between 0 and 1: you have tryed to use " + n);
         }
     }
@@ -164,7 +164,7 @@ public class Integers {
             case 1:
                 return ((x & 0xFF00) >> 8);
             default:
-                throw new IllegalArgumentException("short is reppresented as 2 bytes," +
+                throw new IllegalArgumentException("short is represented as 2 bytes," +
                         " hence value of n must be between 0 and 1: you have tryed to use " + n);
         }
     }

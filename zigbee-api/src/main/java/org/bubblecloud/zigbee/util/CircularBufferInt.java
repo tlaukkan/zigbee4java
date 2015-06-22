@@ -21,9 +21,6 @@
 */
 package org.bubblecloud.zigbee.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -31,8 +28,6 @@ import org.slf4j.LoggerFactory;
  * @since 0.4.0 - Revision 62
  */
 public class CircularBufferInt {
-
-    private static final Logger logger = LoggerFactory.getLogger(CircularBufferInt.class);
 
     private final int[] buffer;
     private int head;

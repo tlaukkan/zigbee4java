@@ -25,8 +25,8 @@ package org.bubblecloud.zigbee.api;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 /**
- * This class represent the main interface for the extendable architecture of the<br>
- * refinement driver. Each refinement driver from {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} to {@link Device}<br>
+ * This class represent the main interface for the extendable architecture of the
+ * refinement driver. Each refinement driver from {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} to {@link Device}
  * has to implement this interface as OSGi Service and register it on OSGi platform.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Constructor;
 
 /**
- * Generic class that simplify the creation of factory, and avoids the creation of a class for<br>
+ * Generic class that simplify the creation of factory, and avoids the creation of a class for
  * each factory that we want to register
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

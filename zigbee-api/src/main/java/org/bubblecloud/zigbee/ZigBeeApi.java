@@ -51,6 +51,9 @@ import java.util.*;
 
 /**
  * ZigBee Application Interface.
+ * <p>
+ * This is the main interface to the ZigBee library.
+ * 
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
@@ -348,14 +351,30 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
         return network;
     }
 
+    /**
+     * Gets a single {@link Device ZigBee device}
+     * 
+     * @param endPointId
+     * @return
+     */
     public Device getDevice(String endPointId) {
         return context.getDevice(endPointId);
     }
 
+    /**
+     * Gets the list of {@link Device ZigBee devices}
+     * 
+     * @return the list of devices
+     */
     public List<Device> getDevices() {
         return context.getDevices();
     }
 
+    /**
+     * Gets the list of current {@link ZigBeeNode ZigBee nodes}
+     * 
+     * @return the list of current ZigBee nodes
+     */
     public List<ZigBeeNode> getNodes() {
     	ArrayList<ZigBeeNode> nodes = new ArrayList<ZigBeeNode>();
         for(ZigBeeNode n : network.getNodes().values()) {

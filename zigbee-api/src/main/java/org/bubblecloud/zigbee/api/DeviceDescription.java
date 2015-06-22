@@ -25,14 +25,14 @@ package org.bubblecloud.zigbee.api;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 
 /**
- * This class represent static description associated to a generic <b>Home Automation Device</b><br>
- * as defined by the document:<br>
+ * This class represent static description associated to a generic <b>Home Automation Device</b>
+ * as defined by the document 
  * <i>ZigBee Home Automation</i> public release version 075123r01ZB
- * <br>
- * In particular, this class can be used for inspecting by code the <i>ZigBee Home Automation</i><br>
- * definition. In fact, all the device belonging to the same <b>DeviceId</b> have a common definition.<br>
- * Hence, a Singelton implementation that shares a {@link DeviceDescription} among all the {@link DeviceBase}<br>
- * objects belonging to the <b>DeviceId</b> is adviced.
+ * <p>
+ * In particular, this class can be used for inspecting by code the <i>ZigBee Home Automation</i>
+ * definition. In fact, all the device belonging to the same <b>DeviceId</b> have a common definition.
+ * Hence, a Singelton implementation that shares a {@link DeviceDescription} among all the {@link DeviceBase}
+ * objects belonging to the <b>DeviceId</b> is advised.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>

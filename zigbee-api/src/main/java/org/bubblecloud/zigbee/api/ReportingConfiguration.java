@@ -23,11 +23,11 @@
 package org.bubblecloud.zigbee.api;
 
 /**
- * The interface of the service registered by the <b>Home Automation Driver</b> architecture<br>
- * which is used to provides among all the bundles composing the <b>Home Automation Driver</b>,<br>
- * (i.e.: core drivers and driver extension) the default configuration of the reporting<br>
- * <br>
- * Interfaces that contains the definition of all the properties key and default values,<br>
+ * The interface of the service registered by the <b>Home Automation Driver</b> architecture
+ * which is used to provides among all the bundles composing the <b>Home Automation Driver</b>,
+ * (i.e.: core drivers and driver extension) the default configuration of the reporting.
+ * <p>
+ * Interfaces that contains the definition of all the properties key and default values,
  * that affects the reporting behavior of the <b>Home Automation Driver</b> architecture
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
