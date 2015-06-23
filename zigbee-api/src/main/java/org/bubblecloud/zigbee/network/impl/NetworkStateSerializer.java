@@ -32,8 +32,12 @@ import java.util.List;
 public class NetworkStateSerializer {
 
     /**
-     * Serializes network state.
-     * @return the serialized network state as String.
+     * Serializes the network state.
+     * <p>
+     * Produces a json {@link String} containing the current state of the network.
+     * 
+     * @param zigBeeNetwork the {@link ZigBeeNetwork}
+     * @return the serialized network state as json {@link String}.
      */
     public String serialize(final ZigBeeNetwork zigBeeNetwork) {
         final ObjectMapper objectMapper = new ObjectMapper();
@@ -56,10 +60,11 @@ public class NetworkStateSerializer {
     }
 
     /**
-     * Deserializes network state.
-     * @param zigBeeNetworkManager the ZigBee network manager
-     * @param zigBeeNetwork the ZigBee network
-     * @param networkStateString the network state as String
+     * Deserializes the network state.
+     * 
+     * @param zigBeeNetworkManager the {@link ZigBeeNetworkManager ZigBee network manager}
+     * @param zigBeeNetwork the {@link ZigBeeNetwork ZigBee network}
+     * @param networkStateString the network state as {@link String}
      */
     public void deserialize(final ZigBeeNetworkManager zigBeeNetworkManager, final ZigBeeNetwork zigBeeNetwork, final String networkStateString) {
         final ObjectMapper objectMapper = new ObjectMapper();

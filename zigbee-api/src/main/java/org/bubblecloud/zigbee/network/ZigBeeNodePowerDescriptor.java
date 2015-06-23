@@ -10,8 +10,11 @@ import org.bubblecloud.zigbee.network.packet.zdo.ZDO_POWER_DESC_RSP;
 /**
  * This implements the Node Power Descriptor.
  * <p>
- * The node power descriptor gives a dynamic indication of the power status of the
- * node and is mandatory for each node.
+ * The node power descriptor gives a dynamic indication of the power status of
+ * the node and is mandatory for each node.
+ * <p>
+ * The power descriptor may be requested during service discovery to gain information
+ * about the device. 
  * <p>
  * There shall be only one node power descriptor in a node.
  * 
@@ -23,14 +26,29 @@ public class ZigBeeNodePowerDescriptor {
 	private POWER_SOURCE powerSource;
 	private POWER_LEVEL powerLevel;
 
+	/**
+	 * The current power mode field of the node power descriptor is four bits in
+	 * length and specifies the current sleep/power-saving mode of the node.
+	 *
+	 */
 	enum POWER_MODE {
 		RECEIVER_ON, RECEIVER_PERIODICAL, RECEIVER_USER, UNKNOWN
 	}
 
+	/**
+	 * The current power source level field of the node power descriptor is four
+	 * bits in length and specifies the level of charge of the power source.
+	 *
+	 */
 	enum POWER_LEVEL {
 		CRITICAL, LOW, GOOD, FULL, UNKNOWN
 	}
 
+	/**
+	 * The power sources fields of the node power descriptor are four bits in
+	 * length and specifies the power sources available on this node.
+	 *
+	 */
 	enum POWER_SOURCE {
 		MAINS, BATTERY_RECHARCHABLE, BATTERY_DISPOSABLE, UNKNOWN
 	}
@@ -93,6 +111,7 @@ public class ZigBeeNodePowerDescriptor {
 	/*
 	 * The current power mode field of the node power descriptor is four bits in
 	 * length and specifies the current sleep/power-saving mode of the node.
+	 * @return {@link POWER_MODE}
 	 */
 	public POWER_MODE getPowerMode() {
 		return powerMode;
@@ -104,6 +123,7 @@ public class ZigBeeNodePowerDescriptor {
 	 * For each power source supported on this node, the corresponding bit of
 	 * the available power sources field, shall be set to 1. All other bits
 	 * shall be set to 0.
+	 * @return {@link POWER_LEVEL}
 	 */
 	public List<POWER_SOURCE> getPowerSourcesAvailable() {
 		return powerSourcesAvailable;
@@ -115,6 +135,7 @@ public class ZigBeeNodePowerDescriptor {
 	 * node. For the current power source selected, the corresponding bit of the
 	 * current power source field, shall be set to 1. All other bits shall be
 	 * set to 0.
+	 * @return {@link POWER_SOURCE}
 	 */
 	public POWER_SOURCE getPowerSource() {
 		return powerSource;
@@ -125,6 +146,7 @@ public class ZigBeeNodePowerDescriptor {
 	 * bits in length and specifies the level of charge of the power source. The
 	 * current power source level field shall be set to one of the non-reserved
 	 * values.
+	 * @return {@link POWER_LEVEL}
 	 */
 	public POWER_LEVEL getPowerLevel() {
 		return powerLevel;

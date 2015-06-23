@@ -114,14 +114,6 @@ public final class ZigBeeConsole {
             print("ZigBee API starting up ... [OK]");
         }
 
-        // TODO Use something like a command line parameter to decide if permit join is re-enabled
-        // Lets disable the join functionality in console by default to improve security.
-        /*if (!zigbeeApi.permitJoin(true)) {
-            print("ZigBee API permit join enable ... [FAIL]");
-        } else {
-            print("ZigBee API permit join enable ... [OK]");
-        }*/
-
         zigbeeApi.addDeviceListener(new DeviceListener() {
             @Override
             public void deviceAdded(Device device) {
@@ -426,8 +418,10 @@ public final class ZigBeeConsole {
 	        		print("                 : Manufacturer Code  " + String.format("%04X", nodeDescriptor.getManufacturerCode()));
 	        		print("                 : Max Buffer Size    " + nodeDescriptor.getMaximumBufferSize());
 	        		print("                 : Max Transfer Size  " + nodeDescriptor.getMaximumTransferSize());
+	        		print("                 : MAC Capabilities   " + nodeDescriptor.getMacCapabilities());
+	        		print("                 : Server Mask        " + nodeDescriptor.getServerMask());
 	        	}
-	        	
+
 	        	ZigBeeNodePowerDescriptor powerDescriptor = node.getPowerDescriptor();
 	        	if(powerDescriptor != null) {
 		            print("Power Descriptor : Power Mode         " + powerDescriptor.getPowerMode());
