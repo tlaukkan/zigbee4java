@@ -170,13 +170,14 @@ public class ApplicationFrameworkLayer {
             ZigBeeApiConstants.CLUSTER_ID_FLOW_MEASUREMENT,
             ZigBeeApiConstants.CLUSTER_ID_RELATIVE_HUMIDITY_MEASUREMENT,
             ZigBeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING,
+            ZigBeeApiConstants.CLUSTER_ID_ELECTRICAL_MEASUREMENT,
             ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE,
             ZigBeeApiConstants.CLUSTER_ID_IAS_ACE,
             ZigBeeApiConstants.CLUSTER_ID_IAS_WD
         );
 
         final int[] clusters = new int[clusterSet.size()];
-        if (clusters.length > 33) {
+        if (clusters.length > 34) {
             throw new RuntimeException("Too many default clusters.");
         }
 

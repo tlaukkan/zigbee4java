@@ -103,6 +103,7 @@ public class ZigBeeApiConstants {
     public static final int CLUSTER_ID_FLOW_MEASUREMENT = FlowMeasurement.ID;
     public static final int CLUSTER_ID_RELATIVE_HUMIDITY_MEASUREMENT = RelativeHumidityMeasurement.ID;
     public static final int CLUSTER_ID_OCCUPANCY_SENSING = OccupancySensing.ID;
+    public static final int CLUSTER_ID_ELECTRICAL_MEASUREMENT = ElectricalMeasurement.ID;
     // Security & Safety
     public static final int CLUSTER_ID_IAS_ZONE = IASZone.ID;
     public static final int CLUSTER_ID_IAS_ACE = IASACE.ID;
@@ -225,6 +226,8 @@ public class ZigBeeApiConstants {
                 return RelativeHumidityMeasurement.NAME;
             else if(id.equals(Integer.toHexString(CLUSTER_ID_OCCUPANCY_SENSING)))
                 return OccupancySensing.NAME;
+            else if(id.equals(Integer.toHexString(CLUSTER_ID_ELECTRICAL_MEASUREMENT)))
+                return ElectricalMeasurement.NAME;
             else if(id.equals(Integer.toHexString(CLUSTER_ID_IAS_ZONE)))
                 return IASZone.NAME;
             else if(id.equals(Integer.toHexString(CLUSTER_ID_IAS_ACE)))
