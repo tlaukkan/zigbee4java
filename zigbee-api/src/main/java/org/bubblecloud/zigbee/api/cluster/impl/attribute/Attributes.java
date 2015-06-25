@@ -958,4 +958,102 @@ public class Attributes {
             .setReportable(false)
             .setZigBeeType(ZigBeeType.Enumeration16bit)
             .setWritable(true);
+
+    public static final AttributeDescriptor MEASUREMENT_TYPE = new AbstractAttribute()
+            .setId(0x0000)
+            .setName("MeasurementType")
+            .setReportable(false)
+            .setZigBeeType(ZigBeeType.UnsignedInteger32bit)
+            .setWritable(false);
+
+    public static final AttributeDescriptor AC_FREQUENCY = new AbstractAttribute()
+            .setId(0x0300)
+            .setName("ACFrequency")
+            .setReportable(true)
+            .setZigBeeType(ZigBeeType.UnsignedInteger16bit)
+            .setWritable(false);
+
+    public static final AttributeDescriptor RMS_VOLTAGE = new AbstractAttribute()
+            .setId(0x0505)
+            .setName("RMSVoltage")
+            .setReportable(true)
+            .setZigBeeType(ZigBeeType.UnsignedInteger16bit)
+            .setWritable(false);
+
+    public static final AttributeDescriptor RMS_CURRENT = new AbstractAttribute()
+            .setId(0x0508)
+            .setName("RMSCurrent")
+            .setReportable(true)
+            .setZigBeeType(ZigBeeType.UnsignedInteger16bit)
+            .setWritable(false);
+
+    public static final AttributeDescriptor ACTIVE_POWER = new AbstractAttribute()
+            .setId(0x050B)
+            .setName("ActivePower")
+            .setReportable(true)
+            .setZigBeeType(ZigBeeType.SignedInteger16bit)
+            .setWritable(false);
+
+    public static final AttributeDescriptor REACTIVE_POWER = new AbstractAttribute()
+            .setId(0x050E)
+            .setName("ReactivePower")
+            .setReportable(true)
+            .setZigBeeType(ZigBeeType.SignedInteger16bit)
+            .setWritable(false);
+
+    public static final AttributeDescriptor APPARENT_POWER = new AbstractAttribute()
+            .setId(0x050F)
+            .setName("ApparentPower")
+            .setReportable(true)
+            .setZigBeeType(ZigBeeType.UnsignedInteger16bit)
+            .setWritable(false);
+
+    public static final AttributeDescriptor POWER_FACTOR = new AbstractAttribute()
+            .setId(0x0510)
+            .setName("PowerFactor")
+            .setReportable(true)
+            .setZigBeeType(ZigBeeType.SignedInteger8bit)
+            .setWritable(false);
+
+    public static final AttributeDescriptor AC_VOLTAGE_MULTIPLIER = new AbstractAttribute()
+            .setId(0x0600)
+            .setName("ACVoltageMultiplier")
+            .setReportable(false)
+            .setZigBeeType(ZigBeeType.UnsignedInteger16bit)
+            .setWritable(false);
+
+    public static final AttributeDescriptor AC_VOLTAGE_DIVISOR = new AbstractAttribute()
+            .setId(0x0601)
+            .setName("ACVoltageDivisor")
+            .setReportable(false)
+            .setZigBeeType(ZigBeeType.UnsignedInteger16bit)
+            .setWritable(false);
+
+    public static final AttributeDescriptor AC_CURRENT_MULTIPLIER = new AbstractAttribute()
+            .setId(0x0602)
+            .setName("ACCurrentMultiplier")
+            .setReportable(false)
+            .setZigBeeType(ZigBeeType.UnsignedInteger16bit)
+            .setWritable(false);
+
+    public static final AttributeDescriptor AC_CURRENT_DIVISOR = new AbstractAttribute()
+            .setId(0x0603)
+            .setName("ACCurrentDivisor")
+            .setReportable(false)
+            .setZigBeeType(ZigBeeType.UnsignedInteger16bit)
+            .setWritable(false);
+
+    public static final AttributeDescriptor AC_POWER_MULTIPLIER = new AbstractAttribute()
+            .setId(0x0604)
+            .setName("ACPowerMultiplier")
+            .setReportable(false)
+            .setZigBeeType(ZigBeeType.UnsignedInteger16bit)
+            .setWritable(false);
+
+    public static final AttributeDescriptor AC_POWER_DIVISOR = new AbstractAttribute()
+            .setId(0x0605)
+            .setName("ACPowerDivisor")
+            .setReportable(false)
+            .setZigBeeType(ZigBeeType.UnsignedInteger16bit)
+            .setWritable(false);
 }

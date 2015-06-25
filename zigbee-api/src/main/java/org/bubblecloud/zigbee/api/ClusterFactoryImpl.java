@@ -56,6 +56,7 @@ public class ClusterFactoryImpl extends ClusterFactoryBase {
     final static String FLOW_MEASUREMENT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_FLOW_MEASUREMENT;
     final static String RELATIVE_HUMIDITY_MEASUREMENT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_RELATIVE_HUMIDITY_MEASUREMENT;
     final static String OCCUPANCY_SENSING_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING;
+    final static String ELECTRICAL_MEASUREMENT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_ELECTRICAL_MEASUREMENT;
     //Security and Safety
     final static String IAS_ZONE_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE;
     final static String IAS_WD_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_IAS_WD;
@@ -107,6 +108,7 @@ public class ClusterFactoryImpl extends ClusterFactoryBase {
         addCluster(TEMPERATURE_MEASUREMENT_KEY, TemperatureMeasurementImpl.class);
         addCluster(RELATIVE_HUMIDITY_MEASUREMENT_KEY, RelativeHumidityMeasurementImpl.class);
         addCluster(OCCUPANCY_SENSING_KEY, OccupancySensingImpl.class);
+        addCluster(ELECTRICAL_MEASUREMENT_KEY, ElectricalMeasurementImpl.class);
         addCluster(PRESSURE_MEASUREMENT_KEY, PressureMeasurementImpl.class);
         addCluster(FLOW_MEASUREMENT_KEY, FlowMeasurementImpl.class);
         addCluster(ILLUMINANCE_LEVEL_SENSING_KEY, IlluminanceLevelSensingImpl.class);
