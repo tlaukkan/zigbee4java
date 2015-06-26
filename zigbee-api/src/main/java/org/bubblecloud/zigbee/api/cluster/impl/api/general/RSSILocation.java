@@ -25,7 +25,7 @@ package org.bubblecloud.zigbee.api.cluster.impl.api.general;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 
 /**
- * This class represent the <b>On/off</b> Cluster as defined by the document:<br>
+ * This class represent the <b>On/off</b> Cluster as defined by the document:
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
  * <b>NODE: THIS CLASS IS ONLY A PLACEHOLDER THE INTERFACE IS WRONG</b>
  *

@@ -82,6 +82,14 @@ public abstract class DeviceFactoryBase implements DeviceFactory {
 
     public abstract DeviceBase getInstance(ZigBeeEndpoint zbDevice);
 
+    /**
+     * Returns a <i>score</i> based on the number of endpoints supported by the device
+     * that match those in the target device.
+     * <p>
+     * If the device is a direct match to the device type, then we return the maximum
+     * score
+     * @return int score being the number of endpoints supported
+     */
     public int hasMatch(ZigBeeEndpoint device) {
     	// If this is an exact match for the device type, then return the maximum score
         if (device.getDeviceTypeId() == getDeviceId()) {

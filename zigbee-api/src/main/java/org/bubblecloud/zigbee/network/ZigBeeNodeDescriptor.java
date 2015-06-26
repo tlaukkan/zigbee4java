@@ -23,8 +23,8 @@ import org.bubblecloud.zigbee.network.packet.zdo.ZDO_NODE_DESC_RSP;
 public class ZigBeeNodeDescriptor {
 	private LOGICAL_TYPE logicalType;
 	private int manufacturerCode;
-	private int maxBufferSize;
-	private int maxTransferSize;
+	private int maximumBufferSize;
+	private int maximumTransferSize;
 	private List<MAC_CAPABILITY> macCapabilities;
 	private List<SERVER_MASK> serverMask;
 
@@ -105,8 +105,8 @@ public class ZigBeeNodeDescriptor {
 		}
 
 		manufacturerCode = descriptorResponse.ManufacturerCode.get16BitValue();
-		maxBufferSize = descriptorResponse.BufferSize;
-		maxTransferSize = descriptorResponse.TransferSize.get16BitValue();
+		maximumBufferSize = descriptorResponse.BufferSize;
+		maximumTransferSize = descriptorResponse.TransferSize.get16BitValue();
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class ZigBeeNodeDescriptor {
 	 * @return
 	 */
 	public int getMaximumBufferSize() {
-		return maxBufferSize;
+		return maximumBufferSize;
 	}
 
 	/*
@@ -156,7 +156,7 @@ public class ZigBeeNodeDescriptor {
 	 * @return
 	 */
 	public int getMaximumTransferSize() {
-		return maxTransferSize;
+		return maximumTransferSize;
 	}
 
 	/*

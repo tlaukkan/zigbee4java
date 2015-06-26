@@ -37,34 +37,70 @@ public abstract class AbstractDeviceDescription implements DeviceDescription {
 
     public abstract int[] getStandardClusters();
 
+    /**
+     * Checks the requested cluster against the devices custom cluster list
+     * and returns true if this is an custom cluster.
+     * 
+     * @param clusterId to check if it's custom
+     * @return true if this is an custom cluster
+     */
     public boolean isCustom(int clusterId) {
         int[] array = getCustomClusters();
         for (int i = 0; i < array.length; i++) {
-            if (array[i] == clusterId) return true;
+            if (array[i] == clusterId) {
+            	return true;
+            }
         }
         return false;
     }
 
+    /**
+     * Checks the requested cluster against the devices mandatory cluster list
+     * and returns true if this is an mandatory cluster.
+     * 
+     * @param clusterId to check if it's mandatory
+     * @return true if this is an mandatory cluster
+     */
     public boolean isMandatory(int clusterId) {
         int[] array = getMandatoryCluster();
         for (int i = 0; i < array.length; i++) {
-            if (array[i] == clusterId) return true;
+            if (array[i] == clusterId) {
+            	return true;
+            }
         }
         return false;
     }
 
+    /**
+     * Checks the requested cluster against the devices optional cluster list
+     * and returns true if this is an optional cluster.
+     * 
+     * @param clusterId to check if it's optional
+     * @return true if this is an optional cluster
+     */
     public boolean isOptional(int clusterId) {
         int[] array = getOptionalCluster();
         for (int i = 0; i < array.length; i++) {
-            if (array[i] == clusterId) return true;
+            if (array[i] == clusterId) {
+            	return true;
+            }
         }
         return false;
     }
 
+    /**
+     * Checks the requested cluster against the devices standard cluster list
+     * and returns true if this is an standard cluster.
+     * 
+     * @param clusterId to check if it's standard
+     * @return true if this is an standard cluster
+     */
     public boolean isStandard(int clusterId) {
         int[] array = getStandardClusters();
         for (int i = 0; i < array.length; i++) {
-            if (array[i] == clusterId) return true;
+            if (array[i] == clusterId) {
+            	return true;
+            }
         }
         return false;
     }

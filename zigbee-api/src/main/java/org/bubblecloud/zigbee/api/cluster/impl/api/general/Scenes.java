@@ -29,7 +29,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.scenes.AddScenePayload;
 
 /**
- * This class represent the <b>Scenes</b> Cluster as defined by the document:<br>
+ * This class represent the <b>Scenes</b> Cluster as defined by the document:
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

@@ -103,7 +103,7 @@ public final class ZigBeeConsole {
                 zigbeeApi.deserializeNetworkState(networkState);
             } catch (final Exception e) {
                 e.printStackTrace();
-                return;
+                // Fall through and just start the network without persistence
             }
         }
 
