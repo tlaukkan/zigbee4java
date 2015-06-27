@@ -104,11 +104,11 @@ public class WaitForClusterResponse implements ApplicationFrameworkMessageConsum
     }
 
     /**
-     * Wait until an {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG} arrives from the <i>ZigBee Network</i>. The message<br>
-     * has to match the specified parameters and has to arrive before a timout otherwise <code>null</code><br>
+     * Wait until an {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG} arrives from the <i>ZigBee Network</i>.
+     * The message has to match the specified parameters and has to arrive before a timout otherwise <code>null</code>
      * will be returned.
      *
-     * @return {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG} that match the filter used with the constructor<br>
+     * @return {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG} that match the filter used with the constructor
      *         {@link #WaitForClusterResponse(byte, short)}
      */
     public AF_INCOMING_MSG getResponse() {

@@ -25,7 +25,7 @@ package org.bubblecloud.zigbee.api.cluster.impl.api.protocol_interfaces;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 
 /**
- * This class represent the <b>Generic Tunnel</b> Cluster as defined by the document:<br>
+ * This class represent the <b>Generic Tunnel</b> Cluster as defined by the document:
  * <i>ZigBee Cluster Library</i> public release version 075123r04ZB
  * <p/>
  * <b>NORE: THIS CLASS IS ONLY A PLACEHOLDER THE INTERFACE IS WRONG</b>

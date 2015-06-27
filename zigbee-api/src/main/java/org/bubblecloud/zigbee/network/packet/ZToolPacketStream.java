@@ -73,8 +73,10 @@ public class ZToolPacketStream
     }
 
     /**
-     * @param packet
-     * @return
+     * Parses the incoming <b>int</b> array of data and produces a {@link ZToolPacket}
+     * 
+     * @param packet integer array
+     * @return {@link ZToolPacket}
      * @since 0.6.0 - Revision 60
      */
     public static ZToolPacket parsePacket(int[] packet) {
@@ -104,11 +106,12 @@ public class ZToolPacketStream
     }
 
     /**
-     * @param packet
-     * @return
+     * Parses the incoming <b>byte</b> array of data and produces a {@link ZToolPacket}
+     * 
+     * @param packet byte array
+     * @return {@link ZToolPacket}
      * @since 0.6.0 - Revision 60
      */
-
     public static ZToolPacket parsePacket(byte[] packet) {
         final ZToolPacket response;
         int idx = 1;
@@ -411,7 +414,7 @@ public class ZToolPacketStream
     /**
      * Returns number of bytes remaining, relative to the stated packet length (not including checksum).
      *
-     * @return
+     * @return number of bytes remaining to be read excluding checksum
      */
     public int getFrameDataBytesRead() {
         // subtract out the 1 length bytes and API PROFILE_ID_HOME_AUTOMATION 2 bytes
@@ -421,7 +424,7 @@ public class ZToolPacketStream
     /**
      * Number of bytes remaining to be read, including the checksum
      *
-     * @return
+     * @return number of bytes remaining to be read including checksum
      */
     public int getRemainingBytes() {
         // add one for checksum byte (not included) in packet length
@@ -432,9 +435,10 @@ public class ZToolPacketStream
     // get escaped packet length
 
     /**
+     * Gets the number of bytes read (excluding escape bytes)
      * Does not include any escape bytes
      *
-     * @return
+     * @return number of bytes read excluding escape bytes
      */
     public int getBytesRead() {
         return bytesRead;

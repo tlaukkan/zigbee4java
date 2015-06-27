@@ -51,7 +51,9 @@ public class Checksum {
     }
 
     /**
-     * @return
+     * Computes the checksum
+     * 
+     * <b> Actually, this does nothing!!</b>
      */
     public void compute() {
 
@@ -66,7 +68,7 @@ public class Checksum {
     /**
      * First add all relevant bytes, including checksum
      *
-     * @return
+     * @return true if the checksum is correct (equals 0xff)
      */
     public boolean verify() {
         checksum = checksum & 0xff;

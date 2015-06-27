@@ -123,7 +123,7 @@ public class ZigBeeNodeDescriptor {
 	 * length and specifies a manufacturer code that is allocated by the ZigBee
 	 * Alliance, relating the manufacturer to the device.
 	 * 
-	 * @return
+	 * @return the manufacturer code
 	 */
 	public int getManufacturerCode() {
 		return manufacturerCode;
@@ -139,7 +139,7 @@ public class ZigBeeNodeDescriptor {
 	 * 
 	 * This field can be used as a high-level indication for network management.
 	 * 
-	 * @return
+	 * @return the maximum buffer size
 	 */
 	public int getMaximumBufferSize() {
 		return maximumBufferSize;
@@ -153,7 +153,7 @@ public class ZigBeeNodeDescriptor {
 	 * value can exceed the value of the node maximum buffer size field (see
 	 * sub-clause2.3.2.3.8) through the use of fragmentation.
 	 * 
-	 * @return
+	 * @return the maximum transfer size
 	 */
 	public int getMaximumTransferSize() {
 		return maximumTransferSize;

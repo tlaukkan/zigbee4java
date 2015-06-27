@@ -209,7 +209,7 @@ public class ZigBeeApiContext {
 
     /**
      * Gets list of devices.
-     * @return
+     * @return a {@link List} of ZigBee devices ({@link Device})
      */
     public List<Device> getDevices() {
         synchronized (devices) {

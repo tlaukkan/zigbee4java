@@ -1243,7 +1243,8 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     /**
-     * @return
+     * Gets the extended PAN ID
+     * @return the PAN ID or -1 on failure
      * @since 0.2.0
      */
     public long getExtendedPanId() {
@@ -1262,7 +1263,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     /**
-     * @return
+     * Gets the IEEE address of our node on the network
+     * 
+     * @return the IEEE address as a long or -1 on failure
      * @since 0.2.0
      */
     public long getIeeeAddress() {
@@ -1287,7 +1290,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     /**
-     * @return
+     * Gets the current PAN ID
+     * 
+     * @return current PAN ID as an int or -1 on failure
      * @since 0.2.0
      */
     public int getCurrentPanId() {
@@ -1306,7 +1311,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     /**
-     * @return
+     * Gets the current ZigBee channe number
+     * 
+     * @return the current channel as an int, or -1 on failure
      * @since 0.2.0
      */
     public int getCurrentChannel() {

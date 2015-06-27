@@ -29,7 +29,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.general.commissioning.ResetSt
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.commissioning.RestartDevicePayload;
 
 /**
- * This class represent the <b>Commissioning</b> Cluster as defined by the document:<br>
+ * This class represent the <b>Commissioning</b> Cluster as defined by the document:
  * <i>ZigBee Cluster Library</i> public release version 075366r01
  *
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>

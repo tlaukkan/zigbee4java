@@ -157,7 +157,7 @@ public interface ZigBeeNetworkManager {
 
     /**
      * @return The current status of the driver
-     * @see 0.6.0
+     * @since 0.6.0
      */
     public abstract DriverStatus getDriverStatus();
 

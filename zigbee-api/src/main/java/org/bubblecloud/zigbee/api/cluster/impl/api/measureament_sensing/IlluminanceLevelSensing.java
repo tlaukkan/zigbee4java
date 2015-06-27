@@ -26,8 +26,9 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 
 /**
- * This class represent the <b>Illuminance Level Sensing</b> Cluster as defined by the document:<br>
+ * This class represent the <b>Illuminance Level Sensing</b> Cluster as defined by the document:
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
+ * 
  * @author <a href="mailto:giancarlo.riolo@isti.cnr.it">Giancarlo Riolo</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 18:00:05 +0200 (mar, 06 ago 2013) $)
  * @since 0.8.0

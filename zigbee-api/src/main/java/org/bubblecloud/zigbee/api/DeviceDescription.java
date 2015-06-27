@@ -42,31 +42,65 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 public interface DeviceDescription {
 
     /**
-     * @return the {@link ZCLCluster} array of all the cluster defined as <b>Optional</b> by the<br>
+     * @return the {@link ZCLCluster} array of all the cluster defined as <b>Optional</b> by the
      *         <i>ZigBee Home Automation</i> profile documentation
      */
     public int[] getOptionalCluster();
 
     /**
-     * @return the {@link ZCLCluster} array of all the cluster defined as <b>Mandatory</b> by the<br>
+     * Gets the array of mandatory clusters for this endpoint
+     * 
+     * @return the {@link ZCLCluster} array of all the cluster defined as <b>Mandatory</b> by the
      *         <i>ZigBee Home Automation</i> profile documentation
      */
     public int[] getMandatoryCluster();
 
     /**
-     * @return
+     * Gets the array of standard clusters for this endpoint
+     * 
+     * @return the {@link ZCLCluster} array of all the cluster defined as <b>Standard</b> by the
+     *         <i>ZigBee Home Automation</i> profile documentation
      */
     public int[] getStandardClusters();
 
+    /**
+    * Gets the array of custom clusters for this endpoint
+    * 
+    * @return the {@link ZCLCluster} array of all the cluster defined as <b>Custom</b> by the
+    *         <i>ZigBee Home Automation</i> profile documentation
+    */
     public int[] getCustomClusters();
 
+    /**
+     * Checks the cluster ID to see if it is mandatory for this device
+     * 
+     * @param clusterId
+     * @return true if the cluster is mandatory
+     */
     public boolean isMandatory(int clusterId);
 
+    /**
+     * Checks the cluster ID to see if it is optional for this device
+     * 
+     * @param clusterId
+     * @return true if the cluster is optional
+     */
     public boolean isOptional(int clusterId);
 
+    /**
+     * Checks the cluster ID to see if it is standard for this device
+     * 
+     * @param clusterId
+     * @return true if the cluster is standard
+     */
     public boolean isStandard(int clusterId);
 
+    /**
+     * Checks the cluster ID to see if it is custom for this device
+     * 
+     * @param clusterId
+     * @return true if the cluster is custom
+     */
     public boolean isCustom(int clusterId);
-
 
 }

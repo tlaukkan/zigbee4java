@@ -53,7 +53,8 @@ public class ZigBeeNetwork {
 
     /**
      * Gets Node, EndPoint map.
-     * @return
+     * 
+     * @return {@link HashTable} of devices and their endpoints
      */
     public Hashtable<ZigBeeNode, HashMap<Integer, ZigBeeEndpoint>> getDevices() {
         return devices;
@@ -61,22 +62,23 @@ public class ZigBeeNetwork {
     
     /**
      * Gets the list of devices
-     * @return
+     * @return {@link HashTable} of nodes on the network
      */
     public Hashtable<String, ZigBeeNodeImpl> getNodes() {
     	return nodes;
     }
 
     /**
-     * <b>NOT IN USE, the Driver does not define a logic for unregister devices</b><br>
-     * This method is require for implementing issues:
+     * <b>NOT IN USE, the Driver does not define a logic for unregister devices</b>
+     * <p>
+     * This method is required for implementing issues:
      * <ul>
      * <li><a href="http://zb4osgi.aaloa.org/redmine/issues/35">Blacklisting of device (#35)</a></li>
      * <li><a href="http://zb4osgi.aaloa.org/redmine/issues/64">Base Driver should monitor the health status of device (#64)</a></li>
      * </ul>
      *
      * @param node
-     * @return
+     * @return true if the node was removed
      */
     public synchronized boolean removeNode(ZigBeeNode node) {
         final String ieee = node.getIeeeAddress();

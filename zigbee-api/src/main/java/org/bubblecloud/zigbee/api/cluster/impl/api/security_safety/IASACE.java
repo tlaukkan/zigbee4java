@@ -27,6 +27,8 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_ace.BypassPayload;
 
 /**
+ * Intruder Alarm System (IAS) Ancillary Control Equipment (ACE)
+ * 
  * @author <a href="mailto:manlio.baco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision: 42 $ ($LastChangedDate: 2010-09-23 14:21:48 +0200 (Thu, 23 Sep 2010) $)
  * @since 0.8.0
