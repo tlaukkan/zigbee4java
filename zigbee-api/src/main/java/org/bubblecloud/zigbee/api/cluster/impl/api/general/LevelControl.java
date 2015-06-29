@@ -28,7 +28,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 
 /**
- * This class represent the <b>Level Control</b> Cluster as defined by the document:<br>
+ * This class represent the <b>Level Control</b> Cluster as defined by the document:
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

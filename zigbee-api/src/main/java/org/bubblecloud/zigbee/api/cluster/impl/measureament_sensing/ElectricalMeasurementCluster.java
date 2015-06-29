@@ -30,7 +30,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
 
 /**
- * Implementation of the {@link TemperatureMeasurement} interface
+ * Implementation of the {@link ElectricalMeasurement} interface
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>

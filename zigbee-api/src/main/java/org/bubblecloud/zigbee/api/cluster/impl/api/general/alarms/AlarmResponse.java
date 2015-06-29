@@ -25,7 +25,7 @@ package org.bubblecloud.zigbee.api.cluster.impl.api.general.alarms;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 
 /**
- * This class represent the <i>Get Alarm Response</i> as defined by the document:<br>
+ * This class represent the <i>Get Alarm Response</i> as defined by the document:
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

@@ -42,13 +42,21 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 /**
+ * Performs a scan of the network getting the Link Quality Information for the different
+ * links. If a new device is found, then it's added to the network.
+ * <p>
+ * Also keeps statistics of the LQI information to allow this to be provided to the user
+ * to establish and monitor network quality.
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- * @version $LastChangedRevision: 67 $ ($LastChangedDate: 2010-10-01 04:08:24 +0200 (ven, 01 ott 2010) $)
+ * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  * @since 0.7.0
  */
 public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
@@ -63,11 +71,116 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
 
     final ArrayList<NetworkAddressNodeItem> toInspect = new ArrayList<NetworkAddressNodeItem>();
     final HashMap<Integer, NetworkAddressNodeItem> alreadyInspected = new HashMap<Integer, NetworkAddressNodeItem>();
-    private List<NetworkAddressNodeItem> connectedNodesFound = new ArrayList<NetworkAddressNodeItem>();
+    private NetworkNeighbourLinks connectedNodeLinks = new NetworkNeighbourLinks();
+
+    /**
+     * This class maintains the link quality information for all nodes and links on the network.
+     *
+     * TODO: Add methods to remove stale information
+     */
+    public class NetworkNeighbourLinks {
+        private class NetworkLQI {
+        	private int lqiMin = 255;
+        	private int lqiMax = 0;
+        	private int lqiLast;
+        	private int total = 0;
+        	private int count = 0;
+        	
+        	void updateLQI(int lqi) {
+        		if(lqi < lqiMin) {
+        			lqiMin = lqi;
+        		}
+        		if(lqi > lqiMax) {
+        			lqiMax = lqi;
+        		}
+        		lqiLast = lqi;
+        		count++;
+        		total += lqi;
+        	}
+        	
+        	int getLast() {
+        		return lqiLast;
+        	}
+        	
+        	int getMin() {
+        		return lqiMin;
+        	}
+        	
+        	int getMax() {
+        		return lqiMax;
+        	}
+        	
+        	int getAvg() {
+        		return total / count;
+        	}
+        }
+
+        private Map<Integer, TreeMap<Integer, NetworkLQI>> lqiStatistics = new TreeMap<Integer, TreeMap<Integer, NetworkLQI>>();
+
+        public void updateLQI(int source, int dest, int lqi) {
+        	TreeMap<Integer, NetworkLQI> srcMap = lqiStatistics.get(source);
+        	if(srcMap == null) {
+        		srcMap = new TreeMap<Integer, NetworkLQI>();
+        		lqiStatistics.put(source, srcMap);
+        	}
+        	NetworkLQI dstMap = srcMap.get(dest);
+        	if(dstMap == null) {
+        		dstMap = new NetworkLQI();
+        		srcMap.put(dest, dstMap);
+        	}
+        	dstMap.updateLQI(lqi);
+        }
+
+        private NetworkLQI getLink(int source, int dest) {
+        	TreeMap<Integer, NetworkLQI> srcMap = lqiStatistics.get(source);
+        	if(srcMap == null) {
+        		return null;
+        	}
+        	NetworkLQI dstMap = srcMap.get(dest);
+        	if(dstMap == null) {
+        		return null;
+        	}
+        	return dstMap;        	
+        }
+        
+
+        public int getLast(int source, int dest) {
+        	NetworkLQI dstMap = getLink(source, dest);
+        	if(dstMap == null) {
+        		return -1;
+        	}
+        	return dstMap.getLast();        	
+        }
+        
+        public int getMin(int source, int dest) {
+        	NetworkLQI dstMap = getLink(source, dest);
+        	if(dstMap == null) {
+        		return -1;
+        	}
+        	return dstMap.getMin();        	
+        }
+        
+        public int getMax(int source, int dest) {
+        	NetworkLQI dstMap = getLink(source, dest);
+        	if(dstMap == null) {
+        		return -1;
+        	}
+        	return dstMap.getMax();        	
+        }
+        
+        public int getAvg(int source, int dest) {
+        	NetworkLQI dstMap = getLink(source, dest);
+        	if(dstMap == null) {
+        		return -1;
+        	}
+        	return dstMap.getAvg();        	
+        }
+    }
 
     private class NetworkAddressNodeItem {
         final NetworkAddressNodeItem parent;
         final short address;
+        int lqi = -1;
         ZigBeeNodeImpl node = null;
 
         NetworkAddressNodeItem(NetworkAddressNodeItem addressTreeParent, short networkAddress) {
@@ -75,6 +188,24 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
             address = networkAddress;
         }
 
+        NetworkAddressNodeItem(NetworkAddressNodeItem addressTreeParent, short networkAddress, int quality) {
+            parent = addressTreeParent;
+            address = networkAddress;
+            lqi = quality;
+        }
+
+        public int getParent() {
+        	return parent.address;
+        }
+        
+        public int getAddress() {
+        	return address;
+        }
+
+        public int getLqi() {
+        	return lqi;
+        }
+        
         public String toString() {
             if (parent != null) {
                 return "<" + parent.address + " / " + parent.node + "," + address + " / " + node + ">";
@@ -125,9 +256,11 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
 
     private void announceNodes(List<NetworkAddressNodeItem> nodes) {
 
-        if (nodes != null)
-            for (int i = 0; i < nodes.size(); i++)
+        if (nodes != null) {
+            for (int i = 0; i < nodes.size(); i++) {
                 announceNode(nodes.get(i));
+            }
+        }
     }
 
     private void announceNode(NetworkAddressNodeItem node) {
@@ -137,13 +270,19 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
         }
     }
 
+    /**
+     * Send a Link Quality Indicator request to a neighbor of the node
+     * @param node The node to poll
+     * @param index the neighbor index (??)
+     * @return list of nodes found
+     */
     private List<NetworkAddressNodeItem> lqiRequestToNode(NetworkAddressNodeItem node, int index) {
 
         if (alreadyInspected.get((int) node.address) == null) {
             alreadyInspected.put((int) node.address, node);
 
-            if (index == 0)
-                connectedNodesFound.clear();
+            // Create a list to hold the nodes we find
+            List<NetworkAddressNodeItem> nodesFound = new ArrayList<NetworkAddressNodeItem>();
 
             ZToolAddress16 nwk16 = new ZToolAddress16(
                     Integers.getByteAsInteger(node.address, 1),
@@ -162,7 +301,6 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                         lqi_resp.getNeighborLQICount(), nwk16.get16BitValue());
 
                 NeighborLqiListItemClass[] neighbors = (NeighborLqiListItemClass[]) lqi_resp.getNeighborLqiList();
-
                 if (neighbors != null) {
                     for (int i = 0; i < neighbors.length; i++) {
                         NeighborLqiListItemClass neighbor = (NeighborLqiListItemClass) neighbors[i];
@@ -173,13 +311,12 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                         NetworkAddressNodeItem newNode;
                         if (result != null) {
                             logger.debug("Node #{} is {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), result.node.getIeeeAddress()});
-                            newNode = new NetworkAddressNodeItem(node, result.address);
-                            connectedNodesFound.add(newNode);
+                            newNode = new NetworkAddressNodeItem(node, result.address, neighbor.RxLQI);
                         } else {
-                            newNode = new NetworkAddressNodeItem(node, (short) neighbor.NetworkAddress.get16BitValue());
-                            connectedNodesFound.add(newNode);
                             logger.debug("No response to ZDO_IEEE_ADDR_REQ from node {}", neighbor.NetworkAddress.get16BitValue());
+                            newNode = new NetworkAddressNodeItem(node, (short) neighbor.NetworkAddress.get16BitValue(), neighbor.RxLQI);
                         }
+                        nodesFound.add(newNode);
                     }
                 }
 
@@ -188,10 +325,14 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                 if (lqi_resp.getNeighborLQIEntries() > (lqi_resp.getNeighborLQICount() + index + 1)) {
                     logger.debug("ZDO_MGMT_LQI_REQ new request to {} because of too many entries for a single request," +
                             " restarting from index {}", node.address, lqi_resp.getNeighborLQICount() + index + 1);
-                    lqiRequestToNode(node, lqi_resp.getNeighborLQICount() + index + 1);
+                    // Poll any further neighbors, adding them to our list
+                    List<NetworkAddressNodeItem> neighborsFound = lqiRequestToNode(node, lqi_resp.getNeighborLQICount() + index + 1);
+                    if(neighborsFound != null) {
+                    	nodesFound.addAll(neighborsFound);
+                    }
                 }
 
-                return connectedNodesFound;
+                return nodesFound;
             }
         } else {
             logger.debug("Node {} inspected few seconds ago, request delayed", node.address);
@@ -199,16 +340,27 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
         }
     }
 
+    /**
+     * Poll all nodes in the inspection queue and announce any nodes we find to the system. 
+     * @param toInspectTemp list of nodes to poll
+     */
     private void inspectQueue(ArrayList<NetworkAddressNodeItem> toInspectTemp) {
 
         for (int i = 0; i < toInspect.size(); i++) {
-            List<NetworkAddressNodeItem> children = new ArrayList<NetworkAddressNodeItem>();
+            List<NetworkAddressNodeItem> children;
             NetworkAddressNodeItem node = toInspect.get(i);
             if (node != null) {
+            	// Request all the neighbors for this node
                 children = lqiRequestToNode(node, LQI_START_INDEX);
                 if (children != null) {
+                	// We have neighbors - let the system know 
                     toInspectTemp.addAll(children);
                     announceNodes(children);
+                    
+                    // Keep a consolidated list of nodes and their neighbors
+                    for(NetworkAddressNodeItem nodeItem : children) {
+                    	connectedNodeLinks.updateLQI(nodeItem.getParent(), nodeItem.getAddress(), nodeItem.getLqi());
+                    }
                 }
             }
         }
@@ -231,26 +383,37 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
 
                     //gt = new GraphThread();
 
+                	// Detect all the children of the coordinator
                     List<NetworkAddressNodeItem> coordinatorChildren = lqiRequestToNode(coordinator, LQI_START_INDEX);
-                    if (coordinatorChildren != null)
+                    if (coordinatorChildren != null) {
+                    	// Add all children to the inspection queue
                         toInspect.addAll(coordinatorChildren);
+                        
+                        // Keep a consolidated list of nodes and their neighbors
+                        for(NetworkAddressNodeItem nodeItem : coordinatorChildren) {
+                        	connectedNodeLinks.updateLQI(nodeItem.getParent(), nodeItem.getAddress(), nodeItem.getLqi());
+                        }
+                    }
 
                     ArrayList<NetworkAddressNodeItem> toInspectTemp = new ArrayList<NetworkAddressNodeItem>();
-
                     while (!toInspect.isEmpty()) {
                         inspectQueue(toInspectTemp);
 
                         toInspect.clear();
-                        if (!toInspectTemp.isEmpty())
-                            for (int i = 0; i < toInspectTemp.size(); i++)
+                        if (!toInspectTemp.isEmpty()) {
+                            for (int i = 0; i < toInspectTemp.size(); i++) {
                                 toInspect.add(toInspectTemp.get(i));
+                            }
+                        }
                         toInspectTemp.clear();
                     }
                     toInspect.clear();
                 }
 
                 long wakeUpTime = System.currentTimeMillis() + 5 * 60 * 1000;
-                if (!isDone()) ThreadUtils.waitingUntil(wakeUpTime);
+                if (!isDone()) {
+                	ThreadUtils.waitingUntil(wakeUpTime);
+                }
                 logger.debug("Network browsing completed, waiting until {}", wakeUpTime);
                 //gt.run();
             } catch (Exception e) {
@@ -271,5 +434,9 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
         final ZigBeeNode child = item.node;
         final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         network.notifyNodeBrowsed(child);
+    }
+
+    public NetworkNeighbourLinks getConnectedNodes() {
+    	return connectedNodeLinks;
     }
 }

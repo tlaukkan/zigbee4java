@@ -32,7 +32,12 @@ import org.bubblecloud.zigbee.network.impl.ZigBeeException;
  */
 public class ZigBeeClusterException extends ZigBeeException {
 
-    private Response response;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3327285112096582765L;
+
+	private Response response;
 
     public ZigBeeClusterException(String msg) {
         super(msg);

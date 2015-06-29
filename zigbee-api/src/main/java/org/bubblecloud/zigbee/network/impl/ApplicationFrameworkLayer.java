@@ -35,11 +35,11 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
- * This class is a <i>singelton</i> aimed at share the <b>the Application Framework Layer</b><br>
- * status of the <b>ZigBee Base Drier</b> among all the {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} register by it.<br>
- * <br>
- * In particular, this class tracks the <i>Transaction Id</i> and the <i>Active End Point</i><br>
- * on the hardware providing access to <i>ZigBee Network</i> (currently the <b>Texas Instrument CC2480</b>)<br>
+ * This class is a <i>singelton</i> aimed at sharing the <b>the Application Framework Layer</b>
+ * status of the <b>ZigBee Base Drier</b> among all the {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} registered by it.
+ * <p>
+ * In particular, this class tracks the <i>Transaction Id</i> and the <i>Active End Point</i>
+ * on the hardware providing access to <i>ZigBee Network</i> (currently the <b>Texas Instrument CC2480</b>).
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
@@ -116,7 +116,7 @@ public class ApplicationFrameworkLayer {
         logger.trace("Looking for a registered enpoint among {}", sender2EndPoint.size());
         synchronized (sender2EndPoint) {
             if (sender2EndPoint.containsKey(si)) {
-                logger.trace("An enpoint already registered for <profileId,clusterId>=<{},{}>", si.profileId, si.clusterId);
+                logger.trace("An endpoint is already registered for <profileId,clusterId>=<{},{}>", si.profileId, si.clusterId);
                 return sender2EndPoint.get(si);
             } else {
                 logger.info("No endpoint registered for <profileId,clusterId>=<{},{}>", si.profileId, si.clusterId);
@@ -217,7 +217,7 @@ public class ApplicationFrameworkLayer {
 
         if (clusters.length > 33) {
             logger.warn(
-                    "We found too many cluster to implement for a single endpoint " +
+                    "We found too many clusters to implement for a single endpoint " +
                             "(maxium is 32), so we are filtering out the extra {}", clusters
             );
 			/*
@@ -323,10 +323,22 @@ public class ApplicationFrameworkLayer {
         return clusters;
     }
 
+    /**
+     * Returns the {@link ZigBeeNetwork}
+     * @return {@link ZigBeeNetwork}
+     */
     public ZigBeeNetwork getZigBeeNetwork() {
         return network;
     }
 
+    /**
+     * Returns the next transaction ID for the specified endpoint.
+     * <p>
+     * Transaction IDs are tracked separately for each endpoint.
+     * 
+     * @param endPoint the endpoint number
+     * @return byte transaction ID
+     */
     public byte getNextTransactionId(short endPoint) {
         if (!endPoint2Transaction.containsKey(endPoint)) {
             endPoint2Transaction.put(endPoint, (byte) 1);

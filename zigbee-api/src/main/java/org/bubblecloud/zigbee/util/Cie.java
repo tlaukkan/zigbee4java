@@ -1,7 +1,11 @@
 package org.bubblecloud.zigbee.util;
 
 /**
- * Cie color conversion.
+ * Provides methods to convert colours from RGB to CIE colour space.
+ * <p>
+ * The CIE XYZ color space encompasses all color sensations that an average
+ * person can experience. It serves as a standard reference against which many
+ * other color spaces are defined.
  */
 public class Cie {
     public double x;
@@ -22,7 +26,6 @@ public class Cie {
 
     public static Cie rgb2cie(double r, double g, double b) {
 
-        double rf, gf, bf;
         double X, Y, Z;
 
         if (r <= 0.04045)

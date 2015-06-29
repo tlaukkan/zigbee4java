@@ -23,7 +23,6 @@
 
 package org.bubblecloud.zigbee.network.packet.zdo;
 
-import org.bubblecloud.zigbee.network.packet.ZToolAddress;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
@@ -35,7 +34,7 @@ import org.bubblecloud.zigbee.util.DoubleByte;
  */
 public class ZDO_MGMT_PERMIT_JOIN_REQ extends ZToolPacket /*implements IREQUEST,IZDO*/ {
     /// <name>TI.ZPI1.ZDO_MGMT_PERMIT_JOIN_REQ.AddrMode</name>
-    /// <summary>Destination address type: 0x02 – Address 16 bit, 0x0F – Broadcast.</summary>
+    /// <summary>Destination address type: 0x02 - Address 16 bit, 0x0F - Broadcast.</summary>
     public byte AddrMode;
     /// <name>TI.ZPI1.ZDO_MGMT_PERMIT_JOIN_REQ.DstAddr</name>
     /// <summary>Destination network address.</summary>

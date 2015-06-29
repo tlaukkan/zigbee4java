@@ -57,13 +57,15 @@ public interface ZigBeeNetworkManager {
 
     public abstract ZDO_NODE_DESC_RSP sendZDONodeDescriptionRequest(ZDO_NODE_DESC_REQ request);
 
+    public abstract ZDO_POWER_DESC_RSP sendZDOPowerDescriptionRequest(ZDO_POWER_DESC_REQ request);
+
     public abstract ZDO_ACTIVE_EP_RSP sendZDOActiveEndPointRequest(ZDO_ACTIVE_EP_REQ request);
 
     public abstract ZDO_SIMPLE_DESC_RSP sendZDOSimpleDescriptionRequest(ZDO_SIMPLE_DESC_REQ request);
 
-    public abstract boolean addAnnunceListener(AnnounceListener listner);
+    public abstract boolean addAnnounceListener(AnnounceListener listner);
 
-    public abstract boolean removeAnnunceListener(AnnounceListener listner);
+    public abstract boolean removeAnnounceListener(AnnounceListener listner);
 
     public abstract AF_REGISTER_SRSP sendAFRegister(AF_REGISTER request);
 
@@ -78,7 +80,8 @@ public interface ZigBeeNetworkManager {
     public abstract boolean addAFMessageListner(ApplicationFrameworkMessageListener listner);
 
     /**
-     * Send LQI request cluster and wait for its response<br />
+     * Send LQI request cluster and wait for its response
+     * <p>
      * This method is used for the discovering of {@link ZigBeeEndpoint}
      *
      * @return the answer to the request or null in case of an error
@@ -87,8 +90,10 @@ public interface ZigBeeNetworkManager {
     public abstract ZDO_MGMT_LQI_RSP sendLQIRequest(ZDO_MGMT_LQI_REQ request);
 
     /**
-     * This method is used for the creation of an virtual device on the dongle<br />
-     * Note: a proper {@link addAFMessageListner} has to be register for answering to request coming from the network
+     * This method is used for the creation of an virtual device on the dongle
+     * <p>
+     * Note: a proper {@link addAFMessageListner} has to be register for answering to request coming
+     * from the network
      *
      * @since 0.7.0
      * @deprecated
@@ -96,7 +101,7 @@ public interface ZigBeeNetworkManager {
     public abstract void addCustomEndpoint(String endpointNumber, String profileID, String deviceID, String version, String inputClusters, String outputCluster);
 
     /**
-     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network<br>
+     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network
      * thus, it may be quite slow or end up in a deadlock of the application
      *
      * @return The long representing the IEEE Address of coordinator of the ZigBee network in use, or -1 if and only if the method failed
@@ -105,7 +110,7 @@ public interface ZigBeeNetworkManager {
     public abstract long getExtendedPanId();
 
     /**
-     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network<br>
+     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network
      * thus, it may be quite slow or end up in a deadlock of the application
      *
      * @return The long representing the IEEE Address of ZigBee device in use, or -1 if and only if the method failed
@@ -114,7 +119,7 @@ public interface ZigBeeNetworkManager {
     public abstract long getIeeeAddress();
 
     /**
-     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network<br>
+     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network
      * thus, it may be quite slow or end up in a deadlock of the application
      *
      * @return The panId of ZigBee network configured in use, or -1 if and only if the method failed
@@ -123,7 +128,7 @@ public interface ZigBeeNetworkManager {
     public abstract int getCurrentPanId();
 
     /**
-     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network<br>
+     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network
      * thus, it may be quite slow or end up in a deadlock of the application
      *
      * @return The ZigBee network channel in use, or -1 if and only if the method failed
@@ -132,7 +137,7 @@ public interface ZigBeeNetworkManager {
     public abstract int getCurrentChannel();
 
     /**
-     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network<br>
+     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network
      * thus, it may be quite slow or end up in a deadlock of the application
      *
      * @return The ZStack state of the device, or -1 if and only if the method failed
@@ -142,7 +147,7 @@ public interface ZigBeeNetworkManager {
     public abstract int getCurrentState();
 
     /**
-     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network<br>
+     * <b>WARNING</b>: This method may have to wait for the initialization of the ZigBee network
      * thus, it may be quite slow or end up in a deadlock of the application
      *
      * @return The int representation of the {@link NetworkMode} in use, or -1 if and only if the method failed
@@ -152,7 +157,7 @@ public interface ZigBeeNetworkManager {
 
     /**
      * @return The current status of the driver
-     * @see 0.6.0
+     * @since 0.6.0
      */
     public abstract DriverStatus getDriverStatus();
 

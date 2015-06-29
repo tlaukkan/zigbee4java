@@ -29,6 +29,8 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.Squawk
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.StartWarningPayload;
 
 /**
+ * Intruder Alarm System (IAS) Warning Device (WD)
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>

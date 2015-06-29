@@ -43,11 +43,11 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * This class represent a generic <b>Home Automation Device</b> as defined by the document:<br>
+ * This class represent a generic <b>Home Automation Device</b> as defined by the document
  * <i>ZigBee Home Automation</i> public release version 075123r01ZB
- * <br>
- * <b>NOTE</b>: In general the mapping between <b>ClusterId</b> and <b>Cluster</b> is defined<br>
- * by the profile, while the mapping between <b><i>Name</i></b> and <b>Cluster</b> is defined where the<br>
+ * <p>
+ * <b>NOTE</b>: In general the mapping between <b>ClusterId</b> and <b>Cluster</b> is defined
+ * by the profile, while the mapping between <b><i>Name</i></b> and <b>Cluster</b> is defined where the
  * <b>Cluster</b> is defined: usually inside a <i>Cluster Library</i>
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -136,8 +136,8 @@ public abstract class DeviceBase implements Device {
     protected Cluster addCluster(int clusterId) throws ZigBeeDeviceException {
         /*
          * Verify if the cluster has already been added. For example, when the HA Driver is working with
-         * ProvidedClusterMode.EitherInputAndOutput mode the HA Driver adds either inputs and outputs cluster
-         * to the DeviceBase
+         * ProvidedClusterMode.EitherInputAndOutput mode the HA Driver adds either inputs and outputs
+         * cluster to the DeviceBase
          */
         final Cluster duplicated = getCluster(clusterId);
         if (duplicated != null) {
@@ -152,7 +152,8 @@ public abstract class DeviceBase implements Device {
 
         //TODO We should move this code in isClusterValid() method
         /*
-         * We are trying to add a cluster which is not defined as input cluster and is optional then we are not going to add it
+         * We are trying to add a cluster which is not defined as input cluster and is
+         * optional then we are not going to add it
          */
         if (!endpoint.providesInputCluster(clusterId) && getDescription().isOptional(clusterId)) {
             logger.warn(
@@ -166,7 +167,8 @@ public abstract class DeviceBase implements Device {
         }
 
         /*
-         * We are trying to add a cluster which is not defined as input cluster and is optional then we are not going to add it
+         * We are trying to add a cluster which is not defined as input cluster and is
+         * optional then we are not going to add it
          */
         if (!endpoint.providesInputCluster(clusterId) && getDescription().isCustom(clusterId)) {
             //TODO check if exists custom add-on by using ProfileModule interface
@@ -179,8 +181,10 @@ public abstract class DeviceBase implements Device {
         }
 
         /*
-         * This is the last case, when a Cluster is not defined as input but it is among the mandotory cluster of the device
-         * so if ProvidedClusterMode.EitherInputAndOutput is set we will consider it as a firmware issue so we will add the cluster anyway
+         * This is the last case, when a Cluster is not defined as input but
+         * it is among the mandatory cluster of the device.
+         * So if ProvidedClusterMode.EitherInputAndOutput is set we will consider
+         * it as a firmware issue so we will add the cluster anyway
          */
         if (!endpoint.providesInputCluster(clusterId) && getDescription().isMandatory(clusterId)) {
             logger.warn(

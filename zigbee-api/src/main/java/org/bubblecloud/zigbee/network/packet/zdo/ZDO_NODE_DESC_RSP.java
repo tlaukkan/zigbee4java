@@ -30,8 +30,15 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
+ * Processes the Node Descriptor response. Only a single Node Descriptor is
+ * available for each node.
+ * <p>
+ * The node descriptor contains information about the capabilities of the ZigBee
+ * node and is mandatory for each node. There shall be only one node descriptor
+ * in a node.
+ * 
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
 public class ZDO_NODE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALLBACK,IZDO*/ {
     /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.APSFlags</name>

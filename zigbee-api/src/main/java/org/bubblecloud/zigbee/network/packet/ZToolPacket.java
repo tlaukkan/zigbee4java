@@ -67,7 +67,6 @@ public class ZToolPacket {
      * I started off using bytes but quickly realized that java bytes are signed, so effectively only 7 bits.
      * We should be able to use int instead.
      *
-     * @param data
      */    //PROTECTED?
     public ZToolPacket() {
     }

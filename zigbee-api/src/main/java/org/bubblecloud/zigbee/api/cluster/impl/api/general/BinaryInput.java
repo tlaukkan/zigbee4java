@@ -25,7 +25,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 
 /**
- * This class represent the <b>Binary Input (Basic)</b> Cluster as defined by the document:<br>
+ * This class represent the <b>Binary Input (Basic)</b> Cluster as defined by the document:
  * <i>ZigBee Cluster Library</i> public release version 075123r04ZB
  *
  * @author <a href="mailto:h.alink1@chello.nl">Han Alink</a>

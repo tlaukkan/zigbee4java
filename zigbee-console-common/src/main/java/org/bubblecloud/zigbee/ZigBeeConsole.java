@@ -13,6 +13,11 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
+import org.bubblecloud.zigbee.network.ZigBeeNode;
+import org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor;
+import org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor;
+import org.bubblecloud.zigbee.network.discovery.LinkQualityIndicatorNetworkBrowser.NetworkNeighbourLinks;
+import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
@@ -31,6 +36,7 @@ import java.util.*;
  *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
+ * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
 public final class ZigBeeConsole {
     /**
@@ -62,6 +68,7 @@ public final class ZigBeeConsole {
 		commands.put("quit", 		new QuitCommand());
 		commands.put("help", 		new HelpCommand());
 		commands.put("list", 		new ListCommand());
+		commands.put("nodes", 		new NodesCommand());
 		commands.put("desc", 		new DescribeCommand());
 		commands.put("bind", 		new BindCommand());
 		commands.put("unbind", 		new UnbindCommand());
@@ -69,13 +76,14 @@ public final class ZigBeeConsole {
 		commands.put("off", 		new OffCommand());
 		commands.put("color",		new ColorCommand());
 		commands.put("level", 		new LevelCommand());
-        commands.put("listen", 	    new ListenCommand());
-        commands.put("unlisten",    new UnlistenCommand());
+		commands.put("listen", 	    new ListenCommand());
+		commands.put("unlisten",    new UnlistenCommand());
 		commands.put("subscribe", 	new SubscribeCommand());
 		commands.put("unsubscribe", new UnsubscribeCommand());
 		commands.put("read", 		new ReadCommand());
 		commands.put("write", 		new WriteCommand());
 		commands.put("join",        new JoinCommand());
+		commands.put("lqi", 		new LqiCommand());
 	}
 
 	/**
@@ -95,7 +103,7 @@ public final class ZigBeeConsole {
                 zigbeeApi.deserializeNetworkState(networkState);
             } catch (final Exception e) {
                 e.printStackTrace();
-                return;
+                // Fall through and just start the network without persistence
             }
         }
 
@@ -105,14 +113,6 @@ public final class ZigBeeConsole {
         } else {
             print("ZigBee API starting up ... [OK]");
         }
-
-        // TODO Use something like a command line parameter to decide if permit join is re-enabled
-        // Lets disable the join functionality in console by default to improve security.
-        /*if (!zigbeeApi.permitJoin(true)) {
-            print("ZigBee API permit join enable ... [FAIL]");
-        } else {
-            print("ZigBee API permit join enable ... [OK]");
-        }*/
 
         zigbeeApi.addDeviceListener(new DeviceListener() {
             @Override
@@ -382,6 +382,56 @@ public final class ZigBeeConsole {
                 		" [" + device.getNetworkAddress() + "]" +
                 		" : " + device.getDeviceType());
             }
+            return true;
+        }
+    }
+
+    /**
+     * Prints list of devices to console.
+     */
+    private class NodesCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Lists node information.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "nodes";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+            final List<ZigBeeNode> nodes = zigbeeApi.getNodes();
+            for (int i = 0; i < nodes.size(); i++) {
+                final ZigBeeNode node = nodes.get(i);
+                print("IEEE Address     : " + node.getIeeeAddress());
+                print("Network Address  : #" + node.getNetworkAddress());
+
+	        	ZigBeeNodeDescriptor nodeDescriptor = node.getNodeDescriptor();
+	        	if(nodeDescriptor != null) {
+		            print("Node Descriptor  : Logical Type       " + nodeDescriptor.getLogicalType());
+	        		print("                 : Manufacturer Code  " + String.format("%04X", nodeDescriptor.getManufacturerCode()));
+	        		print("                 : Max Buffer Size    " + nodeDescriptor.getMaximumBufferSize());
+	        		print("                 : Max Transfer Size  " + nodeDescriptor.getMaximumTransferSize());
+	        		print("                 : MAC Capabilities   " + nodeDescriptor.getMacCapabilities());
+	        		print("                 : Server Mask        " + nodeDescriptor.getServerMask());
+	        	}
+
+	        	ZigBeeNodePowerDescriptor powerDescriptor = node.getPowerDescriptor();
+	        	if(powerDescriptor != null) {
+		            print("Power Descriptor : Power Mode         " + powerDescriptor.getPowerMode());
+		            print("                 : Power Source       " + powerDescriptor.getPowerSource());
+		            print("                 : Power Level        " + powerDescriptor.getPowerLevel());
+		            print("                 : Power Available    " + powerDescriptor.getPowerSourcesAvailable());
+	        	}
+	            print("-");
+            }
+
             return true;
         }
     }
@@ -1181,6 +1231,50 @@ public final class ZigBeeConsole {
                 e.printStackTrace();
             }
 
+            return true;
+        }
+    }
+
+    /**
+     * Writes an attribute to a device.
+     */
+    private class LqiCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "List LQI neighbours list.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "lqi";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+            ZigBeeDiscoveryManager discoveryMan = zigbeeApi.getZigBeeDiscoveryManager();
+            NetworkNeighbourLinks neighbors = discoveryMan.getLinkQualityInfo();
+            final List<ZigBeeNode> nodes = zigbeeApi.getNodes();
+            for (int i = 0; i < nodes.size(); i++) {
+            	final ZigBeeNode src = nodes.get(i);
+
+            	for (int j = 0; j < nodes.size(); j++) {
+                	final ZigBeeNode dst = nodes.get(j);
+                	int lqiLast = neighbors.getLast(src.getNetworkAddress(), dst.getNetworkAddress());
+                	if(lqiLast != -1) {
+                		System.out.println("Node #" + src.getNetworkAddress() + " receives node #" + dst.getNetworkAddress() +
+                				" with LQI " + lqiLast + " (" +
+                				neighbors.getMin(src.getNetworkAddress(), dst.getNetworkAddress()) + "/" +
+                				neighbors.getAvg(src.getNetworkAddress(), dst.getNetworkAddress()) + "/" +
+                				neighbors.getMax(src.getNetworkAddress(), dst.getNetworkAddress()) + ")"
+                				);    		
+                	}
+                }
+            }
+            
             return true;
         }
     }

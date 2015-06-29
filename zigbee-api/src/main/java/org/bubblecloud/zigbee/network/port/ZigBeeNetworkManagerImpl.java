@@ -654,6 +654,26 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         return result;
     }
 
+    public ZDO_POWER_DESC_RSP sendZDOPowerDescriptionRequest(ZDO_POWER_DESC_REQ request) {
+        if (waitForNetwork() == false) {
+        	return null;
+        }
+        ZDO_POWER_DESC_RSP result = null;
+
+        waitAndLock3WayConversation(request);
+        final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_POWER_DESC_RSP, zigbeeInterface);
+
+        ZDO_POWER_DESC_REQ_SRSP response = (ZDO_POWER_DESC_REQ_SRSP) sendSynchrouns(zigbeeInterface, request);
+        if (response == null || response.Status != 0) {
+            waiter.cleanup();
+        } else {
+            result = (ZDO_POWER_DESC_RSP) waiter.getCommand(TIMEOUT);
+        }
+
+        unLock3WayConversation(request);
+        return result;
+    }
+
     public ZDO_ACTIVE_EP_RSP sendZDOActiveEndPointRequest(ZDO_ACTIVE_EP_REQ request) {
         if (waitForNetwork() == false) {
         	return null;
@@ -1081,14 +1101,14 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         return response[0];
     }
 
-    public boolean addAnnunceListener(AnnounceListener listner) {
+    public boolean addAnnounceListener(AnnounceListener listner) {
         if (announceListeners.isEmpty() && isHardwareReady()) {
             zigbeeInterface.addAsynchronousCommandListener(announceListenerFilter);
         }
         return announceListeners.add(listner);
     }
 
-    public boolean removeAnnunceListener(AnnounceListener listner) {
+    public boolean removeAnnounceListener(AnnounceListener listner) {
         boolean result = announceListeners.remove(listner);
         if (announceListeners.isEmpty() && isHardwareReady()) {
             zigbeeInterface.removeAsynchronousCommandListener(announceListenerFilter);
@@ -1223,7 +1243,8 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     /**
-     * @return
+     * Gets the extended PAN ID
+     * @return the PAN ID or -1 on failure
      * @since 0.2.0
      */
     public long getExtendedPanId() {
@@ -1242,7 +1263,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     /**
-     * @return
+     * Gets the IEEE address of our node on the network
+     * 
+     * @return the IEEE address as a long or -1 on failure
      * @since 0.2.0
      */
     public long getIeeeAddress() {
@@ -1267,7 +1290,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     /**
-     * @return
+     * Gets the current PAN ID
+     * 
+     * @return current PAN ID as an int or -1 on failure
      * @since 0.2.0
      */
     public int getCurrentPanId() {
@@ -1286,7 +1311,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     /**
-     * @return
+     * Gets the current ZigBee channe number
+     * 
+     * @return the current channel as an int, or -1 on failure
      * @since 0.2.0
      */
     public int getCurrentChannel() {

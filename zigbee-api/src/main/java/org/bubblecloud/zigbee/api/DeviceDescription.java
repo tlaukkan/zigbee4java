@@ -25,14 +25,14 @@ package org.bubblecloud.zigbee.api;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 
 /**
- * This class represent static description associated to a generic <b>Home Automation Device</b><br>
- * as defined by the document:<br>
+ * This class represent static description associated to a generic <b>Home Automation Device</b>
+ * as defined by the document 
  * <i>ZigBee Home Automation</i> public release version 075123r01ZB
- * <br>
- * In particular, this class can be used for inspecting by code the <i>ZigBee Home Automation</i><br>
- * definition. In fact, all the device belonging to the same <b>DeviceId</b> have a common definition.<br>
- * Hence, a Singelton implementation that shares a {@link DeviceDescription} among all the {@link DeviceBase}<br>
- * objects belonging to the <b>DeviceId</b> is adviced.
+ * <p>
+ * In particular, this class can be used for inspecting by code the <i>ZigBee Home Automation</i>
+ * definition. In fact, all the device belonging to the same <b>DeviceId</b> have a common definition.
+ * Hence, a Singelton implementation that shares a {@link DeviceDescription} among all the {@link DeviceBase}
+ * objects belonging to the <b>DeviceId</b> is advised.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
@@ -42,31 +42,65 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 public interface DeviceDescription {
 
     /**
-     * @return the {@link ZCLCluster} array of all the cluster defined as <b>Optional</b> by the<br>
+     * @return the {@link ZCLCluster} array of all the cluster defined as <b>Optional</b> by the
      *         <i>ZigBee Home Automation</i> profile documentation
      */
     public int[] getOptionalCluster();
 
     /**
-     * @return the {@link ZCLCluster} array of all the cluster defined as <b>Mandatory</b> by the<br>
+     * Gets the array of mandatory clusters for this endpoint
+     * 
+     * @return the {@link ZCLCluster} array of all the cluster defined as <b>Mandatory</b> by the
      *         <i>ZigBee Home Automation</i> profile documentation
      */
     public int[] getMandatoryCluster();
 
     /**
-     * @return
+     * Gets the array of standard clusters for this endpoint
+     * 
+     * @return the {@link ZCLCluster} array of all the cluster defined as <b>Standard</b> by the
+     *         <i>ZigBee Home Automation</i> profile documentation
      */
     public int[] getStandardClusters();
 
+    /**
+    * Gets the array of custom clusters for this endpoint
+    * 
+    * @return the {@link ZCLCluster} array of all the cluster defined as <b>Custom</b> by the
+    *         <i>ZigBee Home Automation</i> profile documentation
+    */
     public int[] getCustomClusters();
 
+    /**
+     * Checks the cluster ID to see if it is mandatory for this device
+     * 
+     * @param clusterId
+     * @return true if the cluster is mandatory
+     */
     public boolean isMandatory(int clusterId);
 
+    /**
+     * Checks the cluster ID to see if it is optional for this device
+     * 
+     * @param clusterId
+     * @return true if the cluster is optional
+     */
     public boolean isOptional(int clusterId);
 
+    /**
+     * Checks the cluster ID to see if it is standard for this device
+     * 
+     * @param clusterId
+     * @return true if the cluster is standard
+     */
     public boolean isStandard(int clusterId);
 
+    /**
+     * Checks the cluster ID to see if it is custom for this device
+     * 
+     * @param clusterId
+     * @return true if the cluster is custom
+     */
     public boolean isCustom(int clusterId);
-
 
 }

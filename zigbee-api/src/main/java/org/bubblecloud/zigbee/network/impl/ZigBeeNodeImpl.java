@@ -23,6 +23,8 @@
 package org.bubblecloud.zigbee.network.impl;
 
 import org.bubblecloud.zigbee.network.ZigBeeNode;
+import org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor;
+import org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 
@@ -45,6 +47,16 @@ public class ZigBeeNodeImpl implements ZigBeeNode {
      * The pan.
      */
     private short pan;
+
+    /*
+     * The basic node descriptor
+     */
+    private ZigBeeNodeDescriptor nodeDescriptor;
+    
+    /*
+     * The node power descriptor
+     */
+    private ZigBeeNodePowerDescriptor powerDescriptor;
 
     /**
      * Default constructor.
@@ -118,5 +130,25 @@ public class ZigBeeNodeImpl implements ZigBeeNode {
     public int hashCode() {
         return ieeeAddress.hashCode();
     }
+
+	@Override
+	public void setNodeDescriptor(ZigBeeNodeDescriptor descriptor) {
+		nodeDescriptor = descriptor;
+	}
+
+	@Override
+	public ZigBeeNodeDescriptor getNodeDescriptor() {
+		return nodeDescriptor;
+	}
+
+	@Override
+	public void setPowerDescriptor(ZigBeeNodePowerDescriptor descriptor) {
+		powerDescriptor = descriptor;
+	}
+
+	@Override
+	public ZigBeeNodePowerDescriptor getPowerDescriptor() {
+		return powerDescriptor;
+	}
 
 }

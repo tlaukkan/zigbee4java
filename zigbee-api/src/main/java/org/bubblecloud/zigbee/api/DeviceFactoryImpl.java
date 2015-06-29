@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Constructor;
 
 /**
- * Generic class that simplify the creation of factory, and avoids the creation of a class for<br>
+ * Generic class that simplify the creation of factory, and avoids the creation of a class for
  * each factory that we want to register
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -50,9 +50,10 @@ public class DeviceFactoryImpl extends DeviceFactoryBase {
 
 
     /**
-     * Build an {@link DeviceFactory} that refine {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} by means of <code>cImplementation</code>,<br>
-     * into a <code>cInterface</code> service. This factory build the instance of the new service by invoking<br>
-     * the constructor  <code>cImplementation(ZigBeeApiContext, ZigBeeEndpoint)</code>.<br>
+     * Build an {@link DeviceFactory} that refine {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint}
+     * by means of <code>cImplementation</code>, into a <code>cInterface</code> service. This factory build
+     * the instance of the new service by invoking the constructor <code>cImplementation(ZigBeeApiContext, ZigBeeEndpoint)</code>.
+     * <p>
      * By default the {@link #getRefinedInterfaces()} is built to return the values:<br>
      * <pre>
      * cInterface.getDeviceType()

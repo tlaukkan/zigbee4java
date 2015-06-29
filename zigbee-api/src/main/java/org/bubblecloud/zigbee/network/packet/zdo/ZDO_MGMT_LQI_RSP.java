@@ -30,10 +30,17 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import java.util.Arrays;
 
 /**
+ * Processes the LQI Response.
+ * <p>
+ * The MGMT_Lqi_RSP is generated in response to an MGMT_LQI_REQ. If this
+ * management command is not supported, a status of NOT_SUPPORTED will be
+ * returned and all parameter fields after the Status field will be omitted.
+ * 
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05
+ *          +0300 (Tue, 06 Aug 2013) $)
  */
 public class ZDO_MGMT_LQI_RSP extends ZToolPacket /*implements IRESPONSE_CALLBACK,IZDo*/ {
     /// <name>TI.ZPI1.ZDO_MGMT_LQI_RSP.NeighborLQICount</name>

@@ -26,13 +26,15 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 
 /**
+ * This is the base class for the clusters in the cluster library.
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
 public interface Cluster {
     /**
-     * This method return the actual <i>ClusterId</i>. Please remember that the final and official <i>ClusterId</i><br>
+     * This method return the actual <i>ClusterId</i>. Please remember that the final and official <i>ClusterId</i>
      * is defined by the <i>Profile</i> even if the Cluster is defined by a <i>Cluster Library</i>.
      *
      * @return the <i>ClusterId</i>
@@ -40,15 +42,15 @@ public interface Cluster {
     public int getId();
 
     /**
-     * @return This method return the {@link String} identifying the human readable name of the cluster.<br>
-     *         The name is assigned by the document defining the Cluster, either the <i>Cluster Library</i> or<br>
+     * @return This method return the {@link String} identifying the human readable name of the cluster.
+     *         The name is assigned by the document defining the Cluster, either the <i>Cluster Library</i> or
      *         or the <i>Profile</i>
      */
     public String getName();
 
     /**
-     * This method return an array of {@link org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter} objects according to the number of reportable {@link Attribute}
-     * currently used.
+     * This method return an array of {@link org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter}
+     * objects according to the number of reportable {@link Attribute} currently used.
      *
      * @return an array of {@link org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter}
      */

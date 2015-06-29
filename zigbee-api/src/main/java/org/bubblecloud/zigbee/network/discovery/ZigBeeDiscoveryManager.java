@@ -24,6 +24,7 @@ package org.bubblecloud.zigbee.network.discovery;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.network.ApplicationFrameworkMessageListener;
 import org.bubblecloud.zigbee.network.ZigBeeNetworkManager;
+import org.bubblecloud.zigbee.network.discovery.LinkQualityIndicatorNetworkBrowser.NetworkNeighbourLinks;
 import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
@@ -33,7 +34,6 @@ import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_IEEE_ADDR_REQ;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_IEEE_ADDR_RSP;
 import org.bubblecloud.zigbee.util.Integers;
-import org.bubblecloud.zigbee.util.NetworkAddressUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,12 +42,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class is tracks the {@link org.bubblecloud.zigbee.network.ZigBeeNetworkManager} service available <br>
+ * This class is tracks the {@link org.bubblecloud.zigbee.network.ZigBeeNetworkManager} service available
  * and it creates all the resources required by this implementation of the <i>ZigBee Base Driver</i>
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
+ * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
 public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListener {
 
@@ -79,7 +80,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
 
         if (enabledDiscoveries.contains(DiscoveryMode.Announce)) {
             announceListener = new AnnounceListenerImpl(importingQueue, networkManager);
-            networkManager.addAnnunceListener(announceListener);
+            networkManager.addAnnounceListener(announceListener);
         } else {
             logger.trace("ANNOUNCE discovery disabled.");
         }
@@ -109,7 +110,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
     public void shutdown() {
         //logger.info("Driver used left:clean up all the data and closing all the threads");
 
-        networkManager.removeAnnunceListener(announceListener);
+        networkManager.removeAnnounceListener(announceListener);
 
         if (associationNetworkBrowser != null) {
             associationNetworkBrowser.end();
@@ -124,7 +125,6 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
         }
         importingQueue.close();
     }
-
 
     public boolean isInitialNetworkBrowsingComplete() {
         return (associationNetworkBrowser == null || associationNetworkBrowser.isInitialNetworkBrowsingComplete())
@@ -182,4 +182,11 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
         }
     }
 
+    /**
+     * Returns the link quality information
+     * @return
+     */
+    public NetworkNeighbourLinks getLinkQualityInfo() {
+    	return linkQualityIndicatorNetworkBrowser.getConnectedNodes();
+    }
 }
