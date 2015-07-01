@@ -57,7 +57,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     private final static Logger logger = LoggerFactory.getLogger(ZigBeeNetworkManagerImpl.class);
     private final static Logger logger4Waiter = LoggerFactory.getLogger(WaitForCommand.class);
 
-    public static final int DEFAULT_TIMEOUT = 5000;
+    public static final int DEFAULT_TIMEOUT = 8000;
     public static final String TIMEOUT_KEY = "zigbee.driver.cc2530.timeout";
 
     public static final int RESET_TIMEOUT_DEFAULT = 60000;
