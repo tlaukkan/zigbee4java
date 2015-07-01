@@ -52,7 +52,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     /**
      * The cluster message response timeout value millis.
      */
-    private static final long CLUSTER_MESSAGE_RESPONSE_TIME_MILLIS = 5000;
+    private static final long CLUSTER_MESSAGE_RESPONSE_TIME_MILLIS = 8000;
 
     /**
      * The network manager.
