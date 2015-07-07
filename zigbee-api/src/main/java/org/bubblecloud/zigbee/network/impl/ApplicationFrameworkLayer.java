@@ -138,7 +138,6 @@ public class ApplicationFrameworkLayer {
                 ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION,
                 (short) ZigBeeApiConstants.CLUSTER_ID_BASIC
         );
-        final byte endPoint = getFreeEndPoint();
         final List<Integer> clusterSet = Arrays.asList(
             ZigBeeApiConstants.CLUSTER_ID_BASIC,
             ZigBeeApiConstants.CLUSTER_ID_POWER_CONFIGURATION,
@@ -147,7 +146,7 @@ public class ApplicationFrameworkLayer {
             ZigBeeApiConstants.CLUSTER_ID_GROUPS,
             ZigBeeApiConstants.CLUSTER_ID_SCENES,
             ZigBeeApiConstants.CLUSTER_ID_ON_OFF,
-            ZigBeeApiConstants.CLUSTER_ID_ON_OFF_SWITCH_CONFIGURATION ,
+            ZigBeeApiConstants.CLUSTER_ID_ON_OFF_SWITCH_CONFIGURATION,
             ZigBeeApiConstants.CLUSTER_ID_LEVEL_CONTROL,
             ZigBeeApiConstants.CLUSTER_ID_ALARMS,
             ZigBeeApiConstants.CLUSTER_ID_BINARY_INPUT,
@@ -176,30 +175,41 @@ public class ApplicationFrameworkLayer {
             ZigBeeApiConstants.CLUSTER_ID_IAS_WD
         );
 
-        final int[] clusters = new int[clusterSet.size()];
-        if (clusters.length > 34) {
-            throw new RuntimeException("Too many default clusters.");
+        int startIndex = 0;
+        int endIndex = 0;
+
+        while (endIndex < clusterSet.size()) {
+            final byte endPoint = getFreeEndPoint();
+
+            endIndex = clusterSet.size();
+            // AF_REGISTER only allows 33 clusters per endpoint
+            if ( (endIndex - startIndex) > 33) {
+                endIndex = startIndex + 33;
+            }
+
+            final int[] clusters = new int[endIndex - startIndex];
+
+            int index = 0;
+            for (final Integer cluster : clusterSet.subList(startIndex, endIndex)) {
+                clusters[index] = cluster;
+                index++;
+            }
+            startIndex = endIndex;
+
+            final AF_REGISTER_SRSP result = driver.sendAFRegister(new AF_REGISTER(
+                    endPoint, si.profileId, (short) 0, (byte) 0,
+                    new int[0], clusters
+            ));
+
+            if (result.getStatus() != 0) {
+                // Default end point creation failed probably due to end point already exists.
+                logger.warn("Default end point {} creation failed with status: {} ", endPoint, Status.getStatus((byte) result.getStatus()));
+                return;
+            }
+
+            logger.info("Registered default sending endpoint {} with clusters: {}", endPoint, clusters);
+            registerSenderEndPoint(endPoint, si.profileId, clusters);
         }
-
-        int index = 0;
-        for (final Integer cluster : clusterSet) {
-            clusters[index] = cluster;
-            index++;
-        }
-
-        final AF_REGISTER_SRSP result = driver.sendAFRegister(new AF_REGISTER(
-                endPoint, si.profileId, (short) 0, (byte) 0,
-                new int[0], clusters
-        ));
-
-        if (result.getStatus() != 0) {
-            // Default end point creation failed probably due to end point already exists.
-            logger.warn("Default end point creation failed with status: {} ", Status.getStatus((byte) result.getStatus()));
-            return;
-        }
-
-        logger.info("Registered default sending endpoint {} with clusters: {}", endPoint, clusters);
-        registerSenderEndPoint(endPoint, si.profileId, clusters);
     }
 
     private byte createEndPoint(SenderIdentifier si, int receiverProfileId) {
