@@ -106,9 +106,16 @@ public class AttributeImpl implements Attribute {
         return doClusterWideRead();
     }
 
+    /**
+     * Gets the {@link Reporter reporter} for this attribute.
+     * <p>
+     * If there is currently no reporter, then a new reporter is created.
+     * @return the {@link Reporter}
+     */
     public Reporter getReporter() {
-        if (isReportable() == false)
+        if (isReportable() == false) {
             return null;
+        }
 
         synchronized (LazyInstantiation) {
             if (reporter == null) {

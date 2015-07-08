@@ -93,8 +93,9 @@ public class TemperatureMeasurementImpl implements TemperatureMeasurement {
     public Attribute getAttribute(int id) {
         Attribute[] attributes = temperatureMeasurementCluster.getAvailableAttributes();
         for (int i = 0; i < attributes.length; i++) {
-            if (attributes[i].getId() == id)
+            if (attributes[i].getId() == id) {
                 return attributes[i];
+            }
         }
         return null;
     }

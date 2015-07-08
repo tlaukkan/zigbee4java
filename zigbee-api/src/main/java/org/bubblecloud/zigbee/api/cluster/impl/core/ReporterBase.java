@@ -32,9 +32,10 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.AttributeReport;
 import org.bubblecloud.zigbee.api.cluster.impl.global.reporting.ReportAttributesCommand;
 
-import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,14 +43,14 @@ import org.slf4j.LoggerFactory;
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  * @since 0.6.0
  */
 public abstract class ReporterBase implements Reporter {
 
     private final Logger log = LoggerFactory.getLogger(ReporterBase.class);
 
-    protected final ArrayList<ReportListener> listeners = new ArrayList<ReportListener>();
+    protected final Set<ReportListener> listeners = new HashSet<ReportListener>();
     protected final ReportListenerNotifier bridge = new ReportListenerNotifier();
     protected final ZigBeeEndpoint device;
     protected final ZCLCluster cluster;
@@ -68,7 +69,9 @@ public abstract class ReporterBase implements Reporter {
 
         public void handleCluster(ZigBeeEndpoint endpoint, ClusterMessage c) {
             try {
-                if (c.getId() != cluster.getId()) return;
+                if (c.getId() != cluster.getId()) {
+                	return;
+                }
                 ResponseImpl response = new ResponseImpl(c, cluster.getId());
                 AttributeReport[] reports = new ReportAttributesCommand(response).getAttributeReports();
                 Dictionary<Attribute, Object> event = new Hashtable<Attribute, Object>();
@@ -78,9 +81,9 @@ public abstract class ReporterBase implements Reporter {
                             reports[i].getAttributeData()
                     );
                 }
-                ArrayList<ReportListener> localCopy;
+                HashSet<ReportListener> localCopy;
                 synchronized (listeners) {
-                    localCopy = new ArrayList<ReportListener>(listeners);
+                    localCopy = new HashSet<ReportListener>(listeners);
                 }
                 log.debug("Notifying {} ReportListener", localCopy.size());
                 for (ReportListener reportListner : localCopy) {
@@ -128,14 +131,30 @@ public abstract class ReporterBase implements Reporter {
         try {
             return device.unbindFromLocal(cluster.getId());
         } catch (ZigBeeNetworkManagerException e) {
-            log.debug("Unable to bind to device {} on cluster {}", device, cluster.getId());
-            log.error("Binding failed", e);
+            log.debug("Unable to unbind to device {} on cluster {}", device, cluster.getId());
+            log.error("Unbinding failed", e);
             return false;
         }
     }
 
     protected abstract boolean doConfigureServer() throws ZigBeeClusterException;
 
+    /**
+     * Adds a report listener. If the listener already exists (ie the listener is already subscribed)
+     * then it is not added.
+     * <p>
+     * If <i>subscribe</i> is set to true then a call will be made to the device to configure the reporting
+     * subscription.
+     * <p>
+     * The method returns true if the listener was added. If the listener already existed, then <i>false</i>
+     * will be returned.
+     * 
+     * @param listener the callback to be used for the listener
+     * @param subscribe true if a subscribe call should be made to the device
+     * @return true if the listener was added. false if there was an error or the
+     *            listener was already listening
+     *
+     */
     public boolean addReportListener(ReportListener listener, boolean subscribe) {
         synchronized (listeners) {
             if (subscribe) {
@@ -148,13 +167,20 @@ public abstract class ReporterBase implements Reporter {
                     log.error("Unable to configure server for Reporting", e);
                     return false;
                 }
-                device.addClusterListener(bridge);
             }
+
+            // Add a cluster listener
+            device.addClusterListener(bridge);
+            
+            // And add the attribute listener
             listeners.add(listener);
         }
         return true;
     }
 
+    /**
+     * Clears all listeners.
+     */
     public void clear() {
         if (doUnbindToDevice() == true) {
             synchronized (listeners) {
@@ -204,12 +230,20 @@ public abstract class ReporterBase implements Reporter {
         return min;
     }
 
+    /**
+     * Gets the number of listeners current subscribed
+     * @return integer number of subscribed listeners
+     */
     public int getReportListenersCount() {
         synchronized (listeners) {
             return listeners.size();
         }
     }
 
+    /**
+     * Returns true if the attribute currently has any active listeners
+     * @return true if there are active listeners
+     */
     public boolean isActive() {
         synchronized (listeners) {
             return listeners.size() == 0;

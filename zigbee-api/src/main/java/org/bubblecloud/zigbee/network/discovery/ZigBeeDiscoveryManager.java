@@ -65,6 +65,9 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
 
     private EnumSet<DiscoveryMode> enabledDiscoveries;
 
+    /**
+     * Contains a list of all the network addresses we've inspected
+     */
     private Set<Integer> inspectedNetworkAddresses = new HashSet<Integer>();
 
     public ZigBeeDiscoveryManager(ZigBeeNetworkManager networkManager, final EnumSet<DiscoveryMode> enabledDiscoveries) {
@@ -136,7 +139,9 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
         final int sourceNetworkAddress = msg.getSrcAddr();
 
         synchronized (inspectedNetworkAddresses) {
+        	// If this is an unknown device, then inspect it
             if (!inspectedNetworkAddresses.contains(sourceNetworkAddress)) {
+            	// Add the device to the list so we don't inspect it again
                 inspectedNetworkAddresses.add(sourceNetworkAddress);
                 new Thread(new Runnable() {
                     @Override
