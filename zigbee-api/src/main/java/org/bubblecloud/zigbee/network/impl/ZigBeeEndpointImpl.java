@@ -533,7 +533,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             localCopy = new ArrayList<ClusterListener>(listeners);
         }
         if (localCopy.size() > 0) {
-            logger.debug("Notifying {} ClusterListener of {}", localCopy.size(), c.getClusterMsg());
+            logger.debug("Notifying {} ClusterListener of {}", localCopy.size(), c.toString());
 
             for (ClusterListener listner : localCopy) {
                 try {

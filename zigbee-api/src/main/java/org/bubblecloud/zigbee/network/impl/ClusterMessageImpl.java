@@ -49,4 +49,13 @@ public class ClusterMessageImpl implements ClusterMessage {
         return id;
     }
 
+    public String toString() {
+		final StringBuilder builder = new StringBuilder("[ ");
+		for (byte b : msg) {
+			builder.append(String.format("%02X ", b));
+		}
+		builder.append("]");
+		return builder.toString();
+    }
+
 }
