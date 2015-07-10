@@ -206,9 +206,9 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
                 ThreadUtils.waitNonPreemptive(waiting);
                 i++;
                 logger.debug(
-                        "Inspecting ZigBee EndPoint <{},{}> failed during it {}-th attempts. " +
+                        "Inspecting ZigBee EndPoint <#{},{}> failed at attempt {}. " +
                                 "Waiting for {}ms before retrying",
-                        new Object[]{nwk, endPointAddress, i, waiting}
+                        nwk, endPointAddress, i, waiting
                 );
 
             } else {
@@ -533,7 +533,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             localCopy = new ArrayList<ClusterListener>(listeners);
         }
         if (localCopy.size() > 0) {
-            logger.debug("Notifying {} ClusterListener of {}", localCopy.size(), c.getClusterMsg());
+            logger.debug("Notifying {} ClusterListener of {}", localCopy.size(), c.toString());
 
             for (ClusterListener listner : localCopy) {
                 try {

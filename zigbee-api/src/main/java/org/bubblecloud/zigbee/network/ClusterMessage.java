@@ -33,5 +33,7 @@ public interface ClusterMessage {
     public short getId();
 
     public byte[] getClusterMsg();
+    
+    public String toString();
 
 }

@@ -291,8 +291,9 @@ public abstract class DeviceBase implements Device {
 
     public <T extends Cluster> T getCluster(int id) {
         for (int i = 0; i < clusters.length; i++) {
-            if (clusters[i] != null && clusters[i].getId() == id)
+            if (clusters[i] != null && clusters[i].getId() == id) {
                 return (T) clusters[i];
+            }
         }
         return null;
     }
@@ -300,8 +301,9 @@ public abstract class DeviceBase implements Device {
 
     public <T extends Cluster> T getCluster(Class<T> clusterIntercace) {
         for (int i = 0; i < clusters.length; i++) {
-            if (clusters[i] != null && clusterIntercace.isInstance(clusters[i]))
+            if (clusters[i] != null && clusterIntercace.isInstance(clusters[i])) {
                 return (T) clusters[i];
+            }
         }
         return null;
     }
@@ -313,8 +315,9 @@ public abstract class DeviceBase implements Device {
      */
     public Cluster getCluster(String name) {
         for (int i = 0; i < clusters.length; i++) {
-            if (clusters[i] != null && clusters[i].getName().equals(name))
+            if (clusters[i] != null && clusters[i].getName().equals(name)) {
                 return clusters[i];
+            }
         }
         return null;
     }
@@ -328,10 +331,14 @@ public abstract class DeviceBase implements Device {
             if (clusters[i] == null) continue;
 
             Reporter[] reporters = clusters[i].getAttributeReporters();
-            if (reporters == null) continue;
+            if (reporters == null) {
+            	continue;
+            }
 
             for (int j = 0; j < reporters.length; j++) {
-                if (reporters[j] == null) continue;
+                if (reporters[j] == null) {
+                	continue;
+                }
                 reporters[j].clear();
             }
         }

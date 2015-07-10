@@ -1184,6 +1184,11 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         return result;
     }
 
+    /**
+     * Removes an Application Framework message listener that was previously added with the addAFMessageListner method
+     * @param listner a class that implements the {@link ApplicationFrameworkMessageListener} interface
+     * @return true if the listener was added
+     */
     public boolean removeAFMessageListener(ApplicationFrameworkMessageListener listner) {
         boolean result = false;
         synchronized (messageListeners) {
@@ -1206,6 +1211,11 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         }
     }
 
+    /**
+     * Adds an Application Framework message listener
+     * @param listner a class that implements the {@link ApplicationFrameworkMessageListener} interface
+     * @return true if the listener was added
+     */
     public boolean addAFMessageListner(ApplicationFrameworkMessageListener listner) {
         if (messageListeners.isEmpty() && isHardwareReady()) {
             if (zigbeeInterface.addAsynchronousCommandListener(afMessageListenerFilter)) {
@@ -1391,10 +1401,12 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     public void addCustomEndpoint(String endpointNumber, String profileID, String deviceID, String version, String inputClusters, String outputCluster) {
 
         String[] inputGroupsNumber = null, outputGroupsNumber = null, inputClusterGroup = null, outputClusterGroup = null;
-        if (checkString(inputClusters))
+        if (checkString(inputClusters)) {
             inputGroupsNumber = inputClusters.trim().split("]");
-        if (checkString(outputCluster))
+        }
+        if (checkString(outputCluster)) {
             outputGroupsNumber = outputCluster.trim().split("]");
+        }
 
         if (inputGroupsNumber != null && outputGroupsNumber != null && inputGroupsNumber.length > 0 && inputGroupsNumber.length == outputGroupsNumber.length) {
 
@@ -1405,8 +1417,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                 inputGroupsNumber[i] = inputGroupsNumber[i].replace(" ", "");
 
                 int temp = inputGroupsNumber[i].trim().split(",").length;
-                if (temp > max)
+                if (temp > max) {
                     max = temp;
+                }
             }
             inp = new short[inputGroupsNumber.length][max];
             for (int i = 0; i < inputGroupsNumber.length; i++) {
@@ -1424,8 +1437,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                 outputGroupsNumber[i] = outputGroupsNumber[i].replace(" ", "");
 
                 int temp = outputGroupsNumber[i].trim().split(",").length;
-                if (temp > max)
+                if (temp > max) {
                     max = temp;
+                }
             }
             out = new short[outputGroupsNumber.length][max];
             for (int i = 0; i < outputGroupsNumber.length; i++) {
@@ -1461,8 +1475,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     private boolean checkString(String s) {
-        if (s != null && !s.isEmpty())
+        if (s != null && !s.isEmpty()) {
             return true;
+        }
 
         return false;
     }
@@ -1486,23 +1501,26 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                 int size = 0;
                 for (int j = 0; j < this.inp[i].length; j++) {
 
-                    if (this.inp[i][j] != 0 && this.inp[i][j] != -1)
+                    if (this.inp[i][j] != 0 && this.inp[i][j] != -1) {
                         size++;
+                    }
                 }
 
                 input = new int[size];
                 for (int j = 0; j < this.inp[i].length; j++) {
 
-                    if (this.inp[i][j] != 0 && this.inp[i][j] != -1)
+                    if (this.inp[i][j] != 0 && this.inp[i][j] != -1) {
                         input[j] = this.inp[i][j];
+                    }
                 }
 
                 // output
                 size = 0;
                 for (int j = 0; j < this.out[i].length; j++) {
 
-                    if (this.out[i][j] != 0 && this.out[i][j] != -1)
+                    if (this.out[i][j] != 0 && this.out[i][j] != -1) {
                         size++;
+                    }
                 }
 
                 output = new int[size];
@@ -1512,10 +1530,12 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                         output[j] = this.out[i][j];
                 }
 
-                if (newDevice(new AF_REGISTER(new Byte(this.ep[i] + ""), this.prof[i], new Short(this.dev[i] + ""), new Byte(this.ver[i] + ""), input, output)))
+                if (newDevice(new AF_REGISTER(new Byte(this.ep[i] + ""), this.prof[i], new Short(this.dev[i] + ""), new Byte(this.ver[i] + ""), input, output))) {
                     logger.debug("Custom device {} registered at endpoint {}", this.dev[i], this.ep[i]);
-                else
+                }
+                else {
                     logger.debug("Custom device {} registration failed at endpoint {}", this.dev[i], this.ep[i]);
+                }
             }
     }
 
@@ -1533,6 +1553,11 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
 
+    /**
+     * Listens for any announce messages and processes the state of the new
+     * device before making it ready on the network.
+     *
+     */
     private class AnnounceListenerFilter implements AsynchronousCommandListener {
 
         private final Collection<AnnounceListener> listners;
@@ -1542,20 +1567,20 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         }
 
         public void receivedAsynchronousCommand(ZToolPacket packet) {
-            if (packet.isError()) return;
+            if (packet.isError()) {
+            	return;
+            }
             if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_END_DEVICE_ANNCE_IND) {
                 logger.debug("Received announce message {} value is {}", packet.getClass(), packet);
                 ZDO_END_DEVICE_ANNCE_IND annunce = (ZDO_END_DEVICE_ANNCE_IND) packet;
                 for (AnnounceListener l : listners) {
                     l.announce(annunce.SrcAddr, annunce.IEEEAddr, annunce.NwkAddr, annunce.Capabilities);
-
                 }
             } else if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_TC_DEVICE_IND) {
                     logger.debug("Received TC announce message {} value is {}", packet.getClass(), packet);
                     ZDO_TC_DEVICE_IND annunce = (ZDO_TC_DEVICE_IND) packet;
                     for (AnnounceListener l : listners) {
                         l.announce(annunce.SrcAddr, annunce.IEEEAddr, annunce.NwkAddr, 0);
-
                     }
             } else if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_STATE_CHANGE_IND) {
                 try {
@@ -1613,8 +1638,14 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             listners = list;
         }
 
+        /**
+         * An asynchronous command is received from the network. If it is an AF_INCOMING_MSG then
+         * pass the message on to any listeners.
+         */
         public void receivedAsynchronousCommand(ZToolPacket packet) {
-            if (packet.isError()) return;
+            if (packet.isError()) {
+            	return;
+            }
             if (packet.getCMD().get16BitValue() == ZToolCMD.AF_INCOMING_MSG) {
                 AF_INCOMING_MSG msg = (AF_INCOMING_MSG) packet;
                 if (listners.isEmpty()) {
@@ -1637,5 +1668,4 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             }
         }
     }
-
 }
