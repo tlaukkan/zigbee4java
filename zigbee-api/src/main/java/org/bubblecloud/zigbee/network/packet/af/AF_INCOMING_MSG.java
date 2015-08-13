@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * This callback message is in response to incoming data to any of the registered endpoints on this device.
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
