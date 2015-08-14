@@ -33,6 +33,12 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.util.Integers;
 
 /**
+ * This command enables the host processor to register an application’s endpoint
+ * description (and its simple descriptor). Multiple endpoints may be registered
+ * with the AF by making multiple calls to AF_REGISTER. This could be useful in
+ * the case where the device needs to support multiple application profiles, where
+ * each AF_REGISTER call would register a unique endpoint description per application
+ * profile.
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
@@ -75,6 +81,17 @@ public class AF_REGISTER extends ZToolPacket /*implements IREQUEST, IAF*/ {
     }
 
 
+    /**
+     * Creates the AF_REGISTER packet
+     * @param EndPoint Specifies the endpoint of this simple descriptor.
+     * @param AppProfID Specifies the profile id of the application
+     * @param AppDeviceId Specifies the device description id for this endpoint
+     * @param AppDevVer Specifies the device version number
+     * @param AppNumInClusters the number of Input cluster Ids following in the AppInClusterList
+     * @param AppInClusterList Specifies the list of Input Cluster Ids
+     * @param AppNumOutClusters Specifies the number of Output cluster Ids following in the AppOutClusterList
+     * @param AppOutClusterList Specifies the list of Output Cluster Ids
+     */
     public AF_REGISTER(int EndPoint, DoubleByte AppProfID, DoubleByte AppDeviceId, int AppDevVer, int AppNumInClusters, DoubleByte[] AppInClusterList, int AppNumOutClusters, DoubleByte[] AppOutClusterList) {
         this.EndPoint = EndPoint;
         this.AppProfID = AppProfID;

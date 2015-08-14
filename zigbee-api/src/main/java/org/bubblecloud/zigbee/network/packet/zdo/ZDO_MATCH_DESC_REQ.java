@@ -29,6 +29,14 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
+ * This command is used to send a match descriptor request, which is used to find devices
+ * that match the given criteria. The device that receives this request will first perform
+ * a match on the profile ID. If the profile IDs do not match, then the match is
+ * unsuccessful and no further matching is performed. If the profile IDs match, a match
+ * on the input cluster list is performed. If at least one matching input cluster is found,
+ * no further matching is performed. If the device that receives this request is unable to
+ * find any matching input clusters, a match on the output cluster list is performed. If
+ * the device is unable to find any matching output clusters, the match is unsuccessful.
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */

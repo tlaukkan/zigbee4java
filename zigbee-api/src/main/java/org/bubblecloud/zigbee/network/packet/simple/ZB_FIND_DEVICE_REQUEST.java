@@ -29,6 +29,10 @@ import org.bubblecloud.zigbee.util.ByteUtils;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
+ * This command is used to determine the short address for a device in the network.
+ * The device initiating a call to ZB_FIND_DEVICE_REQUEST and the device being discovered
+ * must both be a member of the same network. When the search is complete, the ZNP responds
+ * with ZB_FIND_DEVICE_CONFIRM.
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */

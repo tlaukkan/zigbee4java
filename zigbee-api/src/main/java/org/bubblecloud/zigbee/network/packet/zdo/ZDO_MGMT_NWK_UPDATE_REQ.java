@@ -29,7 +29,12 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.util.Integers;
 
 /**
- * Request to switch channel or change PAN PROFILE_ID_HOME_AUTOMATION.
+ * This command is provided to allow updating of network configuration parameters or
+ * to request information from devices on network conditions in the local operating
+ * environment. Upon receipt, the remote device shall determine from the contents of 
+ * the ScanDuration parameter whether this request is an update to the ChannelMask and
+ * NwkManagerAddr parameters, a channel change command, or a request to scan channels
+ * and report the results.
  *
  * @author <a href="mailto:tommmi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
