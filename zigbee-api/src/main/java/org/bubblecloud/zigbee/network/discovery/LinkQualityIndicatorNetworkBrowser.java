@@ -431,6 +431,9 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
     }
 
     private void notifyBrowsedNode(NetworkAddressNodeItem item) {
+    	if (item.node == null) {
+    		return;
+    	}
         final ZigBeeNode child = item.node;
         final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         network.notifyNodeBrowsed(child);
