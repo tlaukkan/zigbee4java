@@ -86,7 +86,7 @@ import java.util.*;
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
-public class ZigBeeApi implements EndpointListener, DeviceListener {
+public class ZigBeeApi implements EndpointListener {
     /**
      * The {@link Logger}.
      */
@@ -221,7 +221,6 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
      * @return true if the network was initialized correctly
      */
     public boolean initializeNetwork(boolean resetNetwork) {
-        context.addDeviceListener(this);
         networkManager.initializeZigBeeNetwork(resetNetwork);
 
         while (true) {
@@ -262,7 +261,6 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
      * Shuts down network manager, network, context and discovery manager.
      */
     public void shutdown() {
-        context.removeDeviceListener(this);
         network.removeEndpointListener(this);
         discoveryManager.shutdown();
         networkManager.shutdown();
@@ -427,7 +425,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
     /**
      * Adds a device listener. The listener will be notified for each new endpoint
      * that is found.
-     * @param deviceListener
+     * @param deviceListener {@link DeviceListener}
      */
     public void addDeviceListener(DeviceListener deviceListener) {
         context.addDeviceListener(deviceListener);
@@ -435,7 +433,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
 
     /**
      * Removes a previously registered device listener
-     * @param deviceListener
+     * @param deviceListener {@link DeviceListener}
      */
     public void removeDeviceListener(DeviceListener deviceListener) {
         context.removeDeviceListener(deviceListener);
@@ -471,23 +469,5 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
         if (device != null) {
             context.removeDevice(device);
         }
-    }
-
-    @Override
-    public void deviceAdded(final Device device) {
-        LOGGER.debug(device.getClass().getSimpleName() +
-                " added: " + device.getEndpoint().getEndpointId());
-    }
-
-    @Override
-    public void deviceUpdated(final Device device) {
-        LOGGER.trace(device.getClass().getSimpleName() +
-                " updated: " + device.getEndpoint().getEndpointId());
-    }
-
-    @Override
-    public void deviceRemoved(final Device device) {
-        LOGGER.debug(device.getClass().getSimpleName() +
-                " removed: " + device.getEndpoint().getEndpointId());
     }
 }
