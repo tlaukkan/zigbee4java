@@ -29,7 +29,7 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- * This message will request the device to send a “Network Address Request”.
+ * This message will request the device to send a "Network Address Request".
  * This message sends a broadcast message looking for a 16 bit address with a known
  * 64 bit IEEE address.
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>

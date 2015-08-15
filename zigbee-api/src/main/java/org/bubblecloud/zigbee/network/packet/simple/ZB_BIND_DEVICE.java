@@ -29,7 +29,7 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
- * This command is used to create or delete a ‘binding’ to another device on the network.
+ * This command is used to create or delete a 'binding' to another device on the network.
  * Once bound, an application can send messages to a device by referencing the commandId
  * for the binding. This command can also be issued with a NULL destination address (set
  * to all zeros). In that case, a binding will be established with another device that is

@@ -70,13 +70,13 @@ public class ZB_SEND_DATA_REQUEST extends ZToolPacket /*implements IREQUEST,ISIM
      * <p>
      * Address can be one of the following -:
      * <ul>
-     * <li>0 – 0xFFF7: 16-bit short address of the destination device</li>
+     * <li>0 - 0xFFF7: 16-bit short address of the destination device</li>
      * <li>0xFFFC: Group of all routers and coordinator</li>
      * <li>0xFFFD: Group of all devices with receiver turned on</li>
      * <li>0xFFFE: This is the binding address and should be used when a binding entry has
-     * <li>been previously created for this particular CommandId. The destination address
-     * <li>will be determined from the binding table by the CC2530-ZNP
-     * <li>0xFFFF: ￼Broadcast group of all devices in the network</li>
+     * been previously created for this particular CommandId. The destination address
+     * will be determined from the binding table by the CC2530-ZNP
+     * <li>0xFFFF: Broadcast group of all devices in the network</li>
      * </ul>
      * @param destination The destination address of the data packet.
      * @param commandId The command ID to send with the message.

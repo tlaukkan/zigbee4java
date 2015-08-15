@@ -33,7 +33,7 @@ import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.util.Integers;
 
 /**
- * This command enables the host processor to register an application’s endpoint
+ * This command enables the host processor to register an application's endpoint
  * description (and its simple descriptor). Multiple endpoints may be registered
  * with the AF by making multiple calls to AF_REGISTER. This could be useful in
  * the case where the device needs to support multiple application profiles, where
