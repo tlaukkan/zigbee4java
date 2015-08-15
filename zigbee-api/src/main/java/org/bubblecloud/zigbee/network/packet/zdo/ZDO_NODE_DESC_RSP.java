@@ -41,46 +41,59 @@ import org.bubblecloud.zigbee.util.DoubleByte;
  * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
 public class ZDO_NODE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALLBACK,IZDO*/ {
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.APSFlags</name>
-    /// <summary>Node Flags assigned for APS. For V1.0 all bits are reserved</summary>
+    /**
+     * Node Flags assigned for APS. For V1.0 all bits are reserved
+     */
     public int APSFlags;
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.BufferSize</name>
-    /// <summary>Indicates size of maximum NPDU. This field is used as a high level indication for api</summary>
+    /**
+     * Indicates size of maximum NPDU. This field is used as a high level indication for api
+     */
     public int BufferSize;
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.Capabilities</name>
-    /// <summary>Capability flags stored for the MAC</summary>
+    /**
+     * Capability flags stored for the MAC
+     */
     public int Capabilities;
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.ComplexDescriptorAvailable</name>
-    /// <summary>Indicates if complex descriptor is available for the node</summary>
-    public int ComplexDescriptorAvailable;
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.ManufacturerCode</name>
-    /// <summary>Specifies a manufacturer code that is allocated by ZigBee Alliance, relating to the manufacturer to the device</summary>
+    /**
+     * Indicates if complex descriptor is available for the node
+     */
+    public boolean ComplexDescriptorAvailable;
+    /**
+     * Specifies a manufacturer code that is allocated by ZigBee Alliance, relating to the manufacturer to the device
+     */
     public DoubleByte ManufacturerCode;
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.NodeType</name>
-    /// <summary>Node type</summary>
+    /**
+     * Node type
+     */
     public int NodeType;
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.NWKAddrOfInterest</name>
-    /// <summary>Device's short address of this Node descriptor</summary>
+    /**
+     * Device's short address of this Node descriptor
+     */
     public ZToolAddress16 nwkAddr;
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.ServerMask</name>
-    /// <summary>Specifies the system server capability</summary>
+    /**
+     * Specifies the system server capability
+     */
     public int ServerMask;
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.SrcAddress</name>
-    /// <summary>the message's source network address.</summary>
+    /**
+     * the message's source network address.
+     */
     public ZToolAddress16 SrcAddress;
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.Status</name>
-    /// <summary>this field indicates either SUCCESS or FAILURE.</summary>
+    /**
+     * this field indicates either SUCCESS or FAILURE.
+     */
     public int Status;
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.TransferSize</name>
-    /// <summary>Indicates maximum size of Transfer up to 0x7fff (This field is reserved in version 1.0 and shall be set to zero ).</summary>
+    /**
+     * Indicates maximum size of Transfer up to 0x7fff (This field is reserved in version 1.0 and shall be set to zero ).
+     */
     public DoubleByte TransferSize;
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.UserDescriptorAvailable</name>
-    /// <summary>Indicates if user descriptor is available for the node</summary>
-    public int UserDescriptorAvailable;
+    /**
+     * Indicates if user descriptor is available for the node
+     */
+    public boolean UserDescriptorAvailable;
     public int FreqBand;
 
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP</name>
-    /// <summary>Constructor</summary>
+    /**
+     * Constructor
+     */
     public ZDO_NODE_DESC_RSP() {
     }
 
@@ -89,8 +102,8 @@ public class ZDO_NODE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
         this.Status = framedata[2];
         this.nwkAddr = new ZToolAddress16(framedata[4], framedata[3]);
         this.NodeType = framedata[5] & (0x07);///Experimental
-        this.ComplexDescriptorAvailable = (framedata[5] & (0x08)) >>> 3;///Experimental
-        this.UserDescriptorAvailable = (framedata[5] & (16)) >>> 4;///Experimental
+        this.ComplexDescriptorAvailable = ((framedata[5] & (0x08)) >>> 3) == 1;
+        this.UserDescriptorAvailable = ((framedata[5] & (16)) >>> 4) == 1;
         this.APSFlags = framedata[6] & (0x0F);
         this.FreqBand = framedata[6] & (0xF0) >>> 4;
         this.Capabilities = framedata[10];
@@ -101,70 +114,90 @@ public class ZDO_NODE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_NODE_DESC_RSP), framedata);
     }
 
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.CAPABILITY_INFO</name>
-    /// <summary>Capability Information bitfield</summary>
+    /**
+     * Capability Information bitfield
+     */
     public class CAPABILITY_INFO {
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.CAPABILITY_INFO.ALLOCATE_ADDRESS</name>
-        /// <summary>Capability Information bitfield</summary>
+        /**
+         * Capability Information bitfield
+         */
         public static final int ALLOCATE_ADDRESS = 0x80;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.CAPABILITY_INFO.ALTER_PAN_COORD</name>
-        /// <summary>Capability Information bitfield</summary>
+        /**
+         * Capability Information bitfield
+         */
         public static final int ALTER_PAN_COORD = 1;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.CAPABILITY_INFO.DEVICE_TYPE</name>
-        /// <summary>Capability Information bitfield</summary>
+        /**
+         * Capability Information bitfield
+         */
         public static final int DEVICE_TYPE = 2;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.CAPABILITY_INFO.NONE</name>
-        /// <summary>Capability Information bitfield</summary>
+        /**
+         * Capability Information bitfield
+         */
         public static final int NONE = 0;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.CAPABILITY_INFO.POWER_SOURCE</name>
-        /// <summary>Capability Information bitfield</summary>
+        /**
+         * Capability Information bitfield
+         */
         public static final int POWER_SOURCE = 4;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.CAPABILITY_INFO.RECEIVER_ON_WHEN_IDLE</name>
-        /// <summary>Capability Information bitfield</summary>
+        /**
+         * Capability Information bitfield
+         */
         public static final int RECEIVER_ON_WHEN_IDLE = 8;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.CAPABILITY_INFO.SECURITY_CAPABILITY</name>
-        /// <summary>Capability Information bitfield</summary>
+        /**
+         * Capability Information bitfield</summary>
+         */
         public static final int SECURITY_CAPABILITY = 0x40;
     }
 
 
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.NODE_TYPE</name>
-    /// <summary>Type of Node</summary>
+    /**
+     * Type of Node
+     */
     public class NODE_TYPE {
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.NODE_TYPE.COORDINATOR</name>
-        /// <summary>Type of Node</summary>
+        /**
+         * Type of Node
+         */
         public static final int COORDINATOR = 0;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.NODE_TYPE.END_DEVICE</name>
-        /// <summary>Type of Node</summary>
+        /**
+         * Type of Node
+         */
         public static final int END_DEVICE = 2;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.NODE_TYPE.ROUTER</name>
-        /// <summary>Type of Node</summary>
+        /*
+         * Type of Node
+         */
         public static final int ROUTER = 1;
     }
 
-    /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.SERVER_CAPABILITY</name>
-    /// <summary>Capabilities bitfield</summary>
+    /**
+     * Capabilities bitfield
+     */
     public class SERVER_CAPABILITY {
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.SERVER_CAPABILITY.BACKUP_TRUST_CENTER</name>
-        /// <summary>Capabilities bitfield</summary>
+        /**
+         * Capabilities bitfield
+         */
         public static final int BACKUP_TRUST_CENTER = 2;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.SERVER_CAPABILITY.BAK_BIND_TABLE_CACHE</name>
-        /// <summary>Capabilities bitfield</summary>
+        /**
+         * Capabilities bitfield
+         */
         public static final int BAK_BIND_TABLE_CACHE = 8;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.SERVER_CAPABILITY.BAK_DISC_CACHE</name>
-        /// <summary>Capabilities bitfield</summary>
+        /**
+         * Capabilities bitfield
+         */
         public static final int BAK_DISC_CACHE = 50;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.SERVER_CAPABILITY.NONE</name>
-        /// <summary>Capabilities bitfield</summary>
+        /**
+         * Capabilities bitfield
+         */
         public static final int NONE = 0;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.SERVER_CAPABILITY.PRIM_BIND_TABLE_CACHE</name>
-        /// <summary>Capabilities bitfield</summary>
+        /**
+         * Capabilities bitfield
+         */
         public static final int PRIM_BIND_TABLE_CACHE = 4;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.SERVER_CAPABILITY.PRIM_DISC_CACHE</name>
-        /// <summary>Capabilities bitfield</summary>
+        /**
+         * Capabilities bitfield
+         */
         public static final int PRIM_DISC_CACHE = 0x16;
-        /// <name>TI.ZPI1.ZDO_NODE_DESC_RSP.SERVER_CAPABILITY.PRIM_TRUST_CENTER</name>
-        /// <summary>Capabilities bitfield</summary>
+        /**
+         * Capabilities bitfield
+         */
         public static final int PRIM_TRUST_CENTER = 1;
     }
 

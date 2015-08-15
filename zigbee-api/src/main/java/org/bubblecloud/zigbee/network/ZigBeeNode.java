@@ -63,7 +63,7 @@ public interface ZigBeeNode {
      */
     public void setNodeDescriptor(ZigBeeNodeDescriptor descriptor);
 
-    /*
+    /**
      * Gets the {@link ZigBeeNodeDescriptor Node Descriptor}.
      * <p>
      * The node descriptor contains information about the capabilities of the ZigBee

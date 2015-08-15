@@ -1,11 +1,7 @@
 package org.bubblecloud.zigbee.network;
 
 /**
- * Created with IntelliJ IDEA.
- * User: tlaukkan
- * Date: 12/15/13
- * Time: 8:48 AM
- * To change this template use File | Settings | File Templates.
+ * Provides an interface to notify upper layers of changes to {@link ZigBeeEndpoint endpoints}.
  */
 public interface EndpointListener {
 

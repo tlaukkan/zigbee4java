@@ -162,7 +162,7 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
         discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
         network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
 
-        network.addEndpointListenerListener(this);
+        network.addEndpointListener(this);
 
         context = new ZigBeeApiContext();
 
@@ -424,10 +424,19 @@ public class ZigBeeApi implements EndpointListener, DeviceListener {
         return nodes;
     }
 
+    /**
+     * Adds a device listener. The listener will be notified for each new endpoint
+     * that is found.
+     * @param deviceListener
+     */
     public void addDeviceListener(DeviceListener deviceListener) {
         context.addDeviceListener(deviceListener);
     }
 
+    /**
+     * Removes a previously registered device listener
+     * @param deviceListener
+     */
     public void removeDeviceListener(DeviceListener deviceListener) {
         context.removeDeviceListener(deviceListener);
     }
