@@ -233,6 +233,7 @@ public class EndpointBuilder implements Stoppable {
             // Get a list of supported endpoints
             correctlyInspected = inspectEndpointOfNode(nwk, node);
             if (correctlyInspected) {
+            	network.notifyNodeDiscovered(node);
                 return;
             } else {
                 // If you don't remove node with devices not yet inspected from network, you won't be able to re-inspect them later

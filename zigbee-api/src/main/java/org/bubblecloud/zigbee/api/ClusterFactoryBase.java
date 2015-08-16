@@ -32,6 +32,11 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 /**
+ * Implements the base cluster factory.
+ * <p>
+ * This provides the base functionality of the cluster factory - specific implementations, for different
+ * ZigBee profiles need only to extend this base factor to add the clusters they implement.
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)

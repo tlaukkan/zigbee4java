@@ -13,6 +13,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
+import org.bubblecloud.zigbee.network.NodeListener;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor;
 import org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor;
@@ -129,6 +130,23 @@ public final class ZigBeeConsole {
             public void deviceRemoved(Device device) {
                 print("Device removed: " + device.getEndpointId() + " (#" + device.getNetworkAddress() + ")");
             }
+        });
+
+        zigbeeApi.addNodeListener(new NodeListener() {
+			@Override
+			public void nodeAdded(ZigBeeNode node) {
+                print("Node added: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
+			}
+
+			@Override
+			public void nodeDiscovered(ZigBeeNode node) {
+                print("Node discovered: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
+			}
+
+			@Override
+			public void nodeRemoved(ZigBeeNode node) {
+                print("Node removed: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
+			}
         });
 
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {

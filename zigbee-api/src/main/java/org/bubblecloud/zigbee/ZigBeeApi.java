@@ -16,6 +16,7 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.network.EndpointListener;
+import org.bubblecloud.zigbee.network.NodeListener;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
@@ -470,4 +471,22 @@ public class ZigBeeApi implements EndpointListener {
             context.removeDevice(device);
         }
     }
+    
+    /**
+     * Adds a {@link NodeListener node listener}. The listener will be notified for each new {@link ZigBeeNode}
+     * that is found.
+     * @param deviceListener {@link NodeListener}
+     */
+    public void addNodeListener(NodeListener nodeListener) {
+        network.addNodeListener(nodeListener);
+    }
+
+    /**
+     * Removes a previously registered node listener
+     * @param nodeListener {@link NodeListener}
+     */
+    public void removeNodeListener(NodeListener nodeListener) {
+        network.removeNodeListener(nodeListener);
+    }
+
 }
