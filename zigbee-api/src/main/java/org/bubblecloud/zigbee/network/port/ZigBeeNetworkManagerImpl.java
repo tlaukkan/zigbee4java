@@ -363,7 +363,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         //---------START FROM APP
         logger.trace("Reset seq: Trying STARTFROMAPP");
         ZDO_STARTUP_FROM_APP_SRSP responseA1 = (ZDO_STARTUP_FROM_APP_SRSP) sendSynchrouns(
-				zigbeeInterface, new ZDO_STARTUP_FROM_APP(ZDO_STARTUP_FROM_APP.RESET_TYPE.TARGET_DEVICE)
+				zigbeeInterface, new ZDO_STARTUP_FROM_APP(0)
         );
         if (responseA1 == null) {
             logger.error("Reset seq: Failed STARTFROMAPP");

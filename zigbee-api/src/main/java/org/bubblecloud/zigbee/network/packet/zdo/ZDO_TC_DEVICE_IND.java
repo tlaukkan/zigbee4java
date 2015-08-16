@@ -30,6 +30,7 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
+ * This command handles the Trust Center device indication
  * @author <a href="mailto:ryan@presslab.us">Ryan Press</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2015-03-15 19:00:05 +0300 (Sun, 15 Mar 2015) $)
  */

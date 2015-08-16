@@ -394,7 +394,7 @@ public final class ZigBeeConsole {
          * {@inheritDoc}
          */
         public String getDescription() {
-            return "Lists node information.";
+            return "Lists physical node information.";
         }
         /**
          * {@inheritDoc}

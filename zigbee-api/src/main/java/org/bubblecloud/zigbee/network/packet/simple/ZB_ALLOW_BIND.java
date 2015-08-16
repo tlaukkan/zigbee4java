@@ -28,6 +28,9 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
+ * This command puts the device into the Allow Binding Mode for a given period of time.
+ * This allows a peer device to establish a binding with this device (in the Allow Binding
+ * Mode) by issuing the zb_BindDevice with a destination address of NULL.
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */

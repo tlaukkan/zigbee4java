@@ -32,6 +32,10 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
+ * This class represents the ZigBee network. It tracks the {@line ZigBeeNode nodes} and
+ * {@link ZigBeeEndpoint endpoints} and provides notification to the upper layers when
+ * something on the network changes.
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
@@ -172,7 +176,6 @@ public class ZigBeeNetwork {
     }
 
     private synchronized boolean removeEndpointFromProfiles(final ZigBeeEndpoint device) {
-
         final int profileId = device.getProfileId();
         ArrayList<ZigBeeEndpoint> list = profiles.get(profileId);
         if (list == null) {
@@ -186,9 +189,7 @@ public class ZigBeeNetwork {
         }
 
         return true;
-
     }
-
 
     public synchronized Collection<ZigBeeEndpoint> getEndpoints(int profileId) {
         final ArrayList<ZigBeeEndpoint> result = new ArrayList<ZigBeeEndpoint>();
@@ -262,7 +263,7 @@ public class ZigBeeNetwork {
     }
 
     /**
-     * Notifies discovery listeners that node has been browsed.
+     * Notifies discovery listeners that node announcement has been received.
      *
      * @param node the node
      */
@@ -274,7 +275,7 @@ public class ZigBeeNetwork {
         }
     }
 
-    public void addEndpointListenerListener(final EndpointListener deviceListener) {
+    public void addEndpointListener(final EndpointListener deviceListener) {
         synchronized (endpointListeners) {
             endpointListeners.add(deviceListener);
         }

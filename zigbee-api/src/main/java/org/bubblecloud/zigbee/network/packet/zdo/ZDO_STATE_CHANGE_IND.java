@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * This callback message indicates the ZDO state change.
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */

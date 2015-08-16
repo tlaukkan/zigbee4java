@@ -142,7 +142,7 @@ public class EndpointBuilder implements Stoppable {
         synchronized (network) {
             if (network.containsEndpoint(node.getIeeeAddress(), ep)) {
                 logger.info(
-                        "Skipping device creation for endpoint {} on node {} as it is created.", ep, node
+                        "Skipping device creation for endpoint {} on node {} as it already exists.", ep, node
                 );
                 return;
             } else {
@@ -209,12 +209,12 @@ public class EndpointBuilder implements Stoppable {
             	node.setNodeDescriptor(new ZigBeeNodeDescriptor(nodeResult));
 
                 // If there's an advanced descriptor, get it
-                if(nodeResult.ComplexDescriptorAvailable == 1) {
+                if(nodeResult.ComplexDescriptorAvailable) {
                 	// TODO: Save node complex descriptor
                 }
 
                 // If there's a user defined descriptor, get it
-                if(nodeResult.UserDescriptorAvailable == 1) {
+                if(nodeResult.UserDescriptorAvailable) {
                 	// TODO: Save node user descriptor
                 }
             }
@@ -235,7 +235,7 @@ public class EndpointBuilder implements Stoppable {
             if (correctlyInspected) {
                 return;
             } else {
-                // if you don't remove node with devices not yet inspected from network, you won't be able to re-inspect them later
+                // If you don't remove node with devices not yet inspected from network, you won't be able to re-inspect them later
                 // maybe device is sleeping and you have to wait for a non-sleeping period
                 logger.warn("Node {} removed from network because no endpoints have been discovered", node);
                 network.removeNode(node);

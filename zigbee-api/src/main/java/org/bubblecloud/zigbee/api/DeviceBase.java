@@ -67,8 +67,8 @@ public abstract class DeviceBase implements Device {
     private int index;
 
     /*
-         * Mandatory clusters common to all Home Automation devices
-         */
+     * Mandatory clusters common to all Home Automation devices
+     */
     protected Basic basic;
     protected Identify identify;
     /*
@@ -112,6 +112,9 @@ public abstract class DeviceBase implements Device {
 
     public abstract String getDeviceType();
 
+    /**
+     * Gets the profile ID (address) for this device
+     */
     public int getProfileId() {
         return endpoint.getProfileId();
     }
@@ -265,23 +268,37 @@ public abstract class DeviceBase implements Device {
         return cluster;
     }
 
+    /**
+     * Get the basic cluster for this device
+     */
     public Basic getBasic() {
         return basic;
     }
 
-
+    /**
+     * Get the identity cluster for this device
+     */
     public Identify getIdentify() {
         return identify;
     }
 
+    /**
+     * Get the power configuration cluster for this device
+     */
     public PowerConfiguration getPowerConfiguration() {
         return powerConfiguration;
     }
 
+    /**
+     * Get the temperature configuration cluster for this device
+     */
     public DeviceTemperatureConfiguration getDeviceTemperatureConfiguration() {
         return deviceTemperature;
     }
 
+    /**
+     * Get the alarms cluster for this device
+     */
     public Alarms getAlarms() {
         return alarms;
     }
@@ -309,6 +326,7 @@ public abstract class DeviceBase implements Device {
     }
 
     /**
+     * Get a cluster based on its name
      * @param name the {@link String} representing the name associated to <b>ClusterId</b>
      * @return the {@link ZCLCluster} identified by the given name if this device implements<br>
      *         otherwise <code>null</code>
@@ -344,110 +362,177 @@ public abstract class DeviceBase implements Device {
         }
     }
 
+    /**
+     * Get the {@link ZigBeeEndpoint} for this device
+     * @return {@link ZigBeeEndpoint}
+     */
     public ZigBeeEndpoint getEndpoint() {
         return endpoint;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean bindTo(Device device, int clusterId) throws ZigBeeNetworkManagerException {
         return this.endpoint.bindTo(device.getEndpoint(), clusterId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean unbindFrom(Device device, int clusterId) throws ZigBeeNetworkManagerException {
         return this.endpoint.unbindFrom(device.getEndpoint(), clusterId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public short getEndPointAddress() {
         return endpoint.getEndPointAddress();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getDeviceTypeId() {
         return endpoint.getDeviceTypeId();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ZigBeeNode getNode() {
         return endpoint.getNode();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getEndpointId() {
         return endpoint.getEndpointId();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public short getDeviceVersion() {
         return endpoint.getDeviceVersion();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int[] getInputClusters() {
         return endpoint.getInputClusters();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean providesInputCluster(int id) {
         return endpoint.providesInputCluster(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int[] getOutputClusters() {
         return endpoint.getOutputClusters();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean providesOutputCluster(int id) {
         return endpoint.providesOutputCluster(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ClusterMessage invoke(ClusterMessage input) throws ZigBeeNetworkManagerException {
         return endpoint.invoke(input);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void send(ClusterMessage input) throws ZigBeeNetworkManagerException {
         endpoint.send(input);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean bindTo(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException {
         return endpoint.bindTo(endpoint, clusterId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean unbindFrom(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException {
         return endpoint.unbindFrom(endpoint, clusterId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean bindToLocal(int clusterId) throws ZigBeeNetworkManagerException {
         return endpoint.bindToLocal(clusterId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean unbindFromLocal(int clusterId) throws ZigBeeNetworkManagerException {
         return endpoint.unbindFromLocal(clusterId);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean addClusterListener(ClusterListener listener) {
         return endpoint.addClusterListener(listener);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean removeClusterListener(ClusterListener listener) {
         return endpoint.removeClusterListener(listener);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getNetworkAddress() {
         return endpoint.getNetworkAddress();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getIeeeAddress() {
         return endpoint.getIeeeAddress();

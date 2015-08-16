@@ -30,6 +30,9 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
+ * This callback indicates the ZDO End Device Announce, as long as the ZCD_NV_ZDO_DIRECT_CB
+ * configuration item is set to TRUE. This can be caused by another device sending out the
+ * END_DEVICE_ANNCE message to the network.
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */

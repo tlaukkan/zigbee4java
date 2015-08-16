@@ -35,11 +35,11 @@ import org.bubblecloud.zigbee.util.DoubleByte;
  * @author alfiva
  */
 public class ZDO_STARTUP_FROM_APP_SRSP extends ZToolPacket /*implements IRESPONSE,IZDO*/ {
-    /// <name>TI.ZPI1.ZDO_ACTIVE_EP_REQ_SRSP.Status</name>
+    /// <name>TI.ZPI1.ZDO_STARTUP_FROM_APP_SRSP.Status</name>
     /// <summary>Status</summary>
     public int Status;
 
-    /// <name>TI.ZPI1.ZDO_ACTIVE_EP_REQ_SRSP</name>
+    /// <name>TI.ZPI1.ZDO_STARTUP_FROM_APP_SRSP</name>
     /// <summary>Constructor</summary>
     public ZDO_STARTUP_FROM_APP_SRSP() {
     }
@@ -54,5 +54,11 @@ public class ZDO_STARTUP_FROM_APP_SRSP extends ZToolPacket /*implements IRESPONS
         return "ZDO_STARTUP_FROM_APP_SRSP{" +
                 "Status=" + ResponseStatus.getStatus(Status) +
                 '}';
+    }
+    
+    public class STATUS_TYPE {
+        public static final int RESTORED_NETWORK = 0;
+        public static final int NEW_NETWORK = 1;
+        public static final int NOT_STARTED = 2;        
     }
 }

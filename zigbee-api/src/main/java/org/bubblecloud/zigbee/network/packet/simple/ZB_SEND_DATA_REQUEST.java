@@ -29,6 +29,10 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.util.DoubleByte;
 
 /**
+ * This command initiates transmission of data to another device in the network.
+ * This command can only be issued after the application processor has registered its
+ * application using the ZB_APP_REGISTER_REQUEST and the device has successfully created
+ * or joined a network.
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
@@ -61,13 +65,37 @@ public class ZB_SEND_DATA_REQUEST extends ZToolPacket /*implements IREQUEST,ISIM
         this.PayloadValue = new int[0xff];
     }
 
-    public ZB_SEND_DATA_REQUEST(ZToolAddress16 num1, DoubleByte num2, int num3, int txoptions_type1, int num4, int num5, int[] buffer1) {
-        this.Destination = num1;
-        this.CommandId = num2;
-        this.Handle = num3;
+    /**
+     * Create the ZB_SEND_DATA_REQUEST packet.
+     * <p>
+     * Address can be one of the following -:
+     * <ul>
+     * <li>0 - 0xFFF7: 16-bit short address of the destination device</li>
+     * <li>0xFFFC: Group of all routers and coordinator</li>
+     * <li>0xFFFD: Group of all devices with receiver turned on</li>
+     * <li>0xFFFE: This is the binding address and should be used when a binding entry has
+     * been previously created for this particular CommandId. The destination address
+     * will be determined from the binding table by the CC2530-ZNP
+     * <li>0xFFFF: Broadcast group of all devices in the network</li>
+     * </ul>
+     * @param destination The destination address of the data packet.
+     * @param commandId The command ID to send with the message.
+     * @param handle A handle used to identify the send data request.
+     *              The corresponding ZB_SEND_DATA_CONFIRM will have the same handle value.
+     *              This can be useful if the application wishes to match up
+     *              ZB_SEND_DATA_REQUESTs with ZB_SEND_DATA_CONFIRMs
+     * @param txoptions_type1
+     * @param radius The max number of hops the packet can travel through before it is dropped.
+     * @param payloadLen Specifies the size of the Data buffer in bytes.
+     * @param buffer1 Data. Without any security (99 bytes), with NWK security (81 bytes), with NWK and APS security (64 bytes).
+     */
+    public ZB_SEND_DATA_REQUEST(ZToolAddress16 destination, DoubleByte commandId, int handle, int txoptions_type1, int radius, int payloadLen, int[] buffer1) {
+        this.Destination = destination;
+        this.CommandId = commandId;
+        this.Handle = handle;
         this.TxOptions = txoptions_type1;
-        this.Radius = num4;
-        this.PayloadLen = num5;
+        this.Radius = radius;
+        this.PayloadLen = payloadLen;
         this.PayloadValue = new int[buffer1.length];
         this.PayloadValue = buffer1;
             /*if (buffer1.Length > 0xff)

@@ -127,13 +127,14 @@ public interface Device extends ZigBeeEndpoint {
 
 
     /**
+     * Gets the endpoint associated with the device
      * @return return {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} service that has been refined has {@link Device}
      * @since 0.2.0
      */
     public ZigBeeEndpoint getEndpoint();
 
     /**
-     * This method modify the <i>Binding Table</i> of physical device by adding the following entry:
+     * This method modifies the <i>Binding Table</i> of physical device by adding the following entry:
      * <pre>
      * this.getNode().getIeeeAddress(), this.getDeviceTypeId(), clusterId, device.getNode().getIeeeAddress(), device.getDeviceTypeId()
      * </pre>
@@ -148,7 +149,7 @@ public interface Device extends ZigBeeEndpoint {
     public boolean bindTo(Device device, int clusterId) throws ZigBeeNetworkManagerException;
 
     /**
-     * This method modify the <i>Binding Table</i> of physical device by removing the entry if exists
+     * This method modifies the <i>Binding Table</i> of physical device by removing the entry if exists
      * <pre>
      * this.getNode().getIeeeAddress(), this.getDeviceTypeId(), clusterId, device.getNode().getIeeeAddress(), device.getDeviceTypeId()
      * </pre>
