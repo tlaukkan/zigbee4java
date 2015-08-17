@@ -129,12 +129,8 @@ public class ClusterFactoryImpl extends ClusterFactoryBase {
         addCluster(DOOR_LOCK_KEY, DoorLockImpl.class);
         addCluster(WINDOW_COVERING_KEY, WindowCoveringImpl.class);
 
-
         //Lighting
         addCluster(COLOR_CONTROL_KEY, ColorControlImpl.class);
-
-
     }
-
 
 }

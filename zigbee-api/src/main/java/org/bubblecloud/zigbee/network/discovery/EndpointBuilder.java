@@ -233,6 +233,7 @@ public class EndpointBuilder implements Stoppable {
             // Get a list of supported endpoints
             correctlyInspected = inspectEndpointOfNode(nwk, node);
             if (correctlyInspected) {
+            	network.notifyNodeDiscovered(node);
                 return;
             } else {
                 // If you don't remove node with devices not yet inspected from network, you won't be able to re-inspect them later
@@ -250,7 +251,7 @@ public class EndpointBuilder implements Stoppable {
                 node.setNetworkAddress(nwk);
 
                 // Notify listeners that the device has been updated
-                for (final ZigBeeEndpoint endpoint : network.getEndPoints(node)) {
+                for (final ZigBeeEndpoint endpoint : network.getEndpoints(node)) {
                     network.notifyEndpointUpdated(endpoint);
                 }
             }

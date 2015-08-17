@@ -13,6 +13,13 @@ import org.bubblecloud.zigbee.network.packet.zdo.ZDO_POWER_DESC_RSP;
  * The node power descriptor gives a dynamic indication of the power status of
  * the node and is mandatory for each node.
  * <p>
+ * <ul>
+ * <li>powerMode</li>
+ * <li>powerSourcesAvailable</li>
+ * <li>powerSource</li>
+ * <li>powerLevel</li>
+ * </ul>
+ * <p>
  * The power descriptor may be requested during service discovery to gain information
  * about the device. 
  * <p>
@@ -108,7 +115,7 @@ public class ZigBeeNodePowerDescriptor {
 		}
 	}
 
-	/*
+	/**
 	 * The current power mode field of the node power descriptor is four bits in
 	 * length and specifies the current sleep/power-saving mode of the node.
 	 * @return {@link POWER_MODE}
@@ -117,7 +124,7 @@ public class ZigBeeNodePowerDescriptor {
 		return powerMode;
 	}
 
-	/*
+	/**
 	 * The available power sources field of the node power descriptor is four
 	 * bits in length and specifies the power sources available on this node.
 	 * For each power source supported on this node, the corresponding bit of
@@ -129,7 +136,7 @@ public class ZigBeeNodePowerDescriptor {
 		return powerSourcesAvailable;
 	}
 
-	/*
+	/**
 	 * The current power source field of the node power descriptor is four bits
 	 * in length and specifies the current power source being utilized by the
 	 * node. For the current power source selected, the corresponding bit of the
@@ -141,7 +148,7 @@ public class ZigBeeNodePowerDescriptor {
 		return powerSource;
 	}
 
-	/*
+	/**
 	 * The current power source level field of the node power descriptor is four
 	 * bits in length and specifies the level of charge of the power source. The
 	 * current power source level field shall be set to one of the non-reserved

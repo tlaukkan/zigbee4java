@@ -145,7 +145,7 @@ public class ZigBeeNodeDescriptor {
 		return maximumBufferSize;
 	}
 
-	/*
+	/**
 	 * The maximum transfer size field of the node descriptor is sixteen bits in
 	 * length, with a valid range of 0x0000-0x7fff. This field specifies the
 	 * maximum size, in octets, of the application sub-layer data unit (ASDU)
@@ -159,7 +159,7 @@ public class ZigBeeNodeDescriptor {
 		return maximumTransferSize;
 	}
 
-	/*
+	/**
 	 * The MAC capability flags field is eight bits in length and specifies the
 	 * node capabilities, as required by the IEEE 802.15.4-2003 MAC sub-layer.
 	 * 
@@ -192,7 +192,7 @@ public class ZigBeeNodeDescriptor {
 		return macCapabilities;
 	}
 
-	/*
+	/**
 	 * The server mask field of the node descriptor is sixteen bits in length,
 	 * with bit settings signifying the system server capabilities of this node.
 	 * It is used to facilitate discovery of particular system servers by other

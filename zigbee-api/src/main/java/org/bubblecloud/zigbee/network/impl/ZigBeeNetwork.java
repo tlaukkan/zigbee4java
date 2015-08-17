@@ -23,6 +23,7 @@
 package org.bubblecloud.zigbee.network.impl;
 
 import org.bubblecloud.zigbee.network.EndpointListener;
+import org.bubblecloud.zigbee.network.NodeListener;
 import org.bubblecloud.zigbee.network.ZigBeeDiscoveryMonitor;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
@@ -53,6 +54,7 @@ public class ZigBeeNetwork {
 
     private final List<ZigBeeDiscoveryMonitor> discoveryMonitors = new ArrayList<ZigBeeDiscoveryMonitor>();
 
+    private final List<NodeListener> nodeListeners = new ArrayList<NodeListener>();
     private final List<EndpointListener> endpointListeners = new ArrayList<EndpointListener>();
 
     /**
@@ -65,7 +67,7 @@ public class ZigBeeNetwork {
     }
     
     /**
-     * Gets the list of devices
+     * Gets the list of nodes
      * @return {@link HashTable} of nodes on the network
      */
     public Hashtable<String, ZigBeeNodeImpl> getNodes() {
@@ -81,15 +83,18 @@ public class ZigBeeNetwork {
      * <li><a href="http://zb4osgi.aaloa.org/redmine/issues/64">Base Driver should monitor the health status of device (#64)</a></li>
      * </ul>
      *
-     * @param node
+     * @param node {@link ZigBeeNode}
      * @return true if the node was removed
      */
     public synchronized boolean removeNode(ZigBeeNode node) {
         final String ieee = node.getIeeeAddress();
 
+        // Check that we have a node with the specified address
         if (!nodes.containsKey(ieee)) {
             return false;
         }
+        
+        // Remove the endpoints for this node
         HashMap<Integer, ZigBeeEndpoint> toRemove = devices.get(node);
         if (toRemove != null) {
             Iterator<ZigBeeEndpoint> it = toRemove.values().iterator();
@@ -102,6 +107,11 @@ public class ZigBeeNetwork {
                 }
             }
         }
+        
+        // Notify the listeners
+        notifyNodeRemoved(node);
+        
+        // Remove the node
         nodes.remove(ieee);
         return true;
     }
@@ -117,11 +127,11 @@ public class ZigBeeNetwork {
         logger.debug("Adding node {} to the network", node);
         nodes.put(ieee, node);
         devices.put(node, new HashMap<Integer, ZigBeeEndpoint>());
+        notifyNodeAdded(node);
         return true;
     }
 
     public synchronized boolean removeEndpoint(ZigBeeEndpoint endpoint) {
-
         notifyEndpointRemoved(endpoint);
 
         final String ieee = endpoint.getNode().getIeeeAddress();
@@ -203,6 +213,12 @@ public class ZigBeeNetwork {
         return result;
     }
 
+    /**
+     * Checks a node to see if it contains the specified endpoint
+     * @param ieee the IEEE address of the node
+     * @param endPoint the endpoint number
+     * @return true if the endpoint exists within the node
+     */
     public boolean containsEndpoint(String ieee, short endPoint) {
         final ZigBeeNode node = nodes.get(ieee);
         if (node == null) {
@@ -219,11 +235,21 @@ public class ZigBeeNetwork {
         return endPoints.containsKey(endPoint);
     }
 
+    /**
+     * Gets the {@link ZigBeeNode} for the specified address
+     * @param ieeeAddress 
+     * @return the {@link ZigBeeNode} or null if the node was not found
+     */
     public ZigBeeNodeImpl getNode(String ieeeAddress) {
         return nodes.get(ieeeAddress);
     }
 
-    public List<ZigBeeEndpoint> getEndPoints(final ZigBeeNode node) {
+    /**
+     * Returns a list of all the endpoints within the specified {@link ZigBeeNode}
+     * @param node the {@link ZigBeeNode}
+     * @return a {@link List} of {@link ZigBeeEndpoint endpoints}
+     */
+    public List<ZigBeeEndpoint> getEndpoints(final ZigBeeNode node) {
         return new ArrayList(devices.get(node).values());
     }
 
@@ -275,15 +301,24 @@ public class ZigBeeNetwork {
         }
     }
 
-    public void addEndpointListener(final EndpointListener deviceListener) {
+    /**
+     * Add an endpoint listener. The listener will be called when endpoints are added
+     * removed or updated.
+     * @param endpointListener
+     */
+    public void addEndpointListener(final EndpointListener endpointListener) {
         synchronized (endpointListeners) {
-            endpointListeners.add(deviceListener);
+            endpointListeners.add(endpointListener);
         }
     }
 
-    public void removeEndpointListener(final EndpointListener deviceListener) {
+    /**
+     * Remove a previously registered endpoint listener.
+     * @param endpointListener
+     */
+    public void removeEndpointListener(final EndpointListener endpointListener) {
         synchronized (endpointListeners) {
-            endpointListeners.remove(deviceListener);
+            endpointListeners.remove(endpointListener);
         }
     }
 
@@ -307,6 +342,69 @@ public class ZigBeeNetwork {
         synchronized (endpointListeners) {
             for (final EndpointListener endpointListener : endpointListeners) {
                 endpointListener.endpointRemoved(endpoint);
+            }
+        }
+    }
+
+    /**
+     * Add an node listener. The listener will be called when a node is added
+     * removed or updated.
+     * @param nodeListener {@link NodeListener}
+     */
+    public void addNodeListener(final NodeListener nodeListener) {
+        synchronized (nodeListeners) {
+        	nodeListeners.add(nodeListener);
+        }
+    }
+
+    /**
+     * Remove a previously registered an node listener.
+     * @param nodeListener {@link NodeListener}
+     */
+    public void removeNodeListener(final NodeListener nodeListener) {
+        synchronized (nodeListeners) {
+        	nodeListeners.remove(nodeListener);
+        }
+    }
+    
+    /**
+     * Notifies node listeners that a node has been added to the list of nodes.
+     * This is called when the node is first found, and before endpoints have been added
+     * or descriptors scanned.
+     *
+     * @param node the {@link ZigBeeNode}
+     */
+    public void notifyNodeAdded(final ZigBeeNode node) {
+        synchronized (discoveryMonitors) {
+            for (final NodeListener nodeListener : nodeListeners) {
+                nodeListener.nodeDiscovered(node);
+            }
+        }
+    }
+
+    /**
+     * Notifies node listeners that node discovery has been completed.
+     * This is called after all endpoints have been added.
+     *
+     * @param node the {@link ZigBeeNode}
+     */
+    public void notifyNodeDiscovered(final ZigBeeNode node) {
+        synchronized (discoveryMonitors) {
+            for (final NodeListener nodeListener : nodeListeners) {
+                nodeListener.nodeDiscovered(node);
+            }
+        }
+    }
+
+    /**
+     * Notifies node listeners that a node has been removed from the list of nodes.
+     *
+     * @param node the {@link ZigBeeNode}
+     */
+    public void notifyNodeRemoved(final ZigBeeNode node) {
+        synchronized (discoveryMonitors) {
+            for (final NodeListener nodeListener : nodeListeners) {
+                nodeListener.nodeDiscovered(node);
             }
         }
     }

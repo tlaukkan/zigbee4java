@@ -42,7 +42,7 @@ public class NetworkStateSerializerTest {
         networkStateSerializer.deserialize(null, zigBeeNetworkRestored, networkState);
 
         Assert.assertEquals(1, zigBeeNetworkRestored.getDevices().size());
-        Assert.assertEquals(1, zigBeeNetworkRestored.getEndPoints(
+        Assert.assertEquals(1, zigBeeNetworkRestored.getEndpoints(
                 zigBeeNetworkRestored.getDevices().keySet().iterator().next()).size());
 
         final String networkStateOfRestoredNetwork = networkStateSerializer.serialize(zigBeeNetworkRestored);

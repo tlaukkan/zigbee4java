@@ -161,7 +161,7 @@ public abstract class DeviceBase implements Device {
         if (!endpoint.providesInputCluster(clusterId) && getDescription().isOptional(clusterId)) {
             logger.warn(
                     "ZigBeeEndpoint with DeviceId={} of Home Automation profile " +
-                            "implements the OPTINAL cluster {} ONLY AS OUTPUT instead of input " +
+                            "implements the OPTIONAL cluster {} ONLY AS OUTPUT instead of input " +
                             "it may identify an error either on the Driver description or in " +
                             "in the implementation of firmware of the physical device",
                     endpoint.getDeviceTypeId(), clusterId
