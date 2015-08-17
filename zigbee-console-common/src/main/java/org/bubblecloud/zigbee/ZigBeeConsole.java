@@ -488,7 +488,7 @@ public final class ZigBeeConsole {
             print("Extended Address : " + device.getIeeeAddress());
             print("Endpoint Address : " + device.getEndPointAddress());
             print("Device Type      : " + device.getDeviceType());
-            print("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getDeviceTypeId()));
+            print("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getProfileId(), device.getDeviceTypeId()));
             print("Device Version   : " + device.getDeviceVersion());
             print("Input Clusters   : ");
             for (int c : device.getInputClusters()) {

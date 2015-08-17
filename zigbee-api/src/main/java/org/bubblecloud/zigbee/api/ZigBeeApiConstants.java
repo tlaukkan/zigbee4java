@@ -58,12 +58,19 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.IASZone;
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:h.alink1@chello.nl">Han Alink</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @author <a href="mailto:chris@cd-jackson.com>Chris Jackson</a>
  * @since 0.4.0
  */
 public class ZigBeeApiConstants {
 
+	/**
+	 * Home Automation Profile definition
+	 */
     public static final int PROFILE_ID_HOME_AUTOMATION = 0x0104;
+    /**
+     * ZigBee Light Link Profile definition
+     */
+    public static final int PROFILE_ID_LIGHT_LINK = 0xc05e;
 
     //CLUSTERS
     //Generic
@@ -244,25 +251,40 @@ public class ZigBeeApiConstants {
         }
     }
 
-    public static String getCategoryDeviceName(int deviceID){
-
-        try{
-            String id = Integer.toHexString(deviceID);
-            if(id.startsWith("0"))
-                return "Generic";
-            else if(id.startsWith("1"))
-                return "Lighting";
-            else if(id.startsWith("2"))
-                return "Closures";
-            else if(id.startsWith("3"))
-                return "HVAC";
-            else if(id.startsWith("4"))
-                return "IAS";
-            else
-                return null;
+    public static String getCategoryDeviceName(int profileID, int deviceID) {
+    	String id;
+        try {
+            id = Integer.toHexString(deviceID);
         }
-        catch(Exception ex){
+        catch(Exception ex) {
             return null;
         }
+
+    	switch(profileID) {
+        	case PROFILE_ID_HOME_AUTOMATION:
+	            if(id.startsWith("0"))
+	                return "HA Generic";
+	            else if(id.startsWith("1"))
+	                return "HA Lighting";
+	            else if(id.startsWith("2"))
+	                return "HA Closures";
+	            else if(id.startsWith("3"))
+	                return "HA HVAC";
+	            else if(id.startsWith("4"))
+	                return "HA IAS";
+	            break;
+	            
+        	case PROFILE_ID_LIGHT_LINK:
+	            if(id.startsWith("0"))
+	                return "ZLL OnOff Light";
+	            else if(id.startsWith("1"))
+	                return "ZLL Dimmable Light";
+	            else if(id.startsWith("2"))
+	                return "ZLL Color Light";
+	            else if(id.startsWith("8"))
+	                return "ZLL Remote Control";
+	            break;
+    	}
+		return null;
     }
 }
