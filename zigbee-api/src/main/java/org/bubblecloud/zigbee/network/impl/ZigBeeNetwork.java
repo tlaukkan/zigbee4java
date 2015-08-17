@@ -213,6 +213,12 @@ public class ZigBeeNetwork {
         return result;
     }
 
+    /**
+     * Checks a node to see if it contains the specified endpoint
+     * @param ieee the IEEE address of the node
+     * @param endPoint the endpoint number
+     * @return true if the endpoint exists within the node
+     */
     public boolean containsEndpoint(String ieee, short endPoint) {
         final ZigBeeNode node = nodes.get(ieee);
         if (node == null) {
@@ -229,11 +235,21 @@ public class ZigBeeNetwork {
         return endPoints.containsKey(endPoint);
     }
 
+    /**
+     * Gets the {@link ZigBeeNode} for the specified address
+     * @param ieeeAddress 
+     * @return the {@link ZigBeeNode} or null if the node was not found
+     */
     public ZigBeeNodeImpl getNode(String ieeeAddress) {
         return nodes.get(ieeeAddress);
     }
 
-    public List<ZigBeeEndpoint> getEndPoints(final ZigBeeNode node) {
+    /**
+     * Returns a list of all the endpoints within the specified {@link ZigBeeNode}
+     * @param node the {@link ZigBeeNode}
+     * @return a {@link List} of {@link ZigBeeEndpoint endpoints}
+     */
+    public List<ZigBeeEndpoint> getEndpoints(final ZigBeeNode node) {
         return new ArrayList(devices.get(node).values());
     }
 

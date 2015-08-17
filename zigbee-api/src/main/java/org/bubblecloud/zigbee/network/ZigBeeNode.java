@@ -28,9 +28,11 @@ package org.bubblecloud.zigbee.network;
  * using the ZigBee protocol.
  * <p>
  * Each physical may contain up 240 endpoints which are represented by the {@link ZigBeeEndpoint}
- * class. Each endpoint is identified by an <i>EndPoint</i> address, but shares either the:<br>
- * - <i>64-bit 802.15.4 IEEE Address</i><br>
- * - <i>16-bit ZigBee Network Address</i><br>
+ * class. Each endpoint is identified by an <i>EndPoint</i> address, but shares either the:
+ * <ul>
+ * <li>64-bit 802.15.4 IEEE Address</li>
+ * <li>16-bit ZigBee Network Address</li>
+ * </ul>
  * <p>
  * The node descriptors are also available through the node. These provide basic information
  * about the device itself and are only available in the node (ie they are the same for all
@@ -45,11 +47,13 @@ package org.bubblecloud.zigbee.network;
 public interface ZigBeeNode {
 
     /**
+     * Gets the network address for this node
      * @return int representing the current network address linked to the node
      */
     public int getNetworkAddress();
 
     /**
+     * Gets the 64 bit IEEE address for this node
      * @return a {@link String} representing the IEEEAddress of the node
      */
     public String getIeeeAddress();

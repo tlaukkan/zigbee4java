@@ -131,7 +131,7 @@ public class ZigBeeApiConstants {
     public static final int DEVICE_ID_IASZONE = IAS_Zone.DEVICE_ID;
     public static final int DEVICE_ID_IAS_WARNING_DEVICE = IAS_Warning.DEVICE_ID;
 
-    public static String getDeviceName(int deviceID){
+    public static String getDeviceName(int deviceID) {
 
         try{
 
@@ -170,8 +170,6 @@ public class ZigBeeApiConstants {
             else if(id.equals(Integer.toHexString(CLUSTER_ID_ILLUMINANCE_LEVEL_SENSING)))
                 return IlluminanceLevelSensing.NAME;
 
-
-
             else return null;
         }
         catch(Exception ex){
@@ -179,7 +177,7 @@ public class ZigBeeApiConstants {
         }
     }
 
-    public static String getClusterName(int clusterID){
+    public static String getClusterName(int clusterID) {
 
         try{
             String id = Integer.toHexString(clusterID);

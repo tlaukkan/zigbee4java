@@ -251,7 +251,7 @@ public class EndpointBuilder implements Stoppable {
                 node.setNetworkAddress(nwk);
 
                 // Notify listeners that the device has been updated
-                for (final ZigBeeEndpoint endpoint : network.getEndPoints(node)) {
+                for (final ZigBeeEndpoint endpoint : network.getEndpoints(node)) {
                     network.notifyEndpointUpdated(endpoint);
                 }
             }

@@ -410,9 +410,9 @@ public class ZigBeeApi implements EndpointListener {
     }
 
     /**
-     * Gets the list of current {@link ZigBeeNode ZigBee nodes}
+     * Gets the list of current {@link ZigBeeNode}s
      * 
-     * @return the list of current ZigBee nodes
+     * @return the list of current {@link ZigBeeNode}s
      */
     public List<ZigBeeNode> getNodes() {
     	ArrayList<ZigBeeNode> nodes = new ArrayList<ZigBeeNode>();
@@ -421,6 +421,15 @@ public class ZigBeeApi implements EndpointListener {
         }
 
         return nodes;
+    }
+
+    /**
+     * Gets the list of current {@link ZigBeeEndpoint}s within the specified {@link ZigBeeNode}
+     * 
+     * @return the list of {@link ZigBeeEndpoint}s
+     */
+    public List<ZigBeeEndpoint> getNodeEndpoints(ZigBeeNode node) {
+    	return network.getEndpoints(node);
     }
 
     /**

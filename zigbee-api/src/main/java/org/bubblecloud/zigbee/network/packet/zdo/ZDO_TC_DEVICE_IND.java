@@ -35,23 +35,29 @@ import org.bubblecloud.zigbee.util.DoubleByte;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2015-03-15 19:00:05 +0300 (Sun, 15 Mar 2015) $)
  */
 public class ZDO_TC_DEVICE_IND extends ZToolPacket /*implements IRESPONSE_CALLBACK,IZDO*/ {
-    /// <name>TI.ZPI2.ZDO_TC_DEVICE_IND.IEEEAddr</name>
-    /// <summary>64 bit IEEE address of source device</summary>
+    /**
+     * 64 bit IEEE address of source device
+     */
     public ZToolAddress64 IEEEAddr;
-    /// <name>TI.ZPI2.ZDO_TC_DEVICE_IND.NwkAddr</name>
-    /// <summary>Network address</summary>
+    /**
+     * Network address
+     */
     public ZToolAddress16 NwkAddr;
-    /// <name>TI.ZPI2.ZDO_TC_DEVICE_IND.SrcAddr</name>
-    /// <summary>Source address</summary>
+    /**
+     * Source address
+     */
     public ZToolAddress16 SrcAddr;
 
-    /// <name>TI.ZPI2.ZDO_TC_DEVICE_IND</name>
-    /// <summary>Constructor</summary>
+    /**
+     * Constructor
+     */
     public ZDO_TC_DEVICE_IND() {
     }
 
-    /// <name>TI.ZPI2.ZDO_TC_DEVICE_IND</name>
-    /// <summary>Constructor</summary>
+    /**
+     * Constructor
+     * @param framedata
+     */
     public ZDO_TC_DEVICE_IND(int[] framedata) {
         this.SrcAddr = new ZToolAddress16(framedata[1], framedata[0]);
         byte[] bytes = new byte[8];
