@@ -76,7 +76,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     /**
      * The device version.
      */
-    private byte deviceVersion;
+    private short deviceVersion;
     /**
      * The end point.
      */
@@ -275,7 +275,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         this.deviceTypeId = deviceTypeId;
     }
 
-    public void setDeviceVersion(byte deviceVersion) {
+    public void setDeviceVersion(short deviceVersion) {
         this.deviceVersion = deviceVersion;
     }
 
