@@ -280,7 +280,7 @@ public class ZigBeeNetwork {
      *
      * @param node the node
      */
-    public void notifyNodeBrowsed(ZigBeeNode node) {
+    public void notifyDiscoveryBrowsed(ZigBeeNode node) {
         synchronized (discoveryMonitors) {
             for (final ZigBeeDiscoveryMonitor discoveryMonitor : discoveryMonitors) {
                 discoveryMonitor.browsedNode(node);
@@ -293,7 +293,7 @@ public class ZigBeeNetwork {
      *
      * @param node the node
      */
-    public void notifyNodeAnnounced(ZigBeeNode node) {
+    public void notifyDiscoveryAnnounced(ZigBeeNode node) {
         synchronized (discoveryMonitors) {
             for (final ZigBeeDiscoveryMonitor discoveryMonitor : discoveryMonitors) {
                 discoveryMonitor.announcedNode(node);
@@ -389,7 +389,7 @@ public class ZigBeeNetwork {
      * @param node the {@link ZigBeeNode}
      */
     public void notifyNodeDiscovered(final ZigBeeNode node) {
-        synchronized (discoveryMonitors) {
+        synchronized (nodeListeners) {
             for (final NodeListener nodeListener : nodeListeners) {
                 nodeListener.nodeDiscovered(node);
             }
@@ -402,7 +402,7 @@ public class ZigBeeNetwork {
      * @param node the {@link ZigBeeNode}
      */
     public void notifyNodeRemoved(final ZigBeeNode node) {
-        synchronized (discoveryMonitors) {
+        synchronized (nodeListeners) {
             for (final NodeListener nodeListener : nodeListeners) {
                 nodeListener.nodeDiscovered(node);
             }

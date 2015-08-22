@@ -193,6 +193,6 @@ public class AssociationNetworkBrowser extends RunnableThread {
         final ZigBeeNode node = item.node;
 
         final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
-        network.notifyNodeBrowsed(node);
+        network.notifyDiscoveryBrowsed(node);
     }
 }
