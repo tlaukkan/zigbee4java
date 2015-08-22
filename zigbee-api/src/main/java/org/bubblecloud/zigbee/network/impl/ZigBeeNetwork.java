@@ -377,7 +377,7 @@ public class ZigBeeNetwork {
     public void notifyNodeAdded(final ZigBeeNode node) {
         synchronized (discoveryMonitors) {
             for (final NodeListener nodeListener : nodeListeners) {
-                nodeListener.nodeDiscovered(node);
+                nodeListener.nodeAdded(node);
             }
         }
     }
