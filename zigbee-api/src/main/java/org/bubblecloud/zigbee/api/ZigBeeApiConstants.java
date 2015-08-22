@@ -40,6 +40,7 @@ import org.bubblecloud.zigbee.api.device.generic.OnOffSwitch;
 import org.bubblecloud.zigbee.api.device.hvac.Pump;
 import org.bubblecloud.zigbee.api.device.hvac.ThermostatControl;
 import org.bubblecloud.zigbee.api.device.hvac.TemperatureSensor;
+import org.bubblecloud.zigbee.api.device.lighting.ColorDimmableLight;
 import org.bubblecloud.zigbee.api.device.lighting.DimmableLight;
 import org.bubblecloud.zigbee.api.device.lighting.LightSensor;
 import org.bubblecloud.zigbee.api.device.lighting.OccupancySensor;
@@ -160,53 +161,59 @@ public class ZigBeeApiConstants {
    	private static final int DEVICE_ID_ZLL_CONTROL_BRIDGE             = (int) 0x0840;
    	private static final int DEVICE_ID_ZLL_ON_OFF_SENSOR              = (int) 0x0850;
 
-   	public static String getDeviceName(int deviceID) {
-        try{
-            String id = Integer.toHexString(deviceID);
-
-            if(id.equals(Integer.toHexString(DEVICE_ID_HA_ON_OFF_SWITCH)))
-                return OnOffSwitch.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_HA_LEVEL_CONTROL)))
-                return LevelControlSwitch.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_HA_ON_OFF_OUTPUT)))
-                return OnOffOutput.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_HA_MAINS_POWER_OUTLET)))
-                return MainsPowerOutlet.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_HA_SIMPLE_SENSOR)))
-                return SimpleSensor.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_HA_ON_OFF_LIGHT)))
-                return OnOffLight.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_HA_DIMMABLE_LIGHT)))
-                return DimmableLight.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_HA_ON_OFF_LIGHT_SWITCH)))
-                return OnOffLightSwitch.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_HA_LIGHT_SENSOR)))
-                return LightSensor.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_HA_OCCUPANCY_SENSOR)))
-                return OccupancySensor.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_HA_THERMOSTAT_CONTROL)))
-                return ThermostatControl.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_HA_TEMPERATURE_SENSOR)))
-                return TemperatureSensor.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_HA_IAS_CONTROL_INDICATING_EQUIPMENT)))
-                return IASControlAndIndicatingEquipment.NAME;
-            else if(id.equals(Integer.toHexString(CLUSTER_ID_PRESSURE_MEASUREMENT)))
-                return PressureMeasurement.NAME;
-            else if(id.equals(Integer.toHexString(CLUSTER_ID_FLOW_MEASUREMENT)))
-                return FlowMeasurement.NAME;
-            else if(id.equals(Integer.toHexString(CLUSTER_ID_ILLUMINANCE_LEVEL_SENSING)))
-                return IlluminanceLevelSensing.NAME;
-
-            else return null;
-        }
-        catch(Exception ex){
-            return null;
-        }
+   	public static String getDeviceName(int profileID, int deviceID) {
+		switch (profileID) {
+		case PROFILE_ID_HOME_AUTOMATION:
+			if (deviceID == DEVICE_ID_HA_ON_OFF_SWITCH)
+				return OnOffSwitch.NAME;
+			else if (deviceID == DEVICE_ID_HA_LEVEL_CONTROL)
+				return LevelControlSwitch.NAME;
+			else if (deviceID == DEVICE_ID_HA_ON_OFF_OUTPUT)
+				return OnOffOutput.NAME;
+			else if (deviceID == DEVICE_ID_HA_MAINS_POWER_OUTLET)
+				return MainsPowerOutlet.NAME;
+			else if (deviceID == DEVICE_ID_HA_SIMPLE_SENSOR)
+				return SimpleSensor.NAME;
+			else if (deviceID == DEVICE_ID_HA_ON_OFF_LIGHT)
+				return OnOffLight.NAME;
+			else if (deviceID == DEVICE_ID_HA_DIMMABLE_LIGHT)
+				return DimmableLight.NAME;
+			else if (deviceID == DEVICE_ID_HA_ON_OFF_LIGHT_SWITCH)
+				return OnOffLightSwitch.NAME;
+			else if (deviceID == DEVICE_ID_HA_LIGHT_SENSOR)
+				return LightSensor.NAME;
+			else if (deviceID == DEVICE_ID_HA_OCCUPANCY_SENSOR)
+				return OccupancySensor.NAME;
+			else if (deviceID == DEVICE_ID_HA_THERMOSTAT_CONTROL)
+				return ThermostatControl.NAME;
+			else if (deviceID == DEVICE_ID_HA_TEMPERATURE_SENSOR)
+				return TemperatureSensor.NAME;
+			else if (deviceID == DEVICE_ID_HA_IAS_CONTROL_INDICATING_EQUIPMENT)
+				return IASControlAndIndicatingEquipment.NAME;
+			else if (deviceID == CLUSTER_ID_PRESSURE_MEASUREMENT)
+				return PressureMeasurement.NAME;
+			else if (deviceID == CLUSTER_ID_FLOW_MEASUREMENT)
+				return FlowMeasurement.NAME;
+			else if (deviceID == CLUSTER_ID_ILLUMINANCE_LEVEL_SENSING)
+				return IlluminanceLevelSensing.NAME;
+			break;
+		case PROFILE_ID_LIGHT_LINK:
+			if (deviceID == DEVICE_ID_ZLL_ON_OFF_LIGHT)
+				return OnOffSwitch.NAME;
+			else if (deviceID == DEVICE_ID_ZLL_DIMMABLE_LIGHT)
+				return DimmableLight.NAME;
+			else if (deviceID == DEVICE_ID_ZLL_COLOR_LIGHT)
+				return ColorDimmableLight.NAME;
+			else if (deviceID == DEVICE_ID_ZLL_EXTENDED_COLOR_LIGHT)
+				return ColorDimmableLight.NAME;
+			break;
+		}
+		
+		return null;
     }
 
     public static String getClusterName(int clusterID) {
-
-        try{
+        try {
             String id = Integer.toHexString(clusterID);
 
             if(id.equals(Integer.toHexString(CLUSTER_ID_BASIC)))
@@ -307,4 +314,14 @@ public class ZigBeeApiConstants {
     	}
 		return null;
     }
+
+	public static String getProfileName(int profileId) {
+    	switch(profileId) {
+    	case PROFILE_ID_HOME_AUTOMATION:
+    		return "ZigBee Home Automation";
+    	case PROFILE_ID_LIGHT_LINK:
+    		return "ZigBee Light Link";
+    	}
+    	return null;
+	}
 }

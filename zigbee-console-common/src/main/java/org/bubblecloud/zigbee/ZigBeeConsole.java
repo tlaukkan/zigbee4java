@@ -487,8 +487,9 @@ public final class ZigBeeConsole {
             print("Network Address  : " + device.getNetworkAddress());
             print("Extended Address : " + device.getIeeeAddress());
             print("Endpoint Address : " + device.getEndPointAddress());
-            print("Device Type      : " + device.getDeviceType());
+            print("Device Profile   : " + ZigBeeApiConstants.getProfileName(device.getProfileId())+ String.format("  (0x%04X)", device.getProfileId()));
             print("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getProfileId(), device.getDeviceTypeId()));
+            print("Device Type      : " + device.getDeviceType() + String.format("  (0x%04X)", device.getDeviceTypeId()));
             print("Device Version   : " + device.getDeviceVersion());
             print("Input Clusters   : ");
             for (int c : device.getInputClusters()) {

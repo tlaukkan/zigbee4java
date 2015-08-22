@@ -55,7 +55,7 @@ public class ColorDimmableLightDevice extends DeviceBase implements ColorDimmabl
         onOff = (OnOff) getCluster(ZigBeeApiConstants.CLUSTER_ID_ON_OFF);
         scenes = (Scenes) getCluster(ZigBeeApiConstants.CLUSTER_ID_SCENES);
         groups = (Groups) getCluster(ZigBeeApiConstants.CLUSTER_ID_GROUPS);
-        levelControl = (LevelControl) getCluster(ZigBeeApiConstants.DEVICE_ID_LEVEL_CONTROL);
+        levelControl = (LevelControl) getCluster(ZigBeeApiConstants.DEVICE_ID_HA_LEVEL_CONTROL);
         occupancySensing = (OccupancySensing) getCluster(ZigBeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING);
         colorControl = (ColorControl) getCluster(ZigBeeApiConstants.CLUSTER_ID_COLOR_CONTROL);
     }
