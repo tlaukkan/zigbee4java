@@ -26,7 +26,7 @@ import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 /**
  * Attributes and commands to put a device into an Identification mode (e.g. flashing
- * a light), that indicates to an observer – e.g. an installer - which of several devices
+ * a light), that indicates to an observer - e.g. an installer - which of several devices
  * it is, also to request any device that is identifying itself to respond to the initiator.
  * <p>
  * Note that this cluster cannot be disabled, and remains functional regardless of the

@@ -26,7 +26,7 @@ import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 
 /**
- * Attributes for determining detailed information about a device’s power source(s),
+ * Attributes for determining detailed information about a device's power source(s),
  * and for configuring under/over voltage alarms.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
