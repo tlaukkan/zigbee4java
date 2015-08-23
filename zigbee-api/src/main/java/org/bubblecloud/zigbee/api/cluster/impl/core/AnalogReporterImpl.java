@@ -26,6 +26,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.*;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.AnalogReporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.AttributeReportingConfigurationRecord;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.AttributeStatusRecord;
@@ -65,8 +66,8 @@ public class AnalogReporterImpl extends ReporterBase implements AnalogReporter {
     protected boolean doConfigureServer() throws ZigBeeClusterException {
 
         log.debug(
-                "Subscring to analog attribute {} ( {} )with the following parameter min = {}, max = {}, change = {}",
-                new Object[]{attribute.getName(), attribute.getId(), min, max, minimumChange}
+                "Subscribing to analog attribute {} ({}) with the following parameter min = {}, max = {}, change = {}",
+                			attribute.getName(), attribute.getId(), min, max, minimumChange
         );
 
         AttributeReportingConfigurationRecordImpl config = new AttributeReportingConfigurationRecordImpl(
@@ -86,7 +87,8 @@ public class AnalogReporterImpl extends ReporterBase implements AnalogReporter {
             );
             final AttributeStatusRecord[] results = response.getAttributeStatusRecord();
             if (results[0].getStatus() != 0) {
-                throw new ZigBeeClusterException("ConfigureReporting answered with a Failed status: " + results[0].getStatus());
+            	Status status = Status.getStatus(results[0].getStatus());
+                throw new ZigBeeClusterException("ConfigureReporting answered with a Failed status: " + (status==null?results[0].getStatus():status.toString()));
             }
         } catch (ZigBeeNetworkManagerException e) {
             throw new ZigBeeClusterException(e);

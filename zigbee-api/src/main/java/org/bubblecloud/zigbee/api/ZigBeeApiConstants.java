@@ -138,7 +138,7 @@ public class ZigBeeApiConstants {
     public static final int DEVICE_ID_HA_THERMOSTAT_CONTROL = ThermostatControl.DEVICE_ID;
     public static final int DEVICE_ID_HA_TEMPERATURE_SENSOR = TemperatureSensor.DEVICE_ID;
     public static final int DEVICE_ID_HA_PUMP = Pump.DEVICE_ID;
-    // HA Intruder Alarm Systems 0x0400 - 0xFFFF
+    // HA Intruder Alarm Systems 0x0400 - 0x04FF
     public static final int DEVICE_ID_HA_IAS_CONTROL_INDICATING_EQUIPMENT = IASControlAndIndicatingEquipment.DEVICE_ID;
     public static final int DEVICE_ID_HA_IASZONE = IAS_Zone.DEVICE_ID;
     public static final int DEVICE_ID_HA_IAS_WARNING_DEVICE = IAS_Warning.DEVICE_ID;

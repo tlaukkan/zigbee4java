@@ -156,7 +156,7 @@ public class EndpointBuilder implements Stoppable {
         try {
             ZigBeeEndpointImpl endpoint = new ZigBeeEndpointImpl(driver, node, ep);
             if (endpoint.getNode().getNetworkAddress() == 0) {
-                logger.trace("Sender end point {} found with profile PROFILE_ID_HOME_AUTOMATION: " + endpoint.getProfileId(), endpoint.getEndpointId());
+                logger.trace("Sender end point {} found with profile PROFILE_ID_HOME_AUTOMATION: {}", endpoint.getEndpointId(), endpoint.getProfileId());
                 ApplicationFrameworkLayer.getAFLayer(driver).registerSenderEndPoint(
                         ep, endpoint.getProfileId(), endpoint.getOutputClusters());
             }
@@ -168,11 +168,11 @@ public class EndpointBuilder implements Stoppable {
             logger.error("Error building the device: {}", node, e);
 
             ZigBeeEndpointReference last = new ZigBeeEndpointReference(node, ep);
-            if (!failedAttempts.containsKey(last))
+            if (!failedAttempts.containsKey(last)) {
                 failedAttempts.put(last, 0);
-            else if (failedAttempts.get(last) + 1 < maxRetriesFailedEndpoints)
+            } else if (failedAttempts.get(last) + 1 < maxRetriesFailedEndpoints) {
                 failedAttempts.put(last, failedAttempts.get(last) + 1);
-            else {
+            } else {
                 logger.debug("Too many attempts failed, device {}:{} adding delay of {} ms", new Object[]{node, ep, delay});
                 failedEndpoints.remove(last);
                 delayedReattempts.put(last, delay);
