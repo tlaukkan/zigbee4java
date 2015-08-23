@@ -409,4 +409,17 @@ public class ZigBeeNetwork {
         }
     }
 
+    /**
+     * Notifies node listeners that a node has been updated within the list of nodes.
+     *
+     * @param node the {@link ZigBeeNode}
+     */
+	public void notifyNodeUpdated(ZigBeeNodeImpl node) {
+        synchronized (nodeListeners) {
+            for (final NodeListener nodeListener : nodeListeners) {
+                nodeListener.nodeUpdated(node);
+            }
+        }
+	}
+
 }

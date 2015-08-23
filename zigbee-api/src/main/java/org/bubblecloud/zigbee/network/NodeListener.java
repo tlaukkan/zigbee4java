@@ -1,7 +1,16 @@
 package org.bubblecloud.zigbee.network;
 
+import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
+
 /**
  * Provides an interface to notify upper layers of changes to {@link ZigBeeNode nodes}.
+ * <p>
+ * <ul>
+ * <li><i>nodeAdded</i> is called when a node is added to the network, but before discovery is completed.</li>
+ * <li><i>nodeDiscovered</i> is called after discovery is completed.</li>
+ * <li><i>nodeUpdated</i> is called when a node changes address.</li>
+ * <li><i>nodeRemoved</i> is called when a node is removed from the network.</li>
+ * </ul>
  */
 public interface NodeListener {
 
@@ -22,6 +31,12 @@ public interface NodeListener {
 	 * @param node {@link ZigBeeNode}
 	 */
     public void nodeDiscovered(final ZigBeeNode node);
+
+	/**
+	 * Notification that a node has been updated within the list of nodes maintained within the network.
+	 * @param node {@link ZigBeeNode}
+	 */
+	public void nodeUpdated(ZigBeeNodeImpl node);
 
 	/**
 	 * Notification that a node has been removed from the list of nodes maintained within the network.
