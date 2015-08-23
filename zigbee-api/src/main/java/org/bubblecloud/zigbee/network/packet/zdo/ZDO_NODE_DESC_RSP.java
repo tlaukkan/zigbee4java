@@ -206,12 +206,12 @@ public class ZDO_NODE_DESC_RSP extends ZToolPacket /*implements IRESPONSE_CALLBA
         return "ZDO_NODE_DESC_RSP{" +
                 "APSFlags=" + APSFlags +
                 ", BufferSize=" + BufferSize +
-                ", Capabilities=" + Capabilities +
+                ", Capabilities=" + String.format("0x%02X", Capabilities) +
                 ", ComplexDescriptorAvailable=" + ComplexDescriptorAvailable +
                 ", ManufacturerCode=" + ManufacturerCode +
                 ", NodeType=" + NodeType +
                 ", nwkAddr=" + nwkAddr +
-                ", ServerMask=" + ServerMask +
+                ", ServerMask=" + String.format("0x%02X", ServerMask) +
                 ", SrcAddress=" + SrcAddress +
                 ", Status=" + ResponseStatus.getStatus(Status) +
                 ", TransferSize=" + TransferSize +

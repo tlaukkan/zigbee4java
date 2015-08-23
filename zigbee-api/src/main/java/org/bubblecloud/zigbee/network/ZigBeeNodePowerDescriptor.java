@@ -1,9 +1,9 @@
 package org.bubblecloud.zigbee.network;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Map;
 
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_POWER_DESC_RSP;
 
@@ -39,7 +39,42 @@ public class ZigBeeNodePowerDescriptor {
 	 *
 	 */
 	enum POWER_MODE {
-		RECEIVER_ON, RECEIVER_PERIODICAL, RECEIVER_USER, UNKNOWN
+		RECEIVER_ON(0), RECEIVER_PERIODICAL(1), RECEIVER_USER(2), UNKNOWN(-1);
+
+		private static Map<Integer, POWER_MODE> mapping;
+		private int key;
+
+		private POWER_MODE(int key) {
+			this.key = key;
+		}
+
+		private static void initMapping() {
+			mapping = new HashMap<Integer, POWER_MODE>();
+			for (POWER_MODE s : values()) {
+				mapping.put(s.key, s);
+			}
+		}
+
+		/**
+		 * Lookup function based on the code.
+		 * Returns null if the code does not exist.
+		 * @param i the code to lookup
+		 * @return enumeration value of the mode type.
+		 */
+		public static POWER_MODE getType(int i) {
+			if (mapping == null) {
+				initMapping();
+			}
+			return mapping.get(i);
+		}
+
+		/**
+		 * Gets the key for this enum
+		 * @return the key
+		 */
+		public int getKey() {
+			return key;
+		}
 	}
 
 	/**
@@ -48,7 +83,42 @@ public class ZigBeeNodePowerDescriptor {
 	 *
 	 */
 	enum POWER_LEVEL {
-		CRITICAL, LOW, GOOD, FULL, UNKNOWN
+		CRITICAL(0), LOW(4), GOOD(8), FULL(12), UNKNOWN(-1);
+		
+		private static Map<Integer, POWER_LEVEL> mapping;
+		private int key;
+
+		private POWER_LEVEL(int key) {
+			this.key = key;
+		}
+
+		private static void initMapping() {
+			mapping = new HashMap<Integer, POWER_LEVEL>();
+			for (POWER_LEVEL s : values()) {
+				mapping.put(s.key, s);
+			}
+		}
+
+		/**
+		 * Lookup function based on the code.
+		 * Returns null if the code does not exist.
+		 * @param i the code to lookup
+		 * @return enumeration value of the mode type.
+		 */
+		public static POWER_LEVEL getType(int i) {
+			if (mapping == null) {
+				initMapping();
+			}
+			return mapping.get(i);
+		}
+
+		/**
+		 * Gets the key for this enum
+		 * @return the key
+		 */
+		public int getKey() {
+			return key;
+		}
 	}
 
 	/**
@@ -57,64 +127,68 @@ public class ZigBeeNodePowerDescriptor {
 	 *
 	 */
 	enum POWER_SOURCE {
-		MAINS, BATTERY_RECHARCHABLE, BATTERY_DISPOSABLE, UNKNOWN
-	}
+		MAINS(1), BATTERY_RECHARCHABLE(2), BATTERY_DISPOSABLE(4), UNKNOWN(8);
+		
+		private static Map<Integer, POWER_SOURCE> mapping;
+		private int key;
 
-	private final EnumMap<POWER_MODE, Integer> modeIndexes = new EnumMap<POWER_MODE, Integer>(
-			POWER_MODE.class);
-	private final EnumMap<POWER_SOURCE, Integer> sourceIndexes = new EnumMap<POWER_SOURCE, Integer>(
-			POWER_SOURCE.class);
-	private final EnumMap<POWER_LEVEL, Integer> levelIndexes = new EnumMap<POWER_LEVEL, Integer>(
-			POWER_LEVEL.class);
+		private POWER_SOURCE(int key) {
+			this.key = key;
+		}
 
-	ZigBeeNodePowerDescriptor() {
-		modeIndexes.put(POWER_MODE.RECEIVER_ON, 0);
-		modeIndexes.put(POWER_MODE.RECEIVER_PERIODICAL, 1);
-		modeIndexes.put(POWER_MODE.RECEIVER_USER, 2);
+		private static void initMapping() {
+			mapping = new HashMap<Integer, POWER_SOURCE>();
+			for (POWER_SOURCE s : values()) {
+				mapping.put(s.key, s);
+			}
+		}
 
-		sourceIndexes.put(POWER_SOURCE.MAINS, 1);
-		sourceIndexes.put(POWER_SOURCE.BATTERY_RECHARCHABLE, 2);
-		sourceIndexes.put(POWER_SOURCE.BATTERY_DISPOSABLE, 4);
-		sourceIndexes.put(POWER_SOURCE.UNKNOWN, 8);
+		/**
+		 * Lookup function based on the code.
+		 * Returns null if the code does not exist.
+		 * @param i the code to lookup
+		 * @return enumeration value of the mode type.
+		 */
+		public static POWER_SOURCE getType(int i) {
+			if (mapping == null) {
+				initMapping();
+			}
+			return mapping.get(i);
+		}
 
-		levelIndexes.put(POWER_LEVEL.CRITICAL, 0);
-		levelIndexes.put(POWER_LEVEL.LOW, 4);
-		levelIndexes.put(POWER_LEVEL.GOOD, 8);
-		levelIndexes.put(POWER_LEVEL.FULL, 12);
+		/**
+		 * Gets the key for this enum
+		 * @return the key
+		 */
+		public int getKey() {
+			return key;
+		}
 	}
 
 	public ZigBeeNodePowerDescriptor(ZDO_POWER_DESC_RSP descriptorResponse) {
-		this();
-
-		powerMode = POWER_MODE.UNKNOWN;
-		for (Entry<POWER_MODE, Integer> entry : modeIndexes.entrySet()) {
-			if (entry.getValue() == descriptorResponse.CurrentMode) {
-				powerMode = entry.getKey();
-			}
+		powerMode = POWER_MODE.getType(descriptorResponse.CurrentMode);
+		if(powerMode == null) {
+			powerMode = POWER_MODE.UNKNOWN;
 		}
 
-		powerSource = POWER_SOURCE.UNKNOWN;
-		for (Entry<POWER_SOURCE, Integer> entry : sourceIndexes.entrySet()) {
-			if (entry.getValue() == descriptorResponse.CurrentSource) {
-				powerSource = entry.getKey();
-			}
+		powerSource = POWER_SOURCE.getType(descriptorResponse.CurrentSource);
+		if(powerSource == null) {
+			powerSource = POWER_SOURCE.UNKNOWN;
 		}
 
 		powerSourcesAvailable = new ArrayList<POWER_SOURCE>();
-		for (Entry<POWER_SOURCE, Integer> entry : sourceIndexes.entrySet()) {
-			if ((entry.getValue() & descriptorResponse.AvailableSources) == 1) {
-				powerSourcesAvailable.add(entry.getKey());
+		for (POWER_SOURCE entry : POWER_SOURCE.values()) {
+			if ((entry.getKey() & descriptorResponse.AvailableSources) != 0) {
+				powerSourcesAvailable.add(entry);
 			}
 		}
 
-		powerLevel = POWER_LEVEL.UNKNOWN;
-		for (Entry<POWER_LEVEL, Integer> entry : levelIndexes.entrySet()) {
-			if (entry.getValue() == descriptorResponse.CurrentLevel) {
-				powerLevel = entry.getKey();
-			}
+		powerLevel = POWER_LEVEL.getType(descriptorResponse.CurrentLevel);
+		if(powerLevel == null) {
+			powerLevel = POWER_LEVEL.UNKNOWN;
 		}
 	}
-
+	
 	/**
 	 * The current power mode field of the node power descriptor is four bits in
 	 * length and specifies the current sleep/power-saving mode of the node.
