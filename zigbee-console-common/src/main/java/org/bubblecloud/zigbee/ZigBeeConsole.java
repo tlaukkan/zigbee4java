@@ -497,6 +497,7 @@ public final class ZigBeeConsole {
             print("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getProfileId(), device.getDeviceTypeId()));
             print("Device Type      : " + device.getDeviceType() + String.format("  (0x%04X)", device.getDeviceTypeId()));
             print("Device Version   : " + device.getDeviceVersion());
+            print("Implementation   : " + device.getClass().getName());
             print("Input Clusters   : ");
             for (int c : device.getInputClusters()) {
                 final Cluster cluster = device.getCluster(c);

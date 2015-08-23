@@ -397,19 +397,6 @@ public class ZigBeeNetwork {
     }
 
     /**
-     * Notifies node listeners that a node has been removed from the list of nodes.
-     *
-     * @param node the {@link ZigBeeNode}
-     */
-    public void notifyNodeRemoved(final ZigBeeNode node) {
-        synchronized (nodeListeners) {
-            for (final NodeListener nodeListener : nodeListeners) {
-                nodeListener.nodeDiscovered(node);
-            }
-        }
-    }
-
-    /**
      * Notifies node listeners that a node has been updated within the list of nodes.
      *
      * @param node the {@link ZigBeeNode}
@@ -422,4 +409,16 @@ public class ZigBeeNetwork {
         }
 	}
 
+    /**
+     * Notifies node listeners that a node has been removed from the list of nodes.
+     *
+     * @param node the {@link ZigBeeNode}
+     */
+    public void notifyNodeRemoved(final ZigBeeNode node) {
+        synchronized (nodeListeners) {
+            for (final NodeListener nodeListener : nodeListeners) {
+                nodeListener.nodeRemoved(node);
+            }
+        }
+    }
 }
