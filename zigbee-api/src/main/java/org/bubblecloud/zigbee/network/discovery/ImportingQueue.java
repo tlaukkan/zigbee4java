@@ -36,6 +36,7 @@ import java.util.ArrayList;
  * The queue is implemented as a First In First Out (FIFO) queue. Entries are added to the
  * beginning of the queue (with {@link #push}) and removed from the end (with {@link #pop}).
  * <p>
+ * Duplicate entries are not added to the queue.
  * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
@@ -64,6 +65,14 @@ public class ImportingQueue {
         public final ZToolAddress64 getIeeeAddress() {
             return ieeeAddress;
         }
+        
+		public boolean equals(ZigBeeNodeAddress other) {
+			if (this.networkAddress.equals(other.networkAddress)
+					&& this.ieeeAddress.equals(other.ieeeAddress)) {
+				return true;
+			}
+			return false;
+		}
     }
 
     private final ArrayList<ZigBeeNodeAddress> addresses = new ArrayList<ZigBeeNodeAddress>();
@@ -73,7 +82,9 @@ public class ImportingQueue {
      */
     public void clear() {
         synchronized (addresses) {
-            if (closing) return;
+            if (closing) {
+            	return;
+            }
             addresses.clear();
         }
     }
@@ -105,10 +116,21 @@ public class ImportingQueue {
      * @param ieeeAddress {@link ZToolAddress64} IEEE address
      */
     public void push(ZToolAddress16 nwkAddress, ZToolAddress64 ieeeAddress) {
-        ZigBeeNodeAddress inserting = new ZigBeeNodeAddress(nwkAddress, ieeeAddress);
         logger.trace("Adding {} ({})", nwkAddress, ieeeAddress);
+        ZigBeeNodeAddress inserting = new ZigBeeNodeAddress(nwkAddress, ieeeAddress);
+        
+        // Check if the queue already contains this address
+        for(ZigBeeNodeAddress address : addresses) {
+        	if(address.equals(inserting)) {
+                logger.debug("Duplicate address not added to queue {} ({})", nwkAddress, ieeeAddress);
+        		return;
+        	}
+        }
+        
         synchronized (addresses) {
-            if (closing) return;
+            if (closing) {
+            	return;
+            }
             addresses.add(inserting);
             addresses.notify();
         }
@@ -124,7 +146,9 @@ public class ImportingQueue {
         ZigBeeNodeAddress result = null;
         logger.trace("Removing element");
         synchronized (addresses) {
-            if (closing) return null;
+            if (closing) {
+            	return null;
+            }
             waitingThread++;
             while (addresses.isEmpty()) {
                 try {
@@ -149,7 +173,9 @@ public class ImportingQueue {
     public void close() {
         do {
             synchronized (addresses) {
-                if (waitingThread <= 0) return;
+                if (waitingThread <= 0) {
+                	return;
+                }
                 closing = true;
                 addresses.add(null);
                 addresses.notify();
