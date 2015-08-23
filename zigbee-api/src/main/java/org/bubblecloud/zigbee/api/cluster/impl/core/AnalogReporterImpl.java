@@ -86,7 +86,7 @@ public class AnalogReporterImpl extends ReporterBase implements AnalogReporter {
             );
             final AttributeStatusRecord[] results = response.getAttributeStatusRecord();
             if (results[0].getStatus() != 0) {
-                throw new ZigBeeClusterException("ConfigureReporting answered with a Failed status: {} " + results[0].getStatus());
+                throw new ZigBeeClusterException("ConfigureReporting answered with a Failed status: " + results[0].getStatus());
             }
         } catch (ZigBeeNetworkManagerException e) {
             throw new ZigBeeClusterException(e);
