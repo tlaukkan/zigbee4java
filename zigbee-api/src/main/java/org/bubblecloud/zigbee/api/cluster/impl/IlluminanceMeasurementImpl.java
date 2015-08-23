@@ -24,14 +24,14 @@ package org.bubblecloud.zigbee.api.cluster.impl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.IlluminanceMeasurement;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.MeasuredValueListener;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.ToleranceListener;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.IlluminanceMeasurement;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.MeasuredValueListener;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.ToleranceListener;
 import org.bubblecloud.zigbee.api.cluster.impl.event.MeasuredValueBridgeListeners;
 import org.bubblecloud.zigbee.api.cluster.impl.event.ToleranceBridgeListeners;
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing.IlluminanceMeasurementCluster;
+import org.bubblecloud.zigbee.api.cluster.impl.measurement_sensing.IlluminanceMeasurementCluster;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>

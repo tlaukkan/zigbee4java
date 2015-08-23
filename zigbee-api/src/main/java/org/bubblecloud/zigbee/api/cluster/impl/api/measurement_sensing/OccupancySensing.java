@@ -20,33 +20,47 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing;
+package org.bubblecloud.zigbee.api.cluster.impl.api.measurement_sensing;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 
 /**
- * This class represent the <b>Temperature Measurement</b> Cluster as defined by the document:
+ * This class represent the <b>Occupancy sensing</b> Cluster as defined by the document:
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
+ * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a> *
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public interface TemperatureMeasurement extends ZCLCluster {
+public interface OccupancySensing extends ZCLCluster {
 
-    static final short ID = 0x0402;
-    static final String NAME = "TemperatureMeasurement";
-    static final String DESCRIPTION = "Attributes and commands for configuring the measurement of temperature, and reporting temperature measurements.";
+    static final short ID = 0x0406;
+    static final String NAME = "OccupancySensing";
+    static final String DESCRIPTION = "Attributes and commands for configuring occupancy sensing, and reporting occupancy status.";
 
+    public Attribute getAttributeOccupancy();
 
-    public Attribute getAttributeMeasuredValue();
+    public Attribute getAttributeOccupancySensorType();
 
-    public Attribute getAttributeMinMeasuredValue();
+    public Attribute getAttributePIROccupiedToUnoccupiedDelay();
 
-    public Attribute getAttributeMaxMeasuredValue();
+    public Attribute getAttributePIRUnoccupiedToOccupiedDelay();
 
-    public Attribute getAttributeTolerance();
+    /*
+     * @since 0.8.0
+     */
+    public Attribute getAttributePIRUnoccupiedToOccupiedThreshold();
+
+    public Attribute getAttributeUltraSonicOccupiedToUnoccupiedDelay();
+
+    public Attribute getAttributeUltraSonicUnoccupiedToOccupiedDelay();
+
+    /*
+     * @since 0.8.0
+     */
+    public Attribute getAttributeUltrasonicUnoccupiedToOccupiedThreshold();
 }

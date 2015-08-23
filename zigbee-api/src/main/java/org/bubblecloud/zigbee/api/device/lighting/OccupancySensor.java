@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.api.device.lighting;
 
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.Device;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.OccupancySensing;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 
 
@@ -51,9 +51,9 @@ public interface OccupancySensor extends Device {
     public static final int[] CUSTOM = {};
 
     /**
-     * Access method for the <b>Mandatory</b> cluster: {@link org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing}
+     * Access method for the <b>Mandatory</b> cluster: {@link org.bubblecloud.zigbee.api.cluster.measurement_sensing.OccupancySensing}
      *
-     * @return the {@link org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing} cluster implemented by the device
+     * @return the {@link org.bubblecloud.zigbee.api.cluster.measurement_sensing.OccupancySensing} cluster implemented by the device
      */
     public OccupancySensing getOccupacySensing();
 

@@ -24,8 +24,8 @@ package org.bubblecloud.zigbee.api.cluster.impl.event;
 
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.OccupancyEvent;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.OccupancyListener;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.OccupancyEvent;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.OccupancyListener;
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;

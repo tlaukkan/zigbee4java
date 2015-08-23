@@ -24,20 +24,26 @@ package org.bubblecloud.zigbee.api.cluster.impl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.TemperatureMeasurement;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.MeasuredValueListener;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.ToleranceListener;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.TemperatureMeasurement;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.MeasuredValueListener;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.ToleranceListener;
 import org.bubblecloud.zigbee.api.cluster.impl.event.MeasuredValueBridgeListeners;
 import org.bubblecloud.zigbee.api.cluster.impl.event.ToleranceBridgeListeners;
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing.TemperatureMeasurementCluster;
+import org.bubblecloud.zigbee.api.cluster.impl.measurement_sensing.TemperatureMeasurementCluster;
 
 /**
+ * Implementation of the {@link TemperatureMeasurement} cluster.
+ * <p>
+ * This provides methods for notification of sensor changes through the
+ * {@link MeasuredValueListener} and {@link TolleranceListener} interfaces.
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05
+ *          +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
 public class TemperatureMeasurementImpl implements TemperatureMeasurement {

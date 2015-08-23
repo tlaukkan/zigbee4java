@@ -20,22 +20,19 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.measureament_sensing;
+package org.bubblecloud.zigbee.api.cluster.measurement_sensing;
 
 import org.bubblecloud.zigbee.api.cluster.Cluster;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.MeasuredValueListener;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.ToleranceListener;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.MeasuredValueListener;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.ToleranceListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 
 /**
- * This interface simplify the use of the cluster by avoiding the check of error messages and flow control.
- *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.4.0
  */
-public interface RelativeHumidityMeasurement extends Cluster {
+public interface TemperatureMeasurement extends Cluster {
 
     public Attribute getMeasuredValue();
 

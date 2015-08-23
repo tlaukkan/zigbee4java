@@ -23,7 +23,7 @@
 package org.bubblecloud.zigbee.api.cluster.impl.general;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.FlowMeasurement;
+import org.bubblecloud.zigbee.api.cluster.impl.api.measurement_sensing.FlowMeasurement;
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.api.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;

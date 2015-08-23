@@ -20,11 +20,11 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.measureament_sensing;
+package org.bubblecloud.zigbee.api.cluster.measurement_sensing;
 
 import org.bubblecloud.zigbee.api.cluster.Cluster;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.MeasuredValueListener;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.ToleranceListener;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.MeasuredValueListener;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.ToleranceListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 
 /**

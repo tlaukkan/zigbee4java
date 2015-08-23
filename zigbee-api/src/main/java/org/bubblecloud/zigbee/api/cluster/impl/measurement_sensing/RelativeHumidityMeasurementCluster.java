@@ -1,10 +1,10 @@
 /*
-   Copyright 2012-2013 CNR-ISTI, http://isti.cnr.it
-   Institute of Information Science and Technologies
-   of the Italian National Research Council
+   Copyright 2008-2013 CNR-ISTI, http://isti.cnr.it
+   Institute of Information Science and Technologies 
+   of the Italian National Research Council 
 
 
-   See the NOTICE file distributed with this work for additional
+   See the NOTICE file distributed with this work for additional 
    information regarding copyright ownership
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,82 +19,71 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing;
+
+package org.bubblecloud.zigbee.api.cluster.impl.measurement_sensing;
 
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.IlluminanceMeasurement;
+import org.bubblecloud.zigbee.api.cluster.impl.api.measurement_sensing.RelativeHumidityMeasurement;
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.api.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
 
 /**
- * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- * @version $LastChangedRevision: 42 $ ($LastChangedDate: 2010-09-23 14:21:48 +0200 (Thu, 23 Sep 2010) $)
- * @since 0.8.0
+ * Implementation of the {@link RelativeHumidityMeasurement} interface
+ *
+ * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
+ * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
+ * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @since 0.4.0
  */
-public class IlluminanceMeasurementCluster extends ZCLClusterBase implements IlluminanceMeasurement {
+public class RelativeHumidityMeasurementCluster extends ZCLClusterBase implements RelativeHumidityMeasurement {
 
     private final AttributeImpl measuredValue;
     private final AttributeImpl minMeasuredValue;
     private final AttributeImpl maxMeasuredValue;
     private final AttributeImpl tolerance;
-    private final AttributeImpl lightSensorType;
 
     private final Attribute[] attributes;
 
-    public IlluminanceMeasurementCluster(ZigBeeEndpoint zbDevice) {
-
+    public RelativeHumidityMeasurementCluster(ZigBeeEndpoint zbDevice) {
         super(zbDevice);
         measuredValue = new AttributeImpl(zbDevice, this, Attributes.MEASURED_VALUE_UNSIGNED_16_BIT);
         minMeasuredValue = new AttributeImpl(zbDevice, this, Attributes.MIN_MEASURED_VALUE_UNSIGNED_16_BIT);
         maxMeasuredValue = new AttributeImpl(zbDevice, this, Attributes.MAX_MEASURED_VALUE_UNSIGNED_16_BIT);
         tolerance = new AttributeImpl(zbDevice, this, Attributes.TOLERANCE);
-        lightSensorType = new AttributeImpl(zbDevice, this, Attributes.LIGHT_SENSOR_TYPE);
-
-        attributes = new AttributeImpl[]{measuredValue, minMeasuredValue, maxMeasuredValue, tolerance, lightSensorType};
-    }
-
-    public Attribute getMeasuredValue() {
-
-        return measuredValue;
-    }
-
-    public Attribute getMinMeasuredValue() {
-
-        return minMeasuredValue;
-    }
-
-    public Attribute getMaxMeasuredValue() {
-
-        return maxMeasuredValue;
-    }
-
-    public Attribute getTolerance() {
-
-        return tolerance;
-    }
-
-    public Attribute getLightSensorType() {
-
-        return lightSensorType;
+        attributes = new AttributeImpl[]{measuredValue, minMeasuredValue, maxMeasuredValue, tolerance};
     }
 
     @Override
     public short getId() {
-
-        return IlluminanceMeasurement.ID;
+        return ID;
     }
 
     @Override
     public String getName() {
-
-        return IlluminanceMeasurement.NAME;
+        return NAME;
     }
 
     @Override
     public Attribute[] getStandardAttributes() {
-
         return attributes;
     }
+
+    public Attribute getAttributeMaxMeasuredValue() {
+        return maxMeasuredValue;
+    }
+
+    public Attribute getAttributeMeasuredValue() {
+        return measuredValue;
+    }
+
+    public Attribute getAttributeMinMeasuredValue() {
+        return minMeasuredValue;
+    }
+
+    public Attribute getAttributeTolerance() {
+        return tolerance;
+    }
+
 }

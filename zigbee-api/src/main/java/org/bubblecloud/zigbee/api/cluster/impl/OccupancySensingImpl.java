@@ -22,10 +22,10 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl;
 
-import org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing.OccupancySensingCluster;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing;
+import org.bubblecloud.zigbee.api.cluster.impl.measurement_sensing.OccupancySensingCluster;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.OccupancyListener;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.OccupancySensing;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.OccupancyListener;
 import org.bubblecloud.zigbee.api.cluster.impl.event.OccupancyBridgeListeners;
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;

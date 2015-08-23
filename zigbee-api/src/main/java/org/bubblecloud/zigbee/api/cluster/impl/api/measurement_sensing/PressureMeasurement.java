@@ -20,14 +20,13 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing;
+package org.bubblecloud.zigbee.api.cluster.impl.api.measurement_sensing;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 
-
 /**
- * This class represent the <b>Flow Measurement</b> Cluster as defined by the document:
+ * This class represent the <b>Metering</b> Cluster as defined by the document:
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
  * 
  * @author <a href="mailto:giancarlo.riolo@isti.cnr.it">Giancarlo Riolo</a>
@@ -35,11 +34,12 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
  * @since 0.8.0
  */
 
-public interface FlowMeasurement extends ZCLCluster {
+public interface PressureMeasurement extends ZCLCluster {
 	
-	public static final short  ID = 0x0404;
-	static final String NAME = "Flow Measurement";
-	static final String DESCRIPTION = "blablabla";
+	public static final short  ID = 0x0403;
+	static final String NAME = "Pressure Measurement";
+	static final String DESCRIPTION = "Attributes and commands for configuring the measurement"
+			+ " of pressure, and reporting pressure measurements";
 	
 	public Attribute getAttributeDescription();
 

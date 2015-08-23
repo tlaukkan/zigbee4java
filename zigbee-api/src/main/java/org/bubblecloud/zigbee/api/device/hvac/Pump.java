@@ -29,7 +29,7 @@ import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.api.cluster.general.Scenes;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.TemperatureMeasurement;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 
 /**

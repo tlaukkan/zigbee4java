@@ -20,7 +20,7 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.measureament_sensing.event;
+package org.bubblecloud.zigbee.api.cluster.measurement_sensing.event;
 
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 
@@ -30,7 +30,7 @@ import org.bubblecloud.zigbee.api.cluster.Cluster;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
  */
-public interface ToleranceEvent {
+public interface MeasuredValueEvent {
 
     public int getEvent();
 

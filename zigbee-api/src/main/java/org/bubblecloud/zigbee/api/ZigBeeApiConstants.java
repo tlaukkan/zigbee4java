@@ -30,7 +30,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.closures.DoorLock;
 import org.bubblecloud.zigbee.api.cluster.impl.api.closures.ShadeConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.closures.WindowCovering;
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.*;
-import org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.*;
+import org.bubblecloud.zigbee.api.cluster.impl.api.measurement_sensing.*;
 import org.bubblecloud.zigbee.api.cluster.impl.api.smart_energy.Metering;
 import org.bubblecloud.zigbee.api.device.generic.LevelControlSwitch;
 import org.bubblecloud.zigbee.api.device.generic.MainsPowerOutlet;

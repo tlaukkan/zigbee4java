@@ -19,7 +19,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing;
+package org.bubblecloud.zigbee.api.cluster.impl.api.measurement_sensing;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;

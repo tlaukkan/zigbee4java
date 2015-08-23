@@ -26,7 +26,7 @@ import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.ZigBeeApiContext;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.TemperatureMeasurement;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.api.device.hvac.TemperatureSensor;
 
 /**

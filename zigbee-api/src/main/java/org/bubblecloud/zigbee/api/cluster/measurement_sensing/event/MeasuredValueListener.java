@@ -20,7 +20,7 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.measureament_sensing.event;
+package org.bubblecloud.zigbee.api.cluster.measurement_sensing.event;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -28,8 +28,8 @@ package org.bubblecloud.zigbee.api.cluster.measureament_sensing.event;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
  */
-public interface ToleranceListener {
+public interface MeasuredValueListener {
 
-    public void changedTolerance(ToleranceEvent event);
+    public void changedMeasuredValue(MeasuredValueEvent event);
 
 }

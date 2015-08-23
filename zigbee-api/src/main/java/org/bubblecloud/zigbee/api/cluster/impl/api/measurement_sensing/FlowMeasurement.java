@@ -20,16 +20,27 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.measureament_sensing.event;
+package org.bubblecloud.zigbee.api.cluster.impl.api.measurement_sensing;
+
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
+
 
 /**
- * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.6.0
+ * This class represent the <b>Flow Measurement</b> Cluster as defined by the document:
+ * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
+ * 
+ * @author <a href="mailto:giancarlo.riolo@isti.cnr.it">Giancarlo Riolo</a>
+ * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 18:00:05 +0200 (mar, 06 ago 2013) $)
+ * @since 0.8.0
  */
-public interface MeasuredValueListener {
 
-    public void changedMeasuredValue(MeasuredValueEvent event);
+public interface FlowMeasurement extends ZCLCluster {
+	
+	public static final short  ID = 0x0404;
+	static final String NAME = "Flow Measurement";
+	static final String DESCRIPTION = "blablabla";
+	
+	public Attribute getAttributeDescription();
 
 }
