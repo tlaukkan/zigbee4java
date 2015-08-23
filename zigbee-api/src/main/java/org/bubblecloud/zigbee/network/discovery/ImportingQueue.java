@@ -30,9 +30,16 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
 /**
+ * Implements a discovery queue. When the discovery system detects a new node it is added
+ * to the ImportingQueue to be processed by the {@link EndpointBuilder}.
+ * <p>
+ * The queue is implemented as a First In First Out (FIFO) queue. Entries are added to the
+ * beginning of the queue (with {@link #push}) and removed from the end (with {@link #pop}).
+ * <p>
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
- * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
+ * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  * @since 0.1.0
  */
 public class ImportingQueue {
@@ -42,7 +49,6 @@ public class ImportingQueue {
     private boolean closing = false;
 
     public class ZigBeeNodeAddress {
-
         private final ZToolAddress16 networkAddress;
         private final ZToolAddress64 ieeeAddress;
 
@@ -62,6 +68,9 @@ public class ImportingQueue {
 
     private final ArrayList<ZigBeeNodeAddress> addresses = new ArrayList<ZigBeeNodeAddress>();
 
+    /**
+     * Removes all addresses from the queue
+     */
     public void clear() {
         synchronized (addresses) {
             if (closing) return;
@@ -69,18 +78,32 @@ public class ImportingQueue {
         }
     }
 
+    /**
+     * Checks if the queue is empty
+     * @return true if empty
+     */
     public boolean isEmpty() {
         synchronized (addresses) {
             return addresses.size() == 0;
         }
     }
 
+    /**
+     * Returns the number of addresses in the queue
+     * @return number of addresses in the queue
+     */
     public int size() {
         synchronized (addresses) {
             return addresses.size();
         }
     }
 
+    /**
+     * Adds an address to the end of the queue.
+     * 
+     * @param nwkAddress {@link ZToolAddress16} network address
+     * @param ieeeAddress {@link ZToolAddress64} IEEE address
+     */
     public void push(ZToolAddress16 nwkAddress, ZToolAddress64 ieeeAddress) {
         ZigBeeNodeAddress inserting = new ZigBeeNodeAddress(nwkAddress, ieeeAddress);
         logger.trace("Adding {} ({})", nwkAddress, ieeeAddress);
@@ -92,6 +115,11 @@ public class ImportingQueue {
         logger.trace("Added {} ({})", nwkAddress, ieeeAddress);
     }
 
+    /**
+     * Remove the last element from the queue.
+     * 
+     * @return the {@link ZigBeeNodeAddress} of the node that was removed
+     */
     public ZigBeeNodeAddress pop() {
         ZigBeeNodeAddress result = null;
         logger.trace("Removing element");
@@ -115,6 +143,9 @@ public class ImportingQueue {
         return result;
     }
 
+    /**
+     * Closes the queue. The queue gets marked as <i>closing</i> until it is emptied.
+     */
     public void close() {
         do {
             synchronized (addresses) {

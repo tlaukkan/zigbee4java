@@ -67,6 +67,12 @@ public class ClusterFactoryBase implements ClusterFactory {
         clusters.put(key, clazz);
     }
 
+    /**
+     * Gets an instance of a cluster within the device.
+     * @param key
+     * @param zbDevice the {@link ZigBeeEndpoint}
+     * @return the {@link Cluster} or null if not found
+     */
     public Cluster getInstance(String key, ZigBeeEndpoint zbDevice) {
         Class clazz = clusters.get(key);
         if (clazz != null) {

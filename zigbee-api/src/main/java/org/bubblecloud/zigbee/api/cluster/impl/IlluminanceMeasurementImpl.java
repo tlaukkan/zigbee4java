@@ -53,7 +53,6 @@ public class IlluminanceMeasurementImpl implements IlluminanceMeasurement {
     //private final ToleranceBridgeListeners toleranceBridge;
 
     public IlluminanceMeasurementImpl(ZigBeeEndpoint zbDevice) {
-
         cluster = new IlluminanceMeasurementCluster(zbDevice);
         measuredValue = cluster.getMeasuredValue();
         minMeasuredValue = cluster.getMinMeasuredValue();

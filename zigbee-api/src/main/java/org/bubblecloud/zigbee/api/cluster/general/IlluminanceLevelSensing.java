@@ -26,6 +26,9 @@ import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 
 /**
+ * This cluster provides an interface to illuminance level sensing functionality,
+ * including configuration and provision of notifications of whether the illuminance
+ * is within, above or below a target band.
  * 
  * @author <a href="mailto:giancarlo.riolo@isti.cnr.it">Giancarlo Riolo</a>
  * @version $LastChangedRevision:  $ ($LastChangedDate: $)
