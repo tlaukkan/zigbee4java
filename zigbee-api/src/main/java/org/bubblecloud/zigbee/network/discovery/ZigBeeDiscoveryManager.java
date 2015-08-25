@@ -180,7 +180,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
             importingQueue.push(nwk, result.getIeeeAddress());
 
             final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
-            network.notifyNodeBrowsed(node);
+            network.notifyDiscoveryBrowsed(node);
         } else {
             logger.warn("Node #{} ZDO_IEEE_ADDR_REQ failed with status {} ", sourceNetworkAddress,
                     Status.getStatus((byte) result.Status));

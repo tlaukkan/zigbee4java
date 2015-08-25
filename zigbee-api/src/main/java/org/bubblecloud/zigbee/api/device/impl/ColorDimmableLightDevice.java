@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.api.device.impl;
 
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.ZigBeeApiContext;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.OccupancySensing;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
@@ -55,7 +55,7 @@ public class ColorDimmableLightDevice extends DeviceBase implements ColorDimmabl
         onOff = (OnOff) getCluster(ZigBeeApiConstants.CLUSTER_ID_ON_OFF);
         scenes = (Scenes) getCluster(ZigBeeApiConstants.CLUSTER_ID_SCENES);
         groups = (Groups) getCluster(ZigBeeApiConstants.CLUSTER_ID_GROUPS);
-        levelControl = (LevelControl) getCluster(ZigBeeApiConstants.DEVICE_ID_LEVEL_CONTROL);
+        levelControl = (LevelControl) getCluster(ZigBeeApiConstants.DEVICE_ID_HA_LEVEL_CONTROL);
         occupancySensing = (OccupancySensing) getCluster(ZigBeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING);
         colorControl = (ColorControl) getCluster(ZigBeeApiConstants.CLUSTER_ID_COLOR_CONTROL);
     }

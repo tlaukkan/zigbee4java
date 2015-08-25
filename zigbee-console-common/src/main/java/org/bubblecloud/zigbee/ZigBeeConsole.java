@@ -20,6 +20,7 @@ import org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor;
 import org.bubblecloud.zigbee.network.discovery.LinkQualityIndicatorNetworkBrowser.NetworkNeighbourLinks;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
 import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.util.Cie;
@@ -140,6 +141,11 @@ public final class ZigBeeConsole {
 
 			@Override
 			public void nodeDiscovered(ZigBeeNode node) {
+                print("Node discovered: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
+			}
+
+			@Override
+			public void nodeUpdated(ZigBeeNodeImpl node) {
                 print("Node discovered: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
 			}
 
@@ -487,9 +493,11 @@ public final class ZigBeeConsole {
             print("Network Address  : " + device.getNetworkAddress());
             print("Extended Address : " + device.getIeeeAddress());
             print("Endpoint Address : " + device.getEndPointAddress());
-            print("Device Type      : " + device.getDeviceType());
+            print("Device Profile   : " + ZigBeeApiConstants.getProfileName(device.getProfileId())+ String.format("  (0x%04X)", device.getProfileId()));
             print("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getProfileId(), device.getDeviceTypeId()));
+            print("Device Type      : " + device.getDeviceType() + String.format("  (0x%04X)", device.getDeviceTypeId()));
             print("Device Version   : " + device.getDeviceVersion());
+            print("Implementation   : " + device.getClass().getName());
             print("Input Clusters   : ");
             for (int c : device.getInputClusters()) {
                 final Cluster cluster = device.getCluster(c);

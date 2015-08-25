@@ -80,6 +80,12 @@ public abstract class DeviceBase implements Device {
     private final ProvidedClusterMode clusterMode;
 
 
+    /**
+     * Constructs a {@link Device} within the network given the {@link ZigBeeEndpoint}
+     * @param context
+     * @param endpoint
+     * @throws ZigBeeDeviceException
+     */
     public DeviceBase(ZigBeeApiContext context, ZigBeeEndpoint endpoint) throws ZigBeeDeviceException {
         this.endpoint = endpoint;
         this.context = context;
@@ -113,7 +119,7 @@ public abstract class DeviceBase implements Device {
     public abstract String getDeviceType();
 
     /**
-     * Gets the profile ID (address) for this device
+     * Gets the profile ID for this device
      */
     public int getProfileId() {
         return endpoint.getProfileId();

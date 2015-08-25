@@ -20,55 +20,53 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.measureament_sensing;
+package org.bubblecloud.zigbee.api.cluster.measurement_sensing;
 
 import org.bubblecloud.zigbee.api.cluster.Cluster;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.OccupancyListener;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.MeasuredValueListener;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.ToleranceListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 
 /**
- * This class represent the <b>Occupancy sensing</b> Cluster as defined by the document:<br>
- * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
+ * This interface simplify the use of the cluster by avoiding the check of error messages and flow control.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.1.0
+ * @since 0.4.0
  */
-public interface OccupancySensing extends Cluster {
+public interface RelativeHumidityMeasurement extends Cluster {
 
-    public Attribute getOccupancy();
+    public Attribute getMeasuredValue();
 
-    /**
-     * @param listener The {@link OccupancyListener} to subscribe for events
-     * @since 0.2.0
-     */
-    public void subscribe(OccupancyListener listener);
+    public Attribute getMinMeasuredValue();
 
-    /**
-     * @param listener The {@link OccupancyListener} to unsubscribe
-     * @since 0.2.0
-     */
-    public void unsubscribe(OccupancyListener listener);
+    public Attribute getMaxMeasuredValue();
 
-    public Attribute getOccupancySensorType();
-
-    public Attribute getPIROccupiedToUnoccupiedDelay();
-
-    public Attribute getPIRUnoccupiedToOccupiedDelay();
+    public Attribute getTolerance();
 
     /**
-     * @since 0.7.0
+     * @param tl The {@link ToleranceListener} to subscribe for events
+     * @since 0.6.0
      */
-    public Attribute getPIRUnoccupiedToOccupiedThreshold();
-
-    public Attribute getUltraSonicOccupiedToUnoccupiedDelay();
-
-    public Attribute getUltraSonicUnoccupiedToOccupiedDelay();
+    public boolean subscribe(ToleranceListener tl);
 
     /**
-     * @since 0.7.0
+     * @param tl The {@link ToleranceListener} to unsubscribe
+     * @since 0.6.0
      */
-    public Attribute getUltraSonicUnoccupiedToOccupiedThreshold();
+    public boolean unsubscribe(ToleranceListener tl);
+
+    /**
+     * @param mvl The {@link MeasuredValueListener} to subscribe for events
+     * @since 0.6.0
+     */
+    public boolean subscribe(MeasuredValueListener mvl);
+
+    /**
+     * @param mvl The {@link MeasuredValueListener} to unsubscribe
+     * @since 0.6.0
+     */
+    public boolean unsubscribe(MeasuredValueListener mvl);
+
 }

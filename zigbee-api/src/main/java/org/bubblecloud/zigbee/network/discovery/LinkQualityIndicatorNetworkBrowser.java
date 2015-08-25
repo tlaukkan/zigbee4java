@@ -436,7 +436,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
     	}
         final ZigBeeNode child = item.node;
         final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
-        network.notifyNodeBrowsed(child);
+        network.notifyDiscoveryBrowsed(child);
     }
 
     public NetworkNeighbourLinks getConnectedNodes() {

@@ -280,7 +280,7 @@ public class ZigBeeNetwork {
      *
      * @param node the node
      */
-    public void notifyNodeBrowsed(ZigBeeNode node) {
+    public void notifyDiscoveryBrowsed(ZigBeeNode node) {
         synchronized (discoveryMonitors) {
             for (final ZigBeeDiscoveryMonitor discoveryMonitor : discoveryMonitors) {
                 discoveryMonitor.browsedNode(node);
@@ -293,7 +293,7 @@ public class ZigBeeNetwork {
      *
      * @param node the node
      */
-    public void notifyNodeAnnounced(ZigBeeNode node) {
+    public void notifyDiscoveryAnnounced(ZigBeeNode node) {
         synchronized (discoveryMonitors) {
             for (final ZigBeeDiscoveryMonitor discoveryMonitor : discoveryMonitors) {
                 discoveryMonitor.announcedNode(node);
@@ -377,7 +377,7 @@ public class ZigBeeNetwork {
     public void notifyNodeAdded(final ZigBeeNode node) {
         synchronized (discoveryMonitors) {
             for (final NodeListener nodeListener : nodeListeners) {
-                nodeListener.nodeDiscovered(node);
+                nodeListener.nodeAdded(node);
             }
         }
     }
@@ -389,7 +389,7 @@ public class ZigBeeNetwork {
      * @param node the {@link ZigBeeNode}
      */
     public void notifyNodeDiscovered(final ZigBeeNode node) {
-        synchronized (discoveryMonitors) {
+        synchronized (nodeListeners) {
             for (final NodeListener nodeListener : nodeListeners) {
                 nodeListener.nodeDiscovered(node);
             }
@@ -397,16 +397,28 @@ public class ZigBeeNetwork {
     }
 
     /**
+     * Notifies node listeners that a node has been updated within the list of nodes.
+     *
+     * @param node the {@link ZigBeeNode}
+     */
+	public void notifyNodeUpdated(ZigBeeNodeImpl node) {
+        synchronized (nodeListeners) {
+            for (final NodeListener nodeListener : nodeListeners) {
+                nodeListener.nodeUpdated(node);
+            }
+        }
+	}
+
+    /**
      * Notifies node listeners that a node has been removed from the list of nodes.
      *
      * @param node the {@link ZigBeeNode}
      */
     public void notifyNodeRemoved(final ZigBeeNode node) {
-        synchronized (discoveryMonitors) {
+        synchronized (nodeListeners) {
             for (final NodeListener nodeListener : nodeListeners) {
-                nodeListener.nodeDiscovered(node);
+                nodeListener.nodeRemoved(node);
             }
         }
     }
-
 }

@@ -24,11 +24,11 @@ package org.bubblecloud.zigbee.api.device.hvac;
 
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.Device;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.TemperatureMeasurement;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.TemperatureMeasurement;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 
 /**
- * This class represent the <b>On/off Light</b> Cluster as defined by the document:<br>
+ * This class represent the <b>Temperature Sensor</b> Cluster as defined by the document:<br>
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

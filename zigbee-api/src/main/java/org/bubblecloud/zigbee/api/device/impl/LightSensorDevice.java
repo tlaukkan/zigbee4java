@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.ZigBeeApiContext;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.IlluminanceMeasurement;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.IlluminanceMeasurement;
 import org.bubblecloud.zigbee.api.device.lighting.LightSensor;
 import org.bubblecloud.zigbee.api.DeviceBase;
 

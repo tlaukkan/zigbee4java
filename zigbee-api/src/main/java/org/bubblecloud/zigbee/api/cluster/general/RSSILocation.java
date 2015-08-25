@@ -28,7 +28,8 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import java.util.EnumSet;
 
 /**
- * PLACEHOLDER TO IMPLEMENT
+ * This cluster provides a means for exchanging Received Signal Strength Indication
+ * (RSSI) based location information and channel parameters among devices.
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)

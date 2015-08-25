@@ -23,6 +23,11 @@
 package org.bubblecloud.zigbee.api.cluster.impl.api.core;
 
 /**
+ * The {@link Reporter} interface provides methods to receive notifications when a value is updated on a
+ * device. The device configuration is updated to set the reporting interval as required.
+ * <p>
+ * Users wanting to receive reports should implement the {@link ReportListener} interface.
+ * 
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
@@ -84,7 +89,8 @@ public interface Reporter {
     public int getReportListenersCount();
 
     /**
-     * @return update the subscription configuration for the device
+     * Update the subscription configuration for the device
+     * @return true if configuration was updated 
      * @since 0.6.0
      */
     public boolean updateConfiguration();

@@ -20,47 +20,55 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing;
+package org.bubblecloud.zigbee.api.cluster.measurement_sensing;
 
+import org.bubblecloud.zigbee.api.cluster.Cluster;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.OccupancyListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 
 /**
- * This class represent the <b>Occupancy sensing</b> Cluster as defined by the document:
+ * This class represent the <b>Occupancy sensing</b> Cluster as defined by the document:<br>
  * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
- * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
- * @author <a href="mailto:alessandro.giari@isti.cnr.it">Alessandro Giari</a> *
+ * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.1.0
  */
-public interface OccupancySensing extends ZCLCluster {
+public interface OccupancySensing extends Cluster {
 
-    static final short ID = 0x0406;
-    static final String NAME = "OccupancySensing";
-    static final String DESCRIPTION = "Attributes and commands for configuring occupancy sensing, and reporting occupancy status.";
+    public Attribute getOccupancy();
 
-    public Attribute getAttributeOccupancy();
-
-    public Attribute getAttributeOccupancySensorType();
-
-    public Attribute getAttributePIROccupiedToUnoccupiedDelay();
-
-    public Attribute getAttributePIRUnoccupiedToOccupiedDelay();
-
-    /*
-     * @since 0.8.0
+    /**
+     * @param listener The {@link OccupancyListener} to subscribe for events
+     * @since 0.2.0
      */
-    public Attribute getAttributePIRUnoccupiedToOccupiedThreshold();
+    public void subscribe(OccupancyListener listener);
 
-    public Attribute getAttributeUltraSonicOccupiedToUnoccupiedDelay();
-
-    public Attribute getAttributeUltraSonicUnoccupiedToOccupiedDelay();
-
-    /*
-     * @since 0.8.0
+    /**
+     * @param listener The {@link OccupancyListener} to unsubscribe
+     * @since 0.2.0
      */
-    public Attribute getAttributeUltrasonicUnoccupiedToOccupiedThreshold();
+    public void unsubscribe(OccupancyListener listener);
+
+    public Attribute getOccupancySensorType();
+
+    public Attribute getPIROccupiedToUnoccupiedDelay();
+
+    public Attribute getPIRUnoccupiedToOccupiedDelay();
+
+    /**
+     * @since 0.7.0
+     */
+    public Attribute getPIRUnoccupiedToOccupiedThreshold();
+
+    public Attribute getUltraSonicOccupiedToUnoccupiedDelay();
+
+    public Attribute getUltraSonicUnoccupiedToOccupiedDelay();
+
+    /**
+     * @since 0.7.0
+     */
+    public Attribute getUltraSonicUnoccupiedToOccupiedThreshold();
 }

@@ -20,9 +20,9 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing;
+package org.bubblecloud.zigbee.api.cluster.impl.measurement_sensing;
 
-import org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.OccupancySensing;
+import org.bubblecloud.zigbee.api.cluster.impl.api.measurement_sensing.OccupancySensing;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
@@ -30,7 +30,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
 
 /**
- * Implementation of the {@link org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.OccupancySensing} interface
+ * Implementation of the {@link OccupancySensing} interface
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>

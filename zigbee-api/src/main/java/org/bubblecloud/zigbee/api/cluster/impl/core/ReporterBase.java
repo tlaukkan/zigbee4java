@@ -164,7 +164,7 @@ public abstract class ReporterBase implements Reporter {
                 try {
                     doConfigureServer();
                 } catch (ZigBeeClusterException e) {
-                    log.error("Unable to configure server for Reporting", e);
+                    log.error("Unable to configure server for Reporting (Add)", e);
                     return false;
                 }
             }
@@ -209,7 +209,7 @@ public abstract class ReporterBase implements Reporter {
                 try {
                     doConfigureServer();
                 } catch (ZigBeeClusterException e) {
-                    log.error("Unable to configure server for Reporting", e);
+                    log.error("Unable to configure server for Reporting (Remove)", e);
                     return false;
                 }
                 device.removeClusterListener(bridge);

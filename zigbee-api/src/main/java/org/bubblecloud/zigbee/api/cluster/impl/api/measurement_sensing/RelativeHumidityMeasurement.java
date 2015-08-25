@@ -20,17 +20,32 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.measureament_sensing.event;
+package org.bubblecloud.zigbee.api.cluster.impl.api.measurement_sensing;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
 
 /**
+ * This class represent the <b>Relative Humidity Measurement</b> Cluster as defined by the document:
+ * <i>ZigBee Cluster Library</i> public release version 075123r01ZB
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:francesco.furfari@isti.cnr.it">Francesco Furfari</a>
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
- * @since 0.2.0
+ * @since 0.4.0
  */
-public interface OccupancyListener {
+public interface RelativeHumidityMeasurement extends ZCLCluster {
 
-    public void changedOccupancy(OccupancyEvent event);
+    static final short ID = 0x0405;
+    static final String NAME = "Relative Humidity Measurement";
+    static final String DESCRIPTION = "Attributes and commands for configuring the measurement of temperature, and reporting relative humidity measurements.";
 
+
+    public Attribute getAttributeMeasuredValue();
+
+    public Attribute getAttributeMinMeasuredValue();
+
+    public Attribute getAttributeMaxMeasuredValue();
+
+    public Attribute getAttributeTolerance();
 }

@@ -27,7 +27,7 @@ import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.api.cluster.general.Scenes;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.OccupancySensing;
 import org.bubblecloud.zigbee.util.ArraysUtil;
 
 
@@ -77,9 +77,9 @@ public interface OnOffLight extends Device {
     public Groups getGroups();
 
     /**
-     * Access method for the <b>Optional</b> cluster: {@link org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing}
+     * Access method for the <b>Optional</b> cluster: {@link org.bubblecloud.zigbee.api.cluster.measurement_sensing.OccupancySensing}
      *
-     * @return the {@link org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing} cluster object if implemented by the device, otherwise <code>null</code>
+     * @return the {@link org.bubblecloud.zigbee.api.cluster.measurement_sensing.OccupancySensing} cluster object if implemented by the device, otherwise <code>null</code>
      */
     public OccupancySensing getOccupacySensing();
 

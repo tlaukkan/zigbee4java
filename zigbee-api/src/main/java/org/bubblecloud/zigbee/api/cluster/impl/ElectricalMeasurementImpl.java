@@ -24,13 +24,13 @@ package org.bubblecloud.zigbee.api.cluster.impl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.ElectricalMeasurement;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.ElectricalMeasurement;
 import org.bubblecloud.zigbee.api.ReportingConfiguration;
 import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.api.cluster.impl.measureament_sensing.ElectricalMeasurementCluster;
+import org.bubblecloud.zigbee.api.cluster.impl.measurement_sensing.ElectricalMeasurementCluster;
 
 /**
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>

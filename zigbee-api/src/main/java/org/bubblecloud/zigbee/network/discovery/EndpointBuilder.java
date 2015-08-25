@@ -84,6 +84,7 @@ public class EndpointBuilder implements Stoppable {
     private boolean end;
 
     private long nextInspectionSlot = 0;
+    private long nextInspectionDelay = 100;		// TODO: Moved here from inline code. Why was this 10ms? 
 //    private ImportingQueue.ZigBeeNodeAddress dev;
 
     private class ZigBeeEndpointReference {
@@ -151,12 +152,11 @@ public class EndpointBuilder implements Stoppable {
                         new Object[]{node, ep}
                 );
             }
-
         }
         try {
             ZigBeeEndpointImpl endpoint = new ZigBeeEndpointImpl(driver, node, ep);
             if (endpoint.getNode().getNetworkAddress() == 0) {
-                logger.trace("Sender end point {} found with profile PROFILE_ID_HOME_AUTOMATION: " + endpoint.getProfileId(), endpoint.getEndpointId());
+                logger.trace("Sender end point {} found with profile PROFILE_ID_HOME_AUTOMATION: {}", endpoint.getEndpointId(), endpoint.getProfileId());
                 ApplicationFrameworkLayer.getAFLayer(driver).registerSenderEndPoint(
                         ep, endpoint.getProfileId(), endpoint.getOutputClusters());
             }
@@ -168,12 +168,12 @@ public class EndpointBuilder implements Stoppable {
             logger.error("Error building the device: {}", node, e);
 
             ZigBeeEndpointReference last = new ZigBeeEndpointReference(node, ep);
-            if (!failedAttempts.containsKey(last))
+            if (!failedAttempts.containsKey(last)) {
                 failedAttempts.put(last, 0);
-            else if (failedAttempts.get(last) + 1 < maxRetriesFailedEndpoints)
+            } else if (failedAttempts.get(last) + 1 < maxRetriesFailedEndpoints) {
                 failedAttempts.put(last, failedAttempts.get(last) + 1);
-            else {
-                logger.debug("Too many attempts failed, device {}:{} adding delayed of {} ms", new Object[]{node, ep, delay});
+            } else {
+                logger.debug("Too many attempts failed, device {}:{} adding delay of {} ms", new Object[]{node, ep, delay});
                 failedEndpoints.remove(last);
                 delayedReattempts.put(last, delay);
             }
@@ -197,6 +197,7 @@ public class EndpointBuilder implements Stoppable {
         }
         if (isNew) {
         	// This is a new node
+            logger.debug("Inspecting new node {}", node);
 
         	// Get the node descriptor
             ZDO_NODE_DESC_REQ nodeDescriptorReq = new ZDO_NODE_DESC_REQ(nwkAddress.get16BitValue());
@@ -236,12 +237,15 @@ public class EndpointBuilder implements Stoppable {
             	network.notifyNodeDiscovered(node);
                 return;
             } else {
-                // If you don't remove node with devices not yet inspected from network, you won't be able to re-inspect them later
-                // maybe device is sleeping and you have to wait for a non-sleeping period
+                // If you don't remove node with devices not yet inspected from network,
+            	// you won't be able to re-inspect them later...
+                // Maybe the device is sleeping and you have to wait for a non-sleeping period...
                 logger.warn("Node {} removed from network because no endpoints have been discovered", node);
                 network.removeNode(node);
             }
         } else {
+            logger.debug("Inspecting existing node {}", node);
+
             if (node.getNetworkAddress() != nwk) { //TODO We have to verify this step by means of JUnit
                 logger.warn(
                         "The device {} has been found again with a new network address #{} ",
@@ -254,13 +258,17 @@ public class EndpointBuilder implements Stoppable {
                 for (final ZigBeeEndpoint endpoint : network.getEndpoints(node)) {
                     network.notifyEndpointUpdated(endpoint);
                 }
+                
+                // Notify listeners that the node has been updated
+            	network.notifyNodeUpdated(node);
             }
         }
     }
 
     boolean inspectingNewEndpoint = false;
     private void inspectNewEndpoint() {
-        nextInspectionSlot = 10 + System.currentTimeMillis();
+        nextInspectionSlot = nextInspectionDelay + System.currentTimeMillis();
+        // Get an address from the end of the queue to inspect
         final ImportingQueue.ZigBeeNodeAddress dev = queue.pop();
         if (dev == null)  {
             return;
@@ -280,7 +288,7 @@ public class EndpointBuilder implements Stoppable {
         //TODO We should add a statistical history for removing a device when we tried it too many times
         logger.info("Trying to register a node extracted from FailedQueue");
         final ZigBeeEndpointReference failed = failedEndpoints.get(0);
-        nextInspectionSlot = 10 + System.currentTimeMillis();
+        nextInspectionSlot = nextInspectionDelay + System.currentTimeMillis();
         doCreateZigBeeEndpoint(failed.node, failed.endPoint);
     }
 
@@ -320,18 +328,25 @@ public class EndpointBuilder implements Stoppable {
                 }
                 ThreadUtils.waitingUntil(nextInspectionSlot);
 
+                logger.debug("Inspection queue: New queue size: {}. Failed queue size: {}", queue.size(), failedEndpoints.size());
+
+                // Prioritise new endpoints over re-inspecting failed endpoints
                 if (queue.size() > 0 && failedEndpoints.size() > 0) {
-                    double sel = Math.random();
-                    if (sel > 0.6) {
+                    // 2/3rds of the time, inspect new endpoints
+                    if (Math.random() > 0.6) {
                         inspectFailedEndpoint();
                     } else {
                         inspectNewEndpoint();
                     }
                 } else if (queue.size() == 0 && failedEndpoints.size() > 0) {
+                	// There are no new endpoints, but failed endoints are queued
                     inspectFailedEndpoint();
                 } else if (queue.size() > 0 && failedEndpoints.size() == 0) {
+                	// There are no failed endpoints, but new endpoints are queued
                     inspectNewEndpoint();
                 } else if (queue.size() == 0 && failedEndpoints.size() == 0) {
+                	// There are no endpoints queued.........
+                	// Why is this here - queue size is 0?!?
                     inspectNewEndpoint();
                 }
 

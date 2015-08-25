@@ -30,7 +30,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.closures.DoorLock;
 import org.bubblecloud.zigbee.api.cluster.impl.api.closures.ShadeConfiguration;
 import org.bubblecloud.zigbee.api.cluster.impl.api.closures.WindowCovering;
 import org.bubblecloud.zigbee.api.cluster.impl.api.general.*;
-import org.bubblecloud.zigbee.api.cluster.impl.api.measureament_sensing.*;
+import org.bubblecloud.zigbee.api.cluster.impl.api.measurement_sensing.*;
 import org.bubblecloud.zigbee.api.cluster.impl.api.smart_energy.Metering;
 import org.bubblecloud.zigbee.api.device.generic.LevelControlSwitch;
 import org.bubblecloud.zigbee.api.device.generic.MainsPowerOutlet;
@@ -40,6 +40,7 @@ import org.bubblecloud.zigbee.api.device.generic.OnOffSwitch;
 import org.bubblecloud.zigbee.api.device.hvac.Pump;
 import org.bubblecloud.zigbee.api.device.hvac.ThermostatControl;
 import org.bubblecloud.zigbee.api.device.hvac.TemperatureSensor;
+import org.bubblecloud.zigbee.api.device.lighting.ColorDimmableLight;
 import org.bubblecloud.zigbee.api.device.lighting.DimmableLight;
 import org.bubblecloud.zigbee.api.device.lighting.LightSensor;
 import org.bubblecloud.zigbee.api.device.lighting.OccupancySensor;
@@ -72,8 +73,8 @@ public class ZigBeeApiConstants {
      */
     public static final int PROFILE_ID_LIGHT_LINK = 0xc05e;
 
-    //CLUSTERS
-    //Generic
+    // CLUSTERS
+    // Generic
     public static final int CLUSTER_ID_BASIC = Basic.ID;
     public static final int CLUSTER_ID_POWER_CONFIGURATION = PowerConfiguration.ID;
     public static final int CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION = DeviceTemperatureConfiguration.ID;
@@ -89,13 +90,13 @@ public class ZigBeeApiConstants {
     public static final int CLUSTER_ID_TIME = Time.ID;
     public static final int CLUSTER_ID_ANALOG_INPUT = AnalogInput.ID;
     public static final int CLUSTER_ID_COMMISSIONING = Commissioning.ID;
-    //Smart Energy	
+    // Smart Energy	
     public static final int CLUSTER_ID_METERING = Metering.ID;
-    //Closures
+    // Closures
     public static final int CLUSTER_ID_SHADE_CONFIGURATION = ShadeConfiguration.ID;
     public static final int CLUSTER_ID_DOOR_LOCK = DoorLock.ID;
     public static final int CLUSTER_ID_WINDOW_COVERING = WindowCovering.ID;
-    //HVAC
+    // HVAC
     public static final int CLUSTER_ID_PUMP_CONFIGURATION_AND_CONTROL = PumpConfigurationAndControl.ID;
     public static final int CLUSTER_ID_THERMOSTAT = Thermostat.ID;
     public static final int CLUSTER_ID_FAN_CONTROL = FanControl.ID;
@@ -116,77 +117,103 @@ public class ZigBeeApiConstants {
     public static final int CLUSTER_ID_IAS_ACE = IASACE.ID;
     public static final int CLUSTER_ID_IAS_WD = IASWD.ID;
 
-    // devices
-    // GENERIC 0x0000 - 0x00FF
-    public static final int DEVICE_ID_ON_OFF_SWITCH = OnOffSwitch.DEVICE_ID;
-    public static final int DEVICE_ID_LEVEL_CONTROL = LevelControlSwitch.DEVICE_ID;
-    public static final int DEVICE_ID_ON_OFF_OUTPUT = OnOffOutput.DEVICE_ID;
-    public static final int DEVICE_ID_MAINS_POWER_OUTLET = MainsPowerOutlet.DEVICE_ID;
-    public static final int DEVICE_ID_SIMPLE_SENSOR = SimpleSensor.DEVICE_ID;
-    // LIGHTNING 0x0100 - 0x1FF
-    public static final int DEVICE_ID_ON_OFF_LIGHT = OnOffLight.DEVICE_ID;
-    public static final int DEVICE_ID_DIMMABLE_LIGHT = DimmableLight.DEVICE_ID;
-    public static final int DEVICE_ID_ON_OFF_LIGHT_SWITCH = OnOffLightSwitch.DEVICE_ID;
-    public static final int DEVICE_ID_LIGHT_SENSOR = LightSensor.DEVICE_ID;
-    public static final int DEVICE_ID_OCCUPANCY_SENSOR = OccupancySensor.DEVICE_ID;
-    // HVAC - 0x0300 - 0x3FF
-    public static final int DEVICE_ID_THERMOSTAT_CONTROL = ThermostatControl.DEVICE_ID;
-    public static final int DEVICE_ID_TEMPERATURE_SENSOR = TemperatureSensor.DEVICE_ID;
-    public static final int DEVICE_ID_PUMP = Pump.DEVICE_ID;
-    // Intruder Alarm Systems 0x0400 - 0xFFFF
-    public static final int DEVICE_ID_IAS_CONTROL_INDICATING_EQUIPMENT = IASControlAndIndicatingEquipment.DEVICE_ID;
-    public static final int DEVICE_ID_IASZONE = IAS_Zone.DEVICE_ID;
-    public static final int DEVICE_ID_IAS_WARNING_DEVICE = IAS_Warning.DEVICE_ID;
+    // Home Automation Profile devices
+    // HA GENERIC 0x0000 - 0x00FF
+    public static final int DEVICE_ID_HA_ON_OFF_SWITCH = OnOffSwitch.DEVICE_ID;
+    public static final int DEVICE_ID_HA_LEVEL_CONTROL = LevelControlSwitch.DEVICE_ID;
+    public static final int DEVICE_ID_HA_ON_OFF_OUTPUT = OnOffOutput.DEVICE_ID;
+    public static final int DEVICE_ID_HA_SCENE_SELECTOR = 4;  // TODO
+    public static final int DEVICE_ID_HA_CONFIGURATION_TOOL = 5;   // TODO
+    public static final int DEVICE_ID_HA_REMOTE_CONTROL = 6;	// TODO
+    public static final int DEVICE_ID_HA_RANGE_EXTENDER = 8;	// TODO
+    public static final int DEVICE_ID_HA_MAINS_POWER_OUTLET = MainsPowerOutlet.DEVICE_ID;
+    public static final int DEVICE_ID_HA_SIMPLE_SENSOR = SimpleSensor.DEVICE_ID;
+    // HA LIGHTNING 0x0100 - 0x1FF
+    public static final int DEVICE_ID_HA_ON_OFF_LIGHT = OnOffLight.DEVICE_ID;
+    public static final int DEVICE_ID_HA_DIMMABLE_LIGHT = DimmableLight.DEVICE_ID;
+    public static final int DEVICE_ID_HA_ON_OFF_LIGHT_SWITCH = OnOffLightSwitch.DEVICE_ID;
+    public static final int DEVICE_ID_HA_LIGHT_SENSOR = LightSensor.DEVICE_ID;
+    public static final int DEVICE_ID_HA_OCCUPANCY_SENSOR = OccupancySensor.DEVICE_ID;
+    // HA HVAC - 0x0300 - 0x3FF
+    public static final int DEVICE_ID_HA_THERMOSTAT_CONTROL = ThermostatControl.DEVICE_ID;
+    public static final int DEVICE_ID_HA_TEMPERATURE_SENSOR = TemperatureSensor.DEVICE_ID;
+    public static final int DEVICE_ID_HA_PUMP = Pump.DEVICE_ID;
+    // HA Intruder Alarm Systems 0x0400 - 0x04FF
+    public static final int DEVICE_ID_HA_IAS_CONTROL_INDICATING_EQUIPMENT = IASControlAndIndicatingEquipment.DEVICE_ID;
+    public static final int DEVICE_ID_HA_IASZONE = IAS_Zone.DEVICE_ID;
+    public static final int DEVICE_ID_HA_IAS_WARNING_DEVICE = IAS_Warning.DEVICE_ID;
 
-    public static String getDeviceName(int deviceID) {
+    // ZLL Basic Lighting Device IDs
+   	private static final int DEVICE_ID_ZLL_ON_OFF_LIGHT              = (int) 0x0000;
+   	private static final int DEVICE_ID_ZLL_ON_OFF_PLUG_IN_UNIT       = (int) 0x0010;
+    // ZLL Level Controlled Lighting Device IDs
+   	private static final int DEVICE_ID_ZLL_DIMMABLE_LIGHT            = (int) 0x0100;
+   	private static final int DEVICE_ID_ZLL_DIMMABLE_PLUG_IN_UNIT     = (int) 0x0110;
+   	// ZLL Color Lighting Device IDs
+   	private static final int DEVICE_ID_ZLL_COLOR_LIGHT                = (int) 0x0200;
+   	private static final int DEVICE_ID_ZLL_EXTENDED_COLOR_LIGHT       = (int) 0x0210;
+   	private static final int DEVICE_ID_ZLL_COLOR_TEMPERATURE_LIGHT    = (int) 0x0220;
+   	// ZLL Lighting Remotes Device IDs
+   	private static final int DEVICE_ID_ZLL_COLOR_CONTROLLER           = (int) 0x0800;
+   	private static final int DEVICE_ID_ZLL_COLOR_SCENE_CONTROLLER     = (int) 0x0810;
+   	private static final int DEVICE_ID_ZLL_NON_COLOR_CONTROLLER       = (int) 0x0820;
+   	private static final int DEVICE_ID_ZLL_NON_COLOR_SCENE_CONTROLLER = (int) 0x0830;
+   	private static final int DEVICE_ID_ZLL_CONTROL_BRIDGE             = (int) 0x0840;
+   	private static final int DEVICE_ID_ZLL_ON_OFF_SENSOR              = (int) 0x0850;
 
-        try{
-
-            String id = Integer.toHexString(deviceID);
-
-            if(id.equals(Integer.toHexString(DEVICE_ID_ON_OFF_SWITCH)))
-                return OnOffSwitch.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_LEVEL_CONTROL)))
-                return LevelControlSwitch.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_ON_OFF_OUTPUT)))
-                return OnOffOutput.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_MAINS_POWER_OUTLET)))
-                return MainsPowerOutlet.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_SIMPLE_SENSOR)))
-                return SimpleSensor.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_ON_OFF_LIGHT)))
-                return OnOffLight.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_DIMMABLE_LIGHT)))
-                return DimmableLight.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_ON_OFF_LIGHT_SWITCH)))
-                return OnOffLightSwitch.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_LIGHT_SENSOR)))
-                return LightSensor.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_OCCUPANCY_SENSOR)))
-                return OccupancySensor.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_THERMOSTAT_CONTROL)))
-                return ThermostatControl.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_TEMPERATURE_SENSOR)))
-                return TemperatureSensor.NAME;
-            else if(id.equals(Integer.toHexString(DEVICE_ID_IAS_CONTROL_INDICATING_EQUIPMENT)))
-                return IASControlAndIndicatingEquipment.NAME;
-            else if(id.equals(Integer.toHexString(CLUSTER_ID_PRESSURE_MEASUREMENT)))
-                return PressureMeasurement.NAME;
-            else if(id.equals(Integer.toHexString(CLUSTER_ID_FLOW_MEASUREMENT)))
-                return FlowMeasurement.NAME;
-            else if(id.equals(Integer.toHexString(CLUSTER_ID_ILLUMINANCE_LEVEL_SENSING)))
-                return IlluminanceLevelSensing.NAME;
-
-            else return null;
-        }
-        catch(Exception ex){
-            return null;
-        }
+   	public static String getDeviceName(int profileID, int deviceID) {
+		switch (profileID) {
+		case PROFILE_ID_HOME_AUTOMATION:
+			if (deviceID == DEVICE_ID_HA_ON_OFF_SWITCH)
+				return OnOffSwitch.NAME;
+			else if (deviceID == DEVICE_ID_HA_LEVEL_CONTROL)
+				return LevelControlSwitch.NAME;
+			else if (deviceID == DEVICE_ID_HA_ON_OFF_OUTPUT)
+				return OnOffOutput.NAME;
+			else if (deviceID == DEVICE_ID_HA_MAINS_POWER_OUTLET)
+				return MainsPowerOutlet.NAME;
+			else if (deviceID == DEVICE_ID_HA_SIMPLE_SENSOR)
+				return SimpleSensor.NAME;
+			else if (deviceID == DEVICE_ID_HA_ON_OFF_LIGHT)
+				return OnOffLight.NAME;
+			else if (deviceID == DEVICE_ID_HA_DIMMABLE_LIGHT)
+				return DimmableLight.NAME;
+			else if (deviceID == DEVICE_ID_HA_ON_OFF_LIGHT_SWITCH)
+				return OnOffLightSwitch.NAME;
+			else if (deviceID == DEVICE_ID_HA_LIGHT_SENSOR)
+				return LightSensor.NAME;
+			else if (deviceID == DEVICE_ID_HA_OCCUPANCY_SENSOR)
+				return OccupancySensor.NAME;
+			else if (deviceID == DEVICE_ID_HA_THERMOSTAT_CONTROL)
+				return ThermostatControl.NAME;
+			else if (deviceID == DEVICE_ID_HA_TEMPERATURE_SENSOR)
+				return TemperatureSensor.NAME;
+			else if (deviceID == DEVICE_ID_HA_IAS_CONTROL_INDICATING_EQUIPMENT)
+				return IASControlAndIndicatingEquipment.NAME;
+			else if (deviceID == CLUSTER_ID_PRESSURE_MEASUREMENT)
+				return PressureMeasurement.NAME;
+			else if (deviceID == CLUSTER_ID_FLOW_MEASUREMENT)
+				return FlowMeasurement.NAME;
+			else if (deviceID == CLUSTER_ID_ILLUMINANCE_LEVEL_SENSING)
+				return IlluminanceLevelSensing.NAME;
+			break;
+		case PROFILE_ID_LIGHT_LINK:
+			if (deviceID == DEVICE_ID_ZLL_ON_OFF_LIGHT)
+				return OnOffSwitch.NAME;
+			else if (deviceID == DEVICE_ID_ZLL_DIMMABLE_LIGHT)
+				return DimmableLight.NAME;
+			else if (deviceID == DEVICE_ID_ZLL_COLOR_LIGHT)
+				return ColorDimmableLight.NAME;
+			else if (deviceID == DEVICE_ID_ZLL_EXTENDED_COLOR_LIGHT)
+				return ColorDimmableLight.NAME;
+			break;
+		}
+		
+		return null;
     }
 
     public static String getClusterName(int clusterID) {
-
-        try{
+        try {
             String id = Integer.toHexString(clusterID);
 
             if(id.equals(Integer.toHexString(CLUSTER_ID_BASIC)))
@@ -287,4 +314,14 @@ public class ZigBeeApiConstants {
     	}
 		return null;
     }
+
+	public static String getProfileName(int profileId) {
+    	switch(profileId) {
+    	case PROFILE_ID_HOME_AUTOMATION:
+    		return "ZigBee Home Automation";
+    	case PROFILE_ID_LIGHT_LINK:
+    		return "ZigBee Light Link";
+    	}
+    	return null;
+	}
 }

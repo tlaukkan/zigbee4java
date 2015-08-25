@@ -32,7 +32,7 @@ import org.bubblecloud.zigbee.ZigBeeApiContext;
  */
 public class ClusterFactoryImpl extends ClusterFactoryBase {
 
-    //General
+    // General
     final static String BASIC_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":" + ZigBeeApiConstants.CLUSTER_ID_BASIC;
     final static String POWER_CONFIGURATION_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_POWER_CONFIGURATION;
     final static String DEVICE_TEMPERATURE_CONFIGURATION_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_DEVICE_TEMPERATURE_CONFIGURATION;
@@ -45,10 +45,10 @@ public class ClusterFactoryImpl extends ClusterFactoryBase {
     final static String ALARMS_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_ALARMS;
     final static String BINARY_INPUT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_BINARY_INPUT;
 
-    //Smart Energy
+    // Smart Energy
     final static String METERING_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_METERING;
 
-    //Measurement and Sensing
+    // Measurement and Sensing
     final static String ILLUMINANCE_LEVEL_SENSING_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_ILLUMINANCE_LEVEL_SENSING; // new
     final static String ILLUMINANCE_MEASUREMENT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_ILLUMINANCE_MEASUREMENT; // new
     final static String TEMPERATURE_MEASUREMENT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_TEMPERATURE_MEASUREMENT;
@@ -57,31 +57,31 @@ public class ClusterFactoryImpl extends ClusterFactoryBase {
     final static String RELATIVE_HUMIDITY_MEASUREMENT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_RELATIVE_HUMIDITY_MEASUREMENT;
     final static String OCCUPANCY_SENSING_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_OCCUPANCY_SENSING;
     final static String ELECTRICAL_MEASUREMENT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_ELECTRICAL_MEASUREMENT;
-    //Security and Safety
+    // Security and Safety
     final static String IAS_ZONE_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE;
     final static String IAS_WD_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_IAS_WD;
     final static String IAS_ACE_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_IAS_ACE;
-    //fuori profilo HA
+    // fuori profilo HA
     final static String TIME_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_TIME;
     final static String COMMISSIONING_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_COMMISSIONING;
     final static String ANALOG_INPUT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_ANALOG_INPUT;
 
-    //HVAC
+    // HVAC
     private static final String THERMOSTAT_USER_INTERFACE_CONFIGURATION_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_THERMOSTAT_USER_INTERFACE_CONFIGURATION;
     private static final String FAN_CONTROL_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_FAN_CONTROL;
     private static final String THERMOSTAT_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_THERMOSTAT;
     private static final String PUMP_CONFIGURATION_AND_CONTROL_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_PUMP_CONFIGURATION_AND_CONTROL;
-    //Closures
+    // Closures
     private static final String SHADE_CONFIGURATION_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_SHADE_CONFIGURATION;
     private static final String DOOR_LOCK_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_DOOR_LOCK;
     private static final String WINDOW_COVERING_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_WINDOW_COVERING;
-    //Lightening
+    // Lightening
     private static final String COLOR_CONTROL_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_COLOR_CONTROL;
 
     public ClusterFactoryImpl(ZigBeeApiContext context){
         super(context);
 
-        //General
+        // General
         addCluster(BASIC_KEY, BasicImpl.class);
         addCluster(POWER_CONFIGURATION_KEY, PowerConfigurationImpl.class);
         addCluster(DEVICE_TEMPERATURE_CONFIGURATION_KEY, DeviceTemperatureConfigurationImpl.class);
@@ -94,16 +94,16 @@ public class ClusterFactoryImpl extends ClusterFactoryBase {
         addCluster(ALARMS_KEY, AlarmsImpl.class);
         addCluster(BINARY_INPUT_KEY, BinaryInputImpl.class);
 
-        //Smart Energy
+        // Smart Energy
         addCluster(METERING_KEY, MeteringImpl.class);
 
-        //fuori profilo HA
+        // fuori profilo HA
         addCluster(ANALOG_INPUT_KEY, AnalogInputImpl.class);
         addCluster(COMMISSIONING_KEY, CommissioningImpl.class); // new
         addCluster(TIME_KEY, TimeImpl.class);
 
 
-        //Measurement and Sensing
+        // Measurement and Sensing
         addCluster(ILLUMINANCE_MEASUREMENT_KEY, IlluminanceMeasurementImpl.class); // new
         addCluster(TEMPERATURE_MEASUREMENT_KEY, TemperatureMeasurementImpl.class);
         addCluster(RELATIVE_HUMIDITY_MEASUREMENT_KEY, RelativeHumidityMeasurementImpl.class);
@@ -113,23 +113,23 @@ public class ClusterFactoryImpl extends ClusterFactoryBase {
         addCluster(FLOW_MEASUREMENT_KEY, FlowMeasurementImpl.class);
         addCluster(ILLUMINANCE_LEVEL_SENSING_KEY, IlluminanceLevelSensingImpl.class);
 
-        //Security and Safety
+        // Security and Safety
         addCluster(IAS_ZONE_KEY, IASZoneImpl.class);
         addCluster(IAS_WD_KEY, IASWDImpl.class);
         addCluster(IAS_ACE_KEY, IASACEImpl.class);
 
-        //HVAC
+        // HVAC
         addCluster(PUMP_CONFIGURATION_AND_CONTROL_KEY, PumpConfigurationAndControlImpl.class);
         addCluster(THERMOSTAT_KEY, ThermostatImpl.class);
         addCluster(FAN_CONTROL_KEY, FanControlImpl.class);
         addCluster(THERMOSTAT_USER_INTERFACE_CONFIGURATION_KEY, ThermostatUserInterfaceConfigurationImpl.class);
 
-        //Closures
+        // Closures
         addCluster(SHADE_CONFIGURATION_KEY, ShadeConfigurationImpl.class);
         addCluster(DOOR_LOCK_KEY, DoorLockImpl.class);
         addCluster(WINDOW_COVERING_KEY, WindowCoveringImpl.class);
 
-        //Lighting
+        // Lighting
         addCluster(COLOR_CONTROL_KEY, ColorControlImpl.class);
     }
 

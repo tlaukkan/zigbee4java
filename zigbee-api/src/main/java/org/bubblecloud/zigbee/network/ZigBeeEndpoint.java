@@ -120,7 +120,7 @@ public interface ZigBeeEndpoint {
 
     /**
      * Invoke the given {@link ClusterMessage} (which is supposed to part of the Input Cluster) of this EndPoint,<br>
-     * and wait for the a response from.
+     * and wait for the a response.
      *
      * @param input the {@link ClusterMessage} containing the id of the Cluster to invoke and the cluster message
      * @return the {@link ClusterMessage} representing the response received after that the Cluster answer to<br>
@@ -131,7 +131,7 @@ public interface ZigBeeEndpoint {
     /**
      * Send the given {@link ClusterMessage} (which is supposed to be Input Cluster) to this EndPoint,<br>
      * on the contrary than the {@link #invoke(ClusterMessage)} this method doesn't wait for nor requires<br>
-     * an answer from the EndPoint-
+     * an answer from the EndPoint.
      *
      * @param input the {@link ClusterMessage} containing the id of the Cluster to send to the cluster message
      */

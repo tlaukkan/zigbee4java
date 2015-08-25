@@ -24,7 +24,7 @@ package org.bubblecloud.zigbee.api.cluster.general;
 
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.event.MeasuredValueListener;
+import org.bubblecloud.zigbee.api.cluster.measurement_sensing.event.MeasuredValueListener;
 
 /**
  * 

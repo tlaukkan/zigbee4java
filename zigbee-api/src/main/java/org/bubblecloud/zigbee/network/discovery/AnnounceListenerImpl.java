@@ -74,7 +74,7 @@ public class AnnounceListenerImpl implements AnnounceListener {
         final Thread notifyThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ApplicationFrameworkLayer.getAFLayer(zigbeeNetworkManager).getZigBeeNetwork().notifyNodeAnnounced(
+                ApplicationFrameworkLayer.getAFLayer(zigbeeNetworkManager).getZigBeeNetwork().notifyDiscoveryAnnounced(
                         new ZigBeeNodeImpl(senderAddress.get16BitValue(), ieeeAddress,
                                 (short) zigbeeNetworkManager.getCurrentPanId()));
             }

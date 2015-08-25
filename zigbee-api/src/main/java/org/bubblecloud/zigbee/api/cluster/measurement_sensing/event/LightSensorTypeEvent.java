@@ -20,15 +20,18 @@
    limitations under the License.
 */
 
-package org.bubblecloud.zigbee.api.cluster.measureament_sensing.event;
+package org.bubblecloud.zigbee.api.cluster.measurement_sensing.event;
+
+import org.bubblecloud.zigbee.api.cluster.Cluster;
 
 /**
  * @author <a href="mailto:manlio.bacco@isti.cnr.it">Manlio Bacco</a>
  * @version $LastChangedRevision$ ($LastChangedDate$)
  * @since 0.7.0
  */
-public interface LightSensorTypeListener {
+public interface LightSensorTypeEvent {
 
-    public void changedLightSensorType(LightSensorTypeEvent event);
+    public int getEvent();
 
+    public Cluster getSource();
 }
