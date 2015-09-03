@@ -1327,7 +1327,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
      * @since 0.2.0
      */
     public int getCurrentChannel() {
-        if (waitForHardware() == false) {
+        if (waitForNetwork() == false) {
             logger.info("Failed to reach the {} level: getCurrentChannel() failed", DriverStatus.NETWORK_READY);
             return -1;
         }
