@@ -302,7 +302,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                     "The PanId configuration differ from the channel configuration in use: " +
                             "in use {}, while the configured is {}.\n" +
                             "The ZigBee network should be reconfigured or configuration corrected.",
-                    value, pan
+                            String.format("%04X", value), String.format("%04X", pan & 0x0000ffff)
             );
             mismatch = true;
         }
@@ -334,7 +334,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         } else {
             logger.trace("CHANNEL set");
         }
-        logger.debug("Setting PAN to {}.", pan);
+        logger.debug("Setting PAN to {}.", String.format("%04X", pan & 0x0000ffff));
         if (!dongleSetPanId()) {
             logger.error("Unable to set PANID for ZigBee Network");
             return false;
@@ -510,13 +510,22 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     private boolean waitForNetwork() {
+    	long before = System.currentTimeMillis();
+    	boolean timedOut = false;
         synchronized (this) {
-            while (state != DriverStatus.NETWORK_READY && state != DriverStatus.CLOSED) {
+            while (state != DriverStatus.NETWORK_READY && state != DriverStatus.CLOSED && !timedOut) {
                 logger.debug("Waiting for network to become ready");
                 try {
-                    wait();
+                	long now = System.currentTimeMillis();
+                	long timeout = STARTUP_TIMEOUT - (now - before);
+                	if (timeout > 0) {
+                		wait(timeout);
+                	} else {
+                		timedOut = true;
+                	}
                 } catch (InterruptedException ignored) {
                 }
+                
             }
             return isNetworkReady();
         }
