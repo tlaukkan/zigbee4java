@@ -20,7 +20,7 @@ public class ZigBeeConsoleJavaSE
 		try {
 			serialPortName = args[0];
 			channel        = Integer.parseInt(args[1]);
-			pan            = Integer.parseInt(args[2]);
+			pan            = parseDecimalOrHexInt(args[2]);			
 			resetNetwork   = args[3].equals("true");
 		} catch (final Throwable t) {
 			System.out.println("Syntax: java -jar zigbee4java-serialPort.jar SERIALPORT CHANNEL PAN RESET");
@@ -32,5 +32,15 @@ public class ZigBeeConsoleJavaSE
 		ZigBeeConsole console = new ZigBeeConsole(serialPort,pan,channel,resetNetwork);
 
 		console.start();
+	}
+	
+	private static int parseDecimalOrHexInt(String s) {
+		int radix = 10;
+		String number = s;
+		if (number.startsWith("0x")) {
+			number = number.substring(2);
+			radix = 16;
+		}
+		return Integer.parseInt(number, radix);
 	}
 }
