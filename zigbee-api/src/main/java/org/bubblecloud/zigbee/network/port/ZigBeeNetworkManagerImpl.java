@@ -81,14 +81,24 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     private final int RESEND_TIMEOUT;
     private final int RESEND_MAX_RETRY;
     private final boolean RESEND_ONLY_EXCEPTION;
+    
+    // Dongle startup options
+    private final int STARTOPT_CLEAR_CONFIG = 0x00000001;
+    private final int STARTOPT_CLEAR_STATE = 0x00000002;
+    
+    // The dongle will automatically pickup a random, not conflicting PAN ID
+    private final short AUTO_PANID = (short) 0xffff;
 
     private ZigBeeInterface zigbeeInterface;
     private ZigBeePort port;
     private DriverStatus state;
     private NetworkMode mode;
-    private short pan;
+    private short pan = AUTO_PANID;
     private byte channel;
-    private long extendedPanId;
+    private long extendedPanId; // do not initialize to use dongle defaults (the IEEE address)
+    private long networkKey;  // do not initialize to use dongle defaults
+    private boolean distributeNetworkKey = true; // distribute network key in clear (be careful)
+    private int securityMode = 1; // int for future extensibility
 
     private final HashSet<AnnounceListener> announceListeners = new HashSet<AnnounceListener>();
     private final AnnounceListenerFilter announceListenerFilter = new AnnounceListenerFilter(announceListeners);
@@ -299,7 +309,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             );
             mismatch = true;
         }
-        if ((value = getCurrentPanId()) != pan) {
+        // Do not check the current PAN ID if a random one is generated
+        // by the dongle.
+        if (pan != AUTO_PANID && (value = getCurrentPanId()) != pan) {
             logger.warn(
                     "The PanId configuration differ from the PanId configuration in use: " +
                             "in use {}, while the configured is {}.\n" +
@@ -333,11 +345,27 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     private boolean configureZigBeeNetwork() {
         logger.debug("Resetting network stack.");
 
+        // Make sure we start clearing configuration and state
         logger.info("Setting clean state.");
-        if (!dongleSetCleanState(true)) {
+        if (!dongleSetStartupOption(STARTOPT_CLEAR_CONFIG | STARTOPT_CLEAR_STATE)) {
             logger.error("Unable to set clean state for dongle");
             return false;
         }
+        logger.debug("Changing the Network Mode to {}.", mode);
+        if (dongleSetNetworkMode() == false) {
+            logger.error("Unable to set NETWORK_MODE for ZigBee Network");
+            return false;
+        } else {
+            logger.trace("NETWORK_MODE set");
+        }
+        // A dongle reset is needed to put into effect
+        // configuration clear and network mode.
+        logger.info("Resetting dongle.");
+        if (!dongleReset()) {
+            logger.error("Unable to reset dongle");
+            return false;
+        }
+        
         logger.debug("Setting channel to {}.", channel);
         if (!dongleSetChannel()) {
             logger.error("Unable to set CHANNEL for ZigBee Network");
@@ -361,20 +389,28 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         		logger.trace("EXT_PANID set");
         	}
         }
-        logger.debug("Changing the Network Mode to {}.", mode);
-        if (dongleSetNetworkMode() == false) {
-            logger.error("Unable to set NETWORK_MODE for ZigBee Network");
-            return false;
+        if (networkKey != 0) {
+        	logger.debug("Setting Network Key to {}.", String.format("%08X", networkKey));
+        	if (!dongleSetNetworkKey()) {
+        		logger.error("Unable to set NETWORK_KEY for ZigBee Network");
+        		return false;
+        	} else {
+        		logger.trace("NETWORK_KEY set");
+        	}
+        }
+        logger.debug("Setting Distribute Network Key to {}.", distributeNetworkKey);
+        if (!dongleSetDistributeNetworkKey()) {
+        	logger.error("Unable to set DISTRIBUTE_NETWORK_KEY for ZigBee Network");
+        	return false;
         } else {
-            logger.trace("NETWORK_MODE set");
+        	logger.trace("DISTRIBUTE_NETWORK_KEY set");
         }
-        if (!dongleReset()) {
-            logger.error("Unable to reset dongle");
-            return false;
-        }
-        if (!dongleSetCleanState(false)) {
-            logger.error("Unable to unset clean state for dongle");
-            return false;
+        logger.debug("Setting Security Mode to {}.", securityMode);
+        if (!dongleSetSecurityMode()) {
+        	logger.error("Unable to set SECURITY_MODE for ZigBee Network");
+        	return false;
+        } else {
+        	logger.trace("SECURITY_MODE set");
         }
         return true;
     }
@@ -951,38 +987,29 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
         return response != null;
     }
-
-    private boolean dongleSetCleanState(boolean clean) {
+    
+    private boolean dongleSetStartupOption(int mask) {
+    	if ((mask & ~(STARTOPT_CLEAR_CONFIG | STARTOPT_CLEAR_STATE)) != 0) {
+        	logger.warn("Invalid ZCD_NV_STARTUP_OPTION mask {}.", String.format("%08X", mask));
+        	return false;
+    	}
+    	
         ZB_WRITE_CONFIGURATION_RSP response;
-        if (clean) {
-            response = (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
-					zigbeeInterface,
-                    new ZB_WRITE_CONFIGURATION(
-                            ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_STARTUP_OPTION,
-                            new int[]{0x00000002}
-                    )
-            );
+        response = (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
+        		zigbeeInterface,
+        		new ZB_WRITE_CONFIGURATION(
+        				ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_STARTUP_OPTION,
+        				new int[]{mask}
+        				)
+        		);
 
-            if (response == null || response.Status != 0) {
-                logger.warn("Couldn't set ZCD_NV_STARTUP_OPTION to CLEAN_STATE");
-                return false;
-            } else {
-                logger.trace("Set ZCD_NV_STARTUP_OPTION to CLEAN_STATE");
-            }
+        if (response == null || response.Status != 0) {
+        	logger.warn("Couldn't set ZCD_NV_STARTUP_OPTION mask {}", String.format("%08X", mask));
+        	return false;
         } else {
-            response = (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
-					zigbeeInterface,
-                    new ZB_WRITE_CONFIGURATION(
-                            ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_STARTUP_OPTION,
-                            new int[]{0x00000000}
-                    )
-            );
-
-            if (response == null || response.Status != 0) {
-                logger.info("Couldn't set ZCD_NV_STARTUP_OPTION back to DO_NOTHING");
-                return false;
-            }
+        	logger.trace("Set ZCD_NV_STARTUP_OPTION mask {}", String.format("%08X", mask));
         }
+
         return true;
     }
 
@@ -1081,6 +1108,58 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
         return response != null && response.Status == 0;
     }
+    
+    private boolean dongleSetNetworkKey() {
+        ZB_WRITE_CONFIGURATION_RSP response =
+                (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
+						zigbeeInterface,
+                        new ZB_WRITE_CONFIGURATION(
+                                ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_PRECFGKEY,
+                                new int[]{
+                                        Integers.getByteAsInteger(networkKey, 0),
+                                        Integers.getByteAsInteger(networkKey, 1),
+                                        Integers.getByteAsInteger(networkKey, 2),
+                                        Integers.getByteAsInteger(networkKey, 3),
+                                        Integers.getByteAsInteger(networkKey, 4),
+                                        Integers.getByteAsInteger(networkKey, 5),
+                                        Integers.getByteAsInteger(networkKey, 6),
+                                        Integers.getByteAsInteger(networkKey, 7),
+                                }
+                        )
+                );
+
+        return response != null && response.Status == 0;    	
+    }
+    
+    private boolean dongleSetDistributeNetworkKey() {
+        ZB_WRITE_CONFIGURATION_RSP response =
+                (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
+						zigbeeInterface,
+                        new ZB_WRITE_CONFIGURATION(
+                                ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_PRECFGKEYS_ENABLE,
+                                new int[]{
+                                        distributeNetworkKey ? 0 : 1
+                                }
+                        )
+                );
+
+        return response != null && response.Status == 0;
+    }
+    
+    private boolean dongleSetSecurityMode() {
+        ZB_WRITE_CONFIGURATION_RSP response =
+                (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
+						zigbeeInterface,
+                        new ZB_WRITE_CONFIGURATION(
+                                ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_SECURITY_MODE,
+                                new int[]{
+                                        securityMode
+                                }
+                        )
+                );
+
+        return response != null && response.Status == 0;
+    }    
 
     private ZToolPacket sendSynchrouns(final ZigBeeInterface hwDriver, final ZToolPacket request) {
 //        final int RESEND_TIMEOUT = 1000;
