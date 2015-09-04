@@ -99,7 +99,7 @@ public final class ZigBeeConsole {
         final ZigBeeApi zigbeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, discoveryModes);
 
         final File networkStateFile = new File("network.json");
-        if (networkStateFile.exists()) {
+        if (!resetNetwork && networkStateFile.exists()) {
             try {
                 final String networkState = FileUtils.readFileToString(networkStateFile);
                 zigbeeApi.deserializeNetworkState(networkState);
