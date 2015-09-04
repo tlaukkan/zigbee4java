@@ -49,7 +49,7 @@ public class ZB_WRITE_CONFIGURATION extends ZToolPacket/* implements IREQUEST,IS
         public static final int ZCD_NV_STARTUP_OPTION = 0x03;
         public static final int ZCD_NV_LOGICAL_TYPE = 0x87;
         public static final int ZCD_NV_POLL_RATE = 0x24;
-        public static final int ZCD_NV_QEUED_POL_RATE = 0x25;
+        public static final int ZCD_NV_QUEUED_POLL_RATE = 0x25;
         public static final int ZCD_NV_RESPONSE_POLL_RATE = 0x26;
         public static final int ZCD_NV_POLL_FAILURE_RETRIES = 0x29;
         public static final int ZCD_NV_INDIRECT_MSG_TIMEOUT = 0x2B;
@@ -66,6 +66,7 @@ public class ZB_WRITE_CONFIGURATION extends ZToolPacket/* implements IREQUEST,IS
         public static final int ZCD_NV_PASSIVE_ACK_TIMEOUT = 0x2F;
         public static final int ZCD_NV_BCAST_DELIVERY_TIME = 0x30;
         public static final int ZCD_NV_ROUTE_EXPIRY_TIME = 0x2C;
+        public static final int ZCD_NV_EXTPANID = 0x2D;
     }
 
 }

@@ -88,6 +88,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     private NetworkMode mode;
     private short pan;
     private byte channel;
+    private long extendedPanId;
 
     private final HashSet<AnnounceListener> announceListeners = new HashSet<AnnounceListener>();
     private final AnnounceListenerFilter announceListenerFilter = new AnnounceListenerFilter(announceListeners);
@@ -287,6 +288,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
     private boolean checkZigBeeNetworkConfiguration() {
         int value = -1;
+        long longValue = -1;
         boolean mismatch = false;
         if ((value = getCurrentChannel()) != channel) {
             logger.warn(
@@ -299,10 +301,19 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         }
         if ((value = getCurrentPanId()) != pan) {
             logger.warn(
-                    "The PanId configuration differ from the channel configuration in use: " +
+                    "The PanId configuration differ from the PanId configuration in use: " +
                             "in use {}, while the configured is {}.\n" +
                             "The ZigBee network should be reconfigured or configuration corrected.",
                             String.format("%04X", value), String.format("%04X", pan & 0x0000ffff)
+            );
+            mismatch = true;
+        }
+        if (extendedPanId != 0 && (longValue = getExtendedPanId()) != extendedPanId) {
+            logger.warn(
+                    "The ExtendedPanId configuration differ from the ExtendedPanId configuration in use: " +
+                            "in use {}, while the configured is {}.\n" +
+                            "The ZigBee network should be reconfigured or configuration corrected.",
+                            String.format("%08X", longValue), String.format("%08X", extendedPanId)
             );
             mismatch = true;
         }
@@ -340,6 +351,15 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             return false;
         } else {
             logger.trace("PANID set");
+        }
+        if (extendedPanId != 0) {
+        	logger.debug("Setting Extended PAN ID to {}.", String.format("%08X", extendedPanId));
+        	if (!dongleSetExtendedPanId()) {
+        		logger.error("Unable to set EXT_PANID for ZigBee Network");
+        		return false;
+        	} else {
+        		logger.trace("EXT_PANID set");
+        	}
         }
         logger.debug("Changing the Network Mode to {}.", mode);
         if (dongleSetNetworkMode() == false) {
@@ -1039,6 +1059,28 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
         return response != null && response.Status == 0;
     }
+    
+    private boolean dongleSetExtendedPanId() {
+        ZB_WRITE_CONFIGURATION_RSP response =
+                (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
+						zigbeeInterface,
+                        new ZB_WRITE_CONFIGURATION(
+                                ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_EXTPANID,
+                                new int[]{
+                                        Integers.getByteAsInteger(extendedPanId, 0),
+                                        Integers.getByteAsInteger(extendedPanId, 1),
+                                        Integers.getByteAsInteger(extendedPanId, 2),
+                                        Integers.getByteAsInteger(extendedPanId, 3),
+                                        Integers.getByteAsInteger(extendedPanId, 4),
+                                        Integers.getByteAsInteger(extendedPanId, 5),
+                                        Integers.getByteAsInteger(extendedPanId, 6),
+                                        Integers.getByteAsInteger(extendedPanId, 7),
+                                }
+                        )
+                );
+
+        return response != null && response.Status == 0;
+    }
 
     private ZToolPacket sendSynchrouns(final ZigBeeInterface hwDriver, final ZToolPacket request) {
 //        final int RESEND_TIMEOUT = 1000;
@@ -1277,7 +1319,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         if (result == null) {
             return -1;
         } else {
-            return Integers.shortFromInts(result, 7, 0);
+            return Integers.longFromInts(result, 7, 0);
         }
     }
 
