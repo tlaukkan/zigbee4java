@@ -1317,7 +1317,8 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         int[] result = getDeviceInfo(ZB_GET_DEVICE_INFO.DEV_INFO_TYPE.EXT_PAN_ID);
 
         if (result == null) {
-            return -1;
+        	 // luckily -1 (aka 0xffffffffffffffffL) is not a valid extended PAN ID value
+            return -1; 
         } else {
             return Integers.longFromInts(result, 7, 0);
         }
