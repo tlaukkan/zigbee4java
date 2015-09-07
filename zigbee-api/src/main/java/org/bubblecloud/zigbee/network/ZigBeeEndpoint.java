@@ -166,15 +166,17 @@ public interface ZigBeeEndpoint {
     public boolean unbindFrom(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException;
 
     /**
-     * @param clusterId
-     * @return
+     * Adds a binding to the device, to the local device for the specificed cluster
+     * @param clusterId Cluster to bind to
+     * @return true if the binding was successful
      * @throws org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException
      */
     public boolean bindToLocal(int clusterId) throws ZigBeeNetworkManagerException;
 
     /**
-     * @param clusterId
-     * @return
+     * Removes a binding from the device, to the local device for the specificed cluster
+     * @param clusterId Cluster to unbind from
+     * @return true if the binding was successfully removed
      * @throws org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException
      */
     public boolean unbindFromLocal(int clusterId) throws ZigBeeNetworkManagerException;

@@ -187,8 +187,10 @@ public class EndpointBuilder implements Stoppable {
         boolean isNew = false, correctlyInspected = false;
         final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         synchronized (network) {
+        	// See if we already know about this node
             node = network.getNode(ieee);
             if (node == null) {
+            	// It's new - create a new node and add it to the network
                 node = new ZigBeeNodeImpl(nwk, ieeeAddress, (short) driver.getCurrentPanId());
                 isNew = true;
                 network.addNode(node);
@@ -252,6 +254,7 @@ public class EndpointBuilder implements Stoppable {
                         node, nwkAddress.get16BitValue()
                 );
 
+                // Update the network address
                 node.setNetworkAddress(nwk);
 
                 // Notify listeners that the device has been updated

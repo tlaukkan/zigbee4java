@@ -145,8 +145,8 @@ public final class ZigBeeConsole {
 			}
 
 			@Override
-			public void nodeUpdated(ZigBeeNodeImpl node) {
-                print("Node discovered: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
+			public void nodeUpdated(ZigBeeNode node) {
+                print("Node updated: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
 			}
 
 			@Override

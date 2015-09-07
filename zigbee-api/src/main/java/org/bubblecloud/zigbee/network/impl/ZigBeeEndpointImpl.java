@@ -125,7 +125,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
      * @param inputs the input clusters
      * @param outputs the output clusters
      */
-    public ZigBeeEndpointImpl(final ZigBeeNode node, int profileId, int deviceId, byte deviceVersion, short endPoint, int[] inputs, int[] outputs) {
+    public ZigBeeEndpointImpl(final ZigBeeNode node, int profileId, int deviceId, short deviceVersion, short endPoint, int[] inputs, int[] outputs) {
         this.node = node;
         this.deviceTypeId = deviceId;
         this.deviceVersion = deviceVersion;
@@ -400,6 +400,10 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean bindTo(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException {
         logger.info("Binding from endpoint {} to {} for cluster {}", new Object[]{
                 getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
@@ -420,6 +424,10 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean unbindFrom(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException {
         logger.info("Un-binding from endpoint {} to {} for cluster {}", new Object[]{
                 getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
@@ -439,7 +447,10 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         return true;
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean bindToLocal(int clusterId) throws ZigBeeNetworkManagerException {
         if (boundCluster.contains(clusterId)) {
             logger.debug("Cluster already bound");
@@ -469,6 +480,10 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean unbindFromLocal(int clusterId) throws ZigBeeNetworkManagerException {
         logger.info("Unbinding from cluster {} of endpoint {}", clusterId, getEndpointId());
         if (!boundCluster.contains(clusterId)) {
@@ -496,9 +511,9 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             logger.debug("Registered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             networkManager.addAFMessageListner(this);
         } else {
-            logger.debug("Skipped to registered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
+            logger.debug("Skipped registration of {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             logger.trace(
-                    "Skipped registration due to: listeners.isEmpty() = {}  or consumers.size() = {}",
+                    "Skipped registration due to: listeners.isEmpty() = {} or consumers.size() = {}",
                     listeners.isEmpty(), consumers.size()
             );
         }

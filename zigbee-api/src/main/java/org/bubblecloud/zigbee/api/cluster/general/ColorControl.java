@@ -34,8 +34,7 @@ import org.bubblecloud.zigbee.api.cluster.Cluster;
 
 public interface ColorControl extends Cluster {
 
-    // commands
-    /**
+	/**
      * Sets hue according to HSV (aka HSB) color model.
      * @param hue hue (degrees) / 360 * 254 in the range 0 - 254.
      * @param direction 0 = shortest, 1 = longest, 2 = up, 3 = down
