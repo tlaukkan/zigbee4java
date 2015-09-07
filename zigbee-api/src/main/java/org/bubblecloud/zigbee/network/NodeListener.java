@@ -1,6 +1,6 @@
 package org.bubblecloud.zigbee.network;
 
-import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
+import org.bubblecloud.zigbee.network.ZigBeeNode;
 
 /**
  * Provides an interface to notify upper layers of changes to {@link ZigBeeNode nodes}.
@@ -36,7 +36,7 @@ public interface NodeListener {
 	 * Notification that a node has been updated within the list of nodes maintained within the network.
 	 * @param node {@link ZigBeeNode}
 	 */
-	public void nodeUpdated(ZigBeeNodeImpl node);
+	public void nodeUpdated(final ZigBeeNode node);
 
 	/**
 	 * Notification that a node has been removed from the list of nodes maintained within the network.
