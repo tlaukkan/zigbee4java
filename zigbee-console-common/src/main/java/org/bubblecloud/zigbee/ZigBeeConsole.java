@@ -1,18 +1,31 @@
 package org.bubblecloud.zigbee;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Dictionary;
+import java.util.EnumSet;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.io.FileUtils;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.DeviceListener;
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
+import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
 import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
 import org.bubblecloud.zigbee.network.NodeListener;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor;
@@ -20,13 +33,9 @@ import org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor;
 import org.bubblecloud.zigbee.network.discovery.LinkQualityIndicatorNetworkBrowser.NetworkNeighbourLinks;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
-import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
-import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
+import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.bubblecloud.zigbee.util.Cie;
-
-import java.io.*;
-import java.util.*;
 
 /**
  * ZigBee command line console is an example usage of ZigBee API.
@@ -499,7 +508,15 @@ public final class ZigBeeConsole {
             print("Device Version   : " + device.getDeviceVersion());
             print("Implementation   : " + device.getClass().getName());
             print("Input Clusters   : ");
-            for (int c : device.getInputClusters()) {
+            showClusters(device, true);
+            print("Output Clusters  : ");
+            showClusters(device, false);
+
+            return true;
+        }
+
+        private void showClusters(final Device device, final boolean input) {
+            for (int c : input ? device.getInputClusters() : device.getOutputClusters()) {
                 final Cluster cluster = device.getCluster(c);
                 print("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c));
                 if (cluster != null) {
@@ -519,13 +536,6 @@ public final class ZigBeeConsole {
                     }
                 }
             }
-            print("Output Clusters  : ");
-            for (int c : device.getOutputClusters()) {
-                final Cluster cluster = device.getCluster(c);
-                print("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c));
-            }
-
-            return true;
         }
     }
 
