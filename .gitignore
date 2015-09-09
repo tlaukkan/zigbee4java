@@ -25,3 +25,23 @@ zigbee-console-android/build
 zigbee-console-android/gen-external-apklibs
 .recommenders
 
+# Editor specific
+*~
+
+# Eclipse project specific
+zigbee-api/.classpath
+zigbee-api/.project
+zigbee-api/.settings/
+zigbee-console-common/.classpath
+zigbee-console-common/.project
+zigbee-console-common/.settings/
+zigbee-console-javase/.classpath
+zigbee-console-javase/.project
+zigbee-console-javase/.settings/
+zigbee-serial-android/.classpath
+zigbee-serial-android/.project
+zigbee-serial-android/.settings/
+zigbee-serial-javase/.classpath
+zigbee-serial-javase/.project
+zigbee-serial-javase/.settings/
+
