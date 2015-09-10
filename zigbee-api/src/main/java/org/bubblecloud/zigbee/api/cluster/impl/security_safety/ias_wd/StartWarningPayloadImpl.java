@@ -26,9 +26,9 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.StartW
 public class StartWarningPayloadImpl implements StartWarningPayload {
 
     private short warningMode, strobe;
-    private int warningDuration;
+    private short warningDuration;
 
-    public StartWarningPayloadImpl(short warningMode, short strobe, int warningDuration) {
+    public StartWarningPayloadImpl(short warningMode, short strobe, short warningDuration) {
 
         this.warningMode = warningMode;
         this.strobe = strobe;
@@ -43,7 +43,7 @@ public class StartWarningPayloadImpl implements StartWarningPayload {
         return strobe;
     }
 
-    public int getWarningDuration() {
+    public short getWarningDuration() {
         return warningDuration;
     }
 }

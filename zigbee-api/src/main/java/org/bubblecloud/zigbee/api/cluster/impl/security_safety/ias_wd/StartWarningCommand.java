@@ -25,7 +25,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBSerializer;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.IASWD;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.StartWarningPayload;
 import org.bubblecloud.zigbee.api.cluster.impl.core.AbstractCommand;
-import org.bubblecloud.zigbee.api.cluster.impl.core.DefaultSerializer;
+import org.bubblecloud.zigbee.api.cluster.impl.core.ByteArrayOutputStreamSerializer;
 
 public class StartWarningCommand extends AbstractCommand {
 
@@ -38,11 +38,11 @@ public class StartWarningCommand extends AbstractCommand {
 
     public byte[] getPayload() {
         if (payload == null) {
-            payload = new byte[8];
-            ZBSerializer serializer = new DefaultSerializer(payload, 0);
-            serializer.append_short(startWarningPayload.getStrobe());
-            serializer.append_short(startWarningPayload.getWarningMode());
-            serializer.append_int(startWarningPayload.getWarningDuration());
+            ZBSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_byte((byte)((startWarningPayload.getStrobe() << 4) |
+                    startWarningPayload.getWarningMode()));
+            serializer.append_short(startWarningPayload.getWarningDuration());
+            payload = serializer.getPayload();
         }
         return payload;
     }

@@ -32,5 +32,5 @@ public interface StartWarningPayload {
 
     public short getStrobe();
 
-    public int getWarningDuration();
+    public short getWarningDuration();
 }
