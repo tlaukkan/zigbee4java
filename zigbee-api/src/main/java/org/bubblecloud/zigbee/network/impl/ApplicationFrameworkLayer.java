@@ -35,8 +35,8 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
- * This class is a <i>singelton</i> aimed at sharing the <b>the Application Framework Layer</b>
- * status of the <b>ZigBee Base Drier</b> among all the {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} registered by it.
+ * This class is a <i>singleton</i> aimed at sharing the <b>the Application Framework Layer</b>
+ * status of the <b>ZigBee Base Driver</b> among all the {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} registered by it.
  * <p>
  * In particular, this class tracks the <i>Transaction Id</i> and the <i>Active End Point</i>
  * on the hardware providing access to <i>ZigBee Network</i> (currently the <b>Texas Instrument CC2480</b>).
@@ -76,7 +76,7 @@ public class ApplicationFrameworkLayer {
         }
     }
 
-    private static ApplicationFrameworkLayer singelton;
+    private static ApplicationFrameworkLayer singleton;
 
     final HashMap<SenderIdentifier, Short> sender2EndPoint = new HashMap<SenderIdentifier, Short>();
     final HashMap<Integer, List<Integer>> profile2Cluster = new HashMap<Integer, List<Integer>>();
@@ -96,16 +96,16 @@ public class ApplicationFrameworkLayer {
 
     public static ApplicationFrameworkLayer getAFLayer(ZigBeeNetworkManager driver) {
         synchronized (LOCK) {
-            if (singelton == null) {
-                singelton = new ApplicationFrameworkLayer(driver);
-            } else if (singelton.driver != driver) {
+            if (singleton == null) {
+                singleton = new ApplicationFrameworkLayer(driver);
+            } else if (singleton.driver != driver) {
                 /*
 				 * It means that the service implementing the driver has been changed 
 				 * so we have to create a new ApplicationFrameworkLayer
 				 */
-                singelton = new ApplicationFrameworkLayer(driver);
+                singleton = new ApplicationFrameworkLayer(driver);
             }
-            return singelton;
+            return singleton;
         }
     }
 
