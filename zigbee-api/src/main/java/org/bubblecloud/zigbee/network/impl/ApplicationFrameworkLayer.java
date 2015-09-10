@@ -50,6 +50,7 @@ public class ApplicationFrameworkLayer {
 
     private final static Object LOCK = new Object();
     private final static Logger logger = LoggerFactory.getLogger(ApplicationFrameworkLayer.class);
+    private final static int MAX_CLUSTERS_PER_AF_REGISTER = 16;
 
     class SenderIdentifier {
         int profileId;
@@ -182,9 +183,9 @@ public class ApplicationFrameworkLayer {
             final byte endPoint = getFreeEndPoint();
 
             endIndex = clusterSet.size();
-            // AF_REGISTER only allows 33 clusters per endpoint
-            if ( (endIndex - startIndex) > 33) {
-                endIndex = startIndex + 33;
+
+            if ( (endIndex - startIndex) > MAX_CLUSTERS_PER_AF_REGISTER) {
+                endIndex = startIndex + MAX_CLUSTERS_PER_AF_REGISTER;
             }
 
             final int[] clusters = new int[endIndex - startIndex];
@@ -225,20 +226,23 @@ public class ApplicationFrameworkLayer {
             index++;
         }
 
-        if (clusters.length > 33) {
+        if (clusters.length > MAX_CLUSTERS_PER_AF_REGISTER) {
             logger.warn(
                     "We found too many clusters to implement for a single endpoint " +
-                            "(maxium is 32), so we are filtering out the extra {}", clusters
+                            "(maxium is {}), so we are filtering out the extra {}",
+                            MAX_CLUSTERS_PER_AF_REGISTER, clusters
             );
-			/*
-			 * Too many cluster to implement for this profile we must use the first 31
-			 * plus the cluster that we are trying to create as 32nd value 
-			 */
-            int[] values = new int[33];
-            values[0] = si.clusterId;
-            for (int i = 1; i < values.length; i++) {
+            /*
+             * Too many cluster to implement for this profile we must use the first
+             * (MAX_CLUSTERS_PER_AF_REGISTER - 1) plus the cluster that we are trying to
+             * create as last one
+             */
+            int[] values = new int[MAX_CLUSTERS_PER_AF_REGISTER];
+            int i = 0;
+            while (i < values.length - 1) {
                 values[i] = clusters[i];
             }
+            values[i] = si.clusterId;
             logger.warn("Following the list of filtered cluster that we are going to register: {} ", clusters);
         }
         AF_REGISTER_SRSP result = null;
