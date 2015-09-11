@@ -25,7 +25,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBSerializer;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.IASWD;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.SquawkPayload;
 import org.bubblecloud.zigbee.api.cluster.impl.core.AbstractCommand;
-import org.bubblecloud.zigbee.api.cluster.impl.core.DefaultSerializer;
+import org.bubblecloud.zigbee.api.cluster.impl.core.ByteArrayOutputStreamSerializer;
 
 public class SquawkCommand extends AbstractCommand {
 
@@ -38,11 +38,11 @@ public class SquawkCommand extends AbstractCommand {
 
     public byte[] getPayload() {
         if (payload == null) {
-            payload = new byte[6];
-            ZBSerializer serializer = new DefaultSerializer(payload, 0);
-            serializer.append_short((short) squawkPayload.getSquawkLevel());
-            serializer.append_short((short) squawkPayload.getSquawkMode());
-            serializer.append_short((byte) squawkPayload.getStrobe());
+            ZBSerializer serializer = new ByteArrayOutputStreamSerializer();
+            serializer.append_byte((byte)((squawkPayload.getSquawkLevel() << 6) |
+                    (squawkPayload.getStrobe() << 4) |
+                    squawkPayload.getSquawkMode()));
+            payload = serializer.getPayload();
         }
         return payload;
     }

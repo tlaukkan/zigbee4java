@@ -26,7 +26,9 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.SquawkPayload;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.StartWarningPayload;
+import org.bubblecloud.zigbee.api.cluster.impl.security_safety.ias_wd.SquawkPayloadImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.security_safety.ias_wd.StartWarningPayloadImpl;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASWD;
 import org.bubblecloud.zigbee.network.NodeListener;
@@ -99,6 +101,7 @@ public final class ZigBeeConsole {
 		commands.put("join",        new JoinCommand());
 		commands.put("lqi", 		new LqiCommand());
         commands.put("warn",        new WarnCommand());
+        commands.put("squawk",      new SquawkCommand());
 	}
 
 	/**
@@ -1328,7 +1331,7 @@ public final class ZigBeeConsole {
 
         @Override
         public String getSyntax() {
-            return "warn [DEVICE] [WARNINGMODE] [STROBE] [DURATION]";
+            return "warn [DEVICE] [MODE] [STROBE] [DURATION]";
         }
 
         @Override
@@ -1343,10 +1346,10 @@ public final class ZigBeeConsole {
                 return false;
             }
 
-            final int warningMode;
+            final int mode;
             try {
-                warningMode = Integer.parseInt(args[2]);
-                if (warningMode < 0 || warningMode > 15) {
+                mode = Integer.parseInt(args[2]);
+                if (mode < 0 || mode > 15) {
                     print("Warning mode should be in range [0, 15].");
                     return false;
                 }
@@ -1373,9 +1376,79 @@ public final class ZigBeeConsole {
             }
 
             final IASWD iasWD = device.getCluster(IASWD.class);
-            StartWarningPayload payload = new StartWarningPayloadImpl((short)warningMode, (short)strobe, (short)duration);
+            StartWarningPayload payload = new StartWarningPayloadImpl((short)mode, (short)strobe, (short)duration);
             try {
                 iasWD.startWarning(payload);
+            } catch (ZigBeeDeviceException e) {
+                print("Failed to start warning.");
+                e.printStackTrace();
+            }
+            return true;
+        }
+
+    }
+
+    private class SquawkCommand implements ConsoleCommand {
+
+        @Override
+        public String getDescription() {
+            return "Make the specfied IAS warning device squawk.";
+        }
+
+        @Override
+        public String getSyntax() {
+            return "squawk [DEVICE] [MODE] [STROBE] [LEVEL]";
+        }
+
+        @Override
+        public boolean process(ZigBeeApi zigbeeApi, String[] args) {
+            if (args.length != 5) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                print("Device not found.");
+                return false;
+            }
+
+            final int mode;
+            try {
+                mode = Integer.parseInt(args[2]);
+                if (mode < 0 || mode > 15) {
+                    print("Squawk mode should be in range [0, 15].");
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+
+            final int strobe;
+            try {
+                strobe = Integer.parseInt(args[3]);
+                if (strobe != 0 && strobe != 1) {
+                    print("Strobe should be either 0 or 1.");
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+
+            final int level;
+            try {
+                level = Integer.parseInt(args[4]);
+                if (level < 0 || level > 3) {
+                    print("Squawk level should be in range [0, 3].");
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+
+            final IASWD iasWD = device.getCluster(IASWD.class);
+            SquawkPayload payload = new SquawkPayloadImpl((short)mode, (short)strobe, (short)level);
+            try {
+                iasWD.squawk(payload);
             } catch (ZigBeeDeviceException e) {
                 print("Failed to start warning.");
                 e.printStackTrace();
