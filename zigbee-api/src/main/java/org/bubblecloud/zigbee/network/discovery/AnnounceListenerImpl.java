@@ -79,6 +79,7 @@ public class AnnounceListenerImpl implements AnnounceListener {
                                 (short) zigbeeNetworkManager.getCurrentPanId()));
             }
         });
+        notifyThread.start();
     }
 
 }

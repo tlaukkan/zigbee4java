@@ -33,15 +33,15 @@ import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 public interface AnnounceListener {
 
     /**
-     * Callback invoked when an <i>Annunce</i> message arrives
+     * Callback invoked when an <i>Announce</i> message arrives
      *
-     * @param senderAddress       the network address of the node which sent the <i>Annunce</i> message
-     * @param ieeeAddress         the 64-bit address of the node that is the subject of the
-     *                            <i>Annunce</i> message
-     * @param networkAddress      the network address assigned to the node that is the subject
-     *                            of the <i>Annunce</i> message
-     * @param capabilitiesBitmask the bitmask identifying the network capibility of the
-     *                            node that is the subject of the <i>Annunce</i> message
+     * @param senderAddress       the network address of the node which sent the <i>Announce</i> message
+     * @param ieeeAddress         the 64-bit IEEE address of the node that is the subject of the
+     *                            <i>Announce</i> message
+     * @param networkAddress      the 16-bit network address assigned to the node that is the subject
+     *                            of the <i>Announce</i> message
+     * @param capabilitiesBitmask the bitmask identifying the network capability of the
+     *                            node that is the subject of the <i>Announce</i> message
      */
     void announce(ZToolAddress16 senderAddress, ZToolAddress64 ieeeAddress,
                   ZToolAddress16 networkAddress, int capabilitiesBitmask);
