@@ -71,14 +71,14 @@ public class AnnounceListenerImpl implements AnnounceListener {
         logger.info("Device announcement received - Network Address: #{}, IEEE Address: {}", senderAddress.get16BitValue(),
                 IEEEAddress.toColonNotation(ieeeAddress.getLong()));
         queue.push(senderAddress, ieeeAddress);
-        final Thread notifyThread = new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 ApplicationFrameworkLayer.getAFLayer(zigbeeNetworkManager).getZigBeeNetwork().notifyDiscoveryAnnounced(
                         new ZigBeeNodeImpl(senderAddress.get16BitValue(), ieeeAddress,
                                 (short) zigbeeNetworkManager.getCurrentPanId()));
             }
-        });
+        }).start();
     }
 
 }

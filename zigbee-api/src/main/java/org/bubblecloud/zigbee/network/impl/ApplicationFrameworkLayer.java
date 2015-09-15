@@ -35,8 +35,8 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
- * This class is a <i>singelton</i> aimed at sharing the <b>the Application Framework Layer</b>
- * status of the <b>ZigBee Base Drier</b> among all the {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} registered by it.
+ * This class is a <i>singleton</i> aimed at sharing the <b>the Application Framework Layer</b>
+ * status of the <b>ZigBee Base Driver</b> among all the {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint} registered by it.
  * <p>
  * In particular, this class tracks the <i>Transaction Id</i> and the <i>Active End Point</i>
  * on the hardware providing access to <i>ZigBee Network</i> (currently the <b>Texas Instrument CC2480</b>).
@@ -50,6 +50,7 @@ public class ApplicationFrameworkLayer {
 
     private final static Object LOCK = new Object();
     private final static Logger logger = LoggerFactory.getLogger(ApplicationFrameworkLayer.class);
+    private final static int MAX_CLUSTERS_PER_AF_REGISTER = 16;
 
     class SenderIdentifier {
         int profileId;
@@ -75,7 +76,7 @@ public class ApplicationFrameworkLayer {
         }
     }
 
-    private static ApplicationFrameworkLayer singelton;
+    private static ApplicationFrameworkLayer singleton;
 
     final HashMap<SenderIdentifier, Short> sender2EndPoint = new HashMap<SenderIdentifier, Short>();
     final HashMap<Integer, List<Integer>> profile2Cluster = new HashMap<Integer, List<Integer>>();
@@ -95,16 +96,16 @@ public class ApplicationFrameworkLayer {
 
     public static ApplicationFrameworkLayer getAFLayer(ZigBeeNetworkManager driver) {
         synchronized (LOCK) {
-            if (singelton == null) {
-                singelton = new ApplicationFrameworkLayer(driver);
-            } else if (singelton.driver != driver) {
+            if (singleton == null) {
+                singleton = new ApplicationFrameworkLayer(driver);
+            } else if (singleton.driver != driver) {
                 /*
 				 * It means that the service implementing the driver has been changed 
 				 * so we have to create a new ApplicationFrameworkLayer
 				 */
-                singelton = new ApplicationFrameworkLayer(driver);
+                singleton = new ApplicationFrameworkLayer(driver);
             }
-            return singelton;
+            return singleton;
         }
     }
 
@@ -182,9 +183,9 @@ public class ApplicationFrameworkLayer {
             final byte endPoint = getFreeEndPoint();
 
             endIndex = clusterSet.size();
-            // AF_REGISTER only allows 33 clusters per endpoint
-            if ( (endIndex - startIndex) > 33) {
-                endIndex = startIndex + 33;
+
+            if ( (endIndex - startIndex) > MAX_CLUSTERS_PER_AF_REGISTER) {
+                endIndex = startIndex + MAX_CLUSTERS_PER_AF_REGISTER;
             }
 
             final int[] clusters = new int[endIndex - startIndex];
@@ -225,20 +226,23 @@ public class ApplicationFrameworkLayer {
             index++;
         }
 
-        if (clusters.length > 33) {
+        if (clusters.length > MAX_CLUSTERS_PER_AF_REGISTER) {
             logger.warn(
                     "We found too many clusters to implement for a single endpoint " +
-                            "(maxium is 32), so we are filtering out the extra {}", clusters
+                            "(maxium is {}), so we are filtering out the extra {}",
+                            MAX_CLUSTERS_PER_AF_REGISTER, clusters
             );
-			/*
-			 * Too many cluster to implement for this profile we must use the first 31
-			 * plus the cluster that we are trying to create as 32nd value 
-			 */
-            int[] values = new int[33];
-            values[0] = si.clusterId;
-            for (int i = 1; i < values.length; i++) {
+            /*
+             * Too many cluster to implement for this profile we must use the first
+             * (MAX_CLUSTERS_PER_AF_REGISTER - 1) plus the cluster that we are trying to
+             * create as last one
+             */
+            int[] values = new int[MAX_CLUSTERS_PER_AF_REGISTER];
+            int i = 0;
+            while (i < values.length - 1) {
                 values[i] = clusters[i];
             }
+            values[i] = si.clusterId;
             logger.warn("Following the list of filtered cluster that we are going to register: {} ", clusters);
         }
         AF_REGISTER_SRSP result = null;
