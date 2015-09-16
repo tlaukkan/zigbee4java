@@ -42,7 +42,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class is tracks the {@link org.bubblecloud.zigbee.network.ZigBeeNetworkManager} service available
+ * This class tracks the {@link org.bubblecloud.zigbee.network.ZigBeeNetworkManager} service available
  * and it creates all the resources required by this implementation of the <i>ZigBee Base Driver</i>
  *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
@@ -90,7 +90,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
 
         if (enabledDiscoveries.contains(DiscoveryMode.Addressing)) {
             associationNetworkBrowser = new AssociationNetworkBrowser(importingQueue, networkManager);
-            new Thread(associationNetworkBrowser, "NetworkBrowser[" + networkManager + "]").start();
+            new Thread(associationNetworkBrowser, "AssociationNetworkBrowser[" + networkManager + "]").start();
         } else {
             logger.trace("{} discovery disabled.",
                     AssociationNetworkBrowser.class);

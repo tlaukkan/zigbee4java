@@ -151,7 +151,7 @@ public class AF_REGISTER extends ZToolPacket /*implements IREQUEST, IAF*/ {
         framedata[3] = Integers.getByteAsInteger(deviceId, 0);
         framedata[4] = Integers.getByteAsInteger(deviceId, 1);
         framedata[5] = 0xFF & deviceVersion;
-        framedata[6] = 0; //Unused see page 34 of specification
+        framedata[6] = 0; // No latency
         framedata[7] = inputs.length;
         j = 8;
         for (int i = 0; i < inputs.length; i++) {
