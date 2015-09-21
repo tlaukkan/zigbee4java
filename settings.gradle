@@ -13,7 +13,7 @@ def zigbee4javaProfilesArray = StringHelper.tokenizeUnquoted(zigbee4javaProfiles
 
 rootProject.name = 'zigbee4java'
 
-include ':zigbee-api', ':zigbee-console-android'
+include ':zigbee-api'
 include ':zigbee-console-common'
 
 /* Include settings from all profiles selected in 'gradle.properties' */
