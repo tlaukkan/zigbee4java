@@ -41,7 +41,7 @@ public class StartWarningCommand extends AbstractCommand {
             ZBSerializer serializer = new ByteArrayOutputStreamSerializer();
             serializer.append_byte((byte)((startWarningPayload.getStrobe() << 4) |
                     startWarningPayload.getWarningMode()));
-            serializer.append_short(startWarningPayload.getWarningDuration());
+            serializer.append_short((short)startWarningPayload.getWarningDuration());
             payload = serializer.getPayload();
         }
         return payload;

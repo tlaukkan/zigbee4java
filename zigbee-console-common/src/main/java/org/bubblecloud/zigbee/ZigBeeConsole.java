@@ -515,15 +515,15 @@ public final class ZigBeeConsole {
             print("Device Version   : " + device.getDeviceVersion());
             print("Implementation   : " + device.getClass().getName());
             print("Input Clusters   : ");
-            showClusters(device, true);
+            showClusters(device, device.getInputClusters());
             print("Output Clusters  : ");
-            showClusters(device, false);
+            showClusters(device, device.getOutputClusters());
 
             return true;
         }
 
-        private void showClusters(final Device device, final boolean input) {
-            for (int c : input ? device.getInputClusters() : device.getOutputClusters()) {
+        private void showClusters(final Device device, final int[] clusters) {
+            for (int c : clusters) {
                 final Cluster cluster = device.getCluster(c);
                 print("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c));
                 if (cluster != null) {
@@ -1371,12 +1371,16 @@ public final class ZigBeeConsole {
             final int duration;
             try {
                 duration = Integer.parseInt(args[4]);
+                if (duration < 0) {
+                    print("Duration should be an unsigned 16-bit integer.");
+                    return false;
+                }
             } catch (NumberFormatException e) {
                 return false;
             }
 
             final IASWD iasWD = device.getCluster(IASWD.class);
-            StartWarningPayload payload = new StartWarningPayloadImpl((short)mode, (short)strobe, (short)duration);
+            StartWarningPayload payload = new StartWarningPayloadImpl((short)mode, (short)strobe, duration);
             try {
                 iasWD.startWarning(payload);
             } catch (ZigBeeDeviceException e) {
