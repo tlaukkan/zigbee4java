@@ -44,7 +44,7 @@ public class NetworkStateSerializer {
         objectMapper.enableDefaultTyping();
         objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         try {
-            final HashMap<ZigBeeNode, HashMap<Integer, ZigBeeEndpoint>> devices = new HashMap(zigBeeNetwork.getDevices());
+            final HashMap<ZigBeeNode, HashMap<Integer, ZigBeeEndpoint>> devices = new HashMap<ZigBeeNode, HashMap<Integer, ZigBeeEndpoint>>(zigBeeNetwork.getDevices());
 
             final List<ZigBeeEndpoint> endpoints = new ArrayList<ZigBeeEndpoint>();
             for (final ZigBeeNode node : devices.keySet()) {
@@ -66,6 +66,7 @@ public class NetworkStateSerializer {
      * @param zigBeeNetwork the {@link ZigBeeNetwork ZigBee network}
      * @param networkStateString the network state as {@link String}
      */
+    @SuppressWarnings("unchecked")
     public void deserialize(final ZigBeeNetworkManager zigBeeNetworkManager, final ZigBeeNetwork zigBeeNetwork, final String networkStateString) {
         final ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enableDefaultTyping();

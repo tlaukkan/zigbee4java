@@ -170,6 +170,11 @@ public class ZigBeeNodeDescriptor {
 		}
 	}
 
+    @SuppressWarnings("unused")
+    private ZigBeeNodeDescriptor() {
+        // required for Jackson deserialization
+    }
+
 	public ZigBeeNodeDescriptor(ZDO_NODE_DESC_RSP descriptorResponse) {
 		logicalType = LOGICAL_TYPE.getType(descriptorResponse.NodeType);
 		if (logicalType == null) {

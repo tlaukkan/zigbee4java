@@ -165,6 +165,11 @@ public class ZigBeeNodePowerDescriptor {
 		}
 	}
 
+    @SuppressWarnings("unused")
+    private ZigBeeNodePowerDescriptor() {
+     // required for Jackson deserialization
+    }
+
 	public ZigBeeNodePowerDescriptor(ZDO_POWER_DESC_RSP descriptorResponse) {
 		powerMode = POWER_MODE.getType(descriptorResponse.CurrentMode);
 		if(powerMode == null) {
