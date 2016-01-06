@@ -1,18 +1,36 @@
 package org.bubblecloud.zigbee;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Dictionary;
+import java.util.EnumSet;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.io.FileUtils;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.DeviceListener;
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
+import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
 import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
-import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
+import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.SquawkPayload;
+import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.StartWarningPayload;
+import org.bubblecloud.zigbee.api.cluster.impl.security_safety.ias_wd.SquawkPayloadImpl;
+import org.bubblecloud.zigbee.api.cluster.impl.security_safety.ias_wd.StartWarningPayloadImpl;
+import org.bubblecloud.zigbee.api.cluster.security_safety.IASWD;
 import org.bubblecloud.zigbee.network.NodeListener;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor;
@@ -20,13 +38,9 @@ import org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor;
 import org.bubblecloud.zigbee.network.discovery.LinkQualityIndicatorNetworkBrowser.NetworkNeighbourLinks;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
-import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
-import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
+import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.bubblecloud.zigbee.util.Cie;
-
-import java.io.*;
-import java.util.*;
 
 /**
  * ZigBee command line console is an example usage of ZigBee API.
@@ -86,6 +100,8 @@ public final class ZigBeeConsole {
 		commands.put("write", 		new WriteCommand());
 		commands.put("join",        new JoinCommand());
 		commands.put("lqi", 		new LqiCommand());
+        commands.put("warn",        new WarnCommand());
+        commands.put("squawk",      new SquawkCommand());
 	}
 
 	/**
@@ -499,7 +515,15 @@ public final class ZigBeeConsole {
             print("Device Version   : " + device.getDeviceVersion());
             print("Implementation   : " + device.getClass().getName());
             print("Input Clusters   : ");
-            for (int c : device.getInputClusters()) {
+            showClusters(device, device.getInputClusters());
+            print("Output Clusters  : ");
+            showClusters(device, device.getOutputClusters());
+
+            return true;
+        }
+
+        private void showClusters(final Device device, final int[] clusters) {
+            for (int c : clusters) {
                 final Cluster cluster = device.getCluster(c);
                 print("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c));
                 if (cluster != null) {
@@ -519,13 +543,6 @@ public final class ZigBeeConsole {
                     }
                 }
             }
-            print("Output Clusters  : ");
-            for (int c : device.getOutputClusters()) {
-                final Cluster cluster = device.getCluster(c);
-                print("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c));
-            }
-
-            return true;
         }
     }
 
@@ -1303,6 +1320,146 @@ public final class ZigBeeConsole {
             
             return true;
         }
+    }
+
+    private class WarnCommand implements ConsoleCommand {
+
+        @Override
+        public String getDescription() {
+            return "Warn IAS warning device.";
+        }
+
+        @Override
+        public String getSyntax() {
+            return "warn [DEVICE] [MODE] [STROBE] [DURATION]";
+        }
+
+        @Override
+        public boolean process(ZigBeeApi zigbeeApi, String[] args) {
+            if (args.length != 5) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                print("Device not found.");
+                return false;
+            }
+
+            final int mode;
+            try {
+                mode = Integer.parseInt(args[2]);
+                if (mode < 0 || mode > 15) {
+                    print("Warning mode should be in range [0, 15].");
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+
+            final int strobe;
+            try {
+                strobe = Integer.parseInt(args[3]);
+                if (strobe < 0 || strobe > 3) {
+                    print("Strobe should be in range [0, 3].");
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+
+            final int duration;
+            try {
+                duration = Integer.parseInt(args[4]);
+                if (duration < 0) {
+                    print("Duration should be an unsigned 16-bit integer.");
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+
+            final IASWD iasWD = device.getCluster(IASWD.class);
+            StartWarningPayload payload = new StartWarningPayloadImpl((short)mode, (short)strobe, duration);
+            try {
+                iasWD.startWarning(payload);
+            } catch (ZigBeeDeviceException e) {
+                print("Failed to start warning.");
+                e.printStackTrace();
+            }
+            return true;
+        }
+
+    }
+
+    private class SquawkCommand implements ConsoleCommand {
+
+        @Override
+        public String getDescription() {
+            return "Make the specfied IAS warning device squawk.";
+        }
+
+        @Override
+        public String getSyntax() {
+            return "squawk [DEVICE] [MODE] [STROBE] [LEVEL]";
+        }
+
+        @Override
+        public boolean process(ZigBeeApi zigbeeApi, String[] args) {
+            if (args.length != 5) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                print("Device not found.");
+                return false;
+            }
+
+            final int mode;
+            try {
+                mode = Integer.parseInt(args[2]);
+                if (mode < 0 || mode > 15) {
+                    print("Squawk mode should be in range [0, 15].");
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+
+            final int strobe;
+            try {
+                strobe = Integer.parseInt(args[3]);
+                if (strobe != 0 && strobe != 1) {
+                    print("Strobe should be either 0 or 1.");
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+
+            final int level;
+            try {
+                level = Integer.parseInt(args[4]);
+                if (level < 0 || level > 3) {
+                    print("Squawk level should be in range [0, 3].");
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+
+            final IASWD iasWD = device.getCluster(IASWD.class);
+            SquawkPayload payload = new SquawkPayloadImpl((short)mode, (short)strobe, (short)level);
+            try {
+                iasWD.squawk(payload);
+            } catch (ZigBeeDeviceException e) {
+                print("Failed to start warning.");
+                e.printStackTrace();
+            }
+            return true;
+        }
+
     }
 
     private class JoinCommand implements ConsoleCommand {
