@@ -91,7 +91,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
     public void task() {
         final String threadName = Thread.currentThread().getName();
 
-        logger.trace("{} STARTED Succesfully", threadName);
+        logger.trace("{} STARTED Successfully", threadName);
 
         while (!isDone()) {
             long wakeUpTime = System.currentTimeMillis() + 15 * 60 * 1000;
@@ -138,7 +138,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
             initialNetworkBrowsingComplete = true;
             if (!isDone()) ThreadUtils.waitingUntil(wakeUpTime);
         }
-        logger.debug("{} TERMINATED Succesfully", threadName);
+        logger.debug("{} TERMINATED Successfully", threadName);
     }
 
 

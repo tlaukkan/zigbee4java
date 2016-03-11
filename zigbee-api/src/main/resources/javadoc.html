@@ -5,7 +5,8 @@
 <h2>Library Layers</h2>
 <p>
 <h2>Device Discovery</h2>
-The library implements two discovery methods through the {@link org.bubblecloud.zigbee.network.discovery.LinkQualityIndicatorNetworkBrowser}
+The library implements three discovery methods through the {@link org.bubblecloud.zigbee.network.discovery.AssociationNetworkBrowser},
+ {@link org.bubblecloud.zigbee.network.discovery.LinkQualityIndicatorNetworkBrowser}
  and {@link org.bubblecloud.zigbee.network.AnnounceListener}. When a node is discovered, {@link org.bubblecloud.zigbee.network.discovery.EndpointBuilder}
  is called. This queries the device for the {@link org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor}, and The {@link org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor}
  and then adds the {@link org.bubblecloud.zigbee.network.ZigBeeNode} and all the individual {@link org.bubblecloud.zigbee.network.ZigBeeEndpoint}s.
