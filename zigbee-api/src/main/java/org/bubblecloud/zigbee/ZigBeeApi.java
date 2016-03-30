@@ -201,7 +201,9 @@ public class ZigBeeApi implements EndpointListener {
      * @return true if startup was success.
      */
     public boolean startup() {
-        networkManager.startup();
+        if (!networkManager.startup()) {
+            return false;
+        }
 
         return initializeNetwork(this.resetNetwork);
     }
@@ -241,7 +243,8 @@ public class ZigBeeApi implements EndpointListener {
         ApplicationFrameworkLayer.getAFLayer(networkManager).createDefaultSendingEndPoint();
 
         /* disable permit join by default */
-        permitJoin(false);
+        //
+        // permitJoin(false);
 
         discoveryManager.startup();
 
@@ -311,16 +314,12 @@ public class ZigBeeApi implements EndpointListener {
 
         LOGGER.debug("Sending permit join with data: {}", data);
 
-        /* Notify routers of permit join change; don't check result because they're not obligated to respond */
-        result = networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrBroadcast, ZToolAddress16.ZCZR_BROADCAST, data, 1), false);
+        // Notify routers of permit join change; don't check result because they're not obligated to respond
+        networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrBroadcast, ZToolAddress16.ZCZR_BROADCAST, data, 1), false);
 
-        /* Notify coordinator of permit join change */
-        result = networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrUnicast, new ZToolAddress16(0, 0), data, 1), true);
-
-        if (result == null || result.Status != 0) {
-            LOGGER.error("Error sending ZDO_MGMT_PERMIT_JOIN_REQ");
-            return false;
-        }
+        // Notify coordinator of permit join change.
+        // Local coordinator does not seem to respond when network is empty i.e. no nodes joined.
+        networkManager.sendPermitJoinRequest(new ZDO_MGMT_PERMIT_JOIN_REQ(AddrUnicast, new ZToolAddress16(0, 0), data, 1), false);
 
         return true;
     }

@@ -50,7 +50,7 @@ public class ZigBeeSerialPortImpl implements ZigBeePort
 
             return true;
         } catch (Exception e) {
-            logger.error("Error...", e);
+            logger.warn("Unable to open serial port: " + e.getMessage());
             return false;
         }
     }

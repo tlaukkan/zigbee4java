@@ -1,1 +1,1 @@
-java -jar target/zigbee-console-1.0.9-SNAPSHOT.jar COM3 11 4951 false
+java -jar target/zigbee-console-javase-2.0.3-SNAPSHOT.jar COM5 11 4951 false

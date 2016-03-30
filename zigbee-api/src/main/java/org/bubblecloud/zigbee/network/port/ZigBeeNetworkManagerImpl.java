@@ -334,7 +334,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                     "The PanId configuration differ from the PanId configuration in use: " +
                             "in use {}, while the configured is {}.\n" +
                             "The ZigBee network should be reconfigured or configuration corrected.",
-                            String.format("%04X", value), String.format("%04X", pan & 0x0000ffff)
+                    value, pan
             );
             mismatch = true;
         }
@@ -343,7 +343,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                     "The ExtendedPanId configuration differ from the ExtendedPanId configuration in use: " +
                             "in use {}, while the configured is {}.\n" +
                             "The ZigBee network should be reconfigured or configuration corrected.",
-                            String.format("%08X", longValue), String.format("%08X", extendedPanId)
+                    longValue, extendedPanId
             );
             mismatch = true;
         }
