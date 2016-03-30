@@ -60,7 +60,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     public static final int DEFAULT_TIMEOUT = 8000;
     public static final String TIMEOUT_KEY = "zigbee.driver.cc2530.timeout";
 
-    public static final int RESET_TIMEOUT_DEFAULT = 60000;
+    public static final int RESET_TIMEOUT_DEFAULT = 5000;
     public static final String RESET_TIMEOUT_KEY = "zigbee.driver.cc2530.reset.timeout";
 
     public static final int STARTUP_TIMEOUT_DEFAULT = 5000;
@@ -74,6 +74,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
     public static final boolean RESEND_ONLY_EXCEPTION_DEFAULT = true;
     public static final String RESEND_ONLY_EXCEPTION_KEY = "zigbee.driver.cc2530.resend.exceptionally";
+    
+    public static final int BOOTLOADER_MAGIC_BYTE_DEFAULT = 0xef;
+    public static final String BOOTLOADER_MAGIC_BYTE_KEY = "zigbee.driver.cc2530.bl.magic.byte";
 
     private final int TIMEOUT;
     private final int RESET_TIMEOUT;
@@ -81,6 +84,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     private final int RESEND_TIMEOUT;
     private final int RESEND_MAX_RETRY;
     private final boolean RESEND_ONLY_EXCEPTION;
+    private final int BOOTLOADER_MAGIC_BYTE;
     
     // Dongle startup options
     private final int STARTOPT_CLEAR_CONFIG = 0x00000001;
@@ -164,6 +168,16 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             logger.trace("Using RESEND_MAX_RETRY set as DEFAULT {}", aux);
         }
         RESEND_ONLY_EXCEPTION = b;
+        
+        aux = BOOTLOADER_MAGIC_BYTE_DEFAULT;
+        try {
+            aux = Integer.parseInt(System.getProperty(BOOTLOADER_MAGIC_BYTE_KEY));
+            logger.trace("Using BOOTLOADER_MAGIC_BYTE set from enviroment {}", aux);
+        } catch (NumberFormatException ex) {
+            logger.trace("Using BOOTLOADER_MAGIC_BYTE set as DEFAULT {}", aux);
+        }
+        BOOTLOADER_MAGIC_BYTE = aux;
+        
         state = DriverStatus.CLOSED;
         setPort(port);
         setZigBeeNetwork((byte) channel, (short) pan);
@@ -181,13 +195,17 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                 shutdown();
                 return false;
             }
-
+            
             // Now reset the dongle
             setState(DriverStatus.HARDWARE_OPEN);
             if (!dongleReset()) {
-                logger.error("Unable to reset dongle");
-                shutdown();
-                return false;
+            	logger.warn("Dongle reset failed. Assuming bootloader is running and sending magic byte {}",
+            			String.format("0x%02x", BOOTLOADER_MAGIC_BYTE));
+            	if (!bootloaderGetOut(BOOTLOADER_MAGIC_BYTE)) {
+            		logger.warn("Attempt to get out from bootloader failed");
+            		shutdown();
+            		return false;
+            	}
             }
 
             setState(DriverStatus.HARDWARE_READY);
@@ -968,7 +986,25 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             }
         }
     }
+    
+    private boolean bootloaderGetOut(int magicByte) {
+    	final WaitForCommand waiter = new WaitForCommand(
+                ZToolCMD.SYS_RESET_RESPONSE,
+				zigbeeInterface
+        );
+    	
+    	try {
+			zigbeeInterface.sendRaw(new int[] {magicByte});
+		} catch (IOException e) {
+			logger.error("Failed to send bootloader magic byte", e);
+		}
+    	
+    	SYS_RESET_RESPONSE response =
+                (SYS_RESET_RESPONSE) waiter.getCommand(RESET_TIMEOUT);        	
 
+        return response != null;
+    }
+    
     private boolean dongleReset() {
         final WaitForCommand waiter = new WaitForCommand(
                 ZToolCMD.SYS_RESET_RESPONSE,
@@ -978,16 +1014,16 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         try {
             zigbeeInterface.sendAsynchronousCommand(new SYS_RESET(SYS_RESET.RESET_TYPE.SERIAL_BOOTLOADER));
         } catch (IOException e) {
-            logger.error("DongleReset failed", e);
+            logger.error("Failed to send SYS_RESET", e);
             return false;
         }
 
         SYS_RESET_RESPONSE response =
                 (SYS_RESET_RESPONSE) waiter.getCommand(RESET_TIMEOUT);
-
+        
         return response != null;
     }
-    
+        
     private boolean dongleSetStartupOption(int mask) {
     	if ((mask & ~(STARTOPT_CLEAR_CONFIG | STARTOPT_CLEAR_STATE)) != 0) {
         	logger.warn("Invalid ZCD_NV_STARTUP_OPTION mask {}.", String.format("%08X", mask));
