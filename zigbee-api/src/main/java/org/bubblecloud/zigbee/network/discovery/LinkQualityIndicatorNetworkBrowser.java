@@ -39,11 +39,7 @@ import org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 
 /**
@@ -232,7 +228,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
             logger.debug("No ZDO_IEEE_ADDR_RSP from #{}", nwkAddress);
             return null;
         } else {
-            logger.debug(
+            logger.trace(
                     "ZDO_IEEE_ADDR_RSP from {} with {} associated",
                     ieee_addr_resp.getIeeeAddress(), ieee_addr_resp.getAssociatedNodeCount()
             );
@@ -289,14 +285,14 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                     Integers.getByteAsInteger(node.address, 0)
             );
 
-            logger.debug("ZDO_MGMT_LQI_REQ to {} from index {}", nwk16.get16BitValue(), index);
+            logger.trace("ZDO_MGMT_LQI_REQ to {} from index {}", nwk16.get16BitValue(), index);
             ZDO_MGMT_LQI_RSP lqi_resp = driver.sendLQIRequest(new ZDO_MGMT_LQI_REQ(nwk16, index));
 
             if (lqi_resp == null) {
                 logger.debug("No LQI answer from #{}", nwk16.get16BitValue());
                 return null;
             } else {
-                logger.debug(
+                logger.trace(
                         "Found {} neighbors on node #{}",
                         lqi_resp.getNeighborLQICount(), nwk16.get16BitValue());
 
@@ -305,12 +301,12 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                     for (int i = 0; i < neighbors.length; i++) {
                         NeighborLqiListItemClass neighbor = (NeighborLqiListItemClass) neighbors[i];
 
-                        logger.debug("Node #{} visible from node #{} with LQI value {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), nwk16.get16BitValue(), neighbor.RxLQI});
+                        logger.trace("Node #{} visible from node #{} with LQI value {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), nwk16.get16BitValue(), neighbor.RxLQI});
 
                         NetworkAddressNodeItem result = getIeeeAddress((short) neighbor.NetworkAddress.get16BitValue());
                         NetworkAddressNodeItem newNode;
                         if (result != null) {
-                            logger.debug("Node #{} is {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), result.node.getIeeeAddress()});
+                            logger.trace("Node #{} is {}", new Object[]{neighbor.NetworkAddress.get16BitValue(), result.node.getIeeeAddress()});
                             newNode = new NetworkAddressNodeItem(node, result.address, neighbor.RxLQI);
                         } else {
                             logger.debug("No response to ZDO_IEEE_ADDR_REQ from node {}", neighbor.NetworkAddress.get16BitValue());
@@ -323,7 +319,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                 // NeighborLQICount: neighbors IN THIS RESPONSE
                 // NeighborLQIEntries: all available neighbors
                 if (lqi_resp.getNeighborLQIEntries() > (lqi_resp.getNeighborLQICount() + index + 1)) {
-                    logger.debug("ZDO_MGMT_LQI_REQ new request to {} because of too many entries for a single request," +
+                    logger.trace("ZDO_MGMT_LQI_REQ new request to {} because of too many entries for a single request," +
                             " restarting from index {}", node.address, lqi_resp.getNeighborLQICount() + index + 1);
                     // Poll any further neighbors, adding them to our list
                     List<NetworkAddressNodeItem> neighborsFound = lqiRequestToNode(node, lqi_resp.getNeighborLQICount() + index + 1);
@@ -335,7 +331,7 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                 return nodesFound;
             }
         } else {
-            logger.debug("Node {} inspected few seconds ago, request delayed", node.address);
+            logger.trace("Node {} inspected few seconds ago, request delayed", node.address);
             return null;
         }
     }
@@ -411,10 +407,10 @@ public class LinkQualityIndicatorNetworkBrowser extends RunnableThread {
                 }
 
                 long wakeUpTime = System.currentTimeMillis() + 5 * 60 * 1000;
+                logger.debug("Network browsing completed, waiting until {}", new Date(wakeUpTime));
                 if (!isDone()) {
                 	ThreadUtils.waitingUntil(wakeUpTime);
                 }
-                logger.debug("Network browsing completed, waiting until {}", wakeUpTime);
                 //gt.run();
             } catch (Exception e) {
                 e.printStackTrace();

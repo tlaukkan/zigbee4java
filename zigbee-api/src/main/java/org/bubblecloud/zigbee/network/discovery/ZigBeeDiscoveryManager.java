@@ -160,7 +160,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
      * @param sourceNetworkAddress the network address to inspect
      */
     private synchronized void inspectNetworkAddress(final int sourceNetworkAddress) {
-        logger.debug("Inspecting node based on incoming AF message from network address #{}.",
+        logger.trace("Inspecting node based on incoming AF message from network address #{}.",
                 sourceNetworkAddress);
 
         final ZDO_IEEE_ADDR_RSP result = networkManager.sendZDOIEEEAddressRequest(
@@ -170,7 +170,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
         if (result == null) {
             logger.debug("Node did not respond to ZDO_IEEE_ADDR_REQ #{}", sourceNetworkAddress);
         } else if (result.Status == 0) {
-            logger.debug("Node network address #{} resolved to IEEE address {}.", sourceNetworkAddress, result.getIeeeAddress());
+            logger.trace("Node network address #{} resolved to IEEE address {}.", sourceNetworkAddress, result.getIeeeAddress());
             final ZigBeeNodeImpl node = new ZigBeeNodeImpl(sourceNetworkAddress, result.getIeeeAddress(),
                     (short) networkManager.getCurrentPanId());
 

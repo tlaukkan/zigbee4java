@@ -230,7 +230,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
                 final short id = (short) (cmdId.get16BitValue() & 0x1FFF);
                 while (synchronousCommandListeners.isEmpty() == false) {
                     try {
-                        LOGGER.debug("Waiting for other request to complete");
+                        LOGGER.trace("Waiting for other request to complete");
                         synchronousCommandListeners.wait(500);
                         cleanExpiredSynchronousCommandListeners();
                     } catch (InterruptedException ignored) {

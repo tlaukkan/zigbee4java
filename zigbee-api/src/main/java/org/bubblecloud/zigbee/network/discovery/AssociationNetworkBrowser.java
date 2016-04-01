@@ -37,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -110,7 +111,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
                     );
 
                     if (result == null) {
-                        logger.debug("No answer from #{}.", inspecting.address);
+                        logger.trace("No answer from #{}.", inspecting.address);
                         continue;
                     } else if (result.Status == 0) {
                         logger.trace(
@@ -134,7 +135,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            logger.debug("Network browsing completed, waiting until {}", wakeUpTime);
+            logger.debug("Network browsing completed, waiting until {}", new Date(wakeUpTime));
             initialNetworkBrowsingComplete = true;
             if (!isDone()) ThreadUtils.waitingUntil(wakeUpTime);
         }
