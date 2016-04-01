@@ -150,25 +150,25 @@ public final class ZigBeeConsole {
         });
 
         zigbeeApi.addNodeListener(new NodeListener() {
-			@Override
-			public void nodeAdded(ZigBeeNode node) {
+            @Override
+            public void nodeAdded(ZigBeeNode node) {
                 print("Node added: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
-			}
+            }
 
-			@Override
-			public void nodeDiscovered(ZigBeeNode node) {
+            @Override
+            public void nodeDiscovered(ZigBeeNode node) {
                 print("Node discovered: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
-			}
+            }
 
-			@Override
-			public void nodeUpdated(ZigBeeNode node) {
+            @Override
+            public void nodeUpdated(ZigBeeNode node) {
                 print("Node updated: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
-			}
+            }
 
-			@Override
-			public void nodeRemoved(ZigBeeNode node) {
+            @Override
+            public void nodeRemoved(ZigBeeNode node) {
                 print("Node removed: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
-			}
+            }
         });
 
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -189,14 +189,18 @@ public final class ZigBeeConsole {
             }
         }));
 
-        while (!shutdown && !networkStateFile.exists() && !zigbeeApi.isInitialBrowsingComplete()) {
+        if (!networkStateFile.exists()) {
             print("Browsing network for the first time...");
+        }
+        while (!shutdown && !networkStateFile.exists() && !zigbeeApi.isInitialBrowsingComplete()) {
             System.out.print('.');
             try {
                 Thread.sleep(250);
             } catch (InterruptedException e) {
                 break;
             }
+        }
+        if (!networkStateFile.exists()) {
             print("Browsing network for the first time... [OK]");
         }
         print("There are " + zigbeeApi.getDevices().size() + " known devices in the network.");

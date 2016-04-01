@@ -47,14 +47,10 @@ public class ZigBeeSerialPortImpl implements ZigBeePort
         try {
             openSerialPort(portIdentifier, 0, baudRate, 8, SerialComm.ONE_STOP_BIT,
                     SerialComm.NO_PARITY, SerialComm.FLOW_CONTROL_DISABLED);
-            
-            // Write the 'magic byte'
-            // Note that this might change in future, or with different dongles
-            outputStream.write(0xef);
 
             return true;
         } catch (Exception e) {
-            logger.error("Error...", e);
+            logger.warn("Unable to open serial port: " + e.getMessage());
             return false;
         }
     }

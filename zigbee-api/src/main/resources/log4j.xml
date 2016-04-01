@@ -10,7 +10,7 @@
     </appender>
 
     <logger additivity="true" name="org.bubblecloud.zigbee">
-        <level value="info"/>
+        <level value="debug"/>
     </logger>
 
 

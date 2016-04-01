@@ -155,17 +155,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
             throws IOException {
         LOGGER.debug("-> {} ({}) ", packet.getClass().getSimpleName(), packet.toString());
         final int[] pck = packet.getPacket();
-        synchronized (port) {
-            final OutputStream out = port.getOutputStream();
-            if (out == null) {
-                // Socket has not been opened or is already closed.
-                return;
-            }
-            for (int i = 0; i < pck.length; i++) {
-                out.write(pck[i]);
-            }
-            out.flush();
-        }
+        sendRaw(pck);
     }
 
 
@@ -268,6 +258,20 @@ public class ZigBeeInterface implements ZToolPacketHandler {
             );
         }
         sendPacket(packet);
+    }
+    
+    public void sendRaw(int[] buffer) throws IOException {
+        synchronized (port) {
+            final OutputStream out = port.getOutputStream();
+            if (out == null) {
+                // Socket has not been opened or is already closed.
+                return;
+            }
+            for (int i = 0; i < buffer.length; i++) {
+                out.write(buffer[i]);
+            }
+            out.flush();
+        }
     }
 
     /**
