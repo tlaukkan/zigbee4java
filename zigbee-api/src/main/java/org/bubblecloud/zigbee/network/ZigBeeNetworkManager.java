@@ -77,7 +77,7 @@ public interface ZigBeeNetworkManager {
 
     public abstract boolean removeAFMessageListener(ApplicationFrameworkMessageListener listner);
 
-    public abstract boolean addAFMessageListner(ApplicationFrameworkMessageListener listner);
+    public abstract boolean addAFMessageListener(ApplicationFrameworkMessageListener listner);
 
     /**
      * Send LQI request cluster and wait for its response

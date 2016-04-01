@@ -32,6 +32,12 @@ public interface ClusterMessage {
 
     public short getId();
 
+    /**
+     * Return cluster message transaction ID.
+     * @return the transaction ID
+     */
+    byte getTransactionId();
+
     public byte[] getClusterMsg();
     
     public String toString();

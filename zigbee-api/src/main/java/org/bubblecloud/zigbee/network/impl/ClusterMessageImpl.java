@@ -49,6 +49,11 @@ public class ClusterMessageImpl implements ClusterMessage {
         return id;
     }
 
+    @Override
+    public byte getTransactionId() {
+        return msg[3];
+    }
+
     public String toString() {
 		final StringBuilder builder = new StringBuilder("[ ");
 		for (byte b : msg) {

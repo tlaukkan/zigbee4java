@@ -996,17 +996,22 @@ public final class ZigBeeConsole {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "subscribe [DEVICE] [CLUSTER] [ATTRIBUTE]";
+            return "subscribe [DEVICE] [CLUSTER] [ATTRIBUTE] [MIN-INTERVAL] [MAX-INTERVAL]";
         }
         /**
          * {@inheritDoc}
          */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
-            if (args.length != 4) {
+            if (args.length != 6) {
                 return false;
             }
 
             final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                print("Device not found.");
+                return false;
+            }
+
             final int clusterId;
             try {
                 clusterId = Integer.parseInt(args[2]);
@@ -1019,9 +1024,22 @@ public final class ZigBeeConsole {
             } catch (final NumberFormatException e) {
                 return false;
             }
-
+            final int minInterval;
+            try {
+                minInterval = Integer.parseInt(args[4]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+            final int maxInterval;
+            try {
+                maxInterval = Integer.parseInt(args[5]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
 
             final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
+            reporter.setMinimumReportingInterval(minInterval);
+            reporter.setMaximumReportingInterval(maxInterval);
 
             if (reporter == null) {
                 print("Attribute does not provide reports.");
@@ -1223,6 +1241,7 @@ public final class ZigBeeConsole {
                     case Bitmap8bit:
                         break;
                     case Boolean:
+                        val = Boolean.parseBoolean(args[4]);
                         break;
                     case CharacterString:
                         val = new String(args[4]);
@@ -1262,6 +1281,7 @@ public final class ZigBeeConsole {
                     case SinglePrecision:
                         break;
                     case UnsignedInteger16bit:
+                        val = Integer.parseInt(args[4]);
                         break;
                     case UnsignedInteger24bit:
                         break;
@@ -1273,6 +1293,7 @@ public final class ZigBeeConsole {
                         break;
             	}
                 attribute.setValue(val);
+                print("Attribute value written.");
             } catch (ZigBeeClusterException e) {
                 print("Failed to write attribute.");
                 e.printStackTrace();

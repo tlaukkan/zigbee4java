@@ -330,22 +330,20 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         synchronized (networkManager) {
             final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
             final short sender = af.getSendingEndpoint(this, input);
-            /*
-            //FIX Removed because transaction is always 0 for the response due to a bug of CC2480
-            final byte transaction = af.getNextTransactionId(sender);
-            the next line is a workaround for the problem
-            */
-            final byte transaction = af.getNextTransactionId(sender);
+
+            final byte clusterMessageTransactionId = input.getTransactionId();
+            final byte afTransactionId = af.getNextTransactionId(sender);
             final byte[] msg = input.getClusterMsg();
 
-            m_addAFMessageListener();
+            addAFMessageListener();
 
             //Registering the waiter before sending the message, so that they will be captured
             WaitForClusterResponse waiter = new WaitForClusterResponse(
-                    this, transaction, input.getId(), CLUSTER_MESSAGE_RESPONSE_TIME_MILLIS
+                    this, clusterMessageTransactionId, input.getId(), CLUSTER_MESSAGE_RESPONSE_TIME_MILLIS
             );
 
-            logger.trace("---> SENDING transaction: " + transaction + " TO: " + node.getNetworkAddress() + " with"
+            logger.trace("---> SENDING cluster message with af transaction ID: " + afTransactionId + " and  cluster message transaction ID: " +
+                            + clusterMessageTransactionId + " TO: " + node.getNetworkAddress() + " with"
                     + " byte 0 " + Integers.getByteAsInteger(node.getNetworkAddress(), 0)
                     + " byte 1 " + Integers.getByteAsInteger(node.getNetworkAddress(), 1)
                     + " byte 2 " + Integers.getByteAsInteger(node.getNetworkAddress(), 2)
@@ -356,14 +354,14 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             //TODO Create radius and options according to the current configuration
             AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
                     node.getNetworkAddress(), endPointAddress, sender, input.getId(),
-                    transaction, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg
+                    afTransactionId, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg
             ));
 
             if (response == null) {
-                m_removeAFMessageListener();
+                removeAFMessageListener();
                 throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to general error - is the device sleeping?");
             } else if (response.getStatus() != 0) {
-                m_removeAFMessageListener();
+                removeAFMessageListener();
                 final ResponseStatus responseStatus = ResponseStatus.getStatus(Integers.getByteAsInteger(response.getStatus(), 0));
 
                 /*if (responseStatus == ResponseStatus.Z_MAC_NO_ACK)  {
@@ -376,7 +374,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             } else {
                 //FIX Can't be singleton because the invoke method can be invoked by multiple-thread
                 AF_INCOMING_MSG incoming = waiter.getResponse();
-                m_removeAFMessageListener();
+                removeAFMessageListener();
                 if (incoming == null) {
                     throw new ZigBeeBasedriverTimeOutException();
                 }
@@ -506,12 +504,12 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         return true;
     }
 
-    private void m_addAFMessageListener() {
+    private void addAFMessageListener() {
         if (listeners.isEmpty() && consumers.size() == 0) {
-            logger.debug("Registered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
-            networkManager.addAFMessageListner(this);
+            logger.trace("Registered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
+            networkManager.addAFMessageListener(this);
         } else {
-            logger.debug("Skipped registration of {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
+            logger.trace("Skipped registration of {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             logger.trace(
                     "Skipped registration due to: listeners.isEmpty() = {} or consumers.size() = {}",
                     listeners.isEmpty(), consumers.size()
@@ -519,12 +517,12 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         }
     }
 
-    private void m_removeAFMessageListener() {
+    private void removeAFMessageListener() {
         if (listeners.isEmpty() && consumers.size() == 0) {
-            logger.debug("Unregistered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
+            logger.trace("Unregistered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             networkManager.removeAFMessageListener(this);
         } else {
-            logger.debug("Skipped unregistration of {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
+            logger.trace("Skipped unregistration of {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             logger.trace(
                     "Skipped unregistration due to: listeners.isEmpty() = {}  or consumers.size() = {}",
                     listeners.isEmpty(), consumers.size()
@@ -533,14 +531,14 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     }
 
     public boolean addClusterListener(ClusterListener listener) {
-        m_addAFMessageListener();
+        addAFMessageListener();
 
         return listeners.add(listener);
     }
 
     public boolean removeClusterListener(ClusterListener listener) {
         boolean result = listeners.remove(listener);
-        m_removeAFMessageListener();
+        removeAFMessageListener();
         return result;
     }
 
@@ -550,7 +548,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             localCopy = new ArrayList<ClusterListener>(listeners);
         }
         if (localCopy.size() > 0) {
-            logger.debug("Notifying {} ClusterListener of {}", localCopy.size(), c.toString());
+            logger.trace("Notifying {} ClusterListener of {}", localCopy.size(), c.toString());
 
             for (ClusterListener listner : localCopy) {
                 try {
@@ -569,10 +567,10 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     }
 
     public void notify(AF_INCOMING_MSG msg) {
-        //THINK Do the notification in a separated Thread?
-        //THINK Should consume messages only if they were sent from this device?!?!
-        if (msg.isError()) return;
-        logger.debug("AF_INCOMING_MSG arrived for {} message is {}", endpointId, msg);
+        if (msg.isError()) {
+            return;
+        }
+        logger.trace("AF_INCOMING_MSG arrived for {} message is {}", endpointId, msg);
         ArrayList<ApplicationFrameworkMessageConsumer> localConsumers = null;
         synchronized (consumers) {
             localConsumers = new ArrayList<ApplicationFrameworkMessageConsumer>(consumers);
@@ -580,16 +578,16 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         logger.trace("Notifying {} ApplicationFrameworkMessageConsumer", localConsumers.size());
         for (ApplicationFrameworkMessageConsumer consumer : localConsumers) {
             if (consumer.consume(msg)) {
-                logger.trace("AF_INCOMING_MSG Consumed by {}", consumer.getClass().getName());
+                logger.trace("AF_INCOMING_MSG consumed by {}", consumer.getClass().getName());
                 return;
             } else {
-                logger.trace("AF_INCOMING_MSG Ignored by {}", consumer.getClass().getName());
+                logger.trace("AF_INCOMING_MSG ignored by {}", consumer.getClass().getName());
             }
         }
 
         if (msg.getSrcAddr() != node.getNetworkAddress()) return;
         if (msg.getSrcEndpoint() != endPointAddress) return;
-        logger.debug("Notifying cluster listener for received by {}", endpointId);
+        logger.trace("AF_INCOMING_MSG consumed by {}", endpointId);
         notifyClusterListener(new ClusterMessageImpl(msg.getData(), msg.getClusterId()));
     }
 

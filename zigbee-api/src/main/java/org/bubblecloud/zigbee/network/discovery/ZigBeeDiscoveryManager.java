@@ -107,7 +107,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
         endpointBuilder = new EndpointBuilder(importingQueue, networkManager);
         new Thread(endpointBuilder, "EndpointBuilder[" + networkManager + "]").start();
 
-        networkManager.addAFMessageListner(this);
+        networkManager.addAFMessageListener(this);
     }
 
     public void shutdown() {
@@ -140,7 +140,8 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
 
         synchronized (inspectedNetworkAddresses) {
         	// If this is an unknown device, then inspect it
-            if (!inspectedNetworkAddresses.contains(sourceNetworkAddress)) {
+            // TODO this should be enabled when all discovery modes share inspected network addresses
+            /*if (!inspectedNetworkAddresses.contains(sourceNetworkAddress)) {
             	// Add the device to the list so we don't inspect it again
                 inspectedNetworkAddresses.add(sourceNetworkAddress);
                 new Thread(new Runnable() {
@@ -149,7 +150,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
                         inspectNetworkAddress(sourceNetworkAddress);
                     }
                 }).start();
-            }
+            }*/
         }
     }
 

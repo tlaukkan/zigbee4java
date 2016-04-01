@@ -42,14 +42,12 @@ public class WaitForClusterResponse implements ApplicationFrameworkMessageConsum
 
     private static final Logger logger = LoggerFactory.getLogger(WaitForClusterResponse.class);
 
-    private byte transId;
+    private byte requestTransactionId;
     private short clusterId;
     private long timeout = -1;
     private AF_INCOMING_MSG response = null;
     private ApplicationFrameworkMessageProducer producer;
-
     private final Thread waiter;
-
 
     /**
      * @param timeout the maximum number of milliseconds to wait for. The value -1 means unlimited waiting time.
@@ -64,8 +62,7 @@ public class WaitForClusterResponse implements ApplicationFrameworkMessageConsum
             this.timeout = timeout;
             this.waiter = thread;
             response = null;
-            //BUG the CC2480 always send AF_INCOMING_MSG with transaction 0 so we must not use it
-            transId = transaction;
+            requestTransactionId = transaction;
             clusterId = id;
         }
     }
@@ -80,18 +77,19 @@ public class WaitForClusterResponse implements ApplicationFrameworkMessageConsum
     }
 
     public boolean consume(AF_INCOMING_MSG msg) {
-        //THINK  Is the following matching algorithm correct?!?!?
         if (msg.getClusterId() != clusterId) {
-            logger.trace("Unable to consume AF_INCOMING_MSG, because cluster {} != {}", msg.getClusterId(), clusterId);
+            logger.trace("AF_INCOMING_MSG ignored by waiter due to cluster mismatch {} != {}", msg.getClusterId(), clusterId);
             return false;
         }
-        if (msg.getTransId() != transId) {
-            logger.trace("Received different transaction {} != {}", msg.getTransId(), transId);
+        byte responseTransactionId = msg.getData()[1];
+        if (responseTransactionId != requestTransactionId) {
+            logger.trace("AF_INCOMING_MSG ignored by waiter due to transaction ID mismatch {} != {}", msg.getTransId(), requestTransactionId);
+            return false;
         }
         logger.trace(
                 "Consuming message with ClusterId: {} TransactionId: {} for thread {}/{}",
                 new Object[]{
-                        msg.getClusterId(), msg.getTransId(), waiter.getName(), waiter.getClass().getName()
+                        msg.getClusterId(), responseTransactionId, waiter.getName(), waiter.getClass().getName()
                 }
         );
         synchronized (this) {

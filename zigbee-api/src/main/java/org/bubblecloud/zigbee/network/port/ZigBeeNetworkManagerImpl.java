@@ -994,7 +994,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         );
     	
     	try {
-			zigbeeInterface.sendRaw(new int[] {magicByte});
+			zigbeeInterface.sendRaw(new int[]{magicByte});
 		} catch (IOException e) {
 			logger.error("Failed to send bootloader magic byte", e);
 		}
@@ -1351,14 +1351,14 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     /**
-     * Removes an Application Framework message listener that was previously added with the addAFMessageListner method
-     * @param listner a class that implements the {@link ApplicationFrameworkMessageListener} interface
+     * Removes an Application Framework message listener that was previously added with the addAFMessageListener method
+     * @param listener a class that implements the {@link ApplicationFrameworkMessageListener} interface
      * @return true if the listener was added
      */
-    public boolean removeAFMessageListener(ApplicationFrameworkMessageListener listner) {
+    public boolean removeAFMessageListener(ApplicationFrameworkMessageListener listener) {
         boolean result = false;
         synchronized (messageListeners) {
-            result = messageListeners.remove(listner);
+            result = messageListeners.remove(listener);
         }
 
         if (messageListeners.isEmpty() && isHardwareReady()) {
@@ -1369,20 +1369,25 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             }
         }
         if (result) {
-            logger.trace("Removed ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
+            logger.trace("Removed ApplicationFrameworkMessageListener {}:{}", listener, listener.getClass().getName());
             return true;
         } else {
-            logger.warn("Could not remove ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
+            logger.warn("Could not remove ApplicationFrameworkMessageListener {}:{}", listener, listener.getClass().getName());
             return false;
         }
     }
 
     /**
      * Adds an Application Framework message listener
-     * @param listner a class that implements the {@link ApplicationFrameworkMessageListener} interface
+     * @param listener a class that implements the {@link ApplicationFrameworkMessageListener} interface
      * @return true if the listener was added
      */
-    public boolean addAFMessageListner(ApplicationFrameworkMessageListener listner) {
+    public boolean addAFMessageListener(ApplicationFrameworkMessageListener listener) {
+        synchronized (messageListeners) {
+            if (messageListeners.contains(listener)) {
+                 return true;
+            }
+        }
         if (messageListeners.isEmpty() && isHardwareReady()) {
             if (zigbeeInterface.addAsynchronousCommandListener(afMessageListenerFilter)) {
                 logger.trace("Added AsynchrounsCommandListener {} to ZigBeeSerialInterface", afMessageListenerFilter.getClass().getName());
@@ -1392,14 +1397,14 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         }
         boolean result = false;
         synchronized (messageListeners) {
-            result = messageListeners.add(listner);
+            result = messageListeners.add(listener);
         }
 
         if (result) {
-            logger.trace("Added ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
+            logger.trace("Added ApplicationFrameworkMessageListener {}:{}", listener, listener.getClass().getName());
             return true;
         } else {
-            logger.warn("Could not add ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
+            logger.warn("Could not add ApplicationFrameworkMessageListener {}:{}", listener, listener.getClass().getName());
             return false;
         }
     }
@@ -1821,7 +1826,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                             msg.getSrcAddr(), msg.getClusterId(),
                             msg.getDstEndpoint(), msg);
                 } else {
-                    logger.debug("Received AF_INCOMING_MSG from {} and cluster {} to end point {}. Data: {}",
+                    logger.trace("Received AF_INCOMING_MSG from {} and cluster {} to end point {}. Data: {}",
                             msg.getSrcAddr(), msg.getClusterId(),
                             msg.getDstEndpoint(), msg);
                 }
