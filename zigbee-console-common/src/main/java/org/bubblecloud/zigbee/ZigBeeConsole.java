@@ -103,7 +103,7 @@ public final class ZigBeeConsole {
 		commands.put("lqi", 		new LqiCommand());
         commands.put("warn",        new WarnCommand());
         commands.put("squawk",      new SquawkCommand());
-        commands.put("door", 		new DoorCommand());
+        commands.put("lock", 		new DoorLockCommand());
 	}
 
 	/**
@@ -847,24 +847,24 @@ public final class ZigBeeConsole {
     /**
      * Switches a device off.
      */
-    private class DoorCommand implements ConsoleCommand {
+    private class DoorLockCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
         public String getDescription() {
-            return "Switches door off.";
+            return "Locks door.";
         }
         /**
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "off DEVICEID";
+            return "lock DEVICEID PINCODE";
         }
         /**
          * {@inheritDoc}
          */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
-            if (args.length != 2) {
+            if (args.length != 3) {
                 return false;
             }
 
@@ -875,9 +875,8 @@ public final class ZigBeeConsole {
             final DoorLock doorLock = device.getCluster(DoorLock.class);
             
             try {
-				doorLock.lock("1234");
+				doorLock.lock(args[2]);
 			} catch (ZigBeeDeviceException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
