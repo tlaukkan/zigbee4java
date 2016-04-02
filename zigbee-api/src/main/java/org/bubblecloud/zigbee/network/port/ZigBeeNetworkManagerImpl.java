@@ -1804,10 +1804,10 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
     private class AFMessageListenerFilter implements AsynchronousCommandListener {
 
-        private final Collection<ApplicationFrameworkMessageListener> listners;
+        private final Collection<ApplicationFrameworkMessageListener> listeners;
 
         private AFMessageListenerFilter(Collection<ApplicationFrameworkMessageListener> list) {
-            listners = list;
+            listeners = list;
         }
 
         /**
@@ -1820,7 +1820,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             }
             if (packet.getCMD().get16BitValue() == ZToolCMD.AF_INCOMING_MSG) {
                 AF_INCOMING_MSG msg = (AF_INCOMING_MSG) packet;
-                if (listners.isEmpty()) {
+                if (listeners.isEmpty()) {
                     logger.warn("Received AF_INCOMING_MSG but no listeners. " +
                                     "Message was from {} and cluster {} to end point {}. Data: {}",
                             msg.getSrcAddr(), msg.getClusterId(),
@@ -1831,12 +1831,17 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                             msg.getDstEndpoint(), msg);
                 }
                 ArrayList<ApplicationFrameworkMessageListener> localCopy = null;
-                synchronized (listners) {
-                    localCopy = new ArrayList<ApplicationFrameworkMessageListener>(listners);
+                synchronized (listeners) {
+                    localCopy = new ArrayList<ApplicationFrameworkMessageListener>(listeners);
                 }
                 for (ApplicationFrameworkMessageListener l : localCopy) {
                     l.notify(msg);
                 }
+
+                /*ZCLFrame frame = new ZCLFrame(new ClusterMessageImpl(msg.getData(), msg.getClusterId()));
+                logger.debug("Received: [ ZCL Header: " + ByteUtils.toBase16(frame.getHeader().toByte())
+                        + ", ZCL Payload: " + ByteUtils.toBase16(frame.getPayload())
+                        + "]");*/
             }
         }
     }

@@ -21,6 +21,7 @@ import org.bubblecloud.zigbee.network.NodeListener;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
+import org.bubblecloud.zigbee.network.impl.ClusterRequestReceiver;
 import org.bubblecloud.zigbee.network.impl.NetworkStateSerializer;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
@@ -106,6 +107,10 @@ public class ZigBeeApi implements EndpointListener {
      */
     private ZigBeeNetwork network;
     /**
+     * Cluster request receiver.
+     */
+    private ClusterRequestReceiver clusterRequestReceiver;
+    /**
      * Flag to reset the network on startup
      */
 	private boolean resetNetwork = false;
@@ -157,6 +162,8 @@ public class ZigBeeApi implements EndpointListener {
     	this.resetNetwork = resetNetwork;
 
         networkManager = new ZigBeeNetworkManagerImpl(port, NetworkMode.Coordinator, pan, channel, 2500L);
+        clusterRequestReceiver = new ClusterRequestReceiver(networkManager);
+        networkManager.addAFMessageListener(clusterRequestReceiver);
         discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
         network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
 

@@ -566,9 +566,9 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         }
     }
 
-    public void notify(AF_INCOMING_MSG msg) {
+    public boolean notify(AF_INCOMING_MSG msg) {
         if (msg.isError()) {
-            return;
+            return false;
         }
         logger.trace("AF_INCOMING_MSG arrived for {} message is {}", endpointId, msg);
         ArrayList<ApplicationFrameworkMessageConsumer> localConsumers = null;
@@ -579,16 +579,22 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         for (ApplicationFrameworkMessageConsumer consumer : localConsumers) {
             if (consumer.consume(msg)) {
                 logger.trace("AF_INCOMING_MSG consumed by {}", consumer.getClass().getName());
-                return;
+                return true;
             } else {
                 logger.trace("AF_INCOMING_MSG ignored by {}", consumer.getClass().getName());
+                return false;
             }
         }
 
-        if (msg.getSrcAddr() != node.getNetworkAddress()) return;
-        if (msg.getSrcEndpoint() != endPointAddress) return;
+        if (msg.getSrcAddr() != node.getNetworkAddress()) {
+            return false;
+        }
+        if (msg.getSrcEndpoint() != endPointAddress) {
+            return false;
+        }
         logger.trace("AF_INCOMING_MSG consumed by {}", endpointId);
         notifyClusterListener(new ClusterMessageImpl(msg.getData(), msg.getClusterId()));
+        return true;
     }
 
     public boolean addAFMessageConsumer(ApplicationFrameworkMessageConsumer consumer) {

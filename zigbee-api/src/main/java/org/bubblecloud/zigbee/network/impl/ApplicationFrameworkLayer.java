@@ -127,6 +127,15 @@ public class ApplicationFrameworkLayer {
         }
     }
 
+    public int getSenderEndpointProfileId(short endpointId, int clusterId) {
+        for (final Map.Entry<SenderIdentifier, Short> entry : sender2EndPoint.entrySet()) {
+            if (endpointId == entry.getValue().shortValue() && clusterId == entry.getKey().clusterId) {
+                return entry.getKey().profileId;
+            }
+        }
+        throw new IllegalArgumentException("No sender EndPoint " + endpointId+ " with cluster " + clusterId + ".");
+    }
+
     public short getSendingEndpoint(ZigBeeEndpoint endpoint, ClusterMessage input) {
         return getSendingEndpoint(endpoint.getProfileId(), input.getId());
     }

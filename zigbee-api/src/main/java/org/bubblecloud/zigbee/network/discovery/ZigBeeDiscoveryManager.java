@@ -135,7 +135,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
     }
 
     @Override
-    public void notify(AF_INCOMING_MSG msg) {
+    public boolean notify(AF_INCOMING_MSG msg) {
         final int sourceNetworkAddress = msg.getSrcAddr();
 
         synchronized (inspectedNetworkAddresses) {
@@ -152,6 +152,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
                 }).start();
             }*/
         }
+        return false;
     }
 
     /**
