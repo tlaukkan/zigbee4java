@@ -1,11 +1,26 @@
-package org.bubblecloud.zigbee.network.impl.protocol;
-
-import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
+/**
+ * Copyright 2016 Tommi S.E. Laukkanen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.bubblecloud.zigbee.network.zcl;
 
 import java.util.TreeMap;
 
 /**
- * Created by tlaukkan on 4/2/2016.
+ * Value object holding a command message.
+ *
+ * @author Tommi S.E. Laukkanen
  */
 public class ZclCommandMessage {
 
@@ -14,24 +29,25 @@ public class ZclCommandMessage {
     private int destinationAddress;
     private short destinationEndpoint;
 
-    private int profileId;
-    private int clusterId;
-    private byte commandId;
-    private byte transactionId;
-
     ZclCommand command;
 
-    TreeMap<ZclCommandField, Object> fields;
+    private Byte transactionId;
+
+
+    TreeMap<ZclCommandField, Object> fields = new TreeMap<ZclCommandField, Object>();
 
     public ZclCommandMessage() {
     }
 
-    public int getClusterId() {
-        return clusterId;
+    public ZclCommandMessage(final int destinationAddress, short destinationEndpoint, final ZclCommand command, final Byte transactionId) {
+        this.destinationAddress = destinationAddress;
+        this.destinationEndpoint = destinationEndpoint;
+        this.transactionId = transactionId;
+        this.command = command;
     }
 
-    public void setClusterId(int clusterId) {
-        this.clusterId = clusterId;
+    public void addField(final ZclCommandField field, final Object value) {
+        fields.put(field, value);
     }
 
     public ZclCommand getCommand() {
@@ -40,14 +56,6 @@ public class ZclCommandMessage {
 
     public void setCommand(ZclCommand command) {
         this.command = command;
-    }
-
-    public byte getCommandId() {
-        return commandId;
-    }
-
-    public void setCommandId(byte commandId) {
-        this.commandId = commandId;
     }
 
     public int getDestinationAddress() {
@@ -74,14 +82,6 @@ public class ZclCommandMessage {
         this.fields = fields;
     }
 
-    public int getProfileId() {
-        return profileId;
-    }
-
-    public void setProfileId(int profileId) {
-        this.profileId = profileId;
-    }
-
     public int getSourceAddress() {
         return sourceAddress;
     }
@@ -98,11 +98,11 @@ public class ZclCommandMessage {
         this.sourceEnpoint = sourceEnpoint;
     }
 
-    public byte getTransactionId() {
+    public Byte getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(byte transactionId) {
+    public void setTransactionId(Byte transactionId) {
         this.transactionId = transactionId;
     }
 

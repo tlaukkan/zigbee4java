@@ -38,6 +38,10 @@ import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.port.ZigBeePort;
+import org.bubblecloud.zigbee.network.zcl.ZclCommand;
+import org.bubblecloud.zigbee.network.zcl.ZclCommandField;
+import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
+import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
 import org.bubblecloud.zigbee.util.Cie;
 
 /**
@@ -169,6 +173,33 @@ public final class ZigBeeConsole {
             @Override
             public void nodeRemoved(ZigBeeNode node) {
                 print("Node removed: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
+            }
+        });
+
+        zigbeeApi.addCommandListener(new ZclCommandListener() {
+            @Override
+            public void commandReceived(ZclCommandMessage command) {
+                print("Received: " + command.toString());
+
+                if (command.getCommand() == ZclCommand.ZONE_ENROLL_REQUEST) {
+                    int remoteAddress = command.getSourceAddress();
+                    short remoteEndPoint = command.getSourceEnpoint();
+                    byte transactionId = command.getTransactionId();
+
+                    final ZclCommandMessage responseMessage = new ZclCommandMessage(remoteAddress, remoteEndPoint, ZclCommand.ZONE_ENROLL_RESPONSE, transactionId);
+                    responseMessage.addField(ZclCommandField.ENROLL_RESPONSE_CODE, 0);
+                    responseMessage.addField(ZclCommandField.ZONE_ID, 0);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                zigbeeApi.sendCommand(responseMessage);
+                            } catch (ZigBeeNetworkManagerException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                }
             }
         });
 

@@ -106,4 +106,8 @@ public class AbstractCommand implements Command {
         }
         return payload;
     }
+
+    public void setPayload(byte[] payload) {
+        this.payload = payload;
+    }
 }

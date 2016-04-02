@@ -21,7 +21,10 @@ import org.bubblecloud.zigbee.network.NodeListener;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
-import org.bubblecloud.zigbee.network.impl.ClusterRequestReceiver;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
+import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
+import org.bubblecloud.zigbee.network.zcl.ZclCommandTransmitter;
 import org.bubblecloud.zigbee.network.impl.NetworkStateSerializer;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
@@ -109,7 +112,7 @@ public class ZigBeeApi implements EndpointListener {
     /**
      * Cluster request receiver.
      */
-    private ClusterRequestReceiver clusterRequestReceiver;
+    private ZclCommandTransmitter zclCommandTransmitter;
     /**
      * Flag to reset the network on startup
      */
@@ -162,8 +165,8 @@ public class ZigBeeApi implements EndpointListener {
     	this.resetNetwork = resetNetwork;
 
         networkManager = new ZigBeeNetworkManagerImpl(port, NetworkMode.Coordinator, pan, channel, 2500L);
-        clusterRequestReceiver = new ClusterRequestReceiver(networkManager);
-        networkManager.addAFMessageListener(clusterRequestReceiver);
+        zclCommandTransmitter = new ZclCommandTransmitter(networkManager);
+        networkManager.addAFMessageListener(zclCommandTransmitter);
         discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
         network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
 
@@ -500,6 +503,31 @@ public class ZigBeeApi implements EndpointListener {
      */
     public void removeNodeListener(NodeListener nodeListener) {
         network.removeNodeListener(nodeListener);
+    }
+
+    /**
+     * Sends ZCL command message without waiting for response.
+     * @param commandMessage the command message
+     * @throws ZigBeeNetworkManagerException if exception occurs in sending
+     */
+    public void sendCommand(final ZclCommandMessage commandMessage) throws ZigBeeNetworkManagerException {
+        zclCommandTransmitter.sendCommand(commandMessage);
+    }
+
+    /**
+     * Adds ZCL command listener.
+     * @param commandListener the command listener
+     */
+    public void addCommandListener(final ZclCommandListener commandListener) {
+        this.zclCommandTransmitter.addCommandListener(commandListener);
+    }
+
+    /**
+     * Removes ZCL command listener.
+     * @param commandListener the command listener
+     */
+    public void removeCommandListener(final ZclCommandListener commandListener) {
+        this.zclCommandTransmitter.removeCommandListener(commandListener);
     }
 
 }

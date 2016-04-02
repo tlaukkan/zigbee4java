@@ -120,9 +120,13 @@ public class ZCLHeaderImpl implements ZCLHeader {
         return transactionId;
     }
 
+    public void setTransactionId(byte transactionId) {
+        this.transactionId = transactionId;
+    }
+
     /* (non-Javadoc)
-     * @see it.cnr.isti.zigbee.zcl.library.impl.core.ZCLHeaderInterface#getCommandId()
-     */
+         * @see it.cnr.isti.zigbee.zcl.library.impl.core.ZCLHeaderInterface#getCommandId()
+         */
     public byte getCommandId() {
         return commandId;
     }
