@@ -26,6 +26,10 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
  */
 public enum ZclCommandField {
 
+    // ZONE_STATUS_CHANGE_NOTIFICATION
+    ZONE_STATUS(ZigBeeType.Enumeration16bit, ZclCommand.ZONE_STATUS_CHANGE_NOTIFICATION),
+    EXTENDED_STATUS(ZigBeeType.Enumeration8bit, ZclCommand.ZONE_STATUS_CHANGE_NOTIFICATION),
+
     // ZONE_ENROLL_REQUEST
     ZONE_TYPE(ZigBeeType.Enumeration16bit, ZclCommand.ZONE_ENROLL_REQUEST),
     MANUFACTURE_CODE(ZigBeeType.UnsignedInteger16bit, ZclCommand.ZONE_ENROLL_REQUEST),
@@ -60,7 +64,7 @@ public enum ZclCommandField {
      * @param type the value type
      * @param command the command
      */
-    ZclCommandField(ZigBeeType type, ZclCommand command){
+    ZclCommandField(final ZigBeeType type, final ZclCommand command){
         this.command = command;
         this.profileId = command.profileId;
         this.clusterId = command.clusterId;

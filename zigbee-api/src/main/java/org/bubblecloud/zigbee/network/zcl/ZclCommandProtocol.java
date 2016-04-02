@@ -36,11 +36,17 @@ public class ZclCommandProtocol {
     /**
      * The command formats.
      */
-    private Map<Integer, Map<Integer, Map<Integer, ZclCommandFormat>>> commandFormats = new HashMap<Integer,Map<Integer, Map<Integer, ZclCommandFormat>>>();
+    private Map<ZclCommand, ZclCommandFormat> commandFormats = new HashMap<ZclCommand, ZclCommandFormat>();
 
-    public static ZclCommandMessage deserializePayload(byte[] commandPayload, ZclCommandMessage commandMessage) {
-        final ZclCommandFormat messageFormat = getMessageProtocol().get(commandMessage.getCommand().profileId, commandMessage.getCommand().clusterId, commandMessage.getCommand().commandId);
-        final DefaultDeserializer defaultDeserializer = new DefaultDeserializer(commandPayload, 0);
+    /**
+     * Deserializes fields from payload.
+     * @param payload the payload
+     * @param commandMessage the command message
+     * @return the command message
+     */
+    public static ZclCommandMessage deserializePayload(final byte[] payload, final ZclCommandMessage commandMessage) {
+        final ZclCommandFormat messageFormat = getMessageProtocol().get(commandMessage.getCommand());
+        final DefaultDeserializer defaultDeserializer = new DefaultDeserializer(payload, 0);
         final TreeMap<ZclCommandField, Object> fields = new TreeMap<ZclCommandField, Object>();
         for (final ZclCommandField fieldType : messageFormat.getFields()) {
             fields.put(fieldType, defaultDeserializer.readZigBeeType(fieldType.type));
@@ -49,36 +55,35 @@ public class ZclCommandProtocol {
         return commandMessage;
     }
 
-    public static byte[] serializePayload(final ZclCommand command, TreeMap<ZclCommandField, Object> parameters) {
-        final ZclCommandFormat messageFormat = getMessageProtocol().get(command.profileId, command.clusterId, command.commandId);
-        if (messageFormat == null) {
-            throw new IllegalArgumentException("No serialisation defined for: " + command);
-        }
+    /**
+     * Serializes fields to payload.
+     * @param commandMessage the command message
+     * @return the payload
+     */
+    public static byte[] serializePayload(final ZclCommandMessage commandMessage) {
+        final ZclCommandFormat messageFormat = getMessageProtocol().get(commandMessage.getCommand());
         final ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
         for (final ZclCommandField fieldType : messageFormat.getFields()) {
-            serializer.appendZigBeeType(parameters.get(fieldType), fieldType.type);
+            serializer.appendZigBeeType(commandMessage.getFields().get(fieldType), fieldType.type);
         }
         return serializer.getPayload();
     }
 
+    /**
+     * Adds message format for command.
+     * @param messageFormat the message format
+     */
     public void add(final ZclCommandFormat messageFormat) {
-        if (!commandFormats.containsKey(messageFormat.getProfileId())) {
-            commandFormats.put(messageFormat.getProfileId(), new HashMap<Integer, Map<Integer, ZclCommandFormat>>());
-        }
-        if (!commandFormats.get(messageFormat.getProfileId()).containsKey(messageFormat.getClusterId())) {
-            commandFormats.get(messageFormat.getProfileId()).put(messageFormat.getClusterId(), new HashMap<Integer, ZclCommandFormat>());
-        }
-        commandFormats.get(messageFormat.getProfileId()).get(messageFormat.getClusterId()).put(messageFormat.getCommandId(), messageFormat);
+        commandFormats.put(messageFormat.getCommand(), messageFormat);
     }
 
-    public ZclCommandFormat get(final int profileId, final int clusterId, final int commandId) {
-        if (!commandFormats.containsKey(profileId)) {
-            commandFormats.put(profileId, new HashMap<Integer, Map<Integer, ZclCommandFormat>>());
-        }
-        if (!commandFormats.get(profileId).containsKey(clusterId)) {
-            commandFormats.get(profileId).put(clusterId, new HashMap<Integer, ZclCommandFormat>());
-        }
-        return commandFormats.get(profileId).get(clusterId).get(commandId);
+    /**
+     * Gets message format for command
+     * @param command the command
+     * @return the message format
+     */
+    public ZclCommandFormat get(final ZclCommand command) {
+        return commandFormats.get(command);
     }
 
     /**
@@ -92,10 +97,10 @@ public class ZclCommandProtocol {
             ZclCommandFormat messageFormat = null;
             for (final ZclCommandField fieldType : ZclCommandField.values()) {
                 if (messageFormat == null) {
-                    messageFormat = new ZclCommandFormat(fieldType.profileId, fieldType.clusterId, fieldType.commandId);
-                } else if (!(messageFormat.getProfileId() == fieldType.profileId && messageFormat.getClusterId() == fieldType.clusterId && messageFormat.getCommandId() == fieldType.commandId)) {
+                    messageFormat = new ZclCommandFormat(fieldType.command);
+                } else if (!(messageFormat.getCommand() == fieldType.command)) {
                     protocol.add(messageFormat);
-                    messageFormat = new ZclCommandFormat(fieldType.profileId, fieldType.clusterId, fieldType.commandId);
+                    messageFormat = new ZclCommandFormat(fieldType.command);
                 }
                 messageFormat.getFields().add(fieldType);
             }

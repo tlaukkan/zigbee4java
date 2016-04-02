@@ -181,6 +181,7 @@ public final class ZigBeeConsole {
             public void commandReceived(ZclCommandMessage command) {
                 print("Received: " + command.toString());
 
+                /* This is an example how to interface directly with ZCL commands.
                 if (command.getCommand() == ZclCommand.ZONE_ENROLL_REQUEST) {
                     int remoteAddress = command.getSourceAddress();
                     short remoteEndPoint = command.getSourceEnpoint();
@@ -200,6 +201,8 @@ public final class ZigBeeConsole {
                         }
                     }).start();
                 }
+                */
+
             }
         });
 

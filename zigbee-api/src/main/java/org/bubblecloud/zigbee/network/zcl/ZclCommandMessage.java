@@ -23,91 +23,179 @@ import java.util.TreeMap;
  * @author Tommi S.E. Laukkanen
  */
 public class ZclCommandMessage {
-
+    /**
+     * The source address.
+     */
     private int sourceAddress;
+    /**
+     * The source endpoint.
+     */
     private short sourceEnpoint;
+    /**
+     * The destination address.
+     */
     private int destinationAddress;
+    /**
+     * The destination endpoint.
+     */
     private short destinationEndpoint;
-
+    /**
+     * The command.
+     */
     ZclCommand command;
-
+    /**
+     * The transaction ID.
+     */
     private Byte transactionId;
-
-
+    /**
+     * The fields and their values.
+     */
     TreeMap<ZclCommandField, Object> fields = new TreeMap<ZclCommandField, Object>();
-
+    /**
+     * Default constructor for inbound messages.
+     */
     public ZclCommandMessage() {
     }
 
-    public ZclCommandMessage(final int destinationAddress, short destinationEndpoint, final ZclCommand command, final Byte transactionId) {
+    /**
+     * Constructor for outbound messages.
+     * @param destinationAddress the destination address
+     * @param destinationEndpoint the destination endpoint
+     * @param command the command
+     * @param transactionId the transaction ID
+     */
+    public ZclCommandMessage(final int destinationAddress, short destinationEndpoint, final ZclCommand command,
+                             final Byte transactionId) {
         this.destinationAddress = destinationAddress;
         this.destinationEndpoint = destinationEndpoint;
         this.transactionId = transactionId;
         this.command = command;
     }
 
+    /**
+     * Add field to message.
+     * @param field the field
+     * @param value the value
+     */
     public void addField(final ZclCommandField field, final Object value) {
         fields.put(field, value);
     }
 
+    /**
+     * Gets the command
+     * @return the command
+     */
     public ZclCommand getCommand() {
         return command;
     }
 
-    public void setCommand(ZclCommand command) {
+    /**
+     * Sets the command
+     * @param command the command
+     */
+    public void setCommand(final ZclCommand command) {
         this.command = command;
     }
 
+    /**
+     * Gets destination address.
+     * @return the destination address.
+     */
     public int getDestinationAddress() {
         return destinationAddress;
     }
 
-    public void setDestinationAddress(int destinationAddress) {
+    /**
+     * Sets destination address.
+     * @param destinationAddress the destination address.
+     */
+    public void setDestinationAddress(final int destinationAddress) {
         this.destinationAddress = destinationAddress;
     }
 
+    /**
+     * Gets destination endpoint.
+     * @return the destination endpoint
+     */
     public short getDestinationEndpoint() {
         return destinationEndpoint;
     }
 
-    public void setDestinationEndpoint(short destinationEndpoint) {
+    /**
+     * Sets destination endpoint
+     * @param destinationEndpoint the destination endpoint
+     */
+    public void setDestinationEndpoint(final short destinationEndpoint) {
         this.destinationEndpoint = destinationEndpoint;
     }
 
+    /**
+     * Gets the fields
+     * @return the fields
+     */
     public TreeMap<ZclCommandField, Object> getFields() {
         return fields;
     }
 
-    public void setFields(TreeMap<ZclCommandField, Object> fields) {
+    /**
+     * Sets the fields.
+     * @param fields the fields
+     */
+    public void setFields(final TreeMap<ZclCommandField, Object> fields) {
         this.fields = fields;
     }
 
+    /**
+     * Gets source address.
+     * @return the source address
+     */
     public int getSourceAddress() {
         return sourceAddress;
     }
 
-    public void setSourceAddress(int sourceAddress) {
+    /**
+     * Sets source address.
+     * @param sourceAddress the source address
+     */
+    public void setSourceAddress(final int sourceAddress) {
         this.sourceAddress = sourceAddress;
     }
 
+    /**
+     * Gets source endpoint.
+     * @return the source endpoint
+     */
     public short getSourceEnpoint() {
         return sourceEnpoint;
     }
 
-    public void setSourceEnpoint(short sourceEnpoint) {
+    /**
+     * Sets source endpoint.
+     * @param sourceEnpoint the source endpoint
+     */
+    public void setSourceEnpoint(final short sourceEnpoint) {
         this.sourceEnpoint = sourceEnpoint;
     }
 
+    /**
+     * Gets the transaction ID.
+     * @return the transaction ID
+     */
     public Byte getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(Byte transactionId) {
+    /**
+     * Sets the transaction ID.
+     * @param transactionId the transaction ID
+     */
+    public void setTransactionId(final Byte transactionId) {
         this.transactionId = transactionId;
     }
 
     @Override
     public String toString() {
-        return command.name() + " " + sourceAddress + "." + sourceEnpoint + " -> " + destinationAddress + "." + destinationEndpoint + " " + fields;
+        return command.name() + " " + sourceAddress + "." + sourceEnpoint + " -> "
+                + destinationAddress + "." + destinationEndpoint + " " + fields;
     }
 }

@@ -16,7 +16,6 @@
 package org.bubblecloud.zigbee.network.zcl;
 
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.IASZone;
 
 /**
@@ -27,6 +26,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.IASZone;
 public enum ZclCommand {
 
     // HA IAS Zone commands
+    ZONE_STATUS_CHANGE_NOTIFICATION(ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION, ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE, IASZone.ZONE_STATUS_CHANGE_NOTIFICATION_ID, false, true),
     ZONE_ENROLL_REQUEST(ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION, ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE, IASZone.ZONE_ENROLL_REQUEST_ID, false, true),
     ZONE_ENROLL_RESPONSE(ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION, ZigBeeApiConstants.CLUSTER_ID_IAS_ZONE, IASZone.ZONE_ENROLL_RESPONSE_ID, true, true);
 
@@ -56,7 +56,8 @@ public enum ZclCommand {
      * @param clusterId the cluster ID
      * @param commandId the command ID
      */
-    private ZclCommand(int profileId, int clusterId, int commandId, boolean isClientServerDirection, boolean isClusterSpecific){
+    private ZclCommand(final int profileId, final int clusterId, final int commandId,
+                       final boolean isClientServerDirection, final boolean isClusterSpecific){
         this.profileId = profileId;
         this.clusterId = clusterId;
         this.commandId = commandId;

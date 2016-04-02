@@ -43,21 +43,37 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
      * The logger.
      */
     private static final Logger logger = LoggerFactory.getLogger(ZigBeeEndpointImpl.class);
-
+    /**
+     * The network manager for transmitting data to and from network layer.
+     */
     private ZigBeeNetworkManagerImpl networkManager;
-
+    /**
+     * The command listeners.
+     */
     private List<ZclCommandListener> commandListeners = new ArrayList<ZclCommandListener>();
 
-    public ZclCommandTransmitter(ZigBeeNetworkManagerImpl networkManager) {
+    /**
+     * Constructor for setting network manager.
+     * @param networkManager the network manager
+     */
+    public ZclCommandTransmitter(final ZigBeeNetworkManagerImpl networkManager) {
         this.networkManager = networkManager;
     }
 
+    /**
+     * Adds command listener.
+     * @param listener the command listener
+     */
     public void addCommandListener(final ZclCommandListener listener) {
         final List<ZclCommandListener> modifiedCommandListeners = new ArrayList<ZclCommandListener>(commandListeners);
         modifiedCommandListeners.add(listener);
         commandListeners = Collections.unmodifiableList(modifiedCommandListeners);
     }
 
+    /**
+     * Removes command listener.
+     * @param listener the command listener
+     */
     public void removeCommandListener(final ZclCommandListener listener) {
         final List<ZclCommandListener> modifiedCommandListeners = new ArrayList<ZclCommandListener>(commandListeners);
         modifiedCommandListeners.remove(listener);
@@ -67,7 +83,9 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
     @Override
     public boolean notify(final AF_INCOMING_MSG clusterMessage) {
 
-        final ZCLFrame frame = new ZCLFrame(new ClusterMessageImpl(clusterMessage.getData(), clusterMessage.getClusterId()));
+        final ZCLFrame frame = new ZCLFrame(new ClusterMessageImpl(clusterMessage.getData(),
+                clusterMessage.getClusterId()));
+
         final boolean isClientServerDirection = frame.getHeader().getFramecontrol().isClientServerDirection();
         final boolean isClusterSpecificCommand = frame.getHeader().getFramecontrol().isClusterSpecificCommand();
         final boolean isManufacturerExtension = frame.getHeader().getFramecontrol().isManufacturerExtension();
@@ -75,10 +93,11 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
 
         final int sourceAddress = clusterMessage.getSrcAddr();
         final short sourceEnpoint = clusterMessage.getSrcEndpoint();
-        final int destinationAddress = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork().getNode(IEEEAddress.toColonNotation(networkManager.getIeeeAddress())).getNetworkAddress();
+        final int destinationAddress = 0;
         final short destinationEndpoint = clusterMessage.getDstEndpoint();
 
-        final int profileId = ApplicationFrameworkLayer.getAFLayer(networkManager).getSenderEndpointProfileId(destinationEndpoint, clusterMessage.getClusterId());
+        final int profileId = ApplicationFrameworkLayer.getAFLayer(networkManager).getSenderEndpointProfileId(
+                destinationEndpoint, clusterMessage.getClusterId());
         final int clusterId = clusterMessage.getClusterId();
         final byte commandId = frame.getHeader().getCommandId();
         final byte transactionId = frame.getHeader().getTransactionId();
@@ -86,7 +105,8 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
         final byte[] commandPayload = frame.getPayload();
 
         if (isClusterSpecificCommand && !isManufacturerExtension) {
-            logger.debug("Received cluster specific command: [ clusterId: " + clusterId + " commmandId: " + commandId + " ZCL Header: " + ByteUtils.toBase16(frame.getHeader().toByte())
+            logger.debug("Received cluster specific command: [ clusterId: " + clusterId
+                    + " commmandId: " + commandId + " ZCL Header: " + ByteUtils.toBase16(frame.getHeader().toByte())
                     + ", ZCL Payload: " + ByteUtils.toBase16(frame.getPayload())
                     + "]");
 
@@ -101,7 +121,9 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
 
             ZclCommand command = null;
             for (final ZclCommand candidate : ZclCommand.values()) {
-                if (candidate.profileId == profileId && candidate.clusterId == clusterId && candidate.commandId == commandId) {
+                if (candidate.profileId == profileId && candidate.clusterId == clusterId
+                        && candidate.commandId == commandId
+                        && candidate.isClientServerDirection == isClientServerDirection) {
                     command = candidate;
                     break;
                 }
@@ -126,17 +148,23 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
         return false;
     }
 
+    /**
+     * Sends command message.
+     * @param commandMessage the command message
+     * @throws ZigBeeNetworkManagerException
+     */
     public void sendCommand(final ZclCommandMessage commandMessage) throws ZigBeeNetworkManagerException {
         synchronized (networkManager) {
             final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
 
-            final int sourceAddress = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork().getNode(IEEEAddress.toColonNotation(networkManager.getIeeeAddress())).getNetworkAddress();
+            final int sourceAddress = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork().getNode(
+                    IEEEAddress.toColonNotation(networkManager.getIeeeAddress())).getNetworkAddress();
             commandMessage.setSourceAddress(sourceAddress);
             commandMessage.setSourceEnpoint(
                     af.getSendingEndpoint(commandMessage.getCommand().profileId,
                     commandMessage.getCommand().clusterId));
 
-            final byte[] payload = ZclCommandProtocol.serializePayload(commandMessage.getCommand(), commandMessage.getFields());
+            final byte[] payload = ZclCommandProtocol.serializePayload(commandMessage);
 
             final AbstractCommand cmd = new AbstractCommand((byte) commandMessage.getCommand().commandId, null,
                     commandMessage.getCommand().isClientServerDirection, commandMessage.getCommand().isClusterSpecific);
@@ -148,18 +176,20 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
             final ClusterMessage input = new org.bubblecloud.zigbee.api.cluster.impl.ClusterMessageImpl(
                     (short) commandMessage.getCommand().clusterId, zclFrame);
 
-            final short sender = af.getSendingEndpoint(commandMessage.getCommand().profileId, commandMessage.getCommand().clusterId);
+            final short sender = af.getSendingEndpoint(commandMessage.getCommand().profileId,
+                    commandMessage.getCommand().clusterId);
             final byte afTransactionId = af.getNextTransactionId(sender);
             final byte[] msg = input.getClusterMsg();
 
             logger.debug(">>> " + commandMessage.toString());
 
             AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
-                    commandMessage.getDestinationAddress(), commandMessage.getDestinationEndpoint(), sender, input.getId(),
-                    afTransactionId, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg));
+                    commandMessage.getDestinationAddress(), commandMessage.getDestinationEndpoint(), sender,
+                    input.getId(), afTransactionId, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg));
 
             if (response == null) {
-                throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to general error.");
+                throw new ZigBeeNetworkManagerException(
+                        "Unable to send cluster on the ZigBee network due to general error.");
             }
 
             if (response.getStatus()  != 0) {

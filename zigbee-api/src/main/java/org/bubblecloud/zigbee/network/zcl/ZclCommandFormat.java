@@ -24,41 +24,35 @@ import java.util.List;
  * @author Tommi S.E. Laukkanen
  */
 public class ZclCommandFormat {
-    private int profileId;
-    private int clusterId;
-    private int commandId;
+    /**
+     * The command.
+     */
+    private ZclCommand command;
+    /**
+     * The fields.
+     */
     private List<ZclCommandField> fields = new ArrayList<ZclCommandField>();
 
-    public ZclCommandFormat(int profileId, int clusterId, int commandId) {
-        this.profileId = profileId;
-        this.clusterId = clusterId;
-        this.commandId = commandId;
+    /**
+     * Constructor for setting the command.
+     * @param command the command
+     */
+    public ZclCommandFormat(final ZclCommand command) {
+        this.command = command;
     }
 
-    public int getProfileId() {
-        return profileId;
+    /**
+     * Gets the command.
+     * @return the command
+     */
+    public ZclCommand getCommand() {
+        return command;
     }
 
-    public void setProfileId(int profileId) {
-        this.profileId = profileId;
-    }
-
-    public int getCommandId() {
-        return commandId;
-    }
-
-    public void setCommandId(int commandId) {
-        this.commandId = commandId;
-    }
-
-    public int getClusterId() {
-        return clusterId;
-    }
-
-    public void setClusterId(int clusterId) {
-        this.clusterId = clusterId;
-    }
-
+    /**
+     * Gets the fields.
+     * @return the fields
+     */
     public List<ZclCommandField> getFields() {
         return fields;
     }
