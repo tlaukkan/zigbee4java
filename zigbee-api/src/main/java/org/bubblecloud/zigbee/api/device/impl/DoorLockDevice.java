@@ -24,12 +24,10 @@ package org.bubblecloud.zigbee.api.device.impl;
 
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.ZigBeeApiContext;
-import org.bubblecloud.zigbee.api.cluster.measureament_sensing.OccupancySensing;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.cluster.general.Groups;
 import org.bubblecloud.zigbee.api.cluster.general.DoorLock;
-import org.bubblecloud.zigbee.api.cluster.general.OnOff;
 import org.bubblecloud.zigbee.api.cluster.general.Scenes;
 import org.bubblecloud.zigbee.api.device.security_safety.IDoorLock;
 import org.bubblecloud.zigbee.api.DeviceBase;

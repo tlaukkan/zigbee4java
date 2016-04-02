@@ -15,6 +15,7 @@
  */
 package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.api.device.security_safety.*;
 import org.bubblecloud.zigbee.network.EndpointListener;
 import org.bubblecloud.zigbee.network.NodeListener;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
@@ -37,10 +38,6 @@ import org.bubblecloud.zigbee.api.device.hvac.Pump;
 import org.bubblecloud.zigbee.api.device.hvac.ThermostatControl;
 import org.bubblecloud.zigbee.api.device.hvac.TemperatureSensor;
 import org.bubblecloud.zigbee.api.device.lighting.*;
-import org.bubblecloud.zigbee.api.device.security_safety.IASAncillaryControlEquipment;
-import org.bubblecloud.zigbee.api.device.security_safety.IASControlAndIndicatingEquipment;
-import org.bubblecloud.zigbee.api.device.security_safety.IAS_Warning;
-import org.bubblecloud.zigbee.api.device.security_safety.IAS_Zone;
 import org.bubblecloud.zigbee.api.device.impl.*;
 import org.bubblecloud.zigbee.api.DeviceBase;
 import org.bubblecloud.zigbee.network.port.ZigBeeNetworkManagerImpl;
@@ -190,6 +187,7 @@ public class ZigBeeApi implements EndpointListener {
 	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, TemperatureSensor.class, TemperatureSensorDevice.class));
 	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, IAS_Warning.class, IAS_Warning_Device.class));
 	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, SimpleSensor.class, SimpleSensorDevice.class));
+            context.getDeviceFactories().add(new DeviceFactoryImpl(context, IDoorLock.class, DoorLockDevice.class));
 	    } catch (Exception ex) {
 	        LOGGER.error("Failed to register DeviceFactoryImpl ", ex);
 	    }
