@@ -99,12 +99,11 @@ public final class ZigBeeConsole {
 		commands.put("unsubscribe", new UnsubscribeCommand());
 		commands.put("read", 		new ReadCommand());
 		commands.put("write", 		new WriteCommand());
-		commands.put("door", 		new DoorCommand());
-		
 		commands.put("join",        new JoinCommand());
 		commands.put("lqi", 		new LqiCommand());
         commands.put("warn",        new WarnCommand());
         commands.put("squawk",      new SquawkCommand());
+        commands.put("door", 		new DoorCommand());
 	}
 
 	/**
