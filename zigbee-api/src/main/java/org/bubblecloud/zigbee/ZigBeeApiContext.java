@@ -36,7 +36,7 @@ public class ZigBeeApiContext {
     /**
      * The device factory.
      */
-    private Map<Integer, DeviceFactory> deviceFactories = new TreeMap<Integer, DeviceFactory>();
+    private List<DeviceFactory> deviceFactories = new ArrayList<DeviceFactory>();
     
     /**
      * The devices.
@@ -71,15 +71,8 @@ public class ZigBeeApiContext {
     /**
      * @return list of device factories.
      */
-    public Map<Integer, DeviceFactory> getDeviceFactories() {
+    public List<DeviceFactory> getDeviceFactories() {
         return deviceFactories;
-    }
-
-    /**
-     * @param deviceFactories life of device factories
-     */
-    public void setDeviceFactories(Map<Integer, DeviceFactory> deviceFactories) {
-        this.deviceFactories = deviceFactories;
     }
 
     /**
@@ -93,7 +86,7 @@ public class ZigBeeApiContext {
             DeviceFactory bestMatchingFactory = null;
             int bestMatching = -1;
 
-            for (DeviceFactory deviceFactory : deviceFactories.values()) {
+            for (DeviceFactory deviceFactory : deviceFactories) {
                 final int matching = deviceFactory.hasMatch(device);
                 if (matching > bestMatching) {
                     bestMatchingFactory = deviceFactory;

@@ -171,25 +171,25 @@ public class ZigBeeApi implements EndpointListener {
         context.setClusterFactory(clusterFactory);
 
         try {
-	        context.getDeviceFactories().put(ColorDimmableLight.DEVICE_ID, new DeviceFactoryImpl(context, ColorDimmableLight.class, ColorDimmableLightDevice.class));
-	        context.getDeviceFactories().put(DimmableLight.DEVICE_ID, new DeviceFactoryImpl(context, DimmableLight.class, DimmableLightDevice.class));
-	        context.getDeviceFactories().put(IAS_Zone.DEVICE_ID, new DeviceFactoryImpl(context, IAS_Zone.class, IAS_ZoneDevice.class));
-	        context.getDeviceFactories().put(IASAncillaryControlEquipment.DEVICE_ID, new DeviceFactoryImpl(context, IASAncillaryControlEquipment.class, IASAncillaryControlEquipmentDevice.class));
-	        context.getDeviceFactories().put(IASControlAndIndicatingEquipment.DEVICE_ID, new DeviceFactoryImpl(context, IASControlAndIndicatingEquipment.class, IASControlAndIndicatingEquipmentDevice.class));
-	        context.getDeviceFactories().put(LevelControlSwitch.DEVICE_ID, new DeviceFactoryImpl(context, LevelControlSwitch.class, LevelControlSwitchDevice.class));
-	        context.getDeviceFactories().put(LightSensor.DEVICE_ID, new DeviceFactoryImpl(context, LightSensor.class, LightSensorDevice.class));
-	        context.getDeviceFactories().put(MainsPowerOutlet.DEVICE_ID, new DeviceFactoryImpl(context, MainsPowerOutlet.class, MainsPowerOutletDevice.class));
-	        context.getDeviceFactories().put(OccupancySensor.DEVICE_ID, new DeviceFactoryImpl(context, OccupancySensor.class, OccupancySensorDevice.class));
-	        context.getDeviceFactories().put(OnOffLight.DEVICE_ID, new DeviceFactoryImpl(context, OnOffLight.class, OnOffLightDevice.class));
-	        context.getDeviceFactories().put(OnOffLightSwitch.DEVICE_ID, new DeviceFactoryImpl(context, OnOffLightSwitch.class, OnOffLightSwitchDevice.class));
-	        context.getDeviceFactories().put(OnOffOutput.DEVICE_ID, new DeviceFactoryImpl(context, OnOffOutput.class, OnOffOutputDevice.class));
-	        context.getDeviceFactories().put(OnOffSwitch.DEVICE_ID, new DeviceFactoryImpl(context, OnOffSwitch.class, OnOffSwitchDevice.class));
-	        context.getDeviceFactories().put(OnOffLight.DEVICE_ID, new DeviceFactoryImpl(context, OnOffLight.class, OnOffLightDevice.class));
-	        context.getDeviceFactories().put(Pump.DEVICE_ID, new DeviceFactoryImpl(context, Pump.class, PumpDevice.class));
-	        context.getDeviceFactories().put(ThermostatControl.DEVICE_ID, new DeviceFactoryImpl(context, ThermostatControl.class, ThermostatControlDevice.class));
-	        context.getDeviceFactories().put(TemperatureSensor.DEVICE_ID, new DeviceFactoryImpl(context, TemperatureSensor.class, TemperatureSensorDevice.class));
-	        context.getDeviceFactories().put(IAS_Warning.DEVICE_ID, new DeviceFactoryImpl(context, IAS_Warning.class, IAS_Warning_Device.class));
-	        context.getDeviceFactories().put(SimpleSensorDevice.DEVICE_ID, new DeviceFactoryImpl(context, SimpleSensor.class, SimpleSensorDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, ColorDimmableLight.class, ColorDimmableLightDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, DimmableLight.class, DimmableLightDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, IAS_Zone.class, IAS_ZoneDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, IASAncillaryControlEquipment.class, IASAncillaryControlEquipmentDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, IASControlAndIndicatingEquipment.class, IASControlAndIndicatingEquipmentDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, LevelControlSwitch.class, LevelControlSwitchDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, LightSensor.class, LightSensorDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, MainsPowerOutlet.class, MainsPowerOutletDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, OccupancySensor.class, OccupancySensorDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, OnOffLight.class, OnOffLightDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, OnOffLightSwitch.class, OnOffLightSwitchDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, OnOffOutput.class, OnOffOutputDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, OnOffSwitch.class, OnOffSwitchDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, OnOffLight.class, OnOffLightDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, Pump.class, PumpDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, ThermostatControl.class, ThermostatControlDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, TemperatureSensor.class, TemperatureSensorDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, IAS_Warning.class, IAS_Warning_Device.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, SimpleSensor.class, SimpleSensorDevice.class));
 	    } catch (Exception ex) {
 	        LOGGER.error("Failed to register DeviceFactoryImpl ", ex);
 	    }
