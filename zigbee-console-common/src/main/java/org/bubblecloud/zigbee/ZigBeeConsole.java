@@ -4,14 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Dictionary;
-import java.util.EnumSet;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.io.FileUtils;
 import org.bubblecloud.zigbee.api.Device;
@@ -69,7 +62,7 @@ public final class ZigBeeConsole {
     /**
      * Map of registered commands and their implementations.
      */
-    private Map<String, ConsoleCommand> commands = new HashMap<String, ConsoleCommand>();
+    private Map<String, ConsoleCommand> commands = new TreeMap<String, ConsoleCommand>();
 
 	private ZigBeePort port;
 	private int pan;
@@ -104,6 +97,7 @@ public final class ZigBeeConsole {
         commands.put("warn",        new WarnCommand());
         commands.put("squawk",      new SquawkCommand());
         commands.put("lock", 		new DoorLockCommand());
+        commands.put("unlock", 		new DoorUnlockCommand());
 	}
 
 	/**
@@ -843,9 +837,8 @@ public final class ZigBeeConsole {
         }
     }
 
-    
     /**
-     * Switches a device off.
+     * Locks door.
      */
     private class DoorLockCommand implements ConsoleCommand {
         /**
@@ -873,7 +866,6 @@ public final class ZigBeeConsole {
                 return false;
             }
             final DoorLock doorLock = device.getCluster(DoorLock.class);
-            
             try {
 				doorLock.lock(args[2]);
 			} catch (ZigBeeDeviceException e) {
@@ -883,8 +875,46 @@ public final class ZigBeeConsole {
             return true;
         }
     }
-    
-    
+
+    /**
+     * Locks door.
+     */
+    private class DoorUnlockCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Unlocks door.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "unlock DEVICEID PINCODE";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+            if (args.length != 3) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                return false;
+            }
+            final DoorLock doorLock = device.getCluster(DoorLock.class);
+            try {
+                doorLock.unlock(args[2]);
+            } catch (ZigBeeDeviceException e) {
+                e.printStackTrace();
+            }
+
+            return true;
+        }
+    }
+
     /**
      * Switches a device off.
      */

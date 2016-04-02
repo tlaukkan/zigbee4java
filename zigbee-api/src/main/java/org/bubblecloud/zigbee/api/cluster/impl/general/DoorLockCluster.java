@@ -68,6 +68,13 @@ public class DoorLockCluster extends ZCLClusterBase implements DoorLock {
 		return new DoorLockResponseImpl(response);
 	}
 
+
+	public DoorLockResponse unlock() throws ZigBeeClusterException {
+		enableDefaultResponse();
+		Response response = invoke(new DoorCommandImpl(false));
+		return new DoorLockResponseImpl(response);
+	}
+
 	@Override
 	public short getId() {
 		return DoorLock.ID;

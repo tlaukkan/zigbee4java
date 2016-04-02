@@ -108,6 +108,16 @@ public class DoorLockImpl implements DoorLock {
         }
     }
 
+	public void unlock() throws ZigBeeDeviceException {
+		try {
+			DoorLockResponse response = (DoorLockResponse)doorLockCluster.unlock();
+			if (response.getStatus() != Status.SUCCESS)
+				throw new ZigBeeDeviceException(response.getStatus().toString());
+		} catch (ZigBeeClusterException e) {
+			throw new ZigBeeDeviceException(e);
+		}
+	}
+
 	public void unlock(String pinCode) throws ZigBeeDeviceException {
 		try {
 			DoorLockResponse response = (DoorLockResponse)doorLockCluster.unlock(pinCode);
@@ -117,8 +127,7 @@ public class DoorLockImpl implements DoorLock {
 			throw new ZigBeeDeviceException(e);
 		}
 	}
-	
-    
+
 	public int getLockState() throws ZigBeeDeviceException {
 		 try {
 	            return (int) (Integer) doorLockCluster.getAttributeLockState().getValue();
