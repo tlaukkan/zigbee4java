@@ -22,6 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.core;
 
+import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBDeserializer;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBSerializer;
@@ -115,13 +116,17 @@ public class ByteArrayOutputStreamSerializer implements ZBSerializer {
             case Data32bit:
             case SignedInteger32bit:
             case Bitmap32bit:
+                final Integer i = (Integer) data;
+                append_int(i.intValue());
+                break;
             case UnsignedInteger32bit:
-                if (type == ZigBeeType.UnsignedInteger32bit) {
-                    final Long l = (Long) data;
-                    append_int(l.intValue());
-                } else {
-                    final Integer i = (Integer) data;
-                    append_int(i.intValue());
+                final Long l = (Long) data;
+                append_int(l.intValue());
+                break;
+            case IEEEAddress:
+                byte[] address = new ZToolAddress64(((Long) data).longValue()).getAddress();
+                for (int ii = 0; ii < 8; ii++) {
+                    appendByte(address[7 - ii]);
                 }
                 break;
             case CharacterString:

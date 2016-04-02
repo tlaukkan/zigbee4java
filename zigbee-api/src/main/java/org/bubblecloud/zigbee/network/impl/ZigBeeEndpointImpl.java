@@ -455,7 +455,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             return true;
         }
 
-        short dstEP = ApplicationFrameworkLayer.getAFLayer(networkManager).getSendingEndpoint(this, clusterId);
+        short dstEP = ApplicationFrameworkLayer.getAFLayer(networkManager).getSendingEndpoint(this.getProfileId(), clusterId);
 
         logger.info("Binding from endpoint {} to {} for cluster {}", new Object[]{
                 getEndpointId(), IEEEAddress.toString(networkManager.getIeeeAddress()) + "/" + dstEP, new Integer(clusterId)
@@ -489,7 +489,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             return true;
         }
 
-        short dstEP = ApplicationFrameworkLayer.getAFLayer(networkManager).getSendingEndpoint(this, clusterId);
+        short dstEP = ApplicationFrameworkLayer.getAFLayer(networkManager).getSendingEndpoint(this.getProfileId(), clusterId);
 
         final ZDO_UNBIND_RSP response = networkManager.sendZDOUnbind(new ZDO_UNBIND_REQ(
                 (short) getNode().getNetworkAddress(), (short) clusterId,

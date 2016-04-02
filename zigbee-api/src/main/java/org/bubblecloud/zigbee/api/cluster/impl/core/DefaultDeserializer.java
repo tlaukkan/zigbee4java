@@ -22,6 +22,7 @@
 
 package org.bubblecloud.zigbee.api.cluster.impl.core;
 
+import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.util.Integers;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBDeserializer;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
@@ -196,6 +197,13 @@ public class DefaultDeserializer implements ZBDeserializer {
             case SignedInteger32bit:
                 int i24 = read_int24bit();
                 value[0] = new Integer(i24);
+                break;
+            case IEEEAddress:
+                byte[] address = new byte[8];
+                for (int ii = 0; ii < 8; ii++) {
+                    address[7 - ii] = read_byte();
+                }
+                value[0] = new ZToolAddress64(address).getLong();
                 break;
             case CharacterString:
             case OctectString: {

@@ -22,17 +22,21 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.SquawkPayload;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.StartWarningPayload;
+import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.api.cluster.impl.security_safety.ias_wd.SquawkPayloadImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.security_safety.ias_wd.StartWarningPayloadImpl;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASWD;
+import org.bubblecloud.zigbee.api.cluster.security_safety.IASZone;
 import org.bubblecloud.zigbee.network.NodeListener;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor;
 import org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor;
 import org.bubblecloud.zigbee.network.discovery.LinkQualityIndicatorNetworkBrowser.NetworkNeighbourLinks;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
+import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
+import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.port.ZigBeePort;
 import org.bubblecloud.zigbee.util.Cie;
 
@@ -98,6 +102,7 @@ public final class ZigBeeConsole {
         commands.put("squawk",      new SquawkCommand());
         commands.put("lock", 		new DoorLockCommand());
         commands.put("unlock", 		new DoorUnlockCommand());
+        commands.put("enroll",      new EnrollCommand());
 	}
 
 	/**
@@ -1600,6 +1605,70 @@ public final class ZigBeeConsole {
                     print("ZigBee API permit join disable ... [OK]");
                 }
             }
+            return true;
+        }
+    }
+
+    /**
+     * Enrolls IAS Zone device to this CIE device by setting own address as CIE address to the
+     * IAS Zone device.
+     */
+    private class EnrollCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Enrolls IAS Zone device to this CIE device by setting own address as CIE address to the\n" +
+                    " IAS Zone device.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "enroll DEVICEID";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+            if (args.length != 2) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                return false;
+            }
+
+            int clusterId = org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.IASZone.ID;
+            int attributeId = Attributes.IAS_CIE_ADDRESS.getId();
+
+            final Cluster cluster = device.getCluster(clusterId);
+            if (cluster == null) {
+                print("Cluster not found.");
+                return false;
+            }
+
+            final Attribute attribute = cluster.getAttribute(attributeId);
+            if (attribute == null) {
+                print("Attribute not found.");
+                return false;
+            }
+
+            if(attribute.isWritable() == false) {
+                print(attribute.getName() + " is not writable");
+                return true;
+            }
+
+            try {
+                attribute.setValue(zigbeeApi.getZigBeeNetworkManager().getIeeeAddress());
+                print("CIE address set to: " + IEEEAddress.toColonNotation(zigbeeApi.getZigBeeNetworkManager().getIeeeAddress()));
+                print("CIE address verification read: " + IEEEAddress.toColonNotation((Long)attribute.getValue()));
+            }  catch (Exception e) {
+                print("Failed to set CIE address.");
+                e.printStackTrace();
+            }
+
             return true;
         }
     }

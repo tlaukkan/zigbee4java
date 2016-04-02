@@ -110,7 +110,7 @@ public class ApplicationFrameworkLayer {
     }
 
 
-    public short getSendingEndpoint(ZigBeeEndpoint endpoint, int clusterId) {
+    public short getSendingEndpoint(int profileId, int clusterId) {
         SenderIdentifier si = new SenderIdentifier(
                 ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION, (short) clusterId
         );
@@ -121,14 +121,14 @@ public class ApplicationFrameworkLayer {
                 return sender2EndPoint.get(si);
             } else {
                 logger.info("No endpoint registered for <profileId,clusterId>=<{},{}>", si.profileId, si.clusterId);
-                final byte ep = createEndPoint(si, endpoint.getProfileId());
+                final byte ep = createEndPoint(si, profileId);
                 return ep;
             }
         }
     }
 
     public short getSendingEndpoint(ZigBeeEndpoint endpoint, ClusterMessage input) {
-        return getSendingEndpoint(endpoint, input.getId());
+        return getSendingEndpoint(endpoint.getProfileId(), input.getId());
     }
 
     /**
