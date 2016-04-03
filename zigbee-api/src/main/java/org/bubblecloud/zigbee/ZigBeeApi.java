@@ -492,7 +492,7 @@ public class ZigBeeApi implements EndpointListener {
     /**
      * Adds a {@link NodeListener node listener}. The listener will be notified for each new {@link ZigBeeNode}
      * that is found.
-     * @param deviceListener {@link NodeListener}
+     * @param nodeListener {@link NodeListener}
      */
     public void addNodeListener(NodeListener nodeListener) {
         network.addNodeListener(nodeListener);
