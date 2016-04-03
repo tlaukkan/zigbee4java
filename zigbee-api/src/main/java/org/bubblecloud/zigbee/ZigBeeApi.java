@@ -232,7 +232,9 @@ public class ZigBeeApi implements EndpointListener {
      * @return true if the network was initialized correctly
      */
     public boolean initializeNetwork(boolean resetNetwork) {
-        networkManager.initializeZigBeeNetwork(resetNetwork);
+        if (!networkManager.initializeZigBeeNetwork(resetNetwork)) {
+            return false;
+        }
 
         while (true) {
             if (networkManager.getDriverStatus() == DriverStatus.NETWORK_READY) {

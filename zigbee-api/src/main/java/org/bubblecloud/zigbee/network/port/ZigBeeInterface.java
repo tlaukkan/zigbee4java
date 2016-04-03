@@ -119,7 +119,11 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      * @param th the exception
      */
     public void error(final Throwable th) {
-        LOGGER.error("Exception in packet parsing: ", th);
+        if (th instanceof IOException) {
+            LOGGER.error("IO exception in packet parsing. Possible end of stream: " + th.getMessage());
+        } else {
+            LOGGER.error("Unexpected exception in packet parsing: ", th);
+        }
     }
 
     /**

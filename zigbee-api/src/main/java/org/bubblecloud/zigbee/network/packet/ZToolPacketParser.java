@@ -115,12 +115,11 @@ public class ZToolPacketParser implements Runnable {
                     packetHandler.handlePacket(response);
                 } else if (val != -1) {
                     // Log if not end of stream.
-                    logger.warn("Discarded stream: expected start byte but received this {}",
-                            ByteUtils.toBase16(val));
+                    logger.warn("Discarded stream: expected start byte but received this {}", ByteUtils.toBase16(val));
                 }
             } catch (final IOException e) {
                 if (!close) {
-                    logger.error("Exception inputStream reader parserThread", e);
+                    close = true;
                     packetHandler.error(e);
                 }
             }

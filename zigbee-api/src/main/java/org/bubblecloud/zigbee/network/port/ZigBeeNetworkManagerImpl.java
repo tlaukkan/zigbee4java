@@ -162,7 +162,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
         boolean b = RESEND_ONLY_EXCEPTION_DEFAULT;
         try {
-            aux = Integer.parseInt(System.getProperty(RESEND_ONLY_EXCEPTION_KEY));
+            b = Boolean.parseBoolean(System.getProperty(RESEND_ONLY_EXCEPTION_KEY));
             logger.trace("Using RESEND_MAX_RETRY set from enviroment {}", aux);
         } catch (NumberFormatException ex) {
             logger.trace("Using RESEND_MAX_RETRY set as DEFAULT {}", aux);
@@ -199,10 +199,10 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             // Now reset the dongle
             setState(DriverStatus.HARDWARE_OPEN);
             if (!dongleReset()) {
-            	logger.warn("Dongle reset failed. Assuming bootloader is running and sending magic byte {}",
+            	logger.warn("Dongle reset failed. Assuming bootloader is running and sending magic byte {}.",
             			String.format("0x%02x", BOOTLOADER_MAGIC_BYTE));
             	if (!bootloaderGetOut(BOOTLOADER_MAGIC_BYTE)) {
-            		logger.warn("Attempt to get out from bootloader failed");
+            		logger.warn("Attempt to get out from bootloader failed.");
             		shutdown();
             		return false;
             	}
@@ -245,7 +245,6 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     public boolean initializeZigBeeNetwork(boolean cleanStatus) {
-    	// And finally initialise the network
         logger.trace("Initializing network.");
 
         setState(DriverStatus.NETWORK_INITIALIZING);
@@ -280,13 +279,13 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 				zigbeeInterface, new ZDO_MSG_CB_REGISTER(new DoubleByte(ALL_CLUSTERS))
         );
         if (responseCb == null) {
-            logger.warn("Reset seq: Failed MSG_CB_REGISTER");
+            return false;
         }
 
-        final int INSTANT_STARTUP = 0;
+        final int instantStartup = 0;
 
         ZDO_STARTUP_FROM_APP_SRSP response = (ZDO_STARTUP_FROM_APP_SRSP) sendSynchrouns(
-				zigbeeInterface, new ZDO_STARTUP_FROM_APP(INSTANT_STARTUP), STARTUP_TIMEOUT
+				zigbeeInterface, new ZDO_STARTUP_FROM_APP(instantStartup), STARTUP_TIMEOUT
         );
         if (response == null) {
         	return false;
@@ -370,7 +369,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             return false;
         }
         logger.debug("Changing the Network Mode to {}.", mode);
-        if (dongleSetNetworkMode() == false) {
+        if (!dongleSetNetworkMode()) {
             logger.error("Unable to set NETWORK_MODE for ZigBee Network");
             return false;
         } else {
@@ -881,9 +880,8 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                 try {
                     conversation3Way.wait();
                 } catch (InterruptedException ex) {
-                    //ex.printStackTrace();
                 } catch (IllegalMonitorStateException ex) {
-                    ex.printStackTrace();
+                    logger.error("Error in 3 way conversation.", ex);
                 }
             }
             conversation3Way.put(clz, Thread.currentThread());
@@ -1225,8 +1223,11 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             try {
                 try {
                     hwDriver.sendSynchronousCommand(request, listener, timeout);
+                } catch (IOException e) {
+                    logger.error("Synchronous command send failed due to IO exception: " + e.getMessage());
+                    break;
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    logger.error("Synchronous command send failed due to unexpected exception.", ex);
                 }
                 logger.trace("{} sent (synchronous command, retry: {}).", request.getClass().getSimpleName(), sending);
                 synchronized (response) {
@@ -1718,7 +1719,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             if (response != null && response.Status == 0)
                 return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error in device register.", e);
         }
 
         return false;
