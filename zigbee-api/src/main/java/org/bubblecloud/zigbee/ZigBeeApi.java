@@ -252,9 +252,8 @@ public class ZigBeeApi implements EndpointListener {
 
         ApplicationFrameworkLayer.getAFLayer(networkManager).createDefaultSendingEndPoint();
 
-        /* disable permit join by default */
-        //
-        // permitJoin(false);
+        // Disable permit join by default.
+        permitJoin(false);
 
         discoveryManager.startup();
 
