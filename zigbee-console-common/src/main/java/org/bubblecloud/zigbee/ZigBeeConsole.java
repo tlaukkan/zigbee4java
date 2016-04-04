@@ -305,6 +305,7 @@ public final class ZigBeeConsole {
      */
     private static void print(final String line) {
         System.out.println("\r" + line);
+        System.out.print("\r> ");
     }
 
     /**

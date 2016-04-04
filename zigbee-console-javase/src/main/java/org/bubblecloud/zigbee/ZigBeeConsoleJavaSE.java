@@ -1,7 +1,7 @@
 package org.bubblecloud.zigbee;
 
+import org.apache.log4j.xml.DOMConfigurator;
 import org.bubblecloud.zigbee.network.port.ZigBeePort;
-import org.bubblecloud.zigbee.network.port.ZigBeeSerialPortImpl;
 import org.bubblecloud.zigbee.network.port.ZigBeeSerialPortJsscImpl;
 
 /**
@@ -15,6 +15,8 @@ public class ZigBeeConsoleJavaSE
 	private ZigBeeConsoleJavaSE(){}
 
 	public static void main(final String[] args) {
+		DOMConfigurator.configure("./log4j.xml");
+
 		final String serialPortName;
 		final int channel;
 		final int pan;
