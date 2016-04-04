@@ -1224,7 +1224,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                 try {
                     hwDriver.sendSynchronousCommand(request, listener, timeout);
                 } catch (IOException e) {
-                    logger.error("Synchronous command send failed due to IO exception: " + e.getMessage());
+                    logger.error("Synchronous command send failed due to IO exception. ", e);
                     break;
                 } catch (Exception ex) {
                     logger.error("Synchronous command send failed due to unexpected exception.", ex);

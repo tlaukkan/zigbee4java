@@ -120,7 +120,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      */
     public void error(final Throwable th) {
         if (th instanceof IOException) {
-            LOGGER.error("IO exception in packet parsing. Possible end of stream: " + th.getMessage());
+            LOGGER.error("IO exception in packet parsing.", th);
         } else {
             LOGGER.error("Unexpected exception in packet parsing: ", th);
         }

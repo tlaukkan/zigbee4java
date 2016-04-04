@@ -119,8 +119,8 @@ public class ZToolPacketParser implements Runnable {
                 }
             } catch (final IOException e) {
                 if (!close) {
-                    close = true;
                     packetHandler.error(e);
+                    close = true;
                 }
             }
         }
