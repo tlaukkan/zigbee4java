@@ -1,0 +1,22 @@
+# ZigBee cluster library definition used to code generate message protocol
+
+Home Automation 0x0104
+
+IAS Zone 0x0500
+
+Received Commands
+
+Zone Enroll Response 0x00
+    Enroll response code    : 8-bit enumeration
+    Zone ID                 : Unsigned 8-bit integer
+
+Generated Commands
+
+Zone Status Change Notification 0x00
+    Zone Status             : 16-bit enumeration
+    Extended Status         : 8-bit enumeration
+
+Zone Enroll Request Command 0x01
+    Zone Type               : 16-bit enumeration
+    Manufacturer Code       : Unsigned 16-bit integer
+
