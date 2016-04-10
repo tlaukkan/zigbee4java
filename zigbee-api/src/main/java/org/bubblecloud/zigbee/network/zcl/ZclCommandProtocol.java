@@ -17,6 +17,8 @@ package org.bubblecloud.zigbee.network.zcl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.core.ByteArrayOutputStreamSerializer;
 import org.bubblecloud.zigbee.api.cluster.impl.core.DefaultDeserializer;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +38,7 @@ public class ZclCommandProtocol {
     /**
      * The command formats.
      */
-    private Map<ZclCommand, ZclCommandFormat> commandFormats = new HashMap<ZclCommand, ZclCommandFormat>();
+    private Map<ZclCommandType, ZclCommandFormat> commandFormats = new HashMap<ZclCommandType, ZclCommandFormat>();
 
     /**
      * Deserializes fields from payload.
@@ -46,14 +48,15 @@ public class ZclCommandProtocol {
      */
     public static ZclCommandMessage deserializePayload(final byte[] payload, final ZclCommandMessage commandMessage) {
         final ZclCommandFormat messageFormat = getMessageProtocol().get(commandMessage.getCommand());
-        final DefaultDeserializer defaultDeserializer = new DefaultDeserializer(payload, 0);
-        final TreeMap<ZclCommandField, Object> fields = new TreeMap<ZclCommandField, Object>();
-        for (final ZclCommandField fieldType : messageFormat.getFields()) {
-            fields.put(fieldType, defaultDeserializer.readZigBeeType(fieldType.type));
+        final ZclFieldDeserializer deserializer = new ZclFieldDeserializer(payload, 0);
+        final TreeMap<ZclFieldType, Object> fields = new TreeMap<ZclFieldType, Object>();
+        for (final ZclFieldType fieldType : messageFormat.getFields()) {
+            fields.put(fieldType, deserializer.deserialize(fieldType.getDataType()));
         }
         commandMessage.setFields(fields);
         return commandMessage;
     }
+
 
     /**
      * Serializes fields to payload.
@@ -62,9 +65,9 @@ public class ZclCommandProtocol {
      */
     public static byte[] serializePayload(final ZclCommandMessage commandMessage) {
         final ZclCommandFormat messageFormat = getMessageProtocol().get(commandMessage.getCommand());
-        final ByteArrayOutputStreamSerializer serializer = new ByteArrayOutputStreamSerializer();
-        for (final ZclCommandField fieldType : messageFormat.getFields()) {
-            serializer.appendZigBeeType(commandMessage.getFields().get(fieldType), fieldType.type);
+        final ZclFieldSerializer serializer = new ZclFieldSerializer();
+        for (final ZclFieldType fieldType : messageFormat.getFields()) {
+            serializer.serialize(commandMessage.getFields().get(fieldType), fieldType.getDataType());
         }
         return serializer.getPayload();
     }
@@ -82,7 +85,7 @@ public class ZclCommandProtocol {
      * @param command the command
      * @return the message format
      */
-    public ZclCommandFormat get(final ZclCommand command) {
+    public ZclCommandFormat get(final ZclCommandType command) {
         return commandFormats.get(command);
     }
 
@@ -95,12 +98,12 @@ public class ZclCommandProtocol {
             protocol = new ZclCommandProtocol();
 
             ZclCommandFormat messageFormat = null;
-            for (final ZclCommandField fieldType : ZclCommandField.values()) {
+            for (final ZclFieldType fieldType : ZclFieldType.values()) {
                 if (messageFormat == null) {
-                    messageFormat = new ZclCommandFormat(fieldType.command);
-                } else if (!(messageFormat.getCommand() == fieldType.command)) {
+                    messageFormat = new ZclCommandFormat(fieldType.getCommandType());
+                } else if (!(messageFormat.getCommand() == fieldType.getCommandType())) {
                     protocol.add(messageFormat);
-                    messageFormat = new ZclCommandFormat(fieldType.command);
+                    messageFormat = new ZclCommandFormat(fieldType.getCommandType());
                 }
                 messageFormat.getFields().add(fieldType);
             }

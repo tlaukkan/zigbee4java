@@ -15,6 +15,9 @@
  */
 package org.bubblecloud.zigbee.network.zcl;
 
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,17 +30,17 @@ public class ZclCommandFormat {
     /**
      * The command.
      */
-    private ZclCommand command;
+    private ZclCommandType command;
     /**
      * The fields.
      */
-    private List<ZclCommandField> fields = new ArrayList<ZclCommandField>();
+    private List<ZclFieldType> fields = new ArrayList<ZclFieldType>();
 
     /**
      * Constructor for setting the command.
      * @param command the command
      */
-    public ZclCommandFormat(final ZclCommand command) {
+    public ZclCommandFormat(final ZclCommandType command) {
         this.command = command;
     }
 
@@ -45,7 +48,7 @@ public class ZclCommandFormat {
      * Gets the command.
      * @return the command
      */
-    public ZclCommand getCommand() {
+    public ZclCommandType getCommand() {
         return command;
     }
 
@@ -53,7 +56,7 @@ public class ZclCommandFormat {
      * Gets the fields.
      * @return the fields
      */
-    public List<ZclCommandField> getFields() {
+    public List<ZclFieldType> getFields() {
         return fields;
     }
 }

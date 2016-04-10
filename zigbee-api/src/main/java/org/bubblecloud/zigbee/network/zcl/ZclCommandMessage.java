@@ -15,6 +15,9 @@
  */
 package org.bubblecloud.zigbee.network.zcl;
 
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+
 import java.util.TreeMap;
 
 /**
@@ -42,7 +45,7 @@ public class ZclCommandMessage {
     /**
      * The command.
      */
-    ZclCommand command;
+    ZclCommandType command;
     /**
      * The transaction ID.
      */
@@ -50,7 +53,7 @@ public class ZclCommandMessage {
     /**
      * The fields and their values.
      */
-    TreeMap<ZclCommandField, Object> fields = new TreeMap<ZclCommandField, Object>();
+    TreeMap<ZclFieldType, Object> fields = new TreeMap<ZclFieldType, Object>();
     /**
      * Default constructor for inbound messages.
      */
@@ -64,7 +67,7 @@ public class ZclCommandMessage {
      * @param command the command
      * @param transactionId the transaction ID
      */
-    public ZclCommandMessage(final int destinationAddress, short destinationEndpoint, final ZclCommand command,
+    public ZclCommandMessage(final int destinationAddress, short destinationEndpoint, final ZclCommandType command,
                              final Byte transactionId) {
         this.destinationAddress = destinationAddress;
         this.destinationEndpoint = destinationEndpoint;
@@ -77,7 +80,7 @@ public class ZclCommandMessage {
      * @param field the field
      * @param value the value
      */
-    public void addField(final ZclCommandField field, final Object value) {
+    public void addField(final ZclFieldType field, final Object value) {
         fields.put(field, value);
     }
 
@@ -85,7 +88,7 @@ public class ZclCommandMessage {
      * Gets the command
      * @return the command
      */
-    public ZclCommand getCommand() {
+    public ZclCommandType getCommand() {
         return command;
     }
 
@@ -93,7 +96,7 @@ public class ZclCommandMessage {
      * Sets the command
      * @param command the command
      */
-    public void setCommand(final ZclCommand command) {
+    public void setCommand(final ZclCommandType command) {
         this.command = command;
     }
 
@@ -133,7 +136,7 @@ public class ZclCommandMessage {
      * Gets the fields
      * @return the fields
      */
-    public TreeMap<ZclCommandField, Object> getFields() {
+    public TreeMap<ZclFieldType, Object> getFields() {
         return fields;
     }
 
@@ -141,7 +144,7 @@ public class ZclCommandMessage {
      * Sets the fields.
      * @param fields the fields
      */
-    public void setFields(final TreeMap<ZclCommandField, Object> fields) {
+    public void setFields(final TreeMap<ZclFieldType, Object> fields) {
         this.fields = fields;
     }
 

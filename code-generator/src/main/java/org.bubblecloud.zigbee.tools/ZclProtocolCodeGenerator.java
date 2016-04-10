@@ -53,7 +53,7 @@ public class ZclProtocolCodeGenerator {
         if (args.length != 0) {
             packageRoot = args[0];
         } else {
-            packageRoot = "org.bubblecloud.zigbee.network.zcl";
+            packageRoot = "org.bubblecloud.zigbee.network.zcl.protocol";
         }
 
         generateCode(definitionFile, sourceRootFile, packageRoot);
@@ -79,7 +79,7 @@ public class ZclProtocolCodeGenerator {
         }
 
         try {
-            generateDataTypeEnumeration(context, packageRoot, packageFile);
+            generateZclDataTypeEnumeration(context, packageRoot, packageFile);
         } catch (final IOException e) {
             System.out.println("Failed to generate data types enumeration.");
             e.printStackTrace();
@@ -87,7 +87,7 @@ public class ZclProtocolCodeGenerator {
         }
 
         try {
-            generateProfileTypeEnumeration(context, packageRoot, packageFile);
+            generateZclProfileTypeEnumeration(context, packageRoot, packageFile);
         } catch (final IOException e) {
             System.out.println("Failed to generate profile enumeration.");
             e.printStackTrace();
@@ -95,7 +95,7 @@ public class ZclProtocolCodeGenerator {
         }
 
         try {
-            generateClusterTypeEnumeration(context, packageRoot, packageFile);
+            generateZclClusterTypeEnumeration(context, packageRoot, packageFile);
         } catch (final IOException e) {
             System.out.println("Failed to generate profile enumeration.");
             e.printStackTrace();
@@ -103,7 +103,7 @@ public class ZclProtocolCodeGenerator {
         }
 
         try {
-            generateCommandTypeEnumeration(context, packageRoot, packageFile);
+            generateZclCommandTypeEnumeration(context, packageRoot, packageFile);
         } catch (final IOException e) {
             System.out.println("Failed to generate profile enumeration.");
             e.printStackTrace();
@@ -111,7 +111,7 @@ public class ZclProtocolCodeGenerator {
         }
 
         try {
-            generateFieldTypeEnumeration(context, packageRoot, packageFile);
+            generateZclFieldTypeEnumeration(context, packageRoot, packageFile);
         } catch (final IOException e) {
             System.out.println("Failed to generate profile enumeration.");
             e.printStackTrace();
@@ -119,8 +119,8 @@ public class ZclProtocolCodeGenerator {
         }
     }
 
-    private static void generateDataTypeEnumeration(Context context, final String packageRoot, File packageFile) throws IOException {
-        final String className = "DataType";
+    private static void generateZclDataTypeEnumeration(Context context, final String packageRoot, File packageFile) throws IOException {
+        final String className = "ZclDataType";
         final PrintWriter out = getClassOut(packageFile, className);
 
         out.println("package " + packageRoot + ";");
@@ -142,8 +142,8 @@ public class ZclProtocolCodeGenerator {
         out.close();
     }
 
-    private static void generateProfileTypeEnumeration(Context context, String packageRoot, File packageFile) throws IOException {
-        final String className = "ProfileType";
+    private static void generateZclProfileTypeEnumeration(Context context, String packageRoot, File packageFile) throws IOException {
+        final String className = "ZclProfileType";
         final PrintWriter out = getClassOut(packageFile, className);
 
         out.println("package " + packageRoot + ";");
@@ -178,8 +178,8 @@ public class ZclProtocolCodeGenerator {
         out.close();
     }
 
-    private static void generateClusterTypeEnumeration(Context context, String packageRoot, File packageFile) throws IOException {
-        final String className = "ClusterType";
+    private static void generateZclClusterTypeEnumeration(Context context, String packageRoot, File packageFile) throws IOException {
+        final String className = "ZclClusterType";
         final PrintWriter out = getClassOut(packageFile, className);
 
         out.println("package " + packageRoot + ";");
@@ -190,7 +190,7 @@ public class ZclProtocolCodeGenerator {
         for (final Profile profile : profiles) {
             final LinkedList<Cluster> clusters = new LinkedList<Cluster>(profile.clusters.values());
             for (final Cluster cluster : clusters) {
-                out.print("    " + cluster.clusterType + "(" + cluster.clusterId + ", ProfileType." + profile.profileType + ", \"" + cluster.clusterName + "\")");
+                out.print("    " + cluster.clusterType + "(" + cluster.clusterId + ", ZclProfileType." + profile.profileType + ", \"" + cluster.clusterName + "\")");
                 if (!clusters.getLast().equals(cluster)) {
                     out.println(",");
                 } else {
@@ -201,17 +201,17 @@ public class ZclProtocolCodeGenerator {
 
         out.println("");
         out.println("    private final int id;");
-        out.println("    private final ProfileType profileType;");
+        out.println("    private final ZclProfileType profileType;");
         out.println("    private final String label;");
         out.println("");
-        out.println("    " + className + "(final int id, final ProfileType profileType, final String label) {");
+        out.println("    " + className + "(final int id, final ZclProfileType profileType, final String label) {");
         out.println("        this.id = id;");
         out.println("        this.profileType = profileType;");
         out.println("        this.label = label;");
         out.println("    }");
         out.println("");
         out.println("    public int getId() { return id; }");
-        out.println("    public ProfileType getProfileType() { return profileType; }");
+        out.println("    public ZclProfileType getProfileType() { return profileType; }");
         out.println("    public String getLabel() { return label; }");
         out.println("");
         out.println("}");
@@ -220,8 +220,8 @@ public class ZclProtocolCodeGenerator {
         out.close();
     }
 
-    private static void generateCommandTypeEnumeration(Context context, String packageRoot, File packageFile) throws IOException {
-        final String className = "CommandType";
+    private static void generateZclCommandTypeEnumeration(Context context, String packageRoot, File packageFile) throws IOException {
+        final String className = "ZclCommandType";
         final PrintWriter out = getClassOut(packageFile, className);
 
         out.println("package " + packageRoot + ";");
@@ -236,13 +236,13 @@ public class ZclProtocolCodeGenerator {
                 {
                     final LinkedList<Command> commands = new LinkedList<Command>(cluster.received.values());
                     for (final Command command : commands) {
-                        valueRows.add("    " + command.commandType + "(" + command.commandId + ", ClusterType." + cluster.clusterType + ", \"" + command.commandName + "\", true, false)");
+                        valueRows.add("    " + command.commandType + "(" + command.commandId + ", ZclClusterType." + cluster.clusterType + ", \"" + command.commandName + "\", true, false)");
                     }
                 }
                 {
                     final LinkedList<Command> commands = new LinkedList<Command>(cluster.generated.values());
                     for (final Command command : commands) {
-                        valueRows.add("    " + command.commandType + "(" + command.commandId + ", ClusterType." + cluster.clusterType + ", \"" + command.commandName + "\", false, false)");
+                        valueRows.add("    " + command.commandType + "(" + command.commandId + ", ZclClusterType." + cluster.clusterType + ", \"" + command.commandName + "\", false, false)");
                     }
                 }
             }
@@ -259,12 +259,12 @@ public class ZclProtocolCodeGenerator {
 
         out.println("");
         out.println("    private final int id;");
-        out.println("    private final ClusterType clusterType;");
+        out.println("    private final ZclClusterType clusterType;");
         out.println("    private final String label;");
         out.println("    private final boolean received;");
         out.println("    private final boolean generic;");
         out.println("");
-        out.println("    " + className + "(final int id, final ClusterType clusterType, final String label, final boolean received, final boolean generic) {");
+        out.println("    " + className + "(final int id, final ZclClusterType clusterType, final String label, final boolean received, final boolean generic) {");
         out.println("        this.id = id;");
         out.println("        this.clusterType = clusterType;");
         out.println("        this.label = label;");
@@ -273,7 +273,7 @@ public class ZclProtocolCodeGenerator {
         out.println("    }");
         out.println("");
         out.println("    public int getId() { return id; }");
-        out.println("    public ClusterType getClusterType() { return clusterType; }");
+        out.println("    public ZclClusterType getClusterType() { return clusterType; }");
         out.println("    public String getLabel() { return label; }");
         out.println("    public boolean isReceived() { return received; }");
         out.println("    public boolean isGeneric() { return generic; }");
@@ -284,8 +284,8 @@ public class ZclProtocolCodeGenerator {
         out.close();
     }
 
-    private static void generateFieldTypeEnumeration(Context context, String packageRoot, File packageFile) throws IOException {
-        final String className = "FieldType";
+    private static void generateZclFieldTypeEnumeration(Context context, String packageRoot, File packageFile) throws IOException {
+        final String className = "ZclFieldType";
         final PrintWriter out = getClassOut(packageFile, className);
 
         out.println("package " + packageRoot + ";");
@@ -303,7 +303,7 @@ public class ZclProtocolCodeGenerator {
                 for (final Command command : commands) {
                     final LinkedList<Field> fields = new LinkedList<Field>(command.fields.values());
                     for (final Field field : fields) {
-                        valueRows.add("    " + field.fieldType + "(" + field.fieldId + ", CommandType." + command.commandType + ", \"" + field.fieldName + "\",DataType." + field.dataType + ")");
+                        valueRows.add("    " + field.fieldType + "(" + field.fieldId + ", ZclCommandType." + command.commandType + ", \"" + field.fieldName + "\",ZclDataType." + field.dataType + ")");
                     }
                 }
             }
@@ -320,11 +320,11 @@ public class ZclProtocolCodeGenerator {
 
         out.println("");
         out.println("    private final int id;");
-        out.println("    private final CommandType commandType;");
+        out.println("    private final ZclCommandType commandType;");
         out.println("    private final String label;");
-        out.println("    private final DataType dataType;");
+        out.println("    private final ZclDataType dataType;");
         out.println("");
-        out.println("    " + className + "(final int id, final CommandType commandType, final String label, final DataType dataType) {");
+        out.println("    " + className + "(final int id, final ZclCommandType commandType, final String label, final ZclDataType dataType) {");
         out.println("        this.id = id;");
         out.println("        this.commandType = commandType;");
         out.println("        this.label = label;");
@@ -332,9 +332,9 @@ public class ZclProtocolCodeGenerator {
         out.println("    }");
         out.println("");
         out.println("    public int getId() { return id; }");
-        out.println("    public CommandType getCommandType() { return commandType; }");
+        out.println("    public ZclCommandType getCommandType() { return commandType; }");
         out.println("    public String getLabel() { return label; }");
-        out.println("    public DataType getDataType() { return dataType; }");
+        out.println("    public ZclDataType getDataType() { return dataType; }");
         out.println("");
         out.println("}");
 

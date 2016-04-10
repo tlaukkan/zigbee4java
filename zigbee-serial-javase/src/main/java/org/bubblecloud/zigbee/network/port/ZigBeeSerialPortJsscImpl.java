@@ -69,7 +69,7 @@ public class ZigBeeSerialPortJsscImpl implements ZigBeePort, SerialPortEventList
             throw new RuntimeException("Serial port already open.");
         }
 
-        final SerialPort serialPort = new SerialPort(portName);
+        serialPort = new SerialPort(portName);
         try {
             serialPort.openPort();
             serialPort.setParams(baudRate, 8, 1, 0);
@@ -101,7 +101,7 @@ public class ZigBeeSerialPortJsscImpl implements ZigBeePort, SerialPortEventList
                 outputStream.flush();
                 outputStream.close();
                 serialPort.closePort();
-                logger.debug("Serial portName '" + serialPort.getPortName() + "' closed.");
+                logger.info("Serial portName '" + serialPort.getPortName() + "' closed.");
                 serialPort = null;
                 inputStream = null;
                 outputStream = null;
