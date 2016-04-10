@@ -4,14 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Dictionary;
-import java.util.EnumSet;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.io.FileUtils;
 import org.bubblecloud.zigbee.api.Device;
@@ -22,12 +15,14 @@ import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.general.ColorControl;
 import org.bubblecloud.zigbee.api.cluster.general.LevelControl;
 import org.bubblecloud.zigbee.api.cluster.general.OnOff;
+import org.bubblecloud.zigbee.api.cluster.general.DoorLock;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ReportListener;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.SquawkPayload;
 import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.ias_wd.StartWarningPayload;
+import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.api.cluster.impl.security_safety.ias_wd.SquawkPayloadImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.security_safety.ias_wd.StartWarningPayloadImpl;
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASWD;
@@ -39,7 +34,10 @@ import org.bubblecloud.zigbee.network.discovery.LinkQualityIndicatorNetworkBrows
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
+import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.port.ZigBeePort;
+import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
+import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
 import org.bubblecloud.zigbee.util.Cie;
 
 /**
@@ -68,7 +66,7 @@ public final class ZigBeeConsole {
     /**
      * Map of registered commands and their implementations.
      */
-    private Map<String, ConsoleCommand> commands = new HashMap<String, ConsoleCommand>();
+    private Map<String, ConsoleCommand> commands = new TreeMap<String, ConsoleCommand>();
 
 	private ZigBeePort port;
 	private int pan;
@@ -102,6 +100,9 @@ public final class ZigBeeConsole {
 		commands.put("lqi", 		new LqiCommand());
         commands.put("warn",        new WarnCommand());
         commands.put("squawk",      new SquawkCommand());
+        commands.put("lock", 		new DoorLockCommand());
+        commands.put("unlock", 		new DoorUnlockCommand());
+        commands.put("enroll",      new EnrollCommand());
 	}
 
 	/**
@@ -168,6 +169,36 @@ public final class ZigBeeConsole {
             @Override
             public void nodeRemoved(ZigBeeNode node) {
                 print("Node removed: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
+            }
+        });
+
+        zigbeeApi.addCommandListener(new ZclCommandListener() {
+            @Override
+            public void commandReceived(ZclCommandMessage command) {
+                print("Received: " + command.toString());
+
+                /* This is an example how to interface directly with ZCL commands.
+                if (command.getCommand() == ZclCommand.ZONE_ENROLL_REQUEST) {
+                    int remoteAddress = command.getSourceAddress();
+                    short remoteEndPoint = command.getSourceEnpoint();
+                    byte transactionId = command.getTransactionId();
+
+                    final ZclCommandMessage responseMessage = new ZclCommandMessage(remoteAddress, remoteEndPoint, ZclCommand.ZONE_ENROLL_RESPONSE, transactionId);
+                    responseMessage.addField(ZclCommandField.ENROLL_RESPONSE_CODE, 0);
+                    responseMessage.addField(ZclCommandField.ZONE_ID, 0);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                zigbeeApi.sendCommand(responseMessage);
+                            } catch (ZigBeeNetworkManagerException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                }
+                */
+
             }
         });
 
@@ -270,6 +301,7 @@ public final class ZigBeeConsole {
      */
     private static void print(final String line) {
         System.out.println("\r" + line);
+        System.out.print("\r> ");
     }
 
     /**
@@ -842,6 +874,84 @@ public final class ZigBeeConsole {
     }
 
     /**
+     * Locks door.
+     */
+    private class DoorLockCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Locks door.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "lock DEVICEID PINCODE";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+            if (args.length != 3) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                return false;
+            }
+            final DoorLock doorLock = device.getCluster(DoorLock.class);
+            try {
+				doorLock.lock(args[2]);
+			} catch (ZigBeeDeviceException e) {
+				e.printStackTrace();
+			}
+
+            return true;
+        }
+    }
+
+    /**
+     * Locks door.
+     */
+    private class DoorUnlockCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Unlocks door.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "unlock DEVICEID PINCODE";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+            if (args.length != 3) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                return false;
+            }
+            final DoorLock doorLock = device.getCluster(DoorLock.class);
+            try {
+                doorLock.unlock(args[2]);
+            } catch (ZigBeeDeviceException e) {
+                e.printStackTrace();
+            }
+
+            return true;
+        }
+    }
+
+    /**
      * Switches a device off.
      */
     private class OffCommand implements ConsoleCommand {
@@ -996,17 +1106,22 @@ public final class ZigBeeConsole {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "subscribe [DEVICE] [CLUSTER] [ATTRIBUTE]";
+            return "subscribe [DEVICE] [CLUSTER] [ATTRIBUTE] [MIN-INTERVAL] [MAX-INTERVAL]";
         }
         /**
          * {@inheritDoc}
          */
         public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
-            if (args.length != 4) {
+            if (args.length != 6) {
                 return false;
             }
 
             final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                print("Device not found.");
+                return false;
+            }
+
             final int clusterId;
             try {
                 clusterId = Integer.parseInt(args[2]);
@@ -1019,9 +1134,22 @@ public final class ZigBeeConsole {
             } catch (final NumberFormatException e) {
                 return false;
             }
-
+            final int minInterval;
+            try {
+                minInterval = Integer.parseInt(args[4]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+            final int maxInterval;
+            try {
+                maxInterval = Integer.parseInt(args[5]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
 
             final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
+            reporter.setMinimumReportingInterval(minInterval);
+            reporter.setMaximumReportingInterval(maxInterval);
 
             if (reporter == null) {
                 print("Attribute does not provide reports.");
@@ -1223,6 +1351,7 @@ public final class ZigBeeConsole {
                     case Bitmap8bit:
                         break;
                     case Boolean:
+                        val = Boolean.parseBoolean(args[4]);
                         break;
                     case CharacterString:
                         val = new String(args[4]);
@@ -1262,6 +1391,7 @@ public final class ZigBeeConsole {
                     case SinglePrecision:
                         break;
                     case UnsignedInteger16bit:
+                        val = Integer.parseInt(args[4]);
                         break;
                     case UnsignedInteger24bit:
                         break;
@@ -1273,6 +1403,7 @@ public final class ZigBeeConsole {
                         break;
             	}
                 attribute.setValue(val);
+                print("Attribute value written.");
             } catch (ZigBeeClusterException e) {
                 print("Failed to write attribute.");
                 e.printStackTrace();
@@ -1505,6 +1636,70 @@ public final class ZigBeeConsole {
                     print("ZigBee API permit join disable ... [OK]");
                 }
             }
+            return true;
+        }
+    }
+
+    /**
+     * Enrolls IAS Zone device to this CIE device by setting own address as CIE address to the
+     * IAS Zone device.
+     */
+    private class EnrollCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Enrolls IAS Zone device to this CIE device by setting own address as CIE address to the\n" +
+                    " IAS Zone device.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "enroll DEVICEID";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+            if (args.length != 2) {
+                return false;
+            }
+
+            final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
+            if (device == null) {
+                return false;
+            }
+
+            int clusterId = org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.IASZone.ID;
+            int attributeId = Attributes.IAS_CIE_ADDRESS.getId();
+
+            final Cluster cluster = device.getCluster(clusterId);
+            if (cluster == null) {
+                print("Cluster not found.");
+                return false;
+            }
+
+            final Attribute attribute = cluster.getAttribute(attributeId);
+            if (attribute == null) {
+                print("Attribute not found.");
+                return false;
+            }
+
+            if(attribute.isWritable() == false) {
+                print(attribute.getName() + " is not writable");
+                return true;
+            }
+
+            try {
+                attribute.setValue(zigbeeApi.getZigBeeNetworkManager().getIeeeAddress());
+                print("CIE address set to: " + IEEEAddress.toColonNotation(zigbeeApi.getZigBeeNetworkManager().getIeeeAddress()));
+                print("CIE address verification read: " + IEEEAddress.toColonNotation((Long)attribute.getValue()));
+            }  catch (Exception e) {
+                print("Failed to set CIE address.");
+                e.printStackTrace();
+            }
+
             return true;
         }
     }

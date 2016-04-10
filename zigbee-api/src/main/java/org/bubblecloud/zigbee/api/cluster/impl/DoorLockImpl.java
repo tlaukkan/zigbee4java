@@ -27,7 +27,11 @@ import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.general.DoorLock;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.api.cluster.impl.api.general.security.DoorLockResponse;
+import org.bubblecloud.zigbee.api.cluster.impl.api.global.DefaultResponse;
 import org.bubblecloud.zigbee.api.cluster.impl.general.DoorLockCluster;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
@@ -79,6 +83,54 @@ public class DoorLockImpl implements DoorLock {
 	public String getDescription() throws ZigBeeDeviceException {
 		 try {
 	            return (String) doorLockCluster.getAttributeDescription().getValue();
+	        } catch (ZigBeeClusterException e) {
+	            throw new ZigBeeDeviceException(e);
+	        }
+	}
+	
+    public void lock() throws ZigBeeDeviceException {
+        try {
+        	DoorLockResponse response = (DoorLockResponse)doorLockCluster.lock();
+            if (response.getStatus() != Status.SUCCESS)
+                throw new ZigBeeDeviceException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeDeviceException(e);
+        }
+    }
+    
+    public void lock(String pinCode) throws ZigBeeDeviceException {
+        try {
+        	DoorLockResponse response = (DoorLockResponse)doorLockCluster.lock(pinCode);
+            if (response.getStatus() != Status.SUCCESS)
+                throw new ZigBeeDeviceException(response.getStatus().toString());
+        } catch (ZigBeeClusterException e) {
+            throw new ZigBeeDeviceException(e);
+        }
+    }
+
+	public void unlock() throws ZigBeeDeviceException {
+		try {
+			DoorLockResponse response = (DoorLockResponse)doorLockCluster.unlock();
+			if (response.getStatus() != Status.SUCCESS)
+				throw new ZigBeeDeviceException(response.getStatus().toString());
+		} catch (ZigBeeClusterException e) {
+			throw new ZigBeeDeviceException(e);
+		}
+	}
+
+	public void unlock(String pinCode) throws ZigBeeDeviceException {
+		try {
+			DoorLockResponse response = (DoorLockResponse)doorLockCluster.unlock(pinCode);
+			if (response.getStatus() != Status.SUCCESS)
+				throw new ZigBeeDeviceException(response.getStatus().toString());
+		} catch (ZigBeeClusterException e) {
+			throw new ZigBeeDeviceException(e);
+		}
+	}
+
+	public int getLockState() throws ZigBeeDeviceException {
+		 try {
+	            return (int) (Integer) doorLockCluster.getAttributeLockState().getValue();
 	        } catch (ZigBeeClusterException e) {
 	            throw new ZigBeeDeviceException(e);
 	        }

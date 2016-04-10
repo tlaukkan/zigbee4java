@@ -162,7 +162,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
         boolean b = RESEND_ONLY_EXCEPTION_DEFAULT;
         try {
-            aux = Integer.parseInt(System.getProperty(RESEND_ONLY_EXCEPTION_KEY));
+            b = Boolean.parseBoolean(System.getProperty(RESEND_ONLY_EXCEPTION_KEY));
             logger.trace("Using RESEND_MAX_RETRY set from enviroment {}", aux);
         } catch (NumberFormatException ex) {
             logger.trace("Using RESEND_MAX_RETRY set as DEFAULT {}", aux);
@@ -199,10 +199,10 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             // Now reset the dongle
             setState(DriverStatus.HARDWARE_OPEN);
             if (!dongleReset()) {
-            	logger.warn("Dongle reset failed. Assuming bootloader is running and sending magic byte {}",
+            	logger.warn("Dongle reset failed. Assuming bootloader is running and sending magic byte {}.",
             			String.format("0x%02x", BOOTLOADER_MAGIC_BYTE));
             	if (!bootloaderGetOut(BOOTLOADER_MAGIC_BYTE)) {
-            		logger.warn("Attempt to get out from bootloader failed");
+            		logger.warn("Attempt to get out from bootloader failed.");
             		shutdown();
             		return false;
             	}
@@ -245,7 +245,6 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     public boolean initializeZigBeeNetwork(boolean cleanStatus) {
-    	// And finally initialise the network
         logger.trace("Initializing network.");
 
         setState(DriverStatus.NETWORK_INITIALIZING);
@@ -280,13 +279,13 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 				zigbeeInterface, new ZDO_MSG_CB_REGISTER(new DoubleByte(ALL_CLUSTERS))
         );
         if (responseCb == null) {
-            logger.warn("Reset seq: Failed MSG_CB_REGISTER");
+            return false;
         }
 
-        final int INSTANT_STARTUP = 0;
+        final int instantStartup = 0;
 
         ZDO_STARTUP_FROM_APP_SRSP response = (ZDO_STARTUP_FROM_APP_SRSP) sendSynchrouns(
-				zigbeeInterface, new ZDO_STARTUP_FROM_APP(INSTANT_STARTUP), STARTUP_TIMEOUT
+				zigbeeInterface, new ZDO_STARTUP_FROM_APP(instantStartup), STARTUP_TIMEOUT
         );
         if (response == null) {
         	return false;
@@ -370,7 +369,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             return false;
         }
         logger.debug("Changing the Network Mode to {}.", mode);
-        if (dongleSetNetworkMode() == false) {
+        if (!dongleSetNetworkMode()) {
             logger.error("Unable to set NETWORK_MODE for ZigBee Network");
             return false;
         } else {
@@ -881,9 +880,8 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                 try {
                     conversation3Way.wait();
                 } catch (InterruptedException ex) {
-                    //ex.printStackTrace();
                 } catch (IllegalMonitorStateException ex) {
-                    ex.printStackTrace();
+                    logger.error("Error in 3 way conversation.", ex);
                 }
             }
             conversation3Way.put(clz, Thread.currentThread());
@@ -994,7 +992,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         );
     	
     	try {
-			zigbeeInterface.sendRaw(new int[] {magicByte});
+			zigbeeInterface.sendRaw(new int[]{magicByte});
 		} catch (IOException e) {
 			logger.error("Failed to send bootloader magic byte", e);
 		}
@@ -1225,8 +1223,11 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             try {
                 try {
                     hwDriver.sendSynchronousCommand(request, listener, timeout);
+                } catch (IOException e) {
+                    logger.error("Synchronous command send failed due to IO exception. ", e);
+                    break;
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    logger.error("Synchronous command send failed due to unexpected exception.", ex);
                 }
                 logger.trace("{} sent (synchronous command, retry: {}).", request.getClass().getSimpleName(), sending);
                 synchronized (response) {
@@ -1351,14 +1352,14 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     /**
-     * Removes an Application Framework message listener that was previously added with the addAFMessageListner method
-     * @param listner a class that implements the {@link ApplicationFrameworkMessageListener} interface
+     * Removes an Application Framework message listener that was previously added with the addAFMessageListener method
+     * @param listener a class that implements the {@link ApplicationFrameworkMessageListener} interface
      * @return true if the listener was added
      */
-    public boolean removeAFMessageListener(ApplicationFrameworkMessageListener listner) {
+    public boolean removeAFMessageListener(ApplicationFrameworkMessageListener listener) {
         boolean result = false;
         synchronized (messageListeners) {
-            result = messageListeners.remove(listner);
+            result = messageListeners.remove(listener);
         }
 
         if (messageListeners.isEmpty() && isHardwareReady()) {
@@ -1369,20 +1370,25 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             }
         }
         if (result) {
-            logger.trace("Removed ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
+            logger.trace("Removed ApplicationFrameworkMessageListener {}:{}", listener, listener.getClass().getName());
             return true;
         } else {
-            logger.warn("Could not remove ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
+            logger.warn("Could not remove ApplicationFrameworkMessageListener {}:{}", listener, listener.getClass().getName());
             return false;
         }
     }
 
     /**
      * Adds an Application Framework message listener
-     * @param listner a class that implements the {@link ApplicationFrameworkMessageListener} interface
+     * @param listener a class that implements the {@link ApplicationFrameworkMessageListener} interface
      * @return true if the listener was added
      */
-    public boolean addAFMessageListner(ApplicationFrameworkMessageListener listner) {
+    public boolean addAFMessageListener(ApplicationFrameworkMessageListener listener) {
+        synchronized (messageListeners) {
+            if (messageListeners.contains(listener)) {
+                 return true;
+            }
+        }
         if (messageListeners.isEmpty() && isHardwareReady()) {
             if (zigbeeInterface.addAsynchronousCommandListener(afMessageListenerFilter)) {
                 logger.trace("Added AsynchrounsCommandListener {} to ZigBeeSerialInterface", afMessageListenerFilter.getClass().getName());
@@ -1392,14 +1398,14 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         }
         boolean result = false;
         synchronized (messageListeners) {
-            result = messageListeners.add(listner);
+            result = messageListeners.add(listener);
         }
 
         if (result) {
-            logger.trace("Added ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
+            logger.trace("Added ApplicationFrameworkMessageListener {}:{}", listener, listener.getClass().getName());
             return true;
         } else {
-            logger.warn("Could not add ApplicationFrameworkMessageListener {}:{}", listner, listner.getClass().getName());
+            logger.warn("Could not add ApplicationFrameworkMessageListener {}:{}", listener, listener.getClass().getName());
             return false;
         }
     }
@@ -1713,7 +1719,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             if (response != null && response.Status == 0)
                 return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error in device register.", e);
         }
 
         return false;
@@ -1799,10 +1805,10 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
     private class AFMessageListenerFilter implements AsynchronousCommandListener {
 
-        private final Collection<ApplicationFrameworkMessageListener> listners;
+        private final Collection<ApplicationFrameworkMessageListener> listeners;
 
         private AFMessageListenerFilter(Collection<ApplicationFrameworkMessageListener> list) {
-            listners = list;
+            listeners = list;
         }
 
         /**
@@ -1815,23 +1821,28 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             }
             if (packet.getCMD().get16BitValue() == ZToolCMD.AF_INCOMING_MSG) {
                 AF_INCOMING_MSG msg = (AF_INCOMING_MSG) packet;
-                if (listners.isEmpty()) {
+                if (listeners.isEmpty()) {
                     logger.warn("Received AF_INCOMING_MSG but no listeners. " +
                                     "Message was from {} and cluster {} to end point {}. Data: {}",
                             msg.getSrcAddr(), msg.getClusterId(),
                             msg.getDstEndpoint(), msg);
                 } else {
-                    logger.debug("Received AF_INCOMING_MSG from {} and cluster {} to end point {}. Data: {}",
+                    logger.trace("Received AF_INCOMING_MSG from {} and cluster {} to end point {}. Data: {}",
                             msg.getSrcAddr(), msg.getClusterId(),
                             msg.getDstEndpoint(), msg);
                 }
                 ArrayList<ApplicationFrameworkMessageListener> localCopy = null;
-                synchronized (listners) {
-                    localCopy = new ArrayList<ApplicationFrameworkMessageListener>(listners);
+                synchronized (listeners) {
+                    localCopy = new ArrayList<ApplicationFrameworkMessageListener>(listeners);
                 }
                 for (ApplicationFrameworkMessageListener l : localCopy) {
                     l.notify(msg);
                 }
+
+                /*ZCLFrame frame = new ZCLFrame(new ClusterMessageImpl(msg.getData(), msg.getClusterId()));
+                logger.debug("Received: [ ZCL Header: " + ByteUtils.toBase16(frame.getHeader().toByte())
+                        + ", ZCL Payload: " + ByteUtils.toBase16(frame.getPayload())
+                        + "]");*/
             }
         }
     }

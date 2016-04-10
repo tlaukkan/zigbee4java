@@ -108,12 +108,15 @@ public class ZigBeeSerialPortImpl implements ZigBeePort
     public void close() {
         try {
             if (serialPort != null) {
-                while (inputStream.available() > 0) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (final InterruptedException e) {
-                        logger.warn("Interrupted while waiting input stream to flush.");
+                try {
+                    while (inputStream.available() > 0) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (final InterruptedException e) {
+                            logger.warn("Interrupted while waiting input stream to flush.");
+                        }
                     }
+                } catch (Exception e) {
                 }
                 inputStream.close();
                 outputStream.flush();

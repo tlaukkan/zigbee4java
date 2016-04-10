@@ -39,9 +39,9 @@ public interface ApplicationFrameworkMessageListener {
      * This method is invoked by the {@link ZigBeeNetworkManager} on all the {@link ApplicationFrameworkMessageListener}<br>
      * when a {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG} command arrive from the ZigBee NIC
      *
-     * @param msg the {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG} arrived that has to be handled
+     * @param msg the {@link AF_INCOMING_MSG} arrived that has to be handled
      */
-    void notify(AF_INCOMING_MSG msg);
+    boolean notify(AF_INCOMING_MSG msg);
 
 
 }

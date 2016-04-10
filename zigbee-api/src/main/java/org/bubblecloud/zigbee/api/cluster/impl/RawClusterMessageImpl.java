@@ -38,6 +38,11 @@ public class RawClusterMessageImpl implements ClusterMessage {
         this.id = id;
     }
 
+    @Override
+    public byte getTransactionId() {
+        return frame[3];
+    }
+
     public byte[] getClusterMsg() {
         return frame;
     }

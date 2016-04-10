@@ -39,6 +39,11 @@ public class ClusterMessageImpl implements ClusterMessage {
         this.id = id;
     }
 
+    @Override
+    public byte getTransactionId() {
+        return frame.getHeader().getTransactionId();
+    }
+
     public byte[] getClusterMsg() {
         return frame.toByte();
     }

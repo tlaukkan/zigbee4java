@@ -107,7 +107,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
         endpointBuilder = new EndpointBuilder(importingQueue, networkManager);
         new Thread(endpointBuilder, "EndpointBuilder[" + networkManager + "]").start();
 
-        networkManager.addAFMessageListner(this);
+        networkManager.addAFMessageListener(this);
     }
 
     public void shutdown() {
@@ -135,12 +135,13 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
     }
 
     @Override
-    public void notify(AF_INCOMING_MSG msg) {
+    public boolean notify(AF_INCOMING_MSG msg) {
         final int sourceNetworkAddress = msg.getSrcAddr();
 
         synchronized (inspectedNetworkAddresses) {
         	// If this is an unknown device, then inspect it
-            if (!inspectedNetworkAddresses.contains(sourceNetworkAddress)) {
+            // TODO this should be enabled when all discovery modes share inspected network addresses
+            /*if (!inspectedNetworkAddresses.contains(sourceNetworkAddress)) {
             	// Add the device to the list so we don't inspect it again
                 inspectedNetworkAddresses.add(sourceNetworkAddress);
                 new Thread(new Runnable() {
@@ -149,8 +150,9 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
                         inspectNetworkAddress(sourceNetworkAddress);
                     }
                 }).start();
-            }
+            }*/
         }
+        return false;
     }
 
     /**
@@ -159,7 +161,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
      * @param sourceNetworkAddress the network address to inspect
      */
     private synchronized void inspectNetworkAddress(final int sourceNetworkAddress) {
-        logger.debug("Inspecting node based on incoming AF message from network address #{}.",
+        logger.trace("Inspecting node based on incoming AF message from network address #{}.",
                 sourceNetworkAddress);
 
         final ZDO_IEEE_ADDR_RSP result = networkManager.sendZDOIEEEAddressRequest(
@@ -169,7 +171,7 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
         if (result == null) {
             logger.debug("Node did not respond to ZDO_IEEE_ADDR_REQ #{}", sourceNetworkAddress);
         } else if (result.Status == 0) {
-            logger.debug("Node network address #{} resolved to IEEE address {}.", sourceNetworkAddress, result.getIeeeAddress());
+            logger.trace("Node network address #{} resolved to IEEE address {}.", sourceNetworkAddress, result.getIeeeAddress());
             final ZigBeeNodeImpl node = new ZigBeeNodeImpl(sourceNetworkAddress, result.getIeeeAddress(),
                     (short) networkManager.getCurrentPanId());
 

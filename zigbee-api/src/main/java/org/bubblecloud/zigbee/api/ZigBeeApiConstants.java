@@ -238,6 +238,8 @@ public class ZigBeeApiConstants {
                 return Alarms.NAME;
             else if(id.equals(Integer.toHexString(CLUSTER_ID_TIME)))
                 return Time.NAME;
+            else if(id.equals(Integer.toHexString(CLUSTER_ID_DOOR_LOCK)))
+                return DoorLock.NAME;
             else if(id.equals(Integer.toHexString(CLUSTER_ID_BINARY_INPUT)))
                 return BinaryInput.NAME;
             else if(id.equals(Integer.toHexString(CLUSTER_ID_COMMISSIONING)))

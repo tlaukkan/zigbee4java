@@ -122,7 +122,7 @@ public class ImportingQueue {
         // Check if the queue already contains this address
         for(ZigBeeNodeAddress address : addresses) {
         	if(address.equals(inserting)) {
-                logger.debug("Duplicate address not added to queue {} ({})", nwkAddress, ieeeAddress);
+                logger.trace("Duplicate address not added to queue {} ({})", nwkAddress, ieeeAddress);
         		return;
         	}
         }

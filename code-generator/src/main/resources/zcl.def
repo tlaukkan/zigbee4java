@@ -1,0 +1,697 @@
+* Home Automation [0x0104]
+
+Home Automation ZigBee cluster library protocol description is used to code generate cluster specific command serialization classes.
+
+* General
+
+** Basic [0x0000]
+*** Received
+
+**** Reset to Factory Defaults [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+*** Generated
+
+** Power configuration [0x0001]
+*** Received
+*** Generated
+
+** Device Temperature Configuration [0x0002]
+*** Received
+*** Generated
+
+** Identify [0x0003]
+*** Received
+
+**** Identify [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Identify Time              |Unsigned 16-bit integer    |
+
+**** Identify Query [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+*** Generated
+
+**** Identify Query Response [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Identify Time              |Unsigned 16-bit integer    |
+
+** Groups [0x0004]
+*** Received
+
+**** Add Group Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Group ID                   |Unsigned 16-bit integer    |
+|Group Name                 |Character string           |
+
+**** View Group Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Group ID                   |Unsigned 16-bit integer    |
+
+**** Get Group Membership Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Group count                |Unsigned 8-bit integer     |
+|Group list                 |N X Unsigned 16-bit integer|
+
+**** Remove Group Command [0x03]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Group ID                   |Unsigned 16-bit integer    |
+
+**** Remove All Groups Command [0x04]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+**** Add Group If Identifying Command [0x05]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Group ID                   |Unsigned 16-bit integer    |
+|Group Name                 |Character string           |
+
+*** Generated
+
+**** Add group response Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+|Group ID                   |Unsigned 16-bit integer    |
+
+**** View Group Response Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+|Group ID                   |Unsigned 16-bit integer    |
+|Group Name                 |Character string           |
+
+**** Get Group Membership Response Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Capacity                   |Unsigned 8-bit integer     |
+|Group count                |Unsigned 8-bit integer     |
+|Group list                 |N X Unsigned 16-bit integer|
+
+**** Remove Group Response Command [0x03]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+|Group ID                   |Unsigned 16-bit integer    |
+
+** Scenes [0x0005]
+*** Received
+
+**** Add Scene Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Group ID                   |Unsigned 16-bit integer    |
+|Scene ID                   |Unsigned 8-bit integer     |
+|Transition time            |Unsigned 16-bit integer    |
+|Scene Name                 |Character string           |
+|Extension field sets       |N X Extension field set    |
+
+**** View Scene Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Group ID                   |Unsigned 16-bit integer    |
+|Scene ID                   |Unsigned 8-bit integer     |
+
+**** Remove Scene Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Group ID                   |Unsigned 16-bit integer    |
+|Scene ID                   |Unsigned 8-bit integer     |
+
+**** Remove All Scenes Command [0x03]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Group ID                   |Unsigned 16-bit integer    |
+
+**** Store Scene Command [0x04]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Group ID                   |Unsigned 16-bit integer    |
+|Scene ID                   |Unsigned 8-bit integer     |
+
+**** Recall Scene Command [0x05]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Group ID                   |Unsigned 16-bit integer    |
+|Scene ID                   |Unsigned 8-bit integer     |
+
+**** Get Scene Membership Command [0x06]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Group ID                   |Unsigned 16-bit integer    |
+
+*** Generated
+
+**** Add Scene Response Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+|Group ID                   |Unsigned 16-bit integer    |
+|Scene ID                   |Unsigned 8-bit integer     |
+
+**** View Scene Response Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+|Group ID                   |Unsigned 16-bit integer    |
+|Scene ID                   |Unsigned 8-bit integer     |
+|Transition time            |Unsigned 16-bit integer    |
+|Scene Name                 |Character string           |
+|Extension field sets       |N X Extension field set    |
+
+**** Remove Scene Response Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+|Group ID                   |Unsigned 16-bit integer    |
+|Scene ID                   |Unsigned 8-bit integer     |
+
+**** Remove All Scenes Response Command [0x03]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+|Group ID                   |Unsigned 16-bit integer    |
+
+**** Store Scene Response Command [0x04]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+|Group ID                   |Unsigned 16-bit integer    |
+|Scene ID                   |Unsigned 8-bit integer     |
+
+**** Get Scene Membership Response Command [0x05]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+|Capacity                   |Unsigned 8-bit integer     |
+|Group ID                   |Unsigned 16-bit integer    |
+|Scene count                |Unsigned 8-bit integer     |
+|Scene list                 |N x Unsigned 8-bit integer |
+
+** On/off [0x0006]
+*** Received
+
+**** Off [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+**** On [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+**** Toggle [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+*** Generated
+
+** On/off Switch Configuration [0x0007]
+
+*** Received
+
+*** Generated
+
+** Level Control [0x0008]
+
+*** Received
+
+**** Move to Level Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Level                      |Unsigned 8-bit integer     |
+|Transition time            |Unsigned 16-bit integer    |
+
+**** Move Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Move mode                  |8-bit enumeration          |
+|Rate                       |Unsigned 8-bit integer     |
+
+**** Step Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Step mode                  |8-bit enumeration          |
+|Step size                  |Unsigned 8-bit integer     |
+|Transition time            |Unsigned 16-bit integer    |
+
+**** Stop Command [0x03]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+**** Move to Level (with On/Off) Command [0x04]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Level                      |Unsigned 8-bit integer     |
+|Transition time            |Unsigned 16-bit integer    |
+
+**** Move (with On/Off) Command [0x05]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Move mode                  |8-bit enumeration          |
+|Rate                       |Unsigned 8-bit integer     |
+
+**** Step (with On/Off) Command [0x06]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Step mode                  |8-bit enumeration          |
+|Step size                  |Unsigned 8-bit integer     |
+|Transition time            |Unsigned 16-bit integer    |
+
+**** Stop 2 Command [0x07]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+*** Generated
+
+** Alarms [0x0009]
+
+*** Received
+
+**** Reset Alarm Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Alarm code                 |8-bit enumeration          |
+|Cluster identifier         |Cluster ID                 |
+
+**** Reset All Alarms Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+**** Get Alarm Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+**** Reset Alarm Log Command [0x03]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+*** Generated
+
+**** Alarm Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Alarm code                 |8-bit enumeration          |
+|Cluster identifier         |Cluster ID                 |
+
+**** Get Alarm Response Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+|Alarm code                 |8-bit enumeration          |
+|Cluster identifier         |Cluster ID                 |
+|Timestamp                  |Unsigned 32-bit integer    |
+
+** Time [0x000a]
+
+*** Received
+
+*** Generated
+
+** RSSI Location [0x000b]
+
+*** Received
+
+**** Set Absolute Location Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Coordinate 1               |Signed 16-bit integer      |
+|Coordinate 2               |Signed 16-bit integer      |
+|Coordinate 3               |Signed 16-bit integer      |
+|Power                      |Signed 16-bit integer      |
+|Path Loss Exponent         |Unsigned 16-bit integer    |
+
+**** Set Device Configuration Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Power                      |Signed 16-bit integer      |
+|Path Loss Exponent         |Unsigned 16-bit integer    |
+|Calculation Period         |Unsigned 16-bit integer    |
+|Number RSSI Measurements   |Unsigned 8-bit integer     |
+|Reporting Period           |Unsigned 16-bit integer    |
+
+**** Get Device Configuration Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Target Address             |IEEE Address               |
+
+**** Get Location Data Command [0x03]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Bitmap                     |8-bit bitmap               |
+|Number Responses           |Unsigned 8-bit integer     |
+|Target Address             |IEEE address               |
+
+**** RSSI Response Command [0x04]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Replying Device            |IEEE address               |
+|Coordinate 1               |Signed 16-bit integer      |
+|Coordinate 2               |Signed 16-bit integer      |
+|Coordinate 3               |Signed 16-bit integer      |
+|RSSI                       |Signed 8-bit integer       |
+|Number RSSI Measurements   |Unsigned 8-bit Integer     |
+
+**** Send Pings Command [0x05]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Target Address             |IEEE address               |
+|Number RSSI Measurements   |Unsigned 8-bit Integer     |
+|Calculation Period         |Unsigned 16-bit integer    |
+
+**** Anchor Node Announce Command [0x06]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Anchor Node Address        |IEEE address               |
+|Coordinate 1               |Signed 16-bit integer      |
+|Coordinate 2               |Signed 16-bit integer      |
+|Coordinate 3               |Signed 16-bit integer      |
+
+*** Generated
+
+**** Device Configuration Response Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+|Power                      |Signed 16-bit integer      |
+|Path Loss Exponent         |Unsigned 16-bit integer    |
+|Calculation Period         |Unsigned 16-bit integer    |
+|Number RSSI Measurements   |Unsigned 8-bit integer     |
+|Reporting Period           |Unsigned 16-bit integer    |
+
+**** Location Data Response Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+|Location Type              |8-bit Data                 |
+|Coordinate 1               |Signed 16-bit integer      |
+|Coordinate 2               |Signed 16-bit integer      |
+|Coordinate 3               |Signed 16-bit integer      |
+|Power                      |Signed 16-bit integer      |
+|Path Loss Exponent         |Unsigned 16-bit integer    |
+|Location Method            |8-bit enumeration          |
+|Quality Measure            |Unsigned 8-bit integer     |
+|Location Age               |Unsigned 16-bit integer    |
+
+**** Location Data Notification Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Location Type              |8-bit Data                 |
+|Coordinate 1               |Signed 16-bit integer      |
+|Coordinate 2               |Signed 16-bit integer      |
+|Coordinate 3               |Signed 16-bit integer      |
+|Power                      |Signed 16-bit integer      |
+|Path Loss Exponent         |Unsigned 16-bit integer    |
+|Location Method            |8-bit enumeration          |
+|Quality Measure            |Unsigned 8-bit integer     |
+|Location Age               |Unsigned 16-bit integer    |
+
+**** Compact Location Data Notification Command [0x03]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+**** RSSI Ping Command [0x04]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Location Type              |8-bit Data                 |
+
+**** RSSI Request Command [0x05]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+**** Report RSSI Measurements Command [0x06]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Reporting Address          |IEEE address               |
+|Number of Neighbors        |Unsigned 8-bit integer     |
+|Neighbors Information      |N X Neighbors Information  |
+
+**** Request Own Location Command [0x07]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Requesting Address         |IEEE address               |
+
+** Analog Input (Basic) [0x000c]
+*** Received
+*** Generated
+** Analog Output (Basic) [0x000d]
+*** Received
+*** Generated
+** Analog Value (Basic) [0x000e]
+*** Received
+*** Generated
+** Binary Input (Basic) [0x000f]
+*** Received
+*** Generated
+** Binary Output (Basic) [0x0010]
+*** Received
+*** Generated
+** Binary Value (Basic) [0x0011]
+*** Received
+*** Generated
+** Multistate Input (Basic) [0x0012]
+*** Received
+*** Generated
+** Multistate Output (Basic) [0x0013]
+*** Received
+*** Generated
+** Multistate Value (Basic) [0x0014]
+*** Received
+*** Generated
+
+** Commissioning [0x0015]
+
+*** Received
+
+**** Restart Device Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Option                     |8-bit bitmap               |
+|Delay                      |Unsigned 8-bit integer     |
+|Jitter                     |Unsigned 8-bit integer     |
+
+**** Save Startup Parameters Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Option                     |8-bit bitmap               |
+|Index                      |Unsigned 8-bit integer     |
+
+**** Restore Startup Parameters Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Option                     |8-bit bitmap               |
+|Index                      |Unsigned 8-bit integer     |
+
+**** Reset Startup Parameters Command [0x03]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Option                     |8-bit bitmap               |
+|Index                      |Unsigned 8-bit integer     |
+
+*** Generated
+
+**** Restart Device Response Response [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+
+**** Save Startup Parameters Response [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+
+**** Restore Startup Parameters Response [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+
+**** Reset Startup Parameters Response [0x03]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+
+* Closures
+** Shade Configuration [0x0100]
+
+*** Received
+
+*** Generated
+
+** Door Lock [0x0101]
+
+*** Received
+
+**** Lock Door [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+**** Unlock Door [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+*** Generated
+
+**** Lock Door Response Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+
+**** Unlock Door Response Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Status                     |8-bit enumeration          |
+
+* HVAC
+
+** Pump Configuration and Control [0x0200]
+*** Received
+*** Generated
+** Thermostat [0x0201]
+*** Received
+*** Generated
+** Fan Control [0x0202]
+*** Received
+*** Generated
+** Dehumidification Control [0x0203]
+*** Received
+*** Generated
+** Thermostat User Interface Configuration [0x0204]
+*** Received
+*** Generated
+
+* Lighting
+
+** Color control [0x0300]
+*** Received
+*** Generated
+** Ballast Configuration [0x0301]
+*** Received
+*** Generated
+
+* Measurement and Sensing
+
+** Illuminance measurement [0x0400]
+*** Received
+*** Generated
+** Illuminance level sensing [0x0401]
+*** Received
+*** Generated
+** Temperature measurement [0x0402]
+*** Received
+*** Generated
+** Pressure measurement [0x0403]
+*** Received
+*** Generated
+** Flow measurement [0x0404]
+*** Received
+*** Generated
+** Relative humidity measurement [0x0405]
+*** Received
+*** Generated
+** Occupancy sensing [0x0406]
+*** Received
+*** Generated
+
+* Security and Safety
+
+** IAS Zone [0x500]
+
+*** Received
+
+**** Zone Enroll Response [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Enroll response code       |8-bit enumeration          |
+|Zone ID                    |Unsigned 8-bit integer     |
+
+*** Generated
+
+**** Zone Status Change Notification [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Zone Status                |16-bit enumeration         |
+|Extended Status            |8-bit enumeration          |
+
+**** Zone Enroll Request Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Zone Type                  |16-bit enumeration         |
+|Manufacturer Code          |Unsigned 16-bit integer    |
+
+** IAS ACE [0x0501]
+*** Received
+*** Generated
+** IAS WD [0x0502]
+*** Received
+*** Generated
+
+* Protocol Interfaces
+
+** Generic Tunnel [0x0600]
+*** Received
+*** Generated
+** BACnet Protocol Tunnel [0x0601]
+*** Received
+*** Generated
+** Analog Input (BACnet Regular) [0x0602]
+*** Received
+*** Generated
+** Analog Input (BACnet Extended) [0x0603]
+*** Received
+*** Generated
+** Analog Output (BACnet Regular) [0x0604]
+*** Received
+*** Generated
+** Analog Output (BACnet Extended) [0x0605]
+*** Received
+*** Generated
+** Analog Value (BACnet Regular) [0x0606]
+*** Received
+*** Generated
+** Analog Value (BACnet Extended) [0x0607]
+*** Received
+*** Generated
+** Binary Input (BACnet Regular) [0x0608]
+*** Received
+*** Generated
+** Binary Input (BACnet Extended) [0x0609]
+*** Received
+*** Generated
+** Binary Output (BACnet Regular) [0x060a]
+*** Received
+*** Generated
+** Binary Output (BACnet Extended) [0x060b]
+*** Received
+*** Generated
+** Binary Value (BACnet Regular) [0x060c]
+*** Received
+*** Generated
+** Binary Value (BACnet Extended) [0x060d]
+*** Received
+*** Generated
+** Multistate Input (BACnet Regular) [0x060e]
+*** Received
+*** Generated
+** Multistate Input (BACnet Extended) [0x060f]
+*** Received
+*** Generated
+** Multistate Output (BACnet Regular) [0x0610]
+*** Received
+*** Generated
+** Multistate Output (BACnet Extended) [0x0611]
+*** Received
+*** Generated
+** Multistate Value (BACnet Regular) [0x0612]
+*** Received
+*** Generated
+** Multistate Value (BACnet Extended) [0x0613]
+*** Received
+*** Generated

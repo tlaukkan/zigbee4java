@@ -24,9 +24,13 @@ package org.bubblecloud.zigbee.api.cluster.impl.general;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.closures.DoorLock;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.api.cluster.impl.api.general.security.*;
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.api.cluster.impl.core.AttributeImpl;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLClusterBase;
+import org.bubblecloud.zigbee.api.cluster.impl.general.security.DoorLockResponseImpl;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 
 
@@ -35,19 +39,41 @@ public class DoorLockCluster extends ZCLClusterBase implements DoorLock {
 	
 
 	private static AttributeImpl description;
+	private static AttributeImpl lockState;
 	private final Attribute[] attributes;
 	
 	public DoorLockCluster(ZigBeeEndpoint zbDevice){
 		super(zbDevice);
 		
-		
-		
 		description = new AttributeImpl(zbDevice,this, Attributes.DESCRIPTION);
+		lockState = new AttributeImpl(zbDevice,this, Attributes.LOCK_STATE);
+		attributes = new AttributeImpl[]{description, lockState};
+	}
 
-		attributes = new AttributeImpl[]{description};
+	public DoorLockResponse lock() throws ZigBeeClusterException {
+		 enableDefaultResponse();
+	     Response response = invoke(new DoorCommandImpl(true));
+	     return new DoorLockResponseImpl(response);
+	}
+	
+	public DoorLockResponse lock(String pinCode) throws ZigBeeClusterException {
+		 enableDefaultResponse();
+	     Response response = invoke(new DoorCommandImpl(true, pinCode));
+	     return new DoorLockResponseImpl(response);
+	}
+
+	public DoorLockResponse unlock(String pinCode) throws ZigBeeClusterException {
+		enableDefaultResponse();
+		Response response = invoke(new DoorCommandImpl(false, pinCode));
+		return new DoorLockResponseImpl(response);
 	}
 
 
+	public DoorLockResponse unlock() throws ZigBeeClusterException {
+		enableDefaultResponse();
+		Response response = invoke(new DoorCommandImpl(false));
+		return new DoorLockResponseImpl(response);
+	}
 
 	@Override
 	public short getId() {
@@ -71,7 +97,9 @@ public class DoorLockCluster extends ZCLClusterBase implements DoorLock {
 	}
 
 	
-	
+	public Attribute getAttributeLockState() {
+		return lockState;
+	}
 	
 
 }

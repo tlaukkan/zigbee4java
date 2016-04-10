@@ -115,13 +115,12 @@ public class ZToolPacketParser implements Runnable {
                     packetHandler.handlePacket(response);
                 } else if (val != -1) {
                     // Log if not end of stream.
-                    logger.warn("Discarded stream: expected start byte but received this {}",
-                            ByteUtils.toBase16(val));
+                    logger.warn("Discarded stream: expected start byte but received this {}", ByteUtils.toBase16(val));
                 }
             } catch (final IOException e) {
                 if (!close) {
-                    logger.error("Exception inputStream reader parserThread", e);
                     packetHandler.error(e);
+                    close = true;
                 }
             }
         }
@@ -141,6 +140,7 @@ public class ZToolPacketParser implements Runnable {
     public void close() {
         this.close = true;
         try {
+            parserThread.interrupt();
             parserThread.join();
         } catch (InterruptedException e) {
             logger.warn("Interrupted in packet parser thread shutdown join.");

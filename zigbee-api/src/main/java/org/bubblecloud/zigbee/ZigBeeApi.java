@@ -15,11 +15,16 @@
  */
 package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.api.device.security_safety.*;
 import org.bubblecloud.zigbee.network.EndpointListener;
 import org.bubblecloud.zigbee.network.NodeListener;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
+import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
+import org.bubblecloud.zigbee.network.zcl.ZclCommandTransmitter;
 import org.bubblecloud.zigbee.network.impl.NetworkStateSerializer;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
@@ -37,10 +42,6 @@ import org.bubblecloud.zigbee.api.device.hvac.Pump;
 import org.bubblecloud.zigbee.api.device.hvac.ThermostatControl;
 import org.bubblecloud.zigbee.api.device.hvac.TemperatureSensor;
 import org.bubblecloud.zigbee.api.device.lighting.*;
-import org.bubblecloud.zigbee.api.device.security_safety.IASAncillaryControlEquipment;
-import org.bubblecloud.zigbee.api.device.security_safety.IASControlAndIndicatingEquipment;
-import org.bubblecloud.zigbee.api.device.security_safety.IAS_Warning;
-import org.bubblecloud.zigbee.api.device.security_safety.IAS_Zone;
 import org.bubblecloud.zigbee.api.device.impl.*;
 import org.bubblecloud.zigbee.api.DeviceBase;
 import org.bubblecloud.zigbee.network.port.ZigBeeNetworkManagerImpl;
@@ -109,6 +110,10 @@ public class ZigBeeApi implements EndpointListener {
      */
     private ZigBeeNetwork network;
     /**
+     * Cluster request receiver.
+     */
+    private ZclCommandTransmitter zclCommandTransmitter;
+    /**
      * Flag to reset the network on startup
      */
 	private boolean resetNetwork = false;
@@ -160,6 +165,8 @@ public class ZigBeeApi implements EndpointListener {
     	this.resetNetwork = resetNetwork;
 
         networkManager = new ZigBeeNetworkManagerImpl(port, NetworkMode.Coordinator, pan, channel, 2500L);
+        zclCommandTransmitter = new ZclCommandTransmitter(networkManager);
+        networkManager.addAFMessageListener(zclCommandTransmitter);
         discoveryManager = new ZigBeeDiscoveryManager(networkManager, discoveryModes);
         network = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork();
 
@@ -171,25 +178,26 @@ public class ZigBeeApi implements EndpointListener {
         context.setClusterFactory(clusterFactory);
 
         try {
-	        context.getDeviceFactories().put(ColorDimmableLight.DEVICE_ID, new DeviceFactoryImpl(context, ColorDimmableLight.class, ColorDimmableLightDevice.class));
-	        context.getDeviceFactories().put(DimmableLight.DEVICE_ID, new DeviceFactoryImpl(context, DimmableLight.class, DimmableLightDevice.class));
-	        context.getDeviceFactories().put(IAS_Zone.DEVICE_ID, new DeviceFactoryImpl(context, IAS_Zone.class, IAS_ZoneDevice.class));
-	        context.getDeviceFactories().put(IASAncillaryControlEquipment.DEVICE_ID, new DeviceFactoryImpl(context, IASAncillaryControlEquipment.class, IASAncillaryControlEquipmentDevice.class));
-	        context.getDeviceFactories().put(IASControlAndIndicatingEquipment.DEVICE_ID, new DeviceFactoryImpl(context, IASControlAndIndicatingEquipment.class, IASControlAndIndicatingEquipmentDevice.class));
-	        context.getDeviceFactories().put(LevelControlSwitch.DEVICE_ID, new DeviceFactoryImpl(context, LevelControlSwitch.class, LevelControlSwitchDevice.class));
-	        context.getDeviceFactories().put(LightSensor.DEVICE_ID, new DeviceFactoryImpl(context, LightSensor.class, LightSensorDevice.class));
-	        context.getDeviceFactories().put(MainsPowerOutlet.DEVICE_ID, new DeviceFactoryImpl(context, MainsPowerOutlet.class, MainsPowerOutletDevice.class));
-	        context.getDeviceFactories().put(OccupancySensor.DEVICE_ID, new DeviceFactoryImpl(context, OccupancySensor.class, OccupancySensorDevice.class));
-	        context.getDeviceFactories().put(OnOffLight.DEVICE_ID, new DeviceFactoryImpl(context, OnOffLight.class, OnOffLightDevice.class));
-	        context.getDeviceFactories().put(OnOffLightSwitch.DEVICE_ID, new DeviceFactoryImpl(context, OnOffLightSwitch.class, OnOffLightSwitchDevice.class));
-	        context.getDeviceFactories().put(OnOffOutput.DEVICE_ID, new DeviceFactoryImpl(context, OnOffOutput.class, OnOffOutputDevice.class));
-	        context.getDeviceFactories().put(OnOffSwitch.DEVICE_ID, new DeviceFactoryImpl(context, OnOffSwitch.class, OnOffSwitchDevice.class));
-	        context.getDeviceFactories().put(OnOffLight.DEVICE_ID, new DeviceFactoryImpl(context, OnOffLight.class, OnOffLightDevice.class));
-	        context.getDeviceFactories().put(Pump.DEVICE_ID, new DeviceFactoryImpl(context, Pump.class, PumpDevice.class));
-	        context.getDeviceFactories().put(ThermostatControl.DEVICE_ID, new DeviceFactoryImpl(context, ThermostatControl.class, ThermostatControlDevice.class));
-	        context.getDeviceFactories().put(TemperatureSensor.DEVICE_ID, new DeviceFactoryImpl(context, TemperatureSensor.class, TemperatureSensorDevice.class));
-	        context.getDeviceFactories().put(IAS_Warning.DEVICE_ID, new DeviceFactoryImpl(context, IAS_Warning.class, IAS_Warning_Device.class));
-	        context.getDeviceFactories().put(SimpleSensorDevice.DEVICE_ID, new DeviceFactoryImpl(context, SimpleSensor.class, SimpleSensorDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, ColorDimmableLight.class, ColorDimmableLightDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, DimmableLight.class, DimmableLightDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, IAS_Zone.class, IAS_ZoneDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, IASAncillaryControlEquipment.class, IASAncillaryControlEquipmentDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, IASControlAndIndicatingEquipment.class, IASControlAndIndicatingEquipmentDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, LevelControlSwitch.class, LevelControlSwitchDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, LightSensor.class, LightSensorDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, MainsPowerOutlet.class, MainsPowerOutletDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, OccupancySensor.class, OccupancySensorDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, OnOffLight.class, OnOffLightDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, OnOffLightSwitch.class, OnOffLightSwitchDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, OnOffOutput.class, OnOffOutputDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, OnOffSwitch.class, OnOffSwitchDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, OnOffLight.class, OnOffLightDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, Pump.class, PumpDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, ThermostatControl.class, ThermostatControlDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, TemperatureSensor.class, TemperatureSensorDevice.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, IAS_Warning.class, IAS_Warning_Device.class));
+	        context.getDeviceFactories().add(new DeviceFactoryImpl(context, SimpleSensor.class, SimpleSensorDevice.class));
+            context.getDeviceFactories().add(new DeviceFactoryImpl(context, IDoorLock.class, DoorLockDevice.class));
 	    } catch (Exception ex) {
 	        LOGGER.error("Failed to register DeviceFactoryImpl ", ex);
 	    }
@@ -224,7 +232,9 @@ public class ZigBeeApi implements EndpointListener {
      * @return true if the network was initialized correctly
      */
     public boolean initializeNetwork(boolean resetNetwork) {
-        networkManager.initializeZigBeeNetwork(resetNetwork);
+        if (!networkManager.initializeZigBeeNetwork(resetNetwork)) {
+            return false;
+        }
 
         while (true) {
             if (networkManager.getDriverStatus() == DriverStatus.NETWORK_READY) {
@@ -242,9 +252,8 @@ public class ZigBeeApi implements EndpointListener {
 
         ApplicationFrameworkLayer.getAFLayer(networkManager).createDefaultSendingEndPoint();
 
-        /* disable permit join by default */
-        //
-        // permitJoin(false);
+        // Disable permit join by default.
+        permitJoin(false);
 
         discoveryManager.startup();
 
@@ -483,7 +492,7 @@ public class ZigBeeApi implements EndpointListener {
     /**
      * Adds a {@link NodeListener node listener}. The listener will be notified for each new {@link ZigBeeNode}
      * that is found.
-     * @param deviceListener {@link NodeListener}
+     * @param nodeListener {@link NodeListener}
      */
     public void addNodeListener(NodeListener nodeListener) {
         network.addNodeListener(nodeListener);
@@ -495,6 +504,31 @@ public class ZigBeeApi implements EndpointListener {
      */
     public void removeNodeListener(NodeListener nodeListener) {
         network.removeNodeListener(nodeListener);
+    }
+
+    /**
+     * Sends ZCL command message without waiting for response.
+     * @param commandMessage the command message
+     * @throws ZigBeeNetworkManagerException if exception occurs in sending
+     */
+    public void sendCommand(final ZclCommandMessage commandMessage) throws ZigBeeNetworkManagerException {
+        zclCommandTransmitter.sendCommand(commandMessage);
+    }
+
+    /**
+     * Adds ZCL command listener.
+     * @param commandListener the command listener
+     */
+    public void addCommandListener(final ZclCommandListener commandListener) {
+        this.zclCommandTransmitter.addCommandListener(commandListener);
+    }
+
+    /**
+     * Removes ZCL command listener.
+     * @param commandListener the command listener
+     */
+    public void removeCommandListener(final ZclCommandListener commandListener) {
+        this.zclCommandTransmitter.removeCommandListener(commandListener);
     }
 
 }

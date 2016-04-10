@@ -24,6 +24,8 @@ package org.bubblecloud.zigbee.api.cluster.general;
 
 import org.bubblecloud.zigbee.api.ZigBeeDeviceException;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.api.cluster.impl.api.general.security.DoorLockResponse;
 
 /**
  * 
@@ -33,7 +35,16 @@ import org.bubblecloud.zigbee.api.cluster.Cluster;
  */
 
 public interface DoorLock extends Cluster {
-    
-	 public String getDescription() throws ZigBeeDeviceException;
 
+   String getDescription() throws ZigBeeDeviceException;
+
+   void lock() throws ZigBeeDeviceException;
+	 
+   void lock(String pinCode) throws ZigBeeDeviceException;
+
+   void unlock() throws ZigBeeDeviceException;
+
+   void unlock(String pinCode) throws ZigBeeDeviceException;
+
+   int getLockState() throws ZigBeeDeviceException;
 }

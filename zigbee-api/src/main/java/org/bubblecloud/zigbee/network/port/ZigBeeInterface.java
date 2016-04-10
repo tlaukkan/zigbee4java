@@ -119,7 +119,11 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      * @param th the exception
      */
     public void error(final Throwable th) {
-        LOGGER.error("Exception in packet parsing: ", th);
+        if (th instanceof IOException) {
+            LOGGER.error("IO exception in packet parsing.", th);
+        } else {
+            LOGGER.error("Unexpected exception in packet parsing: ", th);
+        }
     }
 
     /**
@@ -230,7 +234,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
                 final short id = (short) (cmdId.get16BitValue() & 0x1FFF);
                 while (synchronousCommandListeners.isEmpty() == false) {
                     try {
-                        LOGGER.debug("Waiting for other request to complete");
+                        LOGGER.trace("Waiting for other request to complete");
                         synchronousCommandListeners.wait(500);
                         cleanExpiredSynchronousCommandListeners();
                     } catch (InterruptedException ignored) {

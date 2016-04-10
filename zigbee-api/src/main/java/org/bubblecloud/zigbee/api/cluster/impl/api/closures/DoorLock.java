@@ -23,7 +23,10 @@
 package org.bubblecloud.zigbee.api.cluster.impl.api.closures;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeClusterException;
+import org.bubblecloud.zigbee.api.cluster.impl.api.general.security.DoorLockResponse;
 
 
 /**
@@ -35,11 +38,17 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZCLCluster;
  */
 
 public interface DoorLock extends ZCLCluster {
-	
-	public static final short  ID = 0x101;
-	static final String NAME = "Door Lock";
-	static final String DESCRIPTION = "blablabla";
-	
-	public Attribute getAttributeDescription();
 
+   public static final short  ID = 0x101;
+   static final String NAME = "Door Lock";
+   static final String DESCRIPTION = "Attributes and commands for controlling smart door.";
+	
+   static final byte LOCK_ID = 0x0;
+   static final byte UNLOCK_ID = 0x1;
+	
+   public DoorLockResponse lock() throws ZigBeeClusterException;
+   public DoorLockResponse lock(String pinCode) throws ZigBeeClusterException;
+	
+   public Attribute getAttributeDescription();
+   public Attribute getAttributeLockState();
 }

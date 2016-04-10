@@ -142,7 +142,7 @@ public class EndpointBuilder implements Stoppable {
         final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         synchronized (network) {
             if (network.containsEndpoint(node.getIeeeAddress(), ep)) {
-                logger.info(
+                logger.trace(
                         "Skipping device creation for endpoint {} on node {} as it already exists.", ep, node
                 );
                 return;
@@ -173,7 +173,7 @@ public class EndpointBuilder implements Stoppable {
             } else if (failedAttempts.get(last) + 1 < maxRetriesFailedEndpoints) {
                 failedAttempts.put(last, failedAttempts.get(last) + 1);
             } else {
-                logger.debug("Too many attempts failed, device {}:{} adding delay of {} ms", new Object[]{node, ep, delay});
+                logger.warn("Too many attempts failed, device {}:{} adding delay of {} ms", new Object[]{node, ep, delay});
                 failedEndpoints.remove(last);
                 delayedReattempts.put(last, delay);
             }
@@ -194,7 +194,7 @@ public class EndpointBuilder implements Stoppable {
                 node = new ZigBeeNodeImpl(nwk, ieeeAddress, (short) driver.getCurrentPanId());
                 isNew = true;
                 network.addNode(node);
-                logger.debug("Created node object for {} that was not available on the network", node);
+                logger.warn("Created node object for {} that was not available on the network", node);
             }
         }
         if (isNew) {
@@ -246,7 +246,7 @@ public class EndpointBuilder implements Stoppable {
                 network.removeNode(node);
             }
         } else {
-            logger.debug("Inspecting existing node {}", node);
+            logger.trace("Inspecting existing node {}", node);
 
             if (node.getNetworkAddress() != nwk) { //TODO We have to verify this step by means of JUnit
                 logger.warn(
@@ -279,9 +279,9 @@ public class EndpointBuilder implements Stoppable {
         inspectingNewEndpoint = true;
         final ZToolAddress16 nwk = dev.getNetworkAddress();
         final ZToolAddress64 ieee = dev.getIeeeAddress();
-        logger.debug("Inspecting device {}.", IEEEAddress.toString(ieee.getLong()));
+        logger.trace("Inspecting device {}.", IEEEAddress.toString(ieee.getLong()));
         inspectNode(nwk, ieee);
-        logger.debug("Endpoint inspection completed, next inspection slot in {}",
+        logger.trace("Endpoint inspection completed, next inspection slot in {}",
                 Math.max(nextInspectionSlot - System.currentTimeMillis(), 0)
         );
         inspectingNewEndpoint = false;
@@ -322,7 +322,7 @@ public class EndpointBuilder implements Stoppable {
                         Entry<ZigBeeEndpointReference, Long> endpointReferenceEntry = iterator.next();
                         if ((endpointReferenceEntry.getValue() + delay) >= System.currentTimeMillis()) {
                             failedEndpoints.add(endpointReferenceEntry.getKey());
-                            logger.debug("EP {} of node {} has been readded to queue for inspection after {} ms",
+                            logger.trace("EP {} of node {} has been readded to queue for inspection after {} ms",
                                     new Object[]{endpointReferenceEntry.getKey().endPoint,
                                             endpointReferenceEntry.getKey().node,
                                             System.currentTimeMillis() - endpointReferenceEntry.getValue()});
@@ -331,7 +331,7 @@ public class EndpointBuilder implements Stoppable {
                 }
                 ThreadUtils.waitingUntil(nextInspectionSlot);
 
-                logger.debug("Inspection queue: New queue size: {}. Failed queue size: {}", queue.size(), failedEndpoints.size());
+                logger.trace("Inspection queue: New queue size: {}. Failed queue size: {}", queue.size(), failedEndpoints.size());
 
                 // Prioritise new endpoints over re-inspecting failed endpoints
                 if (queue.size() > 0 && failedEndpoints.size() > 0) {
