@@ -198,7 +198,7 @@ public class ZclCommandMessage {
 
     @Override
     public String toString() {
-        return command.name() + " " + sourceAddress + "." + sourceEnpoint + " -> "
+        return command + " " + sourceAddress + "." + sourceEnpoint + " -> "
                 + destinationAddress + "." + destinationEndpoint + " " + fields;
     }
 }

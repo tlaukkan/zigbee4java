@@ -134,13 +134,16 @@ public class ZclProtocolDefinitionParser {
                 field.fieldId = fieldIndex;
                 field.fieldName = columns[0].trim();
                 field.fieldType = context.command.commandType + "_" + CodeGeneratorUtil.naturalNameToEnumerationValue(field.fieldName);
-                field.dataType = CodeGeneratorUtil.naturalNameToEnumerationValue(columns[1]);
+                field.dataType = CodeGeneratorUtil.naturalNameToEnumerationValue(columns[1].trim());
                 if ("0123456789".indexOf(field.dataType.charAt(0)) >= 0) {
                     field.dataType = "_" + field.dataType;
                 }
-                context.dataTypes.add(field.dataType);
+                final DataType dataType = new DataType();
+                dataType.dataTypeName = columns[1].trim();
+                dataType.dataTypeType = field.dataType;
+                context.dataTypes.put(field.dataType, dataType);
                 context.command.fields.put(field.fieldId, field);
-                System.out.println("      " + CodeGeneratorUtil.toHex(fieldIndex) + ") " +   field.fieldName + ": " +  field.dataType);
+                System.out.println("      " + CodeGeneratorUtil.toHex(fieldIndex) + ") " +   field.fieldName + ": " +  dataType.dataTypeName);
                 fieldIndex++;
             }
         }

@@ -175,5 +175,6 @@ public enum ZclFieldType {
     public ZclCommandType getCommandType() { return commandType; }
     public String getLabel() { return label; }
     public ZclDataType getDataType() { return dataType; }
+    public String toString() { return label; }
 
 }

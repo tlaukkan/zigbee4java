@@ -127,15 +127,24 @@ public class ZclProtocolCodeGenerator {
         out.println();
         out.println("public enum " + className + " {");
 
-        for (final String dataType : context.dataTypes) {
-            out.print("    " + dataType);
-            if (!context.dataTypes.last().equals(dataType)) {
+        final LinkedList<DataType> dataTypes = new LinkedList<DataType>(context.dataTypes.values());
+        for (final DataType dataType : dataTypes) {
+            out.print("    " + dataType.dataTypeType + "(\"" + dataType.dataTypeName + "\")");
+            if (!dataTypes.getLast().equals(dataType)) {
                 out.println(",");
             } else {
-                out.println();
+                out.println(";");
             }
         }
 
+        out.println("    private final String label;");
+        out.println("");
+        out.println("    " + className + "(final String label) {");
+        out.println("        this.label = label;");
+        out.println("    }");
+        out.println("");
+        out.println("    public String getLabel() { return label; }");
+        out.println("");
         out.println("}");
 
         out.flush();
@@ -171,6 +180,7 @@ public class ZclProtocolCodeGenerator {
         out.println("");
         out.println("    public int getId() { return id; }");
         out.println("    public String getLabel() { return label; }");
+        out.println("    public String toString() { return label; }");
         out.println("");
         out.println("}");
 
@@ -213,6 +223,7 @@ public class ZclProtocolCodeGenerator {
         out.println("    public int getId() { return id; }");
         out.println("    public ZclProfileType getProfileType() { return profileType; }");
         out.println("    public String getLabel() { return label; }");
+        out.println("    public String toString() { return label; }");
         out.println("");
         out.println("}");
 
@@ -277,6 +288,7 @@ public class ZclProtocolCodeGenerator {
         out.println("    public String getLabel() { return label; }");
         out.println("    public boolean isReceived() { return received; }");
         out.println("    public boolean isGeneric() { return generic; }");
+        out.println("    public String toString() { return label; }");
         out.println("");
         out.println("}");
 
@@ -335,6 +347,7 @@ public class ZclProtocolCodeGenerator {
         out.println("    public ZclCommandType getCommandType() { return commandType; }");
         out.println("    public String getLabel() { return label; }");
         out.println("    public ZclDataType getDataType() { return dataType; }");
+        out.println("    public String toString() { return label; }");
         out.println("");
         out.println("}");
 

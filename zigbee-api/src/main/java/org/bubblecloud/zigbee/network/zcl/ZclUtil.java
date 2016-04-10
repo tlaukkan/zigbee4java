@@ -15,6 +15,7 @@
  */
 package org.bubblecloud.zigbee.network.zcl;
 
+import org.apache.commons.lang.StringUtils;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.network.impl.ZigBeeEndpointImpl;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclDataType;
@@ -30,6 +31,23 @@ public class ZclUtil {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ZigBeeEndpointImpl.class);
 
+    /**
+     * Formats integer value to hex string.
+     * @param value the integer value
+     * @return the hex string
+     */
+    public static String toHex(int value) {
+        return "0x" + Integer.toHexString(value);
+    }
+
+    /**
+     * Parses integer from hex string value.
+     * @param value the hex string value
+     * @return the integer value
+     */
+    public static Integer fromHex(String value) {
+        return Integer.valueOf(StringUtils.substringAfter(value, "0x"), 16);
+    }
     /**
      * Maps ZclDataType to delegate serializer data type.
      * @param dataType the data type

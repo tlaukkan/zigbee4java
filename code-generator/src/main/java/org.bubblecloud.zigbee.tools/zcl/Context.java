@@ -17,7 +17,7 @@ public class Context {
 
     public boolean received;
 
-    public TreeSet<String> dataTypes = new TreeSet<String>();
+    public TreeMap<String, DataType> dataTypes = new TreeMap<String, DataType>();
     public TreeMap<Integer, Profile> profiles = new TreeMap<Integer, Profile>();
 
 }

@@ -76,5 +76,6 @@ public enum ZclClusterType {
     public int getId() { return id; }
     public ZclProfileType getProfileType() { return profileType; }
     public String getLabel() { return label; }
+    public String toString() { return label; }
 
 }

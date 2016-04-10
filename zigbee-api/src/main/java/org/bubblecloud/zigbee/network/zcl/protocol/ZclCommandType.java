@@ -95,5 +95,6 @@ public enum ZclCommandType {
     public String getLabel() { return label; }
     public boolean isReceived() { return received; }
     public boolean isGeneric() { return generic; }
+    public String toString() { return label; }
 
 }
