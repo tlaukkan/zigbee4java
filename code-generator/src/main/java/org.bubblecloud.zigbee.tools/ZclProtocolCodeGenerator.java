@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * Code generator for generating ZigBee cluster library command protocol.
@@ -52,9 +53,11 @@ public class ZclProtocolCodeGenerator {
             final String line = context.lines.remove(0);
 
             if (line.startsWith("* ") && line.contains("[")) {
-                context.profileName = getHeaderTitle(line);
-                context.profileId = getHeaderId(line);
-                System.out.println("Profile: " + context.profileName + " " + toHex(context.profileId));
+                context.profile = new Profile();
+                context.profile.profileName = getHeaderTitle(line);
+                context.profile.profileId = getHeaderId(line);
+                context.profiles.put(context.profile.profileId, context.profile);
+                System.out.println("Profile: " + context.profile.profileName + " " + toHex(context.profile.profileId));
                 parseFunctionalDomain(context);
             }
         }
@@ -90,9 +93,11 @@ public class ZclProtocolCodeGenerator {
             }
 
             if (line.startsWith("** ")) {
-                context.clusterName = getHeaderTitle(line);
-                context.clusterId = getHeaderId(line);
-                System.out.println("  " + toHex(context.clusterId) + ") " + context.clusterName);
+                context.cluster = new Cluster();
+                context.cluster.clusterName = getHeaderTitle(line);
+                context.cluster.clusterId = getHeaderId(line);
+                context.profile.clusters.put(context.cluster.clusterId, context.cluster);
+                System.out.println("  " + toHex(context.cluster.clusterId) + ") " + context.cluster.clusterName);
 
                 parseDirection(context);
             }
@@ -133,9 +138,15 @@ public class ZclProtocolCodeGenerator {
             }
 
             if (line.startsWith("**** ")) {
-                context.commandName = getHeaderTitle(line);
-                context.commandId = getHeaderId(line);
-                System.out.println("     " + toHex(context.commandId) + ") " + context.commandName);
+                context.command = new Command();
+                context.command.commandName = getHeaderTitle(line);
+                context.command.commandId = getHeaderId(line);
+                if (context.received) {
+                    context.cluster.received.put(context.command.commandId, context.command);
+                } else {
+                    context.cluster.generated.put(context.command.commandId, context.command);
+                }
+                System.out.println("     " + toHex(context.command.commandId) + ") " + context.command.commandName);
 
                 parseField(context);
             }
@@ -156,9 +167,12 @@ public class ZclProtocolCodeGenerator {
             if (line.startsWith("|") && !line.startsWith("|Field") && !line.startsWith("|-")) {
                 final String row = line.trim().substring(1, line.length() - 2);
                 final String[] columns = row.split("\\|");
-                final String fieldName = columns[0].trim();
-                final String dataType = columns[1].trim();
-                System.out.println("      " + toHex(fieldIndex) + ") " +  fieldName + ": " + dataType);
+                final Field field = new Field();
+                field.fieldId = fieldIndex;
+                field.fieldName = columns[0].trim();
+                field.dataType = columns[1].trim();
+                context.command.fields.put(field.fieldId, field);
+                System.out.println("      " + toHex(fieldIndex) + ") " +   field.fieldName + ": " +  field.dataType);
                 fieldIndex++;
             }
         }
@@ -183,17 +197,41 @@ public class ZclProtocolCodeGenerator {
 
         public List<String> lines;
 
-        public int profileId;
-        public String profileName;
-
-        public int clusterId;
-        public String clusterName;
-
-        public int commandId;
-        public String commandName;
+        public Profile profile;
+        public Cluster cluster;
+        public Command command;
 
         public boolean received;
 
+        public TreeMap<Integer, Profile> profiles = new TreeMap<Integer, Profile>();
+
+    }
+
+    public static class Profile {
+        public int profileId;
+        public String profileName;
+        public TreeMap<Integer, Cluster> clusters = new TreeMap<Integer, Cluster>();
+    }
+
+    public static class Cluster {
+        public int clusterId;
+        public String clusterName;
+
+        public TreeMap<Integer, Command> received = new TreeMap<Integer, Command>();
+        public TreeMap<Integer, Command> generated = new TreeMap<Integer, Command>();
+    }
+
+    public static class Command {
+        public int commandId;
+        public String commandName;
+
+        public TreeMap<Integer, Field> fields = new TreeMap<Integer, Field>();
+    }
+
+    public static class Field {
+        public int fieldId;
+        public String fieldName;
+        public String dataType;
     }
 
     private static String toHex(int profileId) {
