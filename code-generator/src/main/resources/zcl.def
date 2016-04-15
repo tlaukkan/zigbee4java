@@ -5,42 +5,59 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 * General
 
 ** Basic [0x0000]
+
 *** Received
 
-**** Reset to Factory Defaults [0x00]
+**** Reset to Factory Defaults Command [0x00]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 
 *** Generated
 
+No cluster specific commands.
+
 ** Power configuration [0x0001]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
 
 ** Device Temperature Configuration [0x0002]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
 
+No cluster specific commands.
+
 ** Identify [0x0003]
+
 *** Received
 
-**** Identify [0x00]
+**** Identify Command [0x00]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 |Identify Time              |Unsigned 16-bit integer    |
 
-**** Identify Query [0x01]
+**** Identify Query Command [0x01]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 
 *** Generated
 
-**** Identify Query Response [0x00]
+**** Identify Query Response Command [0x00]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 |Identify Time              |Unsigned 16-bit integer    |
 
 ** Groups [0x0004]
+
 *** Received
 
 **** Add Group Command [0x00]
@@ -77,7 +94,7 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 
 *** Generated
 
-**** Add group response Command [0x00]
+**** Add Group Response Command [0x00]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 |Status                     |8-bit enumeration          |
@@ -104,6 +121,7 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 |Group ID                   |Unsigned 16-bit integer    |
 
 ** Scenes [0x0005]
+
 *** Received
 
 **** Add Scene Command [0x00]
@@ -200,25 +218,31 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 ** On/off [0x0006]
 *** Received
 
-**** Off [0x00]
+**** Off Command [0x00]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 
-**** On [0x01]
+**** On Command [0x01]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 
-**** Toggle [0x02]
+**** Toggle Command [0x02]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 
 *** Generated
+
+No cluster specific commands.
 
 ** On/off Switch Configuration [0x0007]
 
 *** Received
 
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
 
 ** Level Control [0x0008]
 
@@ -272,6 +296,8 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 
 *** Generated
 
+No cluster specific commands.
+
 ** Alarms [0x0009]
 
 *** Received
@@ -314,6 +340,8 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 
 *** Received
 
+No cluster specific commands.
+
 *** Generated
 
 ** RSSI Location [0x000b]
@@ -346,7 +374,7 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 **** Get Location Data Command [0x03]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
-|Bitmap                     |8-bit bitmap               |
+|Header                     |8-bit bitmap               |
 |Number Responses           |Unsigned 8-bit integer     |
 |Target Address             |IEEE address               |
 
@@ -432,7 +460,7 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 |---------------------------+---------------------------|
 |Reporting Address          |IEEE address               |
 |Number of Neighbors        |Unsigned 8-bit integer     |
-|Neighbors Information      |N X Neighbors Information  |
+|Neighbors Information      |N X Neighbors information  |
 
 **** Request Own Location Command [0x07]
 |Field Name                 |Data Type                  |
@@ -440,32 +468,92 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 |Requesting Address         |IEEE address               |
 
 ** Analog Input (Basic) [0x000c]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Analog Output (Basic) [0x000d]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Analog Value (Basic) [0x000e]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Binary Input (Basic) [0x000f]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Binary Output (Basic) [0x0010]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Binary Value (Basic) [0x0011]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
 ** Multistate Input (Basic) [0x0012]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Multistate Output (Basic) [0x0013]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Multistate Value (Basic) [0x0014]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
 
 ** Commissioning [0x0015]
 
@@ -498,22 +586,22 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 
 *** Generated
 
-**** Restart Device Response Response [0x00]
+**** Restart Device Response Response Command [0x00]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 |Status                     |8-bit enumeration          |
 
-**** Save Startup Parameters Response [0x01]
+**** Save Startup Parameters Response Command [0x01]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 |Status                     |8-bit enumeration          |
 
-**** Restore Startup Parameters Response [0x02]
+**** Restore Startup Parameters Response Command [0x02]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 |Status                     |8-bit enumeration          |
 
-**** Reset Startup Parameters Response [0x03]
+**** Reset Startup Parameters Response Command [0x03]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 |Status                     |8-bit enumeration          |
@@ -523,17 +611,21 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 
 *** Received
 
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
 
 ** Door Lock [0x0101]
 
 *** Received
 
-**** Lock Door [0x00]
+**** Lock Door Command [0x00]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 
-**** Unlock Door [0x01]
+**** Unlock Door Command [0x01]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 
@@ -552,53 +644,222 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 * HVAC
 
 ** Pump Configuration and Control [0x0200]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Thermostat [0x0201]
+
 *** Received
+
+**** Setpoint Raise/Lower Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Mode                       |8-bit enumeration          |
+|Amount                     |Signed 8-bit integer       |
+
 *** Generated
+
+No cluster specific commands.
+
 ** Fan Control [0x0202]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Dehumidification Control [0x0203]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Thermostat User Interface Configuration [0x0204]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
 
 * Lighting
 
 ** Color control [0x0300]
+
 *** Received
+
+**** Move to Hue Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Hue                        |Unsigned 8-bit integer     |
+|Direction                  |8-bit enumeration          |
+|Transition time            |Unsigned 16-bit integer    |
+
+**** Move Hue Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Move mode                  |8-bit enumeration          |
+|Rate                       |Unsigned 8-bit integer     |
+
+**** Step Hue Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Step mode                  |8-bit enumeration          |
+|Step size                  |Unsigned 8-bit integer     |
+|Transition time            |Unsigned 8-bit integer     |
+
+**** Move to Saturation Command [0x03]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Saturation                 |Unsigned 8-bit integer     |
+|Transition time            |Unsigned 16-bit integer    |
+
+**** Move Saturation Command [0x04]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Move mode                  |8-bit enumeration          |
+|Rate                       |Unsigned 8-bit integer     |
+
+**** Step Saturation Command [0x05]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Step mode                  |8-bit enumeration          |
+|Step size                  |Unsigned 8-bit integer     |
+|Transition time            |Unsigned 8-bit integer     |
+
+**** Move to Hue and Saturation Command [0x06]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Hue                        |Unsigned 8-bit integer     |
+|Saturation                 |Unsigned 8-bit integer     |
+|Transition time            |Unsigned 16-bit integer    |
+
+**** Move to Color Command [0x07]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|ColorX                     |Unsigned 16-bit integer    |
+|ColorY                     |Unsigned 16-bit integer    |
+|Transition time            |Unsigned 16-bit integer    |
+
+**** Move Color Command [0x08]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|RateX                      |Signed 16-bit integer      |
+|RateY                      |Signed 16-bit integer      |
+
+**** Step Color Command [0x09]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|StepX                      |Signed 16-bit integer      |
+|StepY                      |Signed 16-bit integer      |
+|Transition time            |Unsigned 16-bit integer    |
+
+**** Move to Color Temperature Command [0x0a]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Color Temperature          |Unsigned 16-bit integer    |
+|Transition time               |Unsigned 16-bit integer    |
+
 *** Generated
+
+No cluster specific commands.
+
 ** Ballast Configuration [0x0301]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
 
 * Measurement and Sensing
 
 ** Illuminance measurement [0x0400]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Illuminance level sensing [0x0401]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Temperature measurement [0x0402]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Pressure measurement [0x0403]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Flow measurement [0x0404]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Relative humidity measurement [0x0405]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
+
 ** Occupancy sensing [0x0406]
+
 *** Received
+
+No cluster specific commands.
+
 *** Generated
+
+No cluster specific commands.
 
 * Security and Safety
 
@@ -606,7 +867,7 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 
 *** Received
 
-**** Zone Enroll Response [0x00]
+**** Zone Enroll Response Command [0x00]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 |Enroll response code       |8-bit enumeration          |
@@ -614,7 +875,7 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 
 *** Generated
 
-**** Zone Status Change Notification [0x00]
+**** Zone Status Change Notification Command [0x00]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 |Zone Status                |16-bit enumeration         |
@@ -627,10 +888,90 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 |Manufacturer Code          |Unsigned 16-bit integer    |
 
 ** IAS ACE [0x0501]
+
 *** Received
+
+**** Arm Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Arm Mode                   |8-bit enumeration          |
+
+**** Bypass Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Number of Zones            |Unsigned 8-bit integer     |
+|Zone IDs                   |N X Unsigned 8-bit integer |
+
+**** Emergency Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+**** Fire Command [0x03]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+**** Panic Command [0x04]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+**** Get Zone ID Map Command [0x05]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+
+**** Get Zone Information Command [0x06]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Zone ID                    |Unsigned 8-bit integer     |
+
 *** Generated
+
+**** Arm Response Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Arm Notification           |8-bit enumeration          |
+
+**** Get Zone ID Map Response Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Zone ID Map section 0      |16-bit bitmap              |
+|Zone ID Map section 1      |16-bit bitmap              |
+|Zone ID Map section 2      |16-bit bitmap              |
+|Zone ID Map section 3      |16-bit bitmap              |
+|Zone ID Map section 4      |16-bit bitmap              |
+|Zone ID Map section 5      |16-bit bitmap              |
+|Zone ID Map section 6      |16-bit bitmap              |
+|Zone ID Map section 7      |16-bit bitmap              |
+|Zone ID Map section 8      |16-bit bitmap              |
+|Zone ID Map section 9      |16-bit bitmap              |
+|Zone ID Map section 10     |16-bit bitmap              |
+|Zone ID Map section 11     |16-bit bitmap              |
+|Zone ID Map section 12     |16-bit bitmap              |
+|Zone ID Map section 13     |16-bit bitmap              |
+|Zone ID Map section 14     |16-bit bitmap              |
+|Zone ID Map section 15     |16-bit bitmap              |
+
+**** Get Zone Information Response Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Zone ID                    |Unsigned 8-bit integer     |
+|Zone Type                  |16-bit enumeration         |
+|IEEE address               |IEEE address               |
+
 ** IAS WD [0x0502]
+
 *** Received
+
+**** Start Warning Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Header                     |8-bit data                 |
+|Warning duration           |Unsigned 16-bit integer    |
+
+**** Squawk Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Header                     |8-bit data                 |
+
 *** Generated
 
 * Protocol Interfaces

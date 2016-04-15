@@ -71,7 +71,7 @@ public class ZclUtil {
             case N_X_NEIGHBORS_INFORMATION:
                 zigBeeType = null;
                 break;
-            case N_X_UNSIGNED_16_BIT_INTEGE:
+            case N_X_UNSIGNED_16_BIT_INTEGER:
                 zigBeeType = null;
                 break;
             case N_X_UNSIGNED_8_BIT_INTEGER:
@@ -91,6 +91,9 @@ public class ZclUtil {
                 break;
             case UNSIGNED_8_BIT_INTEGER:
                 zigBeeType = ZigBeeType.UnsignedInteger8bit;
+                break;
+            case _16_BIT_BITMAP:
+                zigBeeType = ZigBeeType.Bitmap16bit;
                 break;
             case _16_BIT_ENUMERATION:
                 zigBeeType = ZigBeeType.Enumeration16bit;

@@ -128,7 +128,7 @@ public class ZclProtocolDefinitionParser {
             }
 
             if (line.startsWith("|") && !line.startsWith("|Field") && !line.startsWith("|-")) {
-                final String row = line.trim().substring(1, line.length() - 2);
+                final String row = line.trim().substring(1, line.length() - 1);
                 final String[] columns = row.split("\\|");
                 final Field field = new Field();
                 field.fieldId = fieldIndex;
