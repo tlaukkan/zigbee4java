@@ -89,7 +89,7 @@ public class PresentValueBridgeListeners implements ReportListener {
 
     public boolean subscribe(PresentValueListener listener) {
         synchronized (listeners) {
-            if (listeners.size() == 0) {
+            if (listeners.isEmpty()) {
                 Reporter reporter = bridged.getReporter();
                 if (configuration.getReportingOverwrite() || reporter.isActive() == false) {
                     reporter.setMaximumReportingInterval(configuration.getReportingMaximum());
@@ -107,7 +107,7 @@ public class PresentValueBridgeListeners implements ReportListener {
     public boolean unsubscribe(PresentValueListener listener) {
         synchronized (listeners) {
             listeners.remove(listener);
-            if (listeners.size() == 0) {
+            if (listeners.isEmpty()) {
                 Reporter reporter = bridged.getReporter();
                 if (reporter.getReportListenersCount() == 1) {
                     reporter.clear();

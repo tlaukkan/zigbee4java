@@ -101,7 +101,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
             logger.debug("Inspecting ZigBee network for new nodes.");
             toInspect.add(new NetworkAddressNodeItem(null, COORDINATOR_NWK_ADDRESS));
             try {
-                while (toInspect.size() != 0) {
+                while (!toInspect.isEmpty()) {
                     final NetworkAddressNodeItem inspecting = toInspect.remove(toInspect.size() - 1);
 
                     alreadyInspected.put((int) inspecting.address, inspecting);

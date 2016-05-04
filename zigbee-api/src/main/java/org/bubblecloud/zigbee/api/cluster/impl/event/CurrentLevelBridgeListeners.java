@@ -93,7 +93,7 @@ public class CurrentLevelBridgeListeners implements ReportListener {
 
     public boolean subscribe(CurrentLevelListener listener) {
         synchronized (listeners) {
-            if (listeners.size() == 0) {
+            if (listeners.isEmpty()) {
                 AnalogReporter reporter = (AnalogReporter) bridged.getReporter();
                 if (configuration.getReportingOverwrite() || reporter.isActive() == false) {
                     reporter.setMaximumReportingInterval(configuration.getReportingMaximum());
@@ -112,7 +112,7 @@ public class CurrentLevelBridgeListeners implements ReportListener {
     public boolean unsubscribe(CurrentLevelListener listener) {
         synchronized (listeners) {
             listeners.remove(listener);
-            if (listeners.size() == 0) {
+            if (listeners.isEmpty()) {
                 Reporter reporter = bridged.getReporter();
                 if (reporter.getReportListenersCount() == 1) {
                     reporter.clear();

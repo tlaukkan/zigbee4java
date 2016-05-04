@@ -95,7 +95,7 @@ public class ImportingQueue {
      */
     public boolean isEmpty() {
         synchronized (addresses) {
-            return addresses.size() == 0;
+            return addresses.isEmpty();
         }
     }
 

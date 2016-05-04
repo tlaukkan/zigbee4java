@@ -246,7 +246,7 @@ public abstract class ReporterBase implements Reporter {
      */
     public boolean isActive() {
         synchronized (listeners) {
-            return listeners.size() == 0;
+            return listeners.isEmpty();
         }
     }
 

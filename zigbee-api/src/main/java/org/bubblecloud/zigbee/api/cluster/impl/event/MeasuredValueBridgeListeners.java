@@ -115,7 +115,7 @@ public class MeasuredValueBridgeListeners implements ReportListener {
      */
     public boolean subscribe(MeasuredValueListener listener) {
         synchronized (listeners) {
-            if (listeners.size() == 0) {
+            if (listeners.isEmpty()) {
                 AnalogReporter reporter = (AnalogReporter) bridged.getReporter();
                 if (configuration.getReportingOverwrite() || reporter.isActive() == false) {
                     reporter.setMaximumReportingInterval(configuration.getReportingMaximum());
@@ -134,7 +134,7 @@ public class MeasuredValueBridgeListeners implements ReportListener {
     public boolean unsubscribe(MeasuredValueListener listener) {
         synchronized (listeners) {
             listeners.remove(listener);
-            if (listeners.size() == 0) {
+            if (listeners.isEmpty()) {
                 Reporter reporter = bridged.getReporter();
                 if (reporter.getReportListenersCount() == 1) {
                     reporter.clear();
