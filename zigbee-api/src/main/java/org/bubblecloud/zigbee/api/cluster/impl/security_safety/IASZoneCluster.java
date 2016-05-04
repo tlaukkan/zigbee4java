@@ -146,7 +146,7 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
                     log.error("Unable to bind to device for IASZone reporting", e);
                     return false;
                 }
-                if (getZigBeeEndpoint().addClusterListener(bridge) == false) {
+                if (!getZigBeeEndpoint().addClusterListener(bridge)) {
                     log.error("Unable to register the cluster listener for IASZone reporting");
                     return false;
                 }
@@ -166,7 +166,7 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
                     log.error("Unable to unbind to device for IASZone reporting", e);
                     return false;
                 }
-                if (getZigBeeEndpoint().removeClusterListener(bridge) == false) {
+                if (!getZigBeeEndpoint().removeClusterListener(bridge)) {
                     log.error("Unable to unregister the cluster listener for IASZone reporting");
                     return false;
                 }

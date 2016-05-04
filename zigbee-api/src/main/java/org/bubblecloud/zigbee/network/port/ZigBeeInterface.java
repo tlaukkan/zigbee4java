@@ -232,7 +232,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
         } else {
             synchronized (synchronousCommandListeners) {
                 final short id = (short) (cmdId.get16BitValue() & 0x1FFF);
-                while (synchronousCommandListeners.isEmpty() == false) {
+                while (!synchronousCommandListeners.isEmpty()) {
                     try {
                         LOGGER.trace("Waiting for other request to complete");
                         synchronousCommandListeners.wait(500);

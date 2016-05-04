@@ -194,7 +194,7 @@ public class ZigBeeNetwork {
             return true;
         }
         //XXX It following method must always return true, otherwise we should throw an IllegalStateException
-        if (list.remove(device) == false) {
+        if (!list.remove(device)) {
             logger.error("Device to remove not found in the given profile");
         }
 

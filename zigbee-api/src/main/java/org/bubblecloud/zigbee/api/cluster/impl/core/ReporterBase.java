@@ -182,7 +182,7 @@ public abstract class ReporterBase implements Reporter {
      * Clears all listeners.
      */
     public void clear() {
-        if (doUnbindToDevice() == true) {
+        if (doUnbindToDevice()) {
             synchronized (listeners) {
                 listeners.clear();
             }
