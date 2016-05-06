@@ -146,7 +146,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
 
     public boolean addAlarmListerner(AlarmListener listener) {
         synchronized (listeners) {
-            if (listeners.size() == 0) {
+            if (listeners.isEmpty()) {
                 try {
                     getZigBeeEndpoint().bindToLocal(ID);
                 } catch (ZigBeeNetworkManagerException e) {
@@ -166,7 +166,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
     public boolean removeAlarmListerner(AlarmListener listener) {
         synchronized (listeners) {
             boolean removed = listeners.remove(listener);
-            if (listeners.size() == 0 && removed) {
+            if (listeners.isEmpty() && removed) {
                 try {
                     getZigBeeEndpoint().unbindFromLocal(ID);
                 } catch (ZigBeeNetworkManagerException e) {

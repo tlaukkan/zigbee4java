@@ -334,20 +334,20 @@ public class EndpointBuilder implements Stoppable {
                 logger.trace("Inspection queue: New queue size: {}. Failed queue size: {}", queue.size(), failedEndpoints.size());
 
                 // Prioritise new endpoints over re-inspecting failed endpoints
-                if (queue.size() > 0 && failedEndpoints.size() > 0) {
+                if (!queue.isEmpty() && !failedEndpoints.isEmpty()) {
                     // 2/3rds of the time, inspect new endpoints
                     if (Math.random() > 0.6) {
                         inspectFailedEndpoint();
                     } else {
                         inspectNewEndpoint();
                     }
-                } else if (queue.size() == 0 && failedEndpoints.size() > 0) {
+                } else if (queue.isEmpty() && !failedEndpoints.isEmpty()) {
                 	// There are no new endpoints, but failed endoints are queued
                     inspectFailedEndpoint();
-                } else if (queue.size() > 0 && failedEndpoints.size() == 0) {
+                } else if (!queue.isEmpty() && failedEndpoints.isEmpty()) {
                 	// There are no failed endpoints, but new endpoints are queued
                     inspectNewEndpoint();
-                } else if (queue.size() == 0 && failedEndpoints.size() == 0) {
+                } else if (queue.isEmpty() && failedEndpoints.isEmpty()) {
                 	// There are no endpoints queued.........
                 	// Why is this here - queue size is 0?!?
                     inspectNewEndpoint();

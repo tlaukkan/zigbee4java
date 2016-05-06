@@ -139,7 +139,7 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
 
     public boolean addZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener) {
         synchronized (listeners) {
-            if (listeners.size() == 0) {
+            if (listeners.isEmpty()) {
                 try {
                     getZigBeeEndpoint().bindToLocal(ID);
                 } catch (ZigBeeNetworkManagerException e) {
@@ -159,7 +159,7 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
     public boolean removeZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener) {
         synchronized (listeners) {
             boolean removed = listeners.remove(listener);
-            if (listeners.size() == 0 && removed) {
+            if (listeners.isEmpty() && removed) {
                 try {
                     getZigBeeEndpoint().unbindFromLocal(ID);
                 } catch (ZigBeeNetworkManagerException e) {

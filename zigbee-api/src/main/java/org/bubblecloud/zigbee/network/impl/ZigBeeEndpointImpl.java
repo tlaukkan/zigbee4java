@@ -505,7 +505,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     }
 
     private void addAFMessageListener() {
-        if (listeners.isEmpty() && consumers.size() == 0) {
+        if (listeners.isEmpty() && consumers.isEmpty()) {
             logger.trace("Registered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             networkManager.addAFMessageListener(this);
         } else {
@@ -518,7 +518,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     }
 
     private void removeAFMessageListener() {
-        if (listeners.isEmpty() && consumers.size() == 0) {
+        if (listeners.isEmpty() && consumers.isEmpty()) {
             logger.trace("Unregistered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             networkManager.removeAFMessageListener(this);
         } else {
@@ -547,7 +547,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         synchronized (listeners) {
             localCopy = new ArrayList<ClusterListener>(listeners);
         }
-        if (localCopy.size() > 0) {
+        if (!localCopy.isEmpty()) {
             logger.trace("Notifying {} ClusterListener of {}", localCopy.size(), c.toString());
 
             for (ClusterListener listner : localCopy) {
