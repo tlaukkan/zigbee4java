@@ -254,7 +254,7 @@ public class ApplicationFrameworkLayer {
             values[i] = si.clusterId;
             logger.warn("Following the list of filtered cluster that we are going to register: {} ", clusters);
         }
-        AF_REGISTER_SRSP result = null;
+        AF_REGISTER_SRSP result;
         int retry = 0;
         do {
             result = driver.sendAFRegister(new AF_REGISTER(

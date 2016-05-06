@@ -304,7 +304,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      * @return true if listener did not already exist.
      */
     public boolean addAsynchronousCommandListener(AsynchronousCommandListener listener) {
-        boolean result = false;
+        boolean result;
         synchronized (asynchrounsCommandListeners) {
             result = asynchrounsCommandListeners.add(listener);
         }
@@ -317,7 +317,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      * @return true if listener did not already exist.
      */
     public boolean removeAsynchronousCommandListener(AsynchronousCommandListener listener) {
-        boolean result = false;
+        boolean result;
         synchronized (asynchrounsCommandListeners) {
             result = asynchrounsCommandListeners.remove(listener);
         }

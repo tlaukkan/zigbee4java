@@ -183,8 +183,8 @@ public class EndpointBuilder implements Stoppable {
     private void inspectNode(ZToolAddress16 nwkAddress, ZToolAddress64 ieeeAddress) {
         int nwk = nwkAddress.get16BitValue();
         final String ieee = IEEEAddress.toString(ieeeAddress.getLong());
-        ZigBeeNodeImpl node = null;
-        boolean isNew = false, correctlyInspected = false;
+        ZigBeeNodeImpl node;
+        boolean isNew = false, correctlyInspected;
         final ZigBeeNetwork network = ApplicationFrameworkLayer.getAFLayer(driver).getZigBeeNetwork();
         synchronized (network) {
         	// See if we already know about this node

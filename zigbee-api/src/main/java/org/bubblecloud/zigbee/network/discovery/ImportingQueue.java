@@ -143,7 +143,7 @@ public class ImportingQueue {
      * @return the {@link ZigBeeNodeAddress} of the node that was removed
      */
     public ZigBeeNodeAddress pop() {
-        ZigBeeNodeAddress result = null;
+        ZigBeeNodeAddress result;
         logger.trace("Removing element");
         synchronized (addresses) {
             if (closing) {
