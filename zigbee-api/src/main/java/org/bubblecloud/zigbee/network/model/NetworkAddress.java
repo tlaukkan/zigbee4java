@@ -29,6 +29,8 @@ package org.bubblecloud.zigbee.network.model;
  * @since 0.1.0
  */
 public class NetworkAddress {
+    
+    private NetworkAddress() {}
 
     public static final short fromDecimal(int value) {
         return (short) value;

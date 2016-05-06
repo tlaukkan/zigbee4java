@@ -7,6 +7,8 @@ import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
  * @author Tommi S.E. Laukkanen
  */
 public class NetworkAddressUtil {
+    
+    private NetworkAddressUtil() {}
 
     /**
      * Converts short network address to integer format.

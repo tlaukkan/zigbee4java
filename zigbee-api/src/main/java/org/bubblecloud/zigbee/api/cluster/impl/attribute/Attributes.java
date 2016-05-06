@@ -32,6 +32,8 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
 public class Attributes {
+    
+    private Attributes() {}
 
     final static public   AttributeDescriptor LOCK_STATE = new AbstractAttribute()
 		    .setId(0x0)

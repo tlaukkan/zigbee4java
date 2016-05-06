@@ -63,6 +63,8 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.IASZone;
  * @since 0.4.0
  */
 public class ZigBeeApiConstants {
+    
+    private ZigBeeApiConstants() {}
 
 	/**
 	 * Home Automation Profile definition
