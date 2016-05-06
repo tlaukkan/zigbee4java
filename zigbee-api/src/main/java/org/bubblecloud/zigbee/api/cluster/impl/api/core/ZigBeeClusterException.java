@@ -37,14 +37,16 @@ public class ZigBeeClusterException extends ZigBeeException {
 	 */
 	private static final long serialVersionUID = -3327285112096582765L;
 
-	private Response response;
+	private final Response response;
 
     public ZigBeeClusterException(String msg) {
         super(msg);
+        response = null;
     }
 
     public ZigBeeClusterException(Throwable ex) {
         super(ex);
+        response = null;
     }
 
     public ZigBeeClusterException(String msg, Response response) {

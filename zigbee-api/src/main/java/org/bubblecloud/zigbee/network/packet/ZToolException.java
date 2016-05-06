@@ -36,10 +36,11 @@ package org.bubblecloud.zigbee.network.packet;
 public class ZToolException extends Exception {
 
     private static final long serialVersionUID = -5501299728920565639L;
-    private Exception cause;
+    private final Exception cause;
 
     public ZToolException(String message) {
         super(message);
+        cause = null;
     }
 
     /**
@@ -49,22 +50,21 @@ public class ZToolException extends Exception {
      */
     public ZToolException(String msg, Throwable t) {
         super(msg, t);
+        cause = null;
     }
 
     public ZToolException() {
         super();
+        cause = null;
     }
 
     public ZToolException(Exception cause) {
         super();
-        this.setCause(cause);
+        this.cause = cause;
     }
 
     public Exception getCause() {
         return cause;
     }
 
-    public void setCause(Exception cause) {
-        this.cause = cause;
-    }
 }
