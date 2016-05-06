@@ -117,13 +117,13 @@ public class MeasuredValueBridgeListeners implements ReportListener {
         synchronized (listeners) {
             if (listeners.isEmpty()) {
                 AnalogReporter reporter = (AnalogReporter) bridged.getReporter();
-                if (configuration.getReportingOverwrite() || reporter.isActive() == false) {
+                if (configuration.getReportingOverwrite() || !reporter.isActive()) {
                     reporter.setMaximumReportingInterval(configuration.getReportingMaximum());
                     reporter.setMinimumReportingInterval(configuration.getReportingMinimum());
                     reporter.setReportableChange(configuration.getReportingChange());
                     reporter.updateConfiguration();
                 }
-                if (reporter.addReportListener(this, true) == false) {
+                if (!reporter.addReportListener(this, true)) {
                     return false;
                 }
             }

@@ -555,7 +555,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
                     final ClusterFilter filter = listner.getClusterFilter();
                     if (filter == null) {
                         listner.handleCluster(this, c);
-                    } else if (filter.match(c) == true) {
+                    } else if (filter.match(c)) {
                         listner.handleCluster(this, c);
                     }
                 } catch (Throwable t) {

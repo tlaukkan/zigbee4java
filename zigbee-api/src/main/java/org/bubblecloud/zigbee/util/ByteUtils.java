@@ -150,7 +150,7 @@ public class ByteUtils {
     public static int[] fromBase16toIntArray(String bytes) {
         final String PATTERN = "\\s*((0x[0-9a-f]{2}|[0-9a-f]{2})\\s*)+";
         bytes = bytes.toLowerCase();
-        if (bytes.matches(PATTERN) == false) {
+        if (!bytes.matches(PATTERN)) {
             throw new IllegalArgumentException("Unable to parse " + bytes + " doesn't match regex " + PATTERN);
         }
         String[] singleBytes = bytes.split("\\s+");

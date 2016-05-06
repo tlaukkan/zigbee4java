@@ -153,7 +153,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
                     log.error("Unable to bind to device for Alarms reporting", e);
                     return false;
                 }
-                if (getZigBeeEndpoint().addClusterListener(bridge) == false) {
+                if (!getZigBeeEndpoint().addClusterListener(bridge)) {
                     log.error("Unable to register the cluster listener for Alarms reporting");
                     return false;
                 }
@@ -173,7 +173,7 @@ public class AlarmsCluster extends ZCLClusterBase implements Alarms {
                     log.error("Unable to unbind to device for Alarms reporting", e);
                     return false;
                 }
-                if (getZigBeeEndpoint().removeClusterListener(bridge) == false) {
+                if (!getZigBeeEndpoint().removeClusterListener(bridge)) {
                     log.error("Unable to unregister the cluster listener for Alarms reporting");
                     return false;
                 }

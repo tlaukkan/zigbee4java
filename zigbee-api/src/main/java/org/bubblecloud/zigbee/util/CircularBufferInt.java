@@ -47,12 +47,12 @@ public class CircularBufferInt {
     public CircularBufferInt(final int[] data, final int size, final boolean cyclic) {
         buffer = new int[size];
         overwrite = cyclic;
-        if (cyclic == false && data.length > size) {
+        if (!cyclic && data.length > size) {
             throw new IndexOutOfBoundsException(
                     "Trying to copy " + data.length + " to non-cyclic buffer of " + size + "." +
                             "You should either increase the size of the buffer or set it as cyclic"
             );
-        } else if (cyclic == true && data.length > size) {
+        } else if (cyclic && data.length > size) {
             for (tail = 0; tail < buffer.length; tail++) {
                 buffer[tail] = data[data.length - buffer.length + tail];
             }

@@ -1333,7 +1333,7 @@ public final class ZigBeeConsole {
                 return false;
             }
             
-            if(attribute.isWritable() == false) {
+            if(!attribute.isWritable()) {
                 print(attribute.getName() + " is not writable");
             	return true;
             }
@@ -1686,7 +1686,7 @@ public final class ZigBeeConsole {
                 return false;
             }
 
-            if(attribute.isWritable() == false) {
+            if(!attribute.isWritable()) {
                 print(attribute.getName() + " is not writable");
                 return true;
             }

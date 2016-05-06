@@ -59,7 +59,7 @@ public class ConfigureReportingCommand extends AbstractCommand {
                     //CASE OF ATTRIBUTE CONFIGURATION SENT TO CLIENT
                     //Size of: Direction + Attribute Id + Timeout
                     length += 1 + 2 + 2;
-                } else if (attributerecord[i].getAttributeDataType().isAnalog() == false) {
+                } else if (!attributerecord[i].getAttributeDataType().isAnalog()) {
                     //CASE OF ATTRIBUTE CONFIGURATION SENT TO SERVER OF A DISCRETE ATTRIBUTE
                     //Size of: Direction + Attribute Id + Data Type + Minimum + Maxium
                     length += 1 + 2 + 1 + 2 + 2;
@@ -80,7 +80,7 @@ public class ConfigureReportingCommand extends AbstractCommand {
                     serializer.append_byte((byte) attributerecord[i].getDiretion());
                     serializer.append_short((short) attributerecord[i].getAttributeId());
                     serializer.append_short((short) attributerecord[i].getTimeoutPeriod());
-                } else if (attributerecord[i].getAttributeDataType().isAnalog() == false) {
+                } else if (!attributerecord[i].getAttributeDataType().isAnalog()) {
                     //CASE OF ATTRIBUTE CONFIGURATION SENT TO SERVER OF A DISCRETE ATTRIBUTE
                     //Size of: Direction + Attribute Id + Data Type + Minimum + Maxium
                     serializer.append_byte((byte) attributerecord[i].getDiretion());

@@ -94,7 +94,7 @@ public class AttributeImpl implements Attribute {
     }
 
     public void setValue(Object o) throws ZigBeeClusterException {
-        if (isWritable() == false) {
+        if (!isWritable()) {
             throw new ZigBeeClusterException(
                     "Trying to set the attribute " + getName() + "(" + getId() + ") that is Read Only"
             );
@@ -113,7 +113,7 @@ public class AttributeImpl implements Attribute {
      * @return the {@link Reporter}
      */
     public Reporter getReporter() {
-        if (isReportable() == false) {
+        if (!isReportable()) {
             return null;
         }
 
