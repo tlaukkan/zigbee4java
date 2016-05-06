@@ -1148,13 +1148,14 @@ public final class ZigBeeConsole {
             }
 
             final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
-            reporter.setMinimumReportingInterval(minInterval);
-            reporter.setMaximumReportingInterval(maxInterval);
-
+            
             if (reporter == null) {
                 print("Attribute does not provide reports.");
                 return true;
             }
+
+            reporter.setMinimumReportingInterval(minInterval);
+            reporter.setMaximumReportingInterval(maxInterval);
 
             reporter.addReportListener(consoleReportListener, true);
 
