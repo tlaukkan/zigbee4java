@@ -144,22 +144,22 @@ public class ZigBeeApiConstants {
     public static final int DEVICE_ID_HA_IAS_WARNING_DEVICE = IAS_Warning.DEVICE_ID;
 
     // ZLL Basic Lighting Device IDs
-   	private static final int DEVICE_ID_ZLL_ON_OFF_LIGHT              = (int) 0x0000;
-   	private static final int DEVICE_ID_ZLL_ON_OFF_PLUG_IN_UNIT       = (int) 0x0010;
+   	private static final int DEVICE_ID_ZLL_ON_OFF_LIGHT              = 0x0000;
+   	private static final int DEVICE_ID_ZLL_ON_OFF_PLUG_IN_UNIT       = 0x0010;
     // ZLL Level Controlled Lighting Device IDs
-   	private static final int DEVICE_ID_ZLL_DIMMABLE_LIGHT            = (int) 0x0100;
-   	private static final int DEVICE_ID_ZLL_DIMMABLE_PLUG_IN_UNIT     = (int) 0x0110;
+   	private static final int DEVICE_ID_ZLL_DIMMABLE_LIGHT            = 0x0100;
+   	private static final int DEVICE_ID_ZLL_DIMMABLE_PLUG_IN_UNIT     = 0x0110;
    	// ZLL Color Lighting Device IDs
-   	private static final int DEVICE_ID_ZLL_COLOR_LIGHT                = (int) 0x0200;
-   	private static final int DEVICE_ID_ZLL_EXTENDED_COLOR_LIGHT       = (int) 0x0210;
-   	private static final int DEVICE_ID_ZLL_COLOR_TEMPERATURE_LIGHT    = (int) 0x0220;
+   	private static final int DEVICE_ID_ZLL_COLOR_LIGHT                = 0x0200;
+   	private static final int DEVICE_ID_ZLL_EXTENDED_COLOR_LIGHT       = 0x0210;
+   	private static final int DEVICE_ID_ZLL_COLOR_TEMPERATURE_LIGHT    = 0x0220;
    	// ZLL Lighting Remotes Device IDs
-   	private static final int DEVICE_ID_ZLL_COLOR_CONTROLLER           = (int) 0x0800;
-   	private static final int DEVICE_ID_ZLL_COLOR_SCENE_CONTROLLER     = (int) 0x0810;
-   	private static final int DEVICE_ID_ZLL_NON_COLOR_CONTROLLER       = (int) 0x0820;
-   	private static final int DEVICE_ID_ZLL_NON_COLOR_SCENE_CONTROLLER = (int) 0x0830;
-   	private static final int DEVICE_ID_ZLL_CONTROL_BRIDGE             = (int) 0x0840;
-   	private static final int DEVICE_ID_ZLL_ON_OFF_SENSOR              = (int) 0x0850;
+   	private static final int DEVICE_ID_ZLL_COLOR_CONTROLLER           = 0x0800;
+   	private static final int DEVICE_ID_ZLL_COLOR_SCENE_CONTROLLER     = 0x0810;
+   	private static final int DEVICE_ID_ZLL_NON_COLOR_CONTROLLER       = 0x0820;
+   	private static final int DEVICE_ID_ZLL_NON_COLOR_SCENE_CONTROLLER = 0x0830;
+   	private static final int DEVICE_ID_ZLL_CONTROL_BRIDGE             = 0x0840;
+   	private static final int DEVICE_ID_ZLL_ON_OFF_SENSOR              = 0x0850;
 
    	public static String getDeviceName(int profileID, int deviceID) {
 		switch (profileID) {
