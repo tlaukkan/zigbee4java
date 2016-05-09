@@ -37,6 +37,8 @@ public class ByteUtils {
 
     private final static Logger logger = LoggerFactory.getLogger(ByteUtils.class);
 
+    private ByteUtils() {}
+    
     /**
      * There is a slight problem with this method that you might have noticed;  a Java int is signed, so we can't make
      * use of the 32nd bit.  This means we this method does not support a four byte value with msb greater than 01111111 ((2^7-1) or 127).

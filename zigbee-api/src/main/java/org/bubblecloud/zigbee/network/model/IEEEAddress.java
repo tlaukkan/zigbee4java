@@ -31,6 +31,8 @@ import java.util.StringTokenizer;
  * @since 0.1.0
  */
 public class IEEEAddress {
+    
+    private IEEEAddress() {}
 
     public static final long fromColonNotation(String ieee) {
         StringTokenizer scanner = new StringTokenizer(ieee, ":");

@@ -34,6 +34,8 @@ public class ThreadUtils {
 
     private final static Logger logger = LoggerFactory.getLogger(ThreadUtils.class);
 
+    private ThreadUtils() {}
+    
     /**
      * Wait for x ms even if interrupt are sent to the thread waiting
      *
