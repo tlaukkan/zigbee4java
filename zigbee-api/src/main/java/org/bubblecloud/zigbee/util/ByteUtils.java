@@ -93,7 +93,7 @@ public class ByteUtils {
 
     public static int[] convertLongtoMultiByte(long val) {
 
-        int size = 0;
+        int size;
 
         if ((val >> 56) > 0) {
             size = 8;

@@ -136,7 +136,7 @@ public class ZigBeeNetwork {
 
         final String ieee = endpoint.getNode().getIeeeAddress();
 
-        ZigBeeNode node = null;
+        ZigBeeNode node;
         node = nodes.get(ieee);
         if (node == null) {
             logger.error("Trying to remove a device but containing node {} does not exists", node);

@@ -146,7 +146,7 @@ public class ZToolPacketStream
     public ZToolPacket parsePacket()
             throws IOException {
 
-        Exception exception = null;
+        Exception exception;
         done = false;
         bytesRead = 0;
         try {

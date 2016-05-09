@@ -571,7 +571,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             return false;
         }
         logger.trace("AF_INCOMING_MSG arrived for {} message is {}", endpointId, msg);
-        ArrayList<ApplicationFrameworkMessageConsumer> localConsumers = null;
+        ArrayList<ApplicationFrameworkMessageConsumer> localConsumers;
         synchronized (consumers) {
             localConsumers = new ArrayList<ApplicationFrameworkMessageConsumer>(consumers);
         }

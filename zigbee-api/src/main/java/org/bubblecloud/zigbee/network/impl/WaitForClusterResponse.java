@@ -111,7 +111,7 @@ public class WaitForClusterResponse implements ApplicationFrameworkMessageConsum
      */
     public AF_INCOMING_MSG getResponse() {
         final long wakeUpTime = System.currentTimeMillis() + timeout;
-        AF_INCOMING_MSG msg = null;
+        AF_INCOMING_MSG msg;
 
         synchronized (this) {
             while (response == null && (timeout > 0 && wakeUpTime > System.currentTimeMillis())) {
