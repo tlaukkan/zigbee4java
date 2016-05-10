@@ -1,13 +1,14 @@
 package org.bubblecloud.zigbee.network.model;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 public enum DiscoveryMode {
     Announce(1),
     Addressing(2),
     LinkQuality(4);
 
-    public static final EnumSet<DiscoveryMode> ALL = EnumSet.allOf(DiscoveryMode.class);
+    public static final Set<DiscoveryMode> ALL = EnumSet.allOf(DiscoveryMode.class);
 
     public final int bits;
 
@@ -15,7 +16,7 @@ public enum DiscoveryMode {
         this.bits = i;
     }
 
-    public static int fromEnumSet(EnumSet<DiscoveryMode> set) {
+    public static int fromEnumSet(Set<DiscoveryMode> set) {
         int value = 0;
         for (DiscoveryMode mode : set) {
             value += mode.bits;
@@ -23,7 +24,7 @@ public enum DiscoveryMode {
         return value;
     }
 
-    public static EnumSet<DiscoveryMode> toEnumSet(int mask) {
+    public static Set<DiscoveryMode> toEnumSet(int mask) {
         DiscoveryMode[] modes = DiscoveryMode.values();
         EnumSet<DiscoveryMode> value = EnumSet.noneOf(DiscoveryMode.class);
         for (int i = 0; i < modes.length; i++) {

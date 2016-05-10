@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 /**
  * Test for ZigBeeNetworkManagerSerialImpl.
@@ -79,7 +80,7 @@ public abstract class ZigBeeNetworkTest {
     @Ignore
     public void testZigBeeApi() throws Exception {
         
-        final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
+        final Set<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
         discoveryModes.remove(DiscoveryMode.LinkQuality);
         final ZigBeeApi zigbeeApi = new ZigBeeApi(port, 4951, 11, false, discoveryModes);
         zigbeeApi.startup();

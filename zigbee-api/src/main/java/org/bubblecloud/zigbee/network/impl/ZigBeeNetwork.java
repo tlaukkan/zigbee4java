@@ -62,7 +62,7 @@ public class ZigBeeNetwork {
      * 
      * @return {@link HashTable} of devices and their endpoints
      */
-    public Hashtable<ZigBeeNode, HashMap<Integer, ZigBeeEndpoint>> getDevices() {
+    public Map<ZigBeeNode, HashMap<Integer, ZigBeeEndpoint>> getDevices() {
         return devices;
     }
     
@@ -70,7 +70,7 @@ public class ZigBeeNetwork {
      * Gets the list of nodes
      * @return {@link HashTable} of nodes on the network
      */
-    public Hashtable<String, ZigBeeNodeImpl> getNodes() {
+    public Map<String, ZigBeeNodeImpl> getNodes() {
     	return nodes;
     }
 

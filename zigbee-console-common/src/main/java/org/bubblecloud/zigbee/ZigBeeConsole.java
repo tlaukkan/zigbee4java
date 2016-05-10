@@ -111,7 +111,7 @@ public final class ZigBeeConsole {
     public void start() {
         mainThread = Thread.currentThread();
         System.out.print("ZigBee API starting up...");
-        final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
+        final Set<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
         //discoveryModes.remove(DiscoveryMode.LinkQuality);
         final ZigBeeApi zigbeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, discoveryModes);
 
