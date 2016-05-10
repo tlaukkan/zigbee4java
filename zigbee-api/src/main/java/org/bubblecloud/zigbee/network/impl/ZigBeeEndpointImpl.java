@@ -404,7 +404,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     @Override
     public boolean bindTo(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException {
         logger.info("Binding from endpoint {} to {} for cluster {}", new Object[]{
-                getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
+                getEndpointId(), endpoint.getEndpointId(), Integer.valueOf(clusterId)
         });
 
         final ZDO_BIND_RSP response = networkManager.sendZDOBind(new ZDO_BIND_REQ(
@@ -428,7 +428,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     @Override
     public boolean unbindFrom(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException {
         logger.info("Un-binding from endpoint {} to {} for cluster {}", new Object[]{
-                getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
+                getEndpointId(), endpoint.getEndpointId(), Integer.valueOf(clusterId)
         });
 
         final ZDO_UNBIND_RSP response = networkManager.sendZDOUnbind(new ZDO_UNBIND_REQ(
@@ -458,7 +458,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         short dstEP = ApplicationFrameworkLayer.getAFLayer(networkManager).getSendingEndpoint(this.getProfileId(), clusterId);
 
         logger.info("Binding from endpoint {} to {} for cluster {}", new Object[]{
-                getEndpointId(), IEEEAddress.toString(networkManager.getIeeeAddress()) + "/" + dstEP, new Integer(clusterId)
+                getEndpointId(), IEEEAddress.toString(networkManager.getIeeeAddress()) + "/" + dstEP, Integer.valueOf(clusterId)
         });
 
         final ZDO_BIND_RSP response = networkManager.sendZDOBind(new ZDO_BIND_REQ(

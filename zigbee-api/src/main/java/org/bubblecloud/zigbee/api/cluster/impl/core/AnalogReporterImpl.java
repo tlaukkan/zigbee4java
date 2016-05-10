@@ -104,9 +104,9 @@ public class AnalogReporterImpl extends ReporterBase implements AnalogReporter {
     private void setReportableChangeValue(Number n) {
         final ZigBeeType type = attribute.getZigBeeType();
         if (type.getJavaClass() == Long.class) {
-            minimumChange = new Long(n.longValue());
+            minimumChange = Long.valueOf(n.longValue());
         } else if (type.getJavaClass() == Integer.class) {
-            minimumChange = new Integer(n.intValue());
+            minimumChange = Integer.valueOf(n.intValue());
         } else if (type.getJavaClass() == Float.class) {
             minimumChange = new Float(n.floatValue());
         } else if (type.getJavaClass() == Double.class) {

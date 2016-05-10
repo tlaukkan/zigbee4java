@@ -1703,7 +1703,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                         output[j] = this.out[i][j];
                 }
 
-                if (newDevice(new AF_REGISTER(new Byte(this.ep[i] + ""), this.prof[i], new Short(this.dev[i] + ""), new Byte(this.ver[i] + ""), input, output))) {
+                if (newDevice(new AF_REGISTER(Byte.valueOf(this.ep[i] + ""), this.prof[i], Short.valueOf(this.dev[i] + ""), Byte.valueOf(this.ver[i] + ""), input, output))) {
                     logger.debug("Custom device {} registered at endpoint {}", this.dev[i], this.ep[i]);
                 }
                 else {

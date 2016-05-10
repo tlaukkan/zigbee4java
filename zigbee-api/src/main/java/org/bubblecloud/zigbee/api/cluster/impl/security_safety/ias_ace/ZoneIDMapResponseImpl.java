@@ -43,7 +43,7 @@ public class ZoneIDMapResponseImpl extends ResponseImpl implements ZoneIDMapResp
 
         zonesID = new ZoneTableImpl();
         for (int i = 0; i < 16; i++)
-            zonesID.addZone(new Short(deserializer.read_short()), null, null);
+            zonesID.addZone(Short.valueOf(deserializer.read_short()), null, null);
     }
 
     public Zone[] getZonesID() {
