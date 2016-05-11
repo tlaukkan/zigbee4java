@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The zigbee network manager port implementation.
@@ -104,7 +105,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     private boolean distributeNetworkKey = true; // distribute network key in clear (be careful)
     private int securityMode = 1; // int for future extensibility
 
-    private final HashSet<AnnounceListener> announceListeners = new HashSet<AnnounceListener>();
+    private final Set<AnnounceListener> announceListeners = new HashSet<AnnounceListener>();
     private final AnnounceListenerFilter announceListenerFilter = new AnnounceListenerFilter(announceListeners);
 
     private final ArrayList<ApplicationFrameworkMessageListener> messageListeners = new ArrayList<ApplicationFrameworkMessageListener>();
@@ -635,7 +636,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     @Override
-    public HashSet<AnnounceListener> getAnnounceListeners() {
+    public Set<AnnounceListener> getAnnounceListeners() {
         return announceListeners;
     }
 

@@ -128,7 +128,7 @@ public class ZigBeeApi implements EndpointListener {
      * @param resetNetwork   the flag indicating network reset on startup
      */
     public ZigBeeApi(final ZigBeePort port, final int pan, final int channel,
-            final EnumSet<DiscoveryMode> discoveryModes, final boolean resetNetwork) {
+            final Set<DiscoveryMode> discoveryModes, final boolean resetNetwork) {
     	this.resetNetwork = resetNetwork;
 
         networkManager = new ZigBeeNetworkManagerImpl(port,
@@ -145,7 +145,7 @@ public class ZigBeeApi implements EndpointListener {
      * @param channel        the channel
      * @param discoveryModes the discovery modes
      */
-    public ZigBeeApi(final ZigBeePort port, final int pan, final int channel, final EnumSet<DiscoveryMode> discoveryModes) {
+    public ZigBeeApi(final ZigBeePort port, final int pan, final int channel, final Set<DiscoveryMode> discoveryModes) {
         networkManager = new ZigBeeNetworkManagerImpl(port,
                 NetworkMode.Coordinator, pan, channel, 2500L);
 
@@ -161,7 +161,7 @@ public class ZigBeeApi implements EndpointListener {
      * @param resetNetwork   the flag indicating network reset on startup
      */
     public ZigBeeApi(final ZigBeePort port, final int pan, final int channel,
-                     final boolean resetNetwork, final EnumSet<DiscoveryMode> discoveryModes) {
+                     final boolean resetNetwork, final Set<DiscoveryMode> discoveryModes) {
     	this.resetNetwork = resetNetwork;
 
         networkManager = new ZigBeeNetworkManagerImpl(port, NetworkMode.Coordinator, pan, channel, 2500L);
