@@ -7,7 +7,7 @@ notifications:
 deploy:
   provider: script
   skip_cleanup: true
-  script: ./travis-deploy.sh
+  script: ./.travis-deploy.sh
   on:
     condition: "$TRAVIS_TAG = *-release-ready"
     all_branches: true
