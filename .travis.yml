@@ -1,8 +1,13 @@
 language: java
+before_script:
+  - git config --global user.email "tommi.s.e.laukkanen@gmail.com"
+  - git config --global user.name "Travis-CI"
+  - git config credential.helper "store --file=.git/credentials"
+  - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
 install:
-  - git clone https://github.com/$TRAVIS_REPO_SLUG.git $HOME/$TRAVIS_REPO_SLUG
-  - cd $HOME/$TRAVIS_REPO_SLUG
-  - git checkout -qf $TRAVIS_COMMIT
+- git clone https://github.com/$TRAVIS_REPO_SLUG.git $HOME/$TRAVIS_REPO_SLUG
+- cd $HOME/$TRAVIS_REPO_SLUG
+- git checkout -qf $TRAVIS_COMMIT
 script: mvn cobertura:cobertura coveralls:report
 notifications:
   email:
@@ -19,5 +24,4 @@ env:
   global:
   - secure: mvuWhm/PsG4PMXsA0R8pEj1iSTbWuQKq57W9zaQGO1MuzK7e5lA1wHJp86GbFVphummUmB7YQJ8cGQgFof4vUi7EiN/7YAWys3xb+zLFe0Oo7s7gaHcR9sreolQ3TOHD0OdH+KHwMv8Oyr0vQpD75AP5RdazOGnniXKvKZ9JViISfn7DwPmQHnswS5OiXifbyAOqXjlIiv8fX3XUiLdSkK0ZxkPAfEfwE1BBEMxjcck4mo2OsiztvJBVO1pfnMMtNV4NbFkyEJjYj78QLEPFlgeGLzAdjpbguCblZL/dWdZb2z9nRMlAg21DtHx7M7nk1OG9zP9U5WPznnZm94qDYwY1XlcSNiZSH5mLiejKwRYACwAPZf4eIEnecnj2yXaq4C7TmE/XB034/X4rd0PhAZSJxbES4hjnc5zZ8s8Aid4jCr17rTiLlNPA+A52HIS6az93DyMzZQVexbUk6Bu1k7/s0Uk8pSa/ZiGw/p4W1L4JR/SjNv7spjYzFZF5+BBHp7BXGdNycwrT7P11z699ZRRd2UsBhgC8X3/rcl2AujTDLMLz3Yb2Ze+sq3DSKujYxwH+mdAC0T6GrXXmHww2eu0i5ltTLw2+7/JGMjUBYUI2pKYpmvJ9qpgSyU7vQeEz/nW7/BGyTS98Tm/E+KT2fKQnTI0EoaedZWXl1XpuKzU=
   - secure: oP8szR+N0Hlee+Y3JTpA8N+Easpd6YtsZf01+Ix1n/cC8Uas8O5wLHDYA01fBlk5KjgENlULwsAZJQjpl7EMzK1P9LjqaMKJ3mmi+EsyPFifwhQrRpU8U/7IIl7vQbiBlulatY6jhIaecTndJIoACL5KE4rgICS27P7/hnFBoYeLW/dWoYfKh324X7YaCRSmV8zsKcxadE1gdMU3NiS9wgP77lOVH0rOwYP7fK/xPEDcKIOF0BQVVFroY/5Jpliq2TyEncVb7aLj2Gt7PqrToXUYgL3r9TkbgnwT8N9uQNVGoczUiytKIvGldfUB0luSzqQvlJfRv8soziDuuSGpxKATwO/k0tYKVJdtQqdg1wnE/sByOzWXfFIZ/v768GyPnOBD5G6Cpea2x3axq+iXItwrGHzQBVICPxSY7KA/y1D2VcfcwmH6JSH5uGR4QZIeOFQ0zF7fALIOR7C1AgDIdC05Zmg3IDAxig6vuREi9xKW00wnSgej2JS3eHbRRxVHOgZtUcGNAMVkLmAKFqr8YAdlyvaGWm37/AxiTtFQ6IIatGIbSZRvrbpCxvmYAZ2P7NDH+dXtrh9gzcjjKaJaNdrp8Z4WoPpXdxve1tgSJw51tu9AQcxna5sMbwlmsrMRu41KNwZY9ak36JOtLrfJ+vpvsaZ3gqw62TGUzKq3PJc=
-
-
+  - secure: QPUt7QeXNh+rb+QRNQPfaxgpkziQ5+ccpLNdN5vpXqRV5qByPVyXSeqAmyBZPlETKyt491MrRoCnuISbnFuiPLa/1EKsgNvySayj9tUj235Q0h/+wBsXNnSXeHAhacU17JRWiMRGy3izvncmA8kRwDb3Qvpl099jxCkD+Ea0mvnlZ2lSk4M1XP28fEtWvp6wruUsIKH0Yrpie5pA+CDGqIaF4up895g4kHoi7wJB+/dnMl55xy1LIOiSjNSZ6R+TuVfANhbbs16C4dKJLUw8fVr0UBnrlfqikxNgs8oJZ8Enui6CE3yXlRKrrCykquwp2ZrZDmCuBoVFO87psQ+mWCZaAows9Hxs2/U42wm/FwPgsVoPuFtKvK6BtCPr3XxqXLgRnl0VCMQa2tJ2W89CuUOhcN9xTHLDJPnw6QZ0v6IHFsccY0vbnjOJq/EGRbh9OEmxjEcaGHU8oIoIVrEZ3bFOabM49m3v1nDRXDjzcGgVr5TLcMZ7bUkbK6qQmTkt0/SU1qfXJoCl5Doc54dwFnVnvaha5I8wjbe2RzL+jzYSgacI7c/gMxpjWK9fIgLRPB+81UlzpB7Hd9VO4kQAf+NpCBBQVz17kkArBax60yqYgO/r/2Dl14DIe6dDHhkHoh72t0ybPVen4UWR7cXmVhtN1K2ZXp9O1bjb5cfuUVw=
