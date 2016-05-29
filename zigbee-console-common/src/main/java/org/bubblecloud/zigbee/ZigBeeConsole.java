@@ -111,7 +111,7 @@ public final class ZigBeeConsole {
     public void start() {
         mainThread = Thread.currentThread();
         System.out.print("ZigBee API starting up...");
-        final EnumSet<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
+        final Set<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
         //discoveryModes.remove(DiscoveryMode.LinkQuality);
         final ZigBeeApi zigbeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, discoveryModes);
 
@@ -1148,13 +1148,14 @@ public final class ZigBeeConsole {
             }
 
             final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
-            reporter.setMinimumReportingInterval(minInterval);
-            reporter.setMaximumReportingInterval(maxInterval);
-
+            
             if (reporter == null) {
                 print("Attribute does not provide reports.");
                 return true;
             }
+
+            reporter.setMinimumReportingInterval(minInterval);
+            reporter.setMaximumReportingInterval(maxInterval);
 
             reporter.addReportListener(consoleReportListener, true);
 
@@ -1333,7 +1334,7 @@ public final class ZigBeeConsole {
                 return false;
             }
             
-            if(attribute.isWritable() == false) {
+            if(!attribute.isWritable()) {
                 print(attribute.getName() + " is not writable");
             	return true;
             }
@@ -1686,7 +1687,7 @@ public final class ZigBeeConsole {
                 return false;
             }
 
-            if(attribute.isWritable() == false) {
+            if(!attribute.isWritable()) {
                 print(attribute.getName() + " is not writable");
                 return true;
             }

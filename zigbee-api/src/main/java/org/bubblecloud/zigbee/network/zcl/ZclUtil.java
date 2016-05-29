@@ -30,6 +30,8 @@ public class ZclUtil {
      * The logger.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ZigBeeEndpointImpl.class);
+    
+    private ZclUtil() {}
 
     /**
      * Formats integer value to hex string.

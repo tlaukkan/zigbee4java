@@ -29,6 +29,8 @@ package org.bubblecloud.zigbee.util;
  * @since 0.4.0
  */
 public class ArraysUtil {
+    
+    private ArraysUtil() {}
 
     /**
      * Create a new <code>int[]</code> by concatenating prefix and postfix

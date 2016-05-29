@@ -18,6 +18,7 @@ package org.bubblecloud.zigbee.network.zcl;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -53,7 +54,7 @@ public class ZclCommandMessage {
     /**
      * The fields and their values.
      */
-    TreeMap<ZclFieldType, Object> fields = new TreeMap<ZclFieldType, Object>();
+    Map<ZclFieldType, Object> fields = new TreeMap<ZclFieldType, Object>();
     /**
      * Default constructor for inbound messages.
      */
@@ -136,7 +137,7 @@ public class ZclCommandMessage {
      * Gets the fields
      * @return the fields
      */
-    public TreeMap<ZclFieldType, Object> getFields() {
+    public Map<ZclFieldType, Object> getFields() {
         return fields;
     }
 
@@ -144,7 +145,7 @@ public class ZclCommandMessage {
      * Sets the fields.
      * @param fields the fields
      */
-    public void setFields(final TreeMap<ZclFieldType, Object> fields) {
+    public void setFields(final Map<ZclFieldType, Object> fields) {
         this.fields = fields;
     }
 

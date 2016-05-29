@@ -58,7 +58,7 @@ public class ClusterFactoryBase implements ClusterFactory {
         String[] clusterIDs = new String[clusters.size()];
         int i = 0;
         while (keys.hasMoreElements()) {
-            String key = (String) keys.nextElement();
+            String key = keys.nextElement();
             clusterIDs[i++] = key;
         }
     }

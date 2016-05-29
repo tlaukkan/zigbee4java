@@ -163,9 +163,9 @@ public class DefaultDeserializer implements ZBDeserializer {
             case SignedInteger8bit:
                 byte b = read_byte();
                 if (type == ZigBeeType.UnsignedInteger8bit) {
-                    value[0] = new Integer(b & 0xFF);
+                    value[0] = Integer.valueOf(b & 0xFF);
                 } else {
-                    value[0] = new Integer(b);
+                    value[0] = Integer.valueOf(b);
                 }
                 break;
             case Data16bit:
@@ -186,9 +186,9 @@ public class DefaultDeserializer implements ZBDeserializer {
             case SignedInteger24bit:
                 int i = read_int24bit();
                 if (type == ZigBeeType.UnsignedInteger32bit) {
-                    value[0] = new Long(i & 0xFFFFFFFF);
+                    value[0] = Long.valueOf(i & 0xFFFFFFFF);
                 } else {
-                    value[0] = new Integer(i);
+                    value[0] = Integer.valueOf(i);
                 }
                 break;
             case Data32bit:

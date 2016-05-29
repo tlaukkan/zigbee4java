@@ -70,7 +70,7 @@ public class MarkableInputStream
              */
             buffer = new CircularBufferInt(size, true);
             idx = buffer.size();
-        } else if (buffer != null && size > buffer.slots()) {
+        } else if (size > buffer.slots()) {
             /*
              * The mark was set so we have should copy unread data to the new buffer
              */
@@ -100,13 +100,13 @@ public class MarkableInputStream
              * No mark set so reading from the stream
              */
             return in.read();
-        } else if (buffer != null && idx < buffer.size()) {
+        } else if (idx < buffer.size()) {
             /*
              * Mark was set and also buffer was reset, and it has not been empty yet
              */
             idx += 1;
             return buffer.remove();
-        } else if (buffer != null && idx >= buffer.size()) {
+        } else if (idx >= buffer.size()) {
             /*
              * Mark was set, but buffer has been exhausted
              */

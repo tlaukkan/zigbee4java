@@ -62,7 +62,7 @@ public class ZigBeeNetwork {
      * 
      * @return {@link HashTable} of devices and their endpoints
      */
-    public Hashtable<ZigBeeNode, HashMap<Integer, ZigBeeEndpoint>> getDevices() {
+    public Map<ZigBeeNode, HashMap<Integer, ZigBeeEndpoint>> getDevices() {
         return devices;
     }
     
@@ -70,7 +70,7 @@ public class ZigBeeNetwork {
      * Gets the list of nodes
      * @return {@link HashTable} of nodes on the network
      */
-    public Hashtable<String, ZigBeeNodeImpl> getNodes() {
+    public Map<String, ZigBeeNodeImpl> getNodes() {
     	return nodes;
     }
 
@@ -136,7 +136,7 @@ public class ZigBeeNetwork {
 
         final String ieee = endpoint.getNode().getIeeeAddress();
 
-        ZigBeeNode node = null;
+        ZigBeeNode node;
         node = nodes.get(ieee);
         if (node == null) {
             logger.error("Trying to remove a device but containing node {} does not exists", node);
@@ -194,7 +194,7 @@ public class ZigBeeNetwork {
             return true;
         }
         //XXX It following method must always return true, otherwise we should throw an IllegalStateException
-        if (list.remove(device) == false) {
+        if (!list.remove(device)) {
             logger.error("Device to remove not found in the given profile");
         }
 

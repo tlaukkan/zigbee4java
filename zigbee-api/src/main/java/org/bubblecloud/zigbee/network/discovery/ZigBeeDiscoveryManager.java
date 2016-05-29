@@ -37,7 +37,6 @@ import org.bubblecloud.zigbee.util.Integers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -63,14 +62,14 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
     private EndpointBuilder endpointBuilder;
     private final ImportingQueue importingQueue;
 
-    private EnumSet<DiscoveryMode> enabledDiscoveries;
+    private Set<DiscoveryMode> enabledDiscoveries;
 
     /**
      * Contains a list of all the network addresses we've inspected
      */
     private Set<Integer> inspectedNetworkAddresses = new HashSet<Integer>();
 
-    public ZigBeeDiscoveryManager(ZigBeeNetworkManager networkManager, final EnumSet<DiscoveryMode> enabledDiscoveries) {
+    public ZigBeeDiscoveryManager(ZigBeeNetworkManager networkManager, final Set<DiscoveryMode> enabledDiscoveries) {
         importingQueue = new ImportingQueue();
         this.networkManager = networkManager;
         this.enabledDiscoveries = enabledDiscoveries;

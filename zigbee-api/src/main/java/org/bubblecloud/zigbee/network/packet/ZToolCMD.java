@@ -29,6 +29,9 @@ package org.bubblecloud.zigbee.network.packet;
  *          +0300 (Tue, 06 Aug 2013) $)
  */
 public class ZToolCMD {
+    
+    private ZToolCMD() {}
+    
 	/**
 	 * AF Data confirm.
 	 */

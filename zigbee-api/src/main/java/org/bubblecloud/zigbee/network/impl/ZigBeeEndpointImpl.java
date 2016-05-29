@@ -404,7 +404,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     @Override
     public boolean bindTo(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException {
         logger.info("Binding from endpoint {} to {} for cluster {}", new Object[]{
-                getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
+                getEndpointId(), endpoint.getEndpointId(), Integer.valueOf(clusterId)
         });
 
         final ZDO_BIND_RSP response = networkManager.sendZDOBind(new ZDO_BIND_REQ(
@@ -428,7 +428,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     @Override
     public boolean unbindFrom(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException {
         logger.info("Un-binding from endpoint {} to {} for cluster {}", new Object[]{
-                getEndpointId(), endpoint.getEndpointId(), new Integer(clusterId)
+                getEndpointId(), endpoint.getEndpointId(), Integer.valueOf(clusterId)
         });
 
         final ZDO_UNBIND_RSP response = networkManager.sendZDOUnbind(new ZDO_UNBIND_REQ(
@@ -458,7 +458,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         short dstEP = ApplicationFrameworkLayer.getAFLayer(networkManager).getSendingEndpoint(this.getProfileId(), clusterId);
 
         logger.info("Binding from endpoint {} to {} for cluster {}", new Object[]{
-                getEndpointId(), IEEEAddress.toString(networkManager.getIeeeAddress()) + "/" + dstEP, new Integer(clusterId)
+                getEndpointId(), IEEEAddress.toString(networkManager.getIeeeAddress()) + "/" + dstEP, Integer.valueOf(clusterId)
         });
 
         final ZDO_BIND_RSP response = networkManager.sendZDOBind(new ZDO_BIND_REQ(
@@ -505,7 +505,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     }
 
     private void addAFMessageListener() {
-        if (listeners.isEmpty() && consumers.size() == 0) {
+        if (listeners.isEmpty() && consumers.isEmpty()) {
             logger.trace("Registered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             networkManager.addAFMessageListener(this);
         } else {
@@ -518,7 +518,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
     }
 
     private void removeAFMessageListener() {
-        if (listeners.isEmpty() && consumers.size() == 0) {
+        if (listeners.isEmpty() && consumers.isEmpty()) {
             logger.trace("Unregistered {} as {}", this, ApplicationFrameworkMessageListener.class.getName());
             networkManager.removeAFMessageListener(this);
         } else {
@@ -547,7 +547,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
         synchronized (listeners) {
             localCopy = new ArrayList<ClusterListener>(listeners);
         }
-        if (localCopy.size() > 0) {
+        if (!localCopy.isEmpty()) {
             logger.trace("Notifying {} ClusterListener of {}", localCopy.size(), c.toString());
 
             for (ClusterListener listner : localCopy) {
@@ -555,7 +555,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
                     final ClusterFilter filter = listner.getClusterFilter();
                     if (filter == null) {
                         listner.handleCluster(this, c);
-                    } else if (filter.match(c) == true) {
+                    } else if (filter.match(c)) {
                         listner.handleCluster(this, c);
                     }
                 } catch (Throwable t) {
@@ -571,7 +571,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
             return false;
         }
         logger.trace("AF_INCOMING_MSG arrived for {} message is {}", endpointId, msg);
-        ArrayList<ApplicationFrameworkMessageConsumer> localConsumers = null;
+        ArrayList<ApplicationFrameworkMessageConsumer> localConsumers;
         synchronized (consumers) {
             localConsumers = new ArrayList<ApplicationFrameworkMessageConsumer>(consumers);
         }

@@ -25,7 +25,7 @@ package org.bubblecloud.zigbee.api.cluster.general;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Response;
 
-import java.util.EnumSet;
+import java.util.Set;
 
 /**
  * This cluster provides a means for exchanging Received Signal Strength Indication
@@ -38,8 +38,8 @@ import java.util.EnumSet;
  */
 public interface RSSILocation extends Cluster {
 
-    public EnumSet<LocationType> getLocationType();
-    public void setLocationType(EnumSet<LocationType> type);
+    public Set<LocationType> getLocationType();
+    public void setLocationType(Set<LocationType> type);
 
     public LocationMethod getLocationMethod();
     public void setLocationMethod(LocationMethod method);

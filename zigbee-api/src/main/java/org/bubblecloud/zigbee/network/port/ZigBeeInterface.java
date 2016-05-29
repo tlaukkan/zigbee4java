@@ -232,7 +232,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
         } else {
             synchronized (synchronousCommandListeners) {
                 final short id = (short) (cmdId.get16BitValue() & 0x1FFF);
-                while (synchronousCommandListeners.isEmpty() == false) {
+                while (!synchronousCommandListeners.isEmpty()) {
                     try {
                         LOGGER.trace("Waiting for other request to complete");
                         synchronousCommandListeners.wait(500);
@@ -304,7 +304,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      * @return true if listener did not already exist.
      */
     public boolean addAsynchronousCommandListener(AsynchronousCommandListener listener) {
-        boolean result = false;
+        boolean result;
         synchronized (asynchrounsCommandListeners) {
             result = asynchrounsCommandListeners.add(listener);
         }
@@ -317,7 +317,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      * @return true if listener did not already exist.
      */
     public boolean removeAsynchronousCommandListener(AsynchronousCommandListener listener) {
-        boolean result = false;
+        boolean result;
         synchronized (asynchrounsCommandListeners) {
             result = asynchrounsCommandListeners.remove(listener);
         }

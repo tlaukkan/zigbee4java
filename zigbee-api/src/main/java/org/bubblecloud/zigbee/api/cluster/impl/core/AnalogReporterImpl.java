@@ -53,7 +53,7 @@ public class AnalogReporterImpl extends ReporterBase implements AnalogReporter {
     public AnalogReporterImpl(final ZigBeeEndpoint zb, final ZCLCluster c, final Attribute attrib) {
         super(zb, c, attrib);
         final ZigBeeType type = attrib.getZigBeeType();
-        if (type.isAnalog() == false) {
+        if (!type.isAnalog()) {
             throw new IllegalArgumentException(
                     "AnalogReporter applies only to Attribute with analog data type, " +
                             "the attribute " + attrib.getName() + " (" + attrib.getId() + ") of type " + type.toString() +
@@ -104,9 +104,9 @@ public class AnalogReporterImpl extends ReporterBase implements AnalogReporter {
     private void setReportableChangeValue(Number n) {
         final ZigBeeType type = attribute.getZigBeeType();
         if (type.getJavaClass() == Long.class) {
-            minimumChange = new Long(n.longValue());
+            minimumChange = Long.valueOf(n.longValue());
         } else if (type.getJavaClass() == Integer.class) {
-            minimumChange = new Integer(n.intValue());
+            minimumChange = Integer.valueOf(n.intValue());
         } else if (type.getJavaClass() == Float.class) {
             minimumChange = new Float(n.floatValue());
         } else if (type.getJavaClass() == Double.class) {

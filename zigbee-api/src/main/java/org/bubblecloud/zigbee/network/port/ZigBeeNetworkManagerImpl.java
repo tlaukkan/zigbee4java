@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The zigbee network manager port implementation.
@@ -104,7 +105,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     private boolean distributeNetworkKey = true; // distribute network key in clear (be careful)
     private int securityMode = 1; // int for future extensibility
 
-    private final HashSet<AnnounceListener> announceListeners = new HashSet<AnnounceListener>();
+    private final Set<AnnounceListener> announceListeners = new HashSet<AnnounceListener>();
     private final AnnounceListenerFilter announceListenerFilter = new AnnounceListenerFilter(announceListeners);
 
     private final ArrayList<ApplicationFrameworkMessageListener> messageListeners = new ArrayList<ApplicationFrameworkMessageListener>();
@@ -314,8 +315,8 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     private boolean checkZigBeeNetworkConfiguration() {
-        int value = -1;
-        long longValue = -1;
+        int value;
+        long longValue;
         boolean mismatch = false;
         if ((value = getCurrentChannel()) != channel) {
             logger.warn(
@@ -635,12 +636,12 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     @Override
-    public HashSet<AnnounceListener> getAnnounceListeners() {
+    public Set<AnnounceListener> getAnnounceListeners() {
         return announceListeners;
     }
 
     public <REQUEST extends ZToolPacket, RESPONSE extends ZToolPacket> RESPONSE sendLocalRequest(REQUEST request) {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
         	return null;
         }
         RESPONSE result = (RESPONSE) sendSynchrouns(zigbeeInterface, request);
@@ -651,10 +652,10 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     public <REQUEST extends ZToolPacket, RESPONSE extends ZToolPacket> RESPONSE sendRemoteRequest(REQUEST request) {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
         	return null;
         }
-        RESPONSE result = null;
+        RESPONSE result;
 
         waitAndLock3WayConversation(request);
         final WaitForCommand waiter = new WaitForCommand(ZToolCMD.ZDO_MGMT_PERMIT_JOIN_RSP, zigbeeInterface);
@@ -675,7 +676,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
     public ZDO_MGMT_LQI_RSP sendLQIRequest(ZDO_MGMT_LQI_REQ request) {
 
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
         	return null;
         }
         ZDO_MGMT_LQI_RSP result = null;
@@ -696,7 +697,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     public ZDO_IEEE_ADDR_RSP sendZDOIEEEAddressRequest(ZDO_IEEE_ADDR_REQ request) {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
         	return null;
         }
         ZDO_IEEE_ADDR_RSP result = null;
@@ -717,7 +718,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     public ZDO_NODE_DESC_RSP sendZDONodeDescriptionRequest(ZDO_NODE_DESC_REQ request) {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
         	return null;
         }
         ZDO_NODE_DESC_RSP result = null;
@@ -737,7 +738,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     public ZDO_POWER_DESC_RSP sendZDOPowerDescriptionRequest(ZDO_POWER_DESC_REQ request) {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
         	return null;
         }
         ZDO_POWER_DESC_RSP result = null;
@@ -757,7 +758,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     public ZDO_ACTIVE_EP_RSP sendZDOActiveEndPointRequest(ZDO_ACTIVE_EP_REQ request) {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
         	return null;
         }
         ZDO_ACTIVE_EP_RSP result = null;
@@ -778,7 +779,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     public ZDO_MGMT_PERMIT_JOIN_RSP sendPermitJoinRequest(ZDO_MGMT_PERMIT_JOIN_REQ request, boolean waitForCommand) {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
         	return null;
         }
         ZDO_MGMT_PERMIT_JOIN_RSP result = null;
@@ -791,7 +792,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         if (response == null || response.Status != 0) {
             logger.trace("ZDO_MGMT_PERMIT_JOIN_REQ failed, received {}", response);
             waiter.cleanup();
-        } else if (waitForCommand == true) {
+        } else if (!waitForCommand) {
             result = (ZDO_MGMT_PERMIT_JOIN_RSP) waiter.getCommand(TIMEOUT);
         }
         unLock3WayConversation(request);
@@ -865,9 +866,9 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     private void waitAndLock3WayConversation(ZToolPacket request) {
         synchronized (conversation3Way) {
             Class<?> clz = request.getClass();
-            Thread requestor = null;
+            Thread requestor;
             while ((requestor = conversation3Way.get(clz)) != null) {
-                if (requestor.isAlive() == false) {
+                if (!requestor.isAlive()) {
                     logger.error("Thread {} whom requested {} DIED before unlocking the conversation");
                     logger.debug("The thread {} who was waiting for {} to complete DIED, so we have to remove the lock");
                     conversation3Way.put(clz, null);
@@ -895,7 +896,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
      */
     private void unLock3WayConversation(ZToolPacket request) {
         Class<?> clz = request.getClass();
-        Thread requestor = null;
+        Thread requestor;
         synchronized (conversation3Way) {
             requestor = conversation3Way.get(clz);
             conversation3Way.put(clz, null);
@@ -912,7 +913,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     public ZDO_SIMPLE_DESC_RSP sendZDOSimpleDescriptionRequest(ZDO_SIMPLE_DESC_REQ request) {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
         	return null;
         }
         ZDO_SIMPLE_DESC_RSP result = null;
@@ -1284,7 +1285,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     public AF_REGISTER_SRSP sendAFRegister(AF_REGISTER request) {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
         	return null;
         }
 
@@ -1293,7 +1294,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     public AF_DATA_CONFIRM sendAFDataRequest(AF_DATA_REQUEST request) {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
         	return null;
         }
         AF_DATA_CONFIRM result = null;
@@ -1313,7 +1314,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     public ZDO_BIND_RSP sendZDOBind(ZDO_BIND_REQ request) {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
         	return null;
         }
         ZDO_BIND_RSP result = null;
@@ -1332,7 +1333,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     public ZDO_UNBIND_RSP sendZDOUnbind(ZDO_UNBIND_REQ request) {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
         	return null;
         }
         ZDO_UNBIND_RSP result = null;
@@ -1357,7 +1358,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
      * @return true if the listener was added
      */
     public boolean removeAFMessageListener(ApplicationFrameworkMessageListener listener) {
-        boolean result = false;
+        boolean result;
         synchronized (messageListeners) {
             result = messageListeners.remove(listener);
         }
@@ -1396,7 +1397,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                 logger.trace("Could not add AsynchrounsCommandListener {} to ZigBeeSerialInterface", afMessageListenerFilter.getClass().getName());
             }
         }
-        boolean result = false;
+        boolean result;
         synchronized (messageListeners) {
             result = messageListeners.add(listener);
         }
@@ -1430,7 +1431,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
      * @since 0.2.0
      */
     public long getExtendedPanId() {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
             logger.info("Failed to reach the {} level: getExtendedPanId() failed", DriverStatus.NETWORK_READY);
             return -1;
         }
@@ -1457,7 +1458,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             return ieeeAddress;
         }
 
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
             logger.info("Failed to reach the {} level: getIeeeAddress() failed", DriverStatus.NETWORK_READY);
             return -1;
         }
@@ -1500,7 +1501,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
      * @since 0.2.0
      */
     public int getCurrentChannel() {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
             logger.info("Failed to reach the {} level: getCurrentChannel() failed", DriverStatus.NETWORK_READY);
             return -1;
         }
@@ -1519,7 +1520,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
      * @since 0.2.0
      */
     public int getCurrentState() {
-        if (waitForNetwork() == false) {
+        if (!waitForNetwork()) {
             logger.info("Failed to reach the {} level: getCurrentChannel() failed", DriverStatus.NETWORK_READY);
             return -1;
         }
@@ -1573,7 +1574,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
     public void addCustomEndpoint(String endpointNumber, String profileID, String deviceID, String version, String inputClusters, String outputCluster) {
 
-        String[] inputGroupsNumber = null, outputGroupsNumber = null, inputClusterGroup = null, outputClusterGroup = null;
+        String[] inputGroupsNumber = null, outputGroupsNumber = null, inputClusterGroup, outputClusterGroup;
         if (checkString(inputClusters)) {
             inputGroupsNumber = inputClusters.trim().split("]");
         }
@@ -1703,7 +1704,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                         output[j] = this.out[i][j];
                 }
 
-                if (newDevice(new AF_REGISTER(new Byte(this.ep[i] + ""), this.prof[i], new Short(this.dev[i] + ""), new Byte(this.ver[i] + ""), input, output))) {
+                if (newDevice(new AF_REGISTER(Byte.valueOf(this.ep[i] + ""), this.prof[i], Short.valueOf(this.dev[i] + ""), Byte.valueOf(this.ver[i] + ""), input, output))) {
                     logger.debug("Custom device {} registered at endpoint {}", this.dev[i], this.ep[i]);
                 }
                 else {
@@ -1831,7 +1832,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                             msg.getSrcAddr(), msg.getClusterId(),
                             msg.getDstEndpoint(), msg);
                 }
-                ArrayList<ApplicationFrameworkMessageListener> localCopy = null;
+                ArrayList<ApplicationFrameworkMessageListener> localCopy;
                 synchronized (listeners) {
                     localCopy = new ArrayList<ApplicationFrameworkMessageListener>(listeners);
                 }

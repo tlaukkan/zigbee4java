@@ -139,14 +139,14 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
 
     public boolean addZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener) {
         synchronized (listeners) {
-            if (listeners.size() == 0) {
+            if (listeners.isEmpty()) {
                 try {
                     getZigBeeEndpoint().bindToLocal(ID);
                 } catch (ZigBeeNetworkManagerException e) {
                     log.error("Unable to bind to device for IASZone reporting", e);
                     return false;
                 }
-                if (getZigBeeEndpoint().addClusterListener(bridge) == false) {
+                if (!getZigBeeEndpoint().addClusterListener(bridge)) {
                     log.error("Unable to register the cluster listener for IASZone reporting");
                     return false;
                 }
@@ -159,14 +159,14 @@ public class IASZoneCluster extends ZCLClusterBase implements IASZone {
     public boolean removeZoneStatusChangeNotificationListener(ZoneStatusChangeNotificationListener listener) {
         synchronized (listeners) {
             boolean removed = listeners.remove(listener);
-            if (listeners.size() == 0 && removed) {
+            if (listeners.isEmpty() && removed) {
                 try {
                     getZigBeeEndpoint().unbindFromLocal(ID);
                 } catch (ZigBeeNetworkManagerException e) {
                     log.error("Unable to unbind to device for IASZone reporting", e);
                     return false;
                 }
-                if (getZigBeeEndpoint().removeClusterListener(bridge) == false) {
+                if (!getZigBeeEndpoint().removeClusterListener(bridge)) {
                     log.error("Unable to unregister the cluster listener for IASZone reporting");
                     return false;
                 }

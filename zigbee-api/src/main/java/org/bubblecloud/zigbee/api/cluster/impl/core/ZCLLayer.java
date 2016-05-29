@@ -28,6 +28,8 @@ package org.bubblecloud.zigbee.api.cluster.impl.core;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
 public class ZCLLayer {
+    
+    private ZCLLayer() {}
 
     static int transactionId;
 

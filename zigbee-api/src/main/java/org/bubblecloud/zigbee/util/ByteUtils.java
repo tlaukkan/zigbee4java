@@ -37,6 +37,8 @@ public class ByteUtils {
 
     private final static Logger logger = LoggerFactory.getLogger(ByteUtils.class);
 
+    private ByteUtils() {}
+    
     /**
      * There is a slight problem with this method that you might have noticed;  a Java int is signed, so we can't make
      * use of the 32nd bit.  This means we this method does not support a four byte value with msb greater than 01111111 ((2^7-1) or 127).
@@ -91,7 +93,7 @@ public class ByteUtils {
 
     public static int[] convertLongtoMultiByte(long val) {
 
-        int size = 0;
+        int size;
 
         if ((val >> 56) > 0) {
             size = 8;
@@ -150,7 +152,7 @@ public class ByteUtils {
     public static int[] fromBase16toIntArray(String bytes) {
         final String PATTERN = "\\s*((0x[0-9a-f]{2}|[0-9a-f]{2})\\s*)+";
         bytes = bytes.toLowerCase();
-        if (bytes.matches(PATTERN) == false) {
+        if (!bytes.matches(PATTERN)) {
             throw new IllegalArgumentException("Unable to parse " + bytes + " doesn't match regex " + PATTERN);
         }
         String[] singleBytes = bytes.split("\\s+");

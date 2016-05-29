@@ -34,6 +34,8 @@ package org.bubblecloud.zigbee.util;
  */
 public class Integers {
 
+    private Integers() {}
+    
     /**
      * @param x the long containing the data
      * @param n the index of the byte to return

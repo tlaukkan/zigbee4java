@@ -5,6 +5,9 @@ package org.bubblecloud.zigbee.util;
  */
 public class FIFOBuffers
 {
+    
+    private FIFOBuffers() {}
+    
     public static int popInto(FIFOByteBuffer source, byte[] destination)
     {
         int i=0;
