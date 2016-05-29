@@ -1,7 +1,7 @@
 language: java
 install:
-  - git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
-  - cd $TRAVIS_REPO_SLUG
+  - git clone https://github.com/$TRAVIS_REPO_SLUG.git $HOME/$TRAVIS_REPO_SLUG
+  - cd $HOME/$TRAVIS_REPO_SLUG
   - git checkout -qf $TRAVIS_COMMIT
 script: mvn cobertura:cobertura coveralls:report
 notifications:
