@@ -5,7 +5,7 @@ notifications:
   email:
   - tommi.s.e.laukkanen@gmail.com
 before_deploy:
-  script: ./scripts/beforedeploy.sh
+  script: "./scripts/beforedeploy.sh"
 deploy:
   provider: script
   skip_cleanup: true
