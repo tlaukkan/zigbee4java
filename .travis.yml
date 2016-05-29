@@ -12,7 +12,7 @@ deploy:
   - mvn release:perform --settings settings.xml
   on:
     condition: "$TRAVIS_TAG = *-release-ready"
-    tags: false
+    branch: master
 env:
   global:
   - secure: mvuWhm/PsG4PMXsA0R8pEj1iSTbWuQKq57W9zaQGO1MuzK7e5lA1wHJp86GbFVphummUmB7YQJ8cGQgFof4vUi7EiN/7YAWys3xb+zLFe0Oo7s7gaHcR9sreolQ3TOHD0OdH+KHwMv8Oyr0vQpD75AP5RdazOGnniXKvKZ9JViISfn7DwPmQHnswS5OiXifbyAOqXjlIiv8fX3XUiLdSkK0ZxkPAfEfwE1BBEMxjcck4mo2OsiztvJBVO1pfnMMtNV4NbFkyEJjYj78QLEPFlgeGLzAdjpbguCblZL/dWdZb2z9nRMlAg21DtHx7M7nk1OG9zP9U5WPznnZm94qDYwY1XlcSNiZSH5mLiejKwRYACwAPZf4eIEnecnj2yXaq4C7TmE/XB034/X4rd0PhAZSJxbES4hjnc5zZ8s8Aid4jCr17rTiLlNPA+A52HIS6az93DyMzZQVexbUk6Bu1k7/s0Uk8pSa/ZiGw/p4W1L4JR/SjNv7spjYzFZF5+BBHp7BXGdNycwrT7P11z699ZRRd2UsBhgC8X3/rcl2AujTDLMLz3Yb2Ze+sq3DSKujYxwH+mdAC0T6GrXXmHww2eu0i5ltTLw2+7/JGMjUBYUI2pKYpmvJ9qpgSyU7vQeEz/nW7/BGyTS98Tm/E+KT2fKQnTI0EoaedZWXl1XpuKzU=
