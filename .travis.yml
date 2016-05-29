@@ -7,7 +7,7 @@ script: mvn cobertura:cobertura coveralls:report
 notifications:
   email:
   - tommi.s.e.laukkanen@gmail.com
-before_deploy: git reset --hard origin/master
+before_deploy: git checkout master
 deploy:
   provider: script
   skip_cleanup: true
