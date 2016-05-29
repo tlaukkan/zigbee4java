@@ -168,3 +168,21 @@ Contributing
 4. Rebase instead of merge when pushing.
 5. Check that Travis CI build passes after pushing.
 6. Fix any issues in your commit found in Codacy analysis.
+
+Releasing
+---------
+
+These steps require bintray account with access to zigbee4java project.
+
+Snapshot:
+
+```
+mvn deploy
+```
+
+Release:
+
+```
+mvn release:prepare
+mvn release:perform
+```
