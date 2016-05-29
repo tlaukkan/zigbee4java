@@ -2,3 +2,6 @@ language: java
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script: mvn test
 after_success: mvn clean cobertura:cobertura coveralls:report
+notifications:
+  email:
+    - tommi.s.e.laukkanen@gmail.com
