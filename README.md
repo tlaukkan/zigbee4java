@@ -172,17 +172,10 @@ Contributing
 Releasing
 ---------
 
-These steps require bintray account with access to zigbee4java project.
+Release can be done only from master branch by tagging the head revision with the following syntax:
 
-Snapshot:
+{VERSION}-release-ready
 
-```
-mvn deploy
-```
+For example: 2.0.10-release-ready
 
-Release:
-
-```
-mvn release:prepare
-mvn release:perform
-```
+This will trigger a release build by the build agent.
