@@ -4,7 +4,7 @@
 
     <groupId>org.bubblecloud.zigbee4java</groupId>
     <artifactId>zigbee4java</artifactId>
-    <version>2.0.3-SNAPSHOT</version>
+    <version>2.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -20,26 +20,14 @@
     </scm>
 
     <repositories>
-        <repository>
-            <id>bubblecloud-cloudbees-release</id>
-            <name>bubblecloud-cloudbees-release</name>
-            <url>http://repository-bubblecloud.forge.cloudbees.com/release/</url>
-        </repository>
     </repositories>
 
-    <!-- Deploy releases and snapshots to the CloudBees maven repositories -->
     <distributionManagement>
-        <downloadUrl>http://repository-bubblecloud.forge.cloudbees.com/snapshot/</downloadUrl>
         <repository>
-            <id>bubblecloud-cloudbees-release</id>
-            <name>bubblecloud-cloudbees-release</name>
-            <url>dav:https://repository-bubblecloud.forge.cloudbees.com/release/</url>
+            <id>bintray-tlaukkan-bubblecloud</id>
+            <name>tlaukkan-bubblecloud</name>
+            <url>https://api.bintray.com/maven/tlaukkan/bubblecloud/zigbee4java/;publish=1</url>
         </repository>
-        <snapshotRepository>
-            <id>bubblecloud-cloudbees-snapshot</id>
-            <name>bubblecloud-cloudbees-snapshot</name>
-            <url>dav:https://repository-bubblecloud.forge.cloudbees.com/snapshot/</url>
-        </snapshotRepository>
     </distributionManagement>
 
     <profiles>
@@ -96,17 +84,6 @@
 
     <build>
         <plugins>
-            <!--<plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.4.2</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.scm</groupId>
-                        <artifactId>maven-scm-provider-gitexe</artifactId>
-                        <version>1.8.1</version>
-                    </dependency>
-                </dependencies>
-            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -133,13 +110,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav-jackrabbit</artifactId>
-                <version>1.0-beta-7</version>
-            </extension>
-        </extensions>
     </build>
 
     <reporting>
