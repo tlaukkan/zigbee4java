@@ -8,9 +8,7 @@ notifications:
 deploy:
   provider: script
   skip_cleanup: true
-  script:
-  - mvn release:prepare --settings settings.xml
-  - mvn release:perform --settings settings.xml
+  script: mvn -B release:prepare release:perform --settings settings.xml
   on:
     condition: "$TRAVIS_TAG = *-release-ready"
     all_branches: true
