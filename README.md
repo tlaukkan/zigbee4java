@@ -69,7 +69,7 @@ Serial-comm and zigbee4java dependencies can be found from the following reposit
         <id>bubblecloud-cloudbees-release</id>
         <url>http://repository-bubblecloud.forge.cloudbees.com/release/</url>
     </repository>
-        <repository>
+    <repository>
         <snapshots>
             <enabled>false</enabled>
         </snapshots>
@@ -90,14 +90,14 @@ Maven:
     <dependency>
       <groupId>org.bubblecloud.zigbee4java</groupId>
       <artifactId>zigbee-api</artifactId>
-      <version>2.0.7</version>
+      <version>2.0.10</version>
       <type>pom</type>
     </dependency>
 
     <dependency>
         <groupId>org.bubblecloud.zigbee4java</groupId>
         <artifactId>zigbee-serial-javase</artifactId>
-        <version>2.0.2</version>
+        <version>2.0.10</version>
     </dependency>
 </dependencies>
 ```
@@ -107,8 +107,8 @@ Gradle:
 ```
 dependencies
 {
-    compile 'org.bubblecloud.zigbee:zigbee-api:2.0.7'
-    compile 'org.bubblecloud.zigbee:zigbee-serial-javase:2.0.7'
+    compile 'org.bubblecloud.zigbee:zigbee-api:2.0.10'
+    compile 'org.bubblecloud.zigbee:zigbee-serial-javase:2.0.10'
 }
 ```
 
