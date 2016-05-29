@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/tlaukkan/zigbee4java.svg?branch=master)](https://travis-ci.org/tlaukkan/zigbee4java)
-
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/62db6a5c2e4f4c138c0a8eb076102678)](https://www.codacy.com/app/tommi-s-e-laukkanen/zigbee4java?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tlaukkan/zigbee4java&amp;utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/tlaukkan/zigbee4java/badge.svg?branch=master)](https://coveralls.io/github/tlaukkan/zigbee4java?branch=master)
 
 ZigBee API for Java
