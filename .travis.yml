@@ -4,12 +4,10 @@ script: mvn cobertura:cobertura coveralls:report
 notifications:
   email:
   - tommi.s.e.laukkanen@gmail.com
-before_deploy:
-  script: "./scripts/beforedeploy.sh"
 deploy:
   provider: script
   skip_cleanup: true
-  script: mvn -B release:prepare release:perform  -DskipTests=true --settings settings.xml
+  script: ".travis/deploy.sh"
   on:
     condition: "$TRAVIS_TAG = *-release-ready"
     all_branches: true
