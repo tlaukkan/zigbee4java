@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/tlaukkan/zigbee4java.svg?branch=master)](https://travis-ci.org/tlaukkan/zigbee4java)
+
+[![Coverage Status](https://coveralls.io/repos/github/tlaukkan/zigbee4java/badge.svg?branch=master)](https://coveralls.io/github/tlaukkan/zigbee4java?branch=master)
+
 ZigBee API for Java
 ===================
 
