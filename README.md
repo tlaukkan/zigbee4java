@@ -154,6 +154,7 @@ Contributing
 
 1. Follow Google Java style: https://google.github.io/styleguide/javaguide.html
 2. Add unit tests for your commit if applicable / possible.
-2. Build before commit.
-3. Check that Travis CI build passes.
-4. Fix any issues in your commit found in Codacy analysis.
+3. Build before commit.
+4. Rebase instead of merge when pushing.
+5. Check that Travis CI build passes after pushing.
+6. Fix any issues in your commit found in Codacy analysis.
