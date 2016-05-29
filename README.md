@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/tlaukkan/zigbee4java.svg?branch=master)](https://travis-ci.org/tlaukkan/zigbee4java)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/62db6a5c2e4f4c138c0a8eb076102678)](https://www.codacy.com/app/tommi-s-e-laukkanen/zigbee4java?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tlaukkan/zigbee4java&amp;utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/tlaukkan/zigbee4java/badge.svg?branch=master)](https://coveralls.io/github/tlaukkan/zigbee4java?branch=master)
+[![Download](https://api.bintray.com/packages/tlaukkan/bubblecloud/zigbee4java/images/download.svg) ](https://bintray.com/tlaukkan/bubblecloud/zigbee4java/_latestVersion)
 
 ZigBee API for Java
 ===================
@@ -68,6 +69,14 @@ Serial-comm and zigbee4java dependencies can be found from the following reposit
         <id>bubblecloud-cloudbees-release</id>
         <url>http://repository-bubblecloud.forge.cloudbees.com/release/</url>
     </repository>
+        <repository>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+        <id>bintray-tlaukkan-bubblecloud</id>
+        <name>bintray</name>
+        <url>http://dl.bintray.com/tlaukkan/bubblecloud</url>
+    </repository>
 </repositories>
 ```
 
@@ -79,9 +88,10 @@ Maven:
 ```
 <dependencies>
     <dependency>
-        <groupId>org.bubblecloud.zigbee4java</groupId>
-        <artifactId>zigbee-api</artifactId>
-        <version>2.0.2</version>
+      <groupId>org.bubblecloud.zigbee4java</groupId>
+      <artifactId>zigbee-api</artifactId>
+      <version>2.0.7</version>
+      <type>pom</type>
     </dependency>
 
     <dependency>
@@ -97,8 +107,8 @@ Gradle:
 ```
 dependencies
 {
-    compile 'org.bubblecloud.zigbee:zigbee-api:2.0.2'
-    compile 'org.bubblecloud.zigbee:zigbee-serial-javase:2.0.2'
+    compile 'org.bubblecloud.zigbee:zigbee-api:2.0.7'
+    compile 'org.bubblecloud.zigbee:zigbee-serial-javase:2.0.7'
 }
 ```
 
