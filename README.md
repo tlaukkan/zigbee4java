@@ -174,8 +174,14 @@ Releasing
 
 Release can be done only from master branch by tagging the head revision with the following syntax:
 
+```
 {VERSION}-release-ready
+```
 
-For example: 2.0.10-release-ready
+For example:
+
+```
+2.0.10-release-ready
+```
 
 This will trigger a release build by the build agent.
