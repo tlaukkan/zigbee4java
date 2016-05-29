@@ -1,4 +1,5 @@
 language: java
+install: echo skipped
 script: mvn cobertura:cobertura coveralls:report
 notifications:
   email:
