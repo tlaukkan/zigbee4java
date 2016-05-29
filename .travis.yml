@@ -1,5 +1,8 @@
 language: java
-install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+install:
+  - git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
+  - cd $TRAVIS_REPO_SLUG
+  - git checkout -qf $TRAVIS_COMMIT
 script: mvn cobertura:cobertura coveralls:report
 notifications:
   email:
@@ -7,7 +10,7 @@ notifications:
 deploy:
   provider: script
   skip_cleanup: true
-  script: ".travis/deploy.sh"
+  script: mvn -B release:prepare release:perform  -DskipTests=true --settings settings.xml
   on:
     condition: "$TRAVIS_TAG = *-release-ready"
     all_branches: true
