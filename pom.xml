@@ -4,7 +4,7 @@
 
     <groupId>org.bubblecloud.zigbee4java</groupId>
     <artifactId>zigbee4java</artifactId>
-    <version>2.0.4-SNAPSHOT</version>
+    <version>2.0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -20,6 +20,14 @@
     </scm>
 
     <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-tlaukkan-bubblecloud</id>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/tlaukkan/bubblecloud</url>
+        </repository>
     </repositories>
 
     <distributionManagement>
@@ -108,6 +116,11 @@
                     <!-- aggregated reports for multi-module projects -->
                     <aggregate>true</aggregate>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
             </plugin>
         </plugins>
     </build>
