@@ -7,11 +7,7 @@ notifications:
 deploy:
   provider: script
   skip_cleanup: true
-  script:
-  - git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
-  - cd $TRAVIS_REPO_SLUG
-  - git checkout -qf $TRAVIS_COMMIT
-  - mvn -B release:prepare release:perform  -DskipTests=true --settings settings.xml
+  script: ./travis-deploy.sh
   on:
     condition: "$TRAVIS_TAG = *-release-ready"
     all_branches: true
