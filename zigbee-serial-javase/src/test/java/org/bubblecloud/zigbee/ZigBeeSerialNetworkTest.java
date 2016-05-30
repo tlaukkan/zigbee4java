@@ -1,6 +1,6 @@
 package org.bubblecloud.zigbee;
 
-import org.bubblecloud.zigbee.network.port.ZigBeeSerialPortImpl;
+import org.bubblecloud.zigbee.network.port.ZigBeeSerialPortJsscImpl;
 
 /**
  * Created by Chris on 25/02/15.
@@ -12,6 +12,6 @@ public final class ZigBeeSerialNetworkTest extends ZigBeeNetworkTest
 
 	public ZigBeeSerialNetworkTest()
 	{
-		super(new ZigBeeSerialPortImpl(SerialPortIdentifier, BaudRate));
+		super(new ZigBeeSerialPortJsscImpl(SerialPortIdentifier, BaudRate));
 	}
 }
