@@ -138,7 +138,7 @@ Usage
 
 ```
 ZigBeeSerialPortImpl serialPort = new ZigBeeSerialPortImpl("/dev/ttyACM0", 38400);
-ZigBeeConsole console = new ZigBeeConsole(serialPort, 4951, 11, false);
+ZigBeeApi zigbeeApi = new ZigBeeApi(serialPort, 4951, 11, DiscoveryMode.ALL);
 zigbeeApi.startup();
 
 Device lamp = zigbeeApi.getZigBeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
