@@ -66,16 +66,9 @@ Serial-comm and zigbee4java dependencies can be found from the following reposit
 ```
 <repositories>
     <repository>
-        <id>bubblecloud-cloudbees-release</id>
-        <url>http://repository-bubblecloud.forge.cloudbees.com/release/</url>
-    </repository>
-    <repository>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-        <id>bintray-tlaukkan-bubblecloud</id>
+        <id>jcenter-bintray</id>
         <name>bintray</name>
-        <url>http://dl.bintray.com/tlaukkan/bubblecloud</url>
+        <url>http://jcenter.bintray.com</url>
     </repository>
 </repositories>
 ```
@@ -90,14 +83,14 @@ Maven:
     <dependency>
       <groupId>org.bubblecloud.zigbee4java</groupId>
       <artifactId>zigbee-api</artifactId>
-      <version>2.0.10</version>
+      <version>2.0.11</version>
       <type>pom</type>
     </dependency>
 
     <dependency>
         <groupId>org.bubblecloud.zigbee4java</groupId>
         <artifactId>zigbee-serial-javase</artifactId>
-        <version>2.0.10</version>
+        <version>2.0.11</version>
     </dependency>
 </dependencies>
 ```
@@ -137,7 +130,7 @@ Usage
 -----
 
 ```
-final ZigBeeSerialPortImpl serialPort = new ZigBeeSerialPortImpl("/dev/ttyACM0", 38400);
+final ZigBeeSerialPortJsscImpl serialPort = new ZigBeeSerialPortJsscImpl("/dev/ttyACM0", 38400);
 final ZigBeeApi zigbeeApi = new ZigBeeApi(serialPort, 4951, 11, false, DiscoveryMode.ALL);
 zigbeeApi.startup();
 
@@ -160,7 +153,7 @@ Complete startup and shutdown example including network state loading:
 
 ```
 final boolean resetNetwork = false;
-final ZigBeeSerialPortImpl serialPort = new ZigBeeSerialPortImpl("COM5", 38400);
+final ZigBeeSerialPortJsscImpl serialPort = new ZigBeeSerialPortJsscImpl("COM5", 38400);
 final ZigBeeApi zigbeeApi = new ZigBeeApi(serialPort, 4951, 11, false, DiscoveryMode.ALL);
 
 final File networkStateFile = new File("network.json");
