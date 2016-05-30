@@ -137,21 +137,75 @@ Usage
 -----
 
 ```
-ZigBeeSerialPortImpl serialPort = new ZigBeeSerialPortImpl("/dev/ttyACM0", 38400);
-ZigBeeApi zigbeeApi = new ZigBeeApi(serialPort, 4951, 11, DiscoveryMode.ALL);
+final ZigBeeSerialPortImpl serialPort = new ZigBeeSerialPortImpl("/dev/ttyACM0", 38400);
+final ZigBeeApi zigbeeApi = new ZigBeeApi(serialPort, 4951, 11, false, DiscoveryMode.ALL);
 zigbeeApi.startup();
 
-Device lamp = zigbeeApi.getZigBeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
+...
 
-Basic basic = lamp.getCluster(Basic);
-String manufactureName = basic.getManufacturerName();
+final Device lamp = zigbeeApi.getZigBeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
 
-OnOff onOff = lamp.getCluster(OnOff.class);
+final Basic basic = lamp.getCluster(Basic);
+final String manufactureName = basic.getManufacturerName();
+
+final OnOff onOff = lamp.getCluster(OnOff.class);
 onOff.on();
 
-int onOffAttributeIndex = 0;
-Reporter reporter = onOff.getAttribute(onOffAttributeIndex).getReporter();
+final int onOffAttributeIndex = 0;
+final Reporter reporter = onOff.getAttribute(onOffAttributeIndex).getReporter();
 reporter.addReportListener(reportListener);
+```
+
+Complete startup and shutdown example including network state loading:
+
+```
+final boolean resetNetwork = false;
+final ZigBeeSerialPortImpl serialPort = new ZigBeeSerialPortImpl("COM5", 38400);
+final ZigBeeApi zigbeeApi = new ZigBeeApi(serialPort, 4951, 11, false, DiscoveryMode.ALL);
+
+final File networkStateFile = new File("network.json");
+final boolean networkStateExists = networkStateFile.exists();
+if (!resetNetwork && networkStateExists) {
+    LOGGER.info("ZigBeeApi loading network state...");
+    final String networkState = FileUtils.readFileToString(networkStateFile);
+    zigbeeApi.deserializeNetworkState(networkState);
+    LOGGER.info("ZigBeeApi loading network state done.");
+}
+
+LOGGER.info("ZigBeeApi startup...");
+if (!zigbeeApi.startup()) {
+    LOGGER.error("Error initializing ZigBeeApi.");
+    return;
+}
+LOGGER.info("ZigBeeApi startup done.");
+
+if (!networkStateExists) {
+    LOGGER.info("ZigBeeApi initial browsing...");
+    while (!zigbeeApi.isInitialBrowsingComplete()) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+        LOGGER.info("Waiting for initial browsing to complete.");
+    }
+    LOGGER.info("ZigBeeApi initial browsing done.");
+}
+
+LOGGER.info("ZigBeeApi listing devices...");
+final List<Device> devices = zigbeeApi.getDevices();
+for (final Device device : devices) {
+    LOGGER.info(device.getNetworkAddress() + ")" + device.getDeviceType());
+}
+LOGGER.info("ZigBeeApi listing devices done.");
+
+LOGGER.info("ZigBeeApi shutdown...");
+zigbeeApi.shutdown();
+serialPort.close();
+LOGGER.info("ZigBeeApi shutdown done.");
+
+LOGGER.info("ZigBeeApi saving network state...");
+FileUtils.writeStringToFile(networkStateFile, zigbeeApi.serializeNetworkState(), false);
+LOGGER.info("ZigBeeApi saving network state done.");
 ```
 
 Examples
