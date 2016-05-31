@@ -89,7 +89,9 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
 
         if (enabledDiscoveries.contains(DiscoveryMode.Addressing)) {
             associationNetworkBrowser = new AssociationNetworkBrowser(importingQueue, networkManager);
-            new Thread(associationNetworkBrowser, "AssociationNetworkBrowser[" + networkManager + "]").start();
+            final Thread associationNetworkBrowserThread = new Thread(associationNetworkBrowser, "AssociationNetworkBrowser[" + networkManager + "]");
+            associationNetworkBrowserThread.setDaemon(true);
+            associationNetworkBrowserThread.start();
         } else {
             logger.trace("{} discovery disabled.",
                     AssociationNetworkBrowser.class);
@@ -97,14 +99,18 @@ public class ZigBeeDiscoveryManager implements ApplicationFrameworkMessageListen
 
         if (enabledDiscoveries.contains(DiscoveryMode.LinkQuality)) {
             linkQualityIndicatorNetworkBrowser = new LinkQualityIndicatorNetworkBrowser(importingQueue, networkManager);
-            new Thread(linkQualityIndicatorNetworkBrowser, "LinkQualityIndicatorNetworkBrowser[" + networkManager + "]").start();
+            final Thread linkQualityIndicatorNetworkBrowserThread = new Thread(linkQualityIndicatorNetworkBrowser, "LinkQualityIndicatorNetworkBrowser[" + networkManager + "]");
+            linkQualityIndicatorNetworkBrowserThread.setDaemon(true);
+            linkQualityIndicatorNetworkBrowserThread.start();
         } else {
             logger.trace("{} discovery disabled.",
                     LinkQualityIndicatorNetworkBrowser.class);
         }
 
         endpointBuilder = new EndpointBuilder(importingQueue, networkManager);
-        new Thread(endpointBuilder, "EndpointBuilder[" + networkManager + "]").start();
+        final Thread endPointBuilderThread = new Thread(endpointBuilder, "EndpointBuilder[" + networkManager + "]");
+        endPointBuilderThread.setDaemon(true);
+        endPointBuilderThread.start();
 
         networkManager.addAFMessageListener(this);
     }
