@@ -36,7 +36,6 @@ package org.bubblecloud.zigbee.network;
  * @since 0.4.0
  */
 public interface ClusterFilter {
-
     /**
      * This method is invoked to check if the  {@link ZigBeeEndpoint} to check if {@link ClusterMessage}<br>
      * can be handled by the {@link ClusterListener} associated to this {@link ClusterFilter}
@@ -45,6 +44,4 @@ public interface ClusterFilter {
      * @return true if the {@link ClusterMessage} match the {@link ClusterFilter}
      */
     boolean match(ClusterMessage clusterMessage);
-
-
 }

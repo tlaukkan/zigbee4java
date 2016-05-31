@@ -27,9 +27,14 @@ package org.bubblecloud.zigbee.network;
  * @since 0.5.1
  */
 public interface ZigBeeDiscoveryMonitor {
-
-    public void browsedNode(ZigBeeNode node);
-
-    public void announcedNode(ZigBeeNode node);
-
+   /**
+    * Called when node has been browsed.
+    * @param node the node
+    */
+    void browsedNode(ZigBeeNode node);
+    /**
+     * Called when node has been announced.
+     * @param node the noce
+     */
+    void announcedNode(ZigBeeNode node);
 }

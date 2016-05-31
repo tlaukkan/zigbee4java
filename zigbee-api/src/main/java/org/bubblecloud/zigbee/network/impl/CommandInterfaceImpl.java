@@ -19,9 +19,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package org.bubblecloud.zigbee.network.port;
+package org.bubblecloud.zigbee.network.impl;
 
 import org.bubblecloud.zigbee.network.AsynchronousCommandListener;
+import org.bubblecloud.zigbee.network.CommandInterface;
+import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.SynchronousCommandListener;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.network.packet.ZToolPacketHandler;
@@ -41,15 +43,15 @@ import java.util.*;
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
-public class ZigBeeInterface implements ZToolPacketHandler {
+public class CommandInterfaceImpl implements ZToolPacketHandler, CommandInterface {
     /**
      * The logger.
      */
-    private final static Logger LOGGER = LoggerFactory.getLogger(ZigBeeInterface.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandInterfaceImpl.class);
     /**
      * The packet logger.
      */
-    private final static Logger PACKET_LOGGER = LoggerFactory.getLogger("org.bubblecloud.zigbee.network.port.PacketLogger");
+    private static final Logger PACKET_LOGGER = LoggerFactory.getLogger("org.bubblecloud.zigbee.network.port.PacketLogger");
     /**
      * The port interface.
      */
@@ -83,7 +85,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      * Constructor for configuring the ZigBee Network connection parameters.
      * @param port the ZigBee transport implementation.
      */
-    public ZigBeeInterface(SerialPort port) {
+    public CommandInterfaceImpl(SerialPort port) {
         this.port = port;
     }
 
@@ -91,6 +93,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      * Opens connection to ZigBee Network.
      * @return true if connection startup was success.
      */
+    @Override
     public boolean open() {
         if (!port.open()) {
             return false;
@@ -102,6 +105,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
     /**
      * Closes connection to ZigBee Network.
      */
+    @Override
     public void close() {
         synchronized (port) {
             if (parser != null) {
@@ -198,16 +202,17 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      * Sends synchronous command and adds listener.
      * @param packet the command packet
      * @param listener the synchronous command response listener
-     * @param timeout the timeout
+     * @param timeoutMillis the timeout
      * @throws IOException if IO exception occurs in packet sending
      */
+    @Override
     public void sendSynchronousCommand(final ZToolPacket packet, final SynchronousCommandListener listener,
-                                       final long timeout)
+                                       final long timeoutMillis)
             throws IOException {
-        if (timeout == -1L) {
+        if (timeoutMillis == -1L) {
             synchronousCommandListenerTimeouts.put(listener, -1L);
         } else {
-            final long expirationTime = System.currentTimeMillis() + timeout;
+            final long expirationTime = System.currentTimeMillis() + timeoutMillis;
             synchronousCommandListenerTimeouts.put(listener, expirationTime);
         }
 
@@ -259,6 +264,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      * @param packet the packet.
      * @throws IOException if IO exception occurs in packet sending.
      */
+    @Override
     public void sendAsynchronousCommand(final ZToolPacket packet) throws IOException {
         int value = (packet.getCMD().getMsb() & 0xE0);
         if (value != 0x40) {
@@ -272,18 +278,19 @@ public class ZigBeeInterface implements ZToolPacketHandler {
 
     /**
      * Send raw bytes to output stream.
-     * @param buffer the byte buffer
+     * @param packet the byte buffer
      * @throws IOException if IO exception occurs when writing or flushing bytes.
      */
-    public void sendRaw(int[] buffer) throws IOException {
+    @Override
+    public void sendRaw(int[] packet) throws IOException {
         synchronized (port) {
             final OutputStream out = port.getOutputStream();
             if (out == null) {
                 // Socket has not been opened or is already closed.
                 return;
             }
-            for (int i = 0; i < buffer.length; i++) {
-                out.write(buffer[i]);
+            for (int i = 0; i < packet.length; i++) {
+                out.write(packet[i]);
             }
             out.flush();
         }
@@ -314,6 +321,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      * @param listener the listener
      * @return true if listener did not already exist.
      */
+    @Override
     public boolean addAsynchronousCommandListener(AsynchronousCommandListener listener) {
         boolean result;
         synchronized (asynchrounsCommandListeners) {
@@ -327,6 +335,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      * @param listener the listener
      * @return true if listener did not already exist.
      */
+    @Override
     public boolean removeAsynchronousCommandListener(AsynchronousCommandListener listener) {
         boolean result;
         synchronized (asynchrounsCommandListeners) {

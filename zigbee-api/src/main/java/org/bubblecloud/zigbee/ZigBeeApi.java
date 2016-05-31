@@ -43,8 +43,8 @@ import org.bubblecloud.zigbee.api.device.hvac.TemperatureSensor;
 import org.bubblecloud.zigbee.api.device.lighting.*;
 import org.bubblecloud.zigbee.api.device.impl.*;
 import org.bubblecloud.zigbee.api.DeviceBase;
-import org.bubblecloud.zigbee.network.port.ZigBeeNetworkManagerImpl;
-import org.bubblecloud.zigbee.network.port.SerialPort;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerImpl;
+import org.bubblecloud.zigbee.network.SerialPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -28,9 +28,16 @@ package org.bubblecloud.zigbee.network;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
 public interface ApplicationFrameworkMessageProducer {
-
-    public boolean addAFMessageConsumer(ApplicationFrameworkMessageConsumer consumer);
-
-    public boolean removeAFMessageConsumer(ApplicationFrameworkMessageConsumer consumer);
-
+   /**
+    * Adds application framework message consumer.
+    * @param consumer the consumer
+    * @return true if add was successful.
+    */
+    boolean addAFMessageConsumer(ApplicationFrameworkMessageConsumer consumer);
+    /**
+     * Removes application framework message consumer.
+     * @param consumer the consumer
+     * @return true if remove was successful.
+     */
+    boolean removeAFMessageConsumer(ApplicationFrameworkMessageConsumer consumer);
 }

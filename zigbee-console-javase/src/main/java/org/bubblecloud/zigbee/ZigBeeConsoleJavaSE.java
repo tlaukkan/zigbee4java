@@ -1,7 +1,7 @@
 package org.bubblecloud.zigbee;
 
 import org.apache.log4j.xml.DOMConfigurator;
-import org.bubblecloud.zigbee.network.port.SerialPort;
+import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.port.SerialPortImpl;
 
 /**

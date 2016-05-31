@@ -30,8 +30,9 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
  * @since 0.1.0
  */
 public interface AsynchronousCommandListener {
-
+   /**
+    * Called when asynchronous command has been received.
+    * @param packet the command packet.
+    */
     void receivedAsynchronousCommand(ZToolPacket packet);
-
-
 }

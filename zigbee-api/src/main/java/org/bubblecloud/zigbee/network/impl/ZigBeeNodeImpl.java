@@ -23,8 +23,6 @@
 package org.bubblecloud.zigbee.network.impl;
 
 import org.bubblecloud.zigbee.network.ZigBeeNode;
-import org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor;
-import org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 

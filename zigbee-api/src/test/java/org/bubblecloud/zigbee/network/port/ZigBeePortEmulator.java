@@ -21,6 +21,7 @@
  */
 package org.bubblecloud.zigbee.network.port;
 
+import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.packet.ZToolPacketParser;
 import org.bubblecloud.zigbee.util.ThreadUtils;
 import org.slf4j.Logger;

@@ -30,7 +30,9 @@ import org.bubblecloud.zigbee.network.packet.ZToolPacket;
  * @since 0.1.0
  */
 public interface SynchronousCommandListener {
-
-    public void receivedCommandResponse(ZToolPacket packet);
-
+   /**
+    * Receives command response.
+    * @param packet the command packet
+    */
+    void receivedCommandResponse(ZToolPacket packet);
 }

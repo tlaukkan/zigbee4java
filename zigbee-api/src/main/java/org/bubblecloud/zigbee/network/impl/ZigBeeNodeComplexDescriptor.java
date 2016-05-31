@@ -1,4 +1,4 @@
-package org.bubblecloud.zigbee.network;
+package org.bubblecloud.zigbee.network.impl;
 
 /*
  * This implements the Node Complex en join

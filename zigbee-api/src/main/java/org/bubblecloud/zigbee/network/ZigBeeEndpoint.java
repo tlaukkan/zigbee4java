@@ -24,7 +24,6 @@ package org.bubblecloud.zigbee.network;
 
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 
-
 /**
  * This interface represent a ZigBee Endpoint.
  *
@@ -34,90 +33,64 @@ import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
  * @since 0.1.0
  */
 public interface ZigBeeEndpoint {
-
     /**
      * Constant for the ZigBee device match scale, indicating a match with the ProfileId. Value is 1024.
      */
-    public static final int MATCH_PROFILE_ID = 1024;
-
-    /**
-     * Constant for the ZigBee device match scale to add when a device match with the ProfileId
-     * for each of the cluster matching. Value is 1.
-     */
-    public static final int MATCH_CLUSTER_ID = 1;
-
-    /**
-     * Constant for the ZigBee device match scale, indicating a match with the ProfileId
-     * and the DeviceId. Value is 4096.
-     */
-    public static final int MATCH_DEVICE_ID = 4096;
-
+    int MATCH_PROFILE_ID = 1024;
     /**
      * @return int representing the current network address linked to the node
      */
-    public int getNetworkAddress();
-
+    int getNetworkAddress();
     /**
      * @return a {@link String} representing the IEEEAddress of the node
      */
-    public String getIeeeAddress();
-
+    String getIeeeAddress();
     /**
      * @return Address of the EndPoint represented by this object, value ranges from 1 to 240.
      */
-    public short getEndPointAddress();
-
+    short getEndPointAddress();
     /**
      * @return the profile Id implemented by this EndPoint
      */
-    public int getProfileId();
-
+    int getProfileId();
     /**
      * @return the device id implemented by this EndPoint
      */
-    public int getDeviceTypeId();
-
+    int getDeviceTypeId();
     /**
      * @return the {@link ZigBeeNode} containing this endpoint
      * @since 0.2.0
      */
-    public ZigBeeNode getNode();
-
+    ZigBeeNode getNode();
     /**
      * @return a {@link String} the represent an URI of endpoint.
      * @since 0.5.0
      */
-    public String getEndpointId();
-
+    String getEndpointId();
     /**
      * @return the device version implemented by this endpoint
      */
-    public short getDeviceVersion();
-
+    short getDeviceVersion();
     /**
      * @return the list of Input Cluster identifies implemented by this EndPoint
      */
-    public int[] getInputClusters();
-
+    int[] getInputClusters();
     /**
      * @param id the Cluster identifier
      * @return true if and only if the EnpPoint implements the given Cluster id<br>
      *         as Input Cluster
      */
-    public boolean providesInputCluster(int id);
-
+    boolean providesInputCluster(int id);
     /**
      * @return the list of Output Cluster identifies implemented by this EndPoint
      */
-    public int[] getOutputClusters();
-
+    int[] getOutputClusters();
     /**
      * @param id the Cluster identifier
      * @return true if and only if the EnpPoint implements the given Cluster id<br>
      *         as Output Cluster
      */
-    public boolean providesOutputCluster(int id);
-
+    boolean providesOutputCluster(int id);
     /**
      * Invoke the given {@link ClusterMessage} (which is supposed to part of the Input Cluster) of this EndPoint,<br>
      * and wait for the a response.
@@ -126,8 +99,7 @@ public interface ZigBeeEndpoint {
      * @return the {@link ClusterMessage} representing the response received after that the Cluster answer to<br>
      *         the request.
      */
-    public ClusterMessage invoke(ClusterMessage input) throws ZigBeeNetworkManagerException;
-
+    ClusterMessage invoke(ClusterMessage input) throws ZigBeeNetworkManagerException;
     /**
      * Send the given {@link ClusterMessage} (which is supposed to be Input Cluster) to this EndPoint,<br>
      * on the contrary than the {@link #invoke(ClusterMessage)} this method doesn't wait for nor requires<br>
@@ -135,8 +107,7 @@ public interface ZigBeeEndpoint {
      *
      * @param input the {@link ClusterMessage} containing the id of the Cluster to send to the cluster message
      */
-    public void send(ClusterMessage input) throws ZigBeeNetworkManagerException;
-
+    void send(ClusterMessage input) throws ZigBeeNetworkManagerException;
     /**
      * This method modify the <i>Binding Table</i> of physical endpoint by adding the following entry:
      * <pre>
@@ -149,8 +120,7 @@ public interface ZigBeeEndpoint {
      * @throws org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException
      * @since 0.5.0
      */
-    public boolean bindTo(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException;
-
+    boolean bindTo(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException;
     /**
      * This method modify the <i>Binding Table</i> of physical device by removing the entry if exists
      * <pre>
@@ -163,24 +133,21 @@ public interface ZigBeeEndpoint {
      * @throws org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException
      * @since 0.5.0
      */
-    public boolean unbindFrom(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException;
-
+    boolean unbindFrom(ZigBeeEndpoint endpoint, int clusterId) throws ZigBeeNetworkManagerException;
     /**
      * Adds a binding to the device, to the local device for the specificed cluster
      * @param clusterId Cluster to bind to
      * @return true if the binding was successful
      * @throws org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException
      */
-    public boolean bindToLocal(int clusterId) throws ZigBeeNetworkManagerException;
-
+    boolean bindToLocal(int clusterId) throws ZigBeeNetworkManagerException;
     /**
      * Removes a binding from the device, to the local device for the specificed cluster
      * @param clusterId Cluster to unbind from
      * @return true if the binding was successfully removed
      * @throws org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException
      */
-    public boolean unbindFromLocal(int clusterId) throws ZigBeeNetworkManagerException;
-
+    boolean unbindFromLocal(int clusterId) throws ZigBeeNetworkManagerException;
     /**
      * Add a {@link ClusterListener} to this EndPoint. The same instance of a {@link ClusterListener} will<br>
      * registered only once.
@@ -188,15 +155,13 @@ public interface ZigBeeEndpoint {
      * @param listener the {@link ClusterListener} to register
      * @return true if and only if the {@link ClusterListener} has been registered
      */
-    public boolean addClusterListener(ClusterListener listener);
-
+    boolean addClusterListener(ClusterListener listener);
     /**
      * Remove a {@link ClusterListener} to this EndPoint.
      *
      * @param listener the {@link ClusterListener} to unregister
      * @return true if and only if the {@link ClusterListener} has been unregistered
      */
-    public boolean removeClusterListener(ClusterListener listener);
-
+    boolean removeClusterListener(ClusterListener listener);
 }
 

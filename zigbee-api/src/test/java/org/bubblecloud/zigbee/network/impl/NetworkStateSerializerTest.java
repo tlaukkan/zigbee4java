@@ -49,12 +49,4 @@ public class NetworkStateSerializerTest {
         Assert.assertEquals(networkState, networkStateOfRestoredNetwork);
     }
 
-    @Test
-    public void testDeserialize() {
-        final NetworkStateSerializer networkStateSerializer = new NetworkStateSerializer();
-        final String networkState = "[\"java.util.ArrayList\",[[\"org.bubblecloud.zigbee.network.impl.ZigBeeEndpointImpl\",{\"node\":[\"org.bubblecloud.zigbee.network.impl.ZigBeeNodeImpl\",{\"networkAddress\":0,\"ieeeAddress\":\"00:11:22:33:44:55:66:77\",\"pan\":4660,\"nodeDescriptor\":[\"org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor\",{\"logicalType\":\"COORDINATOR\",\"manufacturerCode\":160,\"maximumBufferSize\":1,\"maximumTransferSize\":40960,\"macCapabilities\":[\"java.util.ArrayList\",[\"SECURITY_CAPABLE\"]],\"serverMask\":[\"java.util.ArrayList\",[]]}],\"powerDescriptor\":[\"org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor\",{\"powerMode\":\"RECEIVER_ON\",\"powerSourcesAvailable\":[\"java.util.ArrayList\",[\"MAINS\"]],\"powerSource\":\"MAINS\",\"powerLevel\":\"FULL\"}]}],\"deviceTypeId\":1024,\"profileId\":260,\"deviceVersion\":0,\"endPointAddress\":1,\"inputClusters\":[1,3,1281],\"outputClusters\":[3,1280,1282],\"endpointId\":\"00:11:22:33:44:55:66:77/1\"}]]]";
-        final ZigBeeNetwork zigBeeNetworkRestored = new ZigBeeNetwork();
-        networkStateSerializer.deserialize(null, zigBeeNetworkRestored, networkState);
-        Assert.assertEquals(1, zigBeeNetworkRestored.getDevices().size());
-    }
 }

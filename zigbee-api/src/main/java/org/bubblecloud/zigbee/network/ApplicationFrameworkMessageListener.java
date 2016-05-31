@@ -22,7 +22,6 @@
 
 package org.bubblecloud.zigbee.network;
 
-
 import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
 
 /**
@@ -34,7 +33,6 @@ import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
  * @since 0.1.0
  */
 public interface ApplicationFrameworkMessageListener {
-
     /**
      * This method is invoked by the {@link ZigBeeNetworkManager} on all the {@link ApplicationFrameworkMessageListener}<br>
      * when a {@link org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG} command arrive from the ZigBee NIC
@@ -42,6 +40,4 @@ public interface ApplicationFrameworkMessageListener {
      * @param msg the {@link AF_INCOMING_MSG} arrived that has to be handled
      */
     boolean notify(AF_INCOMING_MSG msg);
-
-
 }

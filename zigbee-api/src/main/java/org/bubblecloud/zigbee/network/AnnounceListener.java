@@ -31,7 +31,6 @@ import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
  * @since 0.1.0
  */
 public interface AnnounceListener {
-
     /**
      * Callback invoked when an <i>Announce</i> message arrives
      *
@@ -45,5 +44,4 @@ public interface AnnounceListener {
      */
     void announce(ZToolAddress16 senderAddress, ZToolAddress64 ieeeAddress,
                   ZToolAddress16 networkAddress, int capabilitiesBitmask);
-
 }

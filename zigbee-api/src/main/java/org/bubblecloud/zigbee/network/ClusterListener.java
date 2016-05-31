@@ -29,7 +29,6 @@ package org.bubblecloud.zigbee.network;
  * @since 0.1.0
  */
 public interface ClusterListener {
-
     /**
      * Set the {@link ClusterListener}  of this ClusterListener.<br>
      * A <code>null</code> values means no filtering
@@ -38,8 +37,7 @@ public interface ClusterListener {
      *               <code>null</code> to disable the filtering
      * @since 0.4.0
      */
-    public void setClusterFilter(ClusterFilter filter);
-
+    void setClusterFilter(ClusterFilter filter);
     /**
      * Return the {@link ClusterListener}  associated to this ClusterListener.<br>
      * A <code>null</code> values means no filtering
@@ -47,14 +45,12 @@ public interface ClusterListener {
      * @return the {@link ClusterListener} associated to this ClusterListener
      * @since 0.4.0
      */
-    public ClusterFilter getClusterFilter();
-
+    ClusterFilter getClusterFilter();
     /**
      * The callback invoked by the ZigBee Base Driver to announce for a new {@link ClusterMessage}
      *
      * @param endpoint         reference to the {@link ZigBeeEndpoint} receiving the {@link ClusterMessage}
      * @param clusterMessage reference to the received {@link ClusterMessage}
      */
-    public void handleCluster(ZigBeeEndpoint endpoint, ClusterMessage clusterMessage);
-
+    void handleCluster(ZigBeeEndpoint endpoint, ClusterMessage clusterMessage);
 }

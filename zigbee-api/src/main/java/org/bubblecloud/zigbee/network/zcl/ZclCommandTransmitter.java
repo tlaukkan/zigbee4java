@@ -24,7 +24,7 @@ import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.packet.af.AF_DATA_CONFIRM;
 import org.bubblecloud.zigbee.network.packet.af.AF_DATA_REQUEST;
 import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
-import org.bubblecloud.zigbee.network.port.ZigBeeNetworkManagerImpl;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerImpl;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.util.ByteUtils;
 import org.slf4j.Logger;

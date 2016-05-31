@@ -29,17 +29,19 @@ package org.bubblecloud.zigbee.network;
  * @since 0.1.0
  */
 public interface ClusterMessage {
-
-    public short getId();
-
     /**
-     * Return cluster message transaction ID.
+     * Gets the cluster message ID.
+     * @return the cluster message ID
+     */
+    short getId();
+    /**
+     * Gets the cluster message transaction ID.
      * @return the transaction ID
      */
     byte getTransactionId();
-
-    public byte[] getClusterMsg();
-    
-    public String toString();
-
+    /**
+     * Gets the cluster message bytes.
+     * @return the cluster message bytes.
+     */
+    byte[] getClusterMsg();
 }

@@ -1,4 +1,4 @@
-package org.bubblecloud.zigbee.network;
+package org.bubblecloud.zigbee.network.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;

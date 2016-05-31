@@ -30,7 +30,10 @@ import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  */
 public interface ApplicationFrameworkMessageConsumer {
-
+   /**
+    * Consumes incoming message.
+    * @param msg the message
+    * @return true if message was consumed.
+    */
     public boolean consume(AF_INCOMING_MSG msg);
-
 }

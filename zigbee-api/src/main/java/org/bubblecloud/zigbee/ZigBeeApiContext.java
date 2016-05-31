@@ -32,42 +32,35 @@ public class ZigBeeApiContext {
      * The cluster factory.
      */
     private ClusterFactory clusterFactory;
-    
     /**
      * The device factory.
      */
     private List<DeviceFactory> deviceFactories = new ArrayList<DeviceFactory>();
-    
     /**
      * The devices.
      */
     private List<Device> devices = new ArrayList<Device>();
-    
     /**
      * The id and device mapping.
      * ID = [IEEE address]/[end point]
      */
     private Map<String, Device> idDeviceMap = new HashMap<String, Device>();
-    
     /**
      * The device listeners.
      */
     private final List<DeviceListener> deviceListeners = new ArrayList<DeviceListener>();
-    
     /**
      * @return the cluster factory.
      */
     public ClusterFactory getClusterFactory() {
         return clusterFactory;
     }
-
     /**
      * @param clusterFactory the cluster factory.
      */
     public void setClusterFactory(ClusterFactory clusterFactory) {
         this.clusterFactory = clusterFactory;
     }
-
     /**
      * @return list of device factories.
      */

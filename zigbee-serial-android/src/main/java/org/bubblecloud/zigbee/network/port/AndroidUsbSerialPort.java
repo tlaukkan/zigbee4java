@@ -2,6 +2,7 @@
 package org.bubblecloud.zigbee.network.port;
 
 import android.hardware.usb.*;
+import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.util.ByteUtils;
 import org.bubblecloud.zigbee.util.CircularFIFOByteBufferImpl;
 import org.bubblecloud.zigbee.util.FIFOBuffers;

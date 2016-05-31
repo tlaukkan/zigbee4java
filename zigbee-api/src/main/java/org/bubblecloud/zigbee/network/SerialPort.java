@@ -19,7 +19,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-package org.bubblecloud.zigbee.network.port;
+package org.bubblecloud.zigbee.network;
 
 import java.io.InputStream;
 import java.io.OutputStream;

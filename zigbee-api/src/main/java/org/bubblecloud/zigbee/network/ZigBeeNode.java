@@ -23,6 +23,9 @@
 package org.bubblecloud.zigbee.network;
 
 
+import org.bubblecloud.zigbee.network.impl.ZigBeeNodeDescriptor;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNodePowerDescriptor;
+
 /**
  * This class represent a ZigBee node, it means a physical device that can communicate
  * using the ZigBee protocol.
@@ -45,19 +48,16 @@ package org.bubblecloud.zigbee.network;
  * @since 0.1.0
  */
 public interface ZigBeeNode {
-
     /**
      * Gets the network address for this node
      * @return int representing the current network address linked to the node
      */
-    public int getNetworkAddress();
-
+    int getNetworkAddress();
     /**
      * Gets the 64 bit IEEE address for this node
      * @return a {@link String} representing the IEEEAddress of the node
      */
-    public String getIeeeAddress();
-
+    String getIeeeAddress();
     /**
      * Sets the {@link ZigBeeNodeDescriptor Node Descriptor}.
      * <p>
@@ -65,16 +65,14 @@ public interface ZigBeeNode {
      * node and is mandatory for each node.
      * @param descriptor
      */
-    public void setNodeDescriptor(ZigBeeNodeDescriptor descriptor);
-
+    void setNodeDescriptor(ZigBeeNodeDescriptor descriptor);
     /**
      * Gets the {@link ZigBeeNodeDescriptor Node Descriptor}.
      * <p>
      * The node descriptor contains information about the capabilities of the ZigBee
      * node and is mandatory for each node.
      */
-    public ZigBeeNodeDescriptor getNodeDescriptor();
-
+    ZigBeeNodeDescriptor getNodeDescriptor();
     /**
      * This sets the {@link ZigBeeNodePowerDescriptor Node Power Descriptor}.
      * <p>
@@ -82,13 +80,12 @@ public interface ZigBeeNode {
      * node and is mandatory for each node.
      * @param descriptor
      */
-    public void setPowerDescriptor(ZigBeeNodePowerDescriptor descriptor);
-
+    void setPowerDescriptor(ZigBeeNodePowerDescriptor descriptor);
     /**
      * This gets the {@link ZigBeeNodePowerDescriptor Node Power Descriptor}.
      * <p>
      * The node power descriptor gives a dynamic indication of the power status of the
      * node and is mandatory for each node.
      */
-    public ZigBeeNodePowerDescriptor getPowerDescriptor();
+    ZigBeeNodePowerDescriptor getPowerDescriptor();
 }

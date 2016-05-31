@@ -1,12 +1,10 @@
-package org.bubblecloud.zigbee.network;
-
 /*
    Copyright 2008-2013 CNR-ISTI, http://isti.cnr.it
-   Institute of Information Science and Technologies 
-   of the Italian National Research Council 
+   Institute of Information Science and Technologies
+   of the Italian National Research Council
 
 
-   See the NOTICE file distributed with this work for additional 
+   See the NOTICE file distributed with this work for additional
    information regarding copyright ownership
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +18,8 @@ package org.bubblecloud.zigbee.network;
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the Liit.cnr.isti.zigbee.apiit.cnr.isti.zigbee.api;
-
+*/
+package org.bubblecloud.zigbee.network;
 
 /**
  * 
@@ -31,13 +30,11 @@ package org.bubblecloud.zigbee.network;
  *
  */
 public interface Constants {
-
     /**
      * Constants that contains the value of the <b>Service Persistent Identification (PID)</b> of the<br>
      * service used for configuring the behavior of the <i>ZigBee Base Driver</i>
      *
      * @since 0.2.0
      */
-    public static final String MANAGED_SERVICE_PID = "it.cnr.isti.zigbee.driver.configuration";
-
+    String MANAGED_SERVICE_PID = "it.cnr.isti.zigbee.driver.configuration";
 }

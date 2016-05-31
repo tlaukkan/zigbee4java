@@ -28,14 +28,14 @@ import org.bubblecloud.zigbee.api.cluster.impl.security_safety.ias_wd.StartWarni
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASWD;
 import org.bubblecloud.zigbee.network.NodeListener;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
-import org.bubblecloud.zigbee.network.ZigBeeNodeDescriptor;
-import org.bubblecloud.zigbee.network.ZigBeeNodePowerDescriptor;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNodeDescriptor;
+import org.bubblecloud.zigbee.network.impl.ZigBeeNodePowerDescriptor;
 import org.bubblecloud.zigbee.network.discovery.LinkQualityIndicatorNetworkBrowser.NetworkNeighbourLinks;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
-import org.bubblecloud.zigbee.network.port.SerialPort;
+import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
 import org.bubblecloud.zigbee.util.Cie;
