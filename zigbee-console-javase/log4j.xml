@@ -10,10 +10,18 @@
     </appender>
 
     <appender class="org.apache.log4j.DailyRollingFileAppender" name="RollingFile">
-        <param name="File" value="console.log" />
+        <param name="File" value="debug.log" />
         <param name="DatePattern" value="'.'yyyy-MM-dd" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{HH:mm:ss SSS}  %-5p  %m%n"/>
+        </layout>
+    </appender>
+
+    <appender class="org.apache.log4j.DailyRollingFileAppender" name="PacketLogFile">
+        <param name="File" value="packet.log" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}%m%n"/>
         </layout>
     </appender>
 
@@ -21,6 +29,10 @@
         <level value="debug"/>
     </logger>
 
+    <logger additivity="false" name="org.bubblecloud.zigbee.network.port.PacketLogger">
+        <level value="trace"/>
+        <appender-ref ref="PacketLogFile" />
+    </logger>
 
     <!-- Set the commons logging that the XML parser uses to WARN, it is very chatty at debug -->
     <logger name="org.apache.commons">

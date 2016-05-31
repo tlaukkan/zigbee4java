@@ -47,6 +47,10 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      */
     private final static Logger LOGGER = LoggerFactory.getLogger(ZigBeeInterface.class);
     /**
+     * The packet logger.
+     */
+    private final static Logger PACKET_LOGGER = LoggerFactory.getLogger("org.bubblecloud.zigbee.network.port.PacketLogger");
+    /**
      * The port interface.
      */
     final SerialPort port;
@@ -132,21 +136,22 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      */
     public void handlePacket(final ZToolPacket packet) {
         final DoubleByte cmdId = packet.getCMD();
+        PACKET_LOGGER.trace("|<|{}|{}", packet.getClass().getSimpleName(), packet.getPacket());
         switch (cmdId.getMsb() & 0xE0) {
             // Received incoming message which can be either message from dongle or remote device.
             case 0x40:
-                LOGGER.debug("<-- {} ({})", packet.getClass().getSimpleName(), packet);
+                LOGGER.debug("<-- {} ({})", packet.getClass().getSimpleName());
                 notifyAsynchronousCommand(packet);
                 break;
 
             // Received synchronous command response.
             case 0x60:
-                LOGGER.debug("<- {} ({})", packet.getClass().getSimpleName(), packet);
+                LOGGER.debug("<- {} ({})", packet.getClass().getSimpleName());
                 notifySynchronousCommand(packet);
                 break;
 
             default:
-                LOGGER.error("Received unknown packet. ({}) ({})", packet.getClass().getSimpleName(), packet);
+                LOGGER.error("Received unknown packet. ({}) ({})", packet.getClass().getSimpleName());
         }
     }
 
@@ -157,7 +162,8 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      */
     private void sendPacket(final ZToolPacket packet)
             throws IOException {
-        LOGGER.debug("-> {} ({}) ", packet.getClass().getSimpleName(), packet.toString());
+        LOGGER.debug("-> {} ({}) ", packet.getClass().getSimpleName(), packet);
+        PACKET_LOGGER.trace("|>|{}|{}", packet.getClass().getSimpleName(), packet.getPacket());
         final int[] pck = packet.getPacket();
         sendRaw(pck);
     }
