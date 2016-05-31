@@ -13,13 +13,13 @@ import java.io.OutputStream;
 /**
  * The default Java SE serial port implementation.
  *
- * @author Tommi S.E. Laukkanen <tommi.s.e.laukkanen@gmail.com>
+ * @author Tommi S.E. Laukkanen
  */
 public class SerialPortImpl implements SerialPort, SerialPortEventListener {
     /**
      * The logger.
      */
-    private final static Logger logger = LoggerFactory.getLogger(SerialPortImpl.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(SerialPortImpl.class);
     /**
      * The portName portName.
      */
@@ -35,21 +35,21 @@ public class SerialPortImpl implements SerialPort, SerialPortEventListener {
     /**
      * The port identifier.
      */
-	private final String portName;
+    private final String portName;
     /**
      * The baud rate.
      */
-	private final int    baudRate;
+    private final int baudRate;
 
     /**
      * Constructor setting port name and baud rate.
      * @param portName the port name
      * @param baudRate the baud rate
      */
-	public SerialPortImpl(final String portName, final int baudRate) {
-		this.portName = portName;
-		this.baudRate = baudRate;
-	}
+    public SerialPortImpl(final String portName, final int baudRate) {
+        this.portName = portName;
+        this.baudRate = baudRate;
+    }
 
     @Override
     public boolean open() {
@@ -58,7 +58,7 @@ public class SerialPortImpl implements SerialPort, SerialPortEventListener {
 
             return true;
         } catch (Exception e) {
-            logger.warn("Unable to open serial port: " + e.getMessage());
+            LOGGER.warn("Unable to open serial port: " + e.getMessage());
             return false;
         }
     }
@@ -79,7 +79,7 @@ public class SerialPortImpl implements SerialPort, SerialPortEventListener {
             serialPort.setParams(baudRate, 8, 1, 0);
             serialPort.setFlowControlMode(jssc.SerialPort.FLOWCONTROL_NONE);
         } catch (SerialPortException e) {
-            e.printStackTrace();
+            LOGGER.error("Error opening serial port.", e);
             throw new RuntimeException("Failed to open serial port: " + portName, e);
         }
 
@@ -96,22 +96,23 @@ public class SerialPortImpl implements SerialPort, SerialPortEventListener {
                         try {
                             Thread.sleep(100);
                         } catch (final InterruptedException e) {
-                            logger.warn("Interrupted while waiting input stream to flush.");
+                            LOGGER.warn("Interrupted while waiting input stream to flush.");
                         }
                     }
                 } catch (Exception e) {
+                    LOGGER.trace("Exception in reading from serial port.", e);
                 }
                 inputStream.close();
                 outputStream.flush();
                 outputStream.close();
                 serialPort.closePort();
-                logger.info("Serial portName '" + serialPort.getPortName() + "' closed.");
+                LOGGER.info("Serial portName '" + serialPort.getPortName() + "' closed.");
                 serialPort = null;
                 inputStream = null;
                 outputStream = null;
             }
         } catch (Exception e) {
-            logger.warn("Error closing portName portName: '" + serialPort.getPortName() + "'", e);
+            LOGGER.warn("Error closing portName portName: '" + serialPort.getPortName() + "'", e);
         }
     }
 
@@ -135,7 +136,7 @@ public class SerialPortImpl implements SerialPort, SerialPortEventListener {
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.error("Error while handling serial event.", e);
             }
         }
     }
