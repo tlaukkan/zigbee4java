@@ -95,7 +95,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     private final short AUTO_PANID = (short) 0xffff;
 
     private ZigBeeInterface zigbeeInterface;
-    private ZigBeePort port;
+    private SerialPort port;
     private DriverStatus state;
     private NetworkMode mode;
     private short pan = AUTO_PANID;
@@ -114,7 +114,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     private long ieeeAddress = -1;
     private final HashMap<Class<?>, Thread> conversation3Way = new HashMap<Class<?>, Thread>();
 
-    public ZigBeeNetworkManagerImpl(ZigBeePort port, NetworkMode mode, int pan, int channel, long timeout) {
+    public ZigBeeNetworkManagerImpl(SerialPort port, NetworkMode mode, int pan, int channel, long timeout) {
 
         int aux = RESEND_TIMEOUT_DEFAULT;
         try {
@@ -627,7 +627,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         pan = panId;
     }
 
-    public void setPort(ZigBeePort port) {
+    public void setPort(SerialPort port) {
         if (state != DriverStatus.CLOSED) {
             throw new IllegalStateException("Serial port can be changed only " +
                     "if driver is CLOSED while it is:" + state);

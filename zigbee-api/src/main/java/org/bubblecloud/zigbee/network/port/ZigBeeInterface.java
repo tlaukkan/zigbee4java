@@ -49,7 +49,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
     /**
      * The port interface.
      */
-    final ZigBeePort port;
+    final SerialPort port;
     /**
      * The packet parser.
      */
@@ -79,7 +79,7 @@ public class ZigBeeInterface implements ZToolPacketHandler {
      * Constructor for configuring the ZigBee Network connection parameters.
      * @param port the ZigBee transport implementation.
      */
-    public ZigBeeInterface(ZigBeePort port) {
+    public ZigBeeInterface(SerialPort port) {
         this.port = port;
     }
 
@@ -263,7 +263,12 @@ public class ZigBeeInterface implements ZToolPacketHandler {
         }
         sendPacket(packet);
     }
-    
+
+    /**
+     * Send raw bytes to output stream.
+     * @param buffer the byte buffer
+     * @throws IOException if IO exception occurs when writing or flushing bytes.
+     */
     public void sendRaw(int[] buffer) throws IOException {
         synchronized (port) {
             final OutputStream out = port.getOutputStream();

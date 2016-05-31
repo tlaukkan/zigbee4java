@@ -130,7 +130,7 @@ Usage
 -----
 
 ```
-final ZigBeeSerialPortJsscImpl serialPort = new ZigBeeSerialPortJsscImpl("/dev/ttyACM0", 38400);
+final SerialPortImpl serialPort = new SerialPortImpl("/dev/ttyACM0", 38400);
 final ZigBeeApi zigbeeApi = new ZigBeeApi(serialPort, 4951, 11, false, DiscoveryMode.ALL);
 zigbeeApi.startup();
 
@@ -153,7 +153,7 @@ Complete startup and shutdown example including network state loading:
 
 ```
 final boolean resetNetwork = false;
-final ZigBeeSerialPortJsscImpl serialPort = new ZigBeeSerialPortJsscImpl("COM5", 38400);
+final SerialPortImpl serialPort = new SerialPortImpl("COM5", 38400);
 final ZigBeeApi zigbeeApi = new ZigBeeApi(serialPort, 4951, 11, false, DiscoveryMode.ALL);
 
 final File networkStateFile = new File("network.json");

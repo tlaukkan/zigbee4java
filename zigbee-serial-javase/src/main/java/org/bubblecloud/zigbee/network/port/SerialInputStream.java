@@ -21,8 +21,13 @@ import java.io.InputStream;
  *
  */
 public class SerialInputStream extends InputStream {
-
-    private SerialPort serialPort;
+    /**
+     * The serial port.
+     */
+    private final SerialPort serialPort;
+    /**
+     * The default time out.
+     */
     private int defaultTimeout = 0;
 
     /** Instantiates a SerialInputStream for the given {@link SerialPort}

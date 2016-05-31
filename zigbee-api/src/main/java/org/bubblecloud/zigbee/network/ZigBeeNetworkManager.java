@@ -29,7 +29,7 @@ import org.bubblecloud.zigbee.network.packet.af.AF_DATA_REQUEST;
 import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER;
 import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER_SRSP;
 import org.bubblecloud.zigbee.network.packet.zdo.*;
-import org.bubblecloud.zigbee.network.port.ZigBeePort;
+import org.bubblecloud.zigbee.network.port.SerialPort;
 
 import java.util.Set;
 
@@ -47,7 +47,7 @@ public interface ZigBeeNetworkManager {
 
     public abstract void setZigBeeNetwork(byte ch, short panId);
 
-    public abstract void setPort(ZigBeePort port);
+    public abstract void setPort(SerialPort port);
 
     public abstract boolean startup();
 

@@ -21,8 +21,10 @@ import java.io.OutputStream;
  *
  */
 public class SerialOutputStream extends OutputStream {
-
-    SerialPort serialPort;
+    /**
+     * The serial port.
+     */
+    private final SerialPort serialPort;
 
     /** Instantiates a SerialOutputStream for the given {@link SerialPort}
      * Do not create multiple streams for the same serial port

@@ -42,6 +42,11 @@ public class UnsignedByteSerialInputStream extends SerialInputStream {
         return bytesRead;
     }
 
+    /**
+     * Unsign array.
+     * @param inputArray the input array
+     * @param length the array length
+     */
     private void unsignArray(byte[] inputArray, int length) {
         if (length > 0) {
             byte[] unsignedBytes = new byte[length];

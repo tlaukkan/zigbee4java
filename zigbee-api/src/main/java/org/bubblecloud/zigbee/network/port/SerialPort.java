@@ -25,30 +25,30 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Generic ZigBee interface port.
+ * Serial port.
+ *
  * @author <a href="mailto:stefano.lenzi@isti.cnr.it">Stefano "Kismet" Lenzi</a>
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
-public interface ZigBeePort
-{
+public interface SerialPort {
     /**
      * Open the port.
      * @return true if startup was success.
      */
-    public boolean open();
+    boolean open();
     /**
      * Close the port.
      */
-    public void close();
+    void close();
     /**
      * Gets output stream connected to the port.
      * @return the output stream
      */
-    public OutputStream getOutputStream();
+    OutputStream getOutputStream();
     /**
      * Gets input stream connected to the port.
      * @return the input stream
      */
-    public InputStream getInputStream();
+    InputStream getInputStream();
 }

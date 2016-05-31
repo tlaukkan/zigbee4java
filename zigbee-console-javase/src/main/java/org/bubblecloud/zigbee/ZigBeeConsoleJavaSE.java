@@ -1,8 +1,8 @@
 package org.bubblecloud.zigbee;
 
 import org.apache.log4j.xml.DOMConfigurator;
-import org.bubblecloud.zigbee.network.port.ZigBeePort;
-import org.bubblecloud.zigbee.network.port.ZigBeeSerialPortJsscImpl;
+import org.bubblecloud.zigbee.network.port.SerialPort;
+import org.bubblecloud.zigbee.network.port.SerialPortImpl;
 
 /**
  * Example runtime arguments on Mac OS-X: /dev/cu.usbmodem1411 4951 22 false
@@ -32,7 +32,7 @@ public class ZigBeeConsoleJavaSE
 		}
 
 		//ZigBeePort serialPort = new ZigBeeSerialPortImpl(serialPortName, DefaultBaudRate);
-		ZigBeePort serialPort = new ZigBeeSerialPortJsscImpl(serialPortName, DefaultBaudRate);
+		SerialPort serialPort = new SerialPortImpl(serialPortName, DefaultBaudRate);
 
 		ZigBeeConsole console = new ZigBeeConsole(serialPort,pan,channel,resetNetwork);
 

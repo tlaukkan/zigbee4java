@@ -23,7 +23,7 @@ import java.util.Map;
  * Tested on a Samsung Galaxy S2 with OTG cable.
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
-public class AndroidUsbSerialPort implements ZigBeePort
+public class AndroidUsbSerialPort implements SerialPort
 {
     private static Logger logger = LoggerFactory.getLogger(AndroidUsbSerialPort.class);
 

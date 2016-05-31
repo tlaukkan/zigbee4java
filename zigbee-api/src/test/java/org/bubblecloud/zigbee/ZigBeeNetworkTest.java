@@ -7,14 +7,13 @@ import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
 import org.bubblecloud.zigbee.network.port.ZigBeeNetworkManagerImpl;
-import org.bubblecloud.zigbee.network.port.ZigBeePort;
+import org.bubblecloud.zigbee.network.port.SerialPort;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.EnumSet;
 import java.util.Set;
 
 /**
@@ -22,9 +21,9 @@ import java.util.Set;
  */
 public abstract class ZigBeeNetworkTest {
     private final static Logger logger = LoggerFactory.getLogger(ZigBeeNetworkTest.class);
-	private final ZigBeePort port;
+	private final SerialPort port;
 
-	protected ZigBeeNetworkTest(ZigBeePort port) {
+	protected ZigBeeNetworkTest(SerialPort port) {
 		this.port = port;
 	}
 

@@ -44,7 +44,7 @@ import org.bubblecloud.zigbee.api.device.lighting.*;
 import org.bubblecloud.zigbee.api.device.impl.*;
 import org.bubblecloud.zigbee.api.DeviceBase;
 import org.bubblecloud.zigbee.network.port.ZigBeeNetworkManagerImpl;
-import org.bubblecloud.zigbee.network.port.ZigBeePort;
+import org.bubblecloud.zigbee.network.port.SerialPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -125,7 +125,7 @@ public class ZigBeeApi implements EndpointListener {
      * @param channel        the channel
      * @param resetNetwork   the flag indicating network reset on startup
      */
-    public ZigBeeApi(final ZigBeePort port, final int pan, final int channel,
+    public ZigBeeApi(final SerialPort port, final int pan, final int channel,
                      final boolean resetNetwork, final Set<DiscoveryMode> discoveryModes) {
     	this.resetNetwork = resetNetwork;
 

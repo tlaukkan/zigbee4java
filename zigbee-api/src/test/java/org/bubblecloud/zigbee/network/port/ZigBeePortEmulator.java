@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * @version $LastChangedRevision: 799 $ ($LastChangedDate: 2013-08-06 19:00:05 +0300 (Tue, 06 Aug 2013) $)
  * @since 0.6.0
  */
-public class ZigBeePortEmulator implements ZigBeePort
+public class ZigBeePortEmulator implements SerialPort
 {
 
     private final static Logger logger = LoggerFactory.getLogger(ZigBeePortEmulator.class);

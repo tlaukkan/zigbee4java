@@ -35,7 +35,7 @@ import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
-import org.bubblecloud.zigbee.network.port.ZigBeePort;
+import org.bubblecloud.zigbee.network.port.SerialPort;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
 import org.bubblecloud.zigbee.util.Cie;
@@ -68,12 +68,12 @@ public final class ZigBeeConsole {
      */
     private Map<String, ConsoleCommand> commands = new TreeMap<String, ConsoleCommand>();
 
-	private ZigBeePort port;
+	private SerialPort port;
 	private int pan;
 	private int channel;
 	private boolean resetNetwork;
 	
-	public ZigBeeConsole(ZigBeePort port, int pan, int channel, boolean resetNetwork) {
+	public ZigBeeConsole(SerialPort port, int pan, int channel, boolean resetNetwork) {
 		this.port         = port;
 		this.pan          = pan;
 		this.channel      = channel;

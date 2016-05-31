@@ -1,6 +1,5 @@
 package org.bubblecloud.zigbee.network.port;
 
-import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
@@ -12,19 +11,19 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * The system serial-port implementation of ZigBeePort.
+ * The default Java SE serial port implementation.
  *
- * @author Tommi S.E. Laukkanen
+ * @author Tommi S.E. Laukkanen <tommi.s.e.laukkanen@gmail.com>
  */
-public class ZigBeeSerialPortJsscImpl implements ZigBeePort, SerialPortEventListener {
+public class SerialPortImpl implements SerialPort, SerialPortEventListener {
     /**
      * The logger.
      */
-    private final static Logger logger = LoggerFactory.getLogger(ZigBeeSerialPortJsscImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(SerialPortImpl.class);
     /**
      * The portName portName.
      */
-    private SerialPort serialPort;
+    private jssc.SerialPort serialPort;
     /**
      * The portName portName input stream.
      */
@@ -42,7 +41,12 @@ public class ZigBeeSerialPortJsscImpl implements ZigBeePort, SerialPortEventList
      */
 	private final int    baudRate;
 
-	public ZigBeeSerialPortJsscImpl(final String portName, final int baudRate) {
+    /**
+     * Constructor setting port name and baud rate.
+     * @param portName the port name
+     * @param baudRate the baud rate
+     */
+	public SerialPortImpl(final String portName, final int baudRate) {
 		this.portName = portName;
 		this.baudRate = baudRate;
 	}
@@ -69,11 +73,11 @@ public class ZigBeeSerialPortJsscImpl implements ZigBeePort, SerialPortEventList
             throw new RuntimeException("Serial port already open.");
         }
 
-        serialPort = new SerialPort(portName);
+        serialPort = new jssc.SerialPort(portName);
         try {
             serialPort.openPort();
             serialPort.setParams(baudRate, 8, 1, 0);
-            serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
+            serialPort.setFlowControlMode(jssc.SerialPort.FLOWCONTROL_NONE);
         } catch (SerialPortException e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to open serial port: " + portName, e);
