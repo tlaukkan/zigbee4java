@@ -208,30 +208,27 @@ This is an example how to interface directly with ZCL commands to accept IAS zon
 ```
 zigBeeApi.addCommandListener(new ZclCommandListener() {
     @Override
-    public void commandReceived(ZclCommandMessage command) {
-        print("Received: " + command.toString());
-
+    public void commandReceived(final ZclCommandMessage command) {
         if (command.getCommand() == ZclCommandType.ZONE_ENROLL_REQUEST_COMMAND) {
-            int remoteAddress = command.getSourceAddress();
-            short remoteEndPoint = command.getSourceEnpoint();
-            byte transactionId = command.getTransactionId();
+            final int remoteAddress = command.getSourceAddress();
+            final short remoteEndPoint = command.getSourceEnpoint();
+            final byte transactionId = command.getTransactionId();
 
             final ZclCommandMessage responseMessage = new ZclCommandMessage(
                     remoteAddress, remoteEndPoint, ZclCommandType.ZONE_ENROLL_RESPONSE_COMMAND, transactionId);
             responseMessage.addField(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ENROLL_RESPONSE_CODE, 0);
             responseMessage.addField(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ZONE_ID, 0);
+            
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         zigBeeApi.sendCommand(responseMessage);
-                    } catch (ZigBeeNetworkManagerException e) {
-                        e.printStackTrace();
+                    } catch (final ZigBeeNetworkManagerException e) {
                     }
                 }
             }).start();
         }
-
     }
 });
 ```
