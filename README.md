@@ -129,14 +129,16 @@ gradlew clean build
 Usage
 -----
 
+Simple usage example:
+
 ```
 final SerialPortImpl serialPort = new SerialPortImpl("/dev/ttyACM0", 38400);
-final ZigBeeApi zigbeeApi = new ZigBeeApi(serialPort, 4951, 11, false, DiscoveryMode.ALL);
-zigbeeApi.startup();
+final ZigBeeApi zigBeeApi = new ZigBeeApi(serialPort, 4951, 11, false, DiscoveryMode.ALL);
+zigBeeApi.startup();
 
 ...
 
-final Device lamp = zigbeeApi.getZigBeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
+final Device lamp = zigBeeApi.getZigBeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
 
 final Basic basic = lamp.getCluster(Basic);
 final String manufactureName = basic.getManufacturerName();
@@ -154,19 +156,19 @@ Complete startup and shutdown example including network state loading:
 ```
 final boolean resetNetwork = false;
 final SerialPortImpl serialPort = new SerialPortImpl("COM5", 38400);
-final ZigBeeApi zigbeeApi = new ZigBeeApi(serialPort, 4951, 11, false, DiscoveryMode.ALL);
+final ZigBeeApi zigBeeApi = new ZigBeeApi(serialPort, 4951, 11, false, DiscoveryMode.ALL);
 
 final File networkStateFile = new File("network.json");
 final boolean networkStateExists = networkStateFile.exists();
 if (!resetNetwork && networkStateExists) {
     LOGGER.info("ZigBeeApi loading network state...");
     final String networkState = FileUtils.readFileToString(networkStateFile);
-    zigbeeApi.deserializeNetworkState(networkState);
+    zigBeeApi.deserializeNetworkState(networkState);
     LOGGER.info("ZigBeeApi loading network state done.");
 }
 
 LOGGER.info("ZigBeeApi startup...");
-if (!zigbeeApi.startup()) {
+if (!zigBeeApi.startup()) {
     LOGGER.error("Error initializing ZigBeeApi.");
     return;
 }
@@ -174,7 +176,7 @@ LOGGER.info("ZigBeeApi startup done.");
 
 if (!networkStateExists) {
     LOGGER.info("ZigBeeApi initial browsing...");
-    while (!zigbeeApi.isInitialBrowsingComplete()) {
+    while (!zigBeeApi.isInitialBrowsingComplete()) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -185,20 +187,53 @@ if (!networkStateExists) {
 }
 
 LOGGER.info("ZigBeeApi listing devices...");
-final List<Device> devices = zigbeeApi.getDevices();
+final List<Device> devices = zigBeeApi.getDevices();
 for (final Device device : devices) {
     LOGGER.info(device.getNetworkAddress() + ")" + device.getDeviceType());
 }
 LOGGER.info("ZigBeeApi listing devices done.");
 
 LOGGER.info("ZigBeeApi shutdown...");
-zigbeeApi.shutdown();
+zigBeeApi.shutdown();
 serialPort.close();
 LOGGER.info("ZigBeeApi shutdown done.");
 
 LOGGER.info("ZigBeeApi saving network state...");
-FileUtils.writeStringToFile(networkStateFile, zigbeeApi.serializeNetworkState(), false);
+FileUtils.writeStringToFile(networkStateFile, zigBeeApi.serializeNetworkState(), false);
 LOGGER.info("ZigBeeApi saving network state done.");
+```
+
+This is an example how to interface directly with ZCL commands to accept IAS zone enroll request:
+
+```
+zigBeeApi.addCommandListener(new ZclCommandListener() {
+    @Override
+    public void commandReceived(ZclCommandMessage command) {
+        print("Received: " + command.toString());
+
+        if (command.getCommand() == ZclCommandType.ZONE_ENROLL_REQUEST_COMMAND) {
+            int remoteAddress = command.getSourceAddress();
+            short remoteEndPoint = command.getSourceEnpoint();
+            byte transactionId = command.getTransactionId();
+
+            final ZclCommandMessage responseMessage = new ZclCommandMessage(
+                    remoteAddress, remoteEndPoint, ZclCommandType.ZONE_ENROLL_RESPONSE_COMMAND, transactionId);
+            responseMessage.addField(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ENROLL_RESPONSE_CODE, 0);
+            responseMessage.addField(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ZONE_ID, 0);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        zigBeeApi.sendCommand(responseMessage);
+                    } catch (ZigBeeNetworkManagerException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+
+    }
+});
 ```
 
 Examples

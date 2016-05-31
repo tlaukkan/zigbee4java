@@ -38,6 +38,8 @@ import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
 import org.bubblecloud.zigbee.util.Cie;
 
 /**
@@ -177,15 +179,17 @@ public final class ZigBeeConsole {
             public void commandReceived(ZclCommandMessage command) {
                 print("Received: " + command.toString());
 
-                /* This is an example how to interface directly with ZCL commands.
-                if (command.getCommand() == ZclCommand.ZONE_ENROLL_REQUEST) {
+                //This is an example how to interface directly with ZCL commands.
+                /*
+                if (command.getCommand() == ZclCommandType.ZONE_ENROLL_REQUEST_COMMAND) {
                     int remoteAddress = command.getSourceAddress();
                     short remoteEndPoint = command.getSourceEnpoint();
                     byte transactionId = command.getTransactionId();
 
-                    final ZclCommandMessage responseMessage = new ZclCommandMessage(remoteAddress, remoteEndPoint, ZclCommand.ZONE_ENROLL_RESPONSE, transactionId);
-                    responseMessage.addField(ZclCommandField.ENROLL_RESPONSE_CODE, 0);
-                    responseMessage.addField(ZclCommandField.ZONE_ID, 0);
+                    final ZclCommandMessage responseMessage = new ZclCommandMessage(
+                            remoteAddress, remoteEndPoint, ZclCommandType.ZONE_ENROLL_RESPONSE_COMMAND, transactionId);
+                    responseMessage.addField(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ENROLL_RESPONSE_CODE, 0);
+                    responseMessage.addField(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ZONE_ID, 0);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -198,7 +202,6 @@ public final class ZigBeeConsole {
                     }).start();
                 }
                 */
-
             }
         });
 
