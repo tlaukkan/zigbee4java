@@ -63,9 +63,15 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.IASZone;
  * @since 0.4.0
  */
 public class ZigBeeApiConstants {
-    
-    private ZigBeeApiConstants() {}
 
+    /**
+     * Broadcast address.
+     */
+    public static final byte BROADCAST_ADDRESS = 0x0F;
+    /**
+     * Unicast address.
+     */
+    public static final byte UNICAST_ADRESS = 0x02;
 	/**
 	 * Home Automation Profile definition
 	 */
@@ -163,7 +169,13 @@ public class ZigBeeApiConstants {
    	private static final int DEVICE_ID_ZLL_CONTROL_BRIDGE             = 0x0840;
    	private static final int DEVICE_ID_ZLL_ON_OFF_SENSOR              = 0x0850;
 
-   	public static String getDeviceName(int profileID, int deviceID) {
+    /**
+     * Private constructor to disable constructing utility class.
+     */
+    private ZigBeeApiConstants() {}
+
+
+    public static String getDeviceName(int profileID, int deviceID) {
 		switch (profileID) {
 		case PROFILE_ID_HOME_AUTOMATION:
 			if (deviceID == DEVICE_ID_HA_ON_OFF_SWITCH)
