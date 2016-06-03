@@ -1,9 +1,6 @@
 package org.bubblecloud.zigbee;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 import org.apache.commons.io.FileUtils;
@@ -38,8 +35,6 @@ import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
-import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
-import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
 import org.bubblecloud.zigbee.util.Cie;
 
 /**
@@ -74,8 +69,9 @@ public final class ZigBeeConsole {
 	private int pan;
 	private int channel;
 	private boolean resetNetwork;
-	
-	public ZigBeeConsole(SerialPort port, int pan, int channel, boolean resetNetwork) {
+    private ZigBeeApi zigbeeApi;
+
+    public ZigBeeConsole(SerialPort port, int pan, int channel, boolean resetNetwork) {
 		this.port         = port;
 		this.pan          = pan;
 		this.channel      = channel;
@@ -96,15 +92,15 @@ public final class ZigBeeConsole {
 		commands.put("unlisten",    new UnlistenCommand());
 		commands.put("subscribe", 	new SubscribeCommand());
 		commands.put("unsubscribe", new UnsubscribeCommand());
-		commands.put("read", 		new ReadCommand());
-		commands.put("write", 		new WriteCommand());
-		commands.put("join",        new JoinCommand());
+		commands.put("read", new ReadCommand());
+		commands.put("write", new WriteCommand());
+		commands.put("join", new JoinCommand());
 		commands.put("lqi", 		new LqiCommand());
         commands.put("warn",        new WarnCommand());
-        commands.put("squawk",      new SquawkCommand());
-        commands.put("lock", 		new DoorLockCommand());
+        commands.put("squawk", new SquawkCommand());
+        commands.put("lock", new DoorLockCommand());
         commands.put("unlock", 		new DoorUnlockCommand());
-        commands.put("enroll",      new EnrollCommand());
+        commands.put("enroll", new EnrollCommand());
 	}
 
 	/**
@@ -115,7 +111,7 @@ public final class ZigBeeConsole {
         System.out.print("ZigBee API starting up...");
         final Set<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
         //discoveryModes.remove(DiscoveryMode.LinkQuality);
-        final ZigBeeApi zigbeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, discoveryModes);
+        zigbeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, discoveryModes);
 
         final File networkStateFile = new File("network.json");
         if (!resetNetwork && networkStateFile.exists()) {
@@ -129,55 +125,55 @@ public final class ZigBeeConsole {
         }
 
         if (!zigbeeApi.startup()) {
-            print("ZigBee API starting up ... [FAIL]");
+            print("ZigBee API starting up ... [FAIL]", System.out);
             return;
         } else {
-            print("ZigBee API starting up ... [OK]");
+            print("ZigBee API starting up ... [OK]", System.out);
         }
 
         zigbeeApi.addDeviceListener(new DeviceListener() {
             @Override
             public void deviceAdded(Device device) {
-                print("Device added: " + device.getEndpointId() + " (#" + device.getNetworkAddress() + ")");
+                print("Device added: " + device.getEndpointId() + " (#" + device.getNetworkAddress() + ")", System.out);
             }
 
             @Override
             public void deviceUpdated(Device device) {
-                print("Device updated: " + device.getEndpointId() + " (#" + device.getNetworkAddress() + ")");
+                print("Device updated: " + device.getEndpointId() + " (#" + device.getNetworkAddress() + ")", System.out);
             }
 
             @Override
             public void deviceRemoved(Device device) {
-                print("Device removed: " + device.getEndpointId() + " (#" + device.getNetworkAddress() + ")");
+                print("Device removed: " + device.getEndpointId() + " (#" + device.getNetworkAddress() + ")", System.out);
             }
         });
 
         zigbeeApi.addNodeListener(new NodeListener() {
             @Override
             public void nodeAdded(ZigBeeNode node) {
-                print("Node added: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
+                print("Node added: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")", System.out);
             }
 
             @Override
             public void nodeDiscovered(ZigBeeNode node) {
-                print("Node discovered: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
+                print("Node discovered: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")", System.out);
             }
 
             @Override
             public void nodeUpdated(ZigBeeNode node) {
-                print("Node updated: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
+                print("Node updated: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")", System.out);
             }
 
             @Override
             public void nodeRemoved(ZigBeeNode node) {
-                print("Node removed: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")");
+                print("Node removed: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")", System.out);
             }
         });
 
         zigbeeApi.addCommandListener(new ZclCommandListener() {
             @Override
             public void commandReceived(ZclCommandMessage command) {
-                print("Received: " + command.toString());
+                print("Received: " + command.toString(), System.out);
 
                 //This is an example how to interface directly with ZCL commands.
                 /*
@@ -218,13 +214,12 @@ public final class ZigBeeConsole {
                     mainThread.interrupt();
                     mainThread.join();
                 } catch (InterruptedException e) {
-                    return;
                 }
             }
         }));
 
         if (!networkStateFile.exists()) {
-            print("Browsing network for the first time...");
+            print("Browsing network for the first time...", System.out);
         }
         while (!shutdown && !networkStateFile.exists() && !zigbeeApi.isInitialBrowsingComplete()) {
             System.out.print('.');
@@ -235,15 +230,15 @@ public final class ZigBeeConsole {
             }
         }
         if (!networkStateFile.exists()) {
-            print("Browsing network for the first time... [OK]");
+            print("Browsing network for the first time... [OK]", System.out);
         }
-        print("There are " + zigbeeApi.getDevices().size() + " known devices in the network.");
+        print("There are " + zigbeeApi.getDevices().size() + " known devices in the network.", System.out);
 
-        print("ZigBee console ready.");
+        print("ZigBee console ready.", System.out);
 
         String inputLine;
         while (!shutdown && (inputLine = readLine()) != null) {
-            processInputLine(zigbeeApi, inputLine);
+            processInputLine(inputLine, System.out);
         }
 
         zigbeeApi.shutdown();
@@ -257,29 +252,31 @@ public final class ZigBeeConsole {
 
     /**
      * Processes text input line.
-     * @param zigbeeApi the ZigBee API
      * @param inputLine the input line
+     * @param out the output stream
      */
-    private void processInputLine(final ZigBeeApi zigbeeApi, final String inputLine) {
+    public void processInputLine(final String inputLine, final PrintStream out) {
         if (inputLine.length() == 0) {
             return;
         }
         final String[] args = inputLine.split(" ");
+        processArgs(args, out);
+    }
+
+    /**
+     * Processes input arguments.
+     * @param args the input arguments
+     * @param out the output stream
+     */
+    public void processArgs(final String[] args, final PrintStream out) {
         try {
             if (commands.containsKey(args[0])) {
-                executeCommand(zigbeeApi, args[0], args);
-                return;
+                executeCommand(zigbeeApi, args[0], args, out);
             } else {
-                for (final String command : commands.keySet()) {
-                    if (command.charAt(0) == inputLine.charAt(0)) {
-                        executeCommand(zigbeeApi, command, args);
-                        return;
-                    }
-                }
-                print("Uknown command. Use 'help' command to list available commands.");
+                print("Uknown command. Use 'help' command to list available commands.", out);
             }
         } catch (final Exception e) {
-            print("Exception in command execution: ");
+            print("Exception in command execution: ", out);
             e.printStackTrace();
         }
     }
@@ -289,11 +286,12 @@ public final class ZigBeeConsole {
      * @param zigbeeApi the ZigBee API
      * @param command the command
      * @param args the arguments including the command
+     * @param out the output stream
      */
-    private void executeCommand(final ZigBeeApi zigbeeApi, final String command, final String[] args) {
+    private void executeCommand(final ZigBeeApi zigbeeApi, final String command, final String[] args, final PrintStream out) {
         final ConsoleCommand consoleCommand = commands.get(command);
-        if (!consoleCommand.process(zigbeeApi, args)) {
-            print(consoleCommand.getSyntax());
+        if (!consoleCommand.process(zigbeeApi, args, out)) {
+            print(consoleCommand.getSyntax(), out);
         }
     }
 
@@ -302,9 +300,11 @@ public final class ZigBeeConsole {
      *
      * @param line the line
      */
-    private static void print(final String line) {
-        System.out.println("\r" + line);
-        System.out.print("\r> ");
+    private static void print(final String line, final PrintStream out) {
+        out.println("\r" + line);
+        if (out == System.out) {
+            System.out.print("\r> ");
+        }
     }
 
     /**
@@ -316,8 +316,7 @@ public final class ZigBeeConsole {
         System.out.print("\r> ");
         try {
             final BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-            final String inputLine = bufferRead.readLine();
-            return inputLine;
+            return bufferRead.readLine();
         } catch(final IOException e) {
             return null;
         }
@@ -327,7 +326,7 @@ public final class ZigBeeConsole {
      * Gets device from ZigBee API either with index or endpoint ID
      * @param zigbeeApi the zigbee API
      * @param deviceIdentifier the device identifier
-     * @return
+     * @return the device or null if no device existed with given device identifier
      */
     private Device getDeviceByIndexOrEndpointId(ZigBeeApi zigbeeApi, String deviceIdentifier) {
         Device device;
@@ -356,12 +355,13 @@ public final class ZigBeeConsole {
         String getSyntax();
 
         /**
-         *
-         * @param zigbeeApi
-         * @param args
-         * @return
+         * Processes console command.
+         * @param zigbeeApi the ZigBee API
+         * @param args the command arguments
+         * @param out the output PrintStream
+         * @return true if command execution succeeded
          */
-        boolean process(final ZigBeeApi zigbeeApi, final String[] args);
+        boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out);
     }
 
     /**
@@ -383,7 +383,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             shutdown = true;
             return true;
         }
@@ -408,23 +408,23 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
 
             if (args.length == 2) {
                 if (commands.containsKey(args[1])) {
                     final ConsoleCommand command = commands.get(args[1]);
-                    System.out.println(command.getDescription());
-                    System.out.println("");
-                    System.out.println("Syntax: " + command.getSyntax());
+                    print(command.getDescription(), out);
+                    print("", out);
+                    print("Syntax: " + command.getSyntax(), out);
                 } else {
                     return false;
                 }
             } else if (args.length == 1) {
                 final List<String> commandList = new ArrayList<String>(commands.keySet());
                 Collections.sort(commandList);
-                print("Commands:");
+                print("Commands:", out);
                 for (final String command : commands.keySet()) {
-                    print(command + " - " + commands.get(command).getDescription());
+                    print(command + " - " + commands.get(command).getDescription(), out);
                 }
             } else {
                 return false;
@@ -453,13 +453,13 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             final List<Device> devices = zigbeeApi.getDevices();
             for (int i = 0; i < devices.size(); i++) {
                 final Device device = devices.get(i);
-                System.out.println(i + ") " + device.getEndpointId() +
-                		" [" + device.getNetworkAddress() + "]" +
-                		" : " + device.getDeviceType());
+                print(i + ") " + device.getEndpointId() +
+                        " [" + device.getNetworkAddress() + "]" +
+                        " : " + device.getDeviceType(), out);
             }
             return true;
         }
@@ -484,31 +484,31 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             final List<ZigBeeNode> nodes = zigbeeApi.getNodes();
             for (int i = 0; i < nodes.size(); i++) {
                 final ZigBeeNode node = nodes.get(i);
-                print("IEEE Address     : " + node.getIeeeAddress());
-                print("Network Address  : #" + node.getNetworkAddress());
+                print("IEEE Address     : " + node.getIeeeAddress(), out);
+                print("Network Address  : #" + node.getNetworkAddress(), out);
 
 	        	ZigBeeNodeDescriptor nodeDescriptor = node.getNodeDescriptor();
 	        	if(nodeDescriptor != null) {
-		            print("Node Descriptor  : Logical Type       " + nodeDescriptor.getLogicalType());
-	        		print("                 : Manufacturer Code  " + String.format("%04X", nodeDescriptor.getManufacturerCode()));
-	        		print("                 : Max Buffer Size    " + nodeDescriptor.getMaximumBufferSize());
-	        		print("                 : Max Transfer Size  " + nodeDescriptor.getMaximumTransferSize());
-	        		print("                 : MAC Capabilities   " + nodeDescriptor.getMacCapabilities());
-	        		print("                 : Server Mask        " + nodeDescriptor.getServerMask());
+		            print("Node Descriptor  : Logical Type       " + nodeDescriptor.getLogicalType(), out);
+	        		print("                 : Manufacturer Code  " + String.format("%04X", nodeDescriptor.getManufacturerCode()), out);
+	        		print("                 : Max Buffer Size    " + nodeDescriptor.getMaximumBufferSize(), out);
+	        		print("                 : Max Transfer Size  " + nodeDescriptor.getMaximumTransferSize(), out);
+	        		print("                 : MAC Capabilities   " + nodeDescriptor.getMacCapabilities(), out);
+	        		print("                 : Server Mask        " + nodeDescriptor.getServerMask(), out);
 	        	}
 
 	        	ZigBeeNodePowerDescriptor powerDescriptor = node.getPowerDescriptor();
 	        	if(powerDescriptor != null) {
-		            print("Power Descriptor : Power Mode         " + powerDescriptor.getPowerMode());
-		            print("                 : Power Source       " + powerDescriptor.getPowerSource());
-		            print("                 : Power Level        " + powerDescriptor.getPowerLevel());
-		            print("                 : Power Available    " + powerDescriptor.getPowerSourcesAvailable());
+		            print("Power Descriptor : Power Mode         " + powerDescriptor.getPowerMode(), out);
+		            print("                 : Power Source       " + powerDescriptor.getPowerSource(), out);
+		            print("                 : Power Level        " + powerDescriptor.getPowerLevel(), out);
+		            print("                 : Power Available    " + powerDescriptor.getPowerSourcesAvailable(), out);
 	        	}
-	            print("-");
+	            print("-", out);
             }
 
             return true;
@@ -534,7 +534,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 2) {
                 return false;
             }
@@ -545,26 +545,26 @@ public final class ZigBeeConsole {
                 return false;
             }
 
-            print("Network Address  : " + device.getNetworkAddress());
-            print("Extended Address : " + device.getIeeeAddress());
-            print("Endpoint Address : " + device.getEndPointAddress());
-            print("Device Profile   : " + ZigBeeApiConstants.getProfileName(device.getProfileId())+ String.format("  (0x%04X)", device.getProfileId()));
-            print("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getProfileId(), device.getDeviceTypeId()));
-            print("Device Type      : " + device.getDeviceType() + String.format("  (0x%04X)", device.getDeviceTypeId()));
-            print("Device Version   : " + device.getDeviceVersion());
-            print("Implementation   : " + device.getClass().getName());
-            print("Input Clusters   : ");
-            showClusters(device, device.getInputClusters());
-            print("Output Clusters  : ");
-            showClusters(device, device.getOutputClusters());
+            print("Network Address  : " + device.getNetworkAddress(), out);
+            print("Extended Address : " + device.getIeeeAddress(), out);
+            print("Endpoint Address : " + device.getEndPointAddress(), out);
+            print("Device Profile   : " + ZigBeeApiConstants.getProfileName(device.getProfileId())+ String.format("  (0x%04X)", device.getProfileId()), out);
+            print("Device Category  : " + ZigBeeApiConstants.getCategoryDeviceName(device.getProfileId(), device.getDeviceTypeId()), out);
+            print("Device Type      : " + device.getDeviceType() + String.format("  (0x%04X)", device.getDeviceTypeId()), out);
+            print("Device Version   : " + device.getDeviceVersion(), out);
+            print("Implementation   : " + device.getClass().getName(), out);
+            print("Input Clusters   : ", out);
+            showClusters(device, device.getInputClusters(), out);
+            print("Output Clusters  : ", out);
+            showClusters(device, device.getOutputClusters(), out);
 
             return true;
         }
 
-        private void showClusters(final Device device, final int[] clusters) {
+        private void showClusters(final Device device, final int[] clusters, PrintStream out) {
             for (int c : clusters) {
                 final Cluster cluster = device.getCluster(c);
-                print("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c));
+                print("                 : " + c + " " + ZigBeeApiConstants.getClusterName(c), out);
                 if (cluster != null) {
                     for (int a = 0; a < cluster.getAttributes().length; a++) {
                         final Attribute attribute = cluster.getAttributes()[a];
@@ -578,7 +578,7 @@ public final class ZigBeeConsole {
                                 + " "
                                 + (attribute.getReporter() != null ? "(" +
                                 Integer.toString(attribute.getReporter().getReportListenersCount()) + ")" : "")
-                                + "  [" + attribute.getZigBeeType() + "]");
+                                + "  [" + attribute.getZigBeeType() + "]", out);
                     }
                 }
             }
@@ -604,7 +604,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 3 && args.length != 4) {
                 return false;
             }
@@ -661,7 +661,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 3 && args.length != 4) {
                 return false;
             }
@@ -718,7 +718,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 2) {
                 return false;
             }
@@ -757,7 +757,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 5) {
                 return false;
             }
@@ -768,7 +768,7 @@ public final class ZigBeeConsole {
             }
             final ColorControl colorControl = device.getCluster(ColorControl.class);
             if (colorControl == null) {
-                print("Device does not support color control.");
+                print("Device does not support color control.", out);
                 return false;
             }
             // @param colorX x * 65536 where colorX can be in rance 0 to 65279
@@ -836,7 +836,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 3) {
                 return false;
             }
@@ -847,7 +847,7 @@ public final class ZigBeeConsole {
             }
             final LevelControl levelControl = device.getCluster(LevelControl.class);
             if (levelControl == null) {
-                print("Device does not support level control.");
+                print("Device does not support level control.", out);
                 return false;
             }
 
@@ -895,7 +895,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 3) {
                 return false;
             }
@@ -934,7 +934,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 3) {
                 return false;
             }
@@ -973,7 +973,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 2) {
                 return false;
             }
@@ -1012,7 +1012,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 4) {
                 return false;
             }
@@ -1035,7 +1035,7 @@ public final class ZigBeeConsole {
             final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
 
             if (reporter == null) {
-                print("Attribute does not provide reports.");
+                print("Attribute does not provide reports.", out);
                 return true;
             }
 
@@ -1064,7 +1064,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 4) {
                 return false;
             }
@@ -1086,10 +1086,10 @@ public final class ZigBeeConsole {
             final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
 
             if (reporter == null) {
-                print("Attribute does not provide reports.");
+                print("Attribute does not provide reports.", out);
+            } else {
+                reporter.removeReportListener(consoleReportListener, false);
             }
-
-            reporter.removeReportListener(consoleReportListener, false);
 
             return true;
         }
@@ -1114,14 +1114,14 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 6) {
                 return false;
             }
 
             final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
             if (device == null) {
-                print("Device not found.");
+                print("Device not found.", out);
                 return false;
             }
 
@@ -1153,7 +1153,7 @@ public final class ZigBeeConsole {
             final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
             
             if (reporter == null) {
-                print("Attribute does not provide reports.");
+                print("Attribute does not provide reports.", out);
                 return true;
             }
 
@@ -1185,7 +1185,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 4) {
                 return false;
             }
@@ -1207,10 +1207,10 @@ public final class ZigBeeConsole {
             final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
 
             if (reporter == null) {
-                print("Attribute does not provide reports.");
+                print("Attribute does not provide reports.", out);
+            } else {
+                reporter.removeReportListener(consoleReportListener, true);
             }
-
-            reporter.removeReportListener(consoleReportListener, true);
 
             return true;
         }
@@ -1235,7 +1235,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 4) {
                 return false;
             }
@@ -1255,26 +1255,26 @@ public final class ZigBeeConsole {
 
             final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
             if (device == null) {
-                print("Device not found.");
+                print("Device not found.", out);
                 return false;
             }
 
             final Cluster cluster = device.getCluster(clusterId);
             if (cluster == null) {
-                print("Cluster not found.");
+                print("Cluster not found.", out);
                 return false;
             }
 
             final Attribute attribute = cluster.getAttribute(attributeId);
             if (attribute == null) {
-                print("Attribute not found.");
+                print("Attribute not found.", out);
                 return false;
             }
 
             try {
-                print(attribute.getName() + "=" + attribute.getValue());
+                print(attribute.getName() + "=" + attribute.getValue(), out);
             } catch (ZigBeeClusterException e) {
-                print("Failed to read attribute.");
+                print("Failed to read attribute.", out);
                 e.printStackTrace();
             }
 
@@ -1301,7 +1301,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 5) {
                 return false;
             }
@@ -1321,24 +1321,24 @@ public final class ZigBeeConsole {
 
             final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
             if (device == null) {
-                print("Device not found.");
+                print("Device not found.", out);
                 return false;
             }
 
             final Cluster cluster = device.getCluster(clusterId);
             if (cluster == null) {
-                print("Cluster not found.");
+                print("Cluster not found.", out);
                 return false;
             }
 
             final Attribute attribute = cluster.getAttribute(attributeId);
             if (attribute == null) {
-                print("Attribute not found.");
+                print("Attribute not found.", out);
                 return false;
             }
             
             if(!attribute.isWritable()) {
-                print(attribute.getName() + " is not writable");
+                print(attribute.getName() + " is not writable", out);
             	return true;
             }
 
@@ -1407,9 +1407,9 @@ public final class ZigBeeConsole {
                         break;
             	}
                 attribute.setValue(val);
-                print("Attribute value written.");
+                print("Attribute value written.", out);
             } catch (ZigBeeClusterException e) {
-                print("Failed to write attribute.");
+                print("Failed to write attribute.", out);
                 e.printStackTrace();
             }
 
@@ -1436,7 +1436,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             ZigBeeDiscoveryManager discoveryMan = zigbeeApi.getZigBeeDiscoveryManager();
             NetworkNeighbourLinks neighbors = discoveryMan.getLinkQualityInfo();
             final List<ZigBeeNode> nodes = zigbeeApi.getNodes();
@@ -1447,12 +1447,12 @@ public final class ZigBeeConsole {
                 	final ZigBeeNode dst = nodes.get(j);
                 	int lqiLast = neighbors.getLast(src.getNetworkAddress(), dst.getNetworkAddress());
                 	if(lqiLast != -1) {
-                		System.out.println("Node #" + src.getNetworkAddress() + " receives node #" + dst.getNetworkAddress() +
+                        print("Node #" + src.getNetworkAddress() + " receives node #" + dst.getNetworkAddress() +
                 				" with LQI " + lqiLast + " (" +
                 				neighbors.getMin(src.getNetworkAddress(), dst.getNetworkAddress()) + "/" +
                 				neighbors.getAvg(src.getNetworkAddress(), dst.getNetworkAddress()) + "/" +
-                				neighbors.getMax(src.getNetworkAddress(), dst.getNetworkAddress()) + ")"
-                				);    		
+                				neighbors.getMax(src.getNetworkAddress(), dst.getNetworkAddress()) + ")", out
+                        );
                 	}
                 }
             }
@@ -1474,14 +1474,14 @@ public final class ZigBeeConsole {
         }
 
         @Override
-        public boolean process(ZigBeeApi zigbeeApi, String[] args) {
+        public boolean process(ZigBeeApi zigbeeApi, String[] args, PrintStream out) {
             if (args.length != 5) {
                 return false;
             }
 
             final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
             if (device == null) {
-                print("Device not found.");
+                print("Device not found.", out);
                 return false;
             }
 
@@ -1489,7 +1489,7 @@ public final class ZigBeeConsole {
             try {
                 mode = Integer.parseInt(args[2]);
                 if (mode < 0 || mode > 15) {
-                    print("Warning mode should be in range [0, 15].");
+                    print("Warning mode should be in range [0, 15].", out);
                     return false;
                 }
             } catch (NumberFormatException e) {
@@ -1500,7 +1500,7 @@ public final class ZigBeeConsole {
             try {
                 strobe = Integer.parseInt(args[3]);
                 if (strobe < 0 || strobe > 3) {
-                    print("Strobe should be in range [0, 3].");
+                    print("Strobe should be in range [0, 3].", out);
                     return false;
                 }
             } catch (NumberFormatException e) {
@@ -1511,7 +1511,7 @@ public final class ZigBeeConsole {
             try {
                 duration = Integer.parseInt(args[4]);
                 if (duration < 0) {
-                    print("Duration should be an unsigned 16-bit integer.");
+                    print("Duration should be an unsigned 16-bit integer.", out);
                     return false;
                 }
             } catch (NumberFormatException e) {
@@ -1523,7 +1523,7 @@ public final class ZigBeeConsole {
             try {
                 iasWD.startWarning(payload);
             } catch (ZigBeeDeviceException e) {
-                print("Failed to start warning.");
+                print("Failed to start warning.", out);
                 e.printStackTrace();
             }
             return true;
@@ -1544,14 +1544,14 @@ public final class ZigBeeConsole {
         }
 
         @Override
-        public boolean process(ZigBeeApi zigbeeApi, String[] args) {
+        public boolean process(ZigBeeApi zigbeeApi, String[] args, PrintStream out) {
             if (args.length != 5) {
                 return false;
             }
 
             final Device device = getDeviceByIndexOrEndpointId(zigbeeApi, args[1]);
             if (device == null) {
-                print("Device not found.");
+                print("Device not found.", out);
                 return false;
             }
 
@@ -1559,7 +1559,7 @@ public final class ZigBeeConsole {
             try {
                 mode = Integer.parseInt(args[2]);
                 if (mode < 0 || mode > 15) {
-                    print("Squawk mode should be in range [0, 15].");
+                    print("Squawk mode should be in range [0, 15].", out);
                     return false;
                 }
             } catch (NumberFormatException e) {
@@ -1570,7 +1570,7 @@ public final class ZigBeeConsole {
             try {
                 strobe = Integer.parseInt(args[3]);
                 if (strobe != 0 && strobe != 1) {
-                    print("Strobe should be either 0 or 1.");
+                    print("Strobe should be either 0 or 1.", out);
                     return false;
                 }
             } catch (NumberFormatException e) {
@@ -1581,7 +1581,7 @@ public final class ZigBeeConsole {
             try {
                 level = Integer.parseInt(args[4]);
                 if (level < 0 || level > 3) {
-                    print("Squawk level should be in range [0, 3].");
+                    print("Squawk level should be in range [0, 3].", out);
                     return false;
                 }
             } catch (NumberFormatException e) {
@@ -1593,7 +1593,7 @@ public final class ZigBeeConsole {
             try {
                 iasWD.squawk(payload);
             } catch (ZigBeeDeviceException e) {
-                print("Failed to start warning.");
+                print("Failed to start warning.", out);
                 e.printStackTrace();
             }
             return true;
@@ -1617,7 +1617,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 2) {
                 return false;
             }
@@ -1629,15 +1629,15 @@ public final class ZigBeeConsole {
 
             if (!zigbeeApi.permitJoin(join)) {
                 if (join) {
-                    print("ZigBee API permit join enable ... [FAIL]");
+                    print("ZigBee API permit join enable ... [FAIL]", out);
                 } else {
-                    print("ZigBee API permit join disable ... [FAIL]");
+                    print("ZigBee API permit join disable ... [FAIL]", out);
                 }
             } else {
                 if (join) {
-                    print("ZigBee API permit join enable ... [OK]");
+                    print("ZigBee API permit join enable ... [OK]", out);
                 } else {
-                    print("ZigBee API permit join disable ... [OK]");
+                    print("ZigBee API permit join disable ... [OK]", out);
                 }
             }
             return true;
@@ -1665,7 +1665,7 @@ public final class ZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApi zigbeeApi, final String[] args) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 2) {
                 return false;
             }
@@ -1680,27 +1680,27 @@ public final class ZigBeeConsole {
 
             final Cluster cluster = device.getCluster(clusterId);
             if (cluster == null) {
-                print("Cluster not found.");
+                print("Cluster not found.", out);
                 return false;
             }
 
             final Attribute attribute = cluster.getAttribute(attributeId);
             if (attribute == null) {
-                print("Attribute not found.");
+                print("Attribute not found.", out);
                 return false;
             }
 
             if(!attribute.isWritable()) {
-                print(attribute.getName() + " is not writable");
+                print(attribute.getName() + " is not writable", out);
                 return true;
             }
 
             try {
                 attribute.setValue(zigbeeApi.getZigBeeNetworkManager().getIeeeAddress());
-                print("CIE address set to: " + IEEEAddress.toColonNotation(zigbeeApi.getZigBeeNetworkManager().getIeeeAddress()));
-                print("CIE address verification read: " + IEEEAddress.toColonNotation((Long)attribute.getValue()));
+                print("CIE address set to: " + IEEEAddress.toColonNotation(zigbeeApi.getZigBeeNetworkManager().getIeeeAddress()), out);
+                print("CIE address verification read: " + IEEEAddress.toColonNotation((Long)attribute.getValue()), out);
             }  catch (Exception e) {
-                print("Failed to set CIE address.");
+                print("Failed to set CIE address.", out);
                 e.printStackTrace();
             }
 
@@ -1719,7 +1719,7 @@ public final class ZigBeeConsole {
             while (attributes.hasMoreElements()) {
                 final Attribute attribute = attributes.nextElement();
                 final Object value = reports.get(attribute);
-                print(endPointId + "->" + clusterId + "->" + attribute.getName() + "=" + value);
+                print(endPointId + "->" + clusterId + "->" + attribute.getName() + "=" + value, System.out);
             }
         }
     };
