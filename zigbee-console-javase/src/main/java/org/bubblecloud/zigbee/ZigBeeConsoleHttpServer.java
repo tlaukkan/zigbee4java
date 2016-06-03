@@ -37,7 +37,7 @@ public class ZigBeeConsoleHttpServer extends NanoHTTPD {
                                    final String[] sslProtocols,
                                    final AuthorizationProvider authorizationProvider) throws IOException {
         super(port);
-        final ZigBeeConsoleApiRpcImpl zigBeeConsoleApiImpl = new ZigBeeConsoleApiRpcImpl(zigBeeConsole);
+        final ZigBeeConsoleRpcApiImpl zigBeeConsoleApiImpl = new ZigBeeConsoleRpcApiImpl(zigBeeConsole);
         jsonRpcServer = new NanoHttpdJsonRpcServer(zigBeeConsoleApiImpl, ZigBeeConsoleRpcApi.class, authorizationProvider);
         if (keystorePath != null) {
             makeSecure(NanoHTTPD.makeSSLSocketFactory(keystorePath, keystorePassword), sslProtocols);
