@@ -1,5 +1,6 @@
 package org.bubblecloud.zigbee;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -10,6 +11,7 @@ import org.junit.Test;
 public class ZigBeeConsoleApiClientTest {
 
     @Test
+    @Ignore
     public void testListDevices() {
         final ZigBeeConsoleApiClient zigBeeConsoleApiClient = new ZigBeeConsoleApiClient("http://127.0.0.1:5000/", "secret");
         final ZigBeeConsoleApi zigBeeConsoleApi = zigBeeConsoleApiClient.getZigBeeConsoleApi();
