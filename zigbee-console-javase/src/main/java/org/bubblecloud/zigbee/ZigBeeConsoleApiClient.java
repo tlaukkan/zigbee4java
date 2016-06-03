@@ -21,7 +21,7 @@ public class ZigBeeConsoleApiClient {
     /**
      * The JSON RPC client.
      */
-    private final ZigBeeConsoleApi zigBeeConsoleApi;
+    private final ZigBeeConsoleRpcApi zigBeeConsoleApi;
     /**
      * The HTTP headers.
      */
@@ -47,7 +47,7 @@ public class ZigBeeConsoleApiClient {
 
         zigBeeConsoleApi = ProxyUtil.createClientProxy(
                 getClass().getClassLoader(),
-                ZigBeeConsoleApi.class,
+                ZigBeeConsoleRpcApi.class,
                 jsonRpcClient);
     }
 
@@ -55,7 +55,7 @@ public class ZigBeeConsoleApiClient {
      * Gets the ZigBeeConsole API.
      * @return the ZigBeeConsole API.
      */
-    public ZigBeeConsoleApi getZigBeeConsoleApi() {
+    public ZigBeeConsoleRpcApi getZigBeeConsoleApi() {
         return zigBeeConsoleApi;
     }
 }

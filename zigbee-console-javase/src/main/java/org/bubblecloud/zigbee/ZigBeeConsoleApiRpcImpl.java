@@ -8,7 +8,7 @@ import java.io.PrintStream;
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZigBeeConsoleApiImpl implements ZigBeeConsoleApi {
+public class ZigBeeConsoleApiRpcImpl implements ZigBeeConsoleRpcApi {
 
     /**
      * The ZigBee console.
@@ -19,7 +19,7 @@ public class ZigBeeConsoleApiImpl implements ZigBeeConsoleApi {
      * Constructor for setting the ZigBeeConsole.
      * @param zigBeeConsole the ZigBeeConsole
      */
-    public ZigBeeConsoleApiImpl(final ZigBeeConsole zigBeeConsole) {
+    public ZigBeeConsoleApiRpcImpl(final ZigBeeConsole zigBeeConsole) {
         this.zigBeeConsole = zigBeeConsole;
     }
 

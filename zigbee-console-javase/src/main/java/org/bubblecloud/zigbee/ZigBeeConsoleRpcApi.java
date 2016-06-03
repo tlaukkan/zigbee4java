@@ -5,7 +5,7 @@ package org.bubblecloud.zigbee;
  *
  * @author Tommi S.E. Laukkanen
  */
-public interface ZigBeeConsoleApi2 {
+public interface ZigBeeConsoleRpcApi {
 
     /**
      * Executes console command.
