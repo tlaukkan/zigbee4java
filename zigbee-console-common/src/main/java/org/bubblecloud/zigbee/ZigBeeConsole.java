@@ -277,7 +277,7 @@ public final class ZigBeeConsole {
             }
         } catch (final Exception e) {
             print("Exception in command execution: ", out);
-            e.printStackTrace();
+            e.printStackTrace(out);
         }
     }
 
