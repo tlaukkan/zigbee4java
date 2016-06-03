@@ -17,6 +17,11 @@ Questions can be sent to the following email address: 'zigbee4java@googlegroups.
 
 You can also contact me directly: 'tommi.s.e.laukkanen@gmail.com'.
 
+Chat
+----
+
+[![Gitter](https://badges.gitter.im/tlaukkan/zigbee4java.svg)](https://gitter.im/tlaukkan/zigbee4java?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 Discussion Group
 ----------------
 
