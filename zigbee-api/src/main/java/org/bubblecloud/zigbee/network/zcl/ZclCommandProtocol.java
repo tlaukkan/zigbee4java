@@ -48,8 +48,10 @@ public class ZclCommandProtocol {
         final ZclCommandFormat messageFormat = getMessageProtocol().get(commandMessage.getType());
         final ZclFieldDeserializer deserializer = new ZclFieldDeserializer(payload, 0);
         final TreeMap<ZclFieldType, Object> fields = new TreeMap<ZclFieldType, Object>();
-        for (final ZclFieldType fieldType : messageFormat.getFields()) {
-            fields.put(fieldType, deserializer.deserialize(fieldType.getDataType()));
+        if (messageFormat != null) {
+            for (final ZclFieldType fieldType : messageFormat.getFields()) {
+                fields.put(fieldType, deserializer.deserialize(fieldType.getDataType()));
+            }
         }
         commandMessage.setFields(fields);
         return commandMessage;
@@ -64,8 +66,10 @@ public class ZclCommandProtocol {
     public static byte[] serializePayload(final ZclCommandMessage commandMessage) {
         final ZclCommandFormat messageFormat = getMessageProtocol().get(commandMessage.getType());
         final ZclFieldSerializer serializer = new ZclFieldSerializer();
-        for (final ZclFieldType fieldType : messageFormat.getFields()) {
-            serializer.serialize(commandMessage.getFields().get(fieldType), fieldType.getDataType());
+        if (messageFormat != null) {
+            for (final ZclFieldType fieldType : messageFormat.getFields()) {
+                serializer.serialize(commandMessage.getFields().get(fieldType), fieldType.getDataType());
+            }
         }
         return serializer.getPayload();
     }

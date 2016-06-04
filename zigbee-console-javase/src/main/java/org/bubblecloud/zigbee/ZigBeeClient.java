@@ -36,7 +36,7 @@ public class ZigBeeClient implements ZclApi {
     /**
      * The JSON RPC client.
      */
-    private final ZigBeeRpcApi zigBeeConsoleApi;
+    private final ZigBeeRpcApi zigBeeRpcApi;
     /**
      * The receive queue ID.
      */
@@ -72,7 +72,7 @@ public class ZigBeeClient implements ZclApi {
             throw new IllegalArgumentException("Malformed URL: " + url, e);
         }
 
-        zigBeeConsoleApi = ProxyUtil.createClientProxy(
+        zigBeeRpcApi = ProxyUtil.createClientProxy(
                 getClass().getClassLoader(),
                 ZigBeeRpcApi.class,
                 jsonRpcClient);
@@ -86,7 +86,7 @@ public class ZigBeeClient implements ZclApi {
         if (receiveQueueId != null) {
             throw new UnsupportedOperationException("Already started");
         }
-        receiveQueueId = zigBeeConsoleApi.addReceiveQueue();
+        receiveQueueId = zigBeeRpcApi.addReceiveQueue();
         receiveThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -100,7 +100,6 @@ public class ZigBeeClient implements ZclApi {
      * Stops API client.
      */
     public void shutdown() {
-        zigBeeConsoleApi.removeReceiveQueue(receiveQueueId);
         shutdown = true;
         receiveThread.interrupt();
         try {
@@ -108,14 +107,44 @@ public class ZigBeeClient implements ZclApi {
         } catch (final InterruptedException e) {
             LOGGER.trace("Shutdown receive thread join interrupted.", e);
         }
+        zigBeeRpcApi.removeReceiveQueue(receiveQueueId);
     }
 
     /**
      * Gets the ZigBeeConsole API.
      * @return the ZigBeeConsole API.
      */
-    public ZigBeeRpcApi getZigBeeConsoleApi() {
-        return zigBeeConsoleApi;
+    public ZigBeeRpcApi getZigBeeRpcApi() {
+        return zigBeeRpcApi;
+    }
+
+
+    /**
+     * Executes console command.
+     * @param command the console command
+     * @return the command output
+     */
+    public String execute(final String command) {
+        return zigBeeRpcApi.execute(command);
+    }
+
+    @Override
+    public void sendCommand(ZclCommand command) throws ZigBeeException {
+        zigBeeRpcApi.send(command.toCommandMessage());
+    }
+
+    @Override
+    public void addCommandListener(final ZclCommandListener commandListener) {
+        synchronized (commandListeners) {
+            commandListeners.add(commandListener);
+        }
+    }
+
+    @Override
+    public void removeCommandListener(final ZclCommandListener commandListener) {
+        synchronized (commandListeners) {
+            commandListeners.remove(commandListener);
+        }
     }
 
     /**
@@ -124,7 +153,7 @@ public class ZigBeeClient implements ZclApi {
     private void receiveLoop() {
         while (!shutdown) {
             try {
-                final List<ZclCommandMessage> receivedCommands = zigBeeConsoleApi.receive(receiveQueueId);
+                final List<ZclCommandMessage> receivedCommands = zigBeeRpcApi.receive(receiveQueueId);
                 synchronized (commandListeners) {
                     for (final ZclCommandMessage receivedCommand : receivedCommands) {
                         for (final ZclCommandListener commandListener : commandListeners) {
@@ -148,22 +177,4 @@ public class ZigBeeClient implements ZclApi {
         }
     }
 
-    @Override
-    public void sendCommand(ZclCommand command) throws ZigBeeException {
-        zigBeeConsoleApi.send(command.toCommandMessage());
-    }
-
-    @Override
-    public void addCommandListener(final ZclCommandListener commandListener) {
-        synchronized (commandListeners) {
-            commandListeners.add(commandListener);
-        }
-    }
-
-    @Override
-    public void removeCommandListener(final ZclCommandListener commandListener) {
-        synchronized (commandListeners) {
-            commandListeners.remove(commandListener);
-        }
-    }
 }
