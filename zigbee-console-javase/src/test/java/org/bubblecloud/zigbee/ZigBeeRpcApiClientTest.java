@@ -16,6 +16,7 @@ import org.junit.Test;
 public class ZigBeeRpcApiClientTest {
 
     @Test
+    @Ignore
     public void testListDevices() throws ZigBeeException {
         final ZigBeeClient zigBeeClient = new ZigBeeClient("http://127.0.0.1:5000/", "secret");
         System.out.println(zigBeeClient.execute("help"));
