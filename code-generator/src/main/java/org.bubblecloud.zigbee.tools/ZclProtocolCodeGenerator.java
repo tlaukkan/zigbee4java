@@ -412,20 +412,30 @@ public class ZclProtocolCodeGenerator {
 
                     out.println();
                     out.println("/**");
-                    out.println(" * Code generated command value object class.");
+                    out.println(" * Code generated " + command.commandLabel  + " value object class.");
                     out.println(" */");
                     out.println("public class " + className + " extends ZclCommand {");
 
                     final LinkedList<Field> fields = new LinkedList<Field>(command.fields.values());
                     for (final Field field : fields) {
+                        out.println("    /**");
+                        out.println("     * " + field.fieldLabel + " command message field.");
+                        out.println("     */");
                         out.println("    private " + field.dataTypeClass + " " + field.nameLowerCamelCase + ";");
                     }
 
                     out.println("");
+                    out.println("    /**");
+                    out.println("     * Default constructor setting the command type field.");
+                    out.println("     */");
                     out.println("    public " + className + "() {");
                     out.println("        this.setType(ZclCommandType." + command.commandType + ");");
                     out.println("    }");
                     out.println("");
+                    out.println("    /**");
+                    out.println("     * Constructor copying field values from command message.");
+                    out.println("     * @param message the command message");
+                    out.println("     */");
                     out.println("    public " + className + "(final ZclCommandMessage message) {");
                     out.println("        super(message);");
                     for (final Field field : fields) {
@@ -443,10 +453,18 @@ public class ZclProtocolCodeGenerator {
                     out.println("    }");
                     for (final Field field : fields) {
                         out.println("");
+                        out.println("    /**");
+                        out.println("     * Gets " + field.fieldLabel + ".");
+                        out.println("     * @return the " + field.fieldLabel);
+                        out.println("     */");
                         out.println("    public " + field.dataTypeClass + " get" + field.nameUpperCamelCase + "() {");
                         out.println("        return " + field.nameLowerCamelCase + ";");
                         out.println("    }");
                         out.println("");
+                        out.println("    /**");
+                        out.println("     * Sets " + field.fieldLabel + ".");
+                        out.println("     * @param " + field.nameLowerCamelCase +  " the " + field.fieldLabel);
+                        out.println("     */");
                         out.println("    public void set" + field.nameUpperCamelCase + "(final " + field.dataTypeClass + " " + field.nameLowerCamelCase + ") {");
                         out.println("        this." + field.nameLowerCamelCase + " = " + field.nameLowerCamelCase + ";");
                         out.println("    }");

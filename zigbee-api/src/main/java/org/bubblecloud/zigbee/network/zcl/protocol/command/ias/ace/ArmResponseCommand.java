@@ -1,0 +1,61 @@
+package org.bubblecloud.zigbee.network.zcl.protocol.command.ias.ace;
+
+import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
+import org.bubblecloud.zigbee.network.zcl.ZclUtil;
+import org.bubblecloud.zigbee.network.zcl.ZclCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+/**
+ * Code generated Arm Response Command value object class.
+ */
+public class ArmResponseCommand extends ZclCommand {
+    /**
+     * Arm Notification command message field.
+     */
+    private Byte armNotification;
+
+    /**
+     * Default constructor setting the command type field.
+     */
+    public ArmResponseCommand() {
+        this.setType(ZclCommandType.ARM_RESPONSE_COMMAND);
+    }
+
+    /**
+     * Constructor copying field values from command message.
+     * @param message the command message
+     */
+    public ArmResponseCommand(final ZclCommandMessage message) {
+        super(message);
+        this.armNotification = (Byte) message.getFields().get(ZclFieldType.ARM_RESPONSE_COMMAND_ARM_NOTIFICATION);
+    }
+
+    @Override
+    public ZclCommandMessage toCommandMessage() {
+        final ZclCommandMessage message = super.toCommandMessage();
+        message.getFields().put(ZclFieldType.ARM_RESPONSE_COMMAND_ARM_NOTIFICATION,armNotification);
+        return message;
+    }
+
+    /**
+     * Gets Arm Notification.
+     * @return the Arm Notification
+     */
+    public Byte getArmNotification() {
+        return armNotification;
+    }
+
+    /**
+     * Sets Arm Notification.
+     * @param armNotification the Arm Notification
+     */
+    public void setArmNotification(final Byte armNotification) {
+        this.armNotification = armNotification;
+    }
+
+    static {
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.ARM_RESPONSE_COMMAND,ArmResponseCommand.class);
+    }
+}
