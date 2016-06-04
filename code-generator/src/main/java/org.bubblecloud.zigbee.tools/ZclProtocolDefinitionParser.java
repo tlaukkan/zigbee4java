@@ -15,7 +15,7 @@ public class ZclProtocolDefinitionParser {
             if (line.startsWith("* ") && line.contains("[")) {
                 context.profile = new Profile();
                 context.profile.profileName = getHeaderTitle(line);
-                context.profile.profileType = CodeGeneratorUtil.naturalNameToEnumerationValue(context.profile.profileName);
+                context.profile.profileType = CodeGeneratorUtil.labelToEnumerationValue(context.profile.profileName);
                 context.profile.profileId = getHeaderId(line);
                 context.profiles.put(context.profile.profileId, context.profile);
                 System.out.println("Profile: " + context.profile.profileName + " " + CodeGeneratorUtil.toHex(context.profile.profileId));
@@ -56,7 +56,7 @@ public class ZclProtocolDefinitionParser {
             if (line.startsWith("** ")) {
                 context.cluster = new Cluster();
                 context.cluster.clusterName = getHeaderTitle(line);
-                context.cluster.clusterType = CodeGeneratorUtil.naturalNameToEnumerationValue(context.cluster.clusterName);
+                context.cluster.clusterType = CodeGeneratorUtil.labelToEnumerationValue(context.cluster.clusterName);
                 context.cluster.clusterId = getHeaderId(line);
                 context.profile.clusters.put(context.cluster.clusterId, context.cluster);
                 System.out.println("  " + CodeGeneratorUtil.toHex(context.cluster.clusterId) + ") " + context.cluster.clusterName);
@@ -101,15 +101,17 @@ public class ZclProtocolDefinitionParser {
 
             if (line.startsWith("**** ")) {
                 context.command = new Command();
-                context.command.commandName = getHeaderTitle(line);
-                context.command.commandType = CodeGeneratorUtil.naturalNameToEnumerationValue(context.command.commandName);
+                context.command.commandLabel = getHeaderTitle(line);
+                context.command.commandType = CodeGeneratorUtil.labelToEnumerationValue(context.command.commandLabel);
                 context.command.commandId = getHeaderId(line);
+                context.command.nameUpperCamelCase = CodeGeneratorUtil.labelToUpperCamelCase(context.command.commandLabel);
+                context.command.nameLowerCamelCase = CodeGeneratorUtil.upperCamelCaseToLowerCamelCase(context.command.nameUpperCamelCase);
                 if (context.received) {
                     context.cluster.received.put(context.command.commandId, context.command);
                 } else {
                     context.cluster.generated.put(context.command.commandId, context.command);
                 }
-                System.out.println("     " + CodeGeneratorUtil.toHex(context.command.commandId) + ") " + context.command.commandName);
+                System.out.println("     " + CodeGeneratorUtil.toHex(context.command.commandId) + ") " + context.command.commandLabel);
 
                 parseField(context);
             }
@@ -132,18 +134,61 @@ public class ZclProtocolDefinitionParser {
                 final String[] columns = row.split("\\|");
                 final Field field = new Field();
                 field.fieldId = fieldIndex;
-                field.fieldName = columns[0].trim();
-                field.fieldType = context.command.commandType + "_" + CodeGeneratorUtil.naturalNameToEnumerationValue(field.fieldName);
-                field.dataType = CodeGeneratorUtil.naturalNameToEnumerationValue(columns[1].trim());
+                field.fieldLabel = columns[0].trim();
+                field.fieldType = context.command.commandType + "_" + CodeGeneratorUtil.labelToEnumerationValue(field.fieldLabel);
+                field.nameUpperCamelCase = CodeGeneratorUtil.labelToEnumerationValue(field.fieldLabel);
+                field.nameUpperCamelCase = CodeGeneratorUtil.labelToUpperCamelCase(field.fieldLabel);
+                field.nameLowerCamelCase = CodeGeneratorUtil.upperCamelCaseToLowerCamelCase(field.nameUpperCamelCase);
+                field.dataType = CodeGeneratorUtil.labelToEnumerationValue(columns[1].trim());
                 if ("0123456789".indexOf(field.dataType.charAt(0)) >= 0) {
                     field.dataType = "_" + field.dataType;
                 }
                 final DataType dataType = new DataType();
                 dataType.dataTypeName = columns[1].trim();
                 dataType.dataTypeType = field.dataType;
+
+                if (field.dataType.equals("CHARACTER_STRING")) {
+                    dataType.dataTypeClass = "String";
+                } else if (field.dataType.equals("CLUSTER_ID")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("IEEE_ADDRESS")) {
+                    dataType.dataTypeClass = "ZToolAddress64";
+                } else if (field.dataType.equals("N_X_EXTENSION_FIELD_SET")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("N_X_NEIGHBORS_INFORMATION")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("N_X_UNSIGNED_16_BIT_INTEGER")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("N_X_UNSIGNED_8_BIT_INTEGER")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("SIGNED_16_BIT_INTEGER")) {
+                    dataType.dataTypeClass = "Short";
+                } else if (field.dataType.equals("SIGNED_8_BIT_INTEGER")) {
+                    dataType.dataTypeClass = "Byte";
+                } else if (field.dataType.equals("UNSIGNED_16_BIT_INTEGER")) {
+                    dataType.dataTypeClass = "Short";
+                } else if (field.dataType.equals("UNSIGNED_32_BIT_INTEGER")) {
+                    dataType.dataTypeClass = "Integer";
+                } else if (field.dataType.equals("UNSIGNED_8_BIT_INTEGER")) {
+                    dataType.dataTypeClass = "Byte";
+                } else if (field.dataType.equals("_16_BIT_BITMAP")) {
+                    dataType.dataTypeClass = "Short";
+                } else if (field.dataType.equals("_16_BIT_ENUMERATION")) {
+                    dataType.dataTypeClass = "Short";
+                } else if (field.dataType.equals("_8_BIT_BITMAP")) {
+                    dataType.dataTypeClass = "Byte";
+                } else if (field.dataType.equals("_8_BIT_DATA")) {
+                    dataType.dataTypeClass = "Byte";
+                } else if (field.dataType.equals("_8_BIT_ENUMERATION")) {
+                    dataType.dataTypeClass = "Byte";
+                } else {
+                    throw new IllegalArgumentException("Type not mapped: " + field.dataType);
+                }
+                field.dataTypeClass = dataType.dataTypeClass;
+
                 context.dataTypes.put(field.dataType, dataType);
                 context.command.fields.put(field.fieldId, field);
-                System.out.println("      " + CodeGeneratorUtil.toHex(fieldIndex) + ") " +   field.fieldName + ": " +  dataType.dataTypeName);
+                System.out.println("      " + CodeGeneratorUtil.toHex(fieldIndex) + ") " +   field.fieldLabel + ": " +  dataType.dataTypeName);
                 fieldIndex++;
             }
         }

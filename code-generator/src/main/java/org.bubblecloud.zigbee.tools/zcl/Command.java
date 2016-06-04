@@ -7,8 +7,10 @@ import java.util.TreeMap;
  */
 public class Command {
     public int commandId;
-    public String commandName;
+    public String commandLabel;
     public String commandType;
+    public String nameUpperCamelCase;
+    public String nameLowerCamelCase;
 
     public TreeMap<Integer, Field> fields = new TreeMap<Integer, Field>();
 }

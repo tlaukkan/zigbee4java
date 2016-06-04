@@ -5,7 +5,10 @@ package org.bubblecloud.zigbee.tools.zcl;
  */
 public class Field {
     public int fieldId;
-    public String fieldName;
+    public String fieldLabel;
     public String fieldType;
     public String dataType;
+    public String dataTypeClass;
+    public String nameUpperCamelCase;
+    public String nameLowerCamelCase;
 }

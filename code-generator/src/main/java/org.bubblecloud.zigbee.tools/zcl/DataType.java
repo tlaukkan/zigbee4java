@@ -6,4 +6,5 @@ package org.bubblecloud.zigbee.tools.zcl;
 public class DataType {
     public String dataTypeName;
     public String dataTypeType;
+    public String dataTypeClass;
 }
