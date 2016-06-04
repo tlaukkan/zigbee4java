@@ -83,7 +83,7 @@ import java.util.*;
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
-public class ZigBeeApi implements EndpointListener, ZigBeeClusterLibrary {
+public class ZigBeeApi implements EndpointListener, ZclApi {
     /**
      * The {@link Logger}.
      */

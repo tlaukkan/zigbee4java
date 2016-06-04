@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZigBeeConsoleApiClient implements ZigBeeClusterLibrary {
+public class ZigBeeConsoleApiClient implements ZclApi {
     /**
      * The {@link org.slf4j.Logger}.
      */
