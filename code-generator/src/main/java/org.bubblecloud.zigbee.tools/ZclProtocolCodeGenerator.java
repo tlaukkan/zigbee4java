@@ -384,7 +384,6 @@ public class ZclProtocolCodeGenerator {
         out.println("    public ZclCommandType getCommandType() { return commandType; }");
         out.println("    public String getLabel() { return label; }");
         out.println("    public ZclDataType getDataType() { return dataType; }");
-        out.println("    public String toString() { return label; }");
         out.println("");
         out.println("}");
 

@@ -1,5 +1,7 @@
 package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.network.zcl.ZclCommand;
+import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -17,6 +19,23 @@ public class ZigBeeConsoleApiClientTest {
         final ZigBeeConsoleRpcApi zigBeeConsoleApi = zigBeeConsoleApiClient.getZigBeeConsoleApi();
         System.out.println(zigBeeConsoleApi.execute("help"));
         System.out.println(zigBeeConsoleApi.execute("list"));
+
+        zigBeeConsoleApiClient.startup();
+
+        zigBeeConsoleApiClient.addCommandListener(new ZclCommandListener() {
+            @Override
+            public void commandReceived(final ZclCommand command) {
+                System.out.println(command);
+            }
+        });
+
+        try {
+            Thread.sleep(60000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        zigBeeConsoleApiClient.shutdown();
     }
 
 }

@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.network.impl.ZigBeeEndpointImpl;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandTypeRegistrar;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclDataType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -163,4 +164,5 @@ public class ZclUtil {
 
         return zigBeeType;
     }
+
 }

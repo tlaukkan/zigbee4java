@@ -16,6 +16,7 @@
 package org.bubblecloud.zigbee.network.zcl;
 
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandTypeRegistrar;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
 
 import java.util.Map;
@@ -201,5 +202,9 @@ public class ZclCommandMessage {
     public String toString() {
         return type + " " + sourceAddress + "." + sourceEnpoint + " -> "
                 + destinationAddress + "." + destinationEndpoint + " " + fields;
+    }
+
+    static {
+        ZclCommandTypeRegistrar.register();
     }
 }

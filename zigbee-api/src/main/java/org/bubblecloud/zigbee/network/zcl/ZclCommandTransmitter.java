@@ -154,7 +154,7 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
      * @param commandMessage the command message
      * @throws ZigBeeNetworkManagerException
      */
-    public void sendCommand(final ZclCommandMessage commandMessage) throws ZigBeeNetworkManagerException {
+    public void sendCommand(final ZclCommandMessage commandMessage) throws ZigBeeException {
         synchronized (networkManager) {
             final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
 
@@ -189,12 +189,12 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
                     input.getId(), afTransactionId, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg));
 
             if (response == null) {
-                throw new ZigBeeNetworkManagerException(
+                throw new ZigBeeException(
                         "Unable to send cluster on the ZigBee network due to general error.");
             }
 
             if (response.getStatus()  != 0) {
-                throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to: "
+                throw new ZigBeeException("Unable to send cluster on the ZigBee network due to: "
                         + response.getStatus() + " (" + response.getErrorMsg() + ")");
             }
 
@@ -202,7 +202,4 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
         }
     }
 
-    static {
-        ZclCommandTypeRegistrar.register();
-    }
 }

@@ -3,6 +3,7 @@ package org.bubblecloud.zigbee.network.zcl;
 
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandTypeRegistrar;
 
 /**
  * Base class for value object classes holding a commands.
@@ -167,4 +168,5 @@ public class ZclCommand {
         return type + " " + sourceAddress + "." + sourceEnpoint + " -> "
                 + destinationAddress + "." + destinationEndpoint;
     }
+
 }

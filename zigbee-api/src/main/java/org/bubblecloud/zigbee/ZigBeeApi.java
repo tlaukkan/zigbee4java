@@ -21,13 +21,10 @@ import org.bubblecloud.zigbee.network.NodeListener;
 import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
-import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.impl.*;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
-import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandTransmitter;
-import org.bubblecloud.zigbee.network.impl.NetworkStateSerializer;
-import org.bubblecloud.zigbee.network.impl.ZigBeeNetwork;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.DriverStatus;
 import org.bubblecloud.zigbee.network.model.NetworkMode;
@@ -35,7 +32,6 @@ import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.packet.zdo.ZDO_MGMT_PERMIT_JOIN_REQ;
 import org.bubblecloud.zigbee.api.Device;
 import org.bubblecloud.zigbee.api.DeviceListener;
-import org.bubblecloud.zigbee.network.impl.ApplicationFrameworkLayer;
 import org.bubblecloud.zigbee.api.*;
 import org.bubblecloud.zigbee.api.device.generic.*;
 import org.bubblecloud.zigbee.api.device.hvac.Pump;
@@ -44,7 +40,6 @@ import org.bubblecloud.zigbee.api.device.hvac.TemperatureSensor;
 import org.bubblecloud.zigbee.api.device.lighting.*;
 import org.bubblecloud.zigbee.api.device.impl.*;
 import org.bubblecloud.zigbee.api.DeviceBase;
-import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerImpl;
 import org.bubblecloud.zigbee.network.SerialPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,7 +83,7 @@ import java.util.*;
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
-public class ZigBeeApi implements EndpointListener {
+public class ZigBeeApi implements EndpointListener, ZigBeeClusterLibrary {
     /**
      * The {@link Logger}.
      */
@@ -473,7 +468,8 @@ public class ZigBeeApi implements EndpointListener {
      * @param command the command
      * @throws ZigBeeNetworkManagerException if exception occurs in sending
      */
-    public void sendCommand(final ZclCommand command) throws ZigBeeNetworkManagerException {
+    @Override
+    public void sendCommand(final ZclCommand command) throws ZigBeeException {
         zclCommandTransmitter.sendCommand(command.toCommandMessage());
     }
 
@@ -481,6 +477,7 @@ public class ZigBeeApi implements EndpointListener {
      * Adds ZCL command listener.
      * @param commandListener the command listener
      */
+    @Override
     public void addCommandListener(final ZclCommandListener commandListener) {
         this.zclCommandTransmitter.addCommandListener(commandListener);
     }
@@ -489,6 +486,7 @@ public class ZigBeeApi implements EndpointListener {
      * Removes ZCL command listener.
      * @param commandListener the command listener
      */
+    @Override
     public void removeCommandListener(final ZclCommandListener commandListener) {
         this.zclCommandTransmitter.removeCommandListener(commandListener);
     }

@@ -35,8 +35,6 @@ import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
-import org.bubblecloud.zigbee.network.zcl.protocol.command.ias.zone.ZoneEnrollRequestCommand;
-import  org.bubblecloud.zigbee.network.zcl.protocol.command.ias.zone.ZoneEnrollResponseCommand;
 import org.bubblecloud.zigbee.util.Cie;
 
 /**
@@ -71,7 +69,7 @@ public final class ZigBeeConsole {
 	private int pan;
 	private int channel;
 	private boolean resetNetwork;
-    private ZigBeeApi zigbeeApi;
+    private ZigBeeApi zigBeeApi;
 
     public ZigBeeConsole(SerialPort port, int pan, int channel, boolean resetNetwork) {
 		this.port         = port;
@@ -103,7 +101,9 @@ public final class ZigBeeConsole {
         commands.put("lock", new DoorLockCommand());
         commands.put("unlock", 		new DoorUnlockCommand());
         commands.put("enroll", new EnrollCommand());
-	}
+
+        zigBeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, DiscoveryMode.ALL);
+    }
 
 	/**
      * Starts this console application
@@ -111,29 +111,26 @@ public final class ZigBeeConsole {
     public void start() {
         mainThread = Thread.currentThread();
         System.out.print("ZigBee API starting up...");
-        final Set<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
-        //discoveryModes.remove(DiscoveryMode.LinkQuality);
-        zigbeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, discoveryModes);
 
         final File networkStateFile = new File("network.json");
         if (!resetNetwork && networkStateFile.exists()) {
             try {
                 final String networkState = FileUtils.readFileToString(networkStateFile);
-                zigbeeApi.deserializeNetworkState(networkState);
+                zigBeeApi.deserializeNetworkState(networkState);
             } catch (final Exception e) {
                 e.printStackTrace();
                 // Fall through and just start the network without persistence
             }
         }
 
-        if (!zigbeeApi.startup()) {
+        if (!zigBeeApi.startup()) {
             print("ZigBee API starting up ... [FAIL]", System.out);
             return;
         } else {
             print("ZigBee API starting up ... [OK]", System.out);
         }
 
-        zigbeeApi.addDeviceListener(new DeviceListener() {
+        zigBeeApi.addDeviceListener(new DeviceListener() {
             @Override
             public void deviceAdded(Device device) {
                 print("Device added: " + device.getEndpointId() + " (#" + device.getNetworkAddress() + ")", System.out);
@@ -150,7 +147,7 @@ public final class ZigBeeConsole {
             }
         });
 
-        zigbeeApi.addNodeListener(new NodeListener() {
+        zigBeeApi.addNodeListener(new NodeListener() {
             @Override
             public void nodeAdded(ZigBeeNode node) {
                 print("Node added: " + node.getIeeeAddress() + " (#" + node.getNetworkAddress() + ")", System.out);
@@ -172,7 +169,7 @@ public final class ZigBeeConsole {
             }
         });
 
-        zigbeeApi.addCommandListener(new ZclCommandListener() {
+        zigBeeApi.addCommandListener(new ZclCommandListener() {
             @Override
             public void commandReceived(ZclCommand command) {
                 print("Received: " + command.toString(), System.out);
@@ -196,7 +193,7 @@ public final class ZigBeeConsole {
                         @Override
                         public void run() {
                             try {
-                                zigbeeApi.sendCommand(response);
+                                zigBeeApi.sendCommand(response);
                             } catch (ZigBeeNetworkManagerException e) {
                                 e.printStackTrace();
                             }
@@ -228,7 +225,7 @@ public final class ZigBeeConsole {
         if (!networkStateFile.exists()) {
             print("Browsing network for the first time...", System.out);
         }
-        while (!shutdown && !networkStateFile.exists() && !zigbeeApi.isInitialBrowsingComplete()) {
+        while (!shutdown && !networkStateFile.exists() && !zigBeeApi.isInitialBrowsingComplete()) {
             System.out.print('.');
             try {
                 Thread.sleep(250);
@@ -239,7 +236,7 @@ public final class ZigBeeConsole {
         if (!networkStateFile.exists()) {
             print("Browsing network for the first time... [OK]", System.out);
         }
-        print("There are " + zigbeeApi.getDevices().size() + " known devices in the network.", System.out);
+        print("There are " + zigBeeApi.getDevices().size() + " known devices in the network.", System.out);
 
         print("ZigBee console ready.", System.out);
 
@@ -248,10 +245,10 @@ public final class ZigBeeConsole {
             processInputLine(inputLine, System.out);
         }
 
-        zigbeeApi.shutdown();
+        zigBeeApi.shutdown();
 
         try {
-            FileUtils.writeStringToFile(networkStateFile, zigbeeApi.serializeNetworkState(), false);
+            FileUtils.writeStringToFile(networkStateFile, zigBeeApi.serializeNetworkState(), false);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -278,7 +275,7 @@ public final class ZigBeeConsole {
     public void processArgs(final String[] args, final PrintStream out) {
         try {
             if (commands.containsKey(args[0])) {
-                executeCommand(zigbeeApi, args[0], args, out);
+                executeCommand(zigBeeApi, args[0], args, out);
             } else {
                 print("Uknown command. Use 'help' command to list available commands.", out);
             }
@@ -286,6 +283,10 @@ public final class ZigBeeConsole {
             print("Exception in command execution: ", out);
             e.printStackTrace(out);
         }
+    }
+
+    public ZigBeeApi getZigBeeApi() {
+        return zigBeeApi;
     }
 
     /**
