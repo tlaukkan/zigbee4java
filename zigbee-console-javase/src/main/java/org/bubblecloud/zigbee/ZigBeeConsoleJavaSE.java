@@ -103,10 +103,10 @@ public class ZigBeeConsoleJavaSE {
             }
         };
 
-        final ZigBeeConsoleHttpServer zigBeeConsoleServer;
+        final ZigBeeServer zigBeeConsoleServer;
         if (args.length > 5) {
             try {
-                zigBeeConsoleServer = new ZigBeeConsoleHttpServer(console, port, keystorePath, password, sslProtocols,
+                zigBeeConsoleServer = new ZigBeeServer(console, port, keystorePath, password, sslProtocols,
                         authorizationProvider);
                 zigBeeConsoleServer.start();
             } catch (final IOException e) {

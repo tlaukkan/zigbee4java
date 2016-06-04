@@ -20,11 +20,11 @@ import java.util.List;
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZigBeeConsoleApiClient implements ZclApi {
+public class ZigBeeClient implements ZclApi {
     /**
      * The {@link org.slf4j.Logger}.
      */
-    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeConsoleHttpServer.class);
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeServer.class);
     /**
      * The minimum polling period in milliseconds.
      */
@@ -36,7 +36,7 @@ public class ZigBeeConsoleApiClient implements ZclApi {
     /**
      * The JSON RPC client.
      */
-    private final ZigBeeConsoleRpcApi zigBeeConsoleApi;
+    private final ZigBeeRpcApi zigBeeConsoleApi;
     /**
      * The receive queue ID.
      */
@@ -58,7 +58,7 @@ public class ZigBeeConsoleApiClient implements ZclApi {
      * Configures the speech NLP API JSON RPC client.
      * @param url the speech NLP JSON RPC HTTP server URL
      */
-    public ZigBeeConsoleApiClient(final String url, final String accessToken) {
+    public ZigBeeClient(final String url, final String accessToken) {
         JsonRpcHttpClient  jsonRpcClient;
 
         try {
@@ -74,7 +74,7 @@ public class ZigBeeConsoleApiClient implements ZclApi {
 
         zigBeeConsoleApi = ProxyUtil.createClientProxy(
                 getClass().getClassLoader(),
-                ZigBeeConsoleRpcApi.class,
+                ZigBeeRpcApi.class,
                 jsonRpcClient);
 
     }
@@ -114,7 +114,7 @@ public class ZigBeeConsoleApiClient implements ZclApi {
      * Gets the ZigBeeConsole API.
      * @return the ZigBeeConsole API.
      */
-    public ZigBeeConsoleRpcApi getZigBeeConsoleApi() {
+    public ZigBeeRpcApi getZigBeeConsoleApi() {
         return zigBeeConsoleApi;
     }
 

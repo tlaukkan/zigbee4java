@@ -17,11 +17,11 @@ import java.util.*;
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZigBeeConsoleRpcApiImpl implements ZigBeeConsoleRpcApi, ZclCommandListener {
+public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, ZclCommandListener {
     /**
      * The {@link org.slf4j.Logger}.
      */
-    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeConsoleRpcApiImpl.class);
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeRpcApiImpl.class);
     /**
      * The ZigBee console.
      */
@@ -31,7 +31,7 @@ public class ZigBeeConsoleRpcApiImpl implements ZigBeeConsoleRpcApi, ZclCommandL
      * Constructor for setting the ZigBeeConsole.
      * @param zigBeeConsole the ZigBeeConsole
      */
-    public ZigBeeConsoleRpcApiImpl(final ZigBeeConsole zigBeeConsole) {
+    public ZigBeeRpcApiImpl(final ZigBeeConsole zigBeeConsole) {
         this.zigBeeConsole = zigBeeConsole;
         this.zigBeeConsole.getZigBeeApi().addCommandListener(this);
     }

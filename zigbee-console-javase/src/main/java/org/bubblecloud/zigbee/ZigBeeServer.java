@@ -12,11 +12,11 @@ import java.io.IOException;
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZigBeeConsoleHttpServer extends NanoHTTPD {
+public class ZigBeeServer extends NanoHTTPD {
     /**
      * The {@link org.slf4j.Logger}.
      */
-    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeConsoleHttpServer.class);
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeServer.class);
     /**
      * The JSON ROC server.
      */
@@ -32,13 +32,13 @@ public class ZigBeeConsoleHttpServer extends NanoHTTPD {
      * @param authorizationProvider the authorization provider
      * @throws IOException if IO Exception occurs
      */
-    public ZigBeeConsoleHttpServer(final ZigBeeConsole zigBeeConsole, final int port,
-                                   final String keystorePath, final char[] keystorePassword,
-                                   final String[] sslProtocols,
-                                   final AuthorizationProvider authorizationProvider) throws IOException {
+    public ZigBeeServer(final ZigBeeConsole zigBeeConsole, final int port,
+                        final String keystorePath, final char[] keystorePassword,
+                        final String[] sslProtocols,
+                        final AuthorizationProvider authorizationProvider) throws IOException {
         super(port);
-        final ZigBeeConsoleRpcApiImpl zigBeeConsoleApiImpl = new ZigBeeConsoleRpcApiImpl(zigBeeConsole);
-        jsonRpcServer = new NanoHttpdJsonRpcServer(zigBeeConsoleApiImpl, ZigBeeConsoleRpcApi.class, authorizationProvider);
+        final ZigBeeRpcApiImpl zigBeeRpcApi = new ZigBeeRpcApiImpl(zigBeeConsole);
+        jsonRpcServer = new NanoHttpdJsonRpcServer(zigBeeRpcApi, ZigBeeRpcApi.class, authorizationProvider);
         if (keystorePath != null) {
             makeSecure(NanoHTTPD.makeSSLSocketFactory(keystorePath, keystorePassword), sslProtocols);
         }

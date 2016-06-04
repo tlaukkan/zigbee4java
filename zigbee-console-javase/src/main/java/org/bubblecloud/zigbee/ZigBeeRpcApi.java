@@ -1,8 +1,6 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
-import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
-import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
 
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.List;
  *
  * @author Tommi S.E. Laukkanen
  */
-public interface ZigBeeConsoleRpcApi {
+public interface ZigBeeRpcApi {
 
     /**
      * Executes console command.
