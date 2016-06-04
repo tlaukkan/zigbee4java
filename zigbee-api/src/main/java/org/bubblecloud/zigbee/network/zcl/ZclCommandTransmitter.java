@@ -99,28 +99,38 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
 
         final int profileId = ApplicationFrameworkLayer.getAFLayer(networkManager).getSenderEndpointProfileId(
                 destinationEndpoint, clusterMessage.getClusterId());
-        final int clusterId = clusterMessage.getClusterId();
+        int clusterId = clusterMessage.getClusterId();
         final byte commandId = frame.getHeader().getCommandId();
         final byte transactionId = frame.getHeader().getTransactionId();
 
         final byte[] commandPayload = frame.getPayload();
 
-        if (isClusterSpecificCommand && !isManufacturerExtension) {
+        LOGGER.debug("Received command: [ clusterId: " + clusterId
+                + " commandId: " + commandId
+                + " specific: " + isClusterSpecificCommand
+                + " extension: " + isManufacturerExtension
+                + " ZCL Header: " + ByteUtils.toBase16(frame.getHeader().toByte())
+                + ", ZCL Payload: " + ByteUtils.toBase16(frame.getPayload())
+                + "]");
+
+        if (isManufacturerExtension) {
+            return false;
+        }
+
+        final ZclCommandMessage commandMessage = new ZclCommandMessage();
+        commandMessage.setSourceAddress(sourceAddress);
+        commandMessage.setSourceEnpoint(sourceEnpoint);
+        commandMessage.setDestinationAddress(destinationAddress);
+        commandMessage.setDestinationEndpoint(destinationEndpoint);
+        commandMessage.setTransactionId(transactionId);
+
+        ZclCommandType command = null;
+        if (isClusterSpecificCommand) {
             LOGGER.debug("Received cluster specific command: [ clusterId: " + clusterId
-                    + " commmandId: " + commandId + " ZCL Header: " + ByteUtils.toBase16(frame.getHeader().toByte())
+                    + " commandId: " + commandId + " ZCL Header: " + ByteUtils.toBase16(frame.getHeader().toByte())
                     + ", ZCL Payload: " + ByteUtils.toBase16(frame.getPayload())
                     + "]");
 
-            final ZclCommandMessage commandMessage = new ZclCommandMessage();
-
-            commandMessage.setSourceAddress(sourceAddress);
-            commandMessage.setSourceEnpoint(sourceEnpoint);
-            commandMessage.setDestinationAddress(destinationAddress);
-            commandMessage.setDestinationEndpoint(destinationEndpoint);
-
-            commandMessage.setTransactionId(transactionId);
-
-            ZclCommandType command = null;
             for (final ZclCommandType candidate : ZclCommandType.values()) {
                 if (candidate.getClusterType().getProfileType().getId() == profileId && candidate.getClusterType().getId() == clusterId
                         && candidate.getId() == commandId
@@ -129,24 +139,35 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
                     break;
                 }
             }
+        } else {
+            LOGGER.debug("Received general command: [ clusterId: " + clusterId
+                    + " commandId: " + commandId + " ZCL Header: " + ByteUtils.toBase16(frame.getHeader().toByte())
+                    + ", ZCL Payload: " + ByteUtils.toBase16(frame.getPayload())
+                    + "]");
 
-            if (command == null) {
-                return false;
+            for (final ZclCommandType candidate : ZclCommandType.values()) {
+                if (candidate.getClusterType().getProfileType().getId() == profileId && candidate.getClusterType().getId() == 65535
+                        && candidate.getId() == commandId) {
+                    command = candidate;
+                    break;
+                }
             }
-
-            commandMessage.setType(command);
-            ZclCommandProtocol.deserializePayload(commandPayload, commandMessage);
-
-            LOGGER.debug("<<< " + commandMessage.toString());
-
-            for (final ZclCommandListener commandListener : commandListeners) {
-                commandListener.commandReceived(ZclUtil.toCommand(commandMessage));
-            }
-
-            return true;
         }
 
-        return false;
+        if (command == null) {
+            return false;
+        }
+
+        commandMessage.setType(command);
+        ZclCommandProtocol.deserializePayload(commandPayload, commandMessage);
+
+        LOGGER.debug("<<< " + commandMessage.toString());
+
+        for (final ZclCommandListener commandListener : commandListeners) {
+            commandListener.commandReceived(ZclUtil.toCommand(commandMessage));
+        }
+
+        return true;
     }
 
     /**

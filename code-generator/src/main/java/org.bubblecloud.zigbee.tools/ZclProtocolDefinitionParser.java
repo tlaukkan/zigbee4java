@@ -161,6 +161,28 @@ public class ZclProtocolDefinitionParser {
                     dataType.dataTypeClass = "Object";
                 } else if (field.dataType.equals("N_X_UNSIGNED_8_BIT_INTEGER")) {
                     dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("N_X_ATTRIBUTE_IDENTIFIER")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("N_X_READ_ATTRIBUTE_STATUS_RECORD")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("N_X_WRITE_ATTRIBUTE_RECORD")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("N_X_WRITE_ATTRIBUTE_STATUS_RECORD")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("N_X_ATTRIBUTE_REPORTING_CONFIGURATION_RECORD")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("N_X_ATTRIBUTE_STATUS_RECORD")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("N_X_ATTRIBUTE_RECORD")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("N_X_ATTRIBUTE_REPORT")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("N_X_ATTRIBUTE_INFORMATION")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("N_X_ATTRIBUTE_SELECTOR")) {
+                    dataType.dataTypeClass = "Object";
+                } else if (field.dataType.equals("BOOLEAN")) {
+                    dataType.dataTypeClass = "Boolean";
                 } else if (field.dataType.equals("SIGNED_16_BIT_INTEGER")) {
                     dataType.dataTypeClass = "Integer";
                 } else if (field.dataType.equals("SIGNED_8_BIT_INTEGER")) {

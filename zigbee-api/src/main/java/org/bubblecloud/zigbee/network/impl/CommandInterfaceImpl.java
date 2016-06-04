@@ -144,13 +144,13 @@ public class CommandInterfaceImpl implements ZToolPacketHandler, CommandInterfac
         switch (cmdId.getMsb() & 0xE0) {
             // Received incoming message which can be either message from dongle or remote device.
             case 0x40:
-                LOGGER.debug("<-- {} ({})", packet.getClass().getSimpleName());
+                LOGGER.debug("<-- {} ({})", packet.getClass().getSimpleName(), packet.getPacket());
                 notifyAsynchronousCommand(packet);
                 break;
 
             // Received synchronous command response.
             case 0x60:
-                LOGGER.debug("<- {} ({})", packet.getClass().getSimpleName());
+                LOGGER.debug("<- {} ({})", packet.getClass().getSimpleName(), packet.getPacket());
                 notifySynchronousCommand(packet);
                 break;
 

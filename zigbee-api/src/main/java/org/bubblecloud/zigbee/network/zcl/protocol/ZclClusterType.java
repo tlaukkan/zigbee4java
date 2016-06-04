@@ -61,7 +61,8 @@ public enum ZclClusterType {
     MULTISTATE_OUTPUT__BACNET_REGULAR_(1552, ZclProfileType.HOME_AUTOMATION, "Multistate Output (BACnet Regular)"),
     MULTISTATE_OUTPUT__BACNET_EXTENDED_(1553, ZclProfileType.HOME_AUTOMATION, "Multistate Output (BACnet Extended)"),
     MULTISTATE_VALUE__BACNET_REGULAR_(1554, ZclProfileType.HOME_AUTOMATION, "Multistate Value (BACnet Regular)"),
-    MULTISTATE_VALUE__BACNET_EXTENDED_(1555, ZclProfileType.HOME_AUTOMATION, "Multistate Value (BACnet Extended)");
+    MULTISTATE_VALUE__BACNET_EXTENDED_(1555, ZclProfileType.HOME_AUTOMATION, "Multistate Value (BACnet Extended)"),
+    GENERAL(65535, ZclProfileType.HOME_AUTOMATION, "General");
 
     private final int id;
     private final ZclProfileType profileType;

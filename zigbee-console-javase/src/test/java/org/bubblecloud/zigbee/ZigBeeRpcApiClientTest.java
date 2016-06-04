@@ -3,6 +3,7 @@ package org.bubblecloud.zigbee;
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.identify.IdentifyCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OffCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OnCommand;
 import org.junit.Ignore;
@@ -28,6 +29,12 @@ public class ZigBeeRpcApiClientTest {
         offCommand.setDestinationAddress(11022);
         offCommand.setDestinationEndpoint(11);
         zigBeeClient.sendCommand(offCommand);
+
+        final IdentifyCommand identifyCommand = new IdentifyCommand();
+        identifyCommand.setDestinationAddress(11022);
+        identifyCommand.setDestinationEndpoint(11);
+        identifyCommand.setIdentifyTime(10);
+        zigBeeClient.sendCommand(identifyCommand);
 
         zigBeeClient.addCommandListener(new ZclCommandListener() {
             @Override

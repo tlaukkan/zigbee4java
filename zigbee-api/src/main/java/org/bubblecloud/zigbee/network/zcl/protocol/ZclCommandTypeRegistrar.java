@@ -304,5 +304,56 @@ public class ZclCommandTypeRegistrar {
         ZclUtil.registerCommandTypeClassMapping(ZclCommandType.SQUAWK_COMMAND,
             org.bubblecloud.zigbee.network.zcl.protocol.command.ias.wd.
             SquawkCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.READ_ATTRIBUTES_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            ReadAttributesCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.READ_ATTRIBUTES_RESPONSE_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            ReadAttributesResponseCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.WRITE_ATTRIBUTES_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            WriteAttributesCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.WRITE_ATTRIBUTES_UNDIVIDED_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            WriteAttributesUndividedCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.WRITE_ATTRIBUTES_RESPONSE_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            WriteAttributesResponseCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.WRITE_ATTRIBUTES_NO_RESPONSE_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            WriteAttributesNoResponseCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.CONFIGURE_REPORTING_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            ConfigureReportingCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.CONFIGURE_REPORTING_RESPONSE_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            ConfigureReportingResponseCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.READ_REPORTING_CONFIGURATION_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            ReadReportingConfigurationCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.READ_REPORTING_CONFIGURATION_RESPONSE_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            ReadReportingConfigurationResponseCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.REPORT_ATTRIBUTES_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            ReportAttributesCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.DEFAULT_RESPONSE_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            DefaultResponseCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.DISCOVER_ATTRIBUTES_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            DiscoverAttributesCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.DISCOVER_ATTRIBUTES_RESPONSE_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            DiscoverAttributesResponseCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.READ_ATTRIBUTES_STRUCTURED_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            ReadAttributesStructuredCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.WRITE_ATTRIBUTES_STRUCTURED_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            WriteAttributesStructuredCommand.class);
+        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.WRITE_ATTRIBUTES_STRUCTURED_RESPONSE_COMMAND,
+            org.bubblecloud.zigbee.network.zcl.protocol.command.general.
+            WriteAttributesStructuredResponseCommand.class);
     }
 }

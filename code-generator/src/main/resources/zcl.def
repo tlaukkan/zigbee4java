@@ -4,6 +4,98 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 
 * General
 
+** General [0xFFFF]
+
+*** Received
+
+**** Read Attributes Command [0x00]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Identifiers                |N X Attribute identifier   |
+
+**** Read Attributes Response Command [0x01]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Records                    |N X Read attribute status record |
+
+**** Write Attributes Command [0x02]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Records                    |N X Write attribute record |
+
+**** Write Attributes Undivided Command [0x03]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Records                    |N X Write attribute status record |
+
+**** Write Attributes Response Command [0x04]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Records                    |N X Write attribute status record |
+
+**** Write Attributes No Response Command [0x05]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Records                    |N X Write attribute record |
+
+**** Configure Reporting Command [0x06]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Records                    |N X Attribute reporting configuration record|
+
+**** Configure Reporting Response Command [0x07]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Records                    |N X Attribute status record|
+
+**** Read Reporting Configuration Command [0x08]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Records                    |N X Attribute record       |
+
+**** Read Reporting Configuration Response Command [0x09]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Records                    |N X Attribute reporting configuration record|
+
+**** Report Attributes Command [0x0a]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Reports                    |N X Attribute report       |
+
+**** Default Response Command [0x0b]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Command identifier         |Unsigned 8-bit integer     |
+|Status code                |8-bit enumeration          |
+
+**** Discover Attributes Command [0x0c]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Start attribute identifier |Unsigned 16-bit integer    |
+|Maximum attribute identifiers |Unsigned 8-bit integer  |
+
+**** Discover Attributes Response Command [0x0d]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Command identifier         |Boolean                    |
+|Information                |N X Attribute information  |
+
+**** Read Attributes Structured Command [0x0e]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Attribute selectors        |N X Attribute selector     |
+
+**** Write Attributes Structured Command [0x0f]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Attribute selectors        |N X Attribute selector     |
+
+**** Write Attributes Structured Response Command [0x10]
+|Field Name                 |Data Type                  |
+|---------------------------+---------------------------|
+|Records                    |N X Write attribute status record |
+
 ** Basic [0x0000]
 
 *** Received
