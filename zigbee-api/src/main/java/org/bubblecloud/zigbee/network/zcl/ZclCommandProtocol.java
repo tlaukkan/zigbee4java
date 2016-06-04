@@ -15,8 +15,6 @@
  */
 package org.bubblecloud.zigbee.network.zcl;
 
-import org.bubblecloud.zigbee.api.cluster.impl.core.ByteArrayOutputStreamSerializer;
-import org.bubblecloud.zigbee.api.cluster.impl.core.DefaultDeserializer;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
 
@@ -47,7 +45,7 @@ public class ZclCommandProtocol {
      * @return the command message
      */
     public static ZclCommandMessage deserializePayload(final byte[] payload, final ZclCommandMessage commandMessage) {
-        final ZclCommandFormat messageFormat = getMessageProtocol().get(commandMessage.getCommand());
+        final ZclCommandFormat messageFormat = getMessageProtocol().get(commandMessage.getType());
         final ZclFieldDeserializer deserializer = new ZclFieldDeserializer(payload, 0);
         final TreeMap<ZclFieldType, Object> fields = new TreeMap<ZclFieldType, Object>();
         for (final ZclFieldType fieldType : messageFormat.getFields()) {
@@ -64,7 +62,7 @@ public class ZclCommandProtocol {
      * @return the payload
      */
     public static byte[] serializePayload(final ZclCommandMessage commandMessage) {
-        final ZclCommandFormat messageFormat = getMessageProtocol().get(commandMessage.getCommand());
+        final ZclCommandFormat messageFormat = getMessageProtocol().get(commandMessage.getType());
         final ZclFieldSerializer serializer = new ZclFieldSerializer();
         for (final ZclFieldType fieldType : messageFormat.getFields()) {
             serializer.serialize(commandMessage.getFields().get(fieldType), fieldType.getDataType());

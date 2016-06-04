@@ -134,7 +134,7 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
                 return false;
             }
 
-            commandMessage.setCommand(command);
+            commandMessage.setType(command);
             ZclCommandProtocol.deserializePayload(commandPayload, commandMessage);
 
             LOGGER.debug("<<< " + commandMessage.toString());
@@ -162,23 +162,23 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
                     IEEEAddress.toColonNotation(networkManager.getIeeeAddress())).getNetworkAddress();
             commandMessage.setSourceAddress(sourceAddress);
             commandMessage.setSourceEnpoint(
-                    af.getSendingEndpoint(commandMessage.getCommand().getClusterType().getProfileType().getId(),
-                    commandMessage.getCommand().getClusterType().getId()));
+                    af.getSendingEndpoint(commandMessage.getType().getClusterType().getProfileType().getId(),
+                    commandMessage.getType().getClusterType().getId()));
 
             final byte[] payload = ZclCommandProtocol.serializePayload(commandMessage);
 
-            final AbstractCommand cmd = new AbstractCommand((byte) commandMessage.getCommand().getId(), null,
-                    commandMessage.getCommand().isReceived(), !commandMessage.getCommand().isGeneric());
+            final AbstractCommand cmd = new AbstractCommand((byte) commandMessage.getType().getId(), null,
+                    commandMessage.getType().isReceived(), !commandMessage.getType().isGeneric());
             cmd.setPayload(payload);
             final ZCLFrame zclFrame = new ZCLFrame(cmd, true);
             if (commandMessage.getTransactionId() != null) {
                 zclFrame.getHeader().setTransactionId(commandMessage.getTransactionId());
             }
             final ClusterMessage input = new org.bubblecloud.zigbee.api.cluster.impl.ClusterMessageImpl(
-                    (short) commandMessage.getCommand().getClusterType().getId(), zclFrame);
+                    (short) commandMessage.getType().getClusterType().getId(), zclFrame);
 
-            final short sender = af.getSendingEndpoint(commandMessage.getCommand().getClusterType().getProfileType().getId(),
-                    commandMessage.getCommand().getClusterType().getId());
+            final short sender = af.getSendingEndpoint(commandMessage.getType().getClusterType().getProfileType().getId(),
+                    commandMessage.getType().getClusterType().getId());
             final byte afTransactionId = af.getNextTransactionId(sender);
             final byte[] msg = input.getClusterMsg();
 

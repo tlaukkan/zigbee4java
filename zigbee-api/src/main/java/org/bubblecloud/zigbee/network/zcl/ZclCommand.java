@@ -1,32 +1,15 @@
-/**
- * Copyright 2016 Tommi S.E. Laukkanen
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.bubblecloud.zigbee.network.zcl;
 
-import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
-import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
 
-import java.util.Map;
-import java.util.TreeMap;
+import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 
 /**
- * Value object holding a command message.
+ * Base class for value object classes holding a commands.
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZclCommandMessage {
+public class ZclCommand {
     /**
      * The source address.
      */
@@ -51,38 +34,25 @@ public class ZclCommandMessage {
      * The transaction ID.
      */
     private Byte transactionId;
+
     /**
-     * The fields and their values.
+     * Default constructor.
      */
-    Map<ZclFieldType, Object> fields = new TreeMap<ZclFieldType, Object>();
-    /**
-     * Default constructor for inbound messages.
-     */
-    public ZclCommandMessage() {
+    public ZclCommand() {
+
     }
 
     /**
-     * Constructor for outbound messages.
-     * @param destinationAddress the destination address
-     * @param destinationEndpoint the destination endpoint
-     * @param type the type
-     * @param transactionId the transaction ID
+     * Constructor which copies field values from command message.
+     * @param commandMessage the command message
      */
-    public ZclCommandMessage(final int destinationAddress, short destinationEndpoint, final ZclCommandType type,
-                             final Byte transactionId) {
-        this.destinationAddress = destinationAddress;
-        this.destinationEndpoint = destinationEndpoint;
-        this.transactionId = transactionId;
-        this.type = type;
-    }
-
-    /**
-     * Add field to message.
-     * @param field the field
-     * @param value the value
-     */
-    public void addField(final ZclFieldType field, final Object value) {
-        fields.put(field, value);
+    public ZclCommand(final ZclCommandMessage commandMessage) {
+        this.sourceAddress = commandMessage.getSourceAddress();
+        this.sourceEnpoint = commandMessage.getSourceEnpoint();
+        this.destinationAddress = commandMessage.getDestinationAddress();
+        this.destinationEndpoint = commandMessage.getDestinationEndpoint();
+        this.type = commandMessage.getType();
+        this.transactionId = commandMessage.getTransactionId();
     }
 
     /**
@@ -134,22 +104,6 @@ public class ZclCommandMessage {
     }
 
     /**
-     * Gets the fields
-     * @return the fields
-     */
-    public Map<ZclFieldType, Object> getFields() {
-        return fields;
-    }
-
-    /**
-     * Sets the fields.
-     * @param fields the fields
-     */
-    public void setFields(final Map<ZclFieldType, Object> fields) {
-        this.fields = fields;
-    }
-
-    /**
      * Gets source address.
      * @return the source address
      */
@@ -197,9 +151,20 @@ public class ZclCommandMessage {
         this.transactionId = transactionId;
     }
 
+    public ZclCommandMessage toCommandMessage() {
+        final ZclCommandMessage message = new ZclCommandMessage();
+        message.setSourceAddress(sourceAddress);
+        message.setSourceEnpoint(sourceEnpoint);
+        message.setDestinationAddress(destinationAddress);
+        message.setDestinationEndpoint(destinationEndpoint);
+        message.setType(type);
+        message.setTransactionId(transactionId);
+        return message;
+    }
+
     @Override
     public String toString() {
         return type + " " + sourceAddress + "." + sourceEnpoint + " -> "
-                + destinationAddress + "." + destinationEndpoint + " " + fields;
+                + destinationAddress + "." + destinationEndpoint;
     }
 }

@@ -1,29 +1,34 @@
 package org.bubblecloud.zigbee.network.zcl.protocol;
 
-public enum ZclDataType {
-    CHARACTER_STRING("Character string"),
-    CLUSTER_ID("Cluster ID"),
-    IEEE_ADDRESS("IEEE address"),
-    N_X_EXTENSION_FIELD_SET("N X Extension field set"),
-    N_X_NEIGHBORS_INFORMATION("N X Neighbors information"),
-    N_X_UNSIGNED_16_BIT_INTEGER("N X Unsigned 16-bit integer"),
-    N_X_UNSIGNED_8_BIT_INTEGER("N X Unsigned 8-bit integer"),
-    SIGNED_16_BIT_INTEGER("Signed 16-bit integer"),
-    SIGNED_8_BIT_INTEGER("Signed 8-bit integer"),
-    UNSIGNED_16_BIT_INTEGER("Unsigned 16-bit integer"),
-    UNSIGNED_32_BIT_INTEGER("Unsigned 32-bit integer"),
-    UNSIGNED_8_BIT_INTEGER("Unsigned 8-bit integer"),
-    _16_BIT_BITMAP("16-bit bitmap"),
-    _16_BIT_ENUMERATION("16-bit enumeration"),
-    _8_BIT_BITMAP("8-bit bitmap"),
-    _8_BIT_DATA("8-bit data"),
-    _8_BIT_ENUMERATION("8-bit enumeration");
-    private final String label;
+import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 
-    ZclDataType(final String label) {
+public enum ZclDataType {
+    CHARACTER_STRING("Character string",String.class),
+    CLUSTER_ID("Cluster ID",Object.class),
+    IEEE_ADDRESS("IEEE address",ZToolAddress64.class),
+    N_X_EXTENSION_FIELD_SET("N X Extension field set",Object.class),
+    N_X_NEIGHBORS_INFORMATION("N X Neighbors information",Object.class),
+    N_X_UNSIGNED_16_BIT_INTEGER("N X Unsigned 16-bit integer",Object.class),
+    N_X_UNSIGNED_8_BIT_INTEGER("N X Unsigned 8-bit integer",Object.class),
+    SIGNED_16_BIT_INTEGER("Signed 16-bit integer",Short.class),
+    SIGNED_8_BIT_INTEGER("Signed 8-bit integer",Byte.class),
+    UNSIGNED_16_BIT_INTEGER("Unsigned 16-bit integer",Short.class),
+    UNSIGNED_32_BIT_INTEGER("Unsigned 32-bit integer",Integer.class),
+    UNSIGNED_8_BIT_INTEGER("Unsigned 8-bit integer",Byte.class),
+    _16_BIT_BITMAP("16-bit bitmap",Short.class),
+    _16_BIT_ENUMERATION("16-bit enumeration",Short.class),
+    _8_BIT_BITMAP("8-bit bitmap",Byte.class),
+    _8_BIT_DATA("8-bit data",Byte.class),
+    _8_BIT_ENUMERATION("8-bit enumeration",Byte.class);
+    private final String label;
+    private final Class dataClass;
+
+    ZclDataType(final String label, final Class dataClass) {
         this.label = label;
+        this.dataClass = dataClass;
     }
 
     public String getLabel() { return label; }
+    public Class<?> getDataClass() { return dataClass; }
 
 }

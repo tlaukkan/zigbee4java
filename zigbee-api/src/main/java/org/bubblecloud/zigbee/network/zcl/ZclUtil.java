@@ -18,9 +18,13 @@ package org.bubblecloud.zigbee.network.zcl;
 import org.apache.commons.lang.StringUtils;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.network.impl.ZigBeeEndpointImpl;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclDataType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Common utility methods for ZigBee Cluster Library implementation.
@@ -30,9 +34,50 @@ public class ZclUtil {
      * The logger.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ZigBeeEndpointImpl.class);
-    
+    /**
+     * Private constructor to disable constructing of utility class.
+     */
     private ZclUtil() {}
-
+    /**
+     * Mapping between ZclCommandType enumeration value and specialized ZclCommand value object class.
+     */
+    private static Map<ZclCommandType, Class<? extends ZclCommand>> commandTypeClassMap = new HashMap();
+    /**
+     * Mapping between specialized ZclCommand value object class and ZclCommandType enumeration value.
+     */
+    private static Map<Class<? extends ZclCommand>, ZclCommandType> commandClassTypeMap = new HashMap();
+    /**
+     * Register command type and class mapping.
+     * @param commandType the command type
+     * @param commandClass the command class
+     */
+    public static void registerCommandTypeClassMapping(ZclCommandType commandType, Class<? extends ZclCommand> commandClass) {
+        commandTypeClassMap.put(commandType, commandClass);
+        commandClassTypeMap.put(commandClass, commandType);
+    }
+    /**
+     * Converts message to command.
+     * @param message the message
+     * @return the command
+     */
+    public static ZclCommand toCommand(final ZclCommandMessage message) {
+        final Class<? extends ZclCommand> commandClass = commandTypeClassMap.get(message.getType());
+        final ZclCommand command;
+        try {
+            command = commandClass.getConstructor(ZclCommandMessage.class).newInstance(message);
+        } catch (final Exception e) {
+            throw new IllegalArgumentException("Error in converting message to command: " + message, e);
+        }
+        return command;
+    }
+    /**
+     * Converts command to nessage.
+     * @param command the command
+     * @return the message
+     */
+    public static ZclCommandMessage toCommand(final ZclCommand command) {
+        return command.toCommandMessage();
+    }
     /**
      * Formats integer value to hex string.
      * @param value the integer value
@@ -41,7 +86,6 @@ public class ZclUtil {
     public static String toHex(int value) {
         return "0x" + Integer.toHexString(value);
     }
-
     /**
      * Parses integer from hex string value.
      * @param value the hex string value
