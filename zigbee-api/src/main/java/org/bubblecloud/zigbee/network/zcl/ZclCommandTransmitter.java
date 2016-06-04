@@ -185,7 +185,7 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
             LOGGER.debug(">>> " + commandMessage.toString());
 
             AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
-                    commandMessage.getDestinationAddress(), commandMessage.getDestinationEndpoint(), sender,
+                    commandMessage.getDestinationAddress(), (short) commandMessage.getDestinationEndpoint(), sender,
                     input.getId(), afTransactionId, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg));
 
             if (response == null) {

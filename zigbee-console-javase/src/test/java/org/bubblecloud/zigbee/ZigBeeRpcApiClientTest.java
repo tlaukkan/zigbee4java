@@ -16,7 +16,6 @@ import org.junit.Test;
 public class ZigBeeRpcApiClientTest {
 
     @Test
-    @Ignore
     public void testListDevices() throws ZigBeeException {
         final ZigBeeClient zigBeeClient = new ZigBeeClient("http://127.0.0.1:5000/", "secret");
         System.out.println(zigBeeClient.execute("help"));
@@ -26,7 +25,7 @@ public class ZigBeeRpcApiClientTest {
 
         final OffCommand offCommand = new OffCommand();
         offCommand.setDestinationAddress(11022);
-        offCommand.setDestinationEndpoint((short) 11);
+        offCommand.setDestinationEndpoint(11);
         zigBeeClient.sendCommand(offCommand);
 
         zigBeeClient.addCommandListener(new ZclCommandListener() {
@@ -44,7 +43,7 @@ public class ZigBeeRpcApiClientTest {
 
         final OnCommand onCommand = new OnCommand();
         onCommand.setDestinationAddress(11022);
-        onCommand.setDestinationEndpoint((short) 11);
+        onCommand.setDestinationEndpoint(11);
         zigBeeClient.sendCommand(onCommand);
 
         zigBeeClient.shutdown();

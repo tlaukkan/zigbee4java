@@ -18,7 +18,7 @@ public class ZclCommand {
     /**
      * The source endpoint.
      */
-    private short sourceEnpoint;
+    private int sourceEnpoint;
     /**
      * The destination address.
      */
@@ -26,7 +26,7 @@ public class ZclCommand {
     /**
      * The destination endpoint.
      */
-    private short destinationEndpoint;
+    private int destinationEndpoint;
     /**
      * The type.
      */
@@ -92,7 +92,7 @@ public class ZclCommand {
      * Gets destination endpoint.
      * @return the destination endpoint
      */
-    public short getDestinationEndpoint() {
+    public int getDestinationEndpoint() {
         return destinationEndpoint;
     }
 
@@ -100,7 +100,7 @@ public class ZclCommand {
      * Sets destination endpoint
      * @param destinationEndpoint the destination endpoint
      */
-    public void setDestinationEndpoint(final short destinationEndpoint) {
+    public void setDestinationEndpoint(final int destinationEndpoint) {
         this.destinationEndpoint = destinationEndpoint;
     }
 
@@ -124,7 +124,7 @@ public class ZclCommand {
      * Gets source endpoint.
      * @return the source endpoint
      */
-    public short getSourceEnpoint() {
+    public int getSourceEnpoint() {
         return sourceEnpoint;
     }
 
@@ -132,7 +132,7 @@ public class ZclCommand {
      * Sets source endpoint.
      * @param sourceEnpoint the source endpoint
      */
-    public void setSourceEnpoint(final short sourceEnpoint) {
+    public void setSourceEnpoint(final int sourceEnpoint) {
         this.sourceEnpoint = sourceEnpoint;
     }
 
