@@ -14,7 +14,7 @@ public class AddGroupIfIdentifyingCommand extends ZclCommand {
     /**
      * Group ID command message field.
      */
-    private Short groupId;
+    private Integer groupId;
     /**
      * Group Name command message field.
      */
@@ -33,7 +33,7 @@ public class AddGroupIfIdentifyingCommand extends ZclCommand {
      */
     public AddGroupIfIdentifyingCommand(final ZclCommandMessage message) {
         super(message);
-        this.groupId = (Short) message.getFields().get(ZclFieldType.ADD_GROUP_IF_IDENTIFYING_COMMAND_GROUP_ID);
+        this.groupId = (Integer) message.getFields().get(ZclFieldType.ADD_GROUP_IF_IDENTIFYING_COMMAND_GROUP_ID);
         this.groupName = (String) message.getFields().get(ZclFieldType.ADD_GROUP_IF_IDENTIFYING_COMMAND_GROUP_NAME);
     }
 
@@ -49,7 +49,7 @@ public class AddGroupIfIdentifyingCommand extends ZclCommand {
      * Gets Group ID.
      * @return the Group ID
      */
-    public Short getGroupId() {
+    public Integer getGroupId() {
         return groupId;
     }
 
@@ -57,7 +57,7 @@ public class AddGroupIfIdentifyingCommand extends ZclCommand {
      * Sets Group ID.
      * @param groupId the Group ID
      */
-    public void setGroupId(final Short groupId) {
+    public void setGroupId(final Integer groupId) {
         this.groupId = groupId;
     }
 
@@ -77,7 +77,4 @@ public class AddGroupIfIdentifyingCommand extends ZclCommand {
         this.groupName = groupName;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.ADD_GROUP_IF_IDENTIFYING_COMMAND,AddGroupIfIdentifyingCommand.class);
-    }
 }

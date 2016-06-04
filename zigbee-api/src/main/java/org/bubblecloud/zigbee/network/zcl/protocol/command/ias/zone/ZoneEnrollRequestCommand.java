@@ -14,11 +14,11 @@ public class ZoneEnrollRequestCommand extends ZclCommand {
     /**
      * Zone Type command message field.
      */
-    private Short zoneType;
+    private Integer zoneType;
     /**
      * Manufacturer Code command message field.
      */
-    private Short manufacturerCode;
+    private Integer manufacturerCode;
 
     /**
      * Default constructor setting the command type field.
@@ -33,8 +33,8 @@ public class ZoneEnrollRequestCommand extends ZclCommand {
      */
     public ZoneEnrollRequestCommand(final ZclCommandMessage message) {
         super(message);
-        this.zoneType = (Short) message.getFields().get(ZclFieldType.ZONE_ENROLL_REQUEST_COMMAND_ZONE_TYPE);
-        this.manufacturerCode = (Short) message.getFields().get(ZclFieldType.ZONE_ENROLL_REQUEST_COMMAND_MANUFACTURER_CODE);
+        this.zoneType = (Integer) message.getFields().get(ZclFieldType.ZONE_ENROLL_REQUEST_COMMAND_ZONE_TYPE);
+        this.manufacturerCode = (Integer) message.getFields().get(ZclFieldType.ZONE_ENROLL_REQUEST_COMMAND_MANUFACTURER_CODE);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ZoneEnrollRequestCommand extends ZclCommand {
      * Gets Zone Type.
      * @return the Zone Type
      */
-    public Short getZoneType() {
+    public Integer getZoneType() {
         return zoneType;
     }
 
@@ -57,7 +57,7 @@ public class ZoneEnrollRequestCommand extends ZclCommand {
      * Sets Zone Type.
      * @param zoneType the Zone Type
      */
-    public void setZoneType(final Short zoneType) {
+    public void setZoneType(final Integer zoneType) {
         this.zoneType = zoneType;
     }
 
@@ -65,7 +65,7 @@ public class ZoneEnrollRequestCommand extends ZclCommand {
      * Gets Manufacturer Code.
      * @return the Manufacturer Code
      */
-    public Short getManufacturerCode() {
+    public Integer getManufacturerCode() {
         return manufacturerCode;
     }
 
@@ -73,11 +73,8 @@ public class ZoneEnrollRequestCommand extends ZclCommand {
      * Sets Manufacturer Code.
      * @param manufacturerCode the Manufacturer Code
      */
-    public void setManufacturerCode(final Short manufacturerCode) {
+    public void setManufacturerCode(final Integer manufacturerCode) {
         this.manufacturerCode = manufacturerCode;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.ZONE_ENROLL_REQUEST_COMMAND,ZoneEnrollRequestCommand.class);
-    }
 }

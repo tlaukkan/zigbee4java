@@ -14,7 +14,7 @@ public class RemoveAllScenesCommand extends ZclCommand {
     /**
      * Group ID command message field.
      */
-    private Short groupId;
+    private Integer groupId;
 
     /**
      * Default constructor setting the command type field.
@@ -29,7 +29,7 @@ public class RemoveAllScenesCommand extends ZclCommand {
      */
     public RemoveAllScenesCommand(final ZclCommandMessage message) {
         super(message);
-        this.groupId = (Short) message.getFields().get(ZclFieldType.REMOVE_ALL_SCENES_COMMAND_GROUP_ID);
+        this.groupId = (Integer) message.getFields().get(ZclFieldType.REMOVE_ALL_SCENES_COMMAND_GROUP_ID);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class RemoveAllScenesCommand extends ZclCommand {
      * Gets Group ID.
      * @return the Group ID
      */
-    public Short getGroupId() {
+    public Integer getGroupId() {
         return groupId;
     }
 
@@ -51,11 +51,8 @@ public class RemoveAllScenesCommand extends ZclCommand {
      * Sets Group ID.
      * @param groupId the Group ID
      */
-    public void setGroupId(final Short groupId) {
+    public void setGroupId(final Integer groupId) {
         this.groupId = groupId;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.REMOVE_ALL_SCENES_COMMAND,RemoveAllScenesCommand.class);
-    }
 }

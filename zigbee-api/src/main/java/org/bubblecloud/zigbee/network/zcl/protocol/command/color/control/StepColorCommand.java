@@ -14,15 +14,15 @@ public class StepColorCommand extends ZclCommand {
     /**
      * StepX command message field.
      */
-    private Short stepX;
+    private Integer stepX;
     /**
      * StepY command message field.
      */
-    private Short stepY;
+    private Integer stepY;
     /**
      * Transition time command message field.
      */
-    private Short transitionTime;
+    private Integer transitionTime;
 
     /**
      * Default constructor setting the command type field.
@@ -37,9 +37,9 @@ public class StepColorCommand extends ZclCommand {
      */
     public StepColorCommand(final ZclCommandMessage message) {
         super(message);
-        this.stepX = (Short) message.getFields().get(ZclFieldType.STEP_COLOR_COMMAND_STEPX);
-        this.stepY = (Short) message.getFields().get(ZclFieldType.STEP_COLOR_COMMAND_STEPY);
-        this.transitionTime = (Short) message.getFields().get(ZclFieldType.STEP_COLOR_COMMAND_TRANSITION_TIME);
+        this.stepX = (Integer) message.getFields().get(ZclFieldType.STEP_COLOR_COMMAND_STEPX);
+        this.stepY = (Integer) message.getFields().get(ZclFieldType.STEP_COLOR_COMMAND_STEPY);
+        this.transitionTime = (Integer) message.getFields().get(ZclFieldType.STEP_COLOR_COMMAND_TRANSITION_TIME);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class StepColorCommand extends ZclCommand {
      * Gets StepX.
      * @return the StepX
      */
-    public Short getStepX() {
+    public Integer getStepX() {
         return stepX;
     }
 
@@ -63,7 +63,7 @@ public class StepColorCommand extends ZclCommand {
      * Sets StepX.
      * @param stepX the StepX
      */
-    public void setStepX(final Short stepX) {
+    public void setStepX(final Integer stepX) {
         this.stepX = stepX;
     }
 
@@ -71,7 +71,7 @@ public class StepColorCommand extends ZclCommand {
      * Gets StepY.
      * @return the StepY
      */
-    public Short getStepY() {
+    public Integer getStepY() {
         return stepY;
     }
 
@@ -79,7 +79,7 @@ public class StepColorCommand extends ZclCommand {
      * Sets StepY.
      * @param stepY the StepY
      */
-    public void setStepY(final Short stepY) {
+    public void setStepY(final Integer stepY) {
         this.stepY = stepY;
     }
 
@@ -87,7 +87,7 @@ public class StepColorCommand extends ZclCommand {
      * Gets Transition time.
      * @return the Transition time
      */
-    public Short getTransitionTime() {
+    public Integer getTransitionTime() {
         return transitionTime;
     }
 
@@ -95,11 +95,8 @@ public class StepColorCommand extends ZclCommand {
      * Sets Transition time.
      * @param transitionTime the Transition time
      */
-    public void setTransitionTime(final Short transitionTime) {
+    public void setTransitionTime(final Integer transitionTime) {
         this.transitionTime = transitionTime;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.STEP_COLOR_COMMAND,StepColorCommand.class);
-    }
 }

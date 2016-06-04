@@ -14,11 +14,11 @@ public class RemoveGroupResponseCommand extends ZclCommand {
     /**
      * Status command message field.
      */
-    private Byte status;
+    private Integer status;
     /**
      * Group ID command message field.
      */
-    private Short groupId;
+    private Integer groupId;
 
     /**
      * Default constructor setting the command type field.
@@ -33,8 +33,8 @@ public class RemoveGroupResponseCommand extends ZclCommand {
      */
     public RemoveGroupResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.status = (Byte) message.getFields().get(ZclFieldType.REMOVE_GROUP_RESPONSE_COMMAND_STATUS);
-        this.groupId = (Short) message.getFields().get(ZclFieldType.REMOVE_GROUP_RESPONSE_COMMAND_GROUP_ID);
+        this.status = (Integer) message.getFields().get(ZclFieldType.REMOVE_GROUP_RESPONSE_COMMAND_STATUS);
+        this.groupId = (Integer) message.getFields().get(ZclFieldType.REMOVE_GROUP_RESPONSE_COMMAND_GROUP_ID);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class RemoveGroupResponseCommand extends ZclCommand {
      * Gets Status.
      * @return the Status
      */
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -57,7 +57,7 @@ public class RemoveGroupResponseCommand extends ZclCommand {
      * Sets Status.
      * @param status the Status
      */
-    public void setStatus(final Byte status) {
+    public void setStatus(final Integer status) {
         this.status = status;
     }
 
@@ -65,7 +65,7 @@ public class RemoveGroupResponseCommand extends ZclCommand {
      * Gets Group ID.
      * @return the Group ID
      */
-    public Short getGroupId() {
+    public Integer getGroupId() {
         return groupId;
     }
 
@@ -73,11 +73,8 @@ public class RemoveGroupResponseCommand extends ZclCommand {
      * Sets Group ID.
      * @param groupId the Group ID
      */
-    public void setGroupId(final Short groupId) {
+    public void setGroupId(final Integer groupId) {
         this.groupId = groupId;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.REMOVE_GROUP_RESPONSE_COMMAND,RemoveGroupResponseCommand.class);
-    }
 }

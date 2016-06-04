@@ -18,7 +18,7 @@ public class ReportRssiMeasurementsCommand extends ZclCommand {
     /**
      * Number of Neighbors command message field.
      */
-    private Byte numberOfNeighbors;
+    private Integer numberOfNeighbors;
     /**
      * Neighbors Information command message field.
      */
@@ -38,7 +38,7 @@ public class ReportRssiMeasurementsCommand extends ZclCommand {
     public ReportRssiMeasurementsCommand(final ZclCommandMessage message) {
         super(message);
         this.reportingAddress = (ZToolAddress64) message.getFields().get(ZclFieldType.REPORT_RSSI_MEASUREMENTS_COMMAND_REPORTING_ADDRESS);
-        this.numberOfNeighbors = (Byte) message.getFields().get(ZclFieldType.REPORT_RSSI_MEASUREMENTS_COMMAND_NUMBER_OF_NEIGHBORS);
+        this.numberOfNeighbors = (Integer) message.getFields().get(ZclFieldType.REPORT_RSSI_MEASUREMENTS_COMMAND_NUMBER_OF_NEIGHBORS);
         this.neighborsInformation = (Object) message.getFields().get(ZclFieldType.REPORT_RSSI_MEASUREMENTS_COMMAND_NEIGHBORS_INFORMATION);
     }
 
@@ -71,7 +71,7 @@ public class ReportRssiMeasurementsCommand extends ZclCommand {
      * Gets Number of Neighbors.
      * @return the Number of Neighbors
      */
-    public Byte getNumberOfNeighbors() {
+    public Integer getNumberOfNeighbors() {
         return numberOfNeighbors;
     }
 
@@ -79,7 +79,7 @@ public class ReportRssiMeasurementsCommand extends ZclCommand {
      * Sets Number of Neighbors.
      * @param numberOfNeighbors the Number of Neighbors
      */
-    public void setNumberOfNeighbors(final Byte numberOfNeighbors) {
+    public void setNumberOfNeighbors(final Integer numberOfNeighbors) {
         this.numberOfNeighbors = numberOfNeighbors;
     }
 
@@ -99,7 +99,4 @@ public class ReportRssiMeasurementsCommand extends ZclCommand {
         this.neighborsInformation = neighborsInformation;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.REPORT_RSSI_MEASUREMENTS_COMMAND,ReportRssiMeasurementsCommand.class);
-    }
 }

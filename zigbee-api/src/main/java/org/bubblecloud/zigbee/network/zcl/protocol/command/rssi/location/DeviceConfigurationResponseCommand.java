@@ -14,27 +14,27 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
     /**
      * Status command message field.
      */
-    private Byte status;
+    private Integer status;
     /**
      * Power command message field.
      */
-    private Short power;
+    private Integer power;
     /**
      * Path Loss Exponent command message field.
      */
-    private Short pathLossExponent;
+    private Integer pathLossExponent;
     /**
      * Calculation Period command message field.
      */
-    private Short calculationPeriod;
+    private Integer calculationPeriod;
     /**
      * Number RSSI Measurements command message field.
      */
-    private Byte numberRssiMeasurements;
+    private Integer numberRssiMeasurements;
     /**
      * Reporting Period command message field.
      */
-    private Short reportingPeriod;
+    private Integer reportingPeriod;
 
     /**
      * Default constructor setting the command type field.
@@ -49,12 +49,12 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      */
     public DeviceConfigurationResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.status = (Byte) message.getFields().get(ZclFieldType.DEVICE_CONFIGURATION_RESPONSE_COMMAND_STATUS);
-        this.power = (Short) message.getFields().get(ZclFieldType.DEVICE_CONFIGURATION_RESPONSE_COMMAND_POWER);
-        this.pathLossExponent = (Short) message.getFields().get(ZclFieldType.DEVICE_CONFIGURATION_RESPONSE_COMMAND_PATH_LOSS_EXPONENT);
-        this.calculationPeriod = (Short) message.getFields().get(ZclFieldType.DEVICE_CONFIGURATION_RESPONSE_COMMAND_CALCULATION_PERIOD);
-        this.numberRssiMeasurements = (Byte) message.getFields().get(ZclFieldType.DEVICE_CONFIGURATION_RESPONSE_COMMAND_NUMBER_RSSI_MEASUREMENTS);
-        this.reportingPeriod = (Short) message.getFields().get(ZclFieldType.DEVICE_CONFIGURATION_RESPONSE_COMMAND_REPORTING_PERIOD);
+        this.status = (Integer) message.getFields().get(ZclFieldType.DEVICE_CONFIGURATION_RESPONSE_COMMAND_STATUS);
+        this.power = (Integer) message.getFields().get(ZclFieldType.DEVICE_CONFIGURATION_RESPONSE_COMMAND_POWER);
+        this.pathLossExponent = (Integer) message.getFields().get(ZclFieldType.DEVICE_CONFIGURATION_RESPONSE_COMMAND_PATH_LOSS_EXPONENT);
+        this.calculationPeriod = (Integer) message.getFields().get(ZclFieldType.DEVICE_CONFIGURATION_RESPONSE_COMMAND_CALCULATION_PERIOD);
+        this.numberRssiMeasurements = (Integer) message.getFields().get(ZclFieldType.DEVICE_CONFIGURATION_RESPONSE_COMMAND_NUMBER_RSSI_MEASUREMENTS);
+        this.reportingPeriod = (Integer) message.getFields().get(ZclFieldType.DEVICE_CONFIGURATION_RESPONSE_COMMAND_REPORTING_PERIOD);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      * Gets Status.
      * @return the Status
      */
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -81,7 +81,7 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      * Sets Status.
      * @param status the Status
      */
-    public void setStatus(final Byte status) {
+    public void setStatus(final Integer status) {
         this.status = status;
     }
 
@@ -89,7 +89,7 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      * Gets Power.
      * @return the Power
      */
-    public Short getPower() {
+    public Integer getPower() {
         return power;
     }
 
@@ -97,7 +97,7 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      * Sets Power.
      * @param power the Power
      */
-    public void setPower(final Short power) {
+    public void setPower(final Integer power) {
         this.power = power;
     }
 
@@ -105,7 +105,7 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      * Gets Path Loss Exponent.
      * @return the Path Loss Exponent
      */
-    public Short getPathLossExponent() {
+    public Integer getPathLossExponent() {
         return pathLossExponent;
     }
 
@@ -113,7 +113,7 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      * Sets Path Loss Exponent.
      * @param pathLossExponent the Path Loss Exponent
      */
-    public void setPathLossExponent(final Short pathLossExponent) {
+    public void setPathLossExponent(final Integer pathLossExponent) {
         this.pathLossExponent = pathLossExponent;
     }
 
@@ -121,7 +121,7 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      * Gets Calculation Period.
      * @return the Calculation Period
      */
-    public Short getCalculationPeriod() {
+    public Integer getCalculationPeriod() {
         return calculationPeriod;
     }
 
@@ -129,7 +129,7 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      * Sets Calculation Period.
      * @param calculationPeriod the Calculation Period
      */
-    public void setCalculationPeriod(final Short calculationPeriod) {
+    public void setCalculationPeriod(final Integer calculationPeriod) {
         this.calculationPeriod = calculationPeriod;
     }
 
@@ -137,7 +137,7 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      * Gets Number RSSI Measurements.
      * @return the Number RSSI Measurements
      */
-    public Byte getNumberRssiMeasurements() {
+    public Integer getNumberRssiMeasurements() {
         return numberRssiMeasurements;
     }
 
@@ -145,7 +145,7 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      * Sets Number RSSI Measurements.
      * @param numberRssiMeasurements the Number RSSI Measurements
      */
-    public void setNumberRssiMeasurements(final Byte numberRssiMeasurements) {
+    public void setNumberRssiMeasurements(final Integer numberRssiMeasurements) {
         this.numberRssiMeasurements = numberRssiMeasurements;
     }
 
@@ -153,7 +153,7 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      * Gets Reporting Period.
      * @return the Reporting Period
      */
-    public Short getReportingPeriod() {
+    public Integer getReportingPeriod() {
         return reportingPeriod;
     }
 
@@ -161,11 +161,8 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      * Sets Reporting Period.
      * @param reportingPeriod the Reporting Period
      */
-    public void setReportingPeriod(final Short reportingPeriod) {
+    public void setReportingPeriod(final Integer reportingPeriod) {
         this.reportingPeriod = reportingPeriod;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.DEVICE_CONFIGURATION_RESPONSE_COMMAND,DeviceConfigurationResponseCommand.class);
-    }
 }

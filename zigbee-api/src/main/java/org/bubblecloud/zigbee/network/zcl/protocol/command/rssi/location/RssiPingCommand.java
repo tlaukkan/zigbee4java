@@ -14,7 +14,7 @@ public class RssiPingCommand extends ZclCommand {
     /**
      * Location Type command message field.
      */
-    private Byte locationType;
+    private Integer locationType;
 
     /**
      * Default constructor setting the command type field.
@@ -29,7 +29,7 @@ public class RssiPingCommand extends ZclCommand {
      */
     public RssiPingCommand(final ZclCommandMessage message) {
         super(message);
-        this.locationType = (Byte) message.getFields().get(ZclFieldType.RSSI_PING_COMMAND_LOCATION_TYPE);
+        this.locationType = (Integer) message.getFields().get(ZclFieldType.RSSI_PING_COMMAND_LOCATION_TYPE);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class RssiPingCommand extends ZclCommand {
      * Gets Location Type.
      * @return the Location Type
      */
-    public Byte getLocationType() {
+    public Integer getLocationType() {
         return locationType;
     }
 
@@ -51,11 +51,8 @@ public class RssiPingCommand extends ZclCommand {
      * Sets Location Type.
      * @param locationType the Location Type
      */
-    public void setLocationType(final Byte locationType) {
+    public void setLocationType(final Integer locationType) {
         this.locationType = locationType;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.RSSI_PING_COMMAND,RssiPingCommand.class);
-    }
 }

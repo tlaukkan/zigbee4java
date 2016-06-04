@@ -14,11 +14,11 @@ public class ZoneStatusChangeNotificationCommand extends ZclCommand {
     /**
      * Zone Status command message field.
      */
-    private Short zoneStatus;
+    private Integer zoneStatus;
     /**
      * Extended Status command message field.
      */
-    private Byte extendedStatus;
+    private Integer extendedStatus;
 
     /**
      * Default constructor setting the command type field.
@@ -33,8 +33,8 @@ public class ZoneStatusChangeNotificationCommand extends ZclCommand {
      */
     public ZoneStatusChangeNotificationCommand(final ZclCommandMessage message) {
         super(message);
-        this.zoneStatus = (Short) message.getFields().get(ZclFieldType.ZONE_STATUS_CHANGE_NOTIFICATION_COMMAND_ZONE_STATUS);
-        this.extendedStatus = (Byte) message.getFields().get(ZclFieldType.ZONE_STATUS_CHANGE_NOTIFICATION_COMMAND_EXTENDED_STATUS);
+        this.zoneStatus = (Integer) message.getFields().get(ZclFieldType.ZONE_STATUS_CHANGE_NOTIFICATION_COMMAND_ZONE_STATUS);
+        this.extendedStatus = (Integer) message.getFields().get(ZclFieldType.ZONE_STATUS_CHANGE_NOTIFICATION_COMMAND_EXTENDED_STATUS);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ZoneStatusChangeNotificationCommand extends ZclCommand {
      * Gets Zone Status.
      * @return the Zone Status
      */
-    public Short getZoneStatus() {
+    public Integer getZoneStatus() {
         return zoneStatus;
     }
 
@@ -57,7 +57,7 @@ public class ZoneStatusChangeNotificationCommand extends ZclCommand {
      * Sets Zone Status.
      * @param zoneStatus the Zone Status
      */
-    public void setZoneStatus(final Short zoneStatus) {
+    public void setZoneStatus(final Integer zoneStatus) {
         this.zoneStatus = zoneStatus;
     }
 
@@ -65,7 +65,7 @@ public class ZoneStatusChangeNotificationCommand extends ZclCommand {
      * Gets Extended Status.
      * @return the Extended Status
      */
-    public Byte getExtendedStatus() {
+    public Integer getExtendedStatus() {
         return extendedStatus;
     }
 
@@ -73,11 +73,8 @@ public class ZoneStatusChangeNotificationCommand extends ZclCommand {
      * Sets Extended Status.
      * @param extendedStatus the Extended Status
      */
-    public void setExtendedStatus(final Byte extendedStatus) {
+    public void setExtendedStatus(final Integer extendedStatus) {
         this.extendedStatus = extendedStatus;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.ZONE_STATUS_CHANGE_NOTIFICATION_COMMAND,ZoneStatusChangeNotificationCommand.class);
-    }
 }

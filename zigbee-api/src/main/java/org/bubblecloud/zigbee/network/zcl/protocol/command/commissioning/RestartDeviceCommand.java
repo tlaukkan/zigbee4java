@@ -14,15 +14,15 @@ public class RestartDeviceCommand extends ZclCommand {
     /**
      * Option command message field.
      */
-    private Byte option;
+    private Integer option;
     /**
      * Delay command message field.
      */
-    private Byte delay;
+    private Integer delay;
     /**
      * Jitter command message field.
      */
-    private Byte jitter;
+    private Integer jitter;
 
     /**
      * Default constructor setting the command type field.
@@ -37,9 +37,9 @@ public class RestartDeviceCommand extends ZclCommand {
      */
     public RestartDeviceCommand(final ZclCommandMessage message) {
         super(message);
-        this.option = (Byte) message.getFields().get(ZclFieldType.RESTART_DEVICE_COMMAND_OPTION);
-        this.delay = (Byte) message.getFields().get(ZclFieldType.RESTART_DEVICE_COMMAND_DELAY);
-        this.jitter = (Byte) message.getFields().get(ZclFieldType.RESTART_DEVICE_COMMAND_JITTER);
+        this.option = (Integer) message.getFields().get(ZclFieldType.RESTART_DEVICE_COMMAND_OPTION);
+        this.delay = (Integer) message.getFields().get(ZclFieldType.RESTART_DEVICE_COMMAND_DELAY);
+        this.jitter = (Integer) message.getFields().get(ZclFieldType.RESTART_DEVICE_COMMAND_JITTER);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class RestartDeviceCommand extends ZclCommand {
      * Gets Option.
      * @return the Option
      */
-    public Byte getOption() {
+    public Integer getOption() {
         return option;
     }
 
@@ -63,7 +63,7 @@ public class RestartDeviceCommand extends ZclCommand {
      * Sets Option.
      * @param option the Option
      */
-    public void setOption(final Byte option) {
+    public void setOption(final Integer option) {
         this.option = option;
     }
 
@@ -71,7 +71,7 @@ public class RestartDeviceCommand extends ZclCommand {
      * Gets Delay.
      * @return the Delay
      */
-    public Byte getDelay() {
+    public Integer getDelay() {
         return delay;
     }
 
@@ -79,7 +79,7 @@ public class RestartDeviceCommand extends ZclCommand {
      * Sets Delay.
      * @param delay the Delay
      */
-    public void setDelay(final Byte delay) {
+    public void setDelay(final Integer delay) {
         this.delay = delay;
     }
 
@@ -87,7 +87,7 @@ public class RestartDeviceCommand extends ZclCommand {
      * Gets Jitter.
      * @return the Jitter
      */
-    public Byte getJitter() {
+    public Integer getJitter() {
         return jitter;
     }
 
@@ -95,11 +95,8 @@ public class RestartDeviceCommand extends ZclCommand {
      * Sets Jitter.
      * @param jitter the Jitter
      */
-    public void setJitter(final Byte jitter) {
+    public void setJitter(final Integer jitter) {
         this.jitter = jitter;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.RESTART_DEVICE_COMMAND,RestartDeviceCommand.class);
-    }
 }

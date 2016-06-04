@@ -14,11 +14,11 @@ public class GetAlarmResponseCommand extends ZclCommand {
     /**
      * Status command message field.
      */
-    private Byte status;
+    private Integer status;
     /**
      * Alarm code command message field.
      */
-    private Byte alarmCode;
+    private Integer alarmCode;
     /**
      * Cluster identifier command message field.
      */
@@ -41,8 +41,8 @@ public class GetAlarmResponseCommand extends ZclCommand {
      */
     public GetAlarmResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.status = (Byte) message.getFields().get(ZclFieldType.GET_ALARM_RESPONSE_COMMAND_STATUS);
-        this.alarmCode = (Byte) message.getFields().get(ZclFieldType.GET_ALARM_RESPONSE_COMMAND_ALARM_CODE);
+        this.status = (Integer) message.getFields().get(ZclFieldType.GET_ALARM_RESPONSE_COMMAND_STATUS);
+        this.alarmCode = (Integer) message.getFields().get(ZclFieldType.GET_ALARM_RESPONSE_COMMAND_ALARM_CODE);
         this.clusterIdentifier = (Object) message.getFields().get(ZclFieldType.GET_ALARM_RESPONSE_COMMAND_CLUSTER_IDENTIFIER);
         this.timestamp = (Integer) message.getFields().get(ZclFieldType.GET_ALARM_RESPONSE_COMMAND_TIMESTAMP);
     }
@@ -61,7 +61,7 @@ public class GetAlarmResponseCommand extends ZclCommand {
      * Gets Status.
      * @return the Status
      */
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -69,7 +69,7 @@ public class GetAlarmResponseCommand extends ZclCommand {
      * Sets Status.
      * @param status the Status
      */
-    public void setStatus(final Byte status) {
+    public void setStatus(final Integer status) {
         this.status = status;
     }
 
@@ -77,7 +77,7 @@ public class GetAlarmResponseCommand extends ZclCommand {
      * Gets Alarm code.
      * @return the Alarm code
      */
-    public Byte getAlarmCode() {
+    public Integer getAlarmCode() {
         return alarmCode;
     }
 
@@ -85,7 +85,7 @@ public class GetAlarmResponseCommand extends ZclCommand {
      * Sets Alarm code.
      * @param alarmCode the Alarm code
      */
-    public void setAlarmCode(final Byte alarmCode) {
+    public void setAlarmCode(final Integer alarmCode) {
         this.alarmCode = alarmCode;
     }
 
@@ -121,7 +121,4 @@ public class GetAlarmResponseCommand extends ZclCommand {
         this.timestamp = timestamp;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.GET_ALARM_RESPONSE_COMMAND,GetAlarmResponseCommand.class);
-    }
 }

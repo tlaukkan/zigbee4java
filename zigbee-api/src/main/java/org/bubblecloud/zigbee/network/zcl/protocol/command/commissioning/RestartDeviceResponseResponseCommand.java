@@ -14,7 +14,7 @@ public class RestartDeviceResponseResponseCommand extends ZclCommand {
     /**
      * Status command message field.
      */
-    private Byte status;
+    private Integer status;
 
     /**
      * Default constructor setting the command type field.
@@ -29,7 +29,7 @@ public class RestartDeviceResponseResponseCommand extends ZclCommand {
      */
     public RestartDeviceResponseResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.status = (Byte) message.getFields().get(ZclFieldType.RESTART_DEVICE_RESPONSE_RESPONSE_COMMAND_STATUS);
+        this.status = (Integer) message.getFields().get(ZclFieldType.RESTART_DEVICE_RESPONSE_RESPONSE_COMMAND_STATUS);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class RestartDeviceResponseResponseCommand extends ZclCommand {
      * Gets Status.
      * @return the Status
      */
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -51,11 +51,8 @@ public class RestartDeviceResponseResponseCommand extends ZclCommand {
      * Sets Status.
      * @param status the Status
      */
-    public void setStatus(final Byte status) {
+    public void setStatus(final Integer status) {
         this.status = status;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.RESTART_DEVICE_RESPONSE_RESPONSE_COMMAND,RestartDeviceResponseResponseCommand.class);
-    }
 }

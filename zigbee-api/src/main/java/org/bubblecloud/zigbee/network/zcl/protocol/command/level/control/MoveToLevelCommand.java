@@ -14,11 +14,11 @@ public class MoveToLevelCommand extends ZclCommand {
     /**
      * Level command message field.
      */
-    private Byte level;
+    private Integer level;
     /**
      * Transition time command message field.
      */
-    private Short transitionTime;
+    private Integer transitionTime;
 
     /**
      * Default constructor setting the command type field.
@@ -33,8 +33,8 @@ public class MoveToLevelCommand extends ZclCommand {
      */
     public MoveToLevelCommand(final ZclCommandMessage message) {
         super(message);
-        this.level = (Byte) message.getFields().get(ZclFieldType.MOVE_TO_LEVEL_COMMAND_LEVEL);
-        this.transitionTime = (Short) message.getFields().get(ZclFieldType.MOVE_TO_LEVEL_COMMAND_TRANSITION_TIME);
+        this.level = (Integer) message.getFields().get(ZclFieldType.MOVE_TO_LEVEL_COMMAND_LEVEL);
+        this.transitionTime = (Integer) message.getFields().get(ZclFieldType.MOVE_TO_LEVEL_COMMAND_TRANSITION_TIME);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MoveToLevelCommand extends ZclCommand {
      * Gets Level.
      * @return the Level
      */
-    public Byte getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
@@ -57,7 +57,7 @@ public class MoveToLevelCommand extends ZclCommand {
      * Sets Level.
      * @param level the Level
      */
-    public void setLevel(final Byte level) {
+    public void setLevel(final Integer level) {
         this.level = level;
     }
 
@@ -65,7 +65,7 @@ public class MoveToLevelCommand extends ZclCommand {
      * Gets Transition time.
      * @return the Transition time
      */
-    public Short getTransitionTime() {
+    public Integer getTransitionTime() {
         return transitionTime;
     }
 
@@ -73,11 +73,8 @@ public class MoveToLevelCommand extends ZclCommand {
      * Sets Transition time.
      * @param transitionTime the Transition time
      */
-    public void setTransitionTime(final Short transitionTime) {
+    public void setTransitionTime(final Integer transitionTime) {
         this.transitionTime = transitionTime;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.MOVE_TO_LEVEL_COMMAND,MoveToLevelCommand.class);
-    }
 }

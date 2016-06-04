@@ -14,7 +14,7 @@ public class BypassCommand extends ZclCommand {
     /**
      * Number of Zones command message field.
      */
-    private Byte numberOfZones;
+    private Integer numberOfZones;
     /**
      * Zone IDs command message field.
      */
@@ -33,7 +33,7 @@ public class BypassCommand extends ZclCommand {
      */
     public BypassCommand(final ZclCommandMessage message) {
         super(message);
-        this.numberOfZones = (Byte) message.getFields().get(ZclFieldType.BYPASS_COMMAND_NUMBER_OF_ZONES);
+        this.numberOfZones = (Integer) message.getFields().get(ZclFieldType.BYPASS_COMMAND_NUMBER_OF_ZONES);
         this.zoneIDs = (Object) message.getFields().get(ZclFieldType.BYPASS_COMMAND_ZONE_IDS);
     }
 
@@ -49,7 +49,7 @@ public class BypassCommand extends ZclCommand {
      * Gets Number of Zones.
      * @return the Number of Zones
      */
-    public Byte getNumberOfZones() {
+    public Integer getNumberOfZones() {
         return numberOfZones;
     }
 
@@ -57,7 +57,7 @@ public class BypassCommand extends ZclCommand {
      * Sets Number of Zones.
      * @param numberOfZones the Number of Zones
      */
-    public void setNumberOfZones(final Byte numberOfZones) {
+    public void setNumberOfZones(final Integer numberOfZones) {
         this.numberOfZones = numberOfZones;
     }
 
@@ -77,7 +77,4 @@ public class BypassCommand extends ZclCommand {
         this.zoneIDs = zoneIDs;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.BYPASS_COMMAND,BypassCommand.class);
-    }
 }

@@ -14,7 +14,7 @@ public class ArmResponseCommand extends ZclCommand {
     /**
      * Arm Notification command message field.
      */
-    private Byte armNotification;
+    private Integer armNotification;
 
     /**
      * Default constructor setting the command type field.
@@ -29,7 +29,7 @@ public class ArmResponseCommand extends ZclCommand {
      */
     public ArmResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.armNotification = (Byte) message.getFields().get(ZclFieldType.ARM_RESPONSE_COMMAND_ARM_NOTIFICATION);
+        this.armNotification = (Integer) message.getFields().get(ZclFieldType.ARM_RESPONSE_COMMAND_ARM_NOTIFICATION);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ArmResponseCommand extends ZclCommand {
      * Gets Arm Notification.
      * @return the Arm Notification
      */
-    public Byte getArmNotification() {
+    public Integer getArmNotification() {
         return armNotification;
     }
 
@@ -51,11 +51,8 @@ public class ArmResponseCommand extends ZclCommand {
      * Sets Arm Notification.
      * @param armNotification the Arm Notification
      */
-    public void setArmNotification(final Byte armNotification) {
+    public void setArmNotification(final Integer armNotification) {
         this.armNotification = armNotification;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.ARM_RESPONSE_COMMAND,ArmResponseCommand.class);
-    }
 }

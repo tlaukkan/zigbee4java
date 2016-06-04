@@ -14,11 +14,11 @@ public class RecallSceneCommand extends ZclCommand {
     /**
      * Group ID command message field.
      */
-    private Short groupId;
+    private Integer groupId;
     /**
      * Scene ID command message field.
      */
-    private Byte sceneId;
+    private Integer sceneId;
 
     /**
      * Default constructor setting the command type field.
@@ -33,8 +33,8 @@ public class RecallSceneCommand extends ZclCommand {
      */
     public RecallSceneCommand(final ZclCommandMessage message) {
         super(message);
-        this.groupId = (Short) message.getFields().get(ZclFieldType.RECALL_SCENE_COMMAND_GROUP_ID);
-        this.sceneId = (Byte) message.getFields().get(ZclFieldType.RECALL_SCENE_COMMAND_SCENE_ID);
+        this.groupId = (Integer) message.getFields().get(ZclFieldType.RECALL_SCENE_COMMAND_GROUP_ID);
+        this.sceneId = (Integer) message.getFields().get(ZclFieldType.RECALL_SCENE_COMMAND_SCENE_ID);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class RecallSceneCommand extends ZclCommand {
      * Gets Group ID.
      * @return the Group ID
      */
-    public Short getGroupId() {
+    public Integer getGroupId() {
         return groupId;
     }
 
@@ -57,7 +57,7 @@ public class RecallSceneCommand extends ZclCommand {
      * Sets Group ID.
      * @param groupId the Group ID
      */
-    public void setGroupId(final Short groupId) {
+    public void setGroupId(final Integer groupId) {
         this.groupId = groupId;
     }
 
@@ -65,7 +65,7 @@ public class RecallSceneCommand extends ZclCommand {
      * Gets Scene ID.
      * @return the Scene ID
      */
-    public Byte getSceneId() {
+    public Integer getSceneId() {
         return sceneId;
     }
 
@@ -73,11 +73,8 @@ public class RecallSceneCommand extends ZclCommand {
      * Sets Scene ID.
      * @param sceneId the Scene ID
      */
-    public void setSceneId(final Byte sceneId) {
+    public void setSceneId(final Integer sceneId) {
         this.sceneId = sceneId;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.RECALL_SCENE_COMMAND,RecallSceneCommand.class);
-    }
 }

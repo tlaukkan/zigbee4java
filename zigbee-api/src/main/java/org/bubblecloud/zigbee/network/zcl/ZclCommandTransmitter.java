@@ -24,8 +24,8 @@ import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.packet.af.AF_DATA_CONFIRM;
 import org.bubblecloud.zigbee.network.packet.af.AF_DATA_REQUEST;
 import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
-import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerImpl;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandTypeRegistrar;
 import org.bubblecloud.zigbee.util.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -140,7 +140,7 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
             LOGGER.debug("<<< " + commandMessage.toString());
 
             for (final ZclCommandListener commandListener : commandListeners) {
-                commandListener.commandReceived(commandMessage);
+                commandListener.commandReceived(ZclUtil.toCommand(commandMessage));
             }
 
             return true;
@@ -202,4 +202,7 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
         }
     }
 
+    static {
+        ZclCommandTypeRegistrar.register();
+    }
 }

@@ -33,7 +33,4 @@ public class ResetToFactoryDefaultsCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.RESET_TO_FACTORY_DEFAULTS_COMMAND,ResetToFactoryDefaultsCommand.class);
-    }
 }

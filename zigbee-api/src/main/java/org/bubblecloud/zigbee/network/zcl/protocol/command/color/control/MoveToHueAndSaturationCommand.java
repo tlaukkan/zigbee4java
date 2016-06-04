@@ -14,15 +14,15 @@ public class MoveToHueAndSaturationCommand extends ZclCommand {
     /**
      * Hue command message field.
      */
-    private Byte hue;
+    private Integer hue;
     /**
      * Saturation command message field.
      */
-    private Byte saturation;
+    private Integer saturation;
     /**
      * Transition time command message field.
      */
-    private Short transitionTime;
+    private Integer transitionTime;
 
     /**
      * Default constructor setting the command type field.
@@ -37,9 +37,9 @@ public class MoveToHueAndSaturationCommand extends ZclCommand {
      */
     public MoveToHueAndSaturationCommand(final ZclCommandMessage message) {
         super(message);
-        this.hue = (Byte) message.getFields().get(ZclFieldType.MOVE_TO_HUE_AND_SATURATION_COMMAND_HUE);
-        this.saturation = (Byte) message.getFields().get(ZclFieldType.MOVE_TO_HUE_AND_SATURATION_COMMAND_SATURATION);
-        this.transitionTime = (Short) message.getFields().get(ZclFieldType.MOVE_TO_HUE_AND_SATURATION_COMMAND_TRANSITION_TIME);
+        this.hue = (Integer) message.getFields().get(ZclFieldType.MOVE_TO_HUE_AND_SATURATION_COMMAND_HUE);
+        this.saturation = (Integer) message.getFields().get(ZclFieldType.MOVE_TO_HUE_AND_SATURATION_COMMAND_SATURATION);
+        this.transitionTime = (Integer) message.getFields().get(ZclFieldType.MOVE_TO_HUE_AND_SATURATION_COMMAND_TRANSITION_TIME);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class MoveToHueAndSaturationCommand extends ZclCommand {
      * Gets Hue.
      * @return the Hue
      */
-    public Byte getHue() {
+    public Integer getHue() {
         return hue;
     }
 
@@ -63,7 +63,7 @@ public class MoveToHueAndSaturationCommand extends ZclCommand {
      * Sets Hue.
      * @param hue the Hue
      */
-    public void setHue(final Byte hue) {
+    public void setHue(final Integer hue) {
         this.hue = hue;
     }
 
@@ -71,7 +71,7 @@ public class MoveToHueAndSaturationCommand extends ZclCommand {
      * Gets Saturation.
      * @return the Saturation
      */
-    public Byte getSaturation() {
+    public Integer getSaturation() {
         return saturation;
     }
 
@@ -79,7 +79,7 @@ public class MoveToHueAndSaturationCommand extends ZclCommand {
      * Sets Saturation.
      * @param saturation the Saturation
      */
-    public void setSaturation(final Byte saturation) {
+    public void setSaturation(final Integer saturation) {
         this.saturation = saturation;
     }
 
@@ -87,7 +87,7 @@ public class MoveToHueAndSaturationCommand extends ZclCommand {
      * Gets Transition time.
      * @return the Transition time
      */
-    public Short getTransitionTime() {
+    public Integer getTransitionTime() {
         return transitionTime;
     }
 
@@ -95,11 +95,8 @@ public class MoveToHueAndSaturationCommand extends ZclCommand {
      * Sets Transition time.
      * @param transitionTime the Transition time
      */
-    public void setTransitionTime(final Short transitionTime) {
+    public void setTransitionTime(final Integer transitionTime) {
         this.transitionTime = transitionTime;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.MOVE_TO_HUE_AND_SATURATION_COMMAND,MoveToHueAndSaturationCommand.class);
-    }
 }

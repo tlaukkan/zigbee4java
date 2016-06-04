@@ -33,7 +33,4 @@ public class ResetAlarmLogCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.RESET_ALARM_LOG_COMMAND,ResetAlarmLogCommand.class);
-    }
 }

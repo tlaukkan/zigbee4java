@@ -55,7 +55,4 @@ public class RequestOwnLocationCommand extends ZclCommand {
         this.requestingAddress = requestingAddress;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.REQUEST_OWN_LOCATION_COMMAND,RequestOwnLocationCommand.class);
-    }
 }

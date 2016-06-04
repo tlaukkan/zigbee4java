@@ -14,11 +14,11 @@ public class SetpointRaiseLowerCommand extends ZclCommand {
     /**
      * Mode command message field.
      */
-    private Byte mode;
+    private Integer mode;
     /**
      * Amount command message field.
      */
-    private Byte amount;
+    private Integer amount;
 
     /**
      * Default constructor setting the command type field.
@@ -33,8 +33,8 @@ public class SetpointRaiseLowerCommand extends ZclCommand {
      */
     public SetpointRaiseLowerCommand(final ZclCommandMessage message) {
         super(message);
-        this.mode = (Byte) message.getFields().get(ZclFieldType.SETPOINT_RAISE_LOWER_COMMAND_MODE);
-        this.amount = (Byte) message.getFields().get(ZclFieldType.SETPOINT_RAISE_LOWER_COMMAND_AMOUNT);
+        this.mode = (Integer) message.getFields().get(ZclFieldType.SETPOINT_RAISE_LOWER_COMMAND_MODE);
+        this.amount = (Integer) message.getFields().get(ZclFieldType.SETPOINT_RAISE_LOWER_COMMAND_AMOUNT);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class SetpointRaiseLowerCommand extends ZclCommand {
      * Gets Mode.
      * @return the Mode
      */
-    public Byte getMode() {
+    public Integer getMode() {
         return mode;
     }
 
@@ -57,7 +57,7 @@ public class SetpointRaiseLowerCommand extends ZclCommand {
      * Sets Mode.
      * @param mode the Mode
      */
-    public void setMode(final Byte mode) {
+    public void setMode(final Integer mode) {
         this.mode = mode;
     }
 
@@ -65,7 +65,7 @@ public class SetpointRaiseLowerCommand extends ZclCommand {
      * Gets Amount.
      * @return the Amount
      */
-    public Byte getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
@@ -73,11 +73,8 @@ public class SetpointRaiseLowerCommand extends ZclCommand {
      * Sets Amount.
      * @param amount the Amount
      */
-    public void setAmount(final Byte amount) {
+    public void setAmount(final Integer amount) {
         this.amount = amount;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.SETPOINT_RAISE_LOWER_COMMAND,SetpointRaiseLowerCommand.class);
-    }
 }

@@ -33,7 +33,4 @@ public class GetAlarmCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.GET_ALARM_COMMAND,GetAlarmCommand.class);
-    }
 }

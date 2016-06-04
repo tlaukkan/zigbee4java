@@ -75,7 +75,7 @@ public class ZclUtil {
      * @param command the command
      * @return the message
      */
-    public static ZclCommandMessage toCommand(final ZclCommand command) {
+    public static ZclCommandMessage toMessage(final ZclCommand command) {
         return command.toCommandMessage();
     }
     /**

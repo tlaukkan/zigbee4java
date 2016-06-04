@@ -14,15 +14,15 @@ public class StepWithOnOffCommand extends ZclCommand {
     /**
      * Step mode command message field.
      */
-    private Byte stepMode;
+    private Integer stepMode;
     /**
      * Step size command message field.
      */
-    private Byte stepSize;
+    private Integer stepSize;
     /**
      * Transition time command message field.
      */
-    private Short transitionTime;
+    private Integer transitionTime;
 
     /**
      * Default constructor setting the command type field.
@@ -37,9 +37,9 @@ public class StepWithOnOffCommand extends ZclCommand {
      */
     public StepWithOnOffCommand(final ZclCommandMessage message) {
         super(message);
-        this.stepMode = (Byte) message.getFields().get(ZclFieldType.STEP__WITH_ON_OFF__COMMAND_STEP_MODE);
-        this.stepSize = (Byte) message.getFields().get(ZclFieldType.STEP__WITH_ON_OFF__COMMAND_STEP_SIZE);
-        this.transitionTime = (Short) message.getFields().get(ZclFieldType.STEP__WITH_ON_OFF__COMMAND_TRANSITION_TIME);
+        this.stepMode = (Integer) message.getFields().get(ZclFieldType.STEP__WITH_ON_OFF__COMMAND_STEP_MODE);
+        this.stepSize = (Integer) message.getFields().get(ZclFieldType.STEP__WITH_ON_OFF__COMMAND_STEP_SIZE);
+        this.transitionTime = (Integer) message.getFields().get(ZclFieldType.STEP__WITH_ON_OFF__COMMAND_TRANSITION_TIME);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class StepWithOnOffCommand extends ZclCommand {
      * Gets Step mode.
      * @return the Step mode
      */
-    public Byte getStepMode() {
+    public Integer getStepMode() {
         return stepMode;
     }
 
@@ -63,7 +63,7 @@ public class StepWithOnOffCommand extends ZclCommand {
      * Sets Step mode.
      * @param stepMode the Step mode
      */
-    public void setStepMode(final Byte stepMode) {
+    public void setStepMode(final Integer stepMode) {
         this.stepMode = stepMode;
     }
 
@@ -71,7 +71,7 @@ public class StepWithOnOffCommand extends ZclCommand {
      * Gets Step size.
      * @return the Step size
      */
-    public Byte getStepSize() {
+    public Integer getStepSize() {
         return stepSize;
     }
 
@@ -79,7 +79,7 @@ public class StepWithOnOffCommand extends ZclCommand {
      * Sets Step size.
      * @param stepSize the Step size
      */
-    public void setStepSize(final Byte stepSize) {
+    public void setStepSize(final Integer stepSize) {
         this.stepSize = stepSize;
     }
 
@@ -87,7 +87,7 @@ public class StepWithOnOffCommand extends ZclCommand {
      * Gets Transition time.
      * @return the Transition time
      */
-    public Short getTransitionTime() {
+    public Integer getTransitionTime() {
         return transitionTime;
     }
 
@@ -95,11 +95,8 @@ public class StepWithOnOffCommand extends ZclCommand {
      * Sets Transition time.
      * @param transitionTime the Transition time
      */
-    public void setTransitionTime(final Short transitionTime) {
+    public void setTransitionTime(final Integer transitionTime) {
         this.transitionTime = transitionTime;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.STEP__WITH_ON_OFF__COMMAND,StepWithOnOffCommand.class);
-    }
 }

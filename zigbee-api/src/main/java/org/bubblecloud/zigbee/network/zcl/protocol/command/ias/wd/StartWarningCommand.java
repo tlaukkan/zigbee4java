@@ -14,11 +14,11 @@ public class StartWarningCommand extends ZclCommand {
     /**
      * Header command message field.
      */
-    private Byte header;
+    private Integer header;
     /**
      * Warning duration command message field.
      */
-    private Short warningDuration;
+    private Integer warningDuration;
 
     /**
      * Default constructor setting the command type field.
@@ -33,8 +33,8 @@ public class StartWarningCommand extends ZclCommand {
      */
     public StartWarningCommand(final ZclCommandMessage message) {
         super(message);
-        this.header = (Byte) message.getFields().get(ZclFieldType.START_WARNING_COMMAND_HEADER);
-        this.warningDuration = (Short) message.getFields().get(ZclFieldType.START_WARNING_COMMAND_WARNING_DURATION);
+        this.header = (Integer) message.getFields().get(ZclFieldType.START_WARNING_COMMAND_HEADER);
+        this.warningDuration = (Integer) message.getFields().get(ZclFieldType.START_WARNING_COMMAND_WARNING_DURATION);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class StartWarningCommand extends ZclCommand {
      * Gets Header.
      * @return the Header
      */
-    public Byte getHeader() {
+    public Integer getHeader() {
         return header;
     }
 
@@ -57,7 +57,7 @@ public class StartWarningCommand extends ZclCommand {
      * Sets Header.
      * @param header the Header
      */
-    public void setHeader(final Byte header) {
+    public void setHeader(final Integer header) {
         this.header = header;
     }
 
@@ -65,7 +65,7 @@ public class StartWarningCommand extends ZclCommand {
      * Gets Warning duration.
      * @return the Warning duration
      */
-    public Short getWarningDuration() {
+    public Integer getWarningDuration() {
         return warningDuration;
     }
 
@@ -73,11 +73,8 @@ public class StartWarningCommand extends ZclCommand {
      * Sets Warning duration.
      * @param warningDuration the Warning duration
      */
-    public void setWarningDuration(final Short warningDuration) {
+    public void setWarningDuration(final Integer warningDuration) {
         this.warningDuration = warningDuration;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.START_WARNING_COMMAND,StartWarningCommand.class);
-    }
 }

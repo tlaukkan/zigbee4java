@@ -18,15 +18,15 @@ public class AnchorNodeAnnounceCommand extends ZclCommand {
     /**
      * Coordinate 1 command message field.
      */
-    private Short coordinate1;
+    private Integer coordinate1;
     /**
      * Coordinate 2 command message field.
      */
-    private Short coordinate2;
+    private Integer coordinate2;
     /**
      * Coordinate 3 command message field.
      */
-    private Short coordinate3;
+    private Integer coordinate3;
 
     /**
      * Default constructor setting the command type field.
@@ -42,9 +42,9 @@ public class AnchorNodeAnnounceCommand extends ZclCommand {
     public AnchorNodeAnnounceCommand(final ZclCommandMessage message) {
         super(message);
         this.anchorNodeAddress = (ZToolAddress64) message.getFields().get(ZclFieldType.ANCHOR_NODE_ANNOUNCE_COMMAND_ANCHOR_NODE_ADDRESS);
-        this.coordinate1 = (Short) message.getFields().get(ZclFieldType.ANCHOR_NODE_ANNOUNCE_COMMAND_COORDINATE_1);
-        this.coordinate2 = (Short) message.getFields().get(ZclFieldType.ANCHOR_NODE_ANNOUNCE_COMMAND_COORDINATE_2);
-        this.coordinate3 = (Short) message.getFields().get(ZclFieldType.ANCHOR_NODE_ANNOUNCE_COMMAND_COORDINATE_3);
+        this.coordinate1 = (Integer) message.getFields().get(ZclFieldType.ANCHOR_NODE_ANNOUNCE_COMMAND_COORDINATE_1);
+        this.coordinate2 = (Integer) message.getFields().get(ZclFieldType.ANCHOR_NODE_ANNOUNCE_COMMAND_COORDINATE_2);
+        this.coordinate3 = (Integer) message.getFields().get(ZclFieldType.ANCHOR_NODE_ANNOUNCE_COMMAND_COORDINATE_3);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class AnchorNodeAnnounceCommand extends ZclCommand {
      * Gets Coordinate 1.
      * @return the Coordinate 1
      */
-    public Short getCoordinate1() {
+    public Integer getCoordinate1() {
         return coordinate1;
     }
 
@@ -85,7 +85,7 @@ public class AnchorNodeAnnounceCommand extends ZclCommand {
      * Sets Coordinate 1.
      * @param coordinate1 the Coordinate 1
      */
-    public void setCoordinate1(final Short coordinate1) {
+    public void setCoordinate1(final Integer coordinate1) {
         this.coordinate1 = coordinate1;
     }
 
@@ -93,7 +93,7 @@ public class AnchorNodeAnnounceCommand extends ZclCommand {
      * Gets Coordinate 2.
      * @return the Coordinate 2
      */
-    public Short getCoordinate2() {
+    public Integer getCoordinate2() {
         return coordinate2;
     }
 
@@ -101,7 +101,7 @@ public class AnchorNodeAnnounceCommand extends ZclCommand {
      * Sets Coordinate 2.
      * @param coordinate2 the Coordinate 2
      */
-    public void setCoordinate2(final Short coordinate2) {
+    public void setCoordinate2(final Integer coordinate2) {
         this.coordinate2 = coordinate2;
     }
 
@@ -109,7 +109,7 @@ public class AnchorNodeAnnounceCommand extends ZclCommand {
      * Gets Coordinate 3.
      * @return the Coordinate 3
      */
-    public Short getCoordinate3() {
+    public Integer getCoordinate3() {
         return coordinate3;
     }
 
@@ -117,11 +117,8 @@ public class AnchorNodeAnnounceCommand extends ZclCommand {
      * Sets Coordinate 3.
      * @param coordinate3 the Coordinate 3
      */
-    public void setCoordinate3(final Short coordinate3) {
+    public void setCoordinate3(final Integer coordinate3) {
         this.coordinate3 = coordinate3;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.ANCHOR_NODE_ANNOUNCE_COMMAND,AnchorNodeAnnounceCommand.class);
-    }
 }

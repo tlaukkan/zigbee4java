@@ -14,19 +14,19 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
     /**
      * Status command message field.
      */
-    private Byte status;
+    private Integer status;
     /**
      * Capacity command message field.
      */
-    private Byte capacity;
+    private Integer capacity;
     /**
      * Group ID command message field.
      */
-    private Short groupId;
+    private Integer groupId;
     /**
      * Scene count command message field.
      */
-    private Byte sceneCount;
+    private Integer sceneCount;
     /**
      * Scene list command message field.
      */
@@ -45,10 +45,10 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
      */
     public GetSceneMembershipResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.status = (Byte) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_STATUS);
-        this.capacity = (Byte) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_CAPACITY);
-        this.groupId = (Short) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_GROUP_ID);
-        this.sceneCount = (Byte) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_SCENE_COUNT);
+        this.status = (Integer) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_STATUS);
+        this.capacity = (Integer) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_CAPACITY);
+        this.groupId = (Integer) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_GROUP_ID);
+        this.sceneCount = (Integer) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_SCENE_COUNT);
         this.sceneList = (Object) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_SCENE_LIST);
     }
 
@@ -67,7 +67,7 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
      * Gets Status.
      * @return the Status
      */
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -75,7 +75,7 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
      * Sets Status.
      * @param status the Status
      */
-    public void setStatus(final Byte status) {
+    public void setStatus(final Integer status) {
         this.status = status;
     }
 
@@ -83,7 +83,7 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
      * Gets Capacity.
      * @return the Capacity
      */
-    public Byte getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
@@ -91,7 +91,7 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
      * Sets Capacity.
      * @param capacity the Capacity
      */
-    public void setCapacity(final Byte capacity) {
+    public void setCapacity(final Integer capacity) {
         this.capacity = capacity;
     }
 
@@ -99,7 +99,7 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
      * Gets Group ID.
      * @return the Group ID
      */
-    public Short getGroupId() {
+    public Integer getGroupId() {
         return groupId;
     }
 
@@ -107,7 +107,7 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
      * Sets Group ID.
      * @param groupId the Group ID
      */
-    public void setGroupId(final Short groupId) {
+    public void setGroupId(final Integer groupId) {
         this.groupId = groupId;
     }
 
@@ -115,7 +115,7 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
      * Gets Scene count.
      * @return the Scene count
      */
-    public Byte getSceneCount() {
+    public Integer getSceneCount() {
         return sceneCount;
     }
 
@@ -123,7 +123,7 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
      * Sets Scene count.
      * @param sceneCount the Scene count
      */
-    public void setSceneCount(final Byte sceneCount) {
+    public void setSceneCount(final Integer sceneCount) {
         this.sceneCount = sceneCount;
     }
 
@@ -143,7 +143,4 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
         this.sceneList = sceneList;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND,GetSceneMembershipResponseCommand.class);
-    }
 }

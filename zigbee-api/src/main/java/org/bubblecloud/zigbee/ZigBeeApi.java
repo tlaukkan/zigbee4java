@@ -22,6 +22,7 @@ import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
+import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandTransmitter;
@@ -468,12 +469,12 @@ public class ZigBeeApi implements EndpointListener {
     }
 
     /**
-     * Sends ZCL command message without waiting for response.
-     * @param commandMessage the command message
+     * Sends ZCL command without waiting for response.
+     * @param command the command
      * @throws ZigBeeNetworkManagerException if exception occurs in sending
      */
-    public void sendCommand(final ZclCommandMessage commandMessage) throws ZigBeeNetworkManagerException {
-        zclCommandTransmitter.sendCommand(commandMessage);
+    public void sendCommand(final ZclCommand command) throws ZigBeeNetworkManagerException {
+        zclCommandTransmitter.sendCommand(command.toCommandMessage());
     }
 
     /**

@@ -14,11 +14,11 @@ public class ResetStartupParametersCommand extends ZclCommand {
     /**
      * Option command message field.
      */
-    private Byte option;
+    private Integer option;
     /**
      * Index command message field.
      */
-    private Byte index;
+    private Integer index;
 
     /**
      * Default constructor setting the command type field.
@@ -33,8 +33,8 @@ public class ResetStartupParametersCommand extends ZclCommand {
      */
     public ResetStartupParametersCommand(final ZclCommandMessage message) {
         super(message);
-        this.option = (Byte) message.getFields().get(ZclFieldType.RESET_STARTUP_PARAMETERS_COMMAND_OPTION);
-        this.index = (Byte) message.getFields().get(ZclFieldType.RESET_STARTUP_PARAMETERS_COMMAND_INDEX);
+        this.option = (Integer) message.getFields().get(ZclFieldType.RESET_STARTUP_PARAMETERS_COMMAND_OPTION);
+        this.index = (Integer) message.getFields().get(ZclFieldType.RESET_STARTUP_PARAMETERS_COMMAND_INDEX);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ResetStartupParametersCommand extends ZclCommand {
      * Gets Option.
      * @return the Option
      */
-    public Byte getOption() {
+    public Integer getOption() {
         return option;
     }
 
@@ -57,7 +57,7 @@ public class ResetStartupParametersCommand extends ZclCommand {
      * Sets Option.
      * @param option the Option
      */
-    public void setOption(final Byte option) {
+    public void setOption(final Integer option) {
         this.option = option;
     }
 
@@ -65,7 +65,7 @@ public class ResetStartupParametersCommand extends ZclCommand {
      * Gets Index.
      * @return the Index
      */
-    public Byte getIndex() {
+    public Integer getIndex() {
         return index;
     }
 
@@ -73,11 +73,8 @@ public class ResetStartupParametersCommand extends ZclCommand {
      * Sets Index.
      * @param index the Index
      */
-    public void setIndex(final Byte index) {
+    public void setIndex(final Integer index) {
         this.index = index;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.RESET_STARTUP_PARAMETERS_COMMAND,ResetStartupParametersCommand.class);
-    }
 }

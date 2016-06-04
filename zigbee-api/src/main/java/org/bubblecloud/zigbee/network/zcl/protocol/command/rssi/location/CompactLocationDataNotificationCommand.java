@@ -33,7 +33,4 @@ public class CompactLocationDataNotificationCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.COMPACT_LOCATION_DATA_NOTIFICATION_COMMAND,CompactLocationDataNotificationCommand.class);
-    }
 }

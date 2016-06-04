@@ -24,8 +24,8 @@ public interface ZclCommandListener {
 
     /**
      * Invoked when command has been received.
-     * @param commandMessage the command message
+     * @param command the command
      */
-    void commandReceived(final ZclCommandMessage commandMessage);
+    void commandReceived(final ZclCommand command);
 
 }

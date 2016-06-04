@@ -33,7 +33,4 @@ public class StopCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.STOP_COMMAND,StopCommand.class);
-    }
 }

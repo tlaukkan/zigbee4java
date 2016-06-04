@@ -33,7 +33,4 @@ public class ResetAllAlarmsCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.RESET_ALL_ALARMS_COMMAND,ResetAllAlarmsCommand.class);
-    }
 }

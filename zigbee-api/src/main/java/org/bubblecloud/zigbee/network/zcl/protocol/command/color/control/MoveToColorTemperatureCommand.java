@@ -14,11 +14,11 @@ public class MoveToColorTemperatureCommand extends ZclCommand {
     /**
      * Color Temperature command message field.
      */
-    private Short colorTemperature;
+    private Integer colorTemperature;
     /**
      * Transition time command message field.
      */
-    private Short transitionTime;
+    private Integer transitionTime;
 
     /**
      * Default constructor setting the command type field.
@@ -33,8 +33,8 @@ public class MoveToColorTemperatureCommand extends ZclCommand {
      */
     public MoveToColorTemperatureCommand(final ZclCommandMessage message) {
         super(message);
-        this.colorTemperature = (Short) message.getFields().get(ZclFieldType.MOVE_TO_COLOR_TEMPERATURE_COMMAND_COLOR_TEMPERATURE);
-        this.transitionTime = (Short) message.getFields().get(ZclFieldType.MOVE_TO_COLOR_TEMPERATURE_COMMAND_TRANSITION_TIME);
+        this.colorTemperature = (Integer) message.getFields().get(ZclFieldType.MOVE_TO_COLOR_TEMPERATURE_COMMAND_COLOR_TEMPERATURE);
+        this.transitionTime = (Integer) message.getFields().get(ZclFieldType.MOVE_TO_COLOR_TEMPERATURE_COMMAND_TRANSITION_TIME);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MoveToColorTemperatureCommand extends ZclCommand {
      * Gets Color Temperature.
      * @return the Color Temperature
      */
-    public Short getColorTemperature() {
+    public Integer getColorTemperature() {
         return colorTemperature;
     }
 
@@ -57,7 +57,7 @@ public class MoveToColorTemperatureCommand extends ZclCommand {
      * Sets Color Temperature.
      * @param colorTemperature the Color Temperature
      */
-    public void setColorTemperature(final Short colorTemperature) {
+    public void setColorTemperature(final Integer colorTemperature) {
         this.colorTemperature = colorTemperature;
     }
 
@@ -65,7 +65,7 @@ public class MoveToColorTemperatureCommand extends ZclCommand {
      * Gets Transition time.
      * @return the Transition time
      */
-    public Short getTransitionTime() {
+    public Integer getTransitionTime() {
         return transitionTime;
     }
 
@@ -73,11 +73,8 @@ public class MoveToColorTemperatureCommand extends ZclCommand {
      * Sets Transition time.
      * @param transitionTime the Transition time
      */
-    public void setTransitionTime(final Short transitionTime) {
+    public void setTransitionTime(final Integer transitionTime) {
         this.transitionTime = transitionTime;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.MOVE_TO_COLOR_TEMPERATURE_COMMAND,MoveToColorTemperatureCommand.class);
-    }
 }

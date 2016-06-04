@@ -33,7 +33,4 @@ public class GetZoneIdMapCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.GET_ZONE_ID_MAP_COMMAND,GetZoneIdMapCommand.class);
-    }
 }

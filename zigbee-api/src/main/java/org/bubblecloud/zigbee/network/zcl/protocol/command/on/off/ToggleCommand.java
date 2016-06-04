@@ -33,7 +33,4 @@ public class ToggleCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.TOGGLE_COMMAND,ToggleCommand.class);
-    }
 }

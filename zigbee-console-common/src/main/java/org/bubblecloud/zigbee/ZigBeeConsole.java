@@ -33,8 +33,10 @@ import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.SerialPort;
+import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
-import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.ias.zone.ZoneEnrollRequestCommand;
+import  org.bubblecloud.zigbee.network.zcl.protocol.command.ias.zone.ZoneEnrollResponseCommand;
 import org.bubblecloud.zigbee.util.Cie;
 
 /**
@@ -172,25 +174,29 @@ public final class ZigBeeConsole {
 
         zigbeeApi.addCommandListener(new ZclCommandListener() {
             @Override
-            public void commandReceived(ZclCommandMessage command) {
+            public void commandReceived(ZclCommand command) {
                 print("Received: " + command.toString(), System.out);
 
                 //This is an example how to interface directly with ZCL commands.
                 /*
-                if (command.getCommand() == ZclCommandType.ZONE_ENROLL_REQUEST_COMMAND) {
-                    int remoteAddress = command.getSourceAddress();
-                    short remoteEndPoint = command.getSourceEnpoint();
-                    byte transactionId = command.getTransactionId();
+                if (command instanceof ZoneEnrollRequestCommand) {
+                    final ZoneEnrollRequestCommand request = (ZoneEnrollRequestCommand) command;
+                    final int remoteAddress = request.getSourceAddress();
+                    final short remoteEndPoint = request.getSourceEnpoint();
+                    final byte transactionId = request.getTransactionId();
 
-                    final ZclCommandMessage responseMessage = new ZclCommandMessage(
-                            remoteAddress, remoteEndPoint, ZclCommandType.ZONE_ENROLL_RESPONSE_COMMAND, transactionId);
-                    responseMessage.addField(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ENROLL_RESPONSE_CODE, 0);
-                    responseMessage.addField(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ZONE_ID, 0);
+                    final ZoneEnrollResponseCommand response = new ZoneEnrollResponseCommand();
+                    response.setDestinationAddress(remoteAddress);
+                    response.setDestinationEndpoint(remoteEndPoint);
+                    response.setTransactionId(transactionId);
+                    response.setEnrollResponseCode(0);
+                    response.setZoneId(0);
+
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                zigbeeApi.sendCommand(responseMessage);
+                                zigbeeApi.sendCommand(response);
                             } catch (ZigBeeNetworkManagerException e) {
                                 e.printStackTrace();
                             }
@@ -198,6 +204,7 @@ public final class ZigBeeConsole {
                     }).start();
                 }
                 */
+
             }
         });
 

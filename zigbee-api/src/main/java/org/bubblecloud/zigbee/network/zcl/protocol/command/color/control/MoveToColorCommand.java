@@ -14,15 +14,15 @@ public class MoveToColorCommand extends ZclCommand {
     /**
      * ColorX command message field.
      */
-    private Short colorX;
+    private Integer colorX;
     /**
      * ColorY command message field.
      */
-    private Short colorY;
+    private Integer colorY;
     /**
      * Transition time command message field.
      */
-    private Short transitionTime;
+    private Integer transitionTime;
 
     /**
      * Default constructor setting the command type field.
@@ -37,9 +37,9 @@ public class MoveToColorCommand extends ZclCommand {
      */
     public MoveToColorCommand(final ZclCommandMessage message) {
         super(message);
-        this.colorX = (Short) message.getFields().get(ZclFieldType.MOVE_TO_COLOR_COMMAND_COLORX);
-        this.colorY = (Short) message.getFields().get(ZclFieldType.MOVE_TO_COLOR_COMMAND_COLORY);
-        this.transitionTime = (Short) message.getFields().get(ZclFieldType.MOVE_TO_COLOR_COMMAND_TRANSITION_TIME);
+        this.colorX = (Integer) message.getFields().get(ZclFieldType.MOVE_TO_COLOR_COMMAND_COLORX);
+        this.colorY = (Integer) message.getFields().get(ZclFieldType.MOVE_TO_COLOR_COMMAND_COLORY);
+        this.transitionTime = (Integer) message.getFields().get(ZclFieldType.MOVE_TO_COLOR_COMMAND_TRANSITION_TIME);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class MoveToColorCommand extends ZclCommand {
      * Gets ColorX.
      * @return the ColorX
      */
-    public Short getColorX() {
+    public Integer getColorX() {
         return colorX;
     }
 
@@ -63,7 +63,7 @@ public class MoveToColorCommand extends ZclCommand {
      * Sets ColorX.
      * @param colorX the ColorX
      */
-    public void setColorX(final Short colorX) {
+    public void setColorX(final Integer colorX) {
         this.colorX = colorX;
     }
 
@@ -71,7 +71,7 @@ public class MoveToColorCommand extends ZclCommand {
      * Gets ColorY.
      * @return the ColorY
      */
-    public Short getColorY() {
+    public Integer getColorY() {
         return colorY;
     }
 
@@ -79,7 +79,7 @@ public class MoveToColorCommand extends ZclCommand {
      * Sets ColorY.
      * @param colorY the ColorY
      */
-    public void setColorY(final Short colorY) {
+    public void setColorY(final Integer colorY) {
         this.colorY = colorY;
     }
 
@@ -87,7 +87,7 @@ public class MoveToColorCommand extends ZclCommand {
      * Gets Transition time.
      * @return the Transition time
      */
-    public Short getTransitionTime() {
+    public Integer getTransitionTime() {
         return transitionTime;
     }
 
@@ -95,11 +95,8 @@ public class MoveToColorCommand extends ZclCommand {
      * Sets Transition time.
      * @param transitionTime the Transition time
      */
-    public void setTransitionTime(final Short transitionTime) {
+    public void setTransitionTime(final Integer transitionTime) {
         this.transitionTime = transitionTime;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.MOVE_TO_COLOR_COMMAND,MoveToColorCommand.class);
-    }
 }

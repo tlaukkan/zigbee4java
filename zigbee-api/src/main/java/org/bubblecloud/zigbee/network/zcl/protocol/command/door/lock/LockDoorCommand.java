@@ -33,7 +33,4 @@ public class LockDoorCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.LOCK_DOOR_COMMAND,LockDoorCommand.class);
-    }
 }

@@ -55,7 +55,4 @@ public class GetDeviceConfigurationCommand extends ZclCommand {
         this.targetAddress = targetAddress;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.GET_DEVICE_CONFIGURATION_COMMAND,GetDeviceConfigurationCommand.class);
-    }
 }

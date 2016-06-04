@@ -18,11 +18,11 @@ public class SendPingsCommand extends ZclCommand {
     /**
      * Number RSSI Measurements command message field.
      */
-    private Byte numberRssiMeasurements;
+    private Integer numberRssiMeasurements;
     /**
      * Calculation Period command message field.
      */
-    private Short calculationPeriod;
+    private Integer calculationPeriod;
 
     /**
      * Default constructor setting the command type field.
@@ -38,8 +38,8 @@ public class SendPingsCommand extends ZclCommand {
     public SendPingsCommand(final ZclCommandMessage message) {
         super(message);
         this.targetAddress = (ZToolAddress64) message.getFields().get(ZclFieldType.SEND_PINGS_COMMAND_TARGET_ADDRESS);
-        this.numberRssiMeasurements = (Byte) message.getFields().get(ZclFieldType.SEND_PINGS_COMMAND_NUMBER_RSSI_MEASUREMENTS);
-        this.calculationPeriod = (Short) message.getFields().get(ZclFieldType.SEND_PINGS_COMMAND_CALCULATION_PERIOD);
+        this.numberRssiMeasurements = (Integer) message.getFields().get(ZclFieldType.SEND_PINGS_COMMAND_NUMBER_RSSI_MEASUREMENTS);
+        this.calculationPeriod = (Integer) message.getFields().get(ZclFieldType.SEND_PINGS_COMMAND_CALCULATION_PERIOD);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class SendPingsCommand extends ZclCommand {
      * Gets Number RSSI Measurements.
      * @return the Number RSSI Measurements
      */
-    public Byte getNumberRssiMeasurements() {
+    public Integer getNumberRssiMeasurements() {
         return numberRssiMeasurements;
     }
 
@@ -79,7 +79,7 @@ public class SendPingsCommand extends ZclCommand {
      * Sets Number RSSI Measurements.
      * @param numberRssiMeasurements the Number RSSI Measurements
      */
-    public void setNumberRssiMeasurements(final Byte numberRssiMeasurements) {
+    public void setNumberRssiMeasurements(final Integer numberRssiMeasurements) {
         this.numberRssiMeasurements = numberRssiMeasurements;
     }
 
@@ -87,7 +87,7 @@ public class SendPingsCommand extends ZclCommand {
      * Gets Calculation Period.
      * @return the Calculation Period
      */
-    public Short getCalculationPeriod() {
+    public Integer getCalculationPeriod() {
         return calculationPeriod;
     }
 
@@ -95,11 +95,8 @@ public class SendPingsCommand extends ZclCommand {
      * Sets Calculation Period.
      * @param calculationPeriod the Calculation Period
      */
-    public void setCalculationPeriod(final Short calculationPeriod) {
+    public void setCalculationPeriod(final Integer calculationPeriod) {
         this.calculationPeriod = calculationPeriod;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.SEND_PINGS_COMMAND,SendPingsCommand.class);
-    }
 }

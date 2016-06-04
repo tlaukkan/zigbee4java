@@ -115,6 +115,14 @@ public class ZclProtocolCodeGenerator {
             return;
         }
 
+        try {
+            generateZclCommandTypeRegistrarClass(context, packageRoot, packageFile);
+        } catch (final IOException e) {
+            System.out.println("Failed to generate profile enumeration.");
+            e.printStackTrace();
+            return;
+        }
+
         final String messagePackageRoot = packageRoot + ".command";
         final String messagePackagePath = getPackagePath(sourceRootPath, messagePackageRoot);
         final File messagePackageFile = getPackageFile(messagePackagePath);
@@ -471,10 +479,6 @@ public class ZclProtocolCodeGenerator {
                     }
 
                     out.println("");
-                    out.println("    static {");
-                    out.println("        ZclUtil.registerCommandTypeClassMapping(ZclCommandType." + command.commandType + "," + command.nameUpperCamelCase + ".class);");
-                    out.println("    }");
-
                     out.println("}");
 
                     out.flush();
@@ -484,6 +488,45 @@ public class ZclProtocolCodeGenerator {
             }
         }
 
+    }
+
+    private static void generateZclCommandTypeRegistrarClass(Context context, String packageRoot, File packageFile) throws IOException {
+        final String className = "ZclCommandTypeRegistrar";
+
+        final PrintWriter out = getClassOut(packageFile, className);
+
+        out.println("package " + packageRoot + ";");
+        out.println();
+        out.println("import org.bubblecloud.zigbee.network.zcl.ZclUtil;");
+        out.println();
+        out.println("/**");
+        out.println(" * Code generated command type registrar class.");
+        out.println(" */");
+        out.println("public class " + className + " {");
+        out.println("    /**");
+        out.println("     * Register command types.");
+        out.println("     */");
+        out.println("    public static void register() {");
+        final LinkedList<Profile> profiles = new LinkedList<Profile>(context.profiles.values());
+        for (final Profile profile : profiles) {
+            final LinkedList<Cluster> clusters = new LinkedList<Cluster>(profile.clusters.values());
+            for (final Cluster cluster : clusters) {
+                final ArrayList<Command> commands = new ArrayList<Command>();
+                commands.addAll(cluster.received.values());
+                commands.addAll(cluster.generated.values());
+                for (final Command command : commands) {
+                    out.println("        ZclUtil.registerCommandTypeClassMapping(ZclCommandType." + command.commandType + ",");
+                    out.println("            " + packageRoot + ".command." + cluster.clusterType.replace('_', '.').toLowerCase() + ".");
+                    out.println("            " + command.nameUpperCamelCase + ".class);");
+                }
+            }
+        }
+        out.println("    }");
+
+        out.println("}");
+
+        out.flush();
+        out.close();
     }
 
     private static PrintWriter getClassOut(File packageFile, String className) throws FileNotFoundException {

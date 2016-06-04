@@ -162,25 +162,25 @@ public class ZclProtocolDefinitionParser {
                 } else if (field.dataType.equals("N_X_UNSIGNED_8_BIT_INTEGER")) {
                     dataType.dataTypeClass = "Object";
                 } else if (field.dataType.equals("SIGNED_16_BIT_INTEGER")) {
-                    dataType.dataTypeClass = "Short";
+                    dataType.dataTypeClass = "Integer";
                 } else if (field.dataType.equals("SIGNED_8_BIT_INTEGER")) {
-                    dataType.dataTypeClass = "Byte";
+                    dataType.dataTypeClass = "Integer";
                 } else if (field.dataType.equals("UNSIGNED_16_BIT_INTEGER")) {
-                    dataType.dataTypeClass = "Short";
+                    dataType.dataTypeClass = "Integer";
                 } else if (field.dataType.equals("UNSIGNED_32_BIT_INTEGER")) {
                     dataType.dataTypeClass = "Integer";
                 } else if (field.dataType.equals("UNSIGNED_8_BIT_INTEGER")) {
-                    dataType.dataTypeClass = "Byte";
+                    dataType.dataTypeClass = "Integer";
                 } else if (field.dataType.equals("_16_BIT_BITMAP")) {
-                    dataType.dataTypeClass = "Short";
+                    dataType.dataTypeClass = "Integer";
                 } else if (field.dataType.equals("_16_BIT_ENUMERATION")) {
-                    dataType.dataTypeClass = "Short";
+                    dataType.dataTypeClass = "Integer";
                 } else if (field.dataType.equals("_8_BIT_BITMAP")) {
-                    dataType.dataTypeClass = "Byte";
+                    dataType.dataTypeClass = "Integer";
                 } else if (field.dataType.equals("_8_BIT_DATA")) {
-                    dataType.dataTypeClass = "Byte";
+                    dataType.dataTypeClass = "Integer";
                 } else if (field.dataType.equals("_8_BIT_ENUMERATION")) {
-                    dataType.dataTypeClass = "Byte";
+                    dataType.dataTypeClass = "Integer";
                 } else {
                     throw new IllegalArgumentException("Type not mapped: " + field.dataType);
                 }

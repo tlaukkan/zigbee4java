@@ -14,19 +14,19 @@ public class ViewSceneResponseCommand extends ZclCommand {
     /**
      * Status command message field.
      */
-    private Byte status;
+    private Integer status;
     /**
      * Group ID command message field.
      */
-    private Short groupId;
+    private Integer groupId;
     /**
      * Scene ID command message field.
      */
-    private Byte sceneId;
+    private Integer sceneId;
     /**
      * Transition time command message field.
      */
-    private Short transitionTime;
+    private Integer transitionTime;
     /**
      * Scene Name command message field.
      */
@@ -49,10 +49,10 @@ public class ViewSceneResponseCommand extends ZclCommand {
      */
     public ViewSceneResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.status = (Byte) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_STATUS);
-        this.groupId = (Short) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_GROUP_ID);
-        this.sceneId = (Byte) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_SCENE_ID);
-        this.transitionTime = (Short) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_TRANSITION_TIME);
+        this.status = (Integer) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_STATUS);
+        this.groupId = (Integer) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_GROUP_ID);
+        this.sceneId = (Integer) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_SCENE_ID);
+        this.transitionTime = (Integer) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_TRANSITION_TIME);
         this.sceneName = (String) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_SCENE_NAME);
         this.extensionFieldSets = (Object) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_EXTENSION_FIELD_SETS);
     }
@@ -73,7 +73,7 @@ public class ViewSceneResponseCommand extends ZclCommand {
      * Gets Status.
      * @return the Status
      */
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -81,7 +81,7 @@ public class ViewSceneResponseCommand extends ZclCommand {
      * Sets Status.
      * @param status the Status
      */
-    public void setStatus(final Byte status) {
+    public void setStatus(final Integer status) {
         this.status = status;
     }
 
@@ -89,7 +89,7 @@ public class ViewSceneResponseCommand extends ZclCommand {
      * Gets Group ID.
      * @return the Group ID
      */
-    public Short getGroupId() {
+    public Integer getGroupId() {
         return groupId;
     }
 
@@ -97,7 +97,7 @@ public class ViewSceneResponseCommand extends ZclCommand {
      * Sets Group ID.
      * @param groupId the Group ID
      */
-    public void setGroupId(final Short groupId) {
+    public void setGroupId(final Integer groupId) {
         this.groupId = groupId;
     }
 
@@ -105,7 +105,7 @@ public class ViewSceneResponseCommand extends ZclCommand {
      * Gets Scene ID.
      * @return the Scene ID
      */
-    public Byte getSceneId() {
+    public Integer getSceneId() {
         return sceneId;
     }
 
@@ -113,7 +113,7 @@ public class ViewSceneResponseCommand extends ZclCommand {
      * Sets Scene ID.
      * @param sceneId the Scene ID
      */
-    public void setSceneId(final Byte sceneId) {
+    public void setSceneId(final Integer sceneId) {
         this.sceneId = sceneId;
     }
 
@@ -121,7 +121,7 @@ public class ViewSceneResponseCommand extends ZclCommand {
      * Gets Transition time.
      * @return the Transition time
      */
-    public Short getTransitionTime() {
+    public Integer getTransitionTime() {
         return transitionTime;
     }
 
@@ -129,7 +129,7 @@ public class ViewSceneResponseCommand extends ZclCommand {
      * Sets Transition time.
      * @param transitionTime the Transition time
      */
-    public void setTransitionTime(final Short transitionTime) {
+    public void setTransitionTime(final Integer transitionTime) {
         this.transitionTime = transitionTime;
     }
 
@@ -165,7 +165,4 @@ public class ViewSceneResponseCommand extends ZclCommand {
         this.extensionFieldSets = extensionFieldSets;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.VIEW_SCENE_RESPONSE_COMMAND,ViewSceneResponseCommand.class);
-    }
 }

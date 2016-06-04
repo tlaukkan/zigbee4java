@@ -14,23 +14,23 @@ public class SetAbsoluteLocationCommand extends ZclCommand {
     /**
      * Coordinate 1 command message field.
      */
-    private Short coordinate1;
+    private Integer coordinate1;
     /**
      * Coordinate 2 command message field.
      */
-    private Short coordinate2;
+    private Integer coordinate2;
     /**
      * Coordinate 3 command message field.
      */
-    private Short coordinate3;
+    private Integer coordinate3;
     /**
      * Power command message field.
      */
-    private Short power;
+    private Integer power;
     /**
      * Path Loss Exponent command message field.
      */
-    private Short pathLossExponent;
+    private Integer pathLossExponent;
 
     /**
      * Default constructor setting the command type field.
@@ -45,11 +45,11 @@ public class SetAbsoluteLocationCommand extends ZclCommand {
      */
     public SetAbsoluteLocationCommand(final ZclCommandMessage message) {
         super(message);
-        this.coordinate1 = (Short) message.getFields().get(ZclFieldType.SET_ABSOLUTE_LOCATION_COMMAND_COORDINATE_1);
-        this.coordinate2 = (Short) message.getFields().get(ZclFieldType.SET_ABSOLUTE_LOCATION_COMMAND_COORDINATE_2);
-        this.coordinate3 = (Short) message.getFields().get(ZclFieldType.SET_ABSOLUTE_LOCATION_COMMAND_COORDINATE_3);
-        this.power = (Short) message.getFields().get(ZclFieldType.SET_ABSOLUTE_LOCATION_COMMAND_POWER);
-        this.pathLossExponent = (Short) message.getFields().get(ZclFieldType.SET_ABSOLUTE_LOCATION_COMMAND_PATH_LOSS_EXPONENT);
+        this.coordinate1 = (Integer) message.getFields().get(ZclFieldType.SET_ABSOLUTE_LOCATION_COMMAND_COORDINATE_1);
+        this.coordinate2 = (Integer) message.getFields().get(ZclFieldType.SET_ABSOLUTE_LOCATION_COMMAND_COORDINATE_2);
+        this.coordinate3 = (Integer) message.getFields().get(ZclFieldType.SET_ABSOLUTE_LOCATION_COMMAND_COORDINATE_3);
+        this.power = (Integer) message.getFields().get(ZclFieldType.SET_ABSOLUTE_LOCATION_COMMAND_POWER);
+        this.pathLossExponent = (Integer) message.getFields().get(ZclFieldType.SET_ABSOLUTE_LOCATION_COMMAND_PATH_LOSS_EXPONENT);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class SetAbsoluteLocationCommand extends ZclCommand {
      * Gets Coordinate 1.
      * @return the Coordinate 1
      */
-    public Short getCoordinate1() {
+    public Integer getCoordinate1() {
         return coordinate1;
     }
 
@@ -75,7 +75,7 @@ public class SetAbsoluteLocationCommand extends ZclCommand {
      * Sets Coordinate 1.
      * @param coordinate1 the Coordinate 1
      */
-    public void setCoordinate1(final Short coordinate1) {
+    public void setCoordinate1(final Integer coordinate1) {
         this.coordinate1 = coordinate1;
     }
 
@@ -83,7 +83,7 @@ public class SetAbsoluteLocationCommand extends ZclCommand {
      * Gets Coordinate 2.
      * @return the Coordinate 2
      */
-    public Short getCoordinate2() {
+    public Integer getCoordinate2() {
         return coordinate2;
     }
 
@@ -91,7 +91,7 @@ public class SetAbsoluteLocationCommand extends ZclCommand {
      * Sets Coordinate 2.
      * @param coordinate2 the Coordinate 2
      */
-    public void setCoordinate2(final Short coordinate2) {
+    public void setCoordinate2(final Integer coordinate2) {
         this.coordinate2 = coordinate2;
     }
 
@@ -99,7 +99,7 @@ public class SetAbsoluteLocationCommand extends ZclCommand {
      * Gets Coordinate 3.
      * @return the Coordinate 3
      */
-    public Short getCoordinate3() {
+    public Integer getCoordinate3() {
         return coordinate3;
     }
 
@@ -107,7 +107,7 @@ public class SetAbsoluteLocationCommand extends ZclCommand {
      * Sets Coordinate 3.
      * @param coordinate3 the Coordinate 3
      */
-    public void setCoordinate3(final Short coordinate3) {
+    public void setCoordinate3(final Integer coordinate3) {
         this.coordinate3 = coordinate3;
     }
 
@@ -115,7 +115,7 @@ public class SetAbsoluteLocationCommand extends ZclCommand {
      * Gets Power.
      * @return the Power
      */
-    public Short getPower() {
+    public Integer getPower() {
         return power;
     }
 
@@ -123,7 +123,7 @@ public class SetAbsoluteLocationCommand extends ZclCommand {
      * Sets Power.
      * @param power the Power
      */
-    public void setPower(final Short power) {
+    public void setPower(final Integer power) {
         this.power = power;
     }
 
@@ -131,7 +131,7 @@ public class SetAbsoluteLocationCommand extends ZclCommand {
      * Gets Path Loss Exponent.
      * @return the Path Loss Exponent
      */
-    public Short getPathLossExponent() {
+    public Integer getPathLossExponent() {
         return pathLossExponent;
     }
 
@@ -139,11 +139,8 @@ public class SetAbsoluteLocationCommand extends ZclCommand {
      * Sets Path Loss Exponent.
      * @param pathLossExponent the Path Loss Exponent
      */
-    public void setPathLossExponent(final Short pathLossExponent) {
+    public void setPathLossExponent(final Integer pathLossExponent) {
         this.pathLossExponent = pathLossExponent;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.SET_ABSOLUTE_LOCATION_COMMAND,SetAbsoluteLocationCommand.class);
-    }
 }

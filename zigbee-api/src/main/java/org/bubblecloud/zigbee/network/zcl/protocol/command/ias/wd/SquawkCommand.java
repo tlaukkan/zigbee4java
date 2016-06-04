@@ -14,7 +14,7 @@ public class SquawkCommand extends ZclCommand {
     /**
      * Header command message field.
      */
-    private Byte header;
+    private Integer header;
 
     /**
      * Default constructor setting the command type field.
@@ -29,7 +29,7 @@ public class SquawkCommand extends ZclCommand {
      */
     public SquawkCommand(final ZclCommandMessage message) {
         super(message);
-        this.header = (Byte) message.getFields().get(ZclFieldType.SQUAWK_COMMAND_HEADER);
+        this.header = (Integer) message.getFields().get(ZclFieldType.SQUAWK_COMMAND_HEADER);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class SquawkCommand extends ZclCommand {
      * Gets Header.
      * @return the Header
      */
-    public Byte getHeader() {
+    public Integer getHeader() {
         return header;
     }
 
@@ -51,11 +51,8 @@ public class SquawkCommand extends ZclCommand {
      * Sets Header.
      * @param header the Header
      */
-    public void setHeader(final Byte header) {
+    public void setHeader(final Integer header) {
         this.header = header;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.SQUAWK_COMMAND,SquawkCommand.class);
-    }
 }

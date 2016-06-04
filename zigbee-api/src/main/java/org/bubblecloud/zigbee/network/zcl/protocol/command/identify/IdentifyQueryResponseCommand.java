@@ -14,7 +14,7 @@ public class IdentifyQueryResponseCommand extends ZclCommand {
     /**
      * Identify Time command message field.
      */
-    private Short identifyTime;
+    private Integer identifyTime;
 
     /**
      * Default constructor setting the command type field.
@@ -29,7 +29,7 @@ public class IdentifyQueryResponseCommand extends ZclCommand {
      */
     public IdentifyQueryResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.identifyTime = (Short) message.getFields().get(ZclFieldType.IDENTIFY_QUERY_RESPONSE_COMMAND_IDENTIFY_TIME);
+        this.identifyTime = (Integer) message.getFields().get(ZclFieldType.IDENTIFY_QUERY_RESPONSE_COMMAND_IDENTIFY_TIME);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class IdentifyQueryResponseCommand extends ZclCommand {
      * Gets Identify Time.
      * @return the Identify Time
      */
-    public Short getIdentifyTime() {
+    public Integer getIdentifyTime() {
         return identifyTime;
     }
 
@@ -51,11 +51,8 @@ public class IdentifyQueryResponseCommand extends ZclCommand {
      * Sets Identify Time.
      * @param identifyTime the Identify Time
      */
-    public void setIdentifyTime(final Short identifyTime) {
+    public void setIdentifyTime(final Integer identifyTime) {
         this.identifyTime = identifyTime;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.IDENTIFY_QUERY_RESPONSE_COMMAND,IdentifyQueryResponseCommand.class);
-    }
 }

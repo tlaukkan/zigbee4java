@@ -33,7 +33,4 @@ public class RemoveAllGroupsCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.REMOVE_ALL_GROUPS_COMMAND,RemoveAllGroupsCommand.class);
-    }
 }

@@ -14,7 +14,7 @@ public class GetGroupMembershipCommand extends ZclCommand {
     /**
      * Group count command message field.
      */
-    private Byte groupCount;
+    private Integer groupCount;
     /**
      * Group list command message field.
      */
@@ -33,7 +33,7 @@ public class GetGroupMembershipCommand extends ZclCommand {
      */
     public GetGroupMembershipCommand(final ZclCommandMessage message) {
         super(message);
-        this.groupCount = (Byte) message.getFields().get(ZclFieldType.GET_GROUP_MEMBERSHIP_COMMAND_GROUP_COUNT);
+        this.groupCount = (Integer) message.getFields().get(ZclFieldType.GET_GROUP_MEMBERSHIP_COMMAND_GROUP_COUNT);
         this.groupList = (Object) message.getFields().get(ZclFieldType.GET_GROUP_MEMBERSHIP_COMMAND_GROUP_LIST);
     }
 
@@ -49,7 +49,7 @@ public class GetGroupMembershipCommand extends ZclCommand {
      * Gets Group count.
      * @return the Group count
      */
-    public Byte getGroupCount() {
+    public Integer getGroupCount() {
         return groupCount;
     }
 
@@ -57,7 +57,7 @@ public class GetGroupMembershipCommand extends ZclCommand {
      * Sets Group count.
      * @param groupCount the Group count
      */
-    public void setGroupCount(final Byte groupCount) {
+    public void setGroupCount(final Integer groupCount) {
         this.groupCount = groupCount;
     }
 
@@ -77,7 +77,4 @@ public class GetGroupMembershipCommand extends ZclCommand {
         this.groupList = groupList;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.GET_GROUP_MEMBERSHIP_COMMAND,GetGroupMembershipCommand.class);
-    }
 }

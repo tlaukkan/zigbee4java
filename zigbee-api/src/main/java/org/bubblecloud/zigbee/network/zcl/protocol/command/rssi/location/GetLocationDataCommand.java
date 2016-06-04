@@ -14,11 +14,11 @@ public class GetLocationDataCommand extends ZclCommand {
     /**
      * Header command message field.
      */
-    private Byte header;
+    private Integer header;
     /**
      * Number Responses command message field.
      */
-    private Byte numberResponses;
+    private Integer numberResponses;
     /**
      * Target Address command message field.
      */
@@ -37,8 +37,8 @@ public class GetLocationDataCommand extends ZclCommand {
      */
     public GetLocationDataCommand(final ZclCommandMessage message) {
         super(message);
-        this.header = (Byte) message.getFields().get(ZclFieldType.GET_LOCATION_DATA_COMMAND_HEADER);
-        this.numberResponses = (Byte) message.getFields().get(ZclFieldType.GET_LOCATION_DATA_COMMAND_NUMBER_RESPONSES);
+        this.header = (Integer) message.getFields().get(ZclFieldType.GET_LOCATION_DATA_COMMAND_HEADER);
+        this.numberResponses = (Integer) message.getFields().get(ZclFieldType.GET_LOCATION_DATA_COMMAND_NUMBER_RESPONSES);
         this.targetAddress = (ZToolAddress64) message.getFields().get(ZclFieldType.GET_LOCATION_DATA_COMMAND_TARGET_ADDRESS);
     }
 
@@ -55,7 +55,7 @@ public class GetLocationDataCommand extends ZclCommand {
      * Gets Header.
      * @return the Header
      */
-    public Byte getHeader() {
+    public Integer getHeader() {
         return header;
     }
 
@@ -63,7 +63,7 @@ public class GetLocationDataCommand extends ZclCommand {
      * Sets Header.
      * @param header the Header
      */
-    public void setHeader(final Byte header) {
+    public void setHeader(final Integer header) {
         this.header = header;
     }
 
@@ -71,7 +71,7 @@ public class GetLocationDataCommand extends ZclCommand {
      * Gets Number Responses.
      * @return the Number Responses
      */
-    public Byte getNumberResponses() {
+    public Integer getNumberResponses() {
         return numberResponses;
     }
 
@@ -79,7 +79,7 @@ public class GetLocationDataCommand extends ZclCommand {
      * Sets Number Responses.
      * @param numberResponses the Number Responses
      */
-    public void setNumberResponses(final Byte numberResponses) {
+    public void setNumberResponses(final Integer numberResponses) {
         this.numberResponses = numberResponses;
     }
 
@@ -99,7 +99,4 @@ public class GetLocationDataCommand extends ZclCommand {
         this.targetAddress = targetAddress;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.GET_LOCATION_DATA_COMMAND,GetLocationDataCommand.class);
-    }
 }

@@ -33,7 +33,4 @@ public class OnCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.ON_COMMAND,OnCommand.class);
-    }
 }

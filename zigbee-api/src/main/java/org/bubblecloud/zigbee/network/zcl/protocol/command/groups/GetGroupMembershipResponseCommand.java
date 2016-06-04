@@ -14,11 +14,11 @@ public class GetGroupMembershipResponseCommand extends ZclCommand {
     /**
      * Capacity command message field.
      */
-    private Byte capacity;
+    private Integer capacity;
     /**
      * Group count command message field.
      */
-    private Byte groupCount;
+    private Integer groupCount;
     /**
      * Group list command message field.
      */
@@ -37,8 +37,8 @@ public class GetGroupMembershipResponseCommand extends ZclCommand {
      */
     public GetGroupMembershipResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.capacity = (Byte) message.getFields().get(ZclFieldType.GET_GROUP_MEMBERSHIP_RESPONSE_COMMAND_CAPACITY);
-        this.groupCount = (Byte) message.getFields().get(ZclFieldType.GET_GROUP_MEMBERSHIP_RESPONSE_COMMAND_GROUP_COUNT);
+        this.capacity = (Integer) message.getFields().get(ZclFieldType.GET_GROUP_MEMBERSHIP_RESPONSE_COMMAND_CAPACITY);
+        this.groupCount = (Integer) message.getFields().get(ZclFieldType.GET_GROUP_MEMBERSHIP_RESPONSE_COMMAND_GROUP_COUNT);
         this.groupList = (Object) message.getFields().get(ZclFieldType.GET_GROUP_MEMBERSHIP_RESPONSE_COMMAND_GROUP_LIST);
     }
 
@@ -55,7 +55,7 @@ public class GetGroupMembershipResponseCommand extends ZclCommand {
      * Gets Capacity.
      * @return the Capacity
      */
-    public Byte getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
@@ -63,7 +63,7 @@ public class GetGroupMembershipResponseCommand extends ZclCommand {
      * Sets Capacity.
      * @param capacity the Capacity
      */
-    public void setCapacity(final Byte capacity) {
+    public void setCapacity(final Integer capacity) {
         this.capacity = capacity;
     }
 
@@ -71,7 +71,7 @@ public class GetGroupMembershipResponseCommand extends ZclCommand {
      * Gets Group count.
      * @return the Group count
      */
-    public Byte getGroupCount() {
+    public Integer getGroupCount() {
         return groupCount;
     }
 
@@ -79,7 +79,7 @@ public class GetGroupMembershipResponseCommand extends ZclCommand {
      * Sets Group count.
      * @param groupCount the Group count
      */
-    public void setGroupCount(final Byte groupCount) {
+    public void setGroupCount(final Integer groupCount) {
         this.groupCount = groupCount;
     }
 
@@ -99,7 +99,4 @@ public class GetGroupMembershipResponseCommand extends ZclCommand {
         this.groupList = groupList;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.GET_GROUP_MEMBERSHIP_RESPONSE_COMMAND,GetGroupMembershipResponseCommand.class);
-    }
 }

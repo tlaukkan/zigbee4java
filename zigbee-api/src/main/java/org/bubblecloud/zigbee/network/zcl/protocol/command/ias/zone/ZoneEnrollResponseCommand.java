@@ -14,11 +14,11 @@ public class ZoneEnrollResponseCommand extends ZclCommand {
     /**
      * Enroll response code command message field.
      */
-    private Byte enrollResponseCode;
+    private Integer enrollResponseCode;
     /**
      * Zone ID command message field.
      */
-    private Byte zoneId;
+    private Integer zoneId;
 
     /**
      * Default constructor setting the command type field.
@@ -33,8 +33,8 @@ public class ZoneEnrollResponseCommand extends ZclCommand {
      */
     public ZoneEnrollResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.enrollResponseCode = (Byte) message.getFields().get(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ENROLL_RESPONSE_CODE);
-        this.zoneId = (Byte) message.getFields().get(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ZONE_ID);
+        this.enrollResponseCode = (Integer) message.getFields().get(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ENROLL_RESPONSE_CODE);
+        this.zoneId = (Integer) message.getFields().get(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ZONE_ID);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ZoneEnrollResponseCommand extends ZclCommand {
      * Gets Enroll response code.
      * @return the Enroll response code
      */
-    public Byte getEnrollResponseCode() {
+    public Integer getEnrollResponseCode() {
         return enrollResponseCode;
     }
 
@@ -57,7 +57,7 @@ public class ZoneEnrollResponseCommand extends ZclCommand {
      * Sets Enroll response code.
      * @param enrollResponseCode the Enroll response code
      */
-    public void setEnrollResponseCode(final Byte enrollResponseCode) {
+    public void setEnrollResponseCode(final Integer enrollResponseCode) {
         this.enrollResponseCode = enrollResponseCode;
     }
 
@@ -65,7 +65,7 @@ public class ZoneEnrollResponseCommand extends ZclCommand {
      * Gets Zone ID.
      * @return the Zone ID
      */
-    public Byte getZoneId() {
+    public Integer getZoneId() {
         return zoneId;
     }
 
@@ -73,11 +73,8 @@ public class ZoneEnrollResponseCommand extends ZclCommand {
      * Sets Zone ID.
      * @param zoneId the Zone ID
      */
-    public void setZoneId(final Byte zoneId) {
+    public void setZoneId(final Integer zoneId) {
         this.zoneId = zoneId;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.ZONE_ENROLL_RESPONSE_COMMAND,ZoneEnrollResponseCommand.class);
-    }
 }

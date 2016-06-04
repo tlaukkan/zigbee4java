@@ -33,7 +33,4 @@ public class UnlockDoorCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.UNLOCK_DOOR_COMMAND,UnlockDoorCommand.class);
-    }
 }

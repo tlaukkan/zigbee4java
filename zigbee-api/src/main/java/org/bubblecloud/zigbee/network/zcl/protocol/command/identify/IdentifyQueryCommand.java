@@ -33,7 +33,4 @@ public class IdentifyQueryCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.IDENTIFY_QUERY_COMMAND,IdentifyQueryCommand.class);
-    }
 }

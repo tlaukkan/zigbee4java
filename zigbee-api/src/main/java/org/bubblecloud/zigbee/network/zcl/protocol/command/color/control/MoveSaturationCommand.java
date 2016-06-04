@@ -14,11 +14,11 @@ public class MoveSaturationCommand extends ZclCommand {
     /**
      * Move mode command message field.
      */
-    private Byte moveMode;
+    private Integer moveMode;
     /**
      * Rate command message field.
      */
-    private Byte rate;
+    private Integer rate;
 
     /**
      * Default constructor setting the command type field.
@@ -33,8 +33,8 @@ public class MoveSaturationCommand extends ZclCommand {
      */
     public MoveSaturationCommand(final ZclCommandMessage message) {
         super(message);
-        this.moveMode = (Byte) message.getFields().get(ZclFieldType.MOVE_SATURATION_COMMAND_MOVE_MODE);
-        this.rate = (Byte) message.getFields().get(ZclFieldType.MOVE_SATURATION_COMMAND_RATE);
+        this.moveMode = (Integer) message.getFields().get(ZclFieldType.MOVE_SATURATION_COMMAND_MOVE_MODE);
+        this.rate = (Integer) message.getFields().get(ZclFieldType.MOVE_SATURATION_COMMAND_RATE);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MoveSaturationCommand extends ZclCommand {
      * Gets Move mode.
      * @return the Move mode
      */
-    public Byte getMoveMode() {
+    public Integer getMoveMode() {
         return moveMode;
     }
 
@@ -57,7 +57,7 @@ public class MoveSaturationCommand extends ZclCommand {
      * Sets Move mode.
      * @param moveMode the Move mode
      */
-    public void setMoveMode(final Byte moveMode) {
+    public void setMoveMode(final Integer moveMode) {
         this.moveMode = moveMode;
     }
 
@@ -65,7 +65,7 @@ public class MoveSaturationCommand extends ZclCommand {
      * Gets Rate.
      * @return the Rate
      */
-    public Byte getRate() {
+    public Integer getRate() {
         return rate;
     }
 
@@ -73,11 +73,8 @@ public class MoveSaturationCommand extends ZclCommand {
      * Sets Rate.
      * @param rate the Rate
      */
-    public void setRate(final Byte rate) {
+    public void setRate(final Integer rate) {
         this.rate = rate;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.MOVE_SATURATION_COMMAND,MoveSaturationCommand.class);
-    }
 }

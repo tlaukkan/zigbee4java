@@ -14,7 +14,7 @@ public class GetZoneInformationCommand extends ZclCommand {
     /**
      * Zone ID command message field.
      */
-    private Byte zoneId;
+    private Integer zoneId;
 
     /**
      * Default constructor setting the command type field.
@@ -29,7 +29,7 @@ public class GetZoneInformationCommand extends ZclCommand {
      */
     public GetZoneInformationCommand(final ZclCommandMessage message) {
         super(message);
-        this.zoneId = (Byte) message.getFields().get(ZclFieldType.GET_ZONE_INFORMATION_COMMAND_ZONE_ID);
+        this.zoneId = (Integer) message.getFields().get(ZclFieldType.GET_ZONE_INFORMATION_COMMAND_ZONE_ID);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class GetZoneInformationCommand extends ZclCommand {
      * Gets Zone ID.
      * @return the Zone ID
      */
-    public Byte getZoneId() {
+    public Integer getZoneId() {
         return zoneId;
     }
 
@@ -51,11 +51,8 @@ public class GetZoneInformationCommand extends ZclCommand {
      * Sets Zone ID.
      * @param zoneId the Zone ID
      */
-    public void setZoneId(final Byte zoneId) {
+    public void setZoneId(final Integer zoneId) {
         this.zoneId = zoneId;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.GET_ZONE_INFORMATION_COMMAND,GetZoneInformationCommand.class);
-    }
 }

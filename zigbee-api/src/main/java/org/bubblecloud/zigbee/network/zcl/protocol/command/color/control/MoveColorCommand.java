@@ -14,11 +14,11 @@ public class MoveColorCommand extends ZclCommand {
     /**
      * RateX command message field.
      */
-    private Short rateX;
+    private Integer rateX;
     /**
      * RateY command message field.
      */
-    private Short rateY;
+    private Integer rateY;
 
     /**
      * Default constructor setting the command type field.
@@ -33,8 +33,8 @@ public class MoveColorCommand extends ZclCommand {
      */
     public MoveColorCommand(final ZclCommandMessage message) {
         super(message);
-        this.rateX = (Short) message.getFields().get(ZclFieldType.MOVE_COLOR_COMMAND_RATEX);
-        this.rateY = (Short) message.getFields().get(ZclFieldType.MOVE_COLOR_COMMAND_RATEY);
+        this.rateX = (Integer) message.getFields().get(ZclFieldType.MOVE_COLOR_COMMAND_RATEX);
+        this.rateY = (Integer) message.getFields().get(ZclFieldType.MOVE_COLOR_COMMAND_RATEY);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MoveColorCommand extends ZclCommand {
      * Gets RateX.
      * @return the RateX
      */
-    public Short getRateX() {
+    public Integer getRateX() {
         return rateX;
     }
 
@@ -57,7 +57,7 @@ public class MoveColorCommand extends ZclCommand {
      * Sets RateX.
      * @param rateX the RateX
      */
-    public void setRateX(final Short rateX) {
+    public void setRateX(final Integer rateX) {
         this.rateX = rateX;
     }
 
@@ -65,7 +65,7 @@ public class MoveColorCommand extends ZclCommand {
      * Gets RateY.
      * @return the RateY
      */
-    public Short getRateY() {
+    public Integer getRateY() {
         return rateY;
     }
 
@@ -73,11 +73,8 @@ public class MoveColorCommand extends ZclCommand {
      * Sets RateY.
      * @param rateY the RateY
      */
-    public void setRateY(final Short rateY) {
+    public void setRateY(final Integer rateY) {
         this.rateY = rateY;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.MOVE_COLOR_COMMAND,MoveColorCommand.class);
-    }
 }

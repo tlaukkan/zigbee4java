@@ -33,7 +33,4 @@ public class FireCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.FIRE_COMMAND,FireCommand.class);
-    }
 }

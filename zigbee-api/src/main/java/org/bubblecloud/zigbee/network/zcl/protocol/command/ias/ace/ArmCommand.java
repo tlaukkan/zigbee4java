@@ -14,7 +14,7 @@ public class ArmCommand extends ZclCommand {
     /**
      * Arm Mode command message field.
      */
-    private Byte armMode;
+    private Integer armMode;
 
     /**
      * Default constructor setting the command type field.
@@ -29,7 +29,7 @@ public class ArmCommand extends ZclCommand {
      */
     public ArmCommand(final ZclCommandMessage message) {
         super(message);
-        this.armMode = (Byte) message.getFields().get(ZclFieldType.ARM_COMMAND_ARM_MODE);
+        this.armMode = (Integer) message.getFields().get(ZclFieldType.ARM_COMMAND_ARM_MODE);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ArmCommand extends ZclCommand {
      * Gets Arm Mode.
      * @return the Arm Mode
      */
-    public Byte getArmMode() {
+    public Integer getArmMode() {
         return armMode;
     }
 
@@ -51,11 +51,8 @@ public class ArmCommand extends ZclCommand {
      * Sets Arm Mode.
      * @param armMode the Arm Mode
      */
-    public void setArmMode(final Byte armMode) {
+    public void setArmMode(final Integer armMode) {
         this.armMode = armMode;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.ARM_COMMAND,ArmCommand.class);
-    }
 }

@@ -33,7 +33,4 @@ public class PanicCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.PANIC_COMMAND,PanicCommand.class);
-    }
 }

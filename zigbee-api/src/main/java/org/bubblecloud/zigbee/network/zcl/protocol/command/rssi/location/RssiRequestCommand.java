@@ -33,7 +33,4 @@ public class RssiRequestCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.RSSI_REQUEST_COMMAND,RssiRequestCommand.class);
-    }
 }

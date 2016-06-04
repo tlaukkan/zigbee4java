@@ -14,39 +14,39 @@ public class LocationDataNotificationCommand extends ZclCommand {
     /**
      * Location Type command message field.
      */
-    private Byte locationType;
+    private Integer locationType;
     /**
      * Coordinate 1 command message field.
      */
-    private Short coordinate1;
+    private Integer coordinate1;
     /**
      * Coordinate 2 command message field.
      */
-    private Short coordinate2;
+    private Integer coordinate2;
     /**
      * Coordinate 3 command message field.
      */
-    private Short coordinate3;
+    private Integer coordinate3;
     /**
      * Power command message field.
      */
-    private Short power;
+    private Integer power;
     /**
      * Path Loss Exponent command message field.
      */
-    private Short pathLossExponent;
+    private Integer pathLossExponent;
     /**
      * Location Method command message field.
      */
-    private Byte locationMethod;
+    private Integer locationMethod;
     /**
      * Quality Measure command message field.
      */
-    private Byte qualityMeasure;
+    private Integer qualityMeasure;
     /**
      * Location Age command message field.
      */
-    private Short locationAge;
+    private Integer locationAge;
 
     /**
      * Default constructor setting the command type field.
@@ -61,15 +61,15 @@ public class LocationDataNotificationCommand extends ZclCommand {
      */
     public LocationDataNotificationCommand(final ZclCommandMessage message) {
         super(message);
-        this.locationType = (Byte) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_LOCATION_TYPE);
-        this.coordinate1 = (Short) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_COORDINATE_1);
-        this.coordinate2 = (Short) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_COORDINATE_2);
-        this.coordinate3 = (Short) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_COORDINATE_3);
-        this.power = (Short) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_POWER);
-        this.pathLossExponent = (Short) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_PATH_LOSS_EXPONENT);
-        this.locationMethod = (Byte) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_LOCATION_METHOD);
-        this.qualityMeasure = (Byte) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_QUALITY_MEASURE);
-        this.locationAge = (Short) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_LOCATION_AGE);
+        this.locationType = (Integer) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_LOCATION_TYPE);
+        this.coordinate1 = (Integer) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_COORDINATE_1);
+        this.coordinate2 = (Integer) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_COORDINATE_2);
+        this.coordinate3 = (Integer) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_COORDINATE_3);
+        this.power = (Integer) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_POWER);
+        this.pathLossExponent = (Integer) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_PATH_LOSS_EXPONENT);
+        this.locationMethod = (Integer) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_LOCATION_METHOD);
+        this.qualityMeasure = (Integer) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_QUALITY_MEASURE);
+        this.locationAge = (Integer) message.getFields().get(ZclFieldType.LOCATION_DATA_NOTIFICATION_COMMAND_LOCATION_AGE);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Gets Location Type.
      * @return the Location Type
      */
-    public Byte getLocationType() {
+    public Integer getLocationType() {
         return locationType;
     }
 
@@ -99,7 +99,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Sets Location Type.
      * @param locationType the Location Type
      */
-    public void setLocationType(final Byte locationType) {
+    public void setLocationType(final Integer locationType) {
         this.locationType = locationType;
     }
 
@@ -107,7 +107,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Gets Coordinate 1.
      * @return the Coordinate 1
      */
-    public Short getCoordinate1() {
+    public Integer getCoordinate1() {
         return coordinate1;
     }
 
@@ -115,7 +115,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Sets Coordinate 1.
      * @param coordinate1 the Coordinate 1
      */
-    public void setCoordinate1(final Short coordinate1) {
+    public void setCoordinate1(final Integer coordinate1) {
         this.coordinate1 = coordinate1;
     }
 
@@ -123,7 +123,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Gets Coordinate 2.
      * @return the Coordinate 2
      */
-    public Short getCoordinate2() {
+    public Integer getCoordinate2() {
         return coordinate2;
     }
 
@@ -131,7 +131,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Sets Coordinate 2.
      * @param coordinate2 the Coordinate 2
      */
-    public void setCoordinate2(final Short coordinate2) {
+    public void setCoordinate2(final Integer coordinate2) {
         this.coordinate2 = coordinate2;
     }
 
@@ -139,7 +139,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Gets Coordinate 3.
      * @return the Coordinate 3
      */
-    public Short getCoordinate3() {
+    public Integer getCoordinate3() {
         return coordinate3;
     }
 
@@ -147,7 +147,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Sets Coordinate 3.
      * @param coordinate3 the Coordinate 3
      */
-    public void setCoordinate3(final Short coordinate3) {
+    public void setCoordinate3(final Integer coordinate3) {
         this.coordinate3 = coordinate3;
     }
 
@@ -155,7 +155,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Gets Power.
      * @return the Power
      */
-    public Short getPower() {
+    public Integer getPower() {
         return power;
     }
 
@@ -163,7 +163,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Sets Power.
      * @param power the Power
      */
-    public void setPower(final Short power) {
+    public void setPower(final Integer power) {
         this.power = power;
     }
 
@@ -171,7 +171,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Gets Path Loss Exponent.
      * @return the Path Loss Exponent
      */
-    public Short getPathLossExponent() {
+    public Integer getPathLossExponent() {
         return pathLossExponent;
     }
 
@@ -179,7 +179,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Sets Path Loss Exponent.
      * @param pathLossExponent the Path Loss Exponent
      */
-    public void setPathLossExponent(final Short pathLossExponent) {
+    public void setPathLossExponent(final Integer pathLossExponent) {
         this.pathLossExponent = pathLossExponent;
     }
 
@@ -187,7 +187,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Gets Location Method.
      * @return the Location Method
      */
-    public Byte getLocationMethod() {
+    public Integer getLocationMethod() {
         return locationMethod;
     }
 
@@ -195,7 +195,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Sets Location Method.
      * @param locationMethod the Location Method
      */
-    public void setLocationMethod(final Byte locationMethod) {
+    public void setLocationMethod(final Integer locationMethod) {
         this.locationMethod = locationMethod;
     }
 
@@ -203,7 +203,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Gets Quality Measure.
      * @return the Quality Measure
      */
-    public Byte getQualityMeasure() {
+    public Integer getQualityMeasure() {
         return qualityMeasure;
     }
 
@@ -211,7 +211,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Sets Quality Measure.
      * @param qualityMeasure the Quality Measure
      */
-    public void setQualityMeasure(final Byte qualityMeasure) {
+    public void setQualityMeasure(final Integer qualityMeasure) {
         this.qualityMeasure = qualityMeasure;
     }
 
@@ -219,7 +219,7 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Gets Location Age.
      * @return the Location Age
      */
-    public Short getLocationAge() {
+    public Integer getLocationAge() {
         return locationAge;
     }
 
@@ -227,11 +227,8 @@ public class LocationDataNotificationCommand extends ZclCommand {
      * Sets Location Age.
      * @param locationAge the Location Age
      */
-    public void setLocationAge(final Short locationAge) {
+    public void setLocationAge(final Integer locationAge) {
         this.locationAge = locationAge;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.LOCATION_DATA_NOTIFICATION_COMMAND,LocationDataNotificationCommand.class);
-    }
 }

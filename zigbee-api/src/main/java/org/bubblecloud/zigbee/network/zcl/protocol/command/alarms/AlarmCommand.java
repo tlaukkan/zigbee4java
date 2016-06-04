@@ -14,7 +14,7 @@ public class AlarmCommand extends ZclCommand {
     /**
      * Alarm code command message field.
      */
-    private Byte alarmCode;
+    private Integer alarmCode;
     /**
      * Cluster identifier command message field.
      */
@@ -33,7 +33,7 @@ public class AlarmCommand extends ZclCommand {
      */
     public AlarmCommand(final ZclCommandMessage message) {
         super(message);
-        this.alarmCode = (Byte) message.getFields().get(ZclFieldType.ALARM_COMMAND_ALARM_CODE);
+        this.alarmCode = (Integer) message.getFields().get(ZclFieldType.ALARM_COMMAND_ALARM_CODE);
         this.clusterIdentifier = (Object) message.getFields().get(ZclFieldType.ALARM_COMMAND_CLUSTER_IDENTIFIER);
     }
 
@@ -49,7 +49,7 @@ public class AlarmCommand extends ZclCommand {
      * Gets Alarm code.
      * @return the Alarm code
      */
-    public Byte getAlarmCode() {
+    public Integer getAlarmCode() {
         return alarmCode;
     }
 
@@ -57,7 +57,7 @@ public class AlarmCommand extends ZclCommand {
      * Sets Alarm code.
      * @param alarmCode the Alarm code
      */
-    public void setAlarmCode(final Byte alarmCode) {
+    public void setAlarmCode(final Integer alarmCode) {
         this.alarmCode = alarmCode;
     }
 
@@ -77,7 +77,4 @@ public class AlarmCommand extends ZclCommand {
         this.clusterIdentifier = clusterIdentifier;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.ALARM_COMMAND,AlarmCommand.class);
-    }
 }

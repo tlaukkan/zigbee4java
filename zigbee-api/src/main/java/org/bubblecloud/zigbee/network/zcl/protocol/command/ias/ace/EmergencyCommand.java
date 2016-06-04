@@ -33,7 +33,4 @@ public class EmergencyCommand extends ZclCommand {
         return message;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.EMERGENCY_COMMAND,EmergencyCommand.class);
-    }
 }

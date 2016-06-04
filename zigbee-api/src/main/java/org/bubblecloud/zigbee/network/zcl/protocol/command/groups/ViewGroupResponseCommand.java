@@ -14,11 +14,11 @@ public class ViewGroupResponseCommand extends ZclCommand {
     /**
      * Status command message field.
      */
-    private Byte status;
+    private Integer status;
     /**
      * Group ID command message field.
      */
-    private Short groupId;
+    private Integer groupId;
     /**
      * Group Name command message field.
      */
@@ -37,8 +37,8 @@ public class ViewGroupResponseCommand extends ZclCommand {
      */
     public ViewGroupResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.status = (Byte) message.getFields().get(ZclFieldType.VIEW_GROUP_RESPONSE_COMMAND_STATUS);
-        this.groupId = (Short) message.getFields().get(ZclFieldType.VIEW_GROUP_RESPONSE_COMMAND_GROUP_ID);
+        this.status = (Integer) message.getFields().get(ZclFieldType.VIEW_GROUP_RESPONSE_COMMAND_STATUS);
+        this.groupId = (Integer) message.getFields().get(ZclFieldType.VIEW_GROUP_RESPONSE_COMMAND_GROUP_ID);
         this.groupName = (String) message.getFields().get(ZclFieldType.VIEW_GROUP_RESPONSE_COMMAND_GROUP_NAME);
     }
 
@@ -55,7 +55,7 @@ public class ViewGroupResponseCommand extends ZclCommand {
      * Gets Status.
      * @return the Status
      */
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -63,7 +63,7 @@ public class ViewGroupResponseCommand extends ZclCommand {
      * Sets Status.
      * @param status the Status
      */
-    public void setStatus(final Byte status) {
+    public void setStatus(final Integer status) {
         this.status = status;
     }
 
@@ -71,7 +71,7 @@ public class ViewGroupResponseCommand extends ZclCommand {
      * Gets Group ID.
      * @return the Group ID
      */
-    public Short getGroupId() {
+    public Integer getGroupId() {
         return groupId;
     }
 
@@ -79,7 +79,7 @@ public class ViewGroupResponseCommand extends ZclCommand {
      * Sets Group ID.
      * @param groupId the Group ID
      */
-    public void setGroupId(final Short groupId) {
+    public void setGroupId(final Integer groupId) {
         this.groupId = groupId;
     }
 
@@ -99,7 +99,4 @@ public class ViewGroupResponseCommand extends ZclCommand {
         this.groupName = groupName;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.VIEW_GROUP_RESPONSE_COMMAND,ViewGroupResponseCommand.class);
-    }
 }

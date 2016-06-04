@@ -18,23 +18,23 @@ public class RssiResponseCommand extends ZclCommand {
     /**
      * Coordinate 1 command message field.
      */
-    private Short coordinate1;
+    private Integer coordinate1;
     /**
      * Coordinate 2 command message field.
      */
-    private Short coordinate2;
+    private Integer coordinate2;
     /**
      * Coordinate 3 command message field.
      */
-    private Short coordinate3;
+    private Integer coordinate3;
     /**
      * RSSI command message field.
      */
-    private Byte rssi;
+    private Integer rssi;
     /**
      * Number RSSI Measurements command message field.
      */
-    private Byte numberRssiMeasurements;
+    private Integer numberRssiMeasurements;
 
     /**
      * Default constructor setting the command type field.
@@ -50,11 +50,11 @@ public class RssiResponseCommand extends ZclCommand {
     public RssiResponseCommand(final ZclCommandMessage message) {
         super(message);
         this.replyingDevice = (ZToolAddress64) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_REPLYING_DEVICE);
-        this.coordinate1 = (Short) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_COORDINATE_1);
-        this.coordinate2 = (Short) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_COORDINATE_2);
-        this.coordinate3 = (Short) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_COORDINATE_3);
-        this.rssi = (Byte) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_RSSI);
-        this.numberRssiMeasurements = (Byte) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_NUMBER_RSSI_MEASUREMENTS);
+        this.coordinate1 = (Integer) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_COORDINATE_1);
+        this.coordinate2 = (Integer) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_COORDINATE_2);
+        this.coordinate3 = (Integer) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_COORDINATE_3);
+        this.rssi = (Integer) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_RSSI);
+        this.numberRssiMeasurements = (Integer) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_NUMBER_RSSI_MEASUREMENTS);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class RssiResponseCommand extends ZclCommand {
      * Gets Coordinate 1.
      * @return the Coordinate 1
      */
-    public Short getCoordinate1() {
+    public Integer getCoordinate1() {
         return coordinate1;
     }
 
@@ -97,7 +97,7 @@ public class RssiResponseCommand extends ZclCommand {
      * Sets Coordinate 1.
      * @param coordinate1 the Coordinate 1
      */
-    public void setCoordinate1(final Short coordinate1) {
+    public void setCoordinate1(final Integer coordinate1) {
         this.coordinate1 = coordinate1;
     }
 
@@ -105,7 +105,7 @@ public class RssiResponseCommand extends ZclCommand {
      * Gets Coordinate 2.
      * @return the Coordinate 2
      */
-    public Short getCoordinate2() {
+    public Integer getCoordinate2() {
         return coordinate2;
     }
 
@@ -113,7 +113,7 @@ public class RssiResponseCommand extends ZclCommand {
      * Sets Coordinate 2.
      * @param coordinate2 the Coordinate 2
      */
-    public void setCoordinate2(final Short coordinate2) {
+    public void setCoordinate2(final Integer coordinate2) {
         this.coordinate2 = coordinate2;
     }
 
@@ -121,7 +121,7 @@ public class RssiResponseCommand extends ZclCommand {
      * Gets Coordinate 3.
      * @return the Coordinate 3
      */
-    public Short getCoordinate3() {
+    public Integer getCoordinate3() {
         return coordinate3;
     }
 
@@ -129,7 +129,7 @@ public class RssiResponseCommand extends ZclCommand {
      * Sets Coordinate 3.
      * @param coordinate3 the Coordinate 3
      */
-    public void setCoordinate3(final Short coordinate3) {
+    public void setCoordinate3(final Integer coordinate3) {
         this.coordinate3 = coordinate3;
     }
 
@@ -137,7 +137,7 @@ public class RssiResponseCommand extends ZclCommand {
      * Gets RSSI.
      * @return the RSSI
      */
-    public Byte getRssi() {
+    public Integer getRssi() {
         return rssi;
     }
 
@@ -145,7 +145,7 @@ public class RssiResponseCommand extends ZclCommand {
      * Sets RSSI.
      * @param rssi the RSSI
      */
-    public void setRssi(final Byte rssi) {
+    public void setRssi(final Integer rssi) {
         this.rssi = rssi;
     }
 
@@ -153,7 +153,7 @@ public class RssiResponseCommand extends ZclCommand {
      * Gets Number RSSI Measurements.
      * @return the Number RSSI Measurements
      */
-    public Byte getNumberRssiMeasurements() {
+    public Integer getNumberRssiMeasurements() {
         return numberRssiMeasurements;
     }
 
@@ -161,11 +161,8 @@ public class RssiResponseCommand extends ZclCommand {
      * Sets Number RSSI Measurements.
      * @param numberRssiMeasurements the Number RSSI Measurements
      */
-    public void setNumberRssiMeasurements(final Byte numberRssiMeasurements) {
+    public void setNumberRssiMeasurements(final Integer numberRssiMeasurements) {
         this.numberRssiMeasurements = numberRssiMeasurements;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.RSSI_RESPONSE_COMMAND,RssiResponseCommand.class);
-    }
 }

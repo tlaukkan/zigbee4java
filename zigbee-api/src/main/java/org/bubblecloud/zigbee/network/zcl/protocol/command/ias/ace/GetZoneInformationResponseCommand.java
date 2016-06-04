@@ -14,11 +14,11 @@ public class GetZoneInformationResponseCommand extends ZclCommand {
     /**
      * Zone ID command message field.
      */
-    private Byte zoneId;
+    private Integer zoneId;
     /**
      * Zone Type command message field.
      */
-    private Short zoneType;
+    private Integer zoneType;
     /**
      * IEEE address command message field.
      */
@@ -37,8 +37,8 @@ public class GetZoneInformationResponseCommand extends ZclCommand {
      */
     public GetZoneInformationResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.zoneId = (Byte) message.getFields().get(ZclFieldType.GET_ZONE_INFORMATION_RESPONSE_COMMAND_ZONE_ID);
-        this.zoneType = (Short) message.getFields().get(ZclFieldType.GET_ZONE_INFORMATION_RESPONSE_COMMAND_ZONE_TYPE);
+        this.zoneId = (Integer) message.getFields().get(ZclFieldType.GET_ZONE_INFORMATION_RESPONSE_COMMAND_ZONE_ID);
+        this.zoneType = (Integer) message.getFields().get(ZclFieldType.GET_ZONE_INFORMATION_RESPONSE_COMMAND_ZONE_TYPE);
         this.ieeeAddress = (ZToolAddress64) message.getFields().get(ZclFieldType.GET_ZONE_INFORMATION_RESPONSE_COMMAND_IEEE_ADDRESS);
     }
 
@@ -55,7 +55,7 @@ public class GetZoneInformationResponseCommand extends ZclCommand {
      * Gets Zone ID.
      * @return the Zone ID
      */
-    public Byte getZoneId() {
+    public Integer getZoneId() {
         return zoneId;
     }
 
@@ -63,7 +63,7 @@ public class GetZoneInformationResponseCommand extends ZclCommand {
      * Sets Zone ID.
      * @param zoneId the Zone ID
      */
-    public void setZoneId(final Byte zoneId) {
+    public void setZoneId(final Integer zoneId) {
         this.zoneId = zoneId;
     }
 
@@ -71,7 +71,7 @@ public class GetZoneInformationResponseCommand extends ZclCommand {
      * Gets Zone Type.
      * @return the Zone Type
      */
-    public Short getZoneType() {
+    public Integer getZoneType() {
         return zoneType;
     }
 
@@ -79,7 +79,7 @@ public class GetZoneInformationResponseCommand extends ZclCommand {
      * Sets Zone Type.
      * @param zoneType the Zone Type
      */
-    public void setZoneType(final Short zoneType) {
+    public void setZoneType(final Integer zoneType) {
         this.zoneType = zoneType;
     }
 
@@ -99,7 +99,4 @@ public class GetZoneInformationResponseCommand extends ZclCommand {
         this.ieeeAddress = ieeeAddress;
     }
 
-    static {
-        ZclUtil.registerCommandTypeClassMapping(ZclCommandType.GET_ZONE_INFORMATION_RESPONSE_COMMAND,GetZoneInformationResponseCommand.class);
-    }
 }
