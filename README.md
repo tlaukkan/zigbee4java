@@ -7,6 +7,8 @@
 ZigBee API for Java
 ===================
 
+[![Join the chat at https://gitter.im/tlaukkan/zigbee4java](https://badges.gitter.im/tlaukkan/zigbee4java.svg)](https://gitter.im/tlaukkan/zigbee4java?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ZigBee API for Java is a fork of ZB4OSGI for usage without OSGI. Changes include removal of OSGI related dependencies and refactored API.
 
 See the [API Java Doc here](http://tlaukkan.github.io/zigbee4java/)
