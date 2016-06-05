@@ -21,7 +21,7 @@ public class BypassCommand extends ZclCommand {
     /**
      * Zone IDs command message field.
      */
-    private Object zoneIDs;
+    private List<Unsigned8BitInteger> zoneIDs;
 
     /**
      * Default constructor setting the command type field.
@@ -37,7 +37,7 @@ public class BypassCommand extends ZclCommand {
     public BypassCommand(final ZclCommandMessage message) {
         super(message);
         this.numberOfZones = (Integer) message.getFields().get(ZclFieldType.BYPASS_COMMAND_NUMBER_OF_ZONES);
-        this.zoneIDs = (Object) message.getFields().get(ZclFieldType.BYPASS_COMMAND_ZONE_IDS);
+        this.zoneIDs = (List<Unsigned8BitInteger>) message.getFields().get(ZclFieldType.BYPASS_COMMAND_ZONE_IDS);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class BypassCommand extends ZclCommand {
      * Gets Zone IDs.
      * @return the Zone IDs
      */
-    public Object getZoneIDs() {
+    public List<Unsigned8BitInteger> getZoneIDs() {
         return zoneIDs;
     }
 
@@ -76,7 +76,7 @@ public class BypassCommand extends ZclCommand {
      * Sets Zone IDs.
      * @param zoneIDs the Zone IDs
      */
-    public void setZoneIDs(final Object zoneIDs) {
+    public void setZoneIDs(final List<Unsigned8BitInteger> zoneIDs) {
         this.zoneIDs = zoneIDs;
     }
 

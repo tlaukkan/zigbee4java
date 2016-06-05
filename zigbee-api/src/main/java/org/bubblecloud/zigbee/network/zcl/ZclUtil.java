@@ -106,17 +106,8 @@ public class ZclUtil {
             case CHARACTER_STRING:
                 zigBeeType = ZigBeeType.CharacterString;
                 break;
-            case CLUSTER_ID:
-                zigBeeType = null;
-                break;
             case IEEE_ADDRESS:
                 zigBeeType = ZigBeeType.IEEEAddress;
-                break;
-            case N_X_EXTENSION_FIELD_SET:
-                zigBeeType = null;
-                break;
-            case N_X_NEIGHBORS_INFORMATION:
-                zigBeeType = null;
                 break;
             case N_X_UNSIGNED_16_BIT_INTEGER:
                 zigBeeType = null;

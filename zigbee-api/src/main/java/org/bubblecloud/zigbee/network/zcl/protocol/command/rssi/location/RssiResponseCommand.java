@@ -17,7 +17,7 @@ public class RssiResponseCommand extends ZclCommand {
     /**
      * Replying Device command message field.
      */
-    private ZToolAddress64 replyingDevice;
+    private Long replyingDevice;
     /**
      * Coordinate 1 command message field.
      */
@@ -52,7 +52,7 @@ public class RssiResponseCommand extends ZclCommand {
      */
     public RssiResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.replyingDevice = (ZToolAddress64) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_REPLYING_DEVICE);
+        this.replyingDevice = (Long) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_REPLYING_DEVICE);
         this.coordinate1 = (Integer) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_COORDINATE_1);
         this.coordinate2 = (Integer) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_COORDINATE_2);
         this.coordinate3 = (Integer) message.getFields().get(ZclFieldType.RSSI_RESPONSE_COMMAND_COORDINATE_3);
@@ -76,7 +76,7 @@ public class RssiResponseCommand extends ZclCommand {
      * Gets Replying Device.
      * @return the Replying Device
      */
-    public ZToolAddress64 getReplyingDevice() {
+    public Long getReplyingDevice() {
         return replyingDevice;
     }
 
@@ -84,7 +84,7 @@ public class RssiResponseCommand extends ZclCommand {
      * Sets Replying Device.
      * @param replyingDevice the Replying Device
      */
-    public void setReplyingDevice(final ZToolAddress64 replyingDevice) {
+    public void setReplyingDevice(final Long replyingDevice) {
         this.replyingDevice = replyingDevice;
     }
 

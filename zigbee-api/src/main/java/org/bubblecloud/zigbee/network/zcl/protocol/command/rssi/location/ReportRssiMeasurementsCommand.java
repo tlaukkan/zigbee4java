@@ -17,7 +17,7 @@ public class ReportRssiMeasurementsCommand extends ZclCommand {
     /**
      * Reporting Address command message field.
      */
-    private ZToolAddress64 reportingAddress;
+    private Long reportingAddress;
     /**
      * Number of Neighbors command message field.
      */
@@ -25,7 +25,7 @@ public class ReportRssiMeasurementsCommand extends ZclCommand {
     /**
      * Neighbors Information command message field.
      */
-    private Object neighborsInformation;
+    private List<NeighborInformation> neighborsInformation;
 
     /**
      * Default constructor setting the command type field.
@@ -40,9 +40,9 @@ public class ReportRssiMeasurementsCommand extends ZclCommand {
      */
     public ReportRssiMeasurementsCommand(final ZclCommandMessage message) {
         super(message);
-        this.reportingAddress = (ZToolAddress64) message.getFields().get(ZclFieldType.REPORT_RSSI_MEASUREMENTS_COMMAND_REPORTING_ADDRESS);
+        this.reportingAddress = (Long) message.getFields().get(ZclFieldType.REPORT_RSSI_MEASUREMENTS_COMMAND_REPORTING_ADDRESS);
         this.numberOfNeighbors = (Integer) message.getFields().get(ZclFieldType.REPORT_RSSI_MEASUREMENTS_COMMAND_NUMBER_OF_NEIGHBORS);
-        this.neighborsInformation = (Object) message.getFields().get(ZclFieldType.REPORT_RSSI_MEASUREMENTS_COMMAND_NEIGHBORS_INFORMATION);
+        this.neighborsInformation = (List<NeighborInformation>) message.getFields().get(ZclFieldType.REPORT_RSSI_MEASUREMENTS_COMMAND_NEIGHBORS_INFORMATION);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ReportRssiMeasurementsCommand extends ZclCommand {
      * Gets Reporting Address.
      * @return the Reporting Address
      */
-    public ZToolAddress64 getReportingAddress() {
+    public Long getReportingAddress() {
         return reportingAddress;
     }
 
@@ -66,7 +66,7 @@ public class ReportRssiMeasurementsCommand extends ZclCommand {
      * Sets Reporting Address.
      * @param reportingAddress the Reporting Address
      */
-    public void setReportingAddress(final ZToolAddress64 reportingAddress) {
+    public void setReportingAddress(final Long reportingAddress) {
         this.reportingAddress = reportingAddress;
     }
 
@@ -90,7 +90,7 @@ public class ReportRssiMeasurementsCommand extends ZclCommand {
      * Gets Neighbors Information.
      * @return the Neighbors Information
      */
-    public Object getNeighborsInformation() {
+    public List<NeighborInformation> getNeighborsInformation() {
         return neighborsInformation;
     }
 
@@ -98,7 +98,7 @@ public class ReportRssiMeasurementsCommand extends ZclCommand {
      * Sets Neighbors Information.
      * @param neighborsInformation the Neighbors Information
      */
-    public void setNeighborsInformation(final Object neighborsInformation) {
+    public void setNeighborsInformation(final List<NeighborInformation> neighborsInformation) {
         this.neighborsInformation = neighborsInformation;
     }
 

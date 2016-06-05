@@ -25,7 +25,7 @@ public class GetZoneInformationResponseCommand extends ZclCommand {
     /**
      * IEEE address command message field.
      */
-    private ZToolAddress64 ieeeAddress;
+    private Long ieeeAddress;
 
     /**
      * Default constructor setting the command type field.
@@ -42,7 +42,7 @@ public class GetZoneInformationResponseCommand extends ZclCommand {
         super(message);
         this.zoneId = (Integer) message.getFields().get(ZclFieldType.GET_ZONE_INFORMATION_RESPONSE_COMMAND_ZONE_ID);
         this.zoneType = (Integer) message.getFields().get(ZclFieldType.GET_ZONE_INFORMATION_RESPONSE_COMMAND_ZONE_TYPE);
-        this.ieeeAddress = (ZToolAddress64) message.getFields().get(ZclFieldType.GET_ZONE_INFORMATION_RESPONSE_COMMAND_IEEE_ADDRESS);
+        this.ieeeAddress = (Long) message.getFields().get(ZclFieldType.GET_ZONE_INFORMATION_RESPONSE_COMMAND_IEEE_ADDRESS);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class GetZoneInformationResponseCommand extends ZclCommand {
      * Gets IEEE address.
      * @return the IEEE address
      */
-    public ZToolAddress64 getIeeeAddress() {
+    public Long getIeeeAddress() {
         return ieeeAddress;
     }
 
@@ -98,7 +98,7 @@ public class GetZoneInformationResponseCommand extends ZclCommand {
      * Sets IEEE address.
      * @param ieeeAddress the IEEE address
      */
-    public void setIeeeAddress(final ZToolAddress64 ieeeAddress) {
+    public void setIeeeAddress(final Long ieeeAddress) {
         this.ieeeAddress = ieeeAddress;
     }
 

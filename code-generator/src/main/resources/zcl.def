@@ -398,7 +398,7 @@ No cluster specific commands.
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 |Alarm code                 |8-bit enumeration          |
-|Cluster identifier         |Cluster ID                 |
+|Cluster identifier         |Unsigned 16-bit integer    |
 
 **** Reset All Alarms Command [0x01]
 |Field Name                 |Data Type                  |
@@ -418,14 +418,14 @@ No cluster specific commands.
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 |Alarm code                 |8-bit enumeration          |
-|Cluster identifier         |Cluster ID                 |
+|Cluster identifier         |Unsigned 16-bit integer    |
 
 **** Get Alarm Response Command [0x01]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
 |Status                     |8-bit enumeration          |
 |Alarm code                 |8-bit enumeration          |
-|Cluster identifier         |Cluster ID                 |
+|Cluster identifier         |Unsigned 16-bit integer    |
 |Timestamp                  |Unsigned 32-bit integer    |
 
 ** Time [0x000a]

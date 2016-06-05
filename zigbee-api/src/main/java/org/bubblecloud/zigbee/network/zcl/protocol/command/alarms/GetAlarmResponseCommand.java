@@ -25,7 +25,7 @@ public class GetAlarmResponseCommand extends ZclCommand {
     /**
      * Cluster identifier command message field.
      */
-    private Object clusterIdentifier;
+    private Integer clusterIdentifier;
     /**
      * Timestamp command message field.
      */
@@ -46,7 +46,7 @@ public class GetAlarmResponseCommand extends ZclCommand {
         super(message);
         this.status = (Integer) message.getFields().get(ZclFieldType.GET_ALARM_RESPONSE_COMMAND_STATUS);
         this.alarmCode = (Integer) message.getFields().get(ZclFieldType.GET_ALARM_RESPONSE_COMMAND_ALARM_CODE);
-        this.clusterIdentifier = (Object) message.getFields().get(ZclFieldType.GET_ALARM_RESPONSE_COMMAND_CLUSTER_IDENTIFIER);
+        this.clusterIdentifier = (Integer) message.getFields().get(ZclFieldType.GET_ALARM_RESPONSE_COMMAND_CLUSTER_IDENTIFIER);
         this.timestamp = (Integer) message.getFields().get(ZclFieldType.GET_ALARM_RESPONSE_COMMAND_TIMESTAMP);
     }
 
@@ -96,7 +96,7 @@ public class GetAlarmResponseCommand extends ZclCommand {
      * Gets Cluster identifier.
      * @return the Cluster identifier
      */
-    public Object getClusterIdentifier() {
+    public Integer getClusterIdentifier() {
         return clusterIdentifier;
     }
 
@@ -104,7 +104,7 @@ public class GetAlarmResponseCommand extends ZclCommand {
      * Sets Cluster identifier.
      * @param clusterIdentifier the Cluster identifier
      */
-    public void setClusterIdentifier(final Object clusterIdentifier) {
+    public void setClusterIdentifier(final Integer clusterIdentifier) {
         this.clusterIdentifier = clusterIdentifier;
     }
 

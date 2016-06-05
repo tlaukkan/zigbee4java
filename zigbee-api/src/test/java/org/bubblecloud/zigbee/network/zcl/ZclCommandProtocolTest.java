@@ -3,6 +3,10 @@ package org.bubblecloud.zigbee.network.zcl;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.network.zcl.field.*;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.*;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.groups.GetGroupMembershipCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.ias.ace.BypassCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.rssi.location.ReportRssiMeasurementsCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.scenes.AddSceneCommand;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -180,6 +184,65 @@ public class ZclCommandProtocolTest {
         data.setAttributeValue(1);
         list.add(data);
         command.setReports(list);
+        testSerialization(command);
+    }
+
+    @Test
+         public void testAddSceneCommand() throws Exception {
+        final AddSceneCommand command = new AddSceneCommand();
+        command.setGroupId(1);
+        command.setSceneId(2);
+        command.setSceneName("test");
+        command.setTransitionTime(3);
+        final List<ExtensionFieldSet> list = new ArrayList<ExtensionFieldSet>();
+        final ExtensionFieldSet data = new ExtensionFieldSet();
+        data.setClusterId(4);
+        data.setLength(1);
+        data.setData(new byte[]{(byte) 6});
+        list.add(data);
+        command.setExtensionFieldSets(list);
+        testSerialization(command);
+    }
+
+    @Test
+    public void testReportRssiMeasurementsCommand() throws Exception {
+        final ReportRssiMeasurementsCommand command = new ReportRssiMeasurementsCommand();
+        command.setReportingAddress(0L);
+        command.setNumberOfNeighbors(1);
+        final List<NeighborInformation> list = new ArrayList<NeighborInformation>();
+        final NeighborInformation data = new NeighborInformation();
+        data.setNeighborAddress(2);
+        data.setCoordinate1(3);
+        data.setCoordinate2(4);
+        data.setCoordinate3(5);
+        data.setRssi(6);
+        data.setMeasurementCount(7);
+        list.add(data);
+        command.setNeighborsInformation(list);
+        testSerialization(command);
+    }
+
+    @Test
+    public void testBypassCommand() throws Exception {
+        final BypassCommand command = new BypassCommand();
+        command.setNumberOfZones(1);
+        final List<Unsigned8BitInteger> list = new ArrayList<Unsigned8BitInteger>();
+        final Unsigned8BitInteger data = new Unsigned8BitInteger();
+        data.setValue(2);
+        list.add(data);
+        command.setZoneIDs(list);
+        testSerialization(command);
+    }
+
+    @Test
+    public void testGetGroupMembershipCommand() throws Exception {
+        final GetGroupMembershipCommand command = new GetGroupMembershipCommand();
+        command.setGroupCount(1);
+        final List<Unsigned16BitInteger> list = new ArrayList<Unsigned16BitInteger>();
+        final Unsigned16BitInteger data = new Unsigned16BitInteger();
+        data.setValue(2);
+        list.add(data);
+        command.setGroupList(list);
         testSerialization(command);
     }
 

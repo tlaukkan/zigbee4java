@@ -17,7 +17,7 @@ public class GetDeviceConfigurationCommand extends ZclCommand {
     /**
      * Target Address command message field.
      */
-    private ZToolAddress64 targetAddress;
+    private Long targetAddress;
 
     /**
      * Default constructor setting the command type field.
@@ -32,7 +32,7 @@ public class GetDeviceConfigurationCommand extends ZclCommand {
      */
     public GetDeviceConfigurationCommand(final ZclCommandMessage message) {
         super(message);
-        this.targetAddress = (ZToolAddress64) message.getFields().get(ZclFieldType.GET_DEVICE_CONFIGURATION_COMMAND_TARGET_ADDRESS);
+        this.targetAddress = (Long) message.getFields().get(ZclFieldType.GET_DEVICE_CONFIGURATION_COMMAND_TARGET_ADDRESS);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class GetDeviceConfigurationCommand extends ZclCommand {
      * Gets Target Address.
      * @return the Target Address
      */
-    public ZToolAddress64 getTargetAddress() {
+    public Long getTargetAddress() {
         return targetAddress;
     }
 
@@ -54,7 +54,7 @@ public class GetDeviceConfigurationCommand extends ZclCommand {
      * Sets Target Address.
      * @param targetAddress the Target Address
      */
-    public void setTargetAddress(final ZToolAddress64 targetAddress) {
+    public void setTargetAddress(final Long targetAddress) {
         this.targetAddress = targetAddress;
     }
 

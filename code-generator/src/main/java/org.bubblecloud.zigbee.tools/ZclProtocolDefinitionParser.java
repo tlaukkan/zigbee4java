@@ -149,18 +149,16 @@ public class ZclProtocolDefinitionParser {
 
                 if (field.dataType.equals("CHARACTER_STRING")) {
                     dataType.dataTypeClass = "String";
-                } else if (field.dataType.equals("CLUSTER_ID")) {
-                    dataType.dataTypeClass = "Object";
                 } else if (field.dataType.equals("IEEE_ADDRESS")) {
-                    dataType.dataTypeClass = "ZToolAddress64";
+                    dataType.dataTypeClass = "Long";
                 } else if (field.dataType.equals("N_X_EXTENSION_FIELD_SET")) {
-                    dataType.dataTypeClass = "Object";
+                    dataType.dataTypeClass = "List<ExtensionFieldSet>";
                 } else if (field.dataType.equals("N_X_NEIGHBORS_INFORMATION")) {
-                    dataType.dataTypeClass = "Object";
+                    dataType.dataTypeClass = "List<NeighborInformation>";
                 } else if (field.dataType.equals("N_X_UNSIGNED_16_BIT_INTEGER")) {
-                    dataType.dataTypeClass = "Object";
+                    dataType.dataTypeClass = "List<Unsigned16BitInteger>";
                 } else if (field.dataType.equals("N_X_UNSIGNED_8_BIT_INTEGER")) {
-                    dataType.dataTypeClass = "Object";
+                    dataType.dataTypeClass = "List<Unsigned8BitInteger>";
                 } else if (field.dataType.equals("N_X_ATTRIBUTE_IDENTIFIER")) {
                     dataType.dataTypeClass = "List<AttributeIdentifier>";
                 } else if (field.dataType.equals("N_X_READ_ATTRIBUTE_STATUS_RECORD")) {

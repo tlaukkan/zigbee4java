@@ -17,7 +17,7 @@ public class AnchorNodeAnnounceCommand extends ZclCommand {
     /**
      * Anchor Node Address command message field.
      */
-    private ZToolAddress64 anchorNodeAddress;
+    private Long anchorNodeAddress;
     /**
      * Coordinate 1 command message field.
      */
@@ -44,7 +44,7 @@ public class AnchorNodeAnnounceCommand extends ZclCommand {
      */
     public AnchorNodeAnnounceCommand(final ZclCommandMessage message) {
         super(message);
-        this.anchorNodeAddress = (ZToolAddress64) message.getFields().get(ZclFieldType.ANCHOR_NODE_ANNOUNCE_COMMAND_ANCHOR_NODE_ADDRESS);
+        this.anchorNodeAddress = (Long) message.getFields().get(ZclFieldType.ANCHOR_NODE_ANNOUNCE_COMMAND_ANCHOR_NODE_ADDRESS);
         this.coordinate1 = (Integer) message.getFields().get(ZclFieldType.ANCHOR_NODE_ANNOUNCE_COMMAND_COORDINATE_1);
         this.coordinate2 = (Integer) message.getFields().get(ZclFieldType.ANCHOR_NODE_ANNOUNCE_COMMAND_COORDINATE_2);
         this.coordinate3 = (Integer) message.getFields().get(ZclFieldType.ANCHOR_NODE_ANNOUNCE_COMMAND_COORDINATE_3);
@@ -64,7 +64,7 @@ public class AnchorNodeAnnounceCommand extends ZclCommand {
      * Gets Anchor Node Address.
      * @return the Anchor Node Address
      */
-    public ZToolAddress64 getAnchorNodeAddress() {
+    public Long getAnchorNodeAddress() {
         return anchorNodeAddress;
     }
 
@@ -72,7 +72,7 @@ public class AnchorNodeAnnounceCommand extends ZclCommand {
      * Sets Anchor Node Address.
      * @param anchorNodeAddress the Anchor Node Address
      */
-    public void setAnchorNodeAddress(final ZToolAddress64 anchorNodeAddress) {
+    public void setAnchorNodeAddress(final Long anchorNodeAddress) {
         this.anchorNodeAddress = anchorNodeAddress;
     }
 

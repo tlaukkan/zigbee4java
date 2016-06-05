@@ -33,7 +33,7 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
     /**
      * Scene list command message field.
      */
-    private Object sceneList;
+    private List<Unsigned8BitInteger> sceneList;
 
     /**
      * Default constructor setting the command type field.
@@ -52,7 +52,7 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
         this.capacity = (Integer) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_CAPACITY);
         this.groupId = (Integer) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_GROUP_ID);
         this.sceneCount = (Integer) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_SCENE_COUNT);
-        this.sceneList = (Object) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_SCENE_LIST);
+        this.sceneList = (List<Unsigned8BitInteger>) message.getFields().get(ZclFieldType.GET_SCENE_MEMBERSHIP_RESPONSE_COMMAND_SCENE_LIST);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
      * Gets Scene list.
      * @return the Scene list
      */
-    public Object getSceneList() {
+    public List<Unsigned8BitInteger> getSceneList() {
         return sceneList;
     }
 
@@ -142,7 +142,7 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
      * Sets Scene list.
      * @param sceneList the Scene list
      */
-    public void setSceneList(final Object sceneList) {
+    public void setSceneList(final List<Unsigned8BitInteger> sceneList) {
         this.sceneList = sceneList;
     }
 

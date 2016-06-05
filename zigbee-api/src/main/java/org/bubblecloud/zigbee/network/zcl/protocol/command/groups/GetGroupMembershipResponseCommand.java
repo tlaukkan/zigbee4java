@@ -25,7 +25,7 @@ public class GetGroupMembershipResponseCommand extends ZclCommand {
     /**
      * Group list command message field.
      */
-    private Object groupList;
+    private List<Unsigned16BitInteger> groupList;
 
     /**
      * Default constructor setting the command type field.
@@ -42,7 +42,7 @@ public class GetGroupMembershipResponseCommand extends ZclCommand {
         super(message);
         this.capacity = (Integer) message.getFields().get(ZclFieldType.GET_GROUP_MEMBERSHIP_RESPONSE_COMMAND_CAPACITY);
         this.groupCount = (Integer) message.getFields().get(ZclFieldType.GET_GROUP_MEMBERSHIP_RESPONSE_COMMAND_GROUP_COUNT);
-        this.groupList = (Object) message.getFields().get(ZclFieldType.GET_GROUP_MEMBERSHIP_RESPONSE_COMMAND_GROUP_LIST);
+        this.groupList = (List<Unsigned16BitInteger>) message.getFields().get(ZclFieldType.GET_GROUP_MEMBERSHIP_RESPONSE_COMMAND_GROUP_LIST);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class GetGroupMembershipResponseCommand extends ZclCommand {
      * Gets Group list.
      * @return the Group list
      */
-    public Object getGroupList() {
+    public List<Unsigned16BitInteger> getGroupList() {
         return groupList;
     }
 
@@ -98,7 +98,7 @@ public class GetGroupMembershipResponseCommand extends ZclCommand {
      * Sets Group list.
      * @param groupList the Group list
      */
-    public void setGroupList(final Object groupList) {
+    public void setGroupList(final List<Unsigned16BitInteger> groupList) {
         this.groupList = groupList;
     }
 

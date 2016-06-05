@@ -21,7 +21,7 @@ public class AlarmCommand extends ZclCommand {
     /**
      * Cluster identifier command message field.
      */
-    private Object clusterIdentifier;
+    private Integer clusterIdentifier;
 
     /**
      * Default constructor setting the command type field.
@@ -37,7 +37,7 @@ public class AlarmCommand extends ZclCommand {
     public AlarmCommand(final ZclCommandMessage message) {
         super(message);
         this.alarmCode = (Integer) message.getFields().get(ZclFieldType.ALARM_COMMAND_ALARM_CODE);
-        this.clusterIdentifier = (Object) message.getFields().get(ZclFieldType.ALARM_COMMAND_CLUSTER_IDENTIFIER);
+        this.clusterIdentifier = (Integer) message.getFields().get(ZclFieldType.ALARM_COMMAND_CLUSTER_IDENTIFIER);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class AlarmCommand extends ZclCommand {
      * Gets Cluster identifier.
      * @return the Cluster identifier
      */
-    public Object getClusterIdentifier() {
+    public Integer getClusterIdentifier() {
         return clusterIdentifier;
     }
 
@@ -76,7 +76,7 @@ public class AlarmCommand extends ZclCommand {
      * Sets Cluster identifier.
      * @param clusterIdentifier the Cluster identifier
      */
-    public void setClusterIdentifier(final Object clusterIdentifier) {
+    public void setClusterIdentifier(final Integer clusterIdentifier) {
         this.clusterIdentifier = clusterIdentifier;
     }
 

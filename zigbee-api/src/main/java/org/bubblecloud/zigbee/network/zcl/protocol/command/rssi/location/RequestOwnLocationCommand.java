@@ -17,7 +17,7 @@ public class RequestOwnLocationCommand extends ZclCommand {
     /**
      * Requesting Address command message field.
      */
-    private ZToolAddress64 requestingAddress;
+    private Long requestingAddress;
 
     /**
      * Default constructor setting the command type field.
@@ -32,7 +32,7 @@ public class RequestOwnLocationCommand extends ZclCommand {
      */
     public RequestOwnLocationCommand(final ZclCommandMessage message) {
         super(message);
-        this.requestingAddress = (ZToolAddress64) message.getFields().get(ZclFieldType.REQUEST_OWN_LOCATION_COMMAND_REQUESTING_ADDRESS);
+        this.requestingAddress = (Long) message.getFields().get(ZclFieldType.REQUEST_OWN_LOCATION_COMMAND_REQUESTING_ADDRESS);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class RequestOwnLocationCommand extends ZclCommand {
      * Gets Requesting Address.
      * @return the Requesting Address
      */
-    public ZToolAddress64 getRequestingAddress() {
+    public Long getRequestingAddress() {
         return requestingAddress;
     }
 
@@ -54,7 +54,7 @@ public class RequestOwnLocationCommand extends ZclCommand {
      * Sets Requesting Address.
      * @param requestingAddress the Requesting Address
      */
-    public void setRequestingAddress(final ZToolAddress64 requestingAddress) {
+    public void setRequestingAddress(final Long requestingAddress) {
         this.requestingAddress = requestingAddress;
     }
 

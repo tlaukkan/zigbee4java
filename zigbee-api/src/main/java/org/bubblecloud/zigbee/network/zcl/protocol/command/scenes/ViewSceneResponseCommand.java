@@ -37,7 +37,7 @@ public class ViewSceneResponseCommand extends ZclCommand {
     /**
      * Extension field sets command message field.
      */
-    private Object extensionFieldSets;
+    private List<ExtensionFieldSet> extensionFieldSets;
 
     /**
      * Default constructor setting the command type field.
@@ -57,7 +57,7 @@ public class ViewSceneResponseCommand extends ZclCommand {
         this.sceneId = (Integer) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_SCENE_ID);
         this.transitionTime = (Integer) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_TRANSITION_TIME);
         this.sceneName = (String) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_SCENE_NAME);
-        this.extensionFieldSets = (Object) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_EXTENSION_FIELD_SETS);
+        this.extensionFieldSets = (List<ExtensionFieldSet>) message.getFields().get(ZclFieldType.VIEW_SCENE_RESPONSE_COMMAND_EXTENSION_FIELD_SETS);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class ViewSceneResponseCommand extends ZclCommand {
      * Gets Extension field sets.
      * @return the Extension field sets
      */
-    public Object getExtensionFieldSets() {
+    public List<ExtensionFieldSet> getExtensionFieldSets() {
         return extensionFieldSets;
     }
 
@@ -164,7 +164,7 @@ public class ViewSceneResponseCommand extends ZclCommand {
      * Sets Extension field sets.
      * @param extensionFieldSets the Extension field sets
      */
-    public void setExtensionFieldSets(final Object extensionFieldSets) {
+    public void setExtensionFieldSets(final List<ExtensionFieldSet> extensionFieldSets) {
         this.extensionFieldSets = extensionFieldSets;
     }
 

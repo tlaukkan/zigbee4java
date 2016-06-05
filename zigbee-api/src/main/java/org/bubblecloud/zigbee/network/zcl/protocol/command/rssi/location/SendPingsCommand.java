@@ -17,7 +17,7 @@ public class SendPingsCommand extends ZclCommand {
     /**
      * Target Address command message field.
      */
-    private ZToolAddress64 targetAddress;
+    private Long targetAddress;
     /**
      * Number RSSI Measurements command message field.
      */
@@ -40,7 +40,7 @@ public class SendPingsCommand extends ZclCommand {
      */
     public SendPingsCommand(final ZclCommandMessage message) {
         super(message);
-        this.targetAddress = (ZToolAddress64) message.getFields().get(ZclFieldType.SEND_PINGS_COMMAND_TARGET_ADDRESS);
+        this.targetAddress = (Long) message.getFields().get(ZclFieldType.SEND_PINGS_COMMAND_TARGET_ADDRESS);
         this.numberRssiMeasurements = (Integer) message.getFields().get(ZclFieldType.SEND_PINGS_COMMAND_NUMBER_RSSI_MEASUREMENTS);
         this.calculationPeriod = (Integer) message.getFields().get(ZclFieldType.SEND_PINGS_COMMAND_CALCULATION_PERIOD);
     }
@@ -58,7 +58,7 @@ public class SendPingsCommand extends ZclCommand {
      * Gets Target Address.
      * @return the Target Address
      */
-    public ZToolAddress64 getTargetAddress() {
+    public Long getTargetAddress() {
         return targetAddress;
     }
 
@@ -66,7 +66,7 @@ public class SendPingsCommand extends ZclCommand {
      * Sets Target Address.
      * @param targetAddress the Target Address
      */
-    public void setTargetAddress(final ZToolAddress64 targetAddress) {
+    public void setTargetAddress(final Long targetAddress) {
         this.targetAddress = targetAddress;
     }
 
