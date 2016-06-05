@@ -2,12 +2,12 @@ package org.bubblecloud.zigbee.network.zcl.field;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBDeserializer;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBSerializer;
-import org.bubblecloud.zigbee.network.zcl.ZclField;
+import org.bubblecloud.zigbee.network.zcl.ZclListItemField;
 
 /**
  * Unsigned 16 Bit Integer field.
  */
-public class Unsigned16BitInteger implements ZclField {
+public class Unsigned16BitInteger implements ZclListItemField {
     /**
      * The attribute identifier.
      */

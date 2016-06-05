@@ -8,7 +8,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBSerializer;
  *
  * @author Tommi S.E Laukkanen
  */
-public interface ZclField {
+public interface ZclListItemField {
     /**
      * Serializes the field.
      * @param serializer the serializer

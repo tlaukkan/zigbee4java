@@ -1,15 +1,13 @@
 package org.bubblecloud.zigbee.network.zcl.field;
 
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBDeserializer;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBSerializer;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
-import org.bubblecloud.zigbee.network.zcl.ZclField;
+import org.bubblecloud.zigbee.network.zcl.ZclListItemField;
 
 /**
  * Read Attribute Status Record field.
  */
-public class AttributeStatusRecord implements ZclField {
+public class AttributeStatusRecord implements ZclListItemField {
     /**
      * The status.
      */

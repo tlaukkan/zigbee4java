@@ -39,10 +39,10 @@ public class ZclFieldSerializer {
      */
     public void serialize(final Object value, final ZclDataType dataType) {
 
-        if (ZclField.class.isAssignableFrom(dataType.getDataClass())) {
-            final List<ZclField> list = (List<ZclField>) value;
-            for (final ZclField data : list) {
-                data.serialize(serializer);
+        if (ZclListItemField.class.isAssignableFrom(dataType.getDataClass())) {
+            final List<ZclListItemField> list = (List<ZclListItemField>) value;
+            for (final ZclListItemField item : list) {
+                item.serialize(serializer);
             }
             return;
         }

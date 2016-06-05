@@ -48,18 +48,18 @@ public class ZclFieldDeserializer {
      * @return the value
      */
     public Object deserialize(final ZclDataType dataType) {
-        if (ZclField.class.isAssignableFrom(dataType.getDataClass())) {
+        if (ZclListItemField.class.isAssignableFrom(dataType.getDataClass())) {
             final Class dataTypeClass = dataType.getDataClass();
-            final List<ZclField> list = new ArrayList<ZclField>();
+            final List<ZclListItemField> list = new ArrayList<ZclListItemField>();
             while (defaultDeserializer.getSize() - defaultDeserializer.getPosition() > 0 ) {
-                final ZclField data;
+                final ZclListItemField item;
                 try {
-                    data = (ZclField) dataTypeClass.newInstance();
+                    item = (ZclListItemField) dataTypeClass.newInstance();
                 } catch (final Exception e) {
                     throw new IllegalArgumentException("Error deserializing field: " + dataType.getLabel(), e);
                 }
-                data.deserialize(this.defaultDeserializer);
-                list.add(data);
+                item.deserialize(this.defaultDeserializer);
+                list.add(item);
             }
             return list;
         }

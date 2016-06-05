@@ -4,12 +4,12 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBDeserializer;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBSerializer;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
-import org.bubblecloud.zigbee.network.zcl.ZclField;
+import org.bubblecloud.zigbee.network.zcl.ZclListItemField;
 
 /**
  * Read Attribute Status Record field.
  */
-public class ReadAttributeStatusRecord implements ZclField {
+public class ReadAttributeStatusRecord implements ZclListItemField {
     /**
      * The attribute identifier.
      */

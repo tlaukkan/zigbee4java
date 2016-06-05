@@ -2,14 +2,14 @@ package org.bubblecloud.zigbee.network.zcl.field;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBDeserializer;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBSerializer;
-import org.bubblecloud.zigbee.network.zcl.ZclField;
+import org.bubblecloud.zigbee.network.zcl.ZclListItemField;
 
 import java.util.Arrays;
 
 /**
  * Attribute Identifier field.
  */
-public class ExtensionFieldSet implements ZclField {
+public class ExtensionFieldSet implements ZclListItemField {
     /**
      * The cluster id.
      */
