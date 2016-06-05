@@ -109,12 +109,6 @@ public class ZclUtil {
             case IEEE_ADDRESS:
                 zigBeeType = ZigBeeType.IEEEAddress;
                 break;
-            case N_X_UNSIGNED_16_BIT_INTEGER:
-                zigBeeType = null;
-                break;
-            case N_X_UNSIGNED_8_BIT_INTEGER:
-                zigBeeType = null;
-                break;
             case SIGNED_16_BIT_INTEGER:
                 zigBeeType = ZigBeeType.SignedInteger16bit;
                 break;
@@ -122,7 +116,7 @@ public class ZclUtil {
                 zigBeeType = ZigBeeType.SignedInteger8bit;
                 break;
             case UNSIGNED_16_BIT_INTEGER:
-                zigBeeType = ZigBeeType.UnsignedInteger8bit;
+                zigBeeType = ZigBeeType.UnsignedInteger16bit;
                 break;
             case UNSIGNED_32_BIT_INTEGER:
                 zigBeeType = ZigBeeType.UnsignedInteger32bit;

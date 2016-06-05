@@ -8,6 +8,9 @@ import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
 import org.bubblecloud.zigbee.network.zcl.ZclUtil;
+import org.bubblecloud.zigbee.simple.SimpleZigBeeApi;
+import org.bubblecloud.zigbee.network.zcl.ZclApi;
+import org.bubblecloud.zigbee.simple.ZigBeeDevice;
 import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
@@ -123,6 +126,13 @@ public class ZigBeeClient implements ZclApi {
         return zigBeeRpcApi;
     }
 
+    /**
+     * Gets simple ZigBee API.
+     * @return the simple ZigBee API
+     */
+    public SimpleZigBeeApi getSimpleZigBeeApi() {
+        return new SimpleZigBeeApi(this);
+    }
 
     /**
      * Executes console command.
@@ -182,4 +192,8 @@ public class ZigBeeClient implements ZclApi {
         }
     }
 
+    @Override
+    public List<ZigBeeDevice> getZigBeeDevices() {
+        return zigBeeRpcApi.getZigBeeDevices();
+    }
 }

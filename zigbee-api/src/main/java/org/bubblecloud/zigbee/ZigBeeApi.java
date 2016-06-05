@@ -22,6 +22,7 @@ import org.bubblecloud.zigbee.network.ZigBeeEndpoint;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
 import org.bubblecloud.zigbee.network.discovery.ZigBeeDiscoveryManager;
 import org.bubblecloud.zigbee.network.impl.*;
+import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandTransmitter;
@@ -41,6 +42,9 @@ import org.bubblecloud.zigbee.api.device.lighting.*;
 import org.bubblecloud.zigbee.api.device.impl.*;
 import org.bubblecloud.zigbee.api.DeviceBase;
 import org.bubblecloud.zigbee.network.SerialPort;
+import org.bubblecloud.zigbee.simple.SimpleZigBeeApi;
+import org.bubblecloud.zigbee.network.zcl.ZclApi;
+import org.bubblecloud.zigbee.simple.ZigBeeDevice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -491,4 +495,30 @@ public class ZigBeeApi implements EndpointListener, ZclApi {
         this.zclCommandTransmitter.removeCommandListener(commandListener);
     }
 
+    /**
+     * Gets simple ZigBee API.
+     * @return the simple ZigBee API
+     */
+    public SimpleZigBeeApi getSimpleZigBeeApi() {
+        return new SimpleZigBeeApi(this);
+    }
+
+    @Override
+    public List<ZigBeeDevice> getZigBeeDevices() {
+        final List<Device> devices = getDevices();
+        final List<ZigBeeDevice> zigBeeDevices = new ArrayList<ZigBeeDevice>();
+        for (final Device device : devices) {
+            final ZigBeeDevice zigBeeDevice = new ZigBeeDevice();
+            zigBeeDevice.setIeeeAddress(IEEEAddress.fromColonNotation(device.getIeeeAddress()));
+            zigBeeDevice.setNetworkAddress(device.getNetworkAddress());
+            zigBeeDevice.setEndPoint(device.getEndPointAddress());
+            zigBeeDevice.setProfileId(device.getProfileId());
+            zigBeeDevice.setDeviceId(device.getDeviceTypeId());
+            zigBeeDevice.setDeviceVersion(device.getDeviceVersion());
+            zigBeeDevice.setInputClusterIds(device.getInputClusters());
+            zigBeeDevice.setOutputClusterIds(device.getOutputClusters());
+            zigBeeDevices.add(zigBeeDevice);
+        }
+        return zigBeeDevices;
+    }
 }

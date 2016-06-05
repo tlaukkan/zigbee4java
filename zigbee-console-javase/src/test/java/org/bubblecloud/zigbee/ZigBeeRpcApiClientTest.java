@@ -1,15 +1,11 @@
 package org.bubblecloud.zigbee;
 
-import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
-import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesCommand;
-import org.bubblecloud.zigbee.network.zcl.field.AttributeIdentifier;
+import org.bubblecloud.zigbee.simple.SimpleZigBeeApi;
+import org.bubblecloud.zigbee.simple.ZigBeeDevice;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * ZigBeeConsoleApiClient integration test.
@@ -20,19 +16,46 @@ public class ZigBeeRpcApiClientTest {
 
     @Test
     @Ignore
-    public void testCommands() throws ZigBeeException {
+    public void testCommands() throws Exception {
         final ZigBeeClient zigBeeClient = new ZigBeeClient("http://127.0.0.1:5000/", "secret");
-        //System.out.println(zigBeeClient.execute("help"));
-        //System.out.println(zigBeeClient.execute("list"));
 
         zigBeeClient.startup();
 
-        final ReadAttributesCommand readAttributesCommand = new ReadAttributesCommand();
+        zigBeeClient.addCommandListener(new ZclCommandListener() {
+            @Override
+            public void commandReceived(final ZclCommand command) {
+                System.out.println(command);
+            }
+        });
+
+        final SimpleZigBeeApi api = zigBeeClient.getSimpleZigBeeApi();
+
+        final ZigBeeDevice device = api.getZigBeeDevices().get(0);
+
+        api.on(device);
+
+        Thread.sleep(1000);
+
+        api.color(device, 1.0, 0.0, 0.0, 1.0);
+
+        Thread.sleep(1000);
+
+        api.color(device, 0.0, 1.0, 0.0, 1.0);
+
+        Thread.sleep(1000);
+
+        api.color(device, 0.0, 0.0, 1.0, 1.0);
+
+        Thread.sleep(1000);
+
+        api.off(device);
+
+        /*final ReadAttributesCommand readAttributesCommand = new ReadAttributesCommand();
         readAttributesCommand.setDestinationAddress(11022);
         readAttributesCommand.setDestinationEndpoint(11);
         readAttributesCommand.setClusterId(0);
         readAttributesCommand.setIdentifiers(new ArrayList<AttributeIdentifier>(Arrays.asList(new AttributeIdentifier())));
-        zigBeeClient.sendCommand(readAttributesCommand);
+        zigBeeClient.sendCommand(readAttributesCommand);*/
 
         /*final DiscoverAttributesCommand discoverAttributesCommand = new DiscoverAttributesCommand();
         discoverAttributesCommand.setClusterId(1);
@@ -52,19 +75,6 @@ public class ZigBeeRpcApiClientTest {
         identifyCommand.setDestinationEndpoint(11);
         identifyCommand.setIdentifyTime(10);
         zigBeeClient.sendCommand(identifyCommand);*/
-
-        zigBeeClient.addCommandListener(new ZclCommandListener() {
-            @Override
-            public void commandReceived(final ZclCommand command) {
-                System.out.println(command);
-            }
-        });
-
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         /*final OnCommand onCommand = new OnCommand();
         onCommand.setDestinationAddress(11022);

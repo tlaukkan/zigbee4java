@@ -6,6 +6,7 @@ import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
 import org.bubblecloud.zigbee.network.zcl.ZclUtil;
+import org.bubblecloud.zigbee.simple.ZigBeeDevice;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
@@ -97,6 +98,11 @@ public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, ZclCommandListener {
             }
             return receivedCommands;
         }
+    }
+
+    @Override
+    public List<ZigBeeDevice> getZigBeeDevices() {
+        return zigBeeConsole.getZigBeeApi().getZigBeeDevices();
     }
 
     @Override

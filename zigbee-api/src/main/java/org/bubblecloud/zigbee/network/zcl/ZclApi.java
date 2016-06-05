@@ -1,9 +1,12 @@
-package org.bubblecloud.zigbee;
+package org.bubblecloud.zigbee.network.zcl;
 
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
+import org.bubblecloud.zigbee.simple.ZigBeeDevice;
+
+import java.util.List;
 
 /**
  * ZigBee Cluster Library command interface.
@@ -11,6 +14,11 @@ import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
 public interface ZclApi {
+    /**
+     * Gets ZigBee devices.
+     * @return list of ZigBee devices
+     */
+    List<ZigBeeDevice> getZigBeeDevices();
     /**
      * Sends ZigBee Cluster Library command without waiting for response.
      * @param command the command
