@@ -162,7 +162,7 @@ public class ZclProtocolDefinitionParser {
                 } else if (field.dataType.equals("N_X_UNSIGNED_8_BIT_INTEGER")) {
                     dataType.dataTypeClass = "Object";
                 } else if (field.dataType.equals("N_X_ATTRIBUTE_IDENTIFIER")) {
-                    dataType.dataTypeClass = "Object";
+                    dataType.dataTypeClass = "List<AttributeIdentifier>";
                 } else if (field.dataType.equals("N_X_READ_ATTRIBUTE_STATUS_RECORD")) {
                     dataType.dataTypeClass = "List<ReadAttributeStatusRecord>";
                 } else if (field.dataType.equals("N_X_WRITE_ATTRIBUTE_RECORD")) {

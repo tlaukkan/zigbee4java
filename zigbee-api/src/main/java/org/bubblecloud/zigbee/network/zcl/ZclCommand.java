@@ -173,6 +173,10 @@ public class ZclCommand {
         this.transactionId = transactionId;
     }
 
+    /**
+     * Converts ZclCommand to ZclCommandMessage.
+     * @return the ZclCommandMessage
+     */
     public ZclCommandMessage toCommandMessage() {
         final ZclCommandMessage commandMessage = new ZclCommandMessage();
         commandMessage.setSourceAddress(sourceAddress);

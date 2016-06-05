@@ -2,7 +2,9 @@ package org.bubblecloud.zigbee.network.zcl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.DiscoverAttributesResponseCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesResponseCommand;
+import org.bubblecloud.zigbee.network.zcl.type.AttributeIdentifier;
 import org.bubblecloud.zigbee.network.zcl.type.AttributeInformation;
 import org.bubblecloud.zigbee.network.zcl.type.ReadAttributeStatusRecord;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -31,12 +33,23 @@ public class ZclCommandProtocolTest {
     public void testDiscoverAttributesResponseCommand() throws Exception {
         final DiscoverAttributesResponseCommand command = new DiscoverAttributesResponseCommand();
         command.setCommandIdentifier(true);
-        final List<AttributeInformation> attributeInformationList = new ArrayList<AttributeInformation>();
-        final AttributeInformation attributeInformation = new AttributeInformation();
-        attributeInformation.setAttributeIdentifier(1);
-        attributeInformation.setAttributeDataType(2);
-        attributeInformationList.add(attributeInformation);
-        command.setInformation(attributeInformationList);
+        final List<AttributeInformation> list = new ArrayList<AttributeInformation>();
+        final AttributeInformation data = new AttributeInformation();
+        data.setAttributeIdentifier(1);
+        data.setAttributeDataType(2);
+        list.add(data);
+        command.setInformation(list);
+        testSerialization(command);
+    }
+
+    @Test
+    public void testReadAttributesCommand() throws Exception {
+        final ReadAttributesCommand command = new ReadAttributesCommand();
+        final List<AttributeIdentifier> list = new ArrayList<AttributeIdentifier>();
+        final AttributeIdentifier data = new AttributeIdentifier();
+        data.setAttributeIdentifier(1);
+        list.add(data);
+        command.setIdentifiers(list);
         testSerialization(command);
     }
 

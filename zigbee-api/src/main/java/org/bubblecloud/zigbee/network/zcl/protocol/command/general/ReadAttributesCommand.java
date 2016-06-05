@@ -17,7 +17,7 @@ public class ReadAttributesCommand extends ZclCommand {
     /**
      * Identifiers command message field.
      */
-    private Object identifiers;
+    private List<AttributeIdentifier> identifiers;
 
     /**
      * Default constructor setting the command type field.
@@ -32,7 +32,7 @@ public class ReadAttributesCommand extends ZclCommand {
      */
     public ReadAttributesCommand(final ZclCommandMessage message) {
         super(message);
-        this.identifiers = (Object) message.getFields().get(ZclFieldType.READ_ATTRIBUTES_COMMAND_IDENTIFIERS);
+        this.identifiers = (List<AttributeIdentifier>) message.getFields().get(ZclFieldType.READ_ATTRIBUTES_COMMAND_IDENTIFIERS);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ReadAttributesCommand extends ZclCommand {
      * Gets Identifiers.
      * @return the Identifiers
      */
-    public Object getIdentifiers() {
+    public List<AttributeIdentifier> getIdentifiers() {
         return identifiers;
     }
 
@@ -54,7 +54,7 @@ public class ReadAttributesCommand extends ZclCommand {
      * Sets Identifiers.
      * @param identifiers the Identifiers
      */
-    public void setIdentifiers(final Object identifiers) {
+    public void setIdentifiers(final List<AttributeIdentifier> identifiers) {
         this.identifiers = identifiers;
     }
 

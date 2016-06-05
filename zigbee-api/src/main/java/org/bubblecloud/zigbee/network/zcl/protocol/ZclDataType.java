@@ -8,7 +8,7 @@ public enum ZclDataType {
     CHARACTER_STRING("Character string",String.class),
     CLUSTER_ID("Cluster ID",Object.class),
     IEEE_ADDRESS("IEEE address",ZToolAddress64.class),
-    N_X_ATTRIBUTE_IDENTIFIER("N X Attribute identifier",Object.class),
+    N_X_ATTRIBUTE_IDENTIFIER("N X Attribute identifier",AttributeIdentifier.class),
     N_X_ATTRIBUTE_INFORMATION("N X Attribute information",AttributeInformation.class),
     N_X_ATTRIBUTE_RECORD("N X Attribute record",Object.class),
     N_X_ATTRIBUTE_REPORT("N X Attribute report",Object.class),
