@@ -5,7 +5,7 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
-import org.bubblecloud.zigbee.network.zcl.type.*;
+import org.bubblecloud.zigbee.network.zcl.field.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class ReportAttributesCommand extends ZclCommand {
     /**
      * Reports command message field.
      */
-    private Object reports;
+    private List<AttributeReport> reports;
 
     /**
      * Default constructor setting the command type field.
@@ -32,7 +32,7 @@ public class ReportAttributesCommand extends ZclCommand {
      */
     public ReportAttributesCommand(final ZclCommandMessage message) {
         super(message);
-        this.reports = (Object) message.getFields().get(ZclFieldType.REPORT_ATTRIBUTES_COMMAND_REPORTS);
+        this.reports = (List<AttributeReport>) message.getFields().get(ZclFieldType.REPORT_ATTRIBUTES_COMMAND_REPORTS);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ReportAttributesCommand extends ZclCommand {
      * Gets Reports.
      * @return the Reports
      */
-    public Object getReports() {
+    public List<AttributeReport> getReports() {
         return reports;
     }
 
@@ -54,7 +54,7 @@ public class ReportAttributesCommand extends ZclCommand {
      * Sets Reports.
      * @param reports the Reports
      */
-    public void setReports(final Object reports) {
+    public void setReports(final List<AttributeReport> reports) {
         this.reports = reports;
     }
 

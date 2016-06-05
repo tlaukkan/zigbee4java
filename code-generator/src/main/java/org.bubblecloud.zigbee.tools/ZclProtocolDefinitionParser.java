@@ -166,17 +166,17 @@ public class ZclProtocolDefinitionParser {
                 } else if (field.dataType.equals("N_X_READ_ATTRIBUTE_STATUS_RECORD")) {
                     dataType.dataTypeClass = "List<ReadAttributeStatusRecord>";
                 } else if (field.dataType.equals("N_X_WRITE_ATTRIBUTE_RECORD")) {
-                    dataType.dataTypeClass = "Object";
+                    dataType.dataTypeClass = "List<WriteAttributeRecord>";
                 } else if (field.dataType.equals("N_X_WRITE_ATTRIBUTE_STATUS_RECORD")) {
-                    dataType.dataTypeClass = "Object";
+                    dataType.dataTypeClass = "List<WriteAttributeStatusRecord>";
                 } else if (field.dataType.equals("N_X_ATTRIBUTE_REPORTING_CONFIGURATION_RECORD")) {
-                    dataType.dataTypeClass = "Object";
+                    dataType.dataTypeClass = "List<AttributeReportingConfigurationRecord>";
                 } else if (field.dataType.equals("N_X_ATTRIBUTE_STATUS_RECORD")) {
-                    dataType.dataTypeClass = "Object";
+                    dataType.dataTypeClass = "List<AttributeStatusRecord>";
                 } else if (field.dataType.equals("N_X_ATTRIBUTE_RECORD")) {
-                    dataType.dataTypeClass = "Object";
+                    dataType.dataTypeClass = "List<AttributeRecord>";
                 } else if (field.dataType.equals("N_X_ATTRIBUTE_REPORT")) {
-                    dataType.dataTypeClass = "Object";
+                    dataType.dataTypeClass = "List<AttributeReport>";
                 } else if (field.dataType.equals("N_X_ATTRIBUTE_INFORMATION")) {
                     dataType.dataTypeClass = "List<AttributeInformation>";
                 } else if (field.dataType.equals("N_X_ATTRIBUTE_SELECTOR")) {

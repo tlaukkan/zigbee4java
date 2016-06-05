@@ -1,33 +1,30 @@
-package org.bubblecloud.zigbee.network.zcl.type;
+package org.bubblecloud.zigbee.network.zcl.field;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBDeserializer;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZBSerializer;
+import org.bubblecloud.zigbee.network.zcl.ZclField;
 
 /**
- * AttributeInformation information data type;
+ * Attribute Identifier field.
  */
-public class AttributeInformation implements ZclSerializable {
+public class AttributeIdentifier implements ZclField {
     /**
      * The attribute identifier.
      */
     private int attributeIdentifier;
+
     /**
-     * The attribute data type.
+     * Gets attribute identifier.
+     * @return the attribute identifier
      */
-    private int attributeDataType;
-
-    public int getAttributeDataType() {
-        return attributeDataType;
-    }
-
-    public void setAttributeDataType(int attributeDataType) {
-        this.attributeDataType = attributeDataType;
-    }
-
     public int getAttributeIdentifier() {
         return attributeIdentifier;
     }
 
+    /**
+     * Sets attribute.
+     * @param attributeIdentifier the attribute identifier
+     */
     public void setAttributeIdentifier(int attributeIdentifier) {
         this.attributeIdentifier = attributeIdentifier;
     }
@@ -35,19 +32,16 @@ public class AttributeInformation implements ZclSerializable {
     @Override
     public void serialize(final ZBSerializer serializer) {
         serializer.appendShort((short) attributeIdentifier);
-        serializer.appendByte((byte) attributeDataType);
     }
 
     @Override
     public void deserialize(final ZBDeserializer deserializer) {
         attributeIdentifier = deserializer.read_short() & (0xFFFF);
-        attributeDataType = deserializer.read_byte() & (0xFF);
     }
 
     @Override
     public String toString() {
-        return "Attribute Information " +
-                "attributeDataType=" + attributeDataType +
+        return "Attribute Identifier " +
                 ", attributeIdentifier=" + attributeIdentifier;
     }
 }

@@ -5,7 +5,7 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
-import org.bubblecloud.zigbee.network.zcl.type.*;
+import org.bubblecloud.zigbee.network.zcl.field.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class ReadReportingConfigurationCommand extends ZclCommand {
     /**
      * Records command message field.
      */
-    private Object records;
+    private List<AttributeRecord> records;
 
     /**
      * Default constructor setting the command type field.
@@ -32,7 +32,7 @@ public class ReadReportingConfigurationCommand extends ZclCommand {
      */
     public ReadReportingConfigurationCommand(final ZclCommandMessage message) {
         super(message);
-        this.records = (Object) message.getFields().get(ZclFieldType.READ_REPORTING_CONFIGURATION_COMMAND_RECORDS);
+        this.records = (List<AttributeRecord>) message.getFields().get(ZclFieldType.READ_REPORTING_CONFIGURATION_COMMAND_RECORDS);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ReadReportingConfigurationCommand extends ZclCommand {
      * Gets Records.
      * @return the Records
      */
-    public Object getRecords() {
+    public List<AttributeRecord> getRecords() {
         return records;
     }
 
@@ -54,7 +54,7 @@ public class ReadReportingConfigurationCommand extends ZclCommand {
      * Sets Records.
      * @param records the Records
      */
-    public void setRecords(final Object records) {
+    public void setRecords(final List<AttributeRecord> records) {
         this.records = records;
     }
 

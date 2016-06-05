@@ -3,13 +3,8 @@ package org.bubblecloud.zigbee;
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
-import org.bubblecloud.zigbee.network.zcl.protocol.ZclClusterType;
-import org.bubblecloud.zigbee.network.zcl.protocol.command.general.DiscoverAttributesCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesCommand;
-import org.bubblecloud.zigbee.network.zcl.protocol.command.identify.IdentifyCommand;
-import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OffCommand;
-import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OnCommand;
-import org.bubblecloud.zigbee.network.zcl.type.AttributeIdentifier;
+import org.bubblecloud.zigbee.network.zcl.field.AttributeIdentifier;
 import org.junit.Ignore;
 import org.junit.Test;
 

@@ -15,15 +15,9 @@
  */
 package org.bubblecloud.zigbee.network.zcl;
 
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.api.cluster.impl.core.DefaultDeserializer;
-import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclDataType;
-import org.bubblecloud.zigbee.network.zcl.type.AttributeInformation;
-import org.bubblecloud.zigbee.network.zcl.type.ZclSerializable;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,13 +48,13 @@ public class ZclFieldDeserializer {
      * @return the value
      */
     public Object deserialize(final ZclDataType dataType) {
-        if (ZclSerializable.class.isAssignableFrom(dataType.getDataClass())) {
+        if (ZclField.class.isAssignableFrom(dataType.getDataClass())) {
             final Class dataTypeClass = dataType.getDataClass();
-            final List<ZclSerializable> list = new ArrayList<ZclSerializable>();
+            final List<ZclField> list = new ArrayList<ZclField>();
             while (defaultDeserializer.getSize() - defaultDeserializer.getPosition() > 0 ) {
-                final ZclSerializable data;
+                final ZclField data;
                 try {
-                    data = (ZclSerializable) dataTypeClass.newInstance();
+                    data = (ZclField) dataTypeClass.newInstance();
                 } catch (final Exception e) {
                     throw new IllegalArgumentException("Error deserializing field: " + dataType.getLabel(), e);
                 }

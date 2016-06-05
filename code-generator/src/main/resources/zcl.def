@@ -26,7 +26,7 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 **** Write Attributes Undivided Command [0x03]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
-|Records                    |N X Write attribute status record |
+|Records                    |N X Write attribute record |
 
 **** Write Attributes Response Command [0x04]
 |Field Name                 |Data Type                  |

@@ -1,15 +1,10 @@
 package org.bubblecloud.zigbee.network.zcl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
-import org.bubblecloud.zigbee.network.zcl.protocol.command.general.DiscoverAttributesResponseCommand;
-import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesCommand;
-import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesResponseCommand;
-import org.bubblecloud.zigbee.network.zcl.type.AttributeIdentifier;
-import org.bubblecloud.zigbee.network.zcl.type.AttributeInformation;
-import org.bubblecloud.zigbee.network.zcl.type.ReadAttributeStatusRecord;
+import org.bubblecloud.zigbee.network.zcl.field.*;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.general.*;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
-import org.bubblecloud.zigbee.network.zcl.protocol.command.general.DiscoverAttributesCommand;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -67,6 +62,126 @@ public class ZclCommandProtocolTest {
         testSerialization(command);
     }
 
+    @Test
+    public void testWriteAttributesCommand() throws Exception {
+        final WriteAttributesCommand command = new WriteAttributesCommand();
+        final List<WriteAttributeRecord> list = new ArrayList<WriteAttributeRecord>();
+        final WriteAttributeRecord data = new WriteAttributeRecord();
+        data.setAttributeIdentifier(1);
+        data.setAttributeDataType(ZigBeeType.UnsignedInteger8bit.getId());
+        data.setAttributeValue(1);
+        list.add(data);
+        command.setRecords(list);
+        testSerialization(command);
+    }
+
+    @Test
+    public void testWriteAttributesUndividedCommand() throws Exception {
+        final WriteAttributesUndividedCommand command = new WriteAttributesUndividedCommand();
+        final List<WriteAttributeRecord> list = new ArrayList<WriteAttributeRecord>();
+        final WriteAttributeRecord data = new WriteAttributeRecord();
+        data.setAttributeIdentifier(1);
+        data.setAttributeDataType(ZigBeeType.UnsignedInteger8bit.getId());
+        data.setAttributeValue(1);
+        list.add(data);
+        command.setRecords(list);
+        testSerialization(command);
+    }
+
+    @Test
+    public void testWriteAttributesNoResponseCommand() throws Exception {
+        final WriteAttributesNoResponseCommand command = new WriteAttributesNoResponseCommand();
+        final List<WriteAttributeRecord> list = new ArrayList<WriteAttributeRecord>();
+        final WriteAttributeRecord data = new WriteAttributeRecord();
+        data.setAttributeIdentifier(1);
+        data.setAttributeDataType(ZigBeeType.UnsignedInteger8bit.getId());
+        data.setAttributeValue(1);
+        list.add(data);
+        command.setRecords(list);
+        testSerialization(command);
+    }
+
+    @Test
+    public void testWriteAttributesResponseCommand() throws Exception {
+        final WriteAttributesResponseCommand command = new WriteAttributesResponseCommand();
+        final List<WriteAttributeStatusRecord> list = new ArrayList<WriteAttributeStatusRecord>();
+        final WriteAttributeStatusRecord data = new WriteAttributeStatusRecord();
+        data.setStatus(0);
+        data.setAttributeIdentifier(1);
+        list.add(data);
+        command.setRecords(list);
+        testSerialization(command);
+    }
+
+    @Test
+    public void testConfigureReportingCommand() throws Exception {
+        final ConfigureReportingCommand command = new ConfigureReportingCommand();
+        final List<AttributeReportingConfigurationRecord> list = new ArrayList<AttributeReportingConfigurationRecord>();
+        final AttributeReportingConfigurationRecord data = new AttributeReportingConfigurationRecord();
+        data.setAttributeIdentifier(1);
+        data.setMinimumReportingInterval(2);
+        data.setMaximumReportingInterval(3);
+        data.setAttributeDataType(ZigBeeType.UnsignedInteger8bit.getId());
+        data.setReportableChange(1);
+        data.setTimeoutPeriod(4);
+        list.add(data);
+        command.setRecords(list);
+        testSerialization(command);
+    }
+
+    @Test
+    public void testConfigureReportingResponseCommand() throws Exception {
+        final ConfigureReportingResponseCommand command = new ConfigureReportingResponseCommand();
+        final List<AttributeStatusRecord> list = new ArrayList<AttributeStatusRecord>();
+        final AttributeStatusRecord data = new AttributeStatusRecord();
+        data.setStatus(0);
+        data.setDirection(true);
+        data.setAttributeIdentifier(1);
+        list.add(data);
+        command.setRecords(list);
+        testSerialization(command);
+    }
+
+    @Test
+    public void testReadReportingConfigurationCommand() throws Exception {
+        final ReadReportingConfigurationCommand command = new ReadReportingConfigurationCommand();
+        final List<AttributeRecord> list = new ArrayList<AttributeRecord>();
+        final AttributeRecord data = new AttributeRecord();
+        data.setDirection(true);
+        data.setAttributeIdentifier(1);
+        list.add(data);
+        command.setRecords(list);
+        testSerialization(command);
+    }
+
+    @Test
+    public void testReadReportingConfigurationResponseCommand() throws Exception {
+        final ReadReportingConfigurationResponseCommand command = new ReadReportingConfigurationResponseCommand();
+        final List<AttributeReportingConfigurationRecord> list = new ArrayList<AttributeReportingConfigurationRecord>();
+        final AttributeReportingConfigurationRecord data = new AttributeReportingConfigurationRecord();
+        data.setAttributeIdentifier(1);
+        data.setMinimumReportingInterval(2);
+        data.setMaximumReportingInterval(3);
+        data.setAttributeDataType(ZigBeeType.UnsignedInteger8bit.getId());
+        data.setReportableChange(1);
+        data.setTimeoutPeriod(4);
+        list.add(data);
+        command.setRecords(list);
+        testSerialization(command);
+    }
+
+    @Test
+    public void testReportAttributesCommand() throws Exception {
+        final ReportAttributesCommand command = new ReportAttributesCommand();
+        final List<AttributeReport> list = new ArrayList<AttributeReport>();
+        final AttributeReport data = new AttributeReport();
+        data.setAttributeIdentifier(1);
+        data.setAttributeDataType(ZigBeeType.UnsignedInteger8bit.getId());
+        data.setAttributeValue(1);
+        list.add(data);
+        command.setReports(list);
+        testSerialization(command);
+    }
 
     /**
      * Tests command serialization.

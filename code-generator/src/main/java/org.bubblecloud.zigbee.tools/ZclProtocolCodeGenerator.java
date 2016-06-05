@@ -155,7 +155,7 @@ public class ZclProtocolCodeGenerator {
 
         out.println();
         out.println("import org.bubblecloud.zigbee.network.packet.ZToolAddress64;");
-        out.println("import org.bubblecloud.zigbee.network.zcl.type.*;");
+        out.println("import org.bubblecloud.zigbee.network.zcl.field.*;");
 
         out.println();
 
@@ -425,7 +425,7 @@ public class ZclProtocolCodeGenerator {
                     out.println("import org.bubblecloud.zigbee.network.zcl.ZclCommand;");
                     out.println("import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;");
                     out.println("import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;");
-                    out.println("import org.bubblecloud.zigbee.network.zcl.type.*;");
+                    out.println("import org.bubblecloud.zigbee.network.zcl.field.*;");
                     out.println("import org.bubblecloud.zigbee.network.packet.ZToolAddress64;");
                     out.println();
                     out.println("import java.util.List;");
