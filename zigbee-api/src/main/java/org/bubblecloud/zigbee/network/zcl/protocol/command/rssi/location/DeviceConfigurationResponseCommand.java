@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Device Configuration Response Command value object class.
@@ -163,6 +166,37 @@ public class DeviceConfigurationResponseCommand extends ZclCommand {
      */
     public void setReportingPeriod(final Integer reportingPeriod) {
         this.reportingPeriod = reportingPeriod;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("status");
+        builder.append('=');
+        builder.append(status);
+        builder.append(", ");
+        builder.append("power");
+        builder.append('=');
+        builder.append(power);
+        builder.append(", ");
+        builder.append("pathLossExponent");
+        builder.append('=');
+        builder.append(pathLossExponent);
+        builder.append(", ");
+        builder.append("calculationPeriod");
+        builder.append('=');
+        builder.append(calculationPeriod);
+        builder.append(", ");
+        builder.append("numberRssiMeasurements");
+        builder.append('=');
+        builder.append(numberRssiMeasurements);
+        builder.append(", ");
+        builder.append("reportingPeriod");
+        builder.append('=');
+        builder.append(reportingPeriod);
+        return builder.toString();
     }
 
 }

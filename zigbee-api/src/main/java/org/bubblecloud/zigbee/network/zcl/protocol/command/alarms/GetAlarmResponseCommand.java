@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Get Alarm Response Command value object class.
@@ -119,6 +122,29 @@ public class GetAlarmResponseCommand extends ZclCommand {
      */
     public void setTimestamp(final Integer timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("status");
+        builder.append('=');
+        builder.append(status);
+        builder.append(", ");
+        builder.append("alarmCode");
+        builder.append('=');
+        builder.append(alarmCode);
+        builder.append(", ");
+        builder.append("clusterIdentifier");
+        builder.append('=');
+        builder.append(clusterIdentifier);
+        builder.append(", ");
+        builder.append("timestamp");
+        builder.append('=');
+        builder.append(timestamp);
+        return builder.toString();
     }
 
 }

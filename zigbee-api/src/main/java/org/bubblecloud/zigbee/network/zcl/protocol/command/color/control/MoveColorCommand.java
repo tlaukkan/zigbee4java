@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Move Color Command value object class.
@@ -75,6 +78,21 @@ public class MoveColorCommand extends ZclCommand {
      */
     public void setRateY(final Integer rateY) {
         this.rateY = rateY;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("rateX");
+        builder.append('=');
+        builder.append(rateX);
+        builder.append(", ");
+        builder.append("rateY");
+        builder.append('=');
+        builder.append(rateY);
+        return builder.toString();
     }
 
 }

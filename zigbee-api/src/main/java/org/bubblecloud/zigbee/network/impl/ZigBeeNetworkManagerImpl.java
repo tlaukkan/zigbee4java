@@ -1748,7 +1748,11 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         }
     }
 
-    private class AFMessageListenerFilter implements AsynchronousCommandListener {
+    private static class AFMessageListenerFilter implements AsynchronousCommandListener {
+        /**
+         * The logger.
+         */
+        private static final Logger LOGGER = LoggerFactory.getLogger(AFMessageListenerFilter.class);
 
         private final Collection<ApplicationFrameworkMessageListener> listeners;
 
@@ -1781,7 +1785,11 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                     localCopy = new ArrayList<ApplicationFrameworkMessageListener>(listeners);
                 }
                 for (ApplicationFrameworkMessageListener l : localCopy) {
-                    l.notify(msg);
+                    try {
+                        l.notify(msg);
+                    } catch (final Exception e) {
+                        LOGGER.error("Error AF message listener notify.", e);
+                    }
                 }
 
                 /*ZCLFrame frame = new ZCLFrame(new ClusterMessageImpl(msg.getData(), msg.getClusterId()));

@@ -15,9 +15,17 @@
  */
 package org.bubblecloud.zigbee.network.zcl;
 
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.api.cluster.impl.core.DefaultDeserializer;
+import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclDataType;
+import org.bubblecloud.zigbee.network.zcl.type.AttributeInformation;
+import org.bubblecloud.zigbee.network.zcl.type.ZclSerializable;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ZCL field deserializer.
@@ -46,8 +54,23 @@ public class ZclFieldDeserializer {
      * @return the value
      */
     public Object deserialize(final ZclDataType dataType) {
-        final ZigBeeType zigBeeType = ZclUtil.mapDataType(dataType);
-        return defaultDeserializer.readZigBeeType(zigBeeType);
+        if (ZclSerializable.class.isAssignableFrom(dataType.getDataClass())) {
+            final Class dataTypeClass = dataType.getDataClass();
+            final List<ZclSerializable> list = new ArrayList<ZclSerializable>();
+            while (defaultDeserializer.getSize() - defaultDeserializer.getPosition() > 0 ) {
+                final ZclSerializable data;
+                try {
+                    data = (ZclSerializable) dataTypeClass.newInstance();
+                } catch (final Exception e) {
+                    throw new IllegalArgumentException("Error deserializing field: " + dataType.getLabel(), e);
+                }
+                data.deserialize(this.defaultDeserializer);
+                list.add(data);
+            }
+            return list;
+        }
+
+        return defaultDeserializer.readZigBeeType(ZclUtil.mapDataType(dataType));
     }
 
 }

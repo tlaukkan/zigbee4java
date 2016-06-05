@@ -18,6 +18,10 @@ package org.bubblecloud.zigbee.network.zcl;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ByteArrayOutputStreamSerializer;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclDataType;
+import org.bubblecloud.zigbee.network.zcl.type.AttributeInformation;
+import org.bubblecloud.zigbee.network.zcl.type.ZclSerializable;
+
+import java.util.List;
 
 /**
  * ZCL field serializer.
@@ -37,8 +41,16 @@ public class ZclFieldSerializer {
      * @param dataType the data type
      */
     public void serialize(final Object value, final ZclDataType dataType) {
-        final ZigBeeType zigBeeType = ZclUtil.mapDataType(dataType);
-        serializer.appendZigBeeType(value, zigBeeType);
+
+        if (ZclSerializable.class.isAssignableFrom(dataType.getDataClass())) {
+            final List<ZclSerializable> list = (List<ZclSerializable>) value;
+            for (final ZclSerializable data : list) {
+                data.serialize(serializer);
+            }
+            return;
+        }
+
+        serializer.appendZigBeeType(value, ZclUtil.mapDataType(dataType));
     }
 
     /**

@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated View Scene Response Command value object class.
@@ -163,6 +166,37 @@ public class ViewSceneResponseCommand extends ZclCommand {
      */
     public void setExtensionFieldSets(final Object extensionFieldSets) {
         this.extensionFieldSets = extensionFieldSets;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("status");
+        builder.append('=');
+        builder.append(status);
+        builder.append(", ");
+        builder.append("groupId");
+        builder.append('=');
+        builder.append(groupId);
+        builder.append(", ");
+        builder.append("sceneId");
+        builder.append('=');
+        builder.append(sceneId);
+        builder.append(", ");
+        builder.append("transitionTime");
+        builder.append('=');
+        builder.append(transitionTime);
+        builder.append(", ");
+        builder.append("sceneName");
+        builder.append('=');
+        builder.append(sceneName);
+        builder.append(", ");
+        builder.append("extensionFieldSets");
+        builder.append('=');
+        builder.append(extensionFieldSets);
+        return builder.toString();
     }
 
 }

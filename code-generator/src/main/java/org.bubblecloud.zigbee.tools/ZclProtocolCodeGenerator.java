@@ -127,7 +127,7 @@ public class ZclProtocolCodeGenerator {
         final String messagePackagePath = getPackagePath(sourceRootPath, messagePackageRoot);
         final File messagePackageFile = getPackageFile(messagePackagePath);
         try {
-            generateZclMessageClasses(context, messagePackageRoot, sourceRootPath);
+            generateZclCommandClasses(context, messagePackageRoot, sourceRootPath);
         } catch (final IOException e) {
             System.out.println("Failed to generate profile message classes.");
             e.printStackTrace();
@@ -155,14 +155,22 @@ public class ZclProtocolCodeGenerator {
 
         out.println();
         out.println("import org.bubblecloud.zigbee.network.packet.ZToolAddress64;");
+        out.println("import org.bubblecloud.zigbee.network.zcl.type.*;");
+
         out.println();
 
         out.println("public enum " + className + " {");
 
         final LinkedList<DataType> dataTypes = new LinkedList<DataType>(context.dataTypes.values());
         for (final DataType dataType : dataTypes) {
+            final String dataTypeClass;
+            if (dataType.dataTypeClass.contains("<")) {
+                dataTypeClass = dataType.dataTypeClass.substring(dataType.dataTypeClass.indexOf("<") + 1, dataType.dataTypeClass.indexOf(">"));
+            } else {
+                dataTypeClass = dataType.dataTypeClass;
+            }
             out.print("    " + dataType.dataTypeType + "(\"" + dataType.dataTypeName + "\","
-                             + dataType.dataTypeClass + ".class" +
+                             + dataTypeClass + ".class" +
                     ")");
             if (!dataTypes.getLast().equals(dataType)) {
                 out.println(",");
@@ -284,13 +292,15 @@ public class ZclProtocolCodeGenerator {
                 {
                     final LinkedList<Command> commands = new LinkedList<Command>(cluster.received.values());
                     for (final Command command : commands) {
-                        valueRows.add("    " + command.commandType + "(" + command.commandId + ", ZclClusterType." + cluster.clusterType + ", \"" + command.commandLabel + "\", true, false)");
+                        final boolean generic = cluster.clusterId == 65535;
+                        valueRows.add("    " + command.commandType + "(" + command.commandId + ", ZclClusterType." + cluster.clusterType + ", \"" + command.commandLabel + "\", true, " + generic + ")");
                     }
                 }
                 {
                     final LinkedList<Command> commands = new LinkedList<Command>(cluster.generated.values());
                     for (final Command command : commands) {
-                        valueRows.add("    " + command.commandType + "(" + command.commandId + ", ZclClusterType." + cluster.clusterType + ", \"" + command.commandLabel + "\", false, false)");
+                        final boolean generic = cluster.clusterId == 65535;
+                        valueRows.add("    " + command.commandType + "(" + command.commandId + ", ZclClusterType." + cluster.clusterType + ", \"" + command.commandLabel + "\", false, " + generic + ")");
                     }
                 }
             }
@@ -391,7 +401,7 @@ public class ZclProtocolCodeGenerator {
         out.close();
     }
 
-    private static void generateZclMessageClasses(Context context, String packageRootPrefix, File sourceRootPath) throws IOException {
+    private static void generateZclCommandClasses(Context context, String packageRootPrefix, File sourceRootPath) throws IOException {
 
         final LinkedList<Profile> profiles = new LinkedList<Profile>(context.profiles.values());
         for (final Profile profile : profiles) {
@@ -415,7 +425,10 @@ public class ZclProtocolCodeGenerator {
                     out.println("import org.bubblecloud.zigbee.network.zcl.ZclCommand;");
                     out.println("import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;");
                     out.println("import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;");
+                    out.println("import org.bubblecloud.zigbee.network.zcl.type.*;");
                     out.println("import org.bubblecloud.zigbee.network.packet.ZToolAddress64;");
+                    out.println();
+                    out.println("import java.util.List;");
 
                     out.println();
                     out.println("/**");
@@ -476,6 +489,20 @@ public class ZclProtocolCodeGenerator {
                         out.println("        this." + field.nameLowerCamelCase + " = " + field.nameLowerCamelCase + ";");
                         out.println("    }");
                     }
+
+                    out.println("");
+                    out.println("    @Override");
+                    out.println("    public String toString() {");
+                    out.println("        final StringBuilder builder = new StringBuilder();");
+                    out.println("        builder.append(super.toString());");
+                    for (final Field field : fields) {
+                        out.println("        builder.append(\", \");");
+                        out.println("        builder.append(\"" + field.nameLowerCamelCase + "\");");
+                        out.println("        builder.append('=');");
+                        out.println("        builder.append(" + field.nameLowerCamelCase + ");");
+                    }
+                    out.println("        return builder.toString();");
+                    out.println("    }");
 
                     out.println("");
                     out.println("}");

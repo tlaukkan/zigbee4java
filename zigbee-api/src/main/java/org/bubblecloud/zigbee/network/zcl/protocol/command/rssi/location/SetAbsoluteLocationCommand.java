@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Set Absolute Location Command value object class.
@@ -141,6 +144,33 @@ public class SetAbsoluteLocationCommand extends ZclCommand {
      */
     public void setPathLossExponent(final Integer pathLossExponent) {
         this.pathLossExponent = pathLossExponent;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("coordinate1");
+        builder.append('=');
+        builder.append(coordinate1);
+        builder.append(", ");
+        builder.append("coordinate2");
+        builder.append('=');
+        builder.append(coordinate2);
+        builder.append(", ");
+        builder.append("coordinate3");
+        builder.append('=');
+        builder.append(coordinate3);
+        builder.append(", ");
+        builder.append("power");
+        builder.append('=');
+        builder.append(power);
+        builder.append(", ");
+        builder.append("pathLossExponent");
+        builder.append('=');
+        builder.append(pathLossExponent);
+        return builder.toString();
     }
 
 }

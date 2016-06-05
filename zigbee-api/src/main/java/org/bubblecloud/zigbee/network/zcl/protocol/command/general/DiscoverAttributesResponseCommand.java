@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Discover Attributes Response Command value object class.
@@ -18,7 +21,7 @@ public class DiscoverAttributesResponseCommand extends ZclCommand {
     /**
      * Information command message field.
      */
-    private Object information;
+    private List<AttributeInformation> information;
 
     /**
      * Default constructor setting the command type field.
@@ -34,7 +37,7 @@ public class DiscoverAttributesResponseCommand extends ZclCommand {
     public DiscoverAttributesResponseCommand(final ZclCommandMessage message) {
         super(message);
         this.commandIdentifier = (Boolean) message.getFields().get(ZclFieldType.DISCOVER_ATTRIBUTES_RESPONSE_COMMAND_COMMAND_IDENTIFIER);
-        this.information = (Object) message.getFields().get(ZclFieldType.DISCOVER_ATTRIBUTES_RESPONSE_COMMAND_INFORMATION);
+        this.information = (List<AttributeInformation>) message.getFields().get(ZclFieldType.DISCOVER_ATTRIBUTES_RESPONSE_COMMAND_INFORMATION);
     }
 
     @Override
@@ -65,7 +68,7 @@ public class DiscoverAttributesResponseCommand extends ZclCommand {
      * Gets Information.
      * @return the Information
      */
-    public Object getInformation() {
+    public List<AttributeInformation> getInformation() {
         return information;
     }
 
@@ -73,8 +76,23 @@ public class DiscoverAttributesResponseCommand extends ZclCommand {
      * Sets Information.
      * @param information the Information
      */
-    public void setInformation(final Object information) {
+    public void setInformation(final List<AttributeInformation> information) {
         this.information = information;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("commandIdentifier");
+        builder.append('=');
+        builder.append(commandIdentifier);
+        builder.append(", ");
+        builder.append("information");
+        builder.append('=');
+        builder.append(information);
+        return builder.toString();
     }
 
 }

@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Recall Scene Command value object class.
@@ -75,6 +78,21 @@ public class RecallSceneCommand extends ZclCommand {
      */
     public void setSceneId(final Integer sceneId) {
         this.sceneId = sceneId;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("groupId");
+        builder.append('=');
+        builder.append(groupId);
+        builder.append(", ");
+        builder.append("sceneId");
+        builder.append('=');
+        builder.append(sceneId);
+        return builder.toString();
     }
 
 }

@@ -1,5 +1,6 @@
 package org.bubblecloud.zigbee.rpc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.googlecode.jsonrpc4j.JsonRpcServer;
 import fi.iki.elonen.NanoHTTPD;
 import org.bubblecloud.zigbee.AccessLevel;
@@ -32,9 +33,9 @@ public class NanoHttpdJsonRpcServer extends JsonRpcServer {
      * @param remoteInterface the remote interface
      * @param authorizationProvider the authorization provider
      */
-    public NanoHttpdJsonRpcServer(final Object handler, final Class<?> remoteInterface,
+    public NanoHttpdJsonRpcServer(final ObjectMapper objectMapper, final Object handler, final Class<?> remoteInterface,
                                   final AuthorizationProvider authorizationProvider) {
-        super(handler, remoteInterface);
+        super(objectMapper, handler, remoteInterface);
         this.authorizationProvider = authorizationProvider;
     }
 

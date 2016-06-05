@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated RSSI Response Command value object class.
@@ -163,6 +166,37 @@ public class RssiResponseCommand extends ZclCommand {
      */
     public void setNumberRssiMeasurements(final Integer numberRssiMeasurements) {
         this.numberRssiMeasurements = numberRssiMeasurements;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("replyingDevice");
+        builder.append('=');
+        builder.append(replyingDevice);
+        builder.append(", ");
+        builder.append("coordinate1");
+        builder.append('=');
+        builder.append(coordinate1);
+        builder.append(", ");
+        builder.append("coordinate2");
+        builder.append('=');
+        builder.append(coordinate2);
+        builder.append(", ");
+        builder.append("coordinate3");
+        builder.append('=');
+        builder.append(coordinate3);
+        builder.append(", ");
+        builder.append("rssi");
+        builder.append('=');
+        builder.append(rssi);
+        builder.append(", ");
+        builder.append("numberRssiMeasurements");
+        builder.append('=');
+        builder.append(numberRssiMeasurements);
+        return builder.toString();
     }
 
 }

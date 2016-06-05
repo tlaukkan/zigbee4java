@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Move to Color Temperature Command value object class.
@@ -75,6 +78,21 @@ public class MoveToColorTemperatureCommand extends ZclCommand {
      */
     public void setTransitionTime(final Integer transitionTime) {
         this.transitionTime = transitionTime;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("colorTemperature");
+        builder.append('=');
+        builder.append(colorTemperature);
+        builder.append(", ");
+        builder.append("transitionTime");
+        builder.append('=');
+        builder.append(transitionTime);
+        return builder.toString();
     }
 
 }

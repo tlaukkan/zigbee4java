@@ -49,6 +49,10 @@ public class ZclCommandMessage {
      */
     private ZclCommandType type;
     /**
+     * The cluster ID for generic messages.
+     */
+    private Integer clusterId;
+    /**
      * The transaction ID.
      */
     private Byte transactionId;
@@ -69,7 +73,7 @@ public class ZclCommandMessage {
      * @param type the type
      * @param transactionId the transaction ID
      */
-    public ZclCommandMessage(final int destinationAddress, short destinationEndpoint, final ZclCommandType type,
+    public ZclCommandMessage(final int destinationAddress, int destinationEndpoint, final ZclCommandType type,
                              final Byte transactionId) {
         this.destinationAddress = destinationAddress;
         this.destinationEndpoint = destinationEndpoint;
@@ -183,6 +187,22 @@ public class ZclCommandMessage {
     }
 
     /**
+     * Gets the cluster ID for generic messages.
+     * @return the cluster ID.
+     */
+    public Integer getClusterId() {
+        return clusterId;
+    }
+
+    /**
+     * Sets the cluster ID for generic messages.
+     * @param clusterId the cluster ID
+     */
+    public void setClusterId(Integer clusterId) {
+        this.clusterId = clusterId;
+    }
+
+    /**
      * Gets the transaction ID.
      * @return the transaction ID
      */
@@ -201,7 +221,7 @@ public class ZclCommandMessage {
     @Override
     public String toString() {
         return type + " " + sourceAddress + "." + sourceEnpoint + " -> "
-                + destinationAddress + "." + destinationEndpoint + " " + fields;
+                + destinationAddress + "." + destinationEndpoint + " (" + transactionId + ") " + fields;
     }
 
     static {

@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Get Zone ID Map Response Command value object class.
@@ -383,6 +386,77 @@ public class GetZoneIdMapResponseCommand extends ZclCommand {
      */
     public void setZoneIdMapSection15(final Integer zoneIdMapSection15) {
         this.zoneIdMapSection15 = zoneIdMapSection15;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("zoneIdMapSection0");
+        builder.append('=');
+        builder.append(zoneIdMapSection0);
+        builder.append(", ");
+        builder.append("zoneIdMapSection1");
+        builder.append('=');
+        builder.append(zoneIdMapSection1);
+        builder.append(", ");
+        builder.append("zoneIdMapSection2");
+        builder.append('=');
+        builder.append(zoneIdMapSection2);
+        builder.append(", ");
+        builder.append("zoneIdMapSection3");
+        builder.append('=');
+        builder.append(zoneIdMapSection3);
+        builder.append(", ");
+        builder.append("zoneIdMapSection4");
+        builder.append('=');
+        builder.append(zoneIdMapSection4);
+        builder.append(", ");
+        builder.append("zoneIdMapSection5");
+        builder.append('=');
+        builder.append(zoneIdMapSection5);
+        builder.append(", ");
+        builder.append("zoneIdMapSection6");
+        builder.append('=');
+        builder.append(zoneIdMapSection6);
+        builder.append(", ");
+        builder.append("zoneIdMapSection7");
+        builder.append('=');
+        builder.append(zoneIdMapSection7);
+        builder.append(", ");
+        builder.append("zoneIdMapSection8");
+        builder.append('=');
+        builder.append(zoneIdMapSection8);
+        builder.append(", ");
+        builder.append("zoneIdMapSection9");
+        builder.append('=');
+        builder.append(zoneIdMapSection9);
+        builder.append(", ");
+        builder.append("zoneIdMapSection10");
+        builder.append('=');
+        builder.append(zoneIdMapSection10);
+        builder.append(", ");
+        builder.append("zoneIdMapSection11");
+        builder.append('=');
+        builder.append(zoneIdMapSection11);
+        builder.append(", ");
+        builder.append("zoneIdMapSection12");
+        builder.append('=');
+        builder.append(zoneIdMapSection12);
+        builder.append(", ");
+        builder.append("zoneIdMapSection13");
+        builder.append('=');
+        builder.append(zoneIdMapSection13);
+        builder.append(", ");
+        builder.append("zoneIdMapSection14");
+        builder.append('=');
+        builder.append(zoneIdMapSection14);
+        builder.append(", ");
+        builder.append("zoneIdMapSection15");
+        builder.append('=');
+        builder.append(zoneIdMapSection15);
+        return builder.toString();
     }
 
 }

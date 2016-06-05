@@ -134,6 +134,10 @@ public class DefaultDeserializer implements ZBDeserializer {
         return index;
     }
 
+    public int getSize() {
+        return payload.length;
+    }
+
     public void skip(int n) {
         index += n;
     }
@@ -157,16 +161,19 @@ public class DefaultDeserializer implements ZBDeserializer {
                 value[0] = readBoolean();
                 break;
             case Data8bit:
+                value[0] = Integer.valueOf(read_byte() & 0xFF);
+                break;
             case Bitmap8bit:
+                value[0] = Integer.valueOf(read_byte() & 0xFF);
+                break;
             case Enumeration8bit:
+                value[0] = Integer.valueOf(read_byte() & 0xFF);
+                break;
             case UnsignedInteger8bit:
+                value[0] = Integer.valueOf(read_byte() & 0xFF);
+                break;
             case SignedInteger8bit:
-                byte b = read_byte();
-                if (type == ZigBeeType.UnsignedInteger8bit) {
-                    value[0] = Integer.valueOf(b & 0xFF);
-                } else {
-                    value[0] = Integer.valueOf(b);
-                }
+                value[0] = Integer.valueOf(read_byte());
                 break;
             case Data16bit:
             case Bitmap16bit:

@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Zone Enroll Request Command value object class.
@@ -75,6 +78,21 @@ public class ZoneEnrollRequestCommand extends ZclCommand {
      */
     public void setManufacturerCode(final Integer manufacturerCode) {
         this.manufacturerCode = manufacturerCode;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("zoneType");
+        builder.append('=');
+        builder.append(zoneType);
+        builder.append(", ");
+        builder.append("manufacturerCode");
+        builder.append('=');
+        builder.append(manufacturerCode);
+        return builder.toString();
     }
 
 }

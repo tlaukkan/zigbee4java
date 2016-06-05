@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Report RSSI Measurements Command value object class.
@@ -97,6 +100,25 @@ public class ReportRssiMeasurementsCommand extends ZclCommand {
      */
     public void setNeighborsInformation(final Object neighborsInformation) {
         this.neighborsInformation = neighborsInformation;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("reportingAddress");
+        builder.append('=');
+        builder.append(reportingAddress);
+        builder.append(", ");
+        builder.append("numberOfNeighbors");
+        builder.append('=');
+        builder.append(numberOfNeighbors);
+        builder.append(", ");
+        builder.append("neighborsInformation");
+        builder.append('=');
+        builder.append(neighborsInformation);
+        return builder.toString();
     }
 
 }

@@ -1,5 +1,6 @@
 package org.bubblecloud.zigbee;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.iki.elonen.NanoHTTPD;
 import org.bubblecloud.zigbee.rpc.NanoHttpdJsonRpcServer;
 import org.bubblecloud.zigbee.rpc.NanoHttpdJsonRpcServerResponse;
@@ -38,7 +39,10 @@ public class ZigBeeServer extends NanoHTTPD {
                         final AuthorizationProvider authorizationProvider) throws IOException {
         super(port);
         final ZigBeeRpcApiImpl zigBeeRpcApi = new ZigBeeRpcApiImpl(zigBeeConsole);
-        jsonRpcServer = new NanoHttpdJsonRpcServer(zigBeeRpcApi, ZigBeeRpcApi.class, authorizationProvider);
+        final ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        //objectMapper.enableDefaultTyping();
+        jsonRpcServer = new NanoHttpdJsonRpcServer(objectMapper, zigBeeRpcApi, ZigBeeRpcApi.class, authorizationProvider);
         if (keystorePath != null) {
             makeSecure(NanoHTTPD.makeSSLSocketFactory(keystorePath, keystorePassword), sslProtocols);
         }

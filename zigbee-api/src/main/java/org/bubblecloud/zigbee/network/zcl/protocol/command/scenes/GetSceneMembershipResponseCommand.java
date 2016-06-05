@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Get Scene Membership Response Command value object class.
@@ -141,6 +144,33 @@ public class GetSceneMembershipResponseCommand extends ZclCommand {
      */
     public void setSceneList(final Object sceneList) {
         this.sceneList = sceneList;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("status");
+        builder.append('=');
+        builder.append(status);
+        builder.append(", ");
+        builder.append("capacity");
+        builder.append('=');
+        builder.append(capacity);
+        builder.append(", ");
+        builder.append("groupId");
+        builder.append('=');
+        builder.append(groupId);
+        builder.append(", ");
+        builder.append("sceneCount");
+        builder.append('=');
+        builder.append(sceneCount);
+        builder.append(", ");
+        builder.append("sceneList");
+        builder.append('=');
+        builder.append(sceneList);
+        return builder.toString();
     }
 
 }

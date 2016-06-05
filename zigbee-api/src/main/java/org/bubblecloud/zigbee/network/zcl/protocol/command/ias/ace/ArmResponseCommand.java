@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Arm Response Command value object class.
@@ -53,6 +56,17 @@ public class ArmResponseCommand extends ZclCommand {
      */
     public void setArmNotification(final Integer armNotification) {
         this.armNotification = armNotification;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("armNotification");
+        builder.append('=');
+        builder.append(armNotification);
+        return builder.toString();
     }
 
 }

@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Anchor Node Announce Command value object class.
@@ -119,6 +122,29 @@ public class AnchorNodeAnnounceCommand extends ZclCommand {
      */
     public void setCoordinate3(final Integer coordinate3) {
         this.coordinate3 = coordinate3;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("anchorNodeAddress");
+        builder.append('=');
+        builder.append(anchorNodeAddress);
+        builder.append(", ");
+        builder.append("coordinate1");
+        builder.append('=');
+        builder.append(coordinate1);
+        builder.append(", ");
+        builder.append("coordinate2");
+        builder.append('=');
+        builder.append(coordinate2);
+        builder.append(", ");
+        builder.append("coordinate3");
+        builder.append('=');
+        builder.append(coordinate3);
+        return builder.toString();
     }
 
 }

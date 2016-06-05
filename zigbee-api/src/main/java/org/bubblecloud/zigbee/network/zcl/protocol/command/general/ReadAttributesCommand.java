@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Read Attributes Command value object class.
@@ -53,6 +56,17 @@ public class ReadAttributesCommand extends ZclCommand {
      */
     public void setIdentifiers(final Object identifiers) {
         this.identifiers = identifiers;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("identifiers");
+        builder.append('=');
+        builder.append(identifiers);
+        return builder.toString();
     }
 
 }

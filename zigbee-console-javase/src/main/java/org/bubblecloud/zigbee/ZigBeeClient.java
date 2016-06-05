@@ -1,5 +1,6 @@
 package org.bubblecloud.zigbee;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 import com.googlecode.jsonrpc4j.ProxyUtil;
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
@@ -62,12 +63,16 @@ public class ZigBeeClient implements ZclApi {
         JsonRpcHttpClient  jsonRpcClient;
 
         try {
-            jsonRpcClient = new JsonRpcHttpClient(new URL(url));
-            jsonRpcClient.setConnectionTimeoutMillis(3000);
-            jsonRpcClient.setReadTimeoutMillis(5000);
+            final ObjectMapper objectMapper = new ObjectMapper();
+            //objectMapper.enableDefaultTyping();
+            objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+
             final HashMap<String, String> headers = new HashMap<String, String>();
             headers.put("Authorization", "Bearer " + accessToken);
-            jsonRpcClient.setHeaders(headers);
+
+            jsonRpcClient = new JsonRpcHttpClient(objectMapper, new URL(url), headers);
+            jsonRpcClient.setConnectionTimeoutMillis(3000);
+            jsonRpcClient.setReadTimeoutMillis(5000);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Malformed URL: " + url, e);
         }

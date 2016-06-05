@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Move (with On/Off) Command value object class.
@@ -75,6 +78,21 @@ public class MoveWithOnOffCommand extends ZclCommand {
      */
     public void setRate(final Integer rate) {
         this.rate = rate;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("moveMode");
+        builder.append('=');
+        builder.append(moveMode);
+        builder.append(", ");
+        builder.append("rate");
+        builder.append('=');
+        builder.append(rate);
+        return builder.toString();
     }
 
 }

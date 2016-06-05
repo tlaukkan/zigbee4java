@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Restart Device Command value object class.
@@ -97,6 +100,25 @@ public class RestartDeviceCommand extends ZclCommand {
      */
     public void setJitter(final Integer jitter) {
         this.jitter = jitter;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("option");
+        builder.append('=');
+        builder.append(option);
+        builder.append(", ");
+        builder.append("delay");
+        builder.append('=');
+        builder.append(delay);
+        builder.append(", ");
+        builder.append("jitter");
+        builder.append('=');
+        builder.append(jitter);
+        return builder.toString();
     }
 
 }

@@ -154,6 +154,9 @@ public class ZclUtil {
             case _8_BIT_ENUMERATION:
                 zigBeeType = ZigBeeType.Enumeration8bit;
                 break;
+            case BOOLEAN:
+                zigBeeType = ZigBeeType.Boolean;
+                break;
             default:
                 break;
         }

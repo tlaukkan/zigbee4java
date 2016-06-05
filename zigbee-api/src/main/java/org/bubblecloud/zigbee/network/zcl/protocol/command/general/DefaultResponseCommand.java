@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Default Response Command value object class.
@@ -75,6 +78,21 @@ public class DefaultResponseCommand extends ZclCommand {
      */
     public void setStatusCode(final Integer statusCode) {
         this.statusCode = statusCode;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("commandIdentifier");
+        builder.append('=');
+        builder.append(commandIdentifier);
+        builder.append(", ");
+        builder.append("statusCode");
+        builder.append('=');
+        builder.append(statusCode);
+        return builder.toString();
     }
 
 }

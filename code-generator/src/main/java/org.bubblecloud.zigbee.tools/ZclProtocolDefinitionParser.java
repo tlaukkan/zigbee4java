@@ -164,7 +164,7 @@ public class ZclProtocolDefinitionParser {
                 } else if (field.dataType.equals("N_X_ATTRIBUTE_IDENTIFIER")) {
                     dataType.dataTypeClass = "Object";
                 } else if (field.dataType.equals("N_X_READ_ATTRIBUTE_STATUS_RECORD")) {
-                    dataType.dataTypeClass = "Object";
+                    dataType.dataTypeClass = "List<ReadAttributeStatusRecord>";
                 } else if (field.dataType.equals("N_X_WRITE_ATTRIBUTE_RECORD")) {
                     dataType.dataTypeClass = "Object";
                 } else if (field.dataType.equals("N_X_WRITE_ATTRIBUTE_STATUS_RECORD")) {
@@ -178,7 +178,7 @@ public class ZclProtocolDefinitionParser {
                 } else if (field.dataType.equals("N_X_ATTRIBUTE_REPORT")) {
                     dataType.dataTypeClass = "Object";
                 } else if (field.dataType.equals("N_X_ATTRIBUTE_INFORMATION")) {
-                    dataType.dataTypeClass = "Object";
+                    dataType.dataTypeClass = "List<AttributeInformation>";
                 } else if (field.dataType.equals("N_X_ATTRIBUTE_SELECTOR")) {
                     dataType.dataTypeClass = "Object";
                 } else if (field.dataType.equals("BOOLEAN")) {

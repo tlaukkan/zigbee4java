@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Get Location Data Command value object class.
@@ -97,6 +100,25 @@ public class GetLocationDataCommand extends ZclCommand {
      */
     public void setTargetAddress(final ZToolAddress64 targetAddress) {
         this.targetAddress = targetAddress;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("header");
+        builder.append('=');
+        builder.append(header);
+        builder.append(", ");
+        builder.append("numberResponses");
+        builder.append('=');
+        builder.append(numberResponses);
+        builder.append(", ");
+        builder.append("targetAddress");
+        builder.append('=');
+        builder.append(targetAddress);
+        return builder.toString();
     }
 
 }

@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated View Group Response Command value object class.
@@ -97,6 +100,25 @@ public class ViewGroupResponseCommand extends ZclCommand {
      */
     public void setGroupName(final String groupName) {
         this.groupName = groupName;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("status");
+        builder.append('=');
+        builder.append(status);
+        builder.append(", ");
+        builder.append("groupId");
+        builder.append('=');
+        builder.append(groupId);
+        builder.append(", ");
+        builder.append("groupName");
+        builder.append('=');
+        builder.append(groupName);
+        return builder.toString();
     }
 
 }

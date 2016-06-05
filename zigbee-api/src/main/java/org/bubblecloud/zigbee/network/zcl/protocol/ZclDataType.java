@@ -1,6 +1,7 @@
 package org.bubblecloud.zigbee.network.zcl.protocol;
 
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 
 public enum ZclDataType {
     BOOLEAN("Boolean",Boolean.class),
@@ -8,7 +9,7 @@ public enum ZclDataType {
     CLUSTER_ID("Cluster ID",Object.class),
     IEEE_ADDRESS("IEEE address",ZToolAddress64.class),
     N_X_ATTRIBUTE_IDENTIFIER("N X Attribute identifier",Object.class),
-    N_X_ATTRIBUTE_INFORMATION("N X Attribute information",Object.class),
+    N_X_ATTRIBUTE_INFORMATION("N X Attribute information",AttributeInformation.class),
     N_X_ATTRIBUTE_RECORD("N X Attribute record",Object.class),
     N_X_ATTRIBUTE_REPORT("N X Attribute report",Object.class),
     N_X_ATTRIBUTE_REPORTING_CONFIGURATION_RECORD("N X Attribute reporting configuration record",Object.class),
@@ -16,7 +17,7 @@ public enum ZclDataType {
     N_X_ATTRIBUTE_STATUS_RECORD("N X Attribute status record",Object.class),
     N_X_EXTENSION_FIELD_SET("N X Extension field set",Object.class),
     N_X_NEIGHBORS_INFORMATION("N X Neighbors information",Object.class),
-    N_X_READ_ATTRIBUTE_STATUS_RECORD("N X Read attribute status record",Object.class),
+    N_X_READ_ATTRIBUTE_STATUS_RECORD("N X Read attribute status record",ReadAttributeStatusRecord.class),
     N_X_UNSIGNED_16_BIT_INTEGER("N X Unsigned 16-bit integer",Object.class),
     N_X_UNSIGNED_8_BIT_INTEGER("N X Unsigned 8-bit integer",Object.class),
     N_X_WRITE_ATTRIBUTE_RECORD("N X Write attribute record",Object.class),

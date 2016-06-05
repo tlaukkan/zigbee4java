@@ -32,6 +32,10 @@ public class ZclCommand {
      */
     private ZclCommandType type;
     /**
+     * The cluster ID for generic messages.
+     */
+    private Integer clusterId;
+    /**
      * The transaction ID.
      */
     private Byte transactionId;
@@ -53,6 +57,7 @@ public class ZclCommand {
         this.destinationAddress = commandMessage.getDestinationAddress();
         this.destinationEndpoint = commandMessage.getDestinationEndpoint();
         this.type = commandMessage.getType();
+        this.clusterId = commandMessage.getClusterId();
         this.transactionId = commandMessage.getTransactionId();
     }
 
@@ -137,6 +142,22 @@ public class ZclCommand {
     }
 
     /**
+     * Gets the cluster ID for generic messages.
+     * @return the cluster ID.
+     */
+    public Integer getClusterId() {
+        return clusterId;
+    }
+
+    /**
+     * Sets the cluster ID for generic messages.
+     * @param clusterId the cluster ID
+     */
+    public void setClusterId(Integer clusterId) {
+        this.clusterId = clusterId;
+    }
+
+    /**
      * Gets the transaction ID.
      * @return the transaction ID
      */
@@ -153,14 +174,15 @@ public class ZclCommand {
     }
 
     public ZclCommandMessage toCommandMessage() {
-        final ZclCommandMessage message = new ZclCommandMessage();
-        message.setSourceAddress(sourceAddress);
-        message.setSourceEnpoint(sourceEnpoint);
-        message.setDestinationAddress(destinationAddress);
-        message.setDestinationEndpoint(destinationEndpoint);
-        message.setType(type);
-        message.setTransactionId(transactionId);
-        return message;
+        final ZclCommandMessage commandMessage = new ZclCommandMessage();
+        commandMessage.setSourceAddress(sourceAddress);
+        commandMessage.setSourceEnpoint(sourceEnpoint);
+        commandMessage.setDestinationAddress(destinationAddress);
+        commandMessage.setDestinationEndpoint(destinationEndpoint);
+        commandMessage.setType(type);
+        commandMessage.setClusterId(clusterId);
+        commandMessage.setTransactionId(transactionId);
+        return commandMessage;
     }
 
     @Override

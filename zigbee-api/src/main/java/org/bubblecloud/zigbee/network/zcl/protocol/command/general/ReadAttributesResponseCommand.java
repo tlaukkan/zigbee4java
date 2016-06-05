@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Read Attributes Response Command value object class.
@@ -14,7 +17,7 @@ public class ReadAttributesResponseCommand extends ZclCommand {
     /**
      * Records command message field.
      */
-    private Object records;
+    private List<ReadAttributeStatusRecord> records;
 
     /**
      * Default constructor setting the command type field.
@@ -29,7 +32,7 @@ public class ReadAttributesResponseCommand extends ZclCommand {
      */
     public ReadAttributesResponseCommand(final ZclCommandMessage message) {
         super(message);
-        this.records = (Object) message.getFields().get(ZclFieldType.READ_ATTRIBUTES_RESPONSE_COMMAND_RECORDS);
+        this.records = (List<ReadAttributeStatusRecord>) message.getFields().get(ZclFieldType.READ_ATTRIBUTES_RESPONSE_COMMAND_RECORDS);
     }
 
     @Override
@@ -43,7 +46,7 @@ public class ReadAttributesResponseCommand extends ZclCommand {
      * Gets Records.
      * @return the Records
      */
-    public Object getRecords() {
+    public List<ReadAttributeStatusRecord> getRecords() {
         return records;
     }
 
@@ -51,8 +54,19 @@ public class ReadAttributesResponseCommand extends ZclCommand {
      * Sets Records.
      * @param records the Records
      */
-    public void setRecords(final Object records) {
+    public void setRecords(final List<ReadAttributeStatusRecord> records) {
         this.records = records;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("records");
+        builder.append('=');
+        builder.append(records);
+        return builder.toString();
     }
 
 }

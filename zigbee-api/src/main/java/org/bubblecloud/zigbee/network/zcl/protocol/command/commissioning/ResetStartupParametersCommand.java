@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Reset Startup Parameters Command value object class.
@@ -75,6 +78,21 @@ public class ResetStartupParametersCommand extends ZclCommand {
      */
     public void setIndex(final Integer index) {
         this.index = index;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("option");
+        builder.append('=');
+        builder.append(option);
+        builder.append(", ");
+        builder.append("index");
+        builder.append('=');
+        builder.append(index);
+        return builder.toString();
     }
 
 }

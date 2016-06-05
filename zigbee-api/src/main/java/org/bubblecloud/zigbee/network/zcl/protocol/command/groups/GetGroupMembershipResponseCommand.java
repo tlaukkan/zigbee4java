@@ -5,7 +5,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
+import org.bubblecloud.zigbee.network.zcl.type.*;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+
+import java.util.List;
 
 /**
  * Code generated Get Group Membership Response Command value object class.
@@ -97,6 +100,25 @@ public class GetGroupMembershipResponseCommand extends ZclCommand {
      */
     public void setGroupList(final Object groupList) {
         this.groupList = groupList;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(super.toString());
+        builder.append(", ");
+        builder.append("capacity");
+        builder.append('=');
+        builder.append(capacity);
+        builder.append(", ");
+        builder.append("groupCount");
+        builder.append('=');
+        builder.append(groupCount);
+        builder.append(", ");
+        builder.append("groupList");
+        builder.append('=');
+        builder.append(groupList);
+        return builder.toString();
     }
 
 }
