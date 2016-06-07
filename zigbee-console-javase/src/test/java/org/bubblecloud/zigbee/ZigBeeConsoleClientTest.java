@@ -3,7 +3,6 @@ package org.bubblecloud.zigbee;
 import org.junit.Assert;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
-import org.bubblecloud.zigbee.simple.SimpleZigBeeApi;
 import org.bubblecloud.zigbee.simple.ZigBeeDevice;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -13,43 +12,41 @@ import org.junit.Test;
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZigBeeRpcApiClientTest {
+public class ZigBeeConsoleClientTest {
 
     @Test
     @Ignore
     public void testCommands() throws Exception {
-        final ZigBeeClient zigBeeClient = new ZigBeeClient("http://127.0.0.1:5000/", "secret");
+        final ZigBeeConsoleClient client = new ZigBeeConsoleClient("http://127.0.0.1:5000/", "secret");
 
-        zigBeeClient.startup();
+        client.startup();
 
-        zigBeeClient.addCommandListener(new ZclCommandListener() {
+        client.addCommandListener(new ZclCommandListener() {
             @Override
             public void commandReceived(final ZclCommand command) {
                 System.out.println(command);
             }
         });
 
-        final SimpleZigBeeApi api = zigBeeClient.getSimpleZigBeeApi();
+        final ZigBeeDevice device = client.getZigBeeDevices().get(0);
 
-        final ZigBeeDevice device = api.getZigBeeDevices().get(0);
-
-        Assert.assertTrue(api.on(device).get().isSuccess());
+        Assert.assertTrue(client.on(device).get().isSuccess());
 
         Thread.sleep(1000);
 
-        Assert.assertTrue(api.color(device, 1.0, 0.0, 0.0, 1.0).get().isSuccess());
+        Assert.assertTrue(client.color(device, 1.0, 0.0, 0.0, 1.0).get().isSuccess());
 
         Thread.sleep(1000);
 
-        Assert.assertTrue(api.color(device, 0.0, 1.0, 0.0, 1.0).get().isSuccess());
+        Assert.assertTrue(client.color(device, 0.0, 1.0, 0.0, 1.0).get().isSuccess());
 
         Thread.sleep(1000);
 
-        Assert.assertTrue(api.color(device, 0.0, 0.0, 1.0, 1.0).get().isSuccess());
+        Assert.assertTrue(client.color(device, 0.0, 0.0, 1.0, 1.0).get().isSuccess());
 
         Thread.sleep(1000);
 
-        Assert.assertTrue(api.off(device).get().isSuccess());
+        Assert.assertTrue(client.off(device).get().isSuccess());
 
         /*final ReadAttributesCommand readAttributesCommand = new ReadAttributesCommand();
         readAttributesCommand.setDestinationAddress(11022);
@@ -82,7 +79,7 @@ public class ZigBeeRpcApiClientTest {
         onCommand.setDestinationEndpoint(11);
         zigBeeClient.sendCommand(onCommand);*/
 
-        zigBeeClient.shutdown();
+        client.shutdown();
     }
 
 }

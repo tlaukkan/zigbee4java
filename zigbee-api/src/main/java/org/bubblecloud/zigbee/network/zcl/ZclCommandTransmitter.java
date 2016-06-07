@@ -118,6 +118,7 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
         }
 
         final ZclCommandMessage commandMessage = new ZclCommandMessage();
+        commandMessage.setClusterId(clusterId);
         commandMessage.setSourceAddress(sourceAddress);
         commandMessage.setSourceEnpoint(sourceEnpoint & (0xFFFF));
         commandMessage.setDestinationAddress(destinationAddress);
@@ -190,6 +191,7 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
             } else {
                 clusterId = commandMessage.getType().getClusterType().getId();
             }
+            commandMessage.setClusterId(clusterId);
 
             commandMessage.setSourceEnpoint(
                     af.getSendingEndpoint(commandMessage.getType().getClusterType().getProfileType().getId(),

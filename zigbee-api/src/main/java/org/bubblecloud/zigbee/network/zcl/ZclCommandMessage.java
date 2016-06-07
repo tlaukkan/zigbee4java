@@ -15,6 +15,7 @@
  */
 package org.bubblecloud.zigbee.network.zcl;
 
+import org.bubblecloud.zigbee.network.zcl.protocol.ZclClusterType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandTypeRegistrar;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
@@ -220,8 +221,8 @@ public class ZclCommandMessage {
 
     @Override
     public String toString() {
-        return type + " " + sourceAddress + "." + sourceEnpoint + " -> "
-                + destinationAddress + "." + destinationEndpoint + " (" + transactionId + ") " + fields;
+        return ZclClusterType.getValueById(clusterId).getLabel() + " - " + type + " " + sourceAddress + "." + sourceEnpoint + " -> "
+                + destinationAddress + "." + destinationEndpoint  + " tid=" + transactionId + " " + fields;
     }
 
     static {

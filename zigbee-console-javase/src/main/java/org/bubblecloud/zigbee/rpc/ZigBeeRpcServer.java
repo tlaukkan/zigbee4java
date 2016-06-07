@@ -1,9 +1,8 @@
-package org.bubblecloud.zigbee;
+package org.bubblecloud.zigbee.rpc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.iki.elonen.NanoHTTPD;
-import org.bubblecloud.zigbee.rpc.NanoHttpdJsonRpcServer;
-import org.bubblecloud.zigbee.rpc.NanoHttpdJsonRpcServerResponse;
+import org.bubblecloud.zigbee.ZigBeeConsole;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
@@ -13,11 +12,11 @@ import java.io.IOException;
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZigBeeServer extends NanoHTTPD {
+public class ZigBeeRpcServer extends NanoHTTPD {
     /**
      * The {@link org.slf4j.Logger}.
      */
-    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeServer.class);
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeRpcServer.class);
     /**
      * The JSON ROC server.
      */
@@ -33,10 +32,10 @@ public class ZigBeeServer extends NanoHTTPD {
      * @param authorizationProvider the authorization provider
      * @throws IOException if IO Exception occurs
      */
-    public ZigBeeServer(final ZigBeeConsole zigBeeConsole, final int port,
-                        final String keystorePath, final char[] keystorePassword,
-                        final String[] sslProtocols,
-                        final AuthorizationProvider authorizationProvider) throws IOException {
+    public ZigBeeRpcServer(final ZigBeeConsole zigBeeConsole, final int port,
+                           final String keystorePath, final char[] keystorePassword,
+                           final String[] sslProtocols,
+                           final AuthorizationProvider authorizationProvider) throws IOException {
         super(port);
         final ZigBeeRpcApiImpl zigBeeRpcApi = new ZigBeeRpcApiImpl(zigBeeConsole);
         final ObjectMapper objectMapper = new ObjectMapper();

@@ -1,4 +1,4 @@
-package org.bubblecloud.zigbee;
+package org.bubblecloud.zigbee.rpc;
 
 /**
  * Authorization provider interface.

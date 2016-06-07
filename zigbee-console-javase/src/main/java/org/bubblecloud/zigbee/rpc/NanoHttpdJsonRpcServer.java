@@ -3,8 +3,6 @@ package org.bubblecloud.zigbee.rpc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.googlecode.jsonrpc4j.JsonRpcServer;
 import fi.iki.elonen.NanoHTTPD;
-import org.bubblecloud.zigbee.AccessLevel;
-import org.bubblecloud.zigbee.AuthorizationProvider;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;

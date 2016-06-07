@@ -1,4 +1,4 @@
-package org.bubblecloud.zigbee;
+package org.bubblecloud.zigbee.rpc;
 
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;

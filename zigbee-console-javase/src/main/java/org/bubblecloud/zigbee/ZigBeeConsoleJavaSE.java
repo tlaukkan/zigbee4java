@@ -3,6 +3,9 @@ package org.bubblecloud.zigbee;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.port.SerialPortImpl;
+import org.bubblecloud.zigbee.rpc.AccessLevel;
+import org.bubblecloud.zigbee.rpc.AuthorizationProvider;
+import org.bubblecloud.zigbee.rpc.ZigBeeRpcServer;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
@@ -103,10 +106,10 @@ public class ZigBeeConsoleJavaSE {
             }
         };
 
-        final ZigBeeServer zigBeeConsoleServer;
+        final ZigBeeRpcServer zigBeeConsoleServer;
         if (args.length > 5) {
             try {
-                zigBeeConsoleServer = new ZigBeeServer(console, port, keystorePath, password, sslProtocols,
+                zigBeeConsoleServer = new ZigBeeRpcServer(console, port, keystorePath, password, sslProtocols,
                         authorizationProvider);
                 zigBeeConsoleServer.start();
             } catch (final IOException e) {

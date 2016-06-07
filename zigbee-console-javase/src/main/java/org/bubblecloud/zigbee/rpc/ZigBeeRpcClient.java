@@ -1,4 +1,4 @@
-package org.bubblecloud.zigbee;
+package org.bubblecloud.zigbee.rpc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
@@ -24,11 +24,11 @@ import java.util.List;
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZigBeeClient implements ZclApi {
+public class ZigBeeRpcClient implements ZclApi {
     /**
      * The {@link org.slf4j.Logger}.
      */
-    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeServer.class);
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeRpcServer.class);
     /**
      * The minimum polling period in milliseconds.
      */
@@ -59,10 +59,11 @@ public class ZigBeeClient implements ZclApi {
     private List<ZclCommandListener> commandListeners = new ArrayList<ZclCommandListener>();
 
     /**
-     * Configures the speech NLP API JSON RPC client.
-     * @param url the speech NLP JSON RPC HTTP server URL
+     * Constructor which defines ZigBee RPC API URL and access token.
+     * @param url the ZigBee RPC API URL
+     * @param accessToken the ZigBee RPC API access token
      */
-    public ZigBeeClient(final String url, final String accessToken) {
+    public ZigBeeRpcClient(final String url, final String accessToken) {
         JsonRpcHttpClient  jsonRpcClient;
 
         try {
@@ -124,14 +125,6 @@ public class ZigBeeClient implements ZclApi {
      */
     public ZigBeeRpcApi getZigBeeRpcApi() {
         return zigBeeRpcApi;
-    }
-
-    /**
-     * Gets simple ZigBee API.
-     * @return the simple ZigBee API
-     */
-    public SimpleZigBeeApi getSimpleZigBeeApi() {
-        return new SimpleZigBeeApi(this);
     }
 
     /**

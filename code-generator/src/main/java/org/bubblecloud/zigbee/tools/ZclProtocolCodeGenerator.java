@@ -236,6 +236,9 @@ public class ZclProtocolCodeGenerator {
 
         out.println("package " + packageRoot + ";");
         out.println();
+        out.println("import java.util.HashMap;");
+        out.println("import java.util.Map;");
+        out.println();
         out.println("public enum " + className + " {");
 
         final LinkedList<Profile> profiles = new LinkedList<Profile>(context.profiles.values());
@@ -252,6 +255,8 @@ public class ZclProtocolCodeGenerator {
         }
 
         out.println("");
+        out.println("    private static final Map<Integer, ZclClusterType> idValueMap = new HashMap<Integer, ZclClusterType>();");
+        out.println("");
         out.println("    private final int id;");
         out.println("    private final ZclProfileType profileType;");
         out.println("    private final String label;");
@@ -266,6 +271,16 @@ public class ZclProtocolCodeGenerator {
         out.println("    public ZclProfileType getProfileType() { return profileType; }");
         out.println("    public String getLabel() { return label; }");
         out.println("    public String toString() { return label; }");
+        out.println("");
+        out.println("    public static ZclClusterType getValueById(final int id) {");
+        out.println("        return idValueMap.get(id);");
+        out.println("    }");
+        out.println("");
+        out.println("    static {");
+        out.println("        for (final ZclClusterType value : values()) {");
+        out.println("            idValueMap.put(value.id, value);");
+        out.println("        }");
+        out.println("    }");
         out.println("");
         out.println("}");
 

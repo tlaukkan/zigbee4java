@@ -31,10 +31,24 @@ public class SimpleZigBeeApi {
     private ZclApi zclApi;
 
     /**
+     * Default constructor inheritance.
+     */
+    public SimpleZigBeeApi() {
+    }
+
+    /**
      * Constructor for setting the ZCL API.
      * @param zclApi the ZCL API
      */
     public SimpleZigBeeApi(final ZclApi zclApi) {
+        this.zclApi = zclApi;
+    }
+
+    /**
+     * Sets ZLC API.
+     * @param zclApi the ZCL API
+     */
+    public void setZclApi(final ZclApi zclApi) {
         this.zclApi = zclApi;
     }
 

@@ -1,5 +1,8 @@
 package org.bubblecloud.zigbee.network.zcl.protocol;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum ZclClusterType {
     BASIC(0, ZclProfileType.HOME_AUTOMATION, "Basic"),
     POWER_CONFIGURATION(1, ZclProfileType.HOME_AUTOMATION, "Power configuration"),
@@ -64,6 +67,8 @@ public enum ZclClusterType {
     MULTISTATE_VALUE__BACNET_EXTENDED_(1555, ZclProfileType.HOME_AUTOMATION, "Multistate Value (BACnet Extended)"),
     GENERAL(65535, ZclProfileType.HOME_AUTOMATION, "General");
 
+    private static final Map<Integer, ZclClusterType> idValueMap = new HashMap<Integer, ZclClusterType>();
+
     private final int id;
     private final ZclProfileType profileType;
     private final String label;
@@ -78,5 +83,15 @@ public enum ZclClusterType {
     public ZclProfileType getProfileType() { return profileType; }
     public String getLabel() { return label; }
     public String toString() { return label; }
+
+    public static ZclClusterType getValueById(final int id) {
+        return idValueMap.get(id);
+    }
+
+    static {
+        for (final ZclClusterType value : values()) {
+            idValueMap.put(value.id, value);
+        }
+    }
 
 }
