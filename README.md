@@ -13,7 +13,11 @@ ZigBee API for Java is originally a fork of ZB4OSGI.
 
 Questions can be sent to the following email address: 'zigbee4java@googlegroups.com'.
 
-You can also contact me directly: 'tommi.s.e.laukkanen@gmail.com'.
+Or you can contact team members directly: 
+
+* tommi.s.e.laukkanen@gmail.com
+
+(Contributors, please add yourself to the list if you wish to provide support.)
 
 Chat
 ----
