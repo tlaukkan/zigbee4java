@@ -1,5 +1,6 @@
 package org.bubblecloud.zigbee;
 
+import org.junit.Assert;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
 import org.bubblecloud.zigbee.simple.SimpleZigBeeApi;
@@ -32,23 +33,23 @@ public class ZigBeeRpcApiClientTest {
 
         final ZigBeeDevice device = api.getZigBeeDevices().get(0);
 
-        api.on(device);
+        Assert.assertTrue(api.on(device).get().isSuccess());
 
         Thread.sleep(1000);
 
-        api.color(device, 1.0, 0.0, 0.0, 1.0);
+        Assert.assertTrue(api.color(device, 1.0, 0.0, 0.0, 1.0).get().isSuccess());
 
         Thread.sleep(1000);
 
-        api.color(device, 0.0, 1.0, 0.0, 1.0);
+        Assert.assertTrue(api.color(device, 0.0, 1.0, 0.0, 1.0).get().isSuccess());
 
         Thread.sleep(1000);
 
-        api.color(device, 0.0, 0.0, 1.0, 1.0);
+        Assert.assertTrue(api.color(device, 0.0, 0.0, 1.0, 1.0).get().isSuccess());
 
         Thread.sleep(1000);
 
-        api.off(device);
+        Assert.assertTrue(api.off(device).get().isSuccess());
 
         /*final ReadAttributesCommand readAttributesCommand = new ReadAttributesCommand();
         readAttributesCommand.setDestinationAddress(11022);

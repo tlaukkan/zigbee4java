@@ -144,22 +144,22 @@ public class ZigBeeClient implements ZclApi {
     }
 
     @Override
-    public void sendCommand(ZclCommand command) throws ZigBeeException {
-        zigBeeRpcApi.send(command.toCommandMessage());
+    public int sendCommand(ZclCommand command) throws ZigBeeException {
+        return zigBeeRpcApi.send(command.toCommandMessage());
     }
 
     @Override
     public void addCommandListener(final ZclCommandListener commandListener) {
-        synchronized (commandListeners) {
-            commandListeners.add(commandListener);
-        }
+        final List<ZclCommandListener> modifiedCommandListeners = new ArrayList<ZclCommandListener>(commandListeners);
+        modifiedCommandListeners.add(commandListener);
+        commandListeners = modifiedCommandListeners;
     }
 
     @Override
     public void removeCommandListener(final ZclCommandListener commandListener) {
-        synchronized (commandListeners) {
-            commandListeners.remove(commandListener);
-        }
+        final List<ZclCommandListener> modifiedCommandListeners = new ArrayList<ZclCommandListener>(commandListeners);
+        modifiedCommandListeners.add(commandListener);
+        commandListeners = modifiedCommandListeners;
     }
 
     /**
@@ -169,11 +169,9 @@ public class ZigBeeClient implements ZclApi {
         while (!shutdown) {
             try {
                 final List<ZclCommandMessage> receivedCommands = zigBeeRpcApi.receive(receiveQueueId);
-                synchronized (commandListeners) {
-                    for (final ZclCommandMessage receivedCommand : receivedCommands) {
-                        for (final ZclCommandListener commandListener : commandListeners) {
-                            commandListener.commandReceived(ZclUtil.toCommand(receivedCommand));
-                        }
+                for (final ZclCommandMessage receivedCommand : receivedCommands) {
+                    for (final ZclCommandListener commandListener : commandListeners) {
+                        commandListener.commandReceived(ZclUtil.toCommand(receivedCommand));
                     }
                 }
             } catch (ZigBeeException e) {

@@ -51,11 +51,12 @@ public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, ZclCommandListener {
     }
 
     @Override
-    public void send(ZclCommandMessage command) throws ZigBeeException {
+    public int send(ZclCommandMessage command) throws ZigBeeException {
         try {
-            zigBeeConsole.getZigBeeApi().sendCommand(ZclUtil.toCommand(command));
+            return zigBeeConsole.getZigBeeApi().sendCommand(ZclUtil.toCommand(command));
         } catch (ZigBeeNetworkManagerException e) {
-            e.printStackTrace();
+            LOGGER.error("Error sending ZCL command message, e");
+            throw new ZigBeeException("Error sending ZCL command message", e);
         }
     }
 

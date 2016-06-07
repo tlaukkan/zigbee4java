@@ -173,9 +173,10 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
     /**
      * Sends command message.
      * @param commandMessage the command message
+     * @return transaction ID
      * @throws ZigBeeNetworkManagerException
      */
-    public void sendCommand(final ZclCommandMessage commandMessage) throws ZigBeeException {
+    public int sendCommand(final ZclCommandMessage commandMessage) throws ZigBeeException {
         synchronized (networkManager) {
             final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
 
@@ -227,7 +228,7 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
                         + response.getStatus() + " (" + response.getErrorMsg() + ")");
             }
 
-            return;
+            return commandMessage.getTransactionId();
         }
     }
 

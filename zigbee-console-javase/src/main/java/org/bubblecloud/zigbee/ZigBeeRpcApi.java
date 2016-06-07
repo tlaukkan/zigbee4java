@@ -24,9 +24,10 @@ public interface ZigBeeRpcApi {
      * Sends ZigBee Cluster Library command without waiting for response.
      *
      * @param command the command
+     * @return transaction ID
      * @throws ZigBeeException if exception occurs in sending
      */
-    void send(final ZclCommandMessage command) throws ZigBeeException;
+    int send(final ZclCommandMessage command) throws ZigBeeException;
 
     /**
      * Start receiving commands by creating receive queue.

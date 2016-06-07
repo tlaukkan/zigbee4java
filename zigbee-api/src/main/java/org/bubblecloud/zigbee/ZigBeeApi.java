@@ -473,8 +473,8 @@ public class ZigBeeApi implements EndpointListener, ZclApi {
      * @throws ZigBeeNetworkManagerException if exception occurs in sending
      */
     @Override
-    public void sendCommand(final ZclCommand command) throws ZigBeeException {
-        zclCommandTransmitter.sendCommand(command.toCommandMessage());
+    public int sendCommand(final ZclCommand command) throws ZigBeeException {
+        return zclCommandTransmitter.sendCommand(command.toCommandMessage());
     }
 
     /**

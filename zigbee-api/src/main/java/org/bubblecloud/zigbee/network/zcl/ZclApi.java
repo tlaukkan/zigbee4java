@@ -22,9 +22,10 @@ public interface ZclApi {
     /**
      * Sends ZigBee Cluster Library command without waiting for response.
      * @param command the command
+     * @return transaction ID
      * @throws ZigBeeNetworkManagerException if exception occurs in sending
      */
-    void sendCommand(final ZclCommand command) throws ZigBeeException;
+    int sendCommand(final ZclCommand command) throws ZigBeeException;
     /**
      * Adds ZigBee Cluster Library command listener.
      * @param commandListener the command listener
