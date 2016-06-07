@@ -189,7 +189,12 @@ public class ZclCommand {
 
     @Override
     public String toString() {
-        return ZclClusterType.getValueById(clusterId).getLabel() + " - " + type + " " + sourceAddress + "." + sourceEnpoint + " -> "
+        Integer resolvedClusterId = getClusterId();
+        if (resolvedClusterId == null) {
+            resolvedClusterId = type.getClusterType().getId();
+        }
+        return ZclClusterType.getValueById(resolvedClusterId).getLabel() + " - " + type + " "
+                + sourceAddress + "." + sourceEnpoint + " -> "
                 + destinationAddress + "." + destinationEndpoint + " tid=" + transactionId;
     }
 
