@@ -7,11 +7,9 @@
 ZigBee API for Java
 ===================
 
-ZigBee API for Java is a fork of ZB4OSGI for usage without OSGI. Changes include removal of OSGI related dependencies and refactored API.
+Zigbee API for Java provides simple Java interface to ZigBee network.
 
-See the [API Java Doc here](http://tlaukkan.github.io/zigbee4java/)
-
-ZB4OSGI: http://zb4osgi.aaloa.org/
+ZigBee API for Java is originally a fork of ZB4OSGI.
 
 Questions can be sent to the following email address: 'zigbee4java@googlegroups.com'.
 
