@@ -1,14 +1,10 @@
 package org.bubblecloud.zigbee.network.zcl.protocol.command.color.control;
 
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
-import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;
-import org.bubblecloud.zigbee.network.zcl.field.*;
-import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 
-import java.util.List;
 
 /**
  * Code generated Move to Saturation Command value object class.
