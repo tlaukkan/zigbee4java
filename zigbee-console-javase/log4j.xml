@@ -34,6 +34,11 @@
         <appender-ref ref="PacketLogFile" />
     </logger>
 
+    <logger additivity="false" name="org.bubblecloud.zigbee">
+        <level value="error"/>
+        <appender-ref ref="StdOut" />
+    </logger>
+
     <!-- Set the commons logging that the XML parser uses to WARN, it is very chatty at debug -->
     <logger name="org.apache.commons">
         <level value="off"/>

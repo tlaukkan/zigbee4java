@@ -159,8 +159,7 @@ public class AssociationNetworkBrowser extends RunnableThread {
                 final NetworkAddressNodeItem found = alreadyInspected.get((int) toAdd[i]);
                 if (found != null) {
                     //NOTE Logging this wrong behavior but doing nothing
-                    logger.error(
-                            "BROKEN ZIGBEE UNDERSTANDING (while walking address-tree): " +
+                    logger.debug("BROKEN ZIGBEE UNDERSTANDING (while walking address-tree): " +
                                     "found twice the same node with network address {} ", toAdd[i]
                     );
                     logger.debug("Previus node data was {} while current has parent {}", found, inspecting);

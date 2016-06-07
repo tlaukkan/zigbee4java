@@ -102,7 +102,10 @@ public final class ZigBeeConsole {
         commands.put("unlock", 		new DoorUnlockCommand());
         commands.put("enroll", new EnrollCommand());
 
-        zigBeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, DiscoveryMode.ALL);
+        final Set<DiscoveryMode> discoveryModes = new HashSet<DiscoveryMode>();
+        discoveryModes.add(DiscoveryMode.Addressing);
+        discoveryModes.add(DiscoveryMode.Announce);
+        zigBeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, discoveryModes);
     }
 
 	/**
