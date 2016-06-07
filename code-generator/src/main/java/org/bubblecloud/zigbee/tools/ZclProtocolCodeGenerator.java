@@ -94,7 +94,7 @@ public class ZclProtocolCodeGenerator {
         try {
             generateZclClusterTypeEnumeration(context, packageRoot, packageFile);
         } catch (final IOException e) {
-            System.out.println("Failed to generate profile enumeration.");
+            System.out.println("Failed to generate cluster enumeration.");
             e.printStackTrace();
             return;
         }
@@ -102,7 +102,7 @@ public class ZclProtocolCodeGenerator {
         try {
             generateZclCommandTypeEnumeration(context, packageRoot, packageFile);
         } catch (final IOException e) {
-            System.out.println("Failed to generate profile enumeration.");
+            System.out.println("Failed to generate command enumeration.");
             e.printStackTrace();
             return;
         }
@@ -110,7 +110,7 @@ public class ZclProtocolCodeGenerator {
         try {
             generateZclFieldTypeEnumeration(context, packageRoot, packageFile);
         } catch (final IOException e) {
-            System.out.println("Failed to generate profile enumeration.");
+            System.out.println("Failed to generate field enumeration.");
             e.printStackTrace();
             return;
         }
@@ -123,11 +123,8 @@ public class ZclProtocolCodeGenerator {
             return;
         }
 
-        final String messagePackageRoot = packageRoot + ".command";
-        final String messagePackagePath = getPackagePath(sourceRootPath, messagePackageRoot);
-        final File messagePackageFile = getPackageFile(messagePackagePath);
         try {
-            generateZclCommandClasses(context, messagePackageRoot, sourceRootPath);
+            generateZclCommandClasses(context, packageRoot + ".command", sourceRootPath);
         } catch (final IOException e) {
             System.out.println("Failed to generate profile message classes.");
             e.printStackTrace();
@@ -418,17 +415,31 @@ public class ZclProtocolCodeGenerator {
                     final String className = command.nameUpperCamelCase;
                     final PrintWriter out = getClassOut(packageFile, className);
 
+                    final LinkedList<Field> fields = new LinkedList<Field>(command.fields.values());
+                    boolean fieldWithDataTypeList = false;
+                    for (final Field field : fields) {
+                        if (field.dataTypeClass.startsWith("List")) {
+                            fieldWithDataTypeList = true;
+                            break;
+                        }
+                    }
+
                     out.println("package " + packageRoot + ";");
                     out.println();
                     out.println("import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;");
-                    out.println("import org.bubblecloud.zigbee.network.zcl.ZclUtil;");
                     out.println("import org.bubblecloud.zigbee.network.zcl.ZclCommand;");
                     out.println("import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;");
-                    out.println("import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;");
-                    out.println("import org.bubblecloud.zigbee.network.zcl.field.*;");
-                    out.println("import org.bubblecloud.zigbee.network.packet.ZToolAddress64;");
+                    if (!fields.isEmpty()) {
+                        out.println("import org.bubblecloud.zigbee.network.zcl.protocol.ZclFieldType;");
+                        if (fieldWithDataTypeList) {
+                            out.println("import org.bubblecloud.zigbee.network.zcl.field.*;");
+                        }
+                    }
+
                     out.println();
-                    out.println("import java.util.List;");
+                    if (fieldWithDataTypeList) {
+                        out.println("import java.util.List;");
+                    }
 
                     out.println();
                     out.println("/**");
@@ -436,7 +447,6 @@ public class ZclProtocolCodeGenerator {
                     out.println(" */");
                     out.println("public class " + className + " extends ZclCommand {");
 
-                    final LinkedList<Field> fields = new LinkedList<Field>(command.fields.values());
                     for (final Field field : fields) {
                         out.println("    /**");
                         out.println("     * " + field.fieldLabel + " command message field.");
