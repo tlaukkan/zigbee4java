@@ -214,31 +214,30 @@ LOGGER.info("ZigBeeApi saving network state done.");
 This is an example how to interface directly with ZCL commands to accept IAS zone enroll request:
 
 ```
-zigBeeApi.addCommandListener(new ZclCommandListener() {
-    @Override
-    public void commandReceived(final ZclCommandMessage command) {
-        if (command.getCommand() == ZclCommandType.ZONE_ENROLL_REQUEST_COMMAND) {
-            final int remoteAddress = command.getSourceAddress();
-            final short remoteEndPoint = command.getSourceEnpoint();
-            final byte transactionId = command.getTransactionId();
+if (command instanceof ZoneEnrollRequestCommand) {
+    final ZoneEnrollRequestCommand request = (ZoneEnrollRequestCommand) command;
+    final int remoteAddress = request.getSourceAddress();
+    final int remoteEndPoint = request.getSourceEnpoint();
+    final byte transactionId = request.getTransactionId();
 
-            final ZclCommandMessage responseMessage = new ZclCommandMessage(
-                    remoteAddress, remoteEndPoint, ZclCommandType.ZONE_ENROLL_RESPONSE_COMMAND, transactionId);
-            responseMessage.addField(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ENROLL_RESPONSE_CODE, 0);
-            responseMessage.addField(ZclFieldType.ZONE_ENROLL_RESPONSE_COMMAND_ZONE_ID, 0);
-            
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        zigBeeApi.sendCommand(responseMessage);
-                    } catch (final ZigBeeNetworkManagerException e) {
-                    }
-                }
-            }).start();
+    final ZoneEnrollResponseCommand response = new ZoneEnrollResponseCommand();
+    response.setDestinationAddress(remoteAddress);
+    response.setDestinationEndpoint(remoteEndPoint);
+    response.setTransactionId(transactionId);
+    response.setEnrollResponseCode(0);
+    response.setZoneId(0);
+
+    new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                zigBeeApi.sendCommand(response);
+            } catch (ZigBeeException e) {
+                e.printStackTrace();
+            }
         }
-    }
-});
+    }).start();
+}
 ```
 
 Examples
