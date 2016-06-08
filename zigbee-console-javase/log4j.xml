@@ -25,16 +25,17 @@
         </layout>
     </appender>
 
-    <logger additivity="true" name="org.bubblecloud.zigbee">
-        <level value="debug"/>
-    </logger>
-
     <logger additivity="false" name="org.bubblecloud.zigbee.network.port.PacketLogger">
         <level value="trace"/>
         <appender-ref ref="PacketLogFile" />
     </logger>
 
     <logger additivity="false" name="org.bubblecloud.zigbee">
+        <level value="debug"/>
+        <appender-ref ref="RollingFile" />
+    </logger>
+
+    <logger additivity="true" name="org.bubblecloud">
         <level value="error"/>
         <appender-ref ref="StdOut" />
     </logger>
