@@ -151,11 +151,9 @@ public class ZclProtocolCodeGenerator {
         out.println("package " + packageRoot + ";");
 
         out.println();
-        out.println("import org.bubblecloud.zigbee.network.packet.ZToolAddress64;");
         out.println("import org.bubblecloud.zigbee.network.zcl.field.*;");
 
         out.println();
-
         out.println("public enum " + className + " {");
 
         final LinkedList<DataType> dataTypes = new LinkedList<DataType>(context.dataTypes.values());
@@ -169,24 +167,20 @@ public class ZclProtocolCodeGenerator {
             out.print("    " + dataType.dataTypeType + "(\"" + dataType.dataTypeName + "\","
                              + dataTypeClass + ".class" +
                     ")");
-            if (!dataTypes.getLast().equals(dataType)) {
-                out.println(",");
-            } else {
-                out.println(";");
-            }
+            out.println(dataTypes.getLast().equals(dataType) ? ';' : ',');
         }
 
         out.println("    private final String label;");
-        out.println("    private final Class dataClass;");
-        out.println("");
-        out.println("    " + className + "(final String label, final Class dataClass) {");
+        out.println("    private final Class<?> dataClass;");
+        out.println();
+        out.println("    " + className + "(final String label, final Class<?> dataClass) {");
         out.println("        this.label = label;");
         out.println("        this.dataClass = dataClass;");
         out.println("    }");
-        out.println("");
+        out.println();
         out.println("    public String getLabel() { return label; }");
         out.println("    public Class<?> getDataClass() { return dataClass; }");
-        out.println("");
+        out.println();
         out.println("}");
 
         out.flush();
@@ -204,26 +198,22 @@ public class ZclProtocolCodeGenerator {
         final LinkedList<Profile> profiles = new LinkedList<Profile>(context.profiles.values());
         for (final Profile profile : profiles) {
             out.print("    " + profile.profileType + "(" + profile.profileId + ", \"" + profile.profileName + "\")");
-            if (!profiles.getLast().equals(profile)) {
-                out.println(",");
-            } else {
-                out.println(";");
-            }
+            out.println(profiles.getLast().equals(profile) ? ';' : ',');
         }
 
-        out.println("");
+        out.println();
         out.println("    private final int id;");
         out.println("    private final String label;");
-        out.println("");
+        out.println();
         out.println("    " + className + "(final int id, final String label) {");
         out.println("        this.id = id;");
         out.println("        this.label = label;");
         out.println("    }");
-        out.println("");
+        out.println();
         out.println("    public int getId() { return id; }");
         out.println("    public String getLabel() { return label; }");
         out.println("    public String toString() { return label; }");
-        out.println("");
+        out.println();
         out.println("}");
 
         out.flush();
@@ -246,42 +236,38 @@ public class ZclProtocolCodeGenerator {
             final LinkedList<Cluster> clusters = new LinkedList<Cluster>(profile.clusters.values());
             for (final Cluster cluster : clusters) {
                 out.print("    " + cluster.clusterType + "(" + cluster.clusterId + ", ZclProfileType." + profile.profileType + ", \"" + cluster.clusterName + "\")");
-                if (!clusters.getLast().equals(cluster)) {
-                    out.println(",");
-                } else {
-                    out.println(";");
-                }
+                out.println(clusters.getLast().equals(cluster) ? ';' : ',');
             }
         }
 
-        out.println("");
+        out.println();
         out.println("    private static final Map<Integer, ZclClusterType> idValueMap = new HashMap<Integer, ZclClusterType>();");
-        out.println("");
+        out.println();
         out.println("    private final int id;");
         out.println("    private final ZclProfileType profileType;");
         out.println("    private final String label;");
-        out.println("");
+        out.println();
         out.println("    " + className + "(final int id, final ZclProfileType profileType, final String label) {");
         out.println("        this.id = id;");
         out.println("        this.profileType = profileType;");
         out.println("        this.label = label;");
         out.println("    }");
-        out.println("");
+        out.println();
         out.println("    public int getId() { return id; }");
         out.println("    public ZclProfileType getProfileType() { return profileType; }");
         out.println("    public String getLabel() { return label; }");
         out.println("    public String toString() { return label; }");
-        out.println("");
+        out.println();
         out.println("    public static ZclClusterType getValueById(final int id) {");
         out.println("        return idValueMap.get(id);");
         out.println("    }");
-        out.println("");
+        out.println();
         out.println("    static {");
         out.println("        for (final ZclClusterType value : values()) {");
         out.println("            idValueMap.put(value.id, value);");
         out.println("        }");
         out.println("    }");
-        out.println("");
+        out.println();
         out.println("}");
 
         out.flush();
@@ -320,20 +306,16 @@ public class ZclProtocolCodeGenerator {
 
         for (final String valueRow : valueRows) {
             out.print(valueRow);
-            if (!valueRows.getLast().equals(valueRow)) {
-                out.println(',');
-            } else {
-                out.println(';');
-            }
+            out.println(valueRows.getLast().equals(valueRow) ? ';' : ',');
         }
 
-        out.println("");
+        out.println();
         out.println("    private final int id;");
         out.println("    private final ZclClusterType clusterType;");
         out.println("    private final String label;");
         out.println("    private final boolean received;");
         out.println("    private final boolean generic;");
-        out.println("");
+        out.println();
         out.println("    " + className + "(final int id, final ZclClusterType clusterType, final String label, final boolean received, final boolean generic) {");
         out.println("        this.id = id;");
         out.println("        this.clusterType = clusterType;");
@@ -341,14 +323,14 @@ public class ZclProtocolCodeGenerator {
         out.println("        this.received = received;");
         out.println("        this.generic = generic;");
         out.println("    }");
-        out.println("");
+        out.println();
         out.println("    public int getId() { return id; }");
         out.println("    public ZclClusterType getClusterType() { return clusterType; }");
         out.println("    public String getLabel() { return label; }");
         out.println("    public boolean isReceived() { return received; }");
         out.println("    public boolean isGeneric() { return generic; }");
         out.println("    public String toString() { return label; }");
-        out.println("");
+        out.println();
         out.println("}");
 
         out.flush();
@@ -382,31 +364,27 @@ public class ZclProtocolCodeGenerator {
 
         for (final String valueRow : valueRows) {
             out.print(valueRow);
-            if (!valueRows.getLast().equals(valueRow)) {
-                out.println(',');
-            } else {
-                out.println(';');
-            }
+            out.println(valueRows.getLast().equals(valueRow) ? ';' : ',');
         }
 
-        out.println("");
+        out.println();
         out.println("    private final int id;");
         out.println("    private final ZclCommandType commandType;");
         out.println("    private final String label;");
         out.println("    private final ZclDataType dataType;");
-        out.println("");
+        out.println();
         out.println("    " + className + "(final int id, final ZclCommandType commandType, final String label, final ZclDataType dataType) {");
         out.println("        this.id = id;");
         out.println("        this.commandType = commandType;");
         out.println("        this.label = label;");
         out.println("        this.dataType = dataType;");
         out.println("    }");
-        out.println("");
+        out.println();
         out.println("    public int getId() { return id; }");
         out.println("    public ZclCommandType getCommandType() { return commandType; }");
         out.println("    public String getLabel() { return label; }");
         out.println("    public ZclDataType getDataType() { return dataType; }");
-        out.println("");
+        out.println();
         out.println("}");
 
         out.flush();
@@ -469,14 +447,14 @@ public class ZclProtocolCodeGenerator {
                         out.println("    private " + field.dataTypeClass + " " + field.nameLowerCamelCase + ";");
                     }
 
-                    out.println("");
+                    out.println();
                     out.println("    /**");
                     out.println("     * Default constructor setting the command type field.");
                     out.println("     */");
                     out.println("    public " + className + "() {");
                     out.println("        this.setType(ZclCommandType." + command.commandType + ");");
                     out.println("    }");
-                    out.println("");
+                    out.println();
                     out.println("    /**");
                     out.println("     * Constructor copying field values from command message.");
                     out.println("     * @param message the command message");
@@ -487,7 +465,7 @@ public class ZclProtocolCodeGenerator {
                         out.println("        this." + field.nameLowerCamelCase + " = (" + field.dataTypeClass +  ") message.getFields().get(ZclFieldType." + field.fieldType + ");");
                     }
                     out.println("    }");
-                    out.println("");
+                    out.println();
                     out.println("    @Override");
                     out.println("    public ZclCommandMessage toCommandMessage() {");
                     out.println("        final ZclCommandMessage message = super.toCommandMessage();");
@@ -497,7 +475,7 @@ public class ZclProtocolCodeGenerator {
                     out.println("        return message;");
                     out.println("    }");
                     for (final Field field : fields) {
-                        out.println("");
+                        out.println();
                         out.println("    /**");
                         out.println("     * Gets " + field.fieldLabel + ".");
                         out.println("     * @return the " + field.fieldLabel);
@@ -505,7 +483,7 @@ public class ZclProtocolCodeGenerator {
                         out.println("    public " + field.dataTypeClass + " get" + field.nameUpperCamelCase + "() {");
                         out.println("        return " + field.nameLowerCamelCase + ";");
                         out.println("    }");
-                        out.println("");
+                        out.println();
                         out.println("    /**");
                         out.println("     * Sets " + field.fieldLabel + ".");
                         out.println("     * @param " + field.nameLowerCamelCase +  " the " + field.fieldLabel);
@@ -515,7 +493,7 @@ public class ZclProtocolCodeGenerator {
                         out.println("    }");
                     }
 
-                    out.println("");
+                    out.println();
                     out.println("    @Override");
                     out.println("    public String toString() {");
                     out.println("        final StringBuilder builder = new StringBuilder();");
@@ -529,7 +507,7 @@ public class ZclProtocolCodeGenerator {
                     out.println("        return builder.toString();");
                     out.println("    }");
 
-                    out.println("");
+                    out.println();
                     out.println("}");
 
                     out.flush();
