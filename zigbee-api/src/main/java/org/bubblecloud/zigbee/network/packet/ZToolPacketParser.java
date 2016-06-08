@@ -89,6 +89,7 @@ public class ZToolPacketParser implements Runnable {
         this.packetHandler = packetHandler;
 
         parserThread = new Thread(this, "ZToolPacketParser");
+        parserThread.setDaemon(true);
         parserThread.start();
     }
 
