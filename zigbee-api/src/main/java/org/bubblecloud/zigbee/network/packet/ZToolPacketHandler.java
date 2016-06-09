@@ -25,6 +25,8 @@
 
 package org.bubblecloud.zigbee.network.packet;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:andrew.rapp@gmail.com">Andrew Rapp</a>
  * @author <a href="mailto:alfiva@aaa.upv.es">Alvaro Fides Valero</a>
@@ -47,4 +49,5 @@ public interface ZToolPacketHandler {
      * @param th
      */
     public void error(Throwable th);
+
 }

@@ -5,11 +5,11 @@ import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 import com.googlecode.jsonrpc4j.ProxyUtil;
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
-import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
+import org.bubblecloud.zigbee.simple.Command;
+import org.bubblecloud.zigbee.simple.CommandListener;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
 import org.bubblecloud.zigbee.network.zcl.ZclUtil;
-import org.bubblecloud.zigbee.simple.SimpleZigBeeApi;
-import org.bubblecloud.zigbee.network.zcl.ZclApi;
+import org.bubblecloud.zigbee.simple.ZigBeeDongle;
 import org.bubblecloud.zigbee.simple.ZigBeeDevice;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZigBeeRpcClient implements ZclApi {
+public class ZigBeeRpcClient implements ZigBeeDongle {
     /**
      * The {@link org.slf4j.Logger}.
      */
@@ -56,7 +56,7 @@ public class ZigBeeRpcClient implements ZclApi {
     /**
      * The ZCL command listeners.
      */
-    private List<ZclCommandListener> commandListeners = new ArrayList<ZclCommandListener>();
+    private List<CommandListener> commandListeners = new ArrayList<CommandListener>();
 
     /**
      * Constructor which defines ZigBee RPC API URL and access token.
@@ -137,20 +137,20 @@ public class ZigBeeRpcClient implements ZclApi {
     }
 
     @Override
-    public int sendCommand(ZclCommand command) throws ZigBeeException {
-        return zigBeeRpcApi.send(command.toCommandMessage());
+    public int sendCommand(Command command) throws ZigBeeException {
+        return zigBeeRpcApi.send(command);
     }
 
     @Override
-    public void addCommandListener(final ZclCommandListener commandListener) {
-        final List<ZclCommandListener> modifiedCommandListeners = new ArrayList<ZclCommandListener>(commandListeners);
+    public void addCommandListener(final CommandListener commandListener) {
+        final List<CommandListener> modifiedCommandListeners = new ArrayList<CommandListener>(commandListeners);
         modifiedCommandListeners.add(commandListener);
         commandListeners = modifiedCommandListeners;
     }
 
     @Override
-    public void removeCommandListener(final ZclCommandListener commandListener) {
-        final List<ZclCommandListener> modifiedCommandListeners = new ArrayList<ZclCommandListener>(commandListeners);
+    public void removeCommandListener(final CommandListener commandListener) {
+        final List<CommandListener> modifiedCommandListeners = new ArrayList<CommandListener>(commandListeners);
         modifiedCommandListeners.add(commandListener);
         commandListeners = modifiedCommandListeners;
     }
@@ -161,10 +161,10 @@ public class ZigBeeRpcClient implements ZclApi {
     private void receiveLoop() {
         while (!shutdown) {
             try {
-                final List<ZclCommandMessage> receivedCommands = zigBeeRpcApi.receive(receiveQueueId);
-                for (final ZclCommandMessage receivedCommand : receivedCommands) {
-                    for (final ZclCommandListener commandListener : commandListeners) {
-                        commandListener.commandReceived(ZclUtil.toCommand(receivedCommand));
+                final List<Command> receivedCommands = zigBeeRpcApi.receive(receiveQueueId);
+                for (final Command receivedCommand : receivedCommands) {
+                    for (final CommandListener commandListener : commandListeners) {
+                        commandListener.commandReceived(receivedCommand);
                     }
                 }
             } catch (ZigBeeException e) {

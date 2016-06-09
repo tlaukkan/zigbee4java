@@ -1,10 +1,7 @@
-package org.bubblecloud.zigbee.network.zcl;
+package org.bubblecloud.zigbee.simple;
 
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
-import org.bubblecloud.zigbee.network.zcl.ZclCommand;
-import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
-import org.bubblecloud.zigbee.simple.ZigBeeDevice;
 
 import java.util.List;
 
@@ -13,7 +10,7 @@ import java.util.List;
  *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */
-public interface ZclApi {
+public interface ZigBeeDongle {
     /**
      * Gets ZigBee devices.
      * @return list of ZigBee devices
@@ -25,15 +22,15 @@ public interface ZclApi {
      * @return transaction ID
      * @throws ZigBeeNetworkManagerException if exception occurs in sending
      */
-    int sendCommand(final ZclCommand command) throws ZigBeeException;
+    int sendCommand(final Command command) throws ZigBeeException;
     /**
      * Adds ZigBee Cluster Library command listener.
      * @param commandListener the command listener
      */
-    void addCommandListener(final ZclCommandListener commandListener);
+    void addCommandListener(final CommandListener commandListener);
     /**
      * Removes ZigBee Cluster Library command listener.
      * @param commandListener the command listener
      */
-    void removeCommandListener(final ZclCommandListener commandListener);
+    void removeCommandListener(final CommandListener commandListener);
 }

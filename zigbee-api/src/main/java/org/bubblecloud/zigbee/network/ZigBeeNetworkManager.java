@@ -29,6 +29,7 @@ import org.bubblecloud.zigbee.network.packet.af.AF_DATA_REQUEST;
 import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER;
 import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER_SRSP;
 import org.bubblecloud.zigbee.network.packet.zdo.*;
+import org.bubblecloud.zigbee.network.zdo.ZdoCommandTransmitter;
 
 import java.util.Set;
 
@@ -222,4 +223,9 @@ public interface ZigBeeNetworkManager {
      * @return the announce listeners
      */
     Set<AnnounceListener> getAnnounceListeners();
+    /**
+     * Adds asynchronous command listener.
+     * @param asynchronousCommandListener the asynchronous command listener
+     */
+    void addAsynchronousCommandListener(AsynchronousCommandListener asynchronousCommandListener);
 }

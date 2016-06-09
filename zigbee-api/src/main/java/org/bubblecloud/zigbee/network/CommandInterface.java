@@ -32,6 +32,14 @@ public interface CommandInterface {
      * Closes command interface.
      */
     void close();
+
+    /**
+     * Sends packet.
+     * @param packet the packet
+     * @throws IOException if IO exception occurs in sending
+     */
+    void sendPacket(ZToolPacket packet)
+            throws IOException;
     /**
      * Sends synchronous command packet.
      * @param packet the command packet

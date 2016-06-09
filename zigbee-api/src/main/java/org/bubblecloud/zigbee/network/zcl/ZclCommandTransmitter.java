@@ -19,13 +19,13 @@ import org.bubblecloud.zigbee.api.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLFrame;
 import org.bubblecloud.zigbee.network.ApplicationFrameworkMessageListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
+import org.bubblecloud.zigbee.simple.CommandListener;
 import org.bubblecloud.zigbee.network.impl.*;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.packet.af.AF_DATA_CONFIRM;
 import org.bubblecloud.zigbee.network.packet.af.AF_DATA_REQUEST;
 import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
-import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandTypeRegistrar;
 import org.bubblecloud.zigbee.util.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
     /**
      * The logger.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ZigBeeEndpointImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ZclCommandTransmitter.class);
     /**
      * The network manager for transmitting data to and from network layer.
      */
@@ -51,7 +51,7 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
     /**
      * The command listeners.
      */
-    private List<ZclCommandListener> commandListeners = new ArrayList<ZclCommandListener>();
+    private List<CommandListener> commandListeners = new ArrayList<CommandListener>();
 
     /**
      * Constructor for setting network manager.
@@ -65,8 +65,8 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
      * Adds command listener.
      * @param listener the command listener
      */
-    public void addCommandListener(final ZclCommandListener listener) {
-        final List<ZclCommandListener> modifiedCommandListeners = new ArrayList<ZclCommandListener>(commandListeners);
+    public void addCommandListener(final CommandListener listener) {
+        final List<CommandListener> modifiedCommandListeners = new ArrayList<CommandListener>(commandListeners);
         modifiedCommandListeners.add(listener);
         commandListeners = Collections.unmodifiableList(modifiedCommandListeners);
     }
@@ -75,8 +75,8 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
      * Removes command listener.
      * @param listener the command listener
      */
-    public void removeCommandListener(final ZclCommandListener listener) {
-        final List<ZclCommandListener> modifiedCommandListeners = new ArrayList<ZclCommandListener>(commandListeners);
+    public void removeCommandListener(final CommandListener listener) {
+        final List<CommandListener> modifiedCommandListeners = new ArrayList<CommandListener>(commandListeners);
         modifiedCommandListeners.remove(listener);
         commandListeners = Collections.unmodifiableList(modifiedCommandListeners);
     }
@@ -164,7 +164,7 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
 
         LOGGER.debug("<<< " + commandMessage.toString());
 
-        for (final ZclCommandListener commandListener : commandListeners) {
+        for (final CommandListener commandListener : commandListeners) {
             commandListener.commandReceived(ZclUtil.toCommand(commandMessage));
         }
 

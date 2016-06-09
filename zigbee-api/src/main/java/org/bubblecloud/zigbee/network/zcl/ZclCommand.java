@@ -1,14 +1,15 @@
 package org.bubblecloud.zigbee.network.zcl;
 
+import org.bubblecloud.zigbee.simple.Command;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclClusterType;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
 
 /**
- * Base class for value object classes holding a commands.
+ * Base class for value object classes holding ZCL commands.
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZclCommand {
+public class ZclCommand extends Command {
     /**
      * The source address.
      */

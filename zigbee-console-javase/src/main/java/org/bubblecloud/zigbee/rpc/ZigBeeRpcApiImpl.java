@@ -4,7 +4,8 @@ import org.bubblecloud.zigbee.ZigBeeConsole;
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
-import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
+import org.bubblecloud.zigbee.simple.Command;
+import org.bubblecloud.zigbee.simple.CommandListener;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
 import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.simple.ZigBeeDevice;
@@ -19,7 +20,7 @@ import java.util.*;
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, ZclCommandListener {
+public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, CommandListener {
     /**
      * The {@link org.slf4j.Logger}.
      */
@@ -52,22 +53,22 @@ public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, ZclCommandListener {
     }
 
     @Override
-    public int send(ZclCommandMessage command) throws ZigBeeException {
+    public int send(Command command) throws ZigBeeException {
         try {
-            return zigBeeConsole.getZigBeeApi().sendCommand(ZclUtil.toCommand(command));
+            return zigBeeConsole.getZigBeeApi().sendCommand(command);
         } catch (ZigBeeNetworkManagerException e) {
             LOGGER.error("Error sending ZCL command message, e");
             throw new ZigBeeException("Error sending ZCL command message", e);
         }
     }
 
-    private final Map<String, Queue<ZclCommand>> receiveQueues = new HashMap<String, Queue<ZclCommand>>();
+    private final Map<String, Queue<Command>> receiveQueues = new HashMap<String, Queue<Command>>();
 
     @Override
     public String addReceiveQueue() {
         final String receiveQueueId = UUID.randomUUID().toString();
         synchronized (receiveQueues) {
-            receiveQueues.put(receiveQueueId, new LinkedList<ZclCommand>());
+            receiveQueues.put(receiveQueueId, new LinkedList<Command>());
         }
         LOGGER.debug("ZCL command receive queue added: " + receiveQueueId);
         return receiveQueueId;
@@ -82,8 +83,8 @@ public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, ZclCommandListener {
     }
 
     @Override
-    public List<ZclCommandMessage> receive(String receiveQueueId) throws ZigBeeException {
-        final Queue<ZclCommand> receiveQueue;
+    public List<Command> receive(String receiveQueueId) throws ZigBeeException {
+        final Queue<Command> receiveQueue;
         synchronized (receiveQueues) {
             receiveQueue = receiveQueues.get(receiveQueueId);
         }
@@ -92,9 +93,9 @@ public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, ZclCommandListener {
         }
         synchronized (receiveQueue) {
             int i = 0;
-            final List<ZclCommandMessage> receivedCommands = new ArrayList<ZclCommandMessage>();
+            final List<Command> receivedCommands = new ArrayList<Command>();
             while (i < 200 && receiveQueue.size() > 0) {
-                receivedCommands.add(receiveQueue.poll().toCommandMessage());
+                receivedCommands.add(receiveQueue.poll());
                 LOGGER.debug("ZCL command popped from receive queue: " + receiveQueueId);
                 i++;
             }
@@ -108,10 +109,10 @@ public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, ZclCommandListener {
     }
 
     @Override
-    public void commandReceived(final ZclCommand command) {
+    public void commandReceived(final Command command) {
         synchronized (receiveQueues) {
             for (final String receiveQueueId : receiveQueues.keySet()) {
-                final Queue<ZclCommand> receiveQueue = receiveQueues.get(receiveQueueId);
+                final Queue<Command> receiveQueue = receiveQueues.get(receiveQueueId);
                 if (receiveQueue.size() < 1000) {
                     receiveQueue.add(command);
                     LOGGER.debug("ZCL command pushed to receive queue: " + receiveQueueId);

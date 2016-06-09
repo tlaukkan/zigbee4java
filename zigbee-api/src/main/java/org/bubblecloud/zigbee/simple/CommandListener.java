@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bubblecloud.zigbee.network.zcl;
+package org.bubblecloud.zigbee.simple;
 
 /**
- * ZCL command listener.
+ * Network command listener.
  *
  * @author Tommi S.E. Laukkanen
  */
-public interface ZclCommandListener {
+public interface CommandListener {
 
     /**
      * Invoked when command has been received.
      * @param command the command
      */
-    void commandReceived(final ZclCommand command);
+    void commandReceived(final Command command);
 
 }

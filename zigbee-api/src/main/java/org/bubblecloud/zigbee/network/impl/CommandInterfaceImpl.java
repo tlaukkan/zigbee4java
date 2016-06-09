@@ -164,7 +164,8 @@ public class CommandInterfaceImpl implements ZToolPacketHandler, CommandInterfac
      * @param packet the packet
      * @throws IOException if IO exception occurs while sending packet
      */
-    private void sendPacket(final ZToolPacket packet)
+    @Override
+    public void sendPacket(final ZToolPacket packet)
             throws IOException {
         LOGGER.debug("-> {} ({}) ", packet.getClass().getSimpleName(), packet);
         PACKET_LOGGER.trace("|>|{}|{}", packet.getClass().getSimpleName(), packet.getPacket());

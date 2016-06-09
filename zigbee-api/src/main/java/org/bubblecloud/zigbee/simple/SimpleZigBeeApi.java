@@ -1,9 +1,7 @@
 package org.bubblecloud.zigbee.simple;
 
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
-import org.bubblecloud.zigbee.network.zcl.ZclApi;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
-import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.color.control.MoveToColorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OffCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OnCommand;
@@ -11,7 +9,6 @@ import org.bubblecloud.zigbee.util.Cie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -28,7 +25,7 @@ public class SimpleZigBeeApi {
     /**
      * The ZCL API.
      */
-    private ZclApi zclApi;
+    private ZigBeeDongle zigBeeDongle;
 
     /**
      * Default constructor inheritance.
@@ -38,18 +35,18 @@ public class SimpleZigBeeApi {
 
     /**
      * Constructor for setting the ZCL API.
-     * @param zclApi the ZCL API
+     * @param zigBeeDongle the ZCL API
      */
-    public SimpleZigBeeApi(final ZclApi zclApi) {
-        this.zclApi = zclApi;
+    public SimpleZigBeeApi(final ZigBeeDongle zigBeeDongle) {
+        this.zigBeeDongle = zigBeeDongle;
     }
 
     /**
      * Sets ZLC API.
-     * @param zclApi the ZCL API
+     * @param zigBeeDongle the ZCL API
      */
-    public void setZclApi(final ZclApi zclApi) {
-        this.zclApi = zclApi;
+    public void setZigBeeDongle(final ZigBeeDongle zigBeeDongle) {
+        this.zigBeeDongle = zigBeeDongle;
     }
 
     /**
@@ -57,7 +54,7 @@ public class SimpleZigBeeApi {
      * @return list of ZigBee devices
      */
     public List<ZigBeeDevice> getZigBeeDevices() {
-        return zclApi.getZigBeeDevices();
+        return zigBeeDongle.getZigBeeDevices();
     }
 
     /**
@@ -65,7 +62,7 @@ public class SimpleZigBeeApi {
      * @param device the device
      * @return the Future for accessing CommandResponse.
      */
-    public Future<CommandResponse> on(final ZigBeeDevice device) {
+    public Future<ZclCommandResponse> on(final ZigBeeDevice device) {
         final OnCommand command = new OnCommand();
         return send(device, command);
     }
@@ -75,7 +72,7 @@ public class SimpleZigBeeApi {
      * @param device the device
      * @return the Future for accessing CommandResponse.
      */
-    public Future<CommandResponse> off(final ZigBeeDevice device) {
+    public Future<ZclCommandResponse> off(final ZigBeeDevice device) {
         final OffCommand command = new OffCommand();
         return send(device, command);
     }
@@ -90,7 +87,7 @@ public class SimpleZigBeeApi {
      * @param time the in seconds
      * @return the Future for accessing CommandResponse.
      */
-    public Future<CommandResponse> color(final ZigBeeDevice device, final double red, final double green, final double blue, double time) {
+    public Future<ZclCommandResponse> color(final ZigBeeDevice device, final double red, final double green, final double blue, double time) {
         final MoveToColorCommand command = new MoveToColorCommand();
 
         final Cie cie = Cie.rgb2cie(red, green ,blue);
@@ -117,24 +114,26 @@ public class SimpleZigBeeApi {
      * @param command the command
      * @return the Future for accessing CommandResponse.
      */
-    private Future<CommandResponse> send(final ZigBeeDevice device, final ZclCommand command) {
+    private Future<ZclCommandResponse> send(final ZigBeeDevice device, final ZclCommand command) {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndPoint());
 
-        final FutureImpl<CommandResponse> future = new FutureImpl<CommandResponse>();
+        final FutureImpl<ZclCommandResponse> future = new FutureImpl<ZclCommandResponse>();
 
         synchronized (command) {
-            zclApi.addCommandListener(new ZclCommandListener() {
+            zigBeeDongle.addCommandListener(new CommandListener() {
                 @Override
-                public void commandReceived(ZclCommand receivedCommand) {
+                public void commandReceived(Command receivedCommand) {
                     // Ensure that received command is not processed before command is sent and
                     // hence transaction ID for the command set.
-                    synchronized (command) {
-                        if (command.getTransactionId().equals(receivedCommand.getTransactionId())) {
-                            synchronized (future) {
-                                future.set(new CommandResponse(receivedCommand));
-                                future.notify();
-                                zclApi.removeCommandListener(this);
+                    if (receivedCommand instanceof ZclCommand) {
+                        synchronized (command) {
+                            if (command.getTransactionId().equals(((ZclCommand)receivedCommand).getTransactionId())) {
+                                synchronized (future) {
+                                    future.set(new ZclCommandResponse((ZclCommand) receivedCommand));
+                                    future.notify();
+                                    zigBeeDongle.removeCommandListener(this);
+                                }
                             }
                         }
                     }
@@ -142,7 +141,7 @@ public class SimpleZigBeeApi {
             });
 
             try {
-                int transactionId = zclApi.sendCommand(command);
+                int transactionId = zigBeeDongle.sendCommand(command);
                 command.setTransactionId((byte) transactionId);
             } catch (ZigBeeException e) {
                 throw new SimpleZigBeeApiException("Error sending " + command.getClass().getSimpleName()

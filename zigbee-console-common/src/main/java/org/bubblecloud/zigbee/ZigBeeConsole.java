@@ -25,6 +25,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.security_safety.ias_wd.StartWarni
 import org.bubblecloud.zigbee.api.cluster.security_safety.IASWD;
 import org.bubblecloud.zigbee.network.NodeListener;
 import org.bubblecloud.zigbee.network.ZigBeeNode;
+import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNodeDescriptor;
 import org.bubblecloud.zigbee.network.impl.ZigBeeNodePowerDescriptor;
 import org.bubblecloud.zigbee.network.discovery.LinkQualityIndicatorNetworkBrowser.NetworkNeighbourLinks;
@@ -34,7 +35,14 @@ import org.bubblecloud.zigbee.network.model.DiscoveryMode;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
-import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
+import org.bubblecloud.zigbee.network.zdo.command.ActiveEndpointsRequest;
+import org.bubblecloud.zigbee.network.zdo.command.ActiveEndpointsResponse;
+import org.bubblecloud.zigbee.network.zdo.command.DeviceAnnounce;
+import org.bubblecloud.zigbee.network.zdo.command.SimpleDescriptorRequest;
+import org.bubblecloud.zigbee.simple.Command;
+import org.bubblecloud.zigbee.simple.CommandListener;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.ias.zone.ZoneEnrollRequestCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.ias.zone.ZoneEnrollResponseCommand;
 import org.bubblecloud.zigbee.util.Cie;
 
 /**
@@ -172,38 +180,63 @@ public final class ZigBeeConsole {
             }
         });
 
-        zigBeeApi.addCommandListener(new ZclCommandListener() {
+        zigBeeApi.addCommandListener(new CommandListener() {
             @Override
-            public void commandReceived(ZclCommand command) {
-                print("Received: " + command.toString(), System.out);
+            public void commandReceived(Command command) {
 
                 //This is an example how to interface directly with ZCL commands.
-                /*
-                if (command instanceof ZoneEnrollRequestCommand) {
-                    final ZoneEnrollRequestCommand request = (ZoneEnrollRequestCommand) command;
-                    final int remoteAddress = request.getSourceAddress();
-                    final short remoteEndPoint = request.getSourceEnpoint();
-                    final byte transactionId = request.getTransactionId();
-
-                    final ZoneEnrollResponseCommand response = new ZoneEnrollResponseCommand();
-                    response.setDestinationAddress(remoteAddress);
-                    response.setDestinationEndpoint(remoteEndPoint);
-                    response.setTransactionId(transactionId);
-                    response.setEnrollResponseCode(0);
-                    response.setZoneId(0);
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                zigBeeApi.sendCommand(response);
-                            } catch (ZigBeeNetworkManagerException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }).start();
-                }
-                */
+//                print("Received: " + command.toString(), System.out);
+//
+//                if (command instanceof DeviceAnnounce) {
+//                    final DeviceAnnounce deviceAnnounce = (DeviceAnnounce) command;
+//                    final ActiveEndpointsRequest request = new ActiveEndpointsRequest();
+//                    request.setDestinationAddress(deviceAnnounce.getNetworkAddress());
+//                    request.setNetworkAddressOfInterest(deviceAnnounce.getNetworkAddress());
+//                    try {
+//                        zigBeeApi.sendCommand(request);
+//                    } catch (ZigBeeException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                if (command instanceof ActiveEndpointsResponse) {
+//                    final ActiveEndpointsResponse activeEndpointsResponse = (ActiveEndpointsResponse) command;
+//                    for (final int endpoint : activeEndpointsResponse.getActiveEndpoints()) {
+//                        final SimpleDescriptorRequest request = new SimpleDescriptorRequest();
+//                        request.setDestinationAddress(activeEndpointsResponse.getNetworkAddress());
+//                        request.setEndpoint(endpoint);
+//                        try {
+//                            zigBeeApi.sendCommand(request);
+//                        } catch (ZigBeeException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//
+//                if (command instanceof ZoneEnrollRequestCommand) {
+//                    final ZoneEnrollRequestCommand request = (ZoneEnrollRequestCommand) command;
+//                    final int remoteAddress = request.getSourceAddress();
+//                    final int remoteEndPoint = request.getSourceEnpoint();
+//                    final byte transactionId = request.getTransactionId();
+//
+//                    final ZoneEnrollResponseCommand response = new ZoneEnrollResponseCommand();
+//                    response.setDestinationAddress(remoteAddress);
+//                    response.setDestinationEndpoint(remoteEndPoint);
+//                    response.setTransactionId(transactionId);
+//                    response.setEnrollResponseCode(0);
+//                    response.setZoneId(0);
+//
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            try {
+//                                zigBeeApi.sendCommand(response);
+//                            } catch (ZigBeeException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }).start();
+//                }
 
             }
         });

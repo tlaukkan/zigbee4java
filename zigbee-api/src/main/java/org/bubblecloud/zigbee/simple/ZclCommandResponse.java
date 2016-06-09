@@ -8,7 +8,7 @@ import org.bubblecloud.zigbee.network.zcl.protocol.command.general.DefaultRespon
 /**
  * Value class containing command response.
  */
-public class CommandResponse {
+public class ZclCommandResponse {
 
     /**
      * The response command.
@@ -19,7 +19,7 @@ public class CommandResponse {
      * Constructor which sets the received response command or null if timeout occurs..
      * @param response the response command.
      */
-    public CommandResponse(final ZclCommand response) {
+    public ZclCommandResponse(final ZclCommand response) {
         this.response = response;
     }
 

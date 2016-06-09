@@ -1,8 +1,9 @@
 package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.simple.Command;
 import org.junit.Assert;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
-import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
+import org.bubblecloud.zigbee.simple.CommandListener;
 import org.bubblecloud.zigbee.simple.ZigBeeDevice;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -21,9 +22,9 @@ public class ZigBeeConsoleClientTest {
 
         client.startup();
 
-        client.addCommandListener(new ZclCommandListener() {
+        client.addCommandListener(new CommandListener() {
             @Override
-            public void commandReceived(final ZclCommand command) {
+            public void commandReceived(final Command command) {
                 System.out.println(command);
             }
         });

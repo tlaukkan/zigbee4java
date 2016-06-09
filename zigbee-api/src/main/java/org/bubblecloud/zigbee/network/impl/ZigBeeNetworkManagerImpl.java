@@ -639,6 +639,11 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         return announceListeners;
     }
 
+    @Override
+    public void addAsynchronousCommandListener(final AsynchronousCommandListener asynchronousCommandListener) {
+        commandInterface.addAsynchronousCommandListener(asynchronousCommandListener);
+    }
+
     public <REQUEST extends ZToolPacket, RESPONSE extends ZToolPacket> RESPONSE sendLocalRequest(REQUEST request) {
         if (!waitForNetwork()) {
         	return null;
@@ -1138,7 +1143,15 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                 );
 
         return response != null && response.Status == 0;
-    }    
+    }
+
+    public void sendCommand(final ZToolPacket request) throws ZigBeeException {
+        try {
+            commandInterface.sendPacket(request);
+        } catch (IOException e) {
+            throw new ZigBeeException(e);
+        }
+    }
 
     private ZToolPacket sendSynchrouns(final CommandInterface hwDriver, final ZToolPacket request) {
 //        final int RESEND_TIMEOUT = 1000;

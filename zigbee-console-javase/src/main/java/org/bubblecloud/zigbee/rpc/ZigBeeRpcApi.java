@@ -2,6 +2,7 @@ package org.bubblecloud.zigbee.rpc;
 
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
+import org.bubblecloud.zigbee.simple.Command;
 import org.bubblecloud.zigbee.simple.ZigBeeDevice;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public interface ZigBeeRpcApi {
      * @return transaction ID
      * @throws ZigBeeException if exception occurs in sending
      */
-    int send(final ZclCommandMessage command) throws ZigBeeException;
+    int send(final Command command) throws ZigBeeException;
 
     /**
      * Start receiving commands by creating receive queue.
@@ -49,7 +50,7 @@ public interface ZigBeeRpcApi {
      * @return list of commands received.
      * @throws ZigBeeException if exception occurs in receiving
      */
-    List<ZclCommandMessage> receive(final String receiveQueueId) throws ZigBeeException;
+    List<Command> receive(final String receiveQueueId) throws ZigBeeException;
 
     /**
      * Gets ZigBee devices.

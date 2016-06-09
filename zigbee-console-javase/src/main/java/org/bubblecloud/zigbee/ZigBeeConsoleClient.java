@@ -1,19 +1,16 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
-import org.bubblecloud.zigbee.network.zcl.ZclApi;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
-import org.bubblecloud.zigbee.network.zcl.ZclCommandListener;
+import org.bubblecloud.zigbee.simple.*;
 import org.bubblecloud.zigbee.rpc.ZigBeeRpcClient;
-import org.bubblecloud.zigbee.simple.SimpleZigBeeApi;
-import org.bubblecloud.zigbee.simple.ZigBeeDevice;
 
 import java.util.List;
 
 /**
  * ZigBeeConsole client which connect with ZigBee console with JSON RPC.
  */
-public class ZigBeeConsoleClient extends SimpleZigBeeApi implements ZclApi {
+public class ZigBeeConsoleClient extends SimpleZigBeeApi implements ZigBeeDongle {
     /**
      * The RPC client.
      */
@@ -21,7 +18,7 @@ public class ZigBeeConsoleClient extends SimpleZigBeeApi implements ZclApi {
     /**
      * The ZCL API.
      */
-    private final ZclApi zclApi;
+    private final ZigBeeDongle zigBeeDongle;
 
     /**
      * Constructor which defines ZigBee RPC API URL and access token.
@@ -31,8 +28,8 @@ public class ZigBeeConsoleClient extends SimpleZigBeeApi implements ZclApi {
     public ZigBeeConsoleClient(final String url, final String accessToken) {
         super();
         rpcClient = new ZigBeeRpcClient(url, accessToken);
-        zclApi = rpcClient;
-        setZclApi(rpcClient);
+        zigBeeDongle = rpcClient;
+        setZigBeeDongle(rpcClient);
     }
 
     /**
@@ -59,22 +56,22 @@ public class ZigBeeConsoleClient extends SimpleZigBeeApi implements ZclApi {
     }
 
     @Override
-    public void addCommandListener(ZclCommandListener commandListener) {
-        zclApi.addCommandListener(commandListener);
+    public void addCommandListener(CommandListener commandListener) {
+        zigBeeDongle.addCommandListener(commandListener);
     }
 
     @Override
     public List<ZigBeeDevice> getZigBeeDevices() {
-        return zclApi.getZigBeeDevices();
+        return zigBeeDongle.getZigBeeDevices();
     }
 
     @Override
-    public void removeCommandListener(ZclCommandListener commandListener) {
-        zclApi.removeCommandListener(commandListener);
+    public void removeCommandListener(CommandListener commandListener) {
+        zigBeeDongle.removeCommandListener(commandListener);
     }
 
     @Override
-    public int sendCommand(ZclCommand command) throws ZigBeeException {
-        return zclApi.sendCommand(command);
+    public int sendCommand(Command command) throws ZigBeeException {
+        return zigBeeDongle.sendCommand(command);
     }
 }
