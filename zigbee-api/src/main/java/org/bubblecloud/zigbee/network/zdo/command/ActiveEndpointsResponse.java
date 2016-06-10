@@ -70,7 +70,7 @@ public class ActiveEndpointsResponse extends ZdoCommand {
 
     @Override
     public String toString() {
-        return "ActiveEndpointsResponse " +
+        return "Active Endpoints Response " +
                 "sourceAddress=" + sourceAddress +
                 ", networkAddress=" + networkAddress +
                 ", status=" + status +

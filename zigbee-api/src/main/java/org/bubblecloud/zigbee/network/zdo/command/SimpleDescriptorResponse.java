@@ -135,7 +135,7 @@ public class SimpleDescriptorResponse extends ZdoCommand {
 
     @Override
     public String toString() {
-        return "SimpleDescriptorResponse " +
+        return "Simple Descriptor Response " +
                 "deviceId=" + deviceId +
                 ", sourceAddress=" + sourceAddress +
                 ", status=" + status +

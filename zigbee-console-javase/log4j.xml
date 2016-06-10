@@ -30,14 +30,14 @@
         <appender-ref ref="PacketLogFile" />
     </logger>
 
-    <logger additivity="false" name="org.bubblecloud.zigbee">
-        <level value="debug"/>
-        <appender-ref ref="RollingFile" />
-    </logger>
-
     <logger additivity="true" name="org.bubblecloud">
         <level value="error"/>
         <appender-ref ref="StdOut" />
+    </logger>
+
+    <logger additivity="false" name="org.bubblecloud.zigbee">
+        <level value="debug"/>
+        <appender-ref ref="RollingFile" />
     </logger>
 
     <!-- Set the commons logging that the XML parser uses to WARN, it is very chatty at debug -->

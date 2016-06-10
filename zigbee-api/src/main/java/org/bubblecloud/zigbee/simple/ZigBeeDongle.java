@@ -6,7 +6,7 @@ import org.bubblecloud.zigbee.network.impl.ZigBeeNetworkManagerException;
 import java.util.List;
 
 /**
- * ZigBee Cluster Library command interface.
+ * ZigBee dongle interface implemented by different dongle hardware drivers.
  *
  * @author <a href="mailto:tommi.s.e.laukkanen@gmail.com">Tommi S.E. Laukkanen</a>
  */

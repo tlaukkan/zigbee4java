@@ -67,7 +67,7 @@ public class DeviceAnnounce extends ZdoCommand {
 
     @Override
     public String toString() {
-        return "DeviceAnnounce " +
+        return "Device Announce " +
                 "sourceAddress=" + sourceAddress +
                 ", ieeeAddress=" + ieeeAddress +
                 ", networkAddress=" + networkAddress +

@@ -41,7 +41,7 @@ public class SimpleDescriptorRequest extends ZdoCommand {
 
     @Override
     public String toString() {
-        return "SimpleDescriptorRequest " +
+        return "Simple Descriptor Request " +
                 "destinationAddress=" + destinationAddress +
                 ", endpoint=" + endpoint;
     }

@@ -92,6 +92,14 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
                         getZToolAddress16(activeEndpointsRequest.getDestinationAddress()),
                         getZToolAddress16(activeEndpointsRequest.getNetworkAddressOfInterest())));
             }
+            if (command instanceof IeeeAddressRequest) {
+                final IeeeAddressRequest ieeeAddressRequest = (IeeeAddressRequest) command;
+                networkManager.sendCommand(new ZDO_IEEE_ADDR_REQ(
+                        getZToolAddress16(ieeeAddressRequest.getNetworkAddress()),
+                        ieeeAddressRequest.getType(),
+                        ieeeAddressRequest.getStartIndex()
+                        ));
+            }
             if (command instanceof SimpleDescriptorRequest) {
                 final SimpleDescriptorRequest simpleDescriptorRequest = (SimpleDescriptorRequest) command;
                 networkManager.sendCommand(new ZDO_SIMPLE_DESC_REQ(
@@ -175,6 +183,23 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
             return;
         }
 
+        if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_IEEE_ADDR_RSP) {
+            final ZDO_IEEE_ADDR_RSP message = (ZDO_IEEE_ADDR_RSP) packet;
+
+            final IeeeAddressResponse command = new IeeeAddressResponse(
+                    message.Status,
+                    message.SrcAddrMode,
+                    message.getIeeeAddress().getLong(),
+                    message.nwkAddr.get16BitValue(),
+                    message.getStartIndex(),
+                    message.getAssociatedNodeCount(),
+                    message.getAssociatedNodesList()
+            );
+
+            notifyCommandReceived(command);
+
+            return;
+        }
     }
 
     /**

@@ -185,7 +185,7 @@ public final class ZigBeeConsole {
             public void commandReceived(Command command) {
 
                 //This is an example how to interface directly with ZCL commands.
-//                print("Received: " + command.toString(), System.out);
+                //print("Received: " + command.toString(), System.out);
 //
 //                if (command instanceof DeviceAnnounce) {
 //                    final DeviceAnnounce deviceAnnounce = (DeviceAnnounce) command;
