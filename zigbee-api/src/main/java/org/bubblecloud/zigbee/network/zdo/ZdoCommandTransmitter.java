@@ -106,6 +106,12 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
                         (short) simpleDescriptorRequest.getDestinationAddress(),
                         (short) simpleDescriptorRequest.getEndpoint()));
             }
+            if (command instanceof NodeDescriptorRequest) {
+                final NodeDescriptorRequest nodeDescriptorRequest = (NodeDescriptorRequest) command;
+                networkManager.sendCommand(new ZDO_NODE_DESC_REQ(
+                        getZToolAddress16(nodeDescriptorRequest.getDestinationAddress()),
+                        getZToolAddress16(nodeDescriptorRequest.getNetworkAddressOfInterest())));
+            }
         }
     }
 
@@ -195,6 +201,29 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
                     message.getAssociatedNodeCount(),
                     message.getAssociatedNodesList()
             );
+
+            notifyCommandReceived(command);
+
+            return;
+        }
+
+        if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_NODE_DESC_RSP) {
+            final ZDO_NODE_DESC_RSP message = (ZDO_NODE_DESC_RSP) packet;
+
+            final NodeDescriptorResponse command = new NodeDescriptorResponse(
+                    message.Status,
+                    message.SrcAddress.get16BitValue(),
+                    message.nwkAddr.get16BitValue(),
+                    message.APSFlags,
+                    message.BufferSize,
+                    message.Capabilities,
+                    message.ComplexDescriptorAvailable,
+                    message.ManufacturerCode.get16BitValue(),
+                    message.NodeType,
+                    message.ServerMask,
+                    message.TransferSize.get16BitValue(),
+                    message.UserDescriptorAvailable,
+                    message.FreqBand);
 
             notifyCommandReceived(command);
 

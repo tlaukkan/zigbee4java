@@ -110,7 +110,15 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     private final ArrayList<ApplicationFrameworkMessageListener> messageListeners = new ArrayList<ApplicationFrameworkMessageListener>();
     private final AFMessageListenerFilter afMessageListenerFilter = new AFMessageListenerFilter(messageListeners);
 
+    /**
+     * The cached current IEEE address read from dongle.
+     */
     private long ieeeAddress = -1;
+    /**
+     * The cached current PAN id read from dongle.
+     */
+    private int currentPanId = -1;
+
     private final HashMap<Class<?>, Thread> conversation3Way = new HashMap<Class<?>, Thread>();
 
     public ZigBeeNetworkManagerImpl(SerialPort port, NetworkMode mode, int pan, int channel, long timeout) {
@@ -1007,7 +1015,6 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     private boolean dongleSetChannel(int[] channelMask) {
-
         logger.trace(
                 "Setting the channel to {}{}{}{}", new Object[]{
                 Integer.toHexString(channelMask[0]),
@@ -1056,6 +1063,8 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     }
 
     private boolean dongleSetPanId() {
+        currentPanId = -1;
+
         ZB_WRITE_CONFIGURATION_RSP response =
                 (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
                         commandInterface,
@@ -1442,11 +1451,16 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             return -1;
         }
 
+        if (currentPanId != -1) {
+            return currentPanId;
+        }
+
         int[] result = getDeviceInfo(ZB_GET_DEVICE_INFO.DEV_INFO_TYPE.PAN_ID);
 
         if (result == null) {
             return -1;
         } else {
+            currentPanId = (int) Integers.shortFromInts(result, 1, 0);
             return Integers.shortFromInts(result, 1, 0);
         }
     }
