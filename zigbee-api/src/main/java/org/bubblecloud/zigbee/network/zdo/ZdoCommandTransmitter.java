@@ -19,11 +19,13 @@ import org.bubblecloud.zigbee.network.AsynchronousCommandListener;
 import org.bubblecloud.zigbee.network.impl.*;
 
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
+import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.packet.ZToolCMD;
 import org.bubblecloud.zigbee.network.packet.ZToolPacket;
 import org.bubblecloud.zigbee.network.packet.zdo.*;
 import org.bubblecloud.zigbee.network.zdo.command.*;
 import org.bubblecloud.zigbee.simple.CommandListener;
+import org.bubblecloud.zigbee.util.DoubleByte;
 import org.bubblecloud.zigbee.util.Integers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -121,6 +123,30 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
                         managementPermitJoinRequest.getDuration(),
                         managementPermitJoinRequest.getTrustCenterSignificance()));
             }
+            if (command instanceof BindRequest) {
+                final BindRequest bindRequest = (BindRequest) command;
+                networkManager.sendCommand(new ZDO_BIND_REQ(
+                        getZToolAddress16(bindRequest.getDestinationAddress()),
+                        getZToolAddress64(bindRequest.getBindSourceAddress()),
+                        bindRequest.getBindSourceEndpoint(),
+                        new DoubleByte(bindRequest.getBindCluster()),
+                        bindRequest.getBindDestinationAddressingMode(),
+                        getZToolAddress64(bindRequest.getBindDestinationAddress()),
+                        bindRequest.getBindDestinationEndpoint()
+                        ));
+            }
+            if (command instanceof UnbindRequest) {
+                final UnbindRequest unbindRequest = (UnbindRequest) command;
+                networkManager.sendCommand(new ZDO_UNBIND_REQ(
+                        getZToolAddress16(unbindRequest.getDestinationAddress()),
+                        getZToolAddress64(unbindRequest.getBindSourceAddress()),
+                        unbindRequest.getBindSourceEndpoint(),
+                        new DoubleByte(unbindRequest.getBindCluster()),
+                        unbindRequest.getBindDestinationAddressingMode(),
+                        getZToolAddress64(unbindRequest.getBindDestinationAddress()),
+                        unbindRequest.getBindDestinationEndpoint()
+                ));
+            }
         }
     }
 
@@ -129,6 +155,9 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
                             Integers.getByteAsInteger(networkAddress, 1),
                             Integers.getByteAsInteger(networkAddress, 0)
                     );
+    }
+    private ZToolAddress64 getZToolAddress64(long networkAddress) {
+        return new ZToolAddress64(networkAddress);
     }
 
     @Override
@@ -251,6 +280,29 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
             return;
         }
 
+        if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_BIND_RSP) {
+            final ZDO_BIND_RSP message = (ZDO_BIND_RSP) packet;
+
+            final BindResponse command = new BindResponse(
+                    message.Status,
+                    message.SrcAddress.get16BitValue());
+
+            notifyCommandReceived(command);
+
+            return;
+        }
+
+        if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_UNBIND_RSP) {
+            final ZDO_UNBIND_RSP message = (ZDO_UNBIND_RSP) packet;
+
+            final UnbindResponse command = new UnbindResponse(
+                    message.Status,
+                    message.SrcAddress.get16BitValue());
+
+            notifyCommandReceived(command);
+
+            return;
+        }
     }
 
     @Override
