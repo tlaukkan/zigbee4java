@@ -113,6 +113,14 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
                         getZToolAddress16(nodeDescriptorRequest.getDestinationAddress()),
                         getZToolAddress16(nodeDescriptorRequest.getNetworkAddressOfInterest())));
             }
+            if (command instanceof ManagementPermitJoinRequest) {
+                final ManagementPermitJoinRequest managementPermitJoinRequest = (ManagementPermitJoinRequest) command;
+                networkManager.sendCommand(new ZDO_MGMT_PERMIT_JOIN_REQ(
+                        (byte) managementPermitJoinRequest.getAddressingMode(),
+                        getZToolAddress16(managementPermitJoinRequest.getDestinationAddress()),
+                        managementPermitJoinRequest.getDuration(),
+                        managementPermitJoinRequest.getTrustCenterSignificance()));
+            }
         }
     }
 
@@ -230,6 +238,19 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
 
             return;
         }
+
+        if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_MGMT_PERMIT_JOIN_RSP) {
+            final ZDO_MGMT_PERMIT_JOIN_RSP message = (ZDO_MGMT_PERMIT_JOIN_RSP) packet;
+
+            final ManagementPermitJoinResponse command = new ManagementPermitJoinResponse(
+                    message.Status,
+                    message.SrcAddress.get16BitValue());
+
+            notifyCommandReceived(command);
+
+            return;
+        }
+
     }
 
     @Override
