@@ -106,4 +106,9 @@ public class BlockingCommandReceiver implements AsynchronousCommandListener {
         }
     }
 
+    @Override
+    public void receivedUnclaimedSynchronousCommandResponse(ZToolPacket packet) {
+
+    }
+
 }

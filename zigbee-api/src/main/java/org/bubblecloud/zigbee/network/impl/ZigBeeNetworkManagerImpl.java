@@ -1773,6 +1773,12 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                 }
             }
         }
+
+        @Override
+        public void receivedUnclaimedSynchronousCommandResponse(ZToolPacket packet) {
+
+        }
+
     }
 
     private static class AFMessageListenerFilter implements AsynchronousCommandListener {
@@ -1825,5 +1831,11 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                         + "]");*/
             }
         }
+
+        @Override
+        public void receivedUnclaimedSynchronousCommandResponse(ZToolPacket packet) {
+
+        }
+
     }
 }

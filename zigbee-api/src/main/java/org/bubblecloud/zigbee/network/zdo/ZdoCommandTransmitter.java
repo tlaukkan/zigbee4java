@@ -28,6 +28,7 @@ import org.bubblecloud.zigbee.util.Integers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -230,6 +231,30 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
             return;
         }
     }
+
+    @Override
+    public void receivedUnclaimedSynchronousCommandResponse(ZToolPacket packet) {
+        if (packet.getClass().getSimpleName().endsWith("SRSP")) {
+            final SynchronousResponse response = new SynchronousResponse();
+            response.setType(packet.getClass().getSimpleName());
+
+            try {
+                final Class<?> packetClass = packet.getClass();
+                final Field statusField = packetClass.getDeclaredField("Status");
+                response.setStatus(statusField.getInt(packet));
+            } catch (final NoSuchFieldException e) {
+                LOGGER.error("Error reading status from synchronous response.", e);
+                return;
+            } catch (final IllegalAccessException e) {
+                LOGGER.error("Error reading status from synchronous response.", e);
+                return;
+            }
+            if (response.getStatus() != 0) {
+                LOGGER.error("Sychronours response error: " + response);
+            }
+        }
+    }
+
 
     /**
      * Notifies ZDO command listeners that ZDO command was received.

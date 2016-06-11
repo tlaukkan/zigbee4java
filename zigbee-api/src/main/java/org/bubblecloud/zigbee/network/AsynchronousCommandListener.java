@@ -34,5 +34,9 @@ public interface AsynchronousCommandListener {
     * Called when asynchronous command has been received.
     * @param packet the command packet.
     */
-    void receivedAsynchronousCommand(ZToolPacket packet);
+    void receivedAsynchronousCommand(final ZToolPacket packet);
+   /**
+    * Called when unclaimed synchronous command response has been received.
+    */
+   void receivedUnclaimedSynchronousCommandResponse(final ZToolPacket packet);
 }

@@ -311,7 +311,18 @@ public class CommandInterfaceImpl implements ZToolPacketHandler, CommandInterfac
                 synchronousCommandListeners.remove(id);
                 synchronousCommandListeners.notifyAll();
             } else {
-                LOGGER.trace("Received {} synchronous command response but no listeners were registered", id);
+                // Notify asynchronous command listeners of unclaimed asynchronous command responses.
+                final AsynchronousCommandListener[] listeners;
+                synchronized (asynchrounsCommandListeners) {
+                    listeners = asynchrounsCommandListeners.toArray(new AsynchronousCommandListener[]{});
+                }
+                for (final AsynchronousCommandListener asynchronousCommandListener : listeners) {
+                    try {
+                        asynchronousCommandListener.receivedUnclaimedSynchronousCommandResponse(packet);
+                    } catch (Throwable e) {
+                        LOGGER.error("Error in incoming asynchronous message processing.", e);
+                    }
+                }
             }
 
         }
