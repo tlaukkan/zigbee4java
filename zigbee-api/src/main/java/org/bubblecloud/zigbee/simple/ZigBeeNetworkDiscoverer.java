@@ -17,7 +17,10 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
      * The logger.
      */
     private final static Logger LOGGER = LoggerFactory.getLogger(ZigBeeNetworkDiscoverer.class);
-
+    /**
+     * Minimum time before information can be queried again for same network address or endpoint.
+     */
+    private static final int MINIMUM_REQUERY_TIME_MILLIS = 10000;
     /**
      * The ZigBee network state.
      */
@@ -36,6 +39,26 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
      */
     private Map<Integer, NodeDescriptorResponse> nodeDescriptors =
             Collections.synchronizedMap(new HashMap<Integer, NodeDescriptorResponse>());
+    /**
+     * Map of IEEE address request times.
+     */
+    final Map<Integer, Long> ieeeAddressRequestTimes =
+            Collections.synchronizedMap(new HashMap<Integer, Long>());
+    /**
+     * Map of node descriptor request times.
+     */
+    final Map<Integer, Long> nodeDescriptorRequestTimes =
+            Collections.synchronizedMap(new HashMap<Integer, Long>());
+    /**
+     * Map of active endpoints request times.
+     */
+    final Map<Integer, Long> activeEndpointsRequestTimes =
+            Collections.synchronizedMap(new HashMap<Integer, Long>());
+    /**
+     * Map of endpoint descriptor request times.
+     */
+    final Map<String, Long> endpointDescriptorRequestTimes =
+            Collections.synchronizedMap(new HashMap<String, Long>());
 
     /**
      * Discovers ZigBee network state.
@@ -71,7 +94,9 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
         // 0. ZCL command received from remote node. Request IEEE address if it is not yet known.
         if (command instanceof ZclCommand) {
             final ZclCommand zclCommand = (ZclCommand) command;
-            requestNodeIeeeAddressAndAssociatedNodes(zclCommand.getSourceAddress());
+            if (networkState.getDevice(zclCommand.getSourceAddress(), zclCommand.getSourceEnpoint()) == null) {
+                requestNodeIeeeAddressAndAssociatedNodes(zclCommand.getSourceAddress());
+            }
         }
 
         // 0. Node has been announced.
@@ -114,7 +139,7 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
             if (activeEndpointsResponse.getStatus() == 0) {
                 for (final int endpoint : activeEndpointsResponse.getActiveEndpoints()) {
                     int networkAddress = activeEndpointsResponse.getNetworkAddress();
-                    describeEndpoint(endpoint, networkAddress);
+                    describeEndpoint(networkAddress, endpoint);
                 }
             } else {
                 LOGGER.warn(activeEndpointsResponse.toString());
@@ -133,10 +158,95 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
                     return;
                 }
 
-                addDevice(ieeeAddressResponse, nodeDescriptorResponse, simpleDescriptorResponse);
+                if (networkState.getDevice(simpleDescriptorResponse.getNetworkAddress(),
+                        simpleDescriptorResponse.getEndpoint()) == null) {
+                    addDevice(ieeeAddressResponse, nodeDescriptorResponse, simpleDescriptorResponse);
+                }
             } else {
                 LOGGER.warn(simpleDescriptorResponse.toString());
             }
+        }
+    }
+
+
+    /**
+     * Requests node IEEE address and associated nodes.
+     * @param networkAddress the network address
+     */
+    private void requestNodeIeeeAddressAndAssociatedNodes(final int networkAddress) {
+        if (ieeeAddressRequestTimes.get(networkAddress) != null &&
+                System.currentTimeMillis() - ieeeAddressRequestTimes.get(networkAddress) < MINIMUM_REQUERY_TIME_MILLIS) {
+            return;
+        }
+        ieeeAddressRequestTimes.put(networkAddress, System.currentTimeMillis());
+
+        try {
+            final IeeeAddressRequest ieeeAddressRequest = new IeeeAddressRequest(networkAddress, 1, 0);
+            commandInterface.sendCommand(ieeeAddressRequest);
+        } catch (ZigBeeException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Describe node at given network address.
+     * @param networkAddress the network address
+     */
+    private void describeNode(final int networkAddress) {
+        if (nodeDescriptorRequestTimes.get(networkAddress) != null &&
+                System.currentTimeMillis() - nodeDescriptorRequestTimes.get(networkAddress) < MINIMUM_REQUERY_TIME_MILLIS) {
+            return;
+        }
+        nodeDescriptorRequestTimes.put(networkAddress, System.currentTimeMillis());
+
+        try {
+            final NodeDescriptorRequest nodeDescriptorRequest = new NodeDescriptorRequest(networkAddress, networkAddress);
+            commandInterface.sendCommand(nodeDescriptorRequest);
+        } catch (ZigBeeException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Discover node endpoints.
+     * @param networkAddress the network address
+     */
+    private void requestNodeEndpoints(final int networkAddress) {
+        if (activeEndpointsRequestTimes.get(networkAddress) != null &&
+                System.currentTimeMillis() - activeEndpointsRequestTimes.get(networkAddress) < MINIMUM_REQUERY_TIME_MILLIS) {
+            return;
+        }
+        activeEndpointsRequestTimes.put(networkAddress, System.currentTimeMillis());
+
+        try {
+            final ActiveEndpointsRequest activeEndpointsRequest = new ActiveEndpointsRequest();
+            activeEndpointsRequest.setDestinationAddress(networkAddress);
+            activeEndpointsRequest.setNetworkAddressOfInterest(networkAddress);
+            commandInterface.sendCommand(activeEndpointsRequest);
+        } catch (ZigBeeException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Describe node endpoint
+     * @param networkAddress the network address
+     * @param endpoint the endpoint
+     */
+    private void describeEndpoint(final int networkAddress, final int endpoint) {
+        final String deviceIdentifier = networkAddress + "/" + endpoint;
+        if (endpointDescriptorRequestTimes.get(deviceIdentifier) != null &&
+                System.currentTimeMillis() - endpointDescriptorRequestTimes.get(deviceIdentifier) < MINIMUM_REQUERY_TIME_MILLIS) {
+            return;
+        }
+        endpointDescriptorRequestTimes.put(deviceIdentifier, System.currentTimeMillis());
+        try {
+            final SimpleDescriptorRequest request = new SimpleDescriptorRequest();
+            request.setDestinationAddress(networkAddress);
+            request.setEndpoint(endpoint);
+            commandInterface.sendCommand(request);
+        } catch (ZigBeeException e) {
+            e.printStackTrace();
         }
     }
 
@@ -153,7 +263,7 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
 
         device.setNetworkAddress(ieeeAddressResponse.getNetworkAddress());
         device.setIeeeAddress(ieeeAddressResponse.getIeeeAddress());
-        device.setEndPoint(simpleDescriptorResponse.getEndpoint());
+        device.setEndpoint(simpleDescriptorResponse.getEndpoint());
         device.setProfileId(simpleDescriptorResponse.getProfileId());
         device.setDeviceId(simpleDescriptorResponse.getDeviceId());
         device.setManufacturerCode(nodeDescriptorResponse.getManufacturerCode());
@@ -163,68 +273,5 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
         device.setOutputClusterIds(simpleDescriptorResponse.getOutputClusters());
 
         networkState.addDevice(device);
-    }
-
-    /**
-     * Requests node IEEE address and associated nodes.
-     * @param networkAddress the network address
-     */
-    private void requestNodeIeeeAddressAndAssociatedNodes(final int networkAddress) {
-        if (ieeeAddresses.containsKey(networkAddress)) {
-            return;
-        }
-        try {
-            final IeeeAddressRequest ieeeAddressRequest = new IeeeAddressRequest(networkAddress, 1, 0);
-            commandInterface.sendCommand(ieeeAddressRequest);
-        } catch (ZigBeeException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Describe node at given network address.
-     * @param networkAddress the network address
-     */
-    private void describeNode(final int networkAddress) {
-        if (nodeDescriptors.containsKey(networkAddress)) {
-            return;
-        }
-        try {
-            final NodeDescriptorRequest nodeDescriptorRequest = new NodeDescriptorRequest(networkAddress, networkAddress);
-            commandInterface.sendCommand(nodeDescriptorRequest);
-        } catch (ZigBeeException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Discover node endpoints.
-     * @param networkAddress the network address
-     */
-    private void requestNodeEndpoints(final int networkAddress) {
-        try {
-            final ActiveEndpointsRequest activeEndpointsRequest = new ActiveEndpointsRequest();
-            activeEndpointsRequest.setDestinationAddress(networkAddress);
-            activeEndpointsRequest.setNetworkAddressOfInterest(networkAddress);
-            commandInterface.sendCommand(activeEndpointsRequest);
-        } catch (ZigBeeException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Describe node endpoint
-     * @param endpoint the endpoint
-     * @param networkAddress the network address
-     */
-    private void describeEndpoint(final int endpoint, final int networkAddress) {
-        try {
-            final SimpleDescriptorRequest request = new SimpleDescriptorRequest();
-            request.setDestinationAddress(networkAddress);
-            request.setEndpoint(endpoint);
-            commandInterface.sendCommand(request);
-        } catch (ZigBeeException e) {
-            e.printStackTrace();
-        }
     }
 }

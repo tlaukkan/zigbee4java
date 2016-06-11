@@ -9,7 +9,7 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
     /**
      * The devices in the ZigBee network.
      */
-    private Map<Integer, ZigBeeDevice> devices = new TreeMap<Integer, ZigBeeDevice>();
+    private Map<String, ZigBeeDevice> devices = new TreeMap<String, ZigBeeDevice>();
     /**
      * The listeners of the ZigBee network.
      */
@@ -19,7 +19,7 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
     @Override
     public void addDevice(final ZigBeeDevice device) {
         synchronized (devices) {
-            devices.put(device.getNetworkAddress(), device);
+            devices.put(device.getNetworkAddress() + "/" + device.getEndpoint(), device);
         }
         synchronized (this) {
             for (final ZigBeeNetworkStateListener listener : listeners) {
@@ -29,17 +29,17 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
     }
 
     @Override
-    public ZigBeeDevice getDevice(final int networkAddress) {
+    public ZigBeeDevice getDevice(final int networkAddress, int endpoint) {
         synchronized (devices) {
-            return devices.get(networkAddress);
+            return devices.get(networkAddress + "/" + endpoint);
         }
     }
 
     @Override
-    public void removeDevice(final int networkAddress) {
+    public void removeDevice(final int networkAddress, int endpoint) {
         final ZigBeeDevice device;
         synchronized (devices) {
-            device = devices.remove(networkAddress);
+            device = devices.remove(networkAddress + "/" + endpoint);
         }
         synchronized (this) {
             if (device != null) {

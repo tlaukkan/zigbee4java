@@ -17,7 +17,7 @@ public class ZigBeeDevice {
     /**
      * The end point.
      */
-    private int endPoint;
+    private int endpoint;
     /**
      * The profile ID.
      */
@@ -83,16 +83,16 @@ public class ZigBeeDevice {
      * Gets end point.
      * @return the end point
      */
-    public int getEndPoint() {
-        return endPoint;
+    public int getEndpoint() {
+        return endpoint;
     }
 
     /**
      * Sets end point
-     * @param endPoint the end point
+     * @param endpoint the end point
      */
-    public void setEndPoint(int endPoint) {
-        this.endPoint = endPoint;
+    public void setEndpoint(int endpoint) {
+        this.endpoint = endpoint;
     }
 
     /**
@@ -212,7 +212,7 @@ public class ZigBeeDevice {
         return "ZigBeeDevice " +
                 "ieeeAddress=" + ieeeAddress +
                 ", networkAddress=" + networkAddress +
-                ", endPoint=" + endPoint +
+                ", endpoint=" + endpoint +
                 ", profileId=" + profileId +
                 ", deviceType=" + deviceType +
                 ", deviceId=" + deviceId +

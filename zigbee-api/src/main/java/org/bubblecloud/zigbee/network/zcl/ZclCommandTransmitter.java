@@ -181,8 +181,8 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
         synchronized (networkManager) {
             final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
 
-            final int sourceAddress = ApplicationFrameworkLayer.getAFLayer(networkManager).getZigBeeNetwork().getNode(
-                    IEEEAddress.toColonNotation(networkManager.getIeeeAddress())).getNetworkAddress();
+            // TODO load properly dongle source address
+            final int sourceAddress = commandMessage.getSourceAddress();
             commandMessage.setSourceAddress(sourceAddress);
 
             final int clusterId;

@@ -142,7 +142,7 @@ public class SimpleZigBeeApi {
      */
     private Future<ZclCommandResponse> send(final ZigBeeDevice device, final ZclCommand command) {
         command.setDestinationAddress(device.getNetworkAddress());
-        command.setDestinationEndpoint(device.getEndPoint());
+        command.setDestinationEndpoint(device.getEndpoint());
 
         final FutureImpl<ZclCommandResponse> future = new FutureImpl<ZclCommandResponse>();
 
@@ -154,7 +154,8 @@ public class SimpleZigBeeApi {
                     // hence transaction ID for the command set.
                     if (receivedCommand instanceof ZclCommand) {
                         synchronized (command) {
-                            if (command.getTransactionId().equals(((ZclCommand) receivedCommand).getTransactionId())) {
+                            final byte transactionId = command.getTransactionId();
+                            if (new Byte(transactionId).equals(((ZclCommand) receivedCommand).getTransactionId())) {
                                 synchronized (future) {
                                     future.set(new ZclCommandResponse((ZclCommand) receivedCommand));
                                     future.notify();
@@ -171,7 +172,7 @@ public class SimpleZigBeeApi {
                 command.setTransactionId((byte) transactionId);
             } catch (ZigBeeException e) {
                 throw new SimpleZigBeeApiException("Error sending " + command.getClass().getSimpleName()
-                        + " to " + device.getNetworkAddress() + "/" + device.getEndPoint(), e);
+                        + " to " + device.getNetworkAddress() + "/" + device.getEndpoint(), e);
             }
         }
 

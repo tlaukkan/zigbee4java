@@ -78,8 +78,8 @@ public class ClusterFactoryImpl extends ClusterFactoryBase {
     // Lightening
     private static final String COLOR_CONTROL_KEY = ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":"+ ZigBeeApiConstants.CLUSTER_ID_COLOR_CONTROL;
 
-    public ClusterFactoryImpl(ZigBeeApiContext context){
-        super(context);
+    public ClusterFactoryImpl(){
+        super();
 
         // General
         addCluster(BASIC_KEY, BasicImpl.class);

@@ -44,12 +44,10 @@ import java.util.Hashtable;
  */
 public class ClusterFactoryBase implements ClusterFactory {
 
-    private ZigBeeApiContext ctx;
     private Hashtable<String, Class> clusters;
 
 
-    public ClusterFactoryBase(ZigBeeApiContext ctx) {
-        this.ctx = ctx;
+    public ClusterFactoryBase() {
         clusters = new Hashtable<String, Class>();
     }
 
@@ -83,9 +81,7 @@ public class ClusterFactoryBase implements ClusterFactory {
             } catch (SecurityException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            } catch (NoSuchMethodException ignored) {
             } catch (IllegalArgumentException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

@@ -146,7 +146,7 @@ public class ZigBeeApi implements EndpointListener, ZigBeeNetwork {
 
         context = new ZigBeeApiContext();
 
-        final ClusterFactory clusterFactory = new ClusterFactoryImpl(context);
+        final ClusterFactory clusterFactory = new ClusterFactoryImpl();
         context.setClusterFactory(clusterFactory);
 
         try {
@@ -528,7 +528,7 @@ public class ZigBeeApi implements EndpointListener, ZigBeeNetwork {
             final ZigBeeDevice zigBeeDevice = new ZigBeeDevice();
             zigBeeDevice.setIeeeAddress(IEEEAddress.fromColonNotation(device.getIeeeAddress()));
             zigBeeDevice.setNetworkAddress(device.getNetworkAddress());
-            zigBeeDevice.setEndPoint(device.getEndPointAddress());
+            zigBeeDevice.setEndpoint(device.getEndPointAddress());
             zigBeeDevice.setProfileId(device.getProfileId());
             zigBeeDevice.setDeviceId(device.getDeviceTypeId());
             zigBeeDevice.setDeviceVersion(device.getDeviceVersion());

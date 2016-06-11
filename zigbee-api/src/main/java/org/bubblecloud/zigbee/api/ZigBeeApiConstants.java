@@ -22,6 +22,7 @@
 
 package org.bubblecloud.zigbee.api;
 
+import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.HVAC.FanControl;
 import org.bubblecloud.zigbee.api.cluster.impl.api.HVAC.PumpConfigurationAndControl;
 import org.bubblecloud.zigbee.api.cluster.impl.api.HVAC.Thermostat;
@@ -63,6 +64,11 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.IASZone;
  * @since 0.4.0
  */
 public class ZigBeeApiConstants {
+
+    /**
+     * Cluster factory for reading cluster metadata.
+     */
+    private static final ClusterFactoryImpl clusterFactory = new ClusterFactoryImpl();
 
     /**
      * Broadcast address.
@@ -175,7 +181,10 @@ public class ZigBeeApiConstants {
     private ZigBeeApiConstants() {}
 
 
-    public static String getDeviceName(int profileID, int deviceID) {
+    public static String getDeviceName(int profileID, int deviceType, int deviceID) {
+        if (deviceType == 0) {
+            return "Coordinator";
+        }
 		switch (profileID) {
 		case PROFILE_ID_HOME_AUTOMATION:
 			if (deviceID == DEVICE_ID_HA_ON_OFF_SWITCH)
@@ -204,6 +213,8 @@ public class ZigBeeApiConstants {
 				return TemperatureSensor.NAME;
 			else if (deviceID == DEVICE_ID_HA_IAS_CONTROL_INDICATING_EQUIPMENT)
 				return IASControlAndIndicatingEquipment.NAME;
+            else if (deviceID == DEVICE_ID_HA_IASZONE)
+                return IASZone.NAME;
 			else if (deviceID == CLUSTER_ID_PRESSURE_MEASUREMENT)
 				return PressureMeasurement.NAME;
 			else if (deviceID == CLUSTER_ID_FLOW_MEASUREMENT)
@@ -340,4 +351,19 @@ public class ZigBeeApiConstants {
     	}
     	return null;
 	}
+
+    /**
+     * Gets cluster for reading metadata information.
+     * @param profileId the profile ID
+     * @param clusterId the cluster ID
+     * @return
+     */
+    public static Cluster getCluster(final int profileId, final int clusterId) {
+        Cluster cluster = clusterFactory.getInstance(profileId + ":" + clusterId, null);
+        if (cluster == null) {
+            // Attempt to get cluster from HA profile-
+            cluster = clusterFactory.getInstance(ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION + ":" + clusterId, null);
+        }
+        return cluster;
+    }
 }

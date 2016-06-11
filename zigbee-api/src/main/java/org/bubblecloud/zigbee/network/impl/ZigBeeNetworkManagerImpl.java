@@ -440,123 +440,6 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         return true;
     }
 
-    protected boolean dongleMasterReset() {
-        //---------START FROM APP
-        logger.trace("Reset seq: Trying STARTFROMAPP");
-        ZDO_STARTUP_FROM_APP_SRSP responseA1 = (ZDO_STARTUP_FROM_APP_SRSP) sendSynchrouns(
-                commandInterface, new ZDO_STARTUP_FROM_APP(0)
-        );
-        if (responseA1 == null) {
-            logger.error("Reset seq: Failed STARTFROMAPP");
-            return false;
-        }
-        //---------ZB WRITE CONF
-        logger.trace("Reset seq: Trying WRITECONF");
-        ZB_WRITE_CONFIGURATION_RSP responseA2 = (ZB_WRITE_CONFIGURATION_RSP) sendSynchrouns(
-                commandInterface, new ZB_WRITE_CONFIGURATION(3, new int[]{2})
-        );
-        if (responseA2 == null) {
-            logger.error("Reset seq: Failed WRITECONF");
-            return false;
-        }
-        //---------GET DEVICE INFO
-        logger.debug("Reset seq: Trying GETDEVICEINFO");
-//		final WaitForCommand waiter1 = new WaitForCommand(
-//				ZToolCMD.UTIL_GET_DEVICE_INFO_RESPONSE,
-//				zigbeeSerialInterface
-//		);
-//		try{
-//			zigbeeSerialInterface.sendAsynchrounsCommand(new UTIL_GET_DEVICE_INFO());
-//		} catch (IOException e) {
-//			logger.error("GetDeviceInfo of Master Reset failed", e);
-//			return false;
-//		}
-//		UTIL_GET_DEVICE_INFO_RESPONSE responseA3 = (UTIL_GET_DEVICE_INFO_RESPONSE) waiter1.getCommand(TIMEOUT);
-        UTIL_GET_DEVICE_INFO_RESPONSE responseA3 = (UTIL_GET_DEVICE_INFO_RESPONSE) sendSynchrouns(commandInterface, new UTIL_GET_DEVICE_INFO());
-        if (responseA3 == null) {
-            logger.error("Reset seq: Failed GETDEVICEINFO");
-            return false;
-        }
-        ZToolAddress16[] addresses = new ZToolAddress16[responseA3.AssocDevicesList.length];
-        for (int k = 0; k < responseA3.AssocDevicesList.length; k++) {
-            addresses[k] = new ZToolAddress16(responseA3.AssocDevicesList[k].getMsb(), responseA3.AssocDevicesList[k].getLsb());
-        }
-        //---------ZDO GET IEEE ADDR
-        logger.trace("Reset seq: Trying GETIEEEADDR");
-        ZToolAddress64[] longAddresses = new ZToolAddress64[addresses.length];
-        for (int k = 0; k < addresses.length; k++) {
-//			ZDO_IEEE_ADDR_RSP responseA4 = sendZDOIEEEAddressRequest(new ZDO_IEEE_ADDR_REQ(addresses[k],ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED.getValue(),0));
-
-            ZDO_IEEE_ADDR_RSP responseA4 = null;
-            BlockingCommandReceiver waiter = new BlockingCommandReceiver(ZToolCMD.ZDO_IEEE_ADDR_RSP, commandInterface);
-            logger.trace("Sending ZDO_IEEE_ADDR_REQ");
-            ZDO_IEEE_ADDR_REQ_SRSP response = (ZDO_IEEE_ADDR_REQ_SRSP) sendSynchrouns(commandInterface, new ZDO_IEEE_ADDR_REQ(addresses[k], ZDO_IEEE_ADDR_REQ.REQ_TYPE.EXTENDED.getValue(), 0));
-            if (response == null || response.Status != 0) {
-                logger.trace("ZDO_IEEE_ADDR_REQ failed, received {}", response);
-                waiter.cleanup();
-            } else {
-                responseA4 = (ZDO_IEEE_ADDR_RSP) waiter.getCommand(TIMEOUT);
-            }
-
-            if (responseA4 != null) {
-                longAddresses[k] = responseA4.getIeeeAddress();
-            } else {
-                longAddresses[k] = null;
-            }
-        }
-        //---------ZDO MGMT LEAVE
-        logger.trace("Reset seq: Trying LEAVE");
-        long start = System.currentTimeMillis();
-        for (int k = 0; k < longAddresses.length; k++) {
-            if (longAddresses[k] != null) {
-                BlockingCommandReceiver waiter3 = new BlockingCommandReceiver(ZToolCMD.ZDO_MGMT_LEAVE_RSP, commandInterface);
-
-                ZDO_MGMT_LEAVE_REQ_SRSP response = (ZDO_MGMT_LEAVE_REQ_SRSP) sendSynchrouns(commandInterface, new ZDO_MGMT_LEAVE_REQ(addresses[k], longAddresses[k], 3));
-                if ((System.currentTimeMillis() - start) > TIMEOUT) {
-                    logger.error("Reset seq: Failed LEAVE");
-                    return false;
-                }
-                if (response == null || response.Status != 0) {
-                    waiter3.cleanup();
-                    logger.error("Reset seq: Failed LEAVE");
-                    return false;
-                } else {
-                    if ((System.currentTimeMillis() - start) > TIMEOUT) {
-                        logger.error("Reset seq: Failed LEAVE");
-                        return false;
-                    }
-                    ZDO_MGMT_LEAVE_RSP responseA5 = (ZDO_MGMT_LEAVE_RSP) waiter3.getCommand(TIMEOUT);
-                    if ((System.currentTimeMillis() - start) > TIMEOUT) {
-                        logger.error("Reset seq: Failed LEAVE");
-                        return false;
-                    }
-                    if (responseA5 == null || responseA5.Status != 0) {
-                        logger.error("Reset seq: Failed LEAVE");
-                        return false;
-                    }
-                }
-            }
-            if ((System.currentTimeMillis() - start) > TIMEOUT) {
-                logger.error("Reset seq: Failed LEAVE");
-                return false;
-            }
-        }
-
-        //---------SYS RESET
-        logger.debug("Reset seq: Trying SYSRESET");
-        if (!dongleReset()) {
-            logger.error("Reset seq: Failed SYSRESET");
-            return false;
-        }
-        //---------START FROM APP
-//		//already in initializeZigBeeNetwork
-//		ZDO_STARTUP_FROM_APP_SRSP responseA7 = (ZDO_STARTUP_FROM_APP_SRSP) sendSynchrouns(
-//				zigbeeSerialInterface, new ZDO_STARTUP_FROM_APP(ZDO_STARTUP_FROM_APP.RESET_TYPE.TARGET_DEVICE)
-//		);
-//		if (responseA7==null)return false;
-        return true;
-    }
-
     private void setState(DriverStatus value) {
         logger.trace("{} -> {}", this.state, value);
         synchronized (this) {
@@ -610,11 +493,6 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             }
             return isNetworkReady();
         }
-    }
-
-
-    private String buildDriverThreadName(String serialPort, int bitrate, int channel) {
-        return "ZigBeeNetworkManager[" + serialPort + "," + bitrate + "]";
     }
 
     public void setZigBeeNodeMode(NetworkMode networkMode) {
