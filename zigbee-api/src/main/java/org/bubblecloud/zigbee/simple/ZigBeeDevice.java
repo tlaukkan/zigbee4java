@@ -23,9 +23,17 @@ public class ZigBeeDevice {
      */
     private int profileId;
     /**
+     * The logical type of the device.
+     */
+    private int deviceType;
+    /**
      * The device ID.
      */
     private int deviceId;
+    /**
+     * The manufacturer code.
+     */
+    private int manufacturerCode;
     /**
      * The device version.
      */
@@ -167,15 +175,49 @@ public class ZigBeeDevice {
         this.profileId = profileId;
     }
 
+    /**
+     * Gets device logical type.
+     * @return the device logical type.
+     */
+    public int getDeviceType() {
+        return deviceType;
+    }
+
+    /**
+     * Sets device logical type.
+     * @param deviceType the device logical type
+     */
+    public void setDeviceType(int deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    /**
+     * Gets manufacturer code.
+     * @return the manufacturer code.
+     */
+    public int getManufacturerCode() {
+        return manufacturerCode;
+    }
+
+    /**
+     * Sets manufacturer code.
+     * @param manufacturerCode the manufacturer code.
+     */
+    public void setManufacturerCode(int manufacturerCode) {
+        this.manufacturerCode = manufacturerCode;
+    }
+
     @Override
     public String toString() {
         return "ZigBeeDevice " +
-                "deviceId=" + deviceId +
-                ", deviceVersion=" + deviceVersion +
-                ", ieeeAddress=" + ieeeAddress +
+                "ieeeAddress=" + ieeeAddress +
                 ", networkAddress=" + networkAddress +
                 ", endPoint=" + endPoint +
                 ", profileId=" + profileId +
+                ", deviceType=" + deviceType +
+                ", deviceId=" + deviceId +
+                ", manufacturerCode=" + manufacturerCode +
+                ", deviceVersion=" + deviceVersion +
                 ", inputClusterIds=" + Arrays.toString(inputClusterIds) +
                 ", outputClusterIds=" + Arrays.toString(outputClusterIds);
     }

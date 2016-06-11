@@ -22,6 +22,10 @@ public class SerialPortImpl implements SerialPort, SerialPortEventListener {
      */
     private final static Logger LOGGER = LoggerFactory.getLogger(SerialPortImpl.class);
     /**
+     * The default baud rate.
+     */
+    public static final int DEFAULT_BAUD_RATE = 38400;
+    /**
      * The portName portName.
      */
     private jssc.SerialPort serialPort;
@@ -41,6 +45,14 @@ public class SerialPortImpl implements SerialPort, SerialPortEventListener {
      * The baud rate.
      */
     private final int baudRate;
+
+    /**
+     * Constructor which sets port name to given value and baud rate to default.
+     */
+    public SerialPortImpl(final String portName) {
+        this.portName = portName;
+        this.baudRate = DEFAULT_BAUD_RATE;
+    }
 
     /**
      * Constructor setting port name and baud rate.

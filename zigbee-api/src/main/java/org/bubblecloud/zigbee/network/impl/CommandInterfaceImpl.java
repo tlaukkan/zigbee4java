@@ -311,7 +311,7 @@ public class CommandInterfaceImpl implements ZToolPacketHandler, CommandInterfac
                 synchronousCommandListeners.remove(id);
                 synchronousCommandListeners.notifyAll();
             } else {
-                LOGGER.warn("Received {} synchronous command response but no listeners were registered", id);
+                LOGGER.trace("Received {} synchronous command response but no listeners were registered", id);
             }
 
         }

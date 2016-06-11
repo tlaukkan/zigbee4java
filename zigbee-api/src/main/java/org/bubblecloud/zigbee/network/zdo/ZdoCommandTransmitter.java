@@ -132,7 +132,7 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
             final SimpleDescriptorResponse command = new SimpleDescriptorResponse();
             command.setSourceAddress(message.SrcAddress.get16BitValue());
             command.setStatus(message.Status);
-            command.setProfileId(message.getProfileId());
+            command.setProfileId(message.getProfileId() & 0xffff);
             command.setDeviceId(message.getDeviceId());
             command.setDeviceVersion(message.getDeviceVersion());
             command.setNetworkAddress(message.nwkAddr.get16BitValue());

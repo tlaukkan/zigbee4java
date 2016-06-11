@@ -1,7 +1,6 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
-import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.simple.*;
 import org.bubblecloud.zigbee.rpc.ZigBeeRpcClient;
 
@@ -10,7 +9,7 @@ import java.util.List;
 /**
  * ZigBeeConsole client which connect with ZigBee console with JSON RPC.
  */
-public class ZigBeeConsoleClient extends SimpleZigBeeApi implements ZigBeeDongle {
+public class ZigBeeConsoleClient extends SimpleZigBeeApi implements ZigBeeNetwork {
     /**
      * The RPC client.
      */
@@ -18,7 +17,7 @@ public class ZigBeeConsoleClient extends SimpleZigBeeApi implements ZigBeeDongle
     /**
      * The ZCL API.
      */
-    private final ZigBeeDongle zigBeeDongle;
+    private final ZigBeeNetwork zigBeeNetwork;
 
     /**
      * Constructor which defines ZigBee RPC API URL and access token.
@@ -28,8 +27,8 @@ public class ZigBeeConsoleClient extends SimpleZigBeeApi implements ZigBeeDongle
     public ZigBeeConsoleClient(final String url, final String accessToken) {
         super();
         rpcClient = new ZigBeeRpcClient(url, accessToken);
-        zigBeeDongle = rpcClient;
-        setZigBeeDongle(rpcClient);
+        zigBeeNetwork = rpcClient;
+        setNetwork(rpcClient);
     }
 
     /**
@@ -57,21 +56,21 @@ public class ZigBeeConsoleClient extends SimpleZigBeeApi implements ZigBeeDongle
 
     @Override
     public void addCommandListener(CommandListener commandListener) {
-        zigBeeDongle.addCommandListener(commandListener);
+        zigBeeNetwork.addCommandListener(commandListener);
     }
 
     @Override
     public List<ZigBeeDevice> getZigBeeDevices() {
-        return zigBeeDongle.getZigBeeDevices();
+        return zigBeeNetwork.getZigBeeDevices();
     }
 
     @Override
     public void removeCommandListener(CommandListener commandListener) {
-        zigBeeDongle.removeCommandListener(commandListener);
+        zigBeeNetwork.removeCommandListener(commandListener);
     }
 
     @Override
     public int sendCommand(Command command) throws ZigBeeException {
-        return zigBeeDongle.sendCommand(command);
+        return zigBeeNetwork.sendCommand(command);
     }
 }

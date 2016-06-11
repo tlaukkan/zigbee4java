@@ -217,14 +217,14 @@ public class ApplicationFrameworkLayer {
                 return;
             }
 
-            logger.info("Registered default sending endpoint {} with clusters: {}", endPoint, clusters);
+            logger.debug("Registered default sending endpoint {} with clusters: {}", endPoint, clusters);
             registerSenderEndPoint(endPoint, si.profileId, clusters);
         }
     }
 
     private byte createEndPoint(SenderIdentifier si, int receiverProfileId) {
         byte endPoint = getFreeEndPoint();
-        logger.debug("Registering a new endpoint for <profileId,clusterId>  <{},{}>", si.profileId, si.clusterId);
+        logger.trace("Registering a new endpoint for <profileId,clusterId>  <{},{}>", si.profileId, si.clusterId);
 
         Set<Integer> clusterSet = collectClusterForProfile(receiverProfileId);
         final int[] clusters = new int[clusterSet.size()];
@@ -304,7 +304,7 @@ public class ApplicationFrameworkLayer {
                     }
                     logger.warn("Overriding a valid <profileId,clusterId> endpoint with this {}", adding);
                 }
-                logger.debug("Adding <profileId,clusterId> <{},{}> to sender2EndPoint hashtable", adding.profileId, adding.clusterId);
+                logger.trace("Adding <profileId,clusterId> <{},{}> to sender2EndPoint hashtable", adding.profileId, adding.clusterId);
                 sender2EndPoint.put(adding, endPoint);
             }
         }

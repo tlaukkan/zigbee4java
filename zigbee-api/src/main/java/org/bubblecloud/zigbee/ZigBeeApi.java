@@ -15,7 +15,6 @@
  */
 package org.bubblecloud.zigbee;
 
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Command;
 import org.bubblecloud.zigbee.api.device.security_safety.*;
 import org.bubblecloud.zigbee.network.EndpointListener;
 import org.bubblecloud.zigbee.network.NodeListener;
@@ -47,7 +46,7 @@ import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.zdo.ZdoCommandTransmitter;
 import org.bubblecloud.zigbee.simple.SimpleZigBeeApi;
 import org.bubblecloud.zigbee.simple.ZigBeeDevice;
-import org.bubblecloud.zigbee.simple.ZigBeeDongle;
+import org.bubblecloud.zigbee.simple.ZigBeeNetwork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,7 +89,7 @@ import java.util.*;
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  * @author <a href="mailto:chris@cd-jackson.com">Chris Jackson</a>
  */
-public class ZigBeeApi implements EndpointListener, ZigBeeDongle {
+public class ZigBeeApi implements EndpointListener, ZigBeeNetwork {
     /**
      * The {@link Logger}.
      */
@@ -108,9 +107,9 @@ public class ZigBeeApi implements EndpointListener, ZigBeeDongle {
      */
     private ZigBeeApiContext context;
     /**
-     * The {@link ZigBeeNetwork ZigBee network}.
+     * The {@link org.bubblecloud.zigbee.network.impl.ZigBeeNetwork ZigBee network}.
      */
-    private ZigBeeNetwork network;
+    private org.bubblecloud.zigbee.network.impl.ZigBeeNetwork network;
     /**
      * The ZCL command transmitter.
      */
@@ -362,11 +361,11 @@ public class ZigBeeApi implements EndpointListener, ZigBeeDongle {
     }
 
     /**
-     * Gets the {@link ZigBeeNetwork ZigBee network}.
+     * Gets the {@link org.bubblecloud.zigbee.network.impl.ZigBeeNetwork ZigBee network}.
      *
      * @return the ZigBee network.
      */
-    public ZigBeeNetwork getZigBeeNetwork() {
+    public org.bubblecloud.zigbee.network.impl.ZigBeeNetwork getZigBeeNetwork() {
         return network;
     }
 

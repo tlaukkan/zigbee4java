@@ -22,7 +22,7 @@ public class ZigBeeConsoleJavaSE {
     /**
      * The default baud rate.
      */
-	private static final int DefaultBaudRate = 38400;
+	private static final int DEFAULT_BAUD_RATE = 38400;
     /**
      * The usage.
      */
@@ -95,7 +95,7 @@ public class ZigBeeConsoleJavaSE {
 			return;
 		}
 
-		final SerialPort serialPort = new SerialPortImpl(serialPortName, DefaultBaudRate);
+		final SerialPort serialPort = new SerialPortImpl(serialPortName, DEFAULT_BAUD_RATE);
 		final ZigBeeConsole console = new ZigBeeConsole(serialPort,pan,channel,resetNetwork);
 
         final AuthorizationProvider authorizationProvider = new AuthorizationProvider() {

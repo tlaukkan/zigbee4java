@@ -4,12 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 import com.googlecode.jsonrpc4j.ProxyUtil;
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
-import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.simple.Command;
 import org.bubblecloud.zigbee.simple.CommandListener;
-import org.bubblecloud.zigbee.network.zcl.ZclCommandMessage;
-import org.bubblecloud.zigbee.network.zcl.ZclUtil;
-import org.bubblecloud.zigbee.simple.ZigBeeDongle;
+import org.bubblecloud.zigbee.simple.ZigBeeNetwork;
 import org.bubblecloud.zigbee.simple.ZigBeeDevice;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +21,7 @@ import java.util.List;
  *
  * @author Tommi S.E. Laukkanen
  */
-public class ZigBeeRpcClient implements ZigBeeDongle {
+public class ZigBeeRpcClient implements ZigBeeNetwork {
     /**
      * The {@link org.slf4j.Logger}.
      */

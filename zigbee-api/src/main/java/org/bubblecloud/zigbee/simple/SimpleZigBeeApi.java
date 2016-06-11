@@ -14,8 +14,6 @@ import java.util.concurrent.*;
 
 /**
  * Simple ZigBee API. This API is experimental and under development.
- *
- * @author Tommi S.E. Laukkanen
  */
 public class SimpleZigBeeApi {
     /**
@@ -23,9 +21,13 @@ public class SimpleZigBeeApi {
      */
     private final static Logger LOGGER = LoggerFactory.getLogger(SimpleZigBeeApi.class);
     /**
-     * The ZCL API.
+     * The network.
      */
-    private ZigBeeDongle zigBeeDongle;
+    private ZigBeeNetwork network;
+    /**
+     * The network state.
+     */
+    private ZigBeeNetworkState networkState;
 
     /**
      * Default constructor inheritance.
@@ -35,18 +37,42 @@ public class SimpleZigBeeApi {
 
     /**
      * Constructor for setting the ZCL API.
-     * @param zigBeeDongle the ZCL API
+     * @param network the ZCL API
      */
-    public SimpleZigBeeApi(final ZigBeeDongle zigBeeDongle) {
-        this.zigBeeDongle = zigBeeDongle;
+    public SimpleZigBeeApi(final ZigBeeNetwork network) {
+        this.network = network;
     }
 
     /**
-     * Sets ZLC API.
-     * @param zigBeeDongle the ZCL API
+     * Sets network.
+     * @param network the network
      */
-    public void setZigBeeDongle(final ZigBeeDongle zigBeeDongle) {
-        this.zigBeeDongle = zigBeeDongle;
+    public void setNetwork(final ZigBeeNetwork network) {
+        this.network = network;
+    }
+
+    /**
+     * Gets the ZigBee network.
+     * @return the ZigBee network
+     */
+    public ZigBeeNetwork getNetwork() {
+        return network;
+    }
+
+    /**
+     * Sets network state.
+     * @param networkState the network state
+     */
+    public void setNetworkState(ZigBeeNetworkState networkState) {
+        this.networkState = networkState;
+    }
+
+    /**
+     * Gets the ZigBee network state.
+     * @return the ZigBee network state
+     */
+    public ZigBeeNetworkState getNetworkState() {
+        return networkState;
     }
 
     /**
@@ -54,7 +80,7 @@ public class SimpleZigBeeApi {
      * @return list of ZigBee devices
      */
     public List<ZigBeeDevice> getZigBeeDevices() {
-        return zigBeeDongle.getZigBeeDevices();
+        return network.getZigBeeDevices();
     }
 
     /**
@@ -121,18 +147,18 @@ public class SimpleZigBeeApi {
         final FutureImpl<ZclCommandResponse> future = new FutureImpl<ZclCommandResponse>();
 
         synchronized (command) {
-            zigBeeDongle.addCommandListener(new CommandListener() {
+            network.addCommandListener(new CommandListener() {
                 @Override
                 public void commandReceived(Command receivedCommand) {
                     // Ensure that received command is not processed before command is sent and
                     // hence transaction ID for the command set.
                     if (receivedCommand instanceof ZclCommand) {
                         synchronized (command) {
-                            if (command.getTransactionId().equals(((ZclCommand)receivedCommand).getTransactionId())) {
+                            if (command.getTransactionId().equals(((ZclCommand) receivedCommand).getTransactionId())) {
                                 synchronized (future) {
                                     future.set(new ZclCommandResponse((ZclCommand) receivedCommand));
                                     future.notify();
-                                    zigBeeDongle.removeCommandListener(this);
+                                    network.removeCommandListener(this);
                                 }
                             }
                         }
@@ -141,7 +167,7 @@ public class SimpleZigBeeApi {
             });
 
             try {
-                int transactionId = zigBeeDongle.sendCommand(command);
+                int transactionId = network.sendCommand(command);
                 command.setTransactionId((byte) transactionId);
             } catch (ZigBeeException e) {
                 throw new SimpleZigBeeApiException("Error sending " + command.getClass().getSimpleName()

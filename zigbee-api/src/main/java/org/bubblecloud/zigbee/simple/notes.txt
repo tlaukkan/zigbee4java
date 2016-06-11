@@ -1,0 +1,36 @@
+ZigBeeApiRemote extends SimpleZigBeeApi
+- uses ZigBeeClient as ZigBeeDongle and ZigBeeNetworkState implementation for SimpleZigBeeApi
+
+ZigBeeApiClient implements ZigBeeDongle, ZigBeeNetworkState
+- uses ZigBeeRpcApi as ZigBeeDongle and ZigBeeNetworkState delegate
+
+---
+
+ZigBeeApiServer implements ZigBeeRpcApi
+- uses ZigBeeLocal
+
+---
+
+ZigBeeApiLocal extends SimpleZigBeeApi
+- uses ZigBee dongle implementation
+- uses ZigBeeNetworkState implementation
+- uses ZigBeeNetworkDiscoverer
+
+SimpleZigBeeApi
+- uses ZigBeeNetwork implementation
+
+ZigBeeNetworkStateImpl implements ZigBeeNetworkState
+- Simple in memory implementation of ZigBeeNetworkState
+
+ZigBeeDongleTiCc2531Impl implements ZigBeeDongle
+- uses legacy ZigBeeNetworkManager to implement dongle interface
+
+ZigBeeDongle implements ZigBeeNetwork
+- Hardware dongle interface
+
+ZigBeeNetworkState
+- Devices in the network
+
+ZigBeeNetwork
+- Command input and output
+

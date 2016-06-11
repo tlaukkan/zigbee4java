@@ -7,8 +7,6 @@ import java.util.concurrent.TimeoutException;
 
 /**
  * Future implementation for asynchronous methods.
- *
- * @author Tommi S.E. Laukkanen
  */
 public class FutureImpl<V> implements Future<V> {
 
