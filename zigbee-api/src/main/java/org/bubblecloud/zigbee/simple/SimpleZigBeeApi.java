@@ -5,12 +5,15 @@ import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.color.control.MoveToColorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OffCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OnCommand;
+import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
+import org.bubblecloud.zigbee.network.zdo.command.BindRequest;
+import org.bubblecloud.zigbee.network.zdo.command.UnbindRequest;
 import org.bubblecloud.zigbee.network.zdo.command.UserDescriptorSet;
 import org.bubblecloud.zigbee.util.Cie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 
 /**
@@ -29,6 +32,11 @@ public class SimpleZigBeeApi {
      * The network state.
      */
     private ZigBeeNetworkState networkState;
+    /**
+     * The command listener creation times.
+     */
+    private Set<CommandExecution<ZclCommandResponse>> commandExecutions =
+            new HashSet<CommandExecution<ZclCommandResponse>>();
 
     /**
      * Default constructor inheritance.
@@ -94,10 +102,73 @@ public class SimpleZigBeeApi {
         final UserDescriptorSet command = new UserDescriptorSet(device.getNetworkAddress(), device.getNetworkAddress(),
                 descriptor);
 
+        return sendZdoCommand(command);
+    }
+
+    /**
+     * Binds two devices.
+     * @param source the source device
+     * @param destination the destination device
+     * @param clusterId the cluster ID
+     * @return TRUE if no errors occurred in sending.
+     */
+    public boolean bind(ZigBeeDevice source, ZigBeeDevice destination, int clusterId) {
+        final int destinationAddress = source.getNetworkAddress();
+        final long bindSourceAddress = source.getIeeeAddress();
+        final int bindSourceEndpoint = source.getEndpoint();
+        final int bindCluster = clusterId;
+        final int bindDestinationAddressingMode = 3; // 64 bit addressing
+        final long bindDestinationAddress = destination.getIeeeAddress();
+        final int bindDestinationEndpoint = destination.getEndpoint();
+        final BindRequest command = new BindRequest(
+                destinationAddress,
+                bindSourceAddress,
+                bindSourceEndpoint,
+                bindCluster,
+                bindDestinationAddressingMode,
+                bindDestinationAddress,
+                bindDestinationEndpoint
+        );
+        return sendZdoCommand(command);
+    }
+
+    /**
+     * Unbinds two devices.
+     * @param source the source device
+     * @param destination the destination device
+     * @param clusterId the cluster ID
+     * @return TRUE if no errors occurred in sending.
+     */
+    public boolean unbind(ZigBeeDevice source, ZigBeeDevice destination, int clusterId) {
+        final int destinationAddress = source.getNetworkAddress();
+        final long bindSourceAddress = source.getIeeeAddress();
+        final int bindSourceEndpoint = source.getEndpoint();
+        final int bindCluster = clusterId;
+        final int bindDestinationAddressingMode = 3; // 64 bit addressing
+        final long bindDestinationAddress = destination.getIeeeAddress();
+        final int bindDestinationEndpoint = destination.getEndpoint();
+        final UnbindRequest command = new UnbindRequest(
+                destinationAddress,
+                bindSourceAddress,
+                bindSourceEndpoint,
+                bindCluster,
+                bindDestinationAddressingMode,
+                bindDestinationAddress,
+                bindDestinationEndpoint
+        );
+        return sendZdoCommand(command);
+    }
+
+    /**
+     * Sends ZDO command.
+     * @param command the command
+     * @return if no errors occurred in sending to dongle.
+     */
+    private boolean sendZdoCommand(final ZdoCommand command) {
         try {
             getNetwork().sendCommand(command);
             return true;
-        } catch (ZigBeeException e) {
+        } catch (final ZigBeeException e) {
             LOGGER.error("Error sending command: " + command, e);
             return false;
         }
@@ -167,6 +238,8 @@ public class SimpleZigBeeApi {
         final FutureImpl<ZclCommandResponse> future = new FutureImpl<ZclCommandResponse>();
 
         synchronized (command) {
+            final CommandExecution<ZclCommandResponse> commandExecution = new CommandExecution<ZclCommandResponse>(
+                    System.currentTimeMillis(), command, future);
             final CommandListener commandListener = new CommandListener() {
                 @Override
                 public void commandReceived(Command receivedCommand) {
@@ -178,27 +251,64 @@ public class SimpleZigBeeApi {
                             if (new Byte(transactionId).equals(((ZclCommand) receivedCommand).getTransactionId())) {
                                 synchronized (future) {
                                     future.set(new ZclCommandResponse((ZclCommand) receivedCommand));
-                                    future.notify();
-                                    network.removeCommandListener(this);
+                                    synchronized (future) {
+                                        future.notify();
+                                    }
+                                    removeCommandExecution(commandExecution);
                                 }
                             }
                         }
                     }
                 }
             };
-            // TODO add removal of command listener after timeout.
-            network.addCommandListener(commandListener);
+            commandExecution.setCommandListener(commandListener);
+            addCommandExecution(commandExecution);
             try {
                 int transactionId = network.sendCommand(command);
                 command.setTransactionId((byte) transactionId);
-            } catch (ZigBeeException e) {
-                network.removeCommandListener(commandListener);
-                throw new SimpleZigBeeApiException("Error sending " + command.getClass().getSimpleName()
-                        + " to " + device.getNetworkAddress() + "/" + device.getEndpoint(), e);
+            } catch (final ZigBeeException e) {
+                future.set(new ZclCommandResponse(e.toString()));
+                removeCommandExecution(commandExecution);
             }
         }
 
         return future;
     }
+
+    /**
+     * Adds command listener and removes expired command listeners.
+     *
+     * @param commandExecution the command execution
+     */
+    private void addCommandExecution(final CommandExecution<ZclCommandResponse> commandExecution) {
+        synchronized (commandExecutions) {
+            final List<CommandExecution<ZclCommandResponse>> expiredCommandExecutions =
+                    new ArrayList<CommandExecution<ZclCommandResponse>>();
+            for (final CommandExecution<ZclCommandResponse> existingCommandExecution : commandExecutions) {
+                if (System.currentTimeMillis() - existingCommandExecution.getStartTime() > 15000) {
+                    expiredCommandExecutions.add(existingCommandExecution);
+                }
+            }
+            for (final CommandExecution<ZclCommandResponse> expiredCommandExecution : expiredCommandExecutions) {
+                ((FutureImpl) expiredCommandExecution.getFuture()).set(new ZclCommandResponse());
+                removeCommandExecution(expiredCommandExecution);
+            }
+            commandExecutions.add(commandExecution);
+            network.addCommandListener(commandExecution.getCommandListener());
+        }
+    }
+
+    /**
+     * Removes command execution.
+     * @param expiredCommandExecution the command execution
+     */
+    private void removeCommandExecution(CommandExecution<ZclCommandResponse> expiredCommandExecution) {
+        commandExecutions.remove(expiredCommandExecution);
+        network.removeCommandListener(expiredCommandExecution.getCommandListener());
+        synchronized (expiredCommandExecution.getFuture()) {
+            expiredCommandExecution.getFuture().notify();
+        }
+    }
+
 
 }

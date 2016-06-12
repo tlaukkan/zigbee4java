@@ -1,5 +1,6 @@
 package org.bubblecloud.zigbee.simple;
 
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
@@ -14,6 +15,11 @@ public class ZclCommandResponse {
      * The response command.
      */
     private  final ZclCommand response;
+    /**
+     * The error.
+     */
+    private final String error;
+
 
     /**
      * Constructor which sets the received response command or null if timeout occurs..
@@ -21,6 +27,24 @@ public class ZclCommandResponse {
      */
     public ZclCommandResponse(final ZclCommand response) {
         this.response = response;
+        this.error = null;
+    }
+
+    /**
+     * Constructor for error situations.
+     * @param error the error
+     */
+    public ZclCommandResponse(final String error) {
+        this.response = null;
+        this.error = error;
+    }
+
+    /**
+     * Constructor for timeout situations.
+     */
+    public ZclCommandResponse() {
+        this.response = null;
+        this.error = null;
     }
 
     /**
@@ -36,7 +60,7 @@ public class ZclCommandResponse {
      * @return TRUE if timeout occurred
      */
     public boolean isTimeout() {
-        return response == null;
+        return response == null && error == null;
     }
 
     /**
@@ -47,7 +71,11 @@ public class ZclCommandResponse {
         if (isDefaultResponse()) {
             return ((DefaultResponseCommand) response).getStatusCode() != 0;
         } else {
-            return false;
+            if (error == null) {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 
@@ -82,6 +110,21 @@ public class ZclCommandResponse {
      */
     public <C extends  ZclCommand> C getResponse() {
         return (C) response;
+    }
+
+    /**
+     * Gets error.
+     * @return the error
+     */
+    public String getError() {
+        if (isTimeout()) {
+            return "Timeout.";
+        }
+        if (isDefaultResponse()) {
+            return Status.getStatus((byte) (int) getStatusCode()).toString();
+        } else {
+            return error;
+        }
     }
 
     @Override

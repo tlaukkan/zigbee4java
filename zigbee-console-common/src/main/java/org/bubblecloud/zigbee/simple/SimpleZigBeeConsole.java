@@ -10,6 +10,7 @@ import org.bubblecloud.zigbee.network.model.IEEEAddress;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Simple ZigBee command line console is an example usage of simple ZigBee API.
@@ -172,8 +173,12 @@ public final class SimpleZigBeeConsole {
      */
     private void executeCommand(final LocalZigBeeApi zigbeeApi, final String command, final String[] args, final PrintStream out) {
         final ConsoleCommand consoleCommand = commands.get(command);
-        if (!consoleCommand.process(zigbeeApi, args, out)) {
-            print(consoleCommand.getSyntax(), out);
+        try {
+            if (!consoleCommand.process(zigbeeApi, args, out)) {
+                print(consoleCommand.getSyntax(), out);
+            }
+        } catch (Exception e) {
+            out.println("Error executing on command: " + e.getMessage());
         }
     }
 
@@ -257,9 +262,9 @@ public final class SimpleZigBeeConsole {
          * @param zigbeeApi the ZigBee API
          * @param args the command arguments
          * @param out the output PrintStream
-         * @return true if command execution succeeded
+         * @return true if command syntax was correct.
          */
-        boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out);
+        boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception;
     }
 
     /**
@@ -399,14 +404,20 @@ public final class SimpleZigBeeConsole {
             print("Device Type      : " + ZigBeeApiConstants.getDeviceName(device.getProfileId(), device.getDeviceType(), device.getDeviceId()) + String.format("  (0x%04X)", device.getDeviceType()), out);
             print("Device Version   : " + device.getDeviceVersion(), out);
             print("Input Clusters   : ", out);
-            showClusters(device, device.getInputClusterIds(), out);
+            printClusters(device, device.getInputClusterIds(), out);
             print("Output Clusters  : ", out);
-            showClusters(device, device.getOutputClusterIds(), out);
+            printClusters(device, device.getOutputClusterIds(), out);
 
             return true;
         }
 
-        private void showClusters(final ZigBeeDevice device, final int[] clusterIds, PrintStream out) {
+        /**
+         * Prints out clusters.
+         * @param device the device
+         * @param clusterIds the cluster IDs
+         * @param out the output print stream
+         */
+        private void printClusters(final ZigBeeDevice device, final int[] clusterIds, PrintStream out) {
             for (int clusterId : clusterIds) {
                 Cluster cluster = ZigBeeApiConstants.getCluster(device.getProfileId(), clusterId);
                 print("                 : " + clusterId + " " + ZigBeeApiConstants.getClusterName(clusterId), out);
@@ -442,38 +453,30 @@ public final class SimpleZigBeeConsole {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "bind [CLIENT] SERVER CLUSTERID";
+            return "bind [SOURCEDEVICE] [DESTINATIONDEVICE] [CLUSTERID]";
         }
         /**
          * {@inheritDoc}
          */
         public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
-            if (args.length != 3 && args.length != 4) {
+            if (args.length != 4) {
                 return false;
             }
-
-            if (args.length == 3) {
-                ZigBeeDevice server = getDevice(zigbeeApi, args[1]);
-                final int clusterId;
-                try {
-                    clusterId = Integer.parseInt(args[2]);
-                } catch (final NumberFormatException e) {
-                    return false;
-                }
-                //server.bindToLocal(clusterId);
-                throw new UnsupportedOperationException();
-            } else {
-                ZigBeeDevice client = getDevice(zigbeeApi, args[1]);
-                ZigBeeDevice server = getDevice(zigbeeApi, args[2]);
-                final int clusterId;
-                try {
-                    clusterId = Integer.parseInt(args[3]);
-                } catch (final NumberFormatException e) {
-                    return false;
-                }
-                //server.bindTo(client, clusterId);
-                throw new UnsupportedOperationException();
+            final ZigBeeDevice source = getDevice(zigbeeApi, args[1]);
+            if (source == null) {
+                return false;
             }
+            final ZigBeeDevice destination = getDevice(zigbeeApi, args[2]);
+            if (destination == null) {
+                return false;
+            }
+            final int clusterId;
+            try {
+                clusterId = Integer.parseInt(args[3]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+            return zigBeeApi.bind(source, destination, clusterId);
         }
     }
 
@@ -491,38 +494,30 @@ public final class SimpleZigBeeConsole {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "unbind [CLIENT] SERVER CLUSTERID";
+            return "unbind [SOURCEDEVICE] [DESTINATIONDEVICE] [CLUSTERID]";
         }
         /**
          * {@inheritDoc}
          */
         public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
-            if (args.length != 3 && args.length != 4) {
+            if (args.length != 4) {
                 return false;
             }
-
-            if (args.length == 3) {
-                ZigBeeDevice server = getDevice(zigbeeApi, args[1]);
-                final int clusterId;
-                try {
-                    clusterId = Integer.parseInt(args[2]);
-                } catch (final NumberFormatException e) {
-                    return false;
-                }
-                //server.unbindFromLocal(clusterId);
-                throw new UnsupportedOperationException();
-            } else {
-                ZigBeeDevice client = getDevice(zigbeeApi, args[1]);
-                ZigBeeDevice server = getDevice(zigbeeApi, args[2]);
-                final int clusterId;
-                try {
-                    clusterId = Integer.parseInt(args[3]);
-                } catch (final NumberFormatException e) {
-                    return false;
-                }
-                //server.unbindFrom(client, clusterId);
-                throw new UnsupportedOperationException();
+            final ZigBeeDevice source = getDevice(zigbeeApi, args[1]);
+            if (source == null) {
+                return false;
             }
+            final ZigBeeDevice destination = getDevice(zigbeeApi, args[2]);
+            if (destination == null) {
+                return false;
+            }
+            final int clusterId;
+            try {
+                clusterId = Integer.parseInt(args[3]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+            return zigBeeApi.unbind(source, destination, clusterId);
         }
     }
 
@@ -545,7 +540,7 @@ public final class SimpleZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 2) {
                 return false;
             }
@@ -554,8 +549,56 @@ public final class SimpleZigBeeConsole {
             if (device == null) {
                 return false;
             }
-            zigbeeApi.on(device);
-            return true;
+
+            final ZclCommandResponse response = zigbeeApi.on(device).get();
+            if (response.isSuccess()) {
+                out.println("Success.");
+                return true;
+            } else {
+                out.println("Error executing command: " + response.getError());
+                return true;
+            }
+
+        }
+    }
+
+    /**
+     * Switches a device off.
+     */
+    private class OffCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Switches device off.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "off DEVICEID";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
+            if (args.length != 2) {
+                return false;
+            }
+
+            final ZigBeeDevice device = getDevice(zigbeeApi, args[1]);
+            if (device == null) {
+                return false;
+            }
+
+            final ZclCommandResponse response = zigbeeApi.off(device).get();
+            if (response.isSuccess()) {
+                out.println("Success.");
+                return true;
+            } else {
+                out.println("Error executing command: " + response.getError());
+                return true;
+            }
         }
     }
 
@@ -771,40 +814,6 @@ public final class SimpleZigBeeConsole {
 //                e.printStackTrace();
 //            }
             throw new UnsupportedOperationException();
-        }
-    }
-
-    /**
-     * Switches a device off.
-     */
-    private class OffCommand implements ConsoleCommand {
-        /**
-         * {@inheritDoc}
-         */
-        public String getDescription() {
-            return "Switches device off.";
-        }
-        /**
-         * {@inheritDoc}
-         */
-        public String getSyntax() {
-            return "off DEVICEID";
-        }
-        /**
-         * {@inheritDoc}
-         */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
-            if (args.length != 2) {
-                return false;
-            }
-
-            final ZigBeeDevice device = getDevice(zigbeeApi, args[1]);
-            if (device == null) {
-                return false;
-            }
-            zigbeeApi.off(device);
-
-            return true;
         }
     }
 
