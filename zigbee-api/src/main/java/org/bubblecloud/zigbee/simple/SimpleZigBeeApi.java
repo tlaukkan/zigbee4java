@@ -3,6 +3,8 @@ package org.bubblecloud.zigbee.simple;
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.color.control.MoveToColorCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.LockDoorCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.UnlockDoorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.level.control.MoveToLevelCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OffCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OnCommand;
@@ -219,7 +221,7 @@ public class SimpleZigBeeApi {
      * @param device the device
      * @param level the level
      * @param time the transition time
-     * @return  the command result future.
+     * @return the command result future.
      */
     public Future<CommandResult> level(ZigBeeDevice device, double level, double time) {
 
@@ -241,6 +243,41 @@ public class SimpleZigBeeApi {
 
         return send(command);
     }
+
+    /**
+     * Locks door.
+     * @param device the device
+     * @param pinCode the pin code
+     * @return the command result future.
+     */
+    public Future<CommandResult> lock(ZigBeeDevice device, String pinCode) {
+        final LockDoorCommand command = new LockDoorCommand();
+
+        command.setPinCode(pinCode);
+
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+
+        return send(command);
+    }
+
+    /**
+     * Unlocks door.
+     * @param device the device
+     * @param pinCode the pin code
+     * @return the command result future.
+     */
+    public Future<CommandResult> unlock(ZigBeeDevice device, String pinCode) {
+        final UnlockDoorCommand command = new UnlockDoorCommand();
+
+        command.setPinCode(pinCode);
+
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+
+        return send(command);
+    }
+
 
     /**
      * Sends ZCL command.

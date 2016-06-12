@@ -716,10 +716,12 @@ No cluster specific commands.
 **** Lock Door Command [0x00]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
+|Pin code                   |Octet string               |
 
 **** Unlock Door Command [0x01]
 |Field Name                 |Data Type                  |
 |---------------------------+---------------------------|
+|Pin code                   |Octet string               |
 
 *** Generated
 

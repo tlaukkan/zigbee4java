@@ -2,6 +2,8 @@ package org.bubblecloud.zigbee.network.zcl;
 
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.network.zcl.field.*;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.LockDoorCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.UnlockDoorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.*;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.groups.GetGroupMembershipCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.ias.ace.BypassCommand;
@@ -19,6 +21,20 @@ import java.util.List;
  * Created by tlaukkan on 6/5/2016.
  */
 public class ZclCommandProtocolTest {
+
+    @Test
+    public void testLockDoorCommand() throws Exception {
+        final LockDoorCommand command = new LockDoorCommand();
+        command.setPinCode("123");
+        testSerialization(command);
+    }
+
+    @Test
+    public void testUnlockDoorCommand() throws Exception {
+        final UnlockDoorCommand command = new UnlockDoorCommand();
+        command.setPinCode("123");
+        testSerialization(command);
+    }
 
     @Test
     public void testDiscoverAttributesCommand() throws Exception {

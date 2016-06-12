@@ -201,6 +201,8 @@ public class ZclProtocolDefinitionParser {
                     dataType.dataTypeClass = "Integer";
                 } else if (field.dataType.equals("_8_BIT_ENUMERATION")) {
                     dataType.dataTypeClass = "Integer";
+                }  else if (field.dataType.equals("OCTET_STRING")) {
+                    dataType.dataTypeClass = "String";
                 } else {
                     throw new IllegalArgumentException("Type not mapped: " + field.dataType);
                 }

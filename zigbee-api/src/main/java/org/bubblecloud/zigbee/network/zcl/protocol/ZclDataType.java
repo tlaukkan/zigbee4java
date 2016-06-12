@@ -20,6 +20,7 @@ public enum ZclDataType {
     N_X_UNSIGNED_8_BIT_INTEGER("N X Unsigned 8-bit integer",Unsigned8BitInteger.class),
     N_X_WRITE_ATTRIBUTE_RECORD("N X Write attribute record",WriteAttributeRecord.class),
     N_X_WRITE_ATTRIBUTE_STATUS_RECORD("N X Write attribute status record",WriteAttributeStatusRecord.class),
+    OCTET_STRING("Octet string",String.class),
     SIGNED_16_BIT_INTEGER("Signed 16-bit integer",Integer.class),
     SIGNED_8_BIT_INTEGER("Signed 8-bit integer",Integer.class),
     UNSIGNED_16_BIT_INTEGER("Unsigned 16-bit integer",Integer.class),

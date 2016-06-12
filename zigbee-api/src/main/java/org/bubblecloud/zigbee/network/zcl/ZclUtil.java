@@ -142,6 +142,9 @@ public class ZclUtil {
             case BOOLEAN:
                 zigBeeType = ZigBeeType.Boolean;
                 break;
+            case OCTET_STRING:
+                zigBeeType = ZigBeeType.OctectString;
+                break;
             default:
                 break;
         }

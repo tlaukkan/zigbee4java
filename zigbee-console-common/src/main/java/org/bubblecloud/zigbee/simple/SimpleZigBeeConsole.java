@@ -31,9 +31,20 @@ public final class SimpleZigBeeConsole {
      */
     private Map<String, ConsoleCommand> commands = new TreeMap<String, ConsoleCommand>();
 
+    /**
+     * The ZigBee API.
+     */
     private LocalZigBeeApi zigBeeApi;
 
-    public SimpleZigBeeConsole(SerialPort port, int pan, int channel, boolean resetNetwork) {
+    /**
+     * Constructor which configures ZigBee API and constructs commands.
+     *
+     * @param serialPort the serial port
+     * @param pan the pan
+     * @param channel the channel
+     * @param resetNetwork whether to reset network
+     */
+    public SimpleZigBeeConsole(final SerialPort serialPort, final int pan, int channel, final boolean resetNetwork) {
 
 		commands.put("quit", 		new QuitCommand());
 		commands.put("help", 		new HelpCommand());
@@ -60,7 +71,7 @@ public final class SimpleZigBeeConsole {
         commands.put("unlock", new DoorUnlockCommand());
         commands.put("enroll", new EnrollCommand());
 
-        zigBeeApi = new LocalZigBeeApi(port, pan, channel, resetNetwork);
+        zigBeeApi = new LocalZigBeeApi(serialPort, pan, channel, resetNetwork);
     }
 
 	/**
@@ -753,7 +764,6 @@ public final class SimpleZigBeeConsole {
                 return false;
             }
 
-            //levelControl.moveToLevel((short) l, 10);
             final CommandResult response = zigbeeApi.level(device, level, 1.0).get();
             if (response.isSuccess()) {
                 out.println("Success response received.");
@@ -784,7 +794,7 @@ public final class SimpleZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 3) {
                 return false;
             }
@@ -794,13 +804,16 @@ public final class SimpleZigBeeConsole {
                 return false;
             }
 
-/*            final DoorLock doorLock = device.getCluster(DoorLock.class);
-            try {
-				doorLock.lock(args[2]);
-			} catch (ZigBeeDeviceException e) {
-				e.printStackTrace();
-			}*/
-            throw new UnsupportedOperationException();
+            final String pinCode = args[2];
+
+            final CommandResult response = zigbeeApi.lock(device, pinCode).get();
+            if (response.isSuccess()) {
+                out.println("Success response received.");
+                return true;
+            } else {
+                out.println("Error executing command: " + response.getMessage());
+                return true;
+            }
         }
     }
 
@@ -823,7 +836,7 @@ public final class SimpleZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 3) {
                 return false;
             }
@@ -832,13 +845,17 @@ public final class SimpleZigBeeConsole {
             if (device == null) {
                 return false;
             }
-//            final DoorLock doorLock = device.getCluster(DoorLock.class);
-//            try {
-//                doorLock.unlock(args[2]);
-//            } catch (ZigBeeDeviceException e) {
-//                e.printStackTrace();
-//            }
-            throw new UnsupportedOperationException();
+
+            final String pinCode = args[2];
+
+            final CommandResult response = zigbeeApi.unlock(device, pinCode).get();
+            if (response.isSuccess()) {
+                out.println("Success response received.");
+                return true;
+            } else {
+                out.println("Error executing command: " + response.getMessage());
+                return true;
+            }
         }
     }
 
