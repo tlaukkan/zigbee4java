@@ -1494,31 +1494,27 @@ public final class SimpleZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 2) {
                 return false;
             }
             
-            boolean join = false;
-            if(args[1].toLowerCase().startsWith("e")) {
+            final boolean join;
+            if(args[1].toLowerCase().equals("enable")) {
             	join = true;
+            } else if(args[1].toLowerCase().equals("disable")) {
+                join = false;
+            } else {
+                return false;
             }
 
-//            if (!zigbeeApi.permitJoin(join)) {
-//                if (join) {
-//                    print("ZigBee API permit join enable ... [FAIL]", out);
-//                } else {
-//                    print("ZigBee API permit join disable ... [FAIL]", out);
-//                }
-//            } else {
-//                if (join) {
-//                    print("ZigBee API permit join enable ... [OK]", out);
-//                } else {
-//                    print("ZigBee API permit join disable ... [OK]", out);
-//                }
-//            }
-//            return true;
-            throw new UnsupportedOperationException();
+            zigbeeApi.permitJoin(join);
+            if(args[1].toLowerCase().equals("enable")) {
+                out.println("Permit join enable broadcast success.");
+            } else {
+                out.println("Permit join disable broadcast success.");
+            }
+            return true;
         }
     }
 

@@ -1,6 +1,8 @@
 package org.bubblecloud.zigbee.simple;
 
+import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
+import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.color.control.MoveToColorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.LockDoorCommand;
@@ -278,13 +280,37 @@ public class SimpleZigBeeApi {
         return send(command);
     }
 
+    /**
+     * Permit joining.
+     * @param enable enable
+     */
+    public void permitJoin(final boolean enable) {
+
+        final ManagementPermitJoinRequest command = new ManagementPermitJoinRequest();
+
+        if (enable) {
+            command.setDuration(0xFF);
+        } else {
+            command.setDuration(0);
+        }
+
+        command.setAddressingMode(ZigBeeApiConstants.BROADCAST_ADDRESS);
+        command.setDestinationAddress(ZToolAddress16.ZCZR_BROADCAST.get16BitValue());
+        command.setTrustCenterSignificance(1);
+
+        try {
+            network.sendCommand(command);
+        } catch (final ZigBeeException e) {
+            throw new SimpleZigBeeApiException("Error sending permit join command.", e);
+        }
+    }
 
     /**
      * Sends ZCL command.
      * @param command the command
      * @return the command result future.
      */
-    private Future<CommandResult> send(final Command command) {
+    public Future<CommandResult> send(final Command command) {
 
         final CommandResponseMatcher responseMatcher;
         if (command instanceof ZclCommand) {
