@@ -7,6 +7,7 @@ import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.color.control.MoveToColorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.LockDoorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.UnlockDoorCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.ias.wd.SquawkCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.level.control.MoveToLevelCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OffCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OnCommand;
@@ -74,7 +75,7 @@ public class SimpleZigBeeApi {
      * Sets network state.
      * @param networkState the network state
      */
-    public void setNetworkState(ZigBeeNetworkState networkState) {
+    public void setNetworkState(final ZigBeeNetworkState networkState) {
         this.networkState = networkState;
     }
 
@@ -100,7 +101,7 @@ public class SimpleZigBeeApi {
      * @param descriptor the descriptor
      * @return TRUE if no errors occurred in sending.
      */
-    public Future<CommandResult> describe(ZigBeeDevice device, String descriptor) {
+    public Future<CommandResult> describe(final ZigBeeDevice device, final String descriptor) {
         final UserDescriptorSet command = new UserDescriptorSet(device.getNetworkAddress(), device.getNetworkAddress(),
                 descriptor);
 
@@ -114,7 +115,7 @@ public class SimpleZigBeeApi {
      * @param clusterId the cluster ID
      * @return TRUE if no errors occurred in sending.
      */
-    public Future<CommandResult> bind(ZigBeeDevice source, ZigBeeDevice destination, int clusterId) {
+    public Future<CommandResult> bind(final ZigBeeDevice source, final ZigBeeDevice destination, final int clusterId) {
         final int destinationAddress = source.getNetworkAddress();
         final long bindSourceAddress = source.getIeeeAddress();
         final int bindSourceEndpoint = source.getEndpoint();
@@ -141,7 +142,7 @@ public class SimpleZigBeeApi {
      * @param clusterId the cluster ID
      * @return TRUE if no errors occurred in sending.
      */
-    public Future<CommandResult> unbind(ZigBeeDevice source, ZigBeeDevice destination, int clusterId) {
+    public Future<CommandResult> unbind(final ZigBeeDevice source, final ZigBeeDevice destination, final int clusterId) {
         final int destinationAddress = source.getNetworkAddress();
         final long bindSourceAddress = source.getIeeeAddress();
         final int bindSourceEndpoint = source.getEndpoint();
@@ -225,7 +226,7 @@ public class SimpleZigBeeApi {
      * @param time the transition time
      * @return the command result future.
      */
-    public Future<CommandResult> level(ZigBeeDevice device, double level, double time) {
+    public Future<CommandResult> level(final ZigBeeDevice device, final double level, final double time) {
 
         final MoveToLevelCommand command = new MoveToLevelCommand();
 
@@ -252,7 +253,7 @@ public class SimpleZigBeeApi {
      * @param pinCode the pin code
      * @return the command result future.
      */
-    public Future<CommandResult> lock(ZigBeeDevice device, String pinCode) {
+    public Future<CommandResult> lock(final ZigBeeDevice device, final String pinCode) {
         final LockDoorCommand command = new LockDoorCommand();
 
         command.setPinCode(pinCode);
@@ -269,7 +270,7 @@ public class SimpleZigBeeApi {
      * @param pinCode the pin code
      * @return the command result future.
      */
-    public Future<CommandResult> unlock(ZigBeeDevice device, String pinCode) {
+    public Future<CommandResult> unlock(final ZigBeeDevice device, final String pinCode) {
         final UnlockDoorCommand command = new UnlockDoorCommand();
 
         command.setPinCode(pinCode);
@@ -279,6 +280,27 @@ public class SimpleZigBeeApi {
 
         return send(command);
     }
+
+    /**
+     * This command uses the WD capabilities to emit a quick audible/visible pulse called a "squawk".
+     * @param device the device
+     * @param mode the mode
+     * @param strobe the strobe
+     * @param level the level
+     * @return the command result future
+     */
+    public Future<CommandResult> squawk(final ZigBeeDevice device, final int mode, final int strobe, final int level) {
+        final SquawkCommand command = new SquawkCommand();
+
+        final int header = ((level << 6) | (strobe << 4) | mode);
+
+        command.setHeader(header);
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+
+        return send(command);
+    }
+
 
     /**
      * Permit joining.

@@ -1419,7 +1419,7 @@ public final class SimpleZigBeeConsole {
         }
 
         @Override
-        public boolean process(LocalZigBeeApi zigbeeApi, String[] args, PrintStream out) {
+        public boolean process(LocalZigBeeApi zigbeeApi, String[] args, PrintStream out) throws Exception {
             if (args.length != 5) {
                 return false;
             }
@@ -1463,17 +1463,15 @@ public final class SimpleZigBeeConsole {
                 return false;
             }
 
-//            final IASWD iasWD = device.getCluster(IASWD.class);
-//            SquawkPayload payload = new SquawkPayloadImpl((short)mode, (short)strobe, (short)level);
-//            try {
-//                iasWD.squawk(payload);
-//            } catch (ZigBeeDeviceException e) {
-//                print("Failed to start warning.", out);
-//                e.printStackTrace();
-//            }
-//            return true;
+            final CommandResult response = zigbeeApi.squawk(device, mode, strobe, level).get();
+            if (response.isSuccess()) {
+                out.println("Success response received.");
+                return true;
+            } else {
+                out.println("Error executing command: " + response.getMessage());
+                return true;
+            }
 
-            throw new UnsupportedOperationException();
         }
 
     }
