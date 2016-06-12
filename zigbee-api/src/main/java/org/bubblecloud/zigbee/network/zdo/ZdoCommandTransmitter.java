@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -146,6 +147,30 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
                         getZToolAddress64(unbindRequest.getBindDestinationAddress()),
                         unbindRequest.getBindDestinationEndpoint()
                 ));
+            }
+            if (command instanceof UserDescriptorSet) {
+                final UserDescriptorSet userDescriptorSet = (UserDescriptorSet) command;
+                final byte[] bytes = userDescriptorSet.getDescriptor().getBytes(Charset.forName("ASCII"));
+                int length = bytes.length;
+                if (length > 16) {
+                    length = 16;
+                }
+                final int[] characters = new int[length];
+                for (int i = 0; i < characters.length; i++) {
+                    characters[i] = bytes[i];
+                }
+                networkManager.sendCommand(new ZDO_USER_DESC_SET(
+                        getZToolAddress16(userDescriptorSet.getDestinationAddress()),
+                        getZToolAddress16(userDescriptorSet.getNetworkAddress()),
+                        length,
+                        characters
+                ));
+            }
+            if (command instanceof UserDescriptorRequest) {
+                final UserDescriptorRequest userDescriptorRequest = (UserDescriptorRequest) command;
+                networkManager.sendCommand(new ZDO_USER_DESC_REQ(
+                        getZToolAddress16(userDescriptorRequest.getDestinationAddress()),
+                        getZToolAddress16(userDescriptorRequest.getNetworkAddressOfInterest())));
             }
         }
     }
@@ -301,6 +326,36 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
 
             notifyCommandReceived(command);
 
+            return;
+        }
+
+        if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_USER_DESC_RSP) {
+            final ZDO_USER_DESC_RSP message = (ZDO_USER_DESC_RSP) packet;
+
+            final byte[] bytes = new byte[message.DescLen];
+            for (int i = 0; i < bytes.length; i++) {
+                bytes[i] = (byte) message.Descriptor[i];
+            }
+            final String descriptor = new String(bytes, Charset.forName("ASCII"));
+            final UserDescriptorResponse command = new UserDescriptorResponse(
+                    message.SrcAddress.get16BitValue(),
+                    message.nwkAddr.get16BitValue(),
+                    message.Status,
+                    descriptor
+            );
+            notifyCommandReceived(command);
+            return;
+        }
+
+        if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_USER_DESC_CONF) {
+            final ZDO_USER_DESC_CONF message = (ZDO_USER_DESC_CONF) packet;
+
+            final UserDescriptorConfiguration command = new UserDescriptorConfiguration(
+                    message.SrcAddress.get16BitValue(),
+                    message.nwkAddr.get16BitValue(),
+                    message.Status
+            );
+            notifyCommandReceived(command);
             return;
         }
     }

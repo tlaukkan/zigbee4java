@@ -5,6 +5,7 @@ import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.color.control.MoveToColorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OffCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OnCommand;
+import org.bubblecloud.zigbee.network.zdo.command.UserDescriptorSet;
 import org.bubblecloud.zigbee.util.Cie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,6 +85,25 @@ public class SimpleZigBeeApi {
     }
 
     /**
+     * Sets user descriptor.
+     * @param device the device
+     * @param descriptor the descriptor
+     * @return TRUE if no errors occurred in sending.
+     */
+    public boolean describe(ZigBeeDevice device, String descriptor) {
+        final UserDescriptorSet command = new UserDescriptorSet(device.getNetworkAddress(), device.getNetworkAddress(),
+                descriptor);
+
+        try {
+            getNetwork().sendCommand(command);
+            return true;
+        } catch (ZigBeeException e) {
+            LOGGER.error("Error sending command: " + command, e);
+            return false;
+        }
+    }
+
+    /**
      * Switches device on.
      * @param device the device
      * @return the Future for accessing CommandResponse.
@@ -147,7 +167,7 @@ public class SimpleZigBeeApi {
         final FutureImpl<ZclCommandResponse> future = new FutureImpl<ZclCommandResponse>();
 
         synchronized (command) {
-            network.addCommandListener(new CommandListener() {
+            final CommandListener commandListener = new CommandListener() {
                 @Override
                 public void commandReceived(Command receivedCommand) {
                     // Ensure that received command is not processed before command is sent and
@@ -165,12 +185,14 @@ public class SimpleZigBeeApi {
                         }
                     }
                 }
-            });
-
+            };
+            // TODO add removal of command listener after timeout.
+            network.addCommandListener(commandListener);
             try {
                 int transactionId = network.sendCommand(command);
                 command.setTransactionId((byte) transactionId);
             } catch (ZigBeeException e) {
+                network.removeCommandListener(commandListener);
                 throw new SimpleZigBeeApiException("Error sending " + command.getClass().getSimpleName()
                         + " to " + device.getNetworkAddress() + "/" + device.getEndpoint(), e);
             }

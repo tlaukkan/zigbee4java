@@ -163,6 +163,12 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
                 LOGGER.warn(simpleDescriptorResponse.toString());
             }
         }
+
+        // 5. Endpoint user descriptor is received.
+        if (command instanceof UserDescriptorResponse) {
+            final UserDescriptorResponse userDescriptorResponse = (UserDescriptorResponse) command;
+            LOGGER.info("Received user descriptor response: " + userDescriptorResponse);
+        }
     }
 
 
@@ -181,7 +187,7 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
             final IeeeAddressRequest ieeeAddressRequest = new IeeeAddressRequest(networkAddress, 1, 0);
             commandInterface.sendCommand(ieeeAddressRequest);
         } catch (ZigBeeException e) {
-            e.printStackTrace();
+            LOGGER.error("Error sending discovery command.", e);
         }
     }
 
@@ -200,7 +206,7 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
             final NodeDescriptorRequest nodeDescriptorRequest = new NodeDescriptorRequest(networkAddress, networkAddress);
             commandInterface.sendCommand(nodeDescriptorRequest);
         } catch (ZigBeeException e) {
-            e.printStackTrace();
+            LOGGER.error("Error sending discovery command.", e);
         }
     }
 
@@ -221,7 +227,7 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
             activeEndpointsRequest.setNetworkAddressOfInterest(networkAddress);
             commandInterface.sendCommand(activeEndpointsRequest);
         } catch (ZigBeeException e) {
-            e.printStackTrace();
+            LOGGER.error("Error sending discovery command.", e);
         }
     }
 
@@ -243,7 +249,7 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
             request.setEndpoint(endpoint);
             commandInterface.sendCommand(request);
         } catch (ZigBeeException e) {
-            e.printStackTrace();
+            LOGGER.error("Error sending discovery command.", e);
         }
     }
 
@@ -283,5 +289,14 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
         } else {
             networkState.updateDevice(device);
         }
+
+        /*
+        final UserDescriptorRequest userDescriptorRequest = new UserDescriptorRequest(
+                device.getNetworkAddress(), device.getNetworkAddress());
+        try {
+            commandInterface.sendCommand(userDescriptorRequest);
+        } catch (final ZigBeeException e) {
+            LOGGER.error("Error sending discovery command.", e);
+        }*/
     }
 }

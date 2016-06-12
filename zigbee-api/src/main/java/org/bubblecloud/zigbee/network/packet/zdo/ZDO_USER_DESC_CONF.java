@@ -49,7 +49,11 @@ public class ZDO_USER_DESC_CONF extends ZToolPacket /*implements IRESPONSE_CALLB
     public ZDO_USER_DESC_CONF(int[] framedata) {
         this.SrcAddress = new ZToolAddress16(framedata[1], framedata[0]);
         this.Status = framedata[2];
-        this.nwkAddr = new ZToolAddress16(framedata[4], framedata[3]);
+        if (framedata.length == 5) {
+            this.nwkAddr = new ZToolAddress16(framedata[4], framedata[3]);
+        } else {
+            this.nwkAddr = new ZToolAddress16();
+        }
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_USER_DESC_CONF), framedata);
     }
 

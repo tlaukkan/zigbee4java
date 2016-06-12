@@ -1,7 +1,6 @@
 package org.bubblecloud.zigbee.simple;
 
 import org.apache.commons.lang.StringUtils;
-import org.bubblecloud.zigbee.api.ClusterFactoryImpl;
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
@@ -40,6 +39,7 @@ public final class SimpleZigBeeConsole {
 		commands.put("help", 		new HelpCommand());
 		commands.put("list", 		new ListCommand());
 		commands.put("desc", 		new DescribeCommand());
+        commands.put("label", 		new LabelCommand());
 		commands.put("bind", 		new BindCommand());
 		commands.put("unbind", 		new UnbindCommand());
 		commands.put("on", 			new OnCommand());
@@ -605,6 +605,41 @@ public final class SimpleZigBeeConsole {
 
             zigbeeApi.color(device, red, green, blue, 1);
             return true;
+        }
+    }
+
+    /**
+     * Sets device label.
+     */
+    private class LabelCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Sets device label (user descriptor) to 0-16 US-ASCII character string.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "label DEVICEID DEVICELABEL";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
+            if (args.length != 3) {
+                return false;
+            }
+
+            final ZigBeeDevice device = getDevice(zigbeeApi, args[1]);
+            if (device == null) {
+                return false;
+            }
+
+            final String label = args[2];
+
+            return zigbeeApi.describe(device, label);
         }
     }
 

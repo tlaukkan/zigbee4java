@@ -62,11 +62,17 @@ public class ZDO_USER_DESC_RSP extends ZToolPacket/* implements IRESPONSE_CALLBA
     public ZDO_USER_DESC_RSP(int[] framedata) {
         this.SrcAddress = new ZToolAddress16(framedata[1], framedata[0]);
         this.Status = framedata[2];
-        this.nwkAddr = new ZToolAddress16(framedata[4], framedata[3]);
-        this.DescLen = framedata[5];
-        this.Descriptor = new int[this.DescLen];
-        for (int i = 0; i < this.Descriptor.length; i++) {
-            this.Descriptor[i] = framedata[i + 6];
+        if (framedata.length > 3) {
+            this.nwkAddr = new ZToolAddress16(framedata[4], framedata[3]);
+            this.DescLen = framedata[5];
+            this.Descriptor = new int[this.DescLen];
+            for (int i = 0; i < this.Descriptor.length; i++) {
+                this.Descriptor[i] = framedata[i + 6];
+            }
+        } else {
+            this.nwkAddr = new ZToolAddress16();
+            this.DescLen = 0;
+            this.Descriptor = new int[0];
         }
         super.buildPacket(new DoubleByte(ZToolCMD.ZDO_USER_DESC_RSP), framedata);
     }
