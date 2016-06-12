@@ -8,6 +8,7 @@ import org.bubblecloud.zigbee.network.zcl.protocol.command.color.control.MoveToC
 import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.LockDoorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.UnlockDoorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.ias.wd.SquawkCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.ias.wd.StartWarningCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.level.control.MoveToLevelCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OffCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OnCommand;
@@ -292,7 +293,7 @@ public class SimpleZigBeeApi {
     public Future<CommandResult> squawk(final ZigBeeDevice device, final int mode, final int strobe, final int level) {
         final SquawkCommand command = new SquawkCommand();
 
-        final int header = ((level << 6) | (strobe << 4) | mode);
+        final int header = (level << 6) | (strobe << 4) | mode;
 
         command.setHeader(header);
         command.setDestinationAddress(device.getNetworkAddress());
@@ -301,6 +302,19 @@ public class SimpleZigBeeApi {
         return send(command);
     }
 
+
+    public Future<CommandResult> warn(ZigBeeDevice device, int mode, int strobe, int duration) {
+        final StartWarningCommand command = new StartWarningCommand();
+
+        final int header = (strobe << 4) | mode;
+        command.setHeader(header);
+        command.setWarningDuration(duration);
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+
+        return send(command);
+
+    }
 
     /**
      * Permit joining.
