@@ -158,10 +158,7 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
                     return;
                 }
 
-                if (networkState.getDevice(simpleDescriptorResponse.getNetworkAddress(),
-                        simpleDescriptorResponse.getEndpoint()) == null) {
-                    addDevice(ieeeAddressResponse, nodeDescriptorResponse, simpleDescriptorResponse);
-                }
+                addOrUpdateDevice(ieeeAddressResponse, nodeDescriptorResponse, simpleDescriptorResponse);
             } else {
                 LOGGER.warn(simpleDescriptorResponse.toString());
             }
@@ -256,10 +253,19 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
      * @param nodeDescriptorResponse the node descriptor response
      * @param simpleDescriptorResponse the simple descriptor response
      */
-    private void addDevice(final IeeeAddressResponse ieeeAddressResponse,
-                           final NodeDescriptorResponse nodeDescriptorResponse,
-                           final SimpleDescriptorResponse simpleDescriptorResponse) {
-        final ZigBeeDevice device = new ZigBeeDevice();
+    private void addOrUpdateDevice(final IeeeAddressResponse ieeeAddressResponse,
+                                   final NodeDescriptorResponse nodeDescriptorResponse,
+                                   final SimpleDescriptorResponse simpleDescriptorResponse) {
+        final ZigBeeDevice device;
+        final boolean newDevice = networkState.getDevice(ieeeAddressResponse.getNetworkAddress(),
+                simpleDescriptorResponse.getEndpoint()) == null;
+
+        if (newDevice) {
+            device = new ZigBeeDevice();
+        } else {
+            device = networkState.getDevice(ieeeAddressResponse.getNetworkAddress(),
+                    simpleDescriptorResponse.getEndpoint());
+        }
 
         device.setNetworkAddress(ieeeAddressResponse.getNetworkAddress());
         device.setIeeeAddress(ieeeAddressResponse.getIeeeAddress());
@@ -272,6 +278,10 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
         device.setInputClusterIds(simpleDescriptorResponse.getInputClusters());
         device.setOutputClusterIds(simpleDescriptorResponse.getOutputClusters());
 
-        networkState.addDevice(device);
+        if (newDevice) {
+            networkState.addDevice(device);
+        } else {
+            networkState.updateDevice(device);
+        }
     }
 }

@@ -14,7 +14,7 @@ public class LocalZigBeeApi extends SimpleZigBeeApi {
     /**
      * The ZigBee network state.
      */
-    private final ZigBeeNetworkState networkState;
+    private final ZigBeeNetworkStateImpl networkState;
     /**
      * The ZigBee network networkDiscoverer.
      */
@@ -29,7 +29,7 @@ public class LocalZigBeeApi extends SimpleZigBeeApi {
      */
     public LocalZigBeeApi(final SerialPort serialPort, final int pan, final int channel, final boolean resetNetwork) {
         dongle = new ZigBeeDongleTiCc2531Impl(serialPort, pan, channel, resetNetwork);
-        networkState = new ZigBeeNetworkStateImpl();
+        networkState = new ZigBeeNetworkStateImpl(resetNetwork);
         networkDiscoverer = new ZigBeeNetworkDiscoverer(networkState, dongle);
 
         setNetwork(dongle);
@@ -41,6 +41,7 @@ public class LocalZigBeeApi extends SimpleZigBeeApi {
      * @return TRUE if startup was successful.
      */
     public boolean startup() {
+        networkState.startup();
         if (dongle.startup()) {
             networkDiscoverer.startup();
             return true;
@@ -55,6 +56,7 @@ public class LocalZigBeeApi extends SimpleZigBeeApi {
     public void shutdown() {
         networkDiscoverer.shutdown();
         dongle.shutdown();
+        networkState.shutdown();
     }
 
 }

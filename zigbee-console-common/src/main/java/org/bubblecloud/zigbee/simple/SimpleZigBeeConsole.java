@@ -84,6 +84,11 @@ public final class SimpleZigBeeConsole {
             }
 
             @Override
+            public void deviceUpdated(ZigBeeDevice device) {
+                //print("Device updated:\n" + getDeviceSummary(device), System.out);
+            }
+
+            @Override
             public void deviceRemoved(ZigBeeDevice device) {
                 print("Device removed\n" + getDeviceSummary(device), System.out);
             }
@@ -92,7 +97,7 @@ public final class SimpleZigBeeConsole {
         zigBeeApi.getNetwork().addCommandListener(new CommandListener() {
             @Override
             public void commandReceived(Command command) {
-            print("Received: " + command.toString(), System.out);
+                //print("Received: " + command.toString(), System.out);
             }
         });
 

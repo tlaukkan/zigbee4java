@@ -13,17 +13,23 @@ public interface ZigBeeNetworkState {
     void addDevice(ZigBeeDevice device);
 
     /**
-     * Gets device by network address.
-     * @param networkAddress the network address
-     * @return the ZigBee device or null if no exists with given network address.
+     * Updates device.
+     * @param device the device to update
      */
-    ZigBeeDevice getDevice(int networkAddress, int endpoint);
+    void updateDevice(ZigBeeDevice device);
 
     /**
      * Removes device by network address.
      * @param networkAddress the network address
      */
     void removeDevice(int networkAddress, int endpoint);
+
+    /**
+     * Gets device by network address.
+     * @param networkAddress the network address
+     * @return the ZigBee device or null if no exists with given network address.
+     */
+    ZigBeeDevice getDevice(int networkAddress, int endpoint);
 
     /**
      * Gets all devices.

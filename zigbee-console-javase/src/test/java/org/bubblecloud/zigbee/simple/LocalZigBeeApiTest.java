@@ -34,6 +34,11 @@ public class LocalZigBeeApiTest {
             }
 
             @Override
+            public void deviceUpdated(ZigBeeDevice device) {
+                LOGGER.info("Device updated: " + device);
+            }
+
+            @Override
             public void deviceRemoved(ZigBeeDevice device) {
                 LOGGER.info("Device removed: " + device);
             }

@@ -10,6 +10,11 @@ public interface ZigBeeNetworkStateListener {
      */
     void deviceAdded(final ZigBeeDevice device);
     /**
+     * Device was updated.
+     * @param device the device
+     */
+    void deviceUpdated(final ZigBeeDevice device);
+    /**
      * Device was removed from network.
      * @param device the device
      */
