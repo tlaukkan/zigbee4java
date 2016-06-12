@@ -1,13 +1,14 @@
 package org.bubblecloud.zigbee.network.zdo.command;
 
 import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
+import org.bubblecloud.zigbee.simple.Response;
 
 import java.util.Arrays;
 
 /**
  * IeeeAddressResponse.
  */
-public class IeeeAddressResponse extends ZdoCommand {
+public class IeeeAddressResponse extends ZdoCommand implements Response {
     /**
      * The status.
      */

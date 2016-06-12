@@ -1,50 +1,47 @@
 package org.bubblecloud.zigbee.simple;
 
-import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
-import org.bubblecloud.zigbee.network.zcl.ZclCommand;
-import org.bubblecloud.zigbee.network.zcl.protocol.ZclCommandType;
+import org.bubblecloud.zigbee.api.cluster.impl.api.global.DefaultResponse;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.DefaultResponseCommand;
 
 /**
  * Value class containing command response.
  */
-public class ZclCommandResponse {
+public class CommandResult {
 
     /**
      * The response command.
      */
-    private  final ZclCommand response;
+    private final Command response;
     /**
-     * The error.
+     * The message.
      */
-    private final String error;
-
+    private final String message;
 
     /**
      * Constructor which sets the received response command or null if timeout occurs..
      * @param response the response command.
      */
-    public ZclCommandResponse(final ZclCommand response) {
+    public CommandResult(final Command response) {
         this.response = response;
-        this.error = null;
+        this.message = null;
     }
 
     /**
-     * Constructor for error situations.
-     * @param error the error
+     * Constructor for message situations.
+     * @param message the message
      */
-    public ZclCommandResponse(final String error) {
+    public CommandResult(final String message) {
         this.response = null;
-        this.error = error;
+        this.message = message;
     }
 
     /**
      * Constructor for timeout situations.
      */
-    public ZclCommandResponse() {
+    public CommandResult() {
         this.response = null;
-        this.error = null;
+        this.message = null;
     }
 
     /**
@@ -60,18 +57,18 @@ public class ZclCommandResponse {
      * @return TRUE if timeout occurred
      */
     public boolean isTimeout() {
-        return response == null && error == null;
+        return response == null && message == null;
     }
 
     /**
-     * Checks if error status code was received in default response.
-     * @return the error status code
+     * Checks if message status code was received in default response.
+     * @return the message status code
      */
     public boolean isError() {
-        if (isDefaultResponse()) {
-            return ((DefaultResponseCommand) response).getStatusCode() != 0;
+        if (hasStatusCode()) {
+            return getStatusCode() != 0;
         } else {
-            if (error == null) {
+            if (message == null) {
                 return false;
             } else {
                 return true;
@@ -83,9 +80,9 @@ public class ZclCommandResponse {
      * Check if default response was received.
      * @return TRUE if default response was received
      */
-    public boolean isDefaultResponse() {
+    public boolean hasStatusCode() {
         if (response != null) {
-            return response.getType() == ZclCommandType.DEFAULT_RESPONSE_COMMAND;
+            return response instanceof DefaultResponse || response instanceof Response;
         } else {
             return false;
         }
@@ -96,8 +93,12 @@ public class ZclCommandResponse {
      * @return the status code
      */
     public Integer getStatusCode() {
-        if (isDefaultResponse()) {
-            return ((DefaultResponseCommand) response).getStatusCode();
+        if (hasStatusCode()) {
+            if (response instanceof DefaultResponse) {
+                return ((DefaultResponseCommand) response).getStatusCode();
+            } else {
+                return ((Response) response).getStatus();
+            }
         } else {
             return null;
         }
@@ -105,25 +106,24 @@ public class ZclCommandResponse {
 
     /**
      * Gets the received response.
-     * @param <C> the expected received response type
      * @return the received response
      */
-    public <C extends  ZclCommand> C getResponse() {
-        return (C) response;
+    public Command getResponse() {
+        return response;
     }
 
     /**
-     * Gets error.
-     * @return the error
+     * Gets error or timeout message.
+     * @return the message
      */
-    public String getError() {
+    public String getMessage() {
         if (isTimeout()) {
             return "Timeout.";
         }
-        if (isDefaultResponse()) {
-            return Status.getStatus((byte) (int) getStatusCode()).toString();
+        if (hasStatusCode()) {
+            return Status.getStatus((byte) (int) getStatusCode()).description;
         } else {
-            return error;
+            return message;
         }
     }
 
@@ -135,7 +135,7 @@ public class ZclCommandResponse {
             return "timeout";
         } else {
             final Status status = Status.getStatus((byte) getStatusCode().intValue());
-            return "error: " + status.name() + "(0x" + Integer.toHexString(status.id) + ", " + status.description;
+            return "message: " + status.name() + "(0x" + Integer.toHexString(status.id) + ", " + status.description;
         }
     }
 }

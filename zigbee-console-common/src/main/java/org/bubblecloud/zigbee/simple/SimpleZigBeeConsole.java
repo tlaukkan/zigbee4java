@@ -10,7 +10,6 @@ import org.bubblecloud.zigbee.network.model.IEEEAddress;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Simple ZigBee command line console is an example usage of simple ZigBee API.
@@ -458,7 +457,7 @@ public final class SimpleZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 4) {
                 return false;
             }
@@ -476,7 +475,14 @@ public final class SimpleZigBeeConsole {
             } catch (final NumberFormatException e) {
                 return false;
             }
-            return zigBeeApi.bind(source, destination, clusterId);
+            final CommandResult response = zigBeeApi.bind(source, destination, clusterId).get();
+            if (response.isSuccess()) {
+                out.println("Success response received.");
+                return true;
+            } else {
+                out.println("Error executing command: " + response.getMessage());
+                return true;
+            }
         }
     }
 
@@ -499,7 +505,7 @@ public final class SimpleZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 4) {
                 return false;
             }
@@ -517,7 +523,14 @@ public final class SimpleZigBeeConsole {
             } catch (final NumberFormatException e) {
                 return false;
             }
-            return zigBeeApi.unbind(source, destination, clusterId);
+            final CommandResult response = zigBeeApi.unbind(source, destination, clusterId).get();
+            if (response.isSuccess()) {
+                out.println("Success response received.");
+                return true;
+            } else {
+                out.println("Error executing command: " + response.getMessage());
+                return true;
+            }
         }
     }
 
@@ -550,12 +563,12 @@ public final class SimpleZigBeeConsole {
                 return false;
             }
 
-            final ZclCommandResponse response = zigbeeApi.on(device).get();
+            final CommandResult response = zigbeeApi.on(device).get();
             if (response.isSuccess()) {
-                out.println("Success.");
+                out.println("Success response received.");
                 return true;
             } else {
-                out.println("Error executing command: " + response.getError());
+                out.println("Error executing command: " + response.getMessage());
                 return true;
             }
 
@@ -591,12 +604,12 @@ public final class SimpleZigBeeConsole {
                 return false;
             }
 
-            final ZclCommandResponse response = zigbeeApi.off(device).get();
+            final CommandResult response = zigbeeApi.off(device).get();
             if (response.isSuccess()) {
-                out.println("Success.");
+                out.println("Success response received.");
                 return true;
             } else {
-                out.println("Error executing command: " + response.getError());
+                out.println("Error executing command: " + response.getMessage());
                 return true;
             }
         }
@@ -674,7 +687,7 @@ public final class SimpleZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 3) {
                 return false;
             }
@@ -687,7 +700,14 @@ public final class SimpleZigBeeConsole {
             final String label = args[2];
             device.setLabel(label);
             zigbeeApi.getNetworkState().updateDevice(device);
-            return zigbeeApi.describe(device, label);
+            final CommandResult response = zigbeeApi.describe(device, label).get();
+            if (response.isSuccess()) {
+                out.println("Success response received.");
+                return true;
+            } else {
+                out.println("Error executing command: " + response.getMessage());
+                return true;
+            }
         }
     }
 

@@ -5,7 +5,7 @@ import java.util.concurrent.Future;
 /**
  * Command execution value object.
  */
-public class CommandExecution<V> {
+public class CommandExecution {
     /**
      * The command start time.
      */
@@ -17,7 +17,7 @@ public class CommandExecution<V> {
     /**
      * The future.
      */
-    private Future<V> future;
+    private Future<CommandResult> future;
     /**
      * The command response listener.
      */
@@ -29,7 +29,7 @@ public class CommandExecution<V> {
      * @param command the command
      * @param future the future
      */
-    public CommandExecution(long startTime, Command command, Future<V> future) {
+    public CommandExecution(long startTime, Command command, Future<CommandResult> future) {
         this.startTime = startTime;
         this.command = command;
         this.future = future;
@@ -55,7 +55,7 @@ public class CommandExecution<V> {
      * Gets future.
      * @return the future
      */
-    public Future<V> getFuture() {
+    public Future<CommandResult> getFuture() {
         return future;
     }
 

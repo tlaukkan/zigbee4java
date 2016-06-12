@@ -5,10 +5,7 @@ import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.color.control.MoveToColorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OffCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OnCommand;
-import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
-import org.bubblecloud.zigbee.network.zdo.command.BindRequest;
-import org.bubblecloud.zigbee.network.zdo.command.UnbindRequest;
-import org.bubblecloud.zigbee.network.zdo.command.UserDescriptorSet;
+import org.bubblecloud.zigbee.network.zdo.command.*;
 import org.bubblecloud.zigbee.util.Cie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +32,8 @@ public class SimpleZigBeeApi {
     /**
      * The command listener creation times.
      */
-    private Set<CommandExecution<ZclCommandResponse>> commandExecutions =
-            new HashSet<CommandExecution<ZclCommandResponse>>();
+    private Set<CommandExecution> commandExecutions =
+            new HashSet<CommandExecution>();
 
     /**
      * Default constructor inheritance.
@@ -98,11 +95,19 @@ public class SimpleZigBeeApi {
      * @param descriptor the descriptor
      * @return TRUE if no errors occurred in sending.
      */
-    public boolean describe(ZigBeeDevice device, String descriptor) {
+    public Future<CommandResult> describe(ZigBeeDevice device, String descriptor) {
         final UserDescriptorSet command = new UserDescriptorSet(device.getNetworkAddress(), device.getNetworkAddress(),
                 descriptor);
 
-        return sendZdoCommand(command);
+        return send(command, new CommandResponseMatcher() {
+            @Override
+            public boolean isMatch(Command request, Command response) {
+                if (response instanceof UserDescriptorConfiguration) {
+                    return command.destinationAddress == ((UserDescriptorConfiguration) response).getSourceAddress();
+                }
+                return false;
+            }
+        });
     }
 
     /**
@@ -112,7 +117,7 @@ public class SimpleZigBeeApi {
      * @param clusterId the cluster ID
      * @return TRUE if no errors occurred in sending.
      */
-    public boolean bind(ZigBeeDevice source, ZigBeeDevice destination, int clusterId) {
+    public Future<CommandResult> bind(ZigBeeDevice source, ZigBeeDevice destination, int clusterId) {
         final int destinationAddress = source.getNetworkAddress();
         final long bindSourceAddress = source.getIeeeAddress();
         final int bindSourceEndpoint = source.getEndpoint();
@@ -129,7 +134,15 @@ public class SimpleZigBeeApi {
                 bindDestinationAddress,
                 bindDestinationEndpoint
         );
-        return sendZdoCommand(command);
+        return send(command, new CommandResponseMatcher() {
+            @Override
+            public boolean isMatch(Command request, Command response) {
+                if (response instanceof BindResponse) {
+                    return command.getDestinationAddress() == ((BindResponse) response).getSourceAddress();
+                }
+                return false;
+            }
+        });
     }
 
     /**
@@ -139,7 +152,7 @@ public class SimpleZigBeeApi {
      * @param clusterId the cluster ID
      * @return TRUE if no errors occurred in sending.
      */
-    public boolean unbind(ZigBeeDevice source, ZigBeeDevice destination, int clusterId) {
+    public Future<CommandResult> unbind(ZigBeeDevice source, ZigBeeDevice destination, int clusterId) {
         final int destinationAddress = source.getNetworkAddress();
         final long bindSourceAddress = source.getIeeeAddress();
         final int bindSourceEndpoint = source.getEndpoint();
@@ -156,22 +169,15 @@ public class SimpleZigBeeApi {
                 bindDestinationAddress,
                 bindDestinationEndpoint
         );
-        return sendZdoCommand(command);
-    }
-
-    /**
-     * Sends ZDO command.
-     * @param command the command
-     * @return if no errors occurred in sending to dongle.
-     */
-    private boolean sendZdoCommand(final ZdoCommand command) {
-        try {
-            getNetwork().sendCommand(command);
-            return true;
-        } catch (final ZigBeeException e) {
-            LOGGER.error("Error sending command: " + command, e);
-            return false;
-        }
+        return send(command, new CommandResponseMatcher() {
+            @Override
+            public boolean isMatch(Command request, Command response) {
+                if (response instanceof UnbindResponse) {
+                    return command.getDestinationAddress() == ((UnbindResponse) response).getSourceAddress();
+                }
+                return false;
+            }
+        });
     }
 
     /**
@@ -179,9 +185,11 @@ public class SimpleZigBeeApi {
      * @param device the device
      * @return the Future for accessing CommandResponse.
      */
-    public Future<ZclCommandResponse> on(final ZigBeeDevice device) {
+    public Future<CommandResult> on(final ZigBeeDevice device) {
         final OnCommand command = new OnCommand();
-        return send(device, command);
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+        return send(command, new ZclResponseMatcher());
     }
 
     /**
@@ -189,9 +197,11 @@ public class SimpleZigBeeApi {
      * @param device the device
      * @return the Future for accessing CommandResponse.
      */
-    public Future<ZclCommandResponse> off(final ZigBeeDevice device) {
+    public Future<CommandResult> off(final ZigBeeDevice device) {
         final OffCommand command = new OffCommand();
-        return send(device, command);
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+        return send(command, new ZclResponseMatcher());
     }
 
     /**
@@ -204,7 +214,7 @@ public class SimpleZigBeeApi {
      * @param time the in seconds
      * @return the Future for accessing CommandResponse.
      */
-    public Future<ZclCommandResponse> color(final ZigBeeDevice device, final double red, final double green, final double blue, double time) {
+    public Future<CommandResult> color(final ZigBeeDevice device, final double red, final double green, final double blue, double time) {
         final MoveToColorCommand command = new MoveToColorCommand();
 
         final Cie cie = Cie.rgb2cie(red, green ,blue);
@@ -222,40 +232,38 @@ public class SimpleZigBeeApi {
         command.setColorY(y);
         command.setTransitionTime((int) (time * 10));
 
-        return send(device, command);
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+        return send(command, new ZclResponseMatcher());
     }
 
     /**
      * Sends ZCL command.
-     * @param device the destination device
      * @param command the command
+     * @param responseMatcher the response matcher
      * @return the Future for accessing CommandResponse.
      */
-    private Future<ZclCommandResponse> send(final ZigBeeDevice device, final ZclCommand command) {
-        command.setDestinationAddress(device.getNetworkAddress());
-        command.setDestinationEndpoint(device.getEndpoint());
-
-        final FutureImpl<ZclCommandResponse> future = new FutureImpl<ZclCommandResponse>();
+    private Future<CommandResult> send(final Command command,
+                                         final CommandResponseMatcher responseMatcher) {
 
         synchronized (command) {
-            final CommandExecution<ZclCommandResponse> commandExecution = new CommandExecution<ZclCommandResponse>(
+            final CommandExecutionFuture future = new CommandExecutionFuture(this);
+            final CommandExecution commandExecution = new CommandExecution(
                     System.currentTimeMillis(), command, future);
+            future.setCommandExecution(commandExecution);
             final CommandListener commandListener = new CommandListener() {
                 @Override
                 public void commandReceived(Command receivedCommand) {
                     // Ensure that received command is not processed before command is sent and
                     // hence transaction ID for the command set.
-                    if (receivedCommand instanceof ZclCommand) {
-                        synchronized (command) {
-                            final byte transactionId = command.getTransactionId();
-                            if (new Byte(transactionId).equals(((ZclCommand) receivedCommand).getTransactionId())) {
+                    synchronized (command) {
+                        if (responseMatcher.isMatch(command, receivedCommand)) {
+                            synchronized (future) {
+                                future.set(new CommandResult(receivedCommand));
                                 synchronized (future) {
-                                    future.set(new ZclCommandResponse((ZclCommand) receivedCommand));
-                                    synchronized (future) {
-                                        future.notify();
-                                    }
-                                    removeCommandExecution(commandExecution);
+                                    future.notify();
                                 }
+                                removeCommandExecution(commandExecution);
                             }
                         }
                     }
@@ -265,14 +273,15 @@ public class SimpleZigBeeApi {
             addCommandExecution(commandExecution);
             try {
                 int transactionId = network.sendCommand(command);
-                command.setTransactionId((byte) transactionId);
+                if (command instanceof ZclCommand) {
+                    ((ZclCommand) command).setTransactionId((byte) transactionId);
+                }
             } catch (final ZigBeeException e) {
-                future.set(new ZclCommandResponse(e.toString()));
+                future.set(new CommandResult(e.toString()));
                 removeCommandExecution(commandExecution);
             }
+            return future;
         }
-
-        return future;
     }
 
     /**
@@ -280,17 +289,17 @@ public class SimpleZigBeeApi {
      *
      * @param commandExecution the command execution
      */
-    private void addCommandExecution(final CommandExecution<ZclCommandResponse> commandExecution) {
+    private void addCommandExecution(final CommandExecution commandExecution) {
         synchronized (commandExecutions) {
-            final List<CommandExecution<ZclCommandResponse>> expiredCommandExecutions =
-                    new ArrayList<CommandExecution<ZclCommandResponse>>();
-            for (final CommandExecution<ZclCommandResponse> existingCommandExecution : commandExecutions) {
-                if (System.currentTimeMillis() - existingCommandExecution.getStartTime() > 15000) {
+            final List<CommandExecution> expiredCommandExecutions =
+                    new ArrayList<CommandExecution>();
+            for (final CommandExecution existingCommandExecution : commandExecutions) {
+                if (System.currentTimeMillis() - existingCommandExecution.getStartTime() > 8000) {
                     expiredCommandExecutions.add(existingCommandExecution);
                 }
             }
-            for (final CommandExecution<ZclCommandResponse> expiredCommandExecution : expiredCommandExecutions) {
-                ((FutureImpl) expiredCommandExecution.getFuture()).set(new ZclCommandResponse());
+            for (final CommandExecution expiredCommandExecution : expiredCommandExecutions) {
+                ((CommandExecutionFuture) expiredCommandExecution.getFuture()).set(new CommandResult());
                 removeCommandExecution(expiredCommandExecution);
             }
             commandExecutions.add(commandExecution);
@@ -302,7 +311,7 @@ public class SimpleZigBeeApi {
      * Removes command execution.
      * @param expiredCommandExecution the command execution
      */
-    private void removeCommandExecution(CommandExecution<ZclCommandResponse> expiredCommandExecution) {
+    protected void removeCommandExecution(CommandExecution expiredCommandExecution) {
         commandExecutions.remove(expiredCommandExecution);
         network.removeCommandListener(expiredCommandExecution.getCommandListener());
         synchronized (expiredCommandExecution.getFuture()) {

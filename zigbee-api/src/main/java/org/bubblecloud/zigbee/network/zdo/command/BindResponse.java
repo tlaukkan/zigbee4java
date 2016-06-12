@@ -1,11 +1,12 @@
 package org.bubblecloud.zigbee.network.zdo.command;
 
 import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
+import org.bubblecloud.zigbee.simple.Response;
 
 /**
  * BindResponse.
  */
-public class BindResponse extends ZdoCommand {
+public class BindResponse extends ZdoCommand implements Response {
     /**
      * The status.
      */

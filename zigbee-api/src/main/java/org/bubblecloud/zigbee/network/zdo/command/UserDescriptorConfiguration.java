@@ -1,11 +1,12 @@
 package org.bubblecloud.zigbee.network.zdo.command;
 
 import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
+import org.bubblecloud.zigbee.simple.Response;
 
 /**
  * User Descriptor Configuration.
  */
-public class UserDescriptorConfiguration extends ZdoCommand {
+public class UserDescriptorConfiguration extends ZdoCommand implements Response {
     /**
      * Source address.
      */
