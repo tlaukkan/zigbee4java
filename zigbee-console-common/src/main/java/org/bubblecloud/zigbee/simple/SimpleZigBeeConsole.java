@@ -634,7 +634,7 @@ public final class SimpleZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 5) {
                 return false;
             }
@@ -663,8 +663,14 @@ public final class SimpleZigBeeConsole {
                 return false;
             }
 
-            zigbeeApi.color(device, red, green, blue, 1);
-            return true;
+            final CommandResult response = zigbeeApi.color(device, red, green, blue, 1).get();
+            if (response.isSuccess()) {
+                out.println("Success response received.");
+                return true;
+            } else {
+                out.println("Error executing command: " + response.getMessage());
+                return true;
+            }
         }
     }
 
@@ -730,7 +736,7 @@ public final class SimpleZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 3) {
                 return false;
             }
@@ -747,16 +753,15 @@ public final class SimpleZigBeeConsole {
                 return false;
             }
 
-            int l = (int) (level * 254);
-            if (l > 254) {
-                l = 254;
-            }
-            if (l < 0) {
-                l = 0;
-            }
-
             //levelControl.moveToLevel((short) l, 10);
-            throw new UnsupportedOperationException();
+            final CommandResult response = zigbeeApi.level(device, level, 1.0).get();
+            if (response.isSuccess()) {
+                out.println("Success response received.");
+                return true;
+            } else {
+                out.println("Error executing command: " + response.getMessage());
+                return true;
+            }
         }
     }
 

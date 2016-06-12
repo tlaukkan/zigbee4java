@@ -9,7 +9,11 @@ public class ZclResponseMatcher implements CommandResponseMatcher {
 
     @Override
     public boolean isMatch(Command request, Command response) {
-        final byte transactionId = ((ZclCommand) request).getTransactionId();
-        return new Byte(transactionId).equals(((ZclCommand) response).getTransactionId());
+        if (((ZclCommand) request).getTransactionId() != null) {
+            final byte transactionId = ((ZclCommand) request).getTransactionId();
+            return new Byte(transactionId).equals(((ZclCommand) response).getTransactionId());
+        } else {
+            return false;
+        }
     }
 }

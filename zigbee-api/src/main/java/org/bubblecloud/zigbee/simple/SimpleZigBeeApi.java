@@ -3,6 +3,7 @@ package org.bubblecloud.zigbee.simple;
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.color.control.MoveToColorCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.level.control.MoveToLevelCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OffCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.on.off.OnCommand;
 import org.bubblecloud.zigbee.network.zdo.command.*;
@@ -237,6 +238,28 @@ public class SimpleZigBeeApi {
         return send(command, new ZclResponseMatcher());
     }
 
+
+    public Future<CommandResult> level(ZigBeeDevice device, double level, double time) {
+
+        final MoveToLevelCommand command = new MoveToLevelCommand();
+
+        int l = (int) (level * 254);
+        if (l > 254) {
+            l = 254;
+        }
+        if (l < 0) {
+            l = 0;
+        }
+
+        command.setLevel(l);
+        command.setTransitionTime((int) (time * 10));
+
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+
+        return send(command, new ZclResponseMatcher());
+    }
+
     /**
      * Sends ZCL command.
      * @param command the command
@@ -318,6 +341,5 @@ public class SimpleZigBeeApi {
             expiredCommandExecution.getFuture().notify();
         }
     }
-
 
 }
