@@ -1,11 +1,12 @@
 package org.bubblecloud.zigbee.network.zdo.command;
 
 import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
+import org.bubblecloud.zigbee.simple.ZdoRequest;
 
 /**
  * UnbindRequest.
  */
-public class UnbindRequest extends ZdoCommand {
+public class UnbindRequest extends ZdoCommand implements ZdoRequest {
     /**
      * Destination address;
      */

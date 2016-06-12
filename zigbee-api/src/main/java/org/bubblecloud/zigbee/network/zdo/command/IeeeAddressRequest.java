@@ -1,11 +1,12 @@
 package org.bubblecloud.zigbee.network.zdo.command;
 
 import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
+import org.bubblecloud.zigbee.simple.ZdoRequest;
 
 /**
  * IeeeAddressRequest.
  */
-public class IeeeAddressRequest extends ZdoCommand {
+public class IeeeAddressRequest extends ZdoCommand implements ZdoRequest {
     /**
      * The network address.
      */
@@ -58,5 +59,10 @@ public class IeeeAddressRequest extends ZdoCommand {
                 "networkAddress=" + networkAddress +
                 ", type=" + type +
                 ", startIndex=" + startIndex;
+    }
+
+    @Override
+    public int getDestinationAddress() {
+        return networkAddress;
     }
 }

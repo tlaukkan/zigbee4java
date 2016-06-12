@@ -82,7 +82,7 @@ public class CommandResult {
      */
     public boolean hasStatusCode() {
         if (response != null) {
-            return response instanceof DefaultResponse || response instanceof Response;
+            return response instanceof DefaultResponse || response instanceof ZdoResponse;
         } else {
             return false;
         }
@@ -97,7 +97,7 @@ public class CommandResult {
             if (response instanceof DefaultResponse) {
                 return ((DefaultResponseCommand) response).getStatusCode();
             } else {
-                return ((Response) response).getStatus();
+                return ((ZdoResponse) response).getStatus();
             }
         } else {
             return null;

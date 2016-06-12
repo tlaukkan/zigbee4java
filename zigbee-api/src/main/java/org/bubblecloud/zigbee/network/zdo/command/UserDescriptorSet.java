@@ -2,11 +2,12 @@ package org.bubblecloud.zigbee.network.zdo.command;
 
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
+import org.bubblecloud.zigbee.simple.ZdoRequest;
 
 /**
  * UserDescriptorSet.
  */
-public class UserDescriptorSet extends ZdoCommand {
+public class UserDescriptorSet extends ZdoCommand implements ZdoRequest {
     /**
      * The destination address.
      */

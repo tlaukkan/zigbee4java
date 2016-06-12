@@ -1,14 +1,12 @@
 package org.bubblecloud.zigbee.network.zdo.command;
 
 import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
-import org.bubblecloud.zigbee.simple.Response;
-
-import java.util.Arrays;
+import org.bubblecloud.zigbee.simple.ZdoResponse;
 
 /**
  * Created by tlaukkan on 6/9/2016.
  */
-public class UserDescriptorResponse extends ZdoCommand implements Response {
+public class UserDescriptorResponse extends ZdoCommand implements ZdoResponse {
     /**
      * Source address.
      */

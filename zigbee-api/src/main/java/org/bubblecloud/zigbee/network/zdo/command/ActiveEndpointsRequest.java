@@ -1,11 +1,12 @@
 package org.bubblecloud.zigbee.network.zdo.command;
 
 import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
+import org.bubblecloud.zigbee.simple.ZdoRequest;
 
 /**
  * Created by tlaukkan on 6/9/2016.
  */
-public class ActiveEndpointsRequest extends ZdoCommand {
+public class ActiveEndpointsRequest extends ZdoCommand implements ZdoRequest {
     /**
      * Destination address.
      */

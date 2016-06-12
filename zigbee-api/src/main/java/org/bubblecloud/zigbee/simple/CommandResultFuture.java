@@ -10,7 +10,7 @@ import java.util.concurrent.TimeoutException;
 /**
  * Future implementation for asynchronous methods.
  */
-public class CommandExecutionFuture implements Future {
+public class CommandResultFuture implements Future<CommandResult> {
 
     /**
      * The simple ZigBee API.
@@ -30,7 +30,7 @@ public class CommandExecutionFuture implements Future {
      * Constructor which sets the simple ZigBee API this future belongs to.
      * @param simpleZigBeeApi the simple ZigBee API
      */
-    public CommandExecutionFuture(SimpleZigBeeApi simpleZigBeeApi) {
+    public CommandResultFuture(SimpleZigBeeApi simpleZigBeeApi) {
         this.simpleZigBeeApi = simpleZigBeeApi;
     }
 
@@ -87,6 +87,10 @@ public class CommandExecutionFuture implements Future {
                 return result;
             }
             unit.timedWait(this, timeout);
+            if (result == null) {
+                set(new CommandResult());
+                simpleZigBeeApi.removeCommandExecution(commandExecution);
+            }
             return result;
         }
     }

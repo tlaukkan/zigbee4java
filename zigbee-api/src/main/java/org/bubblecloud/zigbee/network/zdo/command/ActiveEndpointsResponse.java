@@ -1,16 +1,14 @@
 package org.bubblecloud.zigbee.network.zdo.command;
 
-import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
-import org.bubblecloud.zigbee.network.zcl.protocol.command.rssi.location.ReportRssiMeasurementsCommand;
 import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
-import org.bubblecloud.zigbee.simple.Response;
+import org.bubblecloud.zigbee.simple.ZdoResponse;
 
 import java.util.Arrays;
 
 /**
  * Created by tlaukkan on 6/9/2016.
  */
-public class ActiveEndpointsResponse extends ZdoCommand implements Response {
+public class ActiveEndpointsResponse extends ZdoCommand implements ZdoResponse {
     /**
      * Source address.
      */

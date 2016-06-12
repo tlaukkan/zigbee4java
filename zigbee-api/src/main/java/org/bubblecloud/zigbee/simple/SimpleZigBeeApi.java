@@ -100,15 +100,7 @@ public class SimpleZigBeeApi {
         final UserDescriptorSet command = new UserDescriptorSet(device.getNetworkAddress(), device.getNetworkAddress(),
                 descriptor);
 
-        return send(command, new CommandResponseMatcher() {
-            @Override
-            public boolean isMatch(Command request, Command response) {
-                if (response instanceof UserDescriptorConfiguration) {
-                    return command.destinationAddress == ((UserDescriptorConfiguration) response).getSourceAddress();
-                }
-                return false;
-            }
-        });
+        return send(command);
     }
 
     /**
@@ -135,15 +127,7 @@ public class SimpleZigBeeApi {
                 bindDestinationAddress,
                 bindDestinationEndpoint
         );
-        return send(command, new CommandResponseMatcher() {
-            @Override
-            public boolean isMatch(Command request, Command response) {
-                if (response instanceof BindResponse) {
-                    return command.getDestinationAddress() == ((BindResponse) response).getSourceAddress();
-                }
-                return false;
-            }
-        });
+        return send(command);
     }
 
     /**
@@ -170,39 +154,31 @@ public class SimpleZigBeeApi {
                 bindDestinationAddress,
                 bindDestinationEndpoint
         );
-        return send(command, new CommandResponseMatcher() {
-            @Override
-            public boolean isMatch(Command request, Command response) {
-                if (response instanceof UnbindResponse) {
-                    return command.getDestinationAddress() == ((UnbindResponse) response).getSourceAddress();
-                }
-                return false;
-            }
-        });
+        return send(command);
     }
 
     /**
      * Switches device on.
      * @param device the device
-     * @return the Future for accessing CommandResponse.
+     * @return the command result future.
      */
     public Future<CommandResult> on(final ZigBeeDevice device) {
         final OnCommand command = new OnCommand();
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
-        return send(command, new ZclResponseMatcher());
+        return send(command);
     }
 
     /**
      * Switches device off.
      * @param device the device
-     * @return the Future for accessing CommandResponse.
+     * @return the command result future.
      */
     public Future<CommandResult> off(final ZigBeeDevice device) {
         final OffCommand command = new OffCommand();
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
-        return send(command, new ZclResponseMatcher());
+        return send(command);
     }
 
     /**
@@ -213,7 +189,7 @@ public class SimpleZigBeeApi {
      * @param green the green component [0..1]
      * @param blue the blue component [0..1]
      * @param time the in seconds
-     * @return the Future for accessing CommandResponse.
+     * @return the command result future.
      */
     public Future<CommandResult> color(final ZigBeeDevice device, final double red, final double green, final double blue, double time) {
         final MoveToColorCommand command = new MoveToColorCommand();
@@ -235,10 +211,16 @@ public class SimpleZigBeeApi {
 
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
-        return send(command, new ZclResponseMatcher());
+        return send(command);
     }
 
-
+    /**
+     * Moves device level.
+     * @param device the device
+     * @param level the level
+     * @param time the transition time
+     * @return  the command result future.
+     */
     public Future<CommandResult> level(ZigBeeDevice device, double level, double time) {
 
         final MoveToLevelCommand command = new MoveToLevelCommand();
@@ -257,20 +239,25 @@ public class SimpleZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command, new ZclResponseMatcher());
+        return send(command);
     }
 
     /**
      * Sends ZCL command.
      * @param command the command
-     * @param responseMatcher the response matcher
-     * @return the Future for accessing CommandResponse.
+     * @return the command result future.
      */
-    private Future<CommandResult> send(final Command command,
-                                         final CommandResponseMatcher responseMatcher) {
+    private Future<CommandResult> send(final Command command) {
+
+        final CommandResponseMatcher responseMatcher;
+        if (command instanceof ZclCommand) {
+            responseMatcher = new ZclResponseMatcher();
+        } else {
+            responseMatcher = new ZdoResponseMatcher();
+        }
 
         synchronized (command) {
-            final CommandExecutionFuture future = new CommandExecutionFuture(this);
+            final CommandResultFuture future = new CommandResultFuture(this);
             final CommandExecution commandExecution = new CommandExecution(
                     System.currentTimeMillis(), command, future);
             future.setCommandExecution(commandExecution);
@@ -322,7 +309,7 @@ public class SimpleZigBeeApi {
                 }
             }
             for (final CommandExecution expiredCommandExecution : expiredCommandExecutions) {
-                ((CommandExecutionFuture) expiredCommandExecution.getFuture()).set(new CommandResult());
+                ((CommandResultFuture) expiredCommandExecution.getFuture()).set(new CommandResult());
                 removeCommandExecution(expiredCommandExecution);
             }
             commandExecutions.add(commandExecution);

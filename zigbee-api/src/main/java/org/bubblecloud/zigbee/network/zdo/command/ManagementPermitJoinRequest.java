@@ -1,11 +1,12 @@
 package org.bubblecloud.zigbee.network.zdo.command;
 
 import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
+import org.bubblecloud.zigbee.simple.ZdoRequest;
 
 /**
  * ManagementPermitJoinRequest.
  */
-public class ManagementPermitJoinRequest extends ZdoCommand {
+public class ManagementPermitJoinRequest extends ZdoCommand implements ZdoRequest {
     /**
      * Destination address type: 0x02 - Address 16 bit, 0x0F - Broadcast.
      */

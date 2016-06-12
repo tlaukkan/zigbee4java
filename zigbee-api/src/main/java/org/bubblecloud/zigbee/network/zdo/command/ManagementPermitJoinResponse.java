@@ -1,12 +1,12 @@
 package org.bubblecloud.zigbee.network.zdo.command;
 
 import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
-import org.bubblecloud.zigbee.simple.Response;
+import org.bubblecloud.zigbee.simple.ZdoResponse;
 
 /**
  * ManagementPermitJoinResponse.
  */
-public class ManagementPermitJoinResponse extends ZdoCommand implements Response {
+public class ManagementPermitJoinResponse extends ZdoCommand implements ZdoResponse {
     /**
      * The status.
      */

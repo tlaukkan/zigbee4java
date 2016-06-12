@@ -1,14 +1,14 @@
 package org.bubblecloud.zigbee.network.zdo.command;
 
 import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
-import org.bubblecloud.zigbee.simple.Response;
+import org.bubblecloud.zigbee.simple.ZdoResponse;
 
 import java.util.Arrays;
 
 /**
  * IeeeAddressResponse.
  */
-public class IeeeAddressResponse extends ZdoCommand implements Response {
+public class IeeeAddressResponse extends ZdoCommand implements ZdoResponse {
     /**
      * The status.
      */
@@ -49,6 +49,11 @@ public class IeeeAddressResponse extends ZdoCommand implements Response {
         this.startIndex = startIndex;
         this.numberOfAssociatedDevices = numberOfAssociatedDevices;
         this.associatedDeviceList = associatedDeviceList;
+    }
+
+    @Override
+    public int getSourceAddress() {
+        return networkAddress;
     }
 
     public int getStatus() {

@@ -1,12 +1,12 @@
 package org.bubblecloud.zigbee.network.zdo.command;
 
 import org.bubblecloud.zigbee.network.zdo.ZdoCommand;
-import org.bubblecloud.zigbee.simple.Response;
+import org.bubblecloud.zigbee.simple.ZdoResponse;
 
 /**
  * NodeDescriptorResponse.
  */
-public class NodeDescriptorResponse extends ZdoCommand implements Response {
+public class NodeDescriptorResponse extends ZdoCommand implements ZdoResponse {
     /**
      * this field indicates either SUCCESS or FAILURE.
      */
