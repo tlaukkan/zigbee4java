@@ -213,6 +213,7 @@ public final class SimpleZigBeeConsole {
     private String getDeviceSummary(final ZigBeeDevice device) {
         return StringUtils.leftPad(Integer.toString(device.getNetworkAddress()), 10) + "/"
                 + StringUtils.rightPad(Integer.toString(device.getEndpoint()), 3)
+                + " " + StringUtils.rightPad(device.getLabel()!= null ? device.getLabel() : "<label>", 20)
                 + " " + ZigBeeApiConstants.getDeviceName(device.getProfileId(),
                 device.getDeviceType(), device.getDeviceId());
     }
@@ -226,6 +227,9 @@ public final class SimpleZigBeeConsole {
     private ZigBeeDevice getDevice(LocalZigBeeApi zigbeeApi, final String deviceIdentifier) {
         for (final ZigBeeDevice zigBeeDevice : zigbeeApi.getNetworkState().getDevices()) {
             if (deviceIdentifier.equals(zigBeeDevice.getNetworkAddress() + "/" + zigBeeDevice.getEndpoint())) {
+                return zigBeeDevice;
+            }
+            if (deviceIdentifier.equals(zigBeeDevice.getLabel())) {
                 return zigBeeDevice;
             }
         }
@@ -638,7 +642,8 @@ public final class SimpleZigBeeConsole {
             }
 
             final String label = args[2];
-
+            device.setLabel(label);
+            zigbeeApi.getNetworkState().updateDevice(device);
             return zigbeeApi.describe(device, label);
         }
     }

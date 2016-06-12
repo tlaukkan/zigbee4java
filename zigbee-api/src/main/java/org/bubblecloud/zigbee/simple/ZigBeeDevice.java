@@ -46,7 +46,10 @@ public class ZigBeeDevice {
      * Output clusters.
      */
     private int[] outputClusterIds;
-
+    /**
+     * Label.
+     */
+    private String label;
     /**
      * Gets the device ID.
      * @return the device ID
@@ -207,12 +210,29 @@ public class ZigBeeDevice {
         this.manufacturerCode = manufacturerCode;
     }
 
+    /**
+     * Gets label.
+     * @return the label
+     */
+    public String getLabel() {
+        return label;
+    }
+
+    /**
+     * Sets label.
+     * @param label the label
+     */
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
     @Override
     public String toString() {
         return "ZigBeeDevice " +
-                "ieeeAddress=" + ieeeAddress +
+                "label=" + label +
                 ", networkAddress=" + networkAddress +
                 ", endpoint=" + endpoint +
+                ", ieeeAddress=" + ieeeAddress +
                 ", profileId=" + profileId +
                 ", deviceType=" + deviceType +
                 ", deviceId=" + deviceId +
