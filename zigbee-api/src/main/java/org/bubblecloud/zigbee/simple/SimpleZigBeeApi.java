@@ -350,7 +350,7 @@ public class SimpleZigBeeApi {
         command.setClusterId(clusterId);
 
         final WriteAttributeRecord record = new WriteAttributeRecord();
-        record.setAttributeIdentifier(0);
+        record.setAttributeIdentifier(attributeId);
         record.setAttributeDataType(attribute.getZigBeeType().getId());
         record.setAttributeValue(value);
         command.setRecords(Collections.singletonList(record));
