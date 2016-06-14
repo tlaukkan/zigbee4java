@@ -4,20 +4,20 @@ import org.apache.commons.lang.StringUtils;
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
-import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
-import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ConfigureReportingResponseCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesResponseCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReportAttributesCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.WriteAttributesResponseCommand;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.*;
 
 /**
@@ -141,6 +141,7 @@ public final class SimpleZigBeeConsole {
                     mainThread.interrupt();
                     mainThread.join();
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }));
@@ -1041,7 +1042,7 @@ public final class SimpleZigBeeConsole {
          * {@inheritDoc}
          */
         public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
-            if (args.length != 5) {
+            if (args.length != 4 && args.length != 5) {
                 return false;
             }
 
@@ -1474,9 +1475,9 @@ public final class SimpleZigBeeConsole {
                 return false;
             }
 
-            int clusterId = org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.IASZone.ID;
-            int attributeId = Attributes.IAS_CIE_ADDRESS.getId();
-
+//            int clusterId = org.bubblecloud.zigbee.api.cluster.impl.api.security_safety.IASZone.ID;
+//            int attributeId = Attributes.IAS_CIE_ADDRESS.getId();
+//
 //            final Cluster cluster = device.getCluster(clusterId);
 //            if (cluster == null) {
 //                print("Cluster not found.", out);
@@ -1533,7 +1534,7 @@ public final class SimpleZigBeeConsole {
                 value = Boolean.parseBoolean(stringValue);
                 break;
             case CharacterString:
-                value = new String(stringValue);
+                value = stringValue;
                 break;
             case Data16bit:
                 value = Integer.parseInt(stringValue);
@@ -1560,13 +1561,13 @@ public final class SimpleZigBeeConsole {
                 value = new ZToolAddress64(Long.parseLong(stringValue));
                 break;
             case LongCharacterString:
-                value = new String(stringValue);
+                value = stringValue;
                 break;
             case LongOctectString:
-                value = new String(stringValue);
+                value = stringValue;
                 break;
             case OctectString:
-                value = new String(stringValue);
+                value = stringValue;
                 break;
             case SemiPrecision:
                 throw new UnsupportedOperationException("SemiPrecision parsing not implemented");
