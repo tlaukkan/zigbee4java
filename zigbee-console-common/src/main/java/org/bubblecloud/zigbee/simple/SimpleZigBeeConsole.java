@@ -14,6 +14,7 @@ import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ConfigureReportingResponseCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesResponseCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReportAttributesCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.WriteAttributesResponseCommand;
 
 import java.io.*;
@@ -33,6 +34,11 @@ public final class SimpleZigBeeConsole {
      * The flag reflecting that shutdown is in process.
      */
     private boolean shutdown = false;
+
+    /**
+     * Whether to print attribute reports.
+     */
+    private boolean printAttributeReports = false;
 
     /**
      * Map of registered commands and their implementations.
@@ -116,7 +122,9 @@ public final class SimpleZigBeeConsole {
         zigBeeApi.getNetwork().addCommandListener(new CommandListener() {
             @Override
             public void commandReceived(Command command) {
-                //print("Received: " + command.toString(), System.out);
+                if (printAttributeReports && command instanceof ReportAttributesCommand) {
+                    print("Received: " + command.toString(), System.out);
+                }
             }
         });
 
@@ -882,41 +890,21 @@ public final class SimpleZigBeeConsole {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "listen [DEVICE] [CLUSTER] [ATTRIBUTE]";
+            return "listen";
         }
         /**
          * {@inheritDoc}
          */
         public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
-            if (args.length != 4) {
+            if (args.length != 1) {
                 return false;
             }
 
-            final ZigBeeDevice device = getDevice(zigbeeApi, args[1]);
-            final int clusterId;
-            try {
-                clusterId = Integer.parseInt(args[2]);
-            } catch (final NumberFormatException e) {
-                return false;
-            }
-            final int attributeId;
-            try {
-                attributeId = Integer.parseInt(args[3]);
-            } catch (final NumberFormatException e) {
-                return false;
-            }
+            printAttributeReports = true;
 
+            out.println("Printing received attribute reports.");
 
-//            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
-//
-//            if (reporter == null) {
-//                print("Attribute does not provide reports.", out);
-//                return true;
-//            }
-//
-//            reporter.addReportListener(consoleReportListener, false);
-
-            throw new UnsupportedOperationException();
+            return true;
         }
     }
 
@@ -934,40 +922,21 @@ public final class SimpleZigBeeConsole {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "unlisten [DEVICE] [CLUSTER] [ATTRIBUTE]";
+            return "unlisten";
         }
         /**
          * {@inheritDoc}
          */
         public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
-            if (args.length != 4) {
+            if (args.length != 1) {
                 return false;
             }
 
-            final ZigBeeDevice device = getDevice(zigbeeApi, args[1]);
-            final int clusterId;
-            try {
-                clusterId = Integer.parseInt(args[2]);
-            } catch (final NumberFormatException e) {
-                return false;
-            }
-            final int attributeId;
-            try {
-                attributeId = Integer.parseInt(args[3]);
-            } catch (final NumberFormatException e) {
-                return false;
-            }
+            printAttributeReports = false;
 
-//            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
-//
-//            if (reporter == null) {
-//                print("Attribute does not provide reports.", out);
-//            } else {
-//                reporter.removeReportListener(consoleReportListener, false);
-//            }
-//
-//            return true;
-            throw new UnsupportedOperationException();
+            out.println("Ignoring received attribute reports.");
+
+            return true;
         }
     }
 
