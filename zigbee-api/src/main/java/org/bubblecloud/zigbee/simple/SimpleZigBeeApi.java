@@ -310,7 +310,14 @@ public class SimpleZigBeeApi {
         return send(command);
     }
 
-
+    /**
+     * Starts warning.
+     * @param device the device
+     * @param mode the mode
+     * @param strobe the strobe
+     * @param duration the duration
+     * @return the command result future
+     */
     public Future<CommandResult> warn(ZigBeeDevice device, int mode, int strobe, int duration) {
         final StartWarningCommand command = new StartWarningCommand();
 
@@ -325,7 +332,14 @@ public class SimpleZigBeeApi {
 
     }
 
-
+    /**
+     * Writes attribute to device.
+     * @param device the device
+     * @param clusterId the cluster ID
+     * @param attributeId the attribute ID
+     * @param value the value
+     * @return the command result future
+     */
     public Future<CommandResult> write(ZigBeeDevice device, int clusterId, int attributeId, Object value) {
 
         final WriteAttributesCommand command = new WriteAttributesCommand();
