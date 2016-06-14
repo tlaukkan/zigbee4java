@@ -7,6 +7,7 @@ import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesResponseCommand;
 
 import java.io.*;
 import java.util.*;
@@ -1104,7 +1105,7 @@ public final class SimpleZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 4) {
                 return false;
             }
@@ -1128,27 +1129,16 @@ public final class SimpleZigBeeConsole {
                 return false;
             }
 
-//            final Cluster cluster = device.getCluster(clusterId);
-//            if (cluster == null) {
-//                print("Cluster not found.", out);
-//                return false;
-//            }
-//
-//            final Attribute attribute = cluster.getAttribute(attributeId);
-//            if (attribute == null) {
-//                print("Attribute not found.", out);
-//                return false;
-//            }
-//
-//            try {
-//                print(attribute.getName() + "=" + attribute.getValue(), out);
-//            } catch (ZigBeeClusterException e) {
-//                print("Failed to read attribute.", out);
-//                e.printStackTrace();
-//            }
-//
-//            return true;
-            throw new UnsupportedOperationException();
+            final CommandResult result = zigbeeApi.read(device, clusterId, attributeId).get();
+
+            if (result.isSuccess()) {
+                final ReadAttributesResponseCommand response = result.getResponse();
+                out.println("Attribute value: " + response.getRecords().get(0).getAttributeValue());
+                return true;
+            } else {
+                out.println("Error executing command: " + result.getMessage());
+                return true;
+            }
 
         }
     }

@@ -108,8 +108,8 @@ public class CommandResult {
      * Gets the received response.
      * @return the received response
      */
-    public Command getResponse() {
-        return response;
+    public <C extends Command> C getResponse() {
+        return (C) response;
     }
 
     /**

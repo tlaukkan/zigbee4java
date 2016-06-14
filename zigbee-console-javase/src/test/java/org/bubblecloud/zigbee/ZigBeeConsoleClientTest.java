@@ -1,5 +1,7 @@
 package org.bubblecloud.zigbee;
 
+import org.bubblecloud.zigbee.network.zcl.field.AttributeIdentifier;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesCommand;
 import org.bubblecloud.zigbee.simple.Command;
 import org.junit.Assert;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
@@ -7,6 +9,9 @@ import org.bubblecloud.zigbee.simple.CommandListener;
 import org.bubblecloud.zigbee.simple.ZigBeeDevice;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * ZigBeeConsoleApiClient integration test.
@@ -28,6 +33,14 @@ public class ZigBeeConsoleClientTest {
                 System.out.println(command);
             }
         });
+
+
+        final ReadAttributesCommand readAttributesCommand = new ReadAttributesCommand();
+        readAttributesCommand.setDestinationAddress(11022);
+        readAttributesCommand.setDestinationEndpoint(11);
+        readAttributesCommand.setClusterId(0);
+        readAttributesCommand.setIdentifiers(new ArrayList<AttributeIdentifier>(Arrays.asList(new AttributeIdentifier())));
+        client.sendCommand(readAttributesCommand);
 
         final ZigBeeDevice device = client.getZigBeeDevices().get(0);
 

@@ -1,12 +1,16 @@
 package org.bubblecloud.zigbee.simple;
 
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.api.cluster.impl.api.global.DefaultResponse;
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
+import org.bubblecloud.zigbee.network.zcl.field.AttributeIdentifier;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.color.control.MoveToColorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.LockDoorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.UnlockDoorCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.general.DefaultResponseCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.ias.wd.SquawkCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.ias.wd.StartWarningCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.level.control.MoveToLevelCommand;
@@ -317,6 +321,49 @@ public class SimpleZigBeeApi {
     }
 
     /**
+     * Reads attribute from device.
+     * @param device the device
+     * @param clusterId the cluster ID
+     * @param attributeId the attribute ID
+     * @return  the command result future
+     */
+    public Future<CommandResult> read(ZigBeeDevice device, int clusterId, int attributeId) {
+        final ReadAttributesCommand command = new ReadAttributesCommand();
+
+        command.setClusterId(clusterId);
+        final AttributeIdentifier attributeIdentifier = new AttributeIdentifier();
+        attributeIdentifier.setAttributeIdentifier(attributeId);
+        command.setIdentifiers(Collections.singletonList(attributeIdentifier));
+
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+
+        return send(command, new CommandResponseMatcher() {
+            @Override
+            public boolean isMatch(Command request, Command response) {
+                if (((ZclCommand) request).getTransactionId() != null) {
+                    final byte transactionId = ((ZclCommand) request).getTransactionId();
+                    if (new Byte(transactionId).equals(((ZclCommand) response).getTransactionId())) {
+                        if (response instanceof DefaultResponse) {
+                            if (((DefaultResponseCommand) response).getStatusCode() == 0) {
+                                return false; // Default response success another response incoming, skip this one.
+                            } else {
+                                return true; // Default response failure, return this one.
+                            }
+                        } else {
+                            return true; // This is the actual response, return this one.
+                        }
+                    } else {
+                        return false; // Transaction ID mismatch.
+                    }
+                } else {
+                    return false; // Transaction ID not set in original command.
+                }
+            }
+        });
+    }
+
+    /**
      * Permit joining.
      * @param enable enable
      */
@@ -355,6 +402,16 @@ public class SimpleZigBeeApi {
             responseMatcher = new ZdoResponseMatcher();
         }
 
+        return send(command, responseMatcher);
+    }
+
+    /**
+     * Sends ZCL command.
+     * @param command the command
+     * @param responseMatcher the response matcher.
+     * @return the command result future.
+     */
+    private Future<CommandResult> send(final Command command, final CommandResponseMatcher responseMatcher) {
         synchronized (command) {
             final CommandResultFuture future = new CommandResultFuture(this);
             final CommandExecution commandExecution = new CommandExecution(
