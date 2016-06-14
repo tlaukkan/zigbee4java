@@ -1,16 +1,20 @@
 package org.bubblecloud.zigbee.simple;
 
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
+import org.bubblecloud.zigbee.api.cluster.Cluster;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
 import org.bubblecloud.zigbee.api.cluster.impl.api.global.DefaultResponse;
 import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.field.AttributeIdentifier;
+import org.bubblecloud.zigbee.network.zcl.field.WriteAttributeRecord;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.color.control.MoveToColorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.LockDoorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.UnlockDoorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.DefaultResponseCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.general.WriteAttributesCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.ias.wd.SquawkCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.ias.wd.StartWarningCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.level.control.MoveToLevelCommand;
@@ -313,10 +317,34 @@ public class SimpleZigBeeApi {
         final int header = (strobe << 4) | mode;
         command.setHeader(header);
         command.setWarningDuration(duration);
+
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
         return send(command);
+
+    }
+
+
+    public Future<CommandResult> write(ZigBeeDevice device, int clusterId, int attributeId, Object value) {
+
+        final WriteAttributesCommand command = new WriteAttributesCommand();
+
+        final Cluster cluster = ZigBeeApiConstants.getCluster(ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION, clusterId);
+        final Attribute attribute = cluster.getAttribute(attributeId);
+
+        command.setClusterId(clusterId);
+
+        final WriteAttributeRecord record = new WriteAttributeRecord();
+        record.setAttributeIdentifier(0);
+        record.setAttributeDataType(attribute.getZigBeeType().getId());
+        record.setAttributeValue(value);
+        command.setRecords(Collections.singletonList(record));
+
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+
+        return send(command, new ZclCustomResponseMatcher());
 
     }
 
@@ -338,29 +366,7 @@ public class SimpleZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command, new CommandResponseMatcher() {
-            @Override
-            public boolean isMatch(Command request, Command response) {
-                if (((ZclCommand) request).getTransactionId() != null) {
-                    final byte transactionId = ((ZclCommand) request).getTransactionId();
-                    if (new Byte(transactionId).equals(((ZclCommand) response).getTransactionId())) {
-                        if (response instanceof DefaultResponse) {
-                            if (((DefaultResponseCommand) response).getStatusCode() == 0) {
-                                return false; // Default response success another response incoming, skip this one.
-                            } else {
-                                return true; // Default response failure, return this one.
-                            }
-                        } else {
-                            return true; // This is the actual response, return this one.
-                        }
-                    } else {
-                        return false; // Transaction ID mismatch.
-                    }
-                } else {
-                    return false; // Transaction ID not set in original command.
-                }
-            }
-        });
+        return send(command, new ZclCustomResponseMatcher());
     }
 
     /**

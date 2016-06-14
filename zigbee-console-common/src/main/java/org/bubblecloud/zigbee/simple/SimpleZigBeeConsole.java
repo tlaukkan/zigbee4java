@@ -4,10 +4,14 @@ import org.apache.commons.lang.StringUtils;
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
+import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
+import org.bubblecloud.zigbee.network.zcl.ZclUtil;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesResponseCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.general.WriteAttributesResponseCommand;
 
 import java.io.*;
 import java.util.*;
@@ -189,7 +193,8 @@ public final class SimpleZigBeeConsole {
                 print(consoleCommand.getSyntax(), out);
             }
         } catch (Exception e) {
-            out.println("Error executing on command: " + e.getMessage());
+            out.println("Error executing command: " + e);
+            e.printStackTrace(out);
         }
     }
 
@@ -1133,7 +1138,15 @@ public final class SimpleZigBeeConsole {
 
             if (result.isSuccess()) {
                 final ReadAttributesResponseCommand response = result.getResponse();
-                out.println("Attribute value: " + response.getRecords().get(0).getAttributeValue());
+
+                final int statusCode = response.getRecords().get(0).getStatus();
+                if (statusCode == 0) {
+                    out.println("Attribute value: " + response.getRecords().get(0).getAttributeValue());
+                } else {
+                    final Status status = Status.getStatus((byte) statusCode);
+                    out.println("Attribute value read error: " + status);
+                }
+
                 return true;
             } else {
                 out.println("Error executing command: " + result.getMessage());
@@ -1162,7 +1175,7 @@ public final class SimpleZigBeeConsole {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 5) {
                 return false;
             }
@@ -1186,96 +1199,110 @@ public final class SimpleZigBeeConsole {
                 return false;
             }
 
-//            final Cluster cluster = device.getCluster(clusterId);
-//            if (cluster == null) {
-//                print("Cluster not found.", out);
-//                return false;
-//            }
-//
-//            final Attribute attribute = cluster.getAttribute(attributeId);
-//            if (attribute == null) {
-//                print("Attribute not found.", out);
-//                return false;
-//            }
-//
-//            if(!attribute.isWritable()) {
-//                print(attribute.getName() + " is not writable", out);
-//            	return true;
-//            }
-//
-//            try {
-//            	Object val = null;
-//                //TODO Handle other value types.
-//            	switch(attribute.getZigBeeType()) {
-//                    case Bitmap16bit:
-//                        break;
-//                    case Bitmap24bit:
-//                        break;
-//                    case Bitmap32bit:
-//                        break;
-//                    case Bitmap8bit:
-//                        break;
-//                    case Boolean:
-//                        val = Boolean.parseBoolean(args[4]);
-//                        break;
-//                    case CharacterString:
-//                        val = new String(args[4]);
-//                        break;
-//                    case Data16bit:
-//                        break;
-//                    case Data24bit:
-//                        break;
-//                    case Data32bit:
-//                        break;
-//                    case Data8bit:
-//                        break;
-//                    case DoublePrecision:
-//                        break;
-//                    case Enumeration16bit:
-//                        break;
-//                    case Enumeration8bit:
-//                        break;
-//                    case IEEEAddress:
-//                        break;
-//                    case LongCharacterString:
-//                        break;
-//                    case LongOctectString:
-//                        break;
-//                    case OctectString:
-//                        break;
-//                    case SemiPrecision:
-//                        break;
-//                    case SignedInteger16bit:
-//                        break;
-//                    case SignedInteger24bit:
-//                        break;
-//                    case SignedInteger32bit:
-//                        break;
-//                    case SignedInteger8bit:
-//                        break;
-//                    case SinglePrecision:
-//                        break;
-//                    case UnsignedInteger16bit:
-//                        val = Integer.parseInt(args[4]);
-//                        break;
-//                    case UnsignedInteger24bit:
-//                        break;
-//                    case UnsignedInteger32bit:
-//                        break;
-//                    case UnsignedInteger8bit:
-//                        break;
-//                    default:
-//                        break;
-//            	}
-//                attribute.setValue(val);
-//                print("Attribute value written.", out);
-//            } catch (ZigBeeClusterException e) {
-//                print("Failed to write attribute.", out);
-//                e.printStackTrace();
-//            }
-//
-//            return true;
-            throw new UnsupportedOperationException();
+
+            final Cluster cluster = ZigBeeApiConstants.getCluster(ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION, clusterId);
+            final Attribute attribute = cluster.getAttribute(attributeId);
+
+            Object value = null;
+            switch(attribute.getZigBeeType()) {
+                case Bitmap16bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case Bitmap24bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case Bitmap32bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case Bitmap8bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case Boolean:
+                    value = Boolean.parseBoolean(args[4]);
+                    break;
+                case CharacterString:
+                    value = new String(args[4]);
+                    break;
+                case Data16bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case Data24bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case Data32bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case Data8bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case DoublePrecision:
+                    value = Double.parseDouble(args[4]);
+                    break;
+                case Enumeration16bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case Enumeration8bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case IEEEAddress:
+                    value =  new ZToolAddress64(Long.parseLong(args[4]));
+                    break;
+                case LongCharacterString:
+                    value = new String(args[4]);
+                    break;
+                case LongOctectString:
+                    value = new String(args[4]);
+                    break;
+                case OctectString:
+                    value = new String(args[4]);
+                    break;
+                case SemiPrecision:
+                    throw new UnsupportedOperationException("SemiPrecision parsing not implemented");
+                case SignedInteger16bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case SignedInteger24bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case SignedInteger32bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case SignedInteger8bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case SinglePrecision:
+                    throw new UnsupportedOperationException("SinglePrecision parsing not implemented");
+                case UnsignedInteger16bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case UnsignedInteger24bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case UnsignedInteger32bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                case UnsignedInteger8bit:
+                    value = Integer.parseInt(args[4]);
+                    break;
+                default:
+                    break;
+            }
+
+            final CommandResult result = zigbeeApi.write(device, clusterId, attributeId, value).get();
+            if (result.isSuccess()) {
+                final WriteAttributesResponseCommand response = result.getResponse();
+                final int statusCode = response.getRecords().get(0).getStatus();
+                if (statusCode == 0) {
+                    out.println("Attribute value write success.");
+                } else {
+                    final Status status = Status.getStatus((byte) statusCode);
+                    out.println("Attribute value write error: " + status);
+                }
+                return true;
+            } else {
+                out.println("Error executing command: " + result.getMessage());
+                return true;
+            }
         }
     }
 
