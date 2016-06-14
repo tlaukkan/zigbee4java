@@ -10,6 +10,10 @@ import org.bubblecloud.zigbee.network.zcl.ZclListItemField;
  */
 public class AttributeReportingConfigurationRecord implements ZclListItemField {
     /**
+     * The direction.
+     */
+    private int direction;
+    /**
      * The attribute identifier.
      */
     private int attributeIdentifier;
@@ -33,6 +37,22 @@ public class AttributeReportingConfigurationRecord implements ZclListItemField {
      * The maximum reporting interval.
      */
     private int timeoutPeriod;
+
+    /**
+     * Gets direction.
+     * @return the direction
+     */
+    public int getDirection() {
+        return direction;
+    }
+
+    /**
+     * Sets direction.
+     * @param direction the direction
+     */
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
 
     /**
      * Gets attribute data type.
@@ -132,24 +152,52 @@ public class AttributeReportingConfigurationRecord implements ZclListItemField {
 
     @Override
     public void serialize(final ZBSerializer serializer) {
-        serializer.appendShort((short) attributeIdentifier);
-        serializer.appendByte((byte) attributeDataType);
-        serializer.appendShort((short) minimumReportingInterval);
-        serializer.appendShort((short) maximumReportingInterval);
-        final ZigBeeType type = ZigBeeType.getType((byte) attributeDataType);
-        serializer.appendZigBeeType(reportableChange, type);
-        serializer.appendShort((short) timeoutPeriod);
+        if (direction == 1) {
+            //CASE OF ATTRIBUTE CONFIGURATION SENT TO CLIENT
+            //Size of: Direction + Attribute Id + Timeout
+            serializer.append_byte((byte) direction);
+            serializer.appendShort((short) attributeIdentifier);
+            serializer.appendShort((short) timeoutPeriod);
+        } else if (!ZigBeeType.getType((byte) attributeDataType).isAnalog()) {
+            //CASE OF ATTRIBUTE CONFIGURATION SENT TO SERVER OF A DISCRETE ATTRIBUTE
+            //Size of: Direction + Attribute Id + Data Type + Minimum + Maxium
+            serializer.append_byte((byte) direction);
+            serializer.appendShort((short) attributeIdentifier);
+            serializer.appendByte((byte) attributeDataType);
+            serializer.appendShort((short) minimumReportingInterval);
+            serializer.appendShort((short) maximumReportingInterval);
+        } else {
+            //CASE OF ATTRIBUTE CONFIGURATION SENT TO SERVER OF A ANALOG ATTRIBUTE
+            //Size of: Direction + Attribute Id + Data Type + Minimum + Maxium + Change
+            serializer.append_byte((byte) direction);
+            serializer.appendShort((short) attributeIdentifier);
+            serializer.appendByte((byte) attributeDataType);
+            serializer.appendShort((short) minimumReportingInterval);
+            serializer.appendShort((short) maximumReportingInterval);
+            serializer.appendZigBeeType(reportableChange, ZigBeeType.getType((byte) attributeDataType));
+        }
     }
 
     @Override
     public void deserialize(final ZBDeserializer deserializer) {
-        attributeIdentifier = deserializer.read_short() & (0xFFFF);
-        attributeDataType = deserializer.read_byte() & (0xFF);
-        minimumReportingInterval = deserializer.read_uint16bit() & (0xFF);
-        maximumReportingInterval = deserializer.read_uint16bit() & (0xFF);
-        final ZigBeeType type = ZigBeeType.getType((byte) attributeDataType);
-        reportableChange = deserializer.readZigBeeType(type);
-        timeoutPeriod = deserializer.read_uint16bit() & (0xFF);
+        direction = deserializer.read_byte() & (0xFF);
+        if (direction == 1) {
+            //CASE OF ATTRIBUTE CONFIGURATION SENT TO CLIENT
+            //Size of: Direction + Attribute Id + Timeout
+            attributeIdentifier = deserializer.read_short() & (0xFFFF);
+            timeoutPeriod = deserializer.read_uint16bit() & (0xFF);
+        } else {
+            attributeIdentifier = deserializer.read_short() & (0xFFFF);
+            attributeDataType = deserializer.read_byte() & (0xFF);
+            minimumReportingInterval = deserializer.read_uint16bit() & (0xFF);
+            maximumReportingInterval = deserializer.read_uint16bit() & (0xFF);
+            if (ZigBeeType.getType((byte) attributeDataType).isAnalog()) {
+                //CASE OF ATTRIBUTE CONFIGURATION SENT TO SERVER OF A ANALOG ATTRIBUTE
+                //Size of: Direction + Attribute Id + Data Type + Minimum + Maxium + Change
+                final ZigBeeType type = ZigBeeType.getType((byte) attributeDataType);
+                reportableChange = deserializer.readZigBeeType(type);
+            }
+        }
     }
 
     @Override

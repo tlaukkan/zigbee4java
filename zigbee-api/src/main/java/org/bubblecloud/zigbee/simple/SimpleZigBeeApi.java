@@ -8,10 +8,12 @@ import org.bubblecloud.zigbee.network.impl.ZigBeeException;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress16;
 import org.bubblecloud.zigbee.network.zcl.ZclCommand;
 import org.bubblecloud.zigbee.network.zcl.field.AttributeIdentifier;
+import org.bubblecloud.zigbee.network.zcl.field.AttributeReportingConfigurationRecord;
 import org.bubblecloud.zigbee.network.zcl.field.WriteAttributeRecord;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.color.control.MoveToColorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.LockDoorCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.door.lock.UnlockDoorCommand;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ConfigureReportingCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.DefaultResponseCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.WriteAttributesCommand;
@@ -367,7 +369,7 @@ public class SimpleZigBeeApi {
      * @param device the device
      * @param clusterId the cluster ID
      * @param attributeId the attribute ID
-     * @return  the command result future
+     * @return the command result future
      */
     public Future<CommandResult> read(ZigBeeDevice device, int clusterId, int attributeId) {
         final ReadAttributesCommand command = new ReadAttributesCommand();
@@ -376,6 +378,40 @@ public class SimpleZigBeeApi {
         final AttributeIdentifier attributeIdentifier = new AttributeIdentifier();
         attributeIdentifier.setAttributeIdentifier(attributeId);
         command.setIdentifiers(Collections.singletonList(attributeIdentifier));
+
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+
+        return send(command, new ZclCustomResponseMatcher());
+    }
+
+    /**
+     * Configures attribute reporting.
+     * @param device the device
+     * @param clusterId the cluster ID
+     * @param attributeId the attribute ID
+     * @param minInterval the minimum interval
+     * @param maxInterval the maximum interval
+     * @param reportableChange the reportable change
+     * @return the command result future
+     */
+    public Future<CommandResult> report(ZigBeeDevice device, int clusterId, int attributeId, int minInterval, int maxInterval, Object reportableChange) {
+        final ConfigureReportingCommand command = new ConfigureReportingCommand();
+
+        final Cluster cluster = ZigBeeApiConstants.getCluster(ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION, clusterId);
+        final Attribute attribute = cluster.getAttribute(attributeId);
+
+        command.setClusterId(clusterId);
+
+        final AttributeReportingConfigurationRecord record = new AttributeReportingConfigurationRecord();
+        record.setDirection(0);
+        record.setAttributeIdentifier(attributeId);
+        record.setAttributeDataType(attribute.getZigBeeType().getId());
+        record.setMinimumReportingInterval(minInterval);
+        record.setMinimumReportingInterval(maxInterval);
+        record.setReportableChange(reportableChange);
+        record.setTimeoutPeriod(0);
+        command.setRecords(Collections.singletonList(record));
 
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());

@@ -143,7 +143,7 @@ public class ZclCommandProtocolTest {
         data.setMaximumReportingInterval(3);
         data.setAttributeDataType(ZigBeeType.UnsignedInteger8bit.getId());
         data.setReportableChange(1);
-        data.setTimeoutPeriod(4);
+        data.setTimeoutPeriod(0);
         list.add(data);
         command.setRecords(list);
         testSerialization(command);

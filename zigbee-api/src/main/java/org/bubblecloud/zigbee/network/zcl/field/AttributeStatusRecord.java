@@ -79,8 +79,10 @@ public class AttributeStatusRecord implements ZclListItemField {
     @Override
     public void deserialize(final ZBDeserializer deserializer) {
         status = deserializer.read_byte() & (0xFF);
-        direction = deserializer.read_boolean();
-        attributeIdentifier = deserializer.read_short() & (0xFFFF);
+        if (status != 0) {
+            direction = deserializer.read_boolean();
+            attributeIdentifier = deserializer.read_short() & (0xFFFF);
+        }
     }
 
     @Override

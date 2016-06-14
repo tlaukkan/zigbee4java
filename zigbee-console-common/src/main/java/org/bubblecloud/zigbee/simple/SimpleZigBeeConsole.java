@@ -4,12 +4,15 @@ import org.apache.commons.lang.StringUtils;
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.Reporter;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Status;
+import org.bubblecloud.zigbee.api.cluster.impl.api.core.ZigBeeType;
 import org.bubblecloud.zigbee.api.cluster.impl.attribute.Attributes;
 import org.bubblecloud.zigbee.network.SerialPort;
 import org.bubblecloud.zigbee.network.model.IEEEAddress;
 import org.bubblecloud.zigbee.network.packet.ZToolAddress64;
 import org.bubblecloud.zigbee.network.zcl.ZclUtil;
+import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ConfigureReportingResponseCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.ReadAttributesResponseCommand;
 import org.bubblecloud.zigbee.network.zcl.protocol.command.general.WriteAttributesResponseCommand;
 
@@ -982,13 +985,13 @@ public final class SimpleZigBeeConsole {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "subscribe [DEVICE] [CLUSTER] [ATTRIBUTE] [MIN-INTERVAL] [MAX-INTERVAL]";
+            return "subscribe [DEVICE] [CLUSTER] [ATTRIBUTE] [MIN-INTERVAL] [MAX-INTERVAL] [REPORTABLE-CHANGE]";
         }
         /**
          * {@inheritDoc}
          */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
-            if (args.length != 6) {
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
+            if (args.length != 6 && args.length != 7) {
                 return false;
             }
 
@@ -1023,20 +1026,29 @@ public final class SimpleZigBeeConsole {
                 return false;
             }
 
-//            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
-//
-//            if (reporter == null) {
-//                print("Attribute does not provide reports.", out);
-//                return true;
-//            }
-//
-//            reporter.setMinimumReportingInterval(minInterval);
-//            reporter.setMaximumReportingInterval(maxInterval);
-//
-//            reporter.addReportListener(consoleReportListener, true);
-//
-//            return true;
-            throw new UnsupportedOperationException();
+            final Cluster cluster = ZigBeeApiConstants.getCluster(ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION, clusterId);
+            final Attribute attribute = cluster.getAttribute(attributeId);
+            Object reportableChange = null;
+            if (args.length > 6) {
+                reportableChange = parseValue(args[6], attribute.getZigBeeType());
+            }
+
+            final CommandResult result = zigbeeApi.report(device, clusterId, attributeId, minInterval, maxInterval, reportableChange).get();
+            if (result.isSuccess()) {
+                final ConfigureReportingResponseCommand response = result.getResponse();
+                final int statusCode = response.getRecords().get(0).getStatus();
+                if (statusCode == 0) {
+                    out.println("Attribute value configure reporting success.");
+                } else {
+                    final Status status = Status.getStatus((byte) statusCode);
+                    out.println("Attribute value configure reporting error: " + status);
+                }
+                return true;
+            } else {
+                out.println("Error executing command: " + result.getMessage());
+                return true;
+            }
+
         }
     }
 
@@ -1054,13 +1066,13 @@ public final class SimpleZigBeeConsole {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "unsubscribe [DEVICE] [CLUSTER] [ATTRIBUTE]";
+            return "unsubscribe [DEVICE] [CLUSTER] [ATTRIBUTE] [REPORTABLE-CHANGE]";
         }
         /**
          * {@inheritDoc}
          */
-        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
-            if (args.length != 4) {
+        public boolean process(final LocalZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
+            if (args.length != 5) {
                 return false;
             }
 
@@ -1078,15 +1090,29 @@ public final class SimpleZigBeeConsole {
                 return false;
             }
 
-            throw new UnsupportedOperationException();
-            /*
-            final Reporter reporter = device.getCluster(clusterId).getAttribute(attributeId).getReporter();
-            if (reporter == null) {
-                print("Attribute does not provide reports.", out);
-            } else {
-                reporter.removeReportListener(consoleReportListener, true);
+            final Cluster cluster = ZigBeeApiConstants.getCluster(ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION, clusterId);
+            final Attribute attribute = cluster.getAttribute(attributeId);
+            Object reportableChange = null;
+            if (args.length > 4) {
+                reportableChange = parseValue(args[4], attribute.getZigBeeType());
             }
-            */
+
+            final CommandResult result = zigbeeApi.report(device, clusterId, attributeId, 0, 0xffff, reportableChange).get();
+            if (result.isSuccess()) {
+                final ConfigureReportingResponseCommand response = result.getResponse();
+                final int statusCode = response.getRecords().get(0).getStatus();
+                if (statusCode == 0) {
+                    out.println("Attribute value configure reporting success.");
+                } else {
+                    final Status status = Status.getStatus((byte) statusCode);
+                    out.println("Attribute value configure reporting error: " + status);
+                }
+                return true;
+            } else {
+                out.println("Error executing command: " + result.getMessage());
+                return true;
+            }
+
 
         }
     }
@@ -1203,90 +1229,7 @@ public final class SimpleZigBeeConsole {
             final Cluster cluster = ZigBeeApiConstants.getCluster(ZigBeeApiConstants.PROFILE_ID_HOME_AUTOMATION, clusterId);
             final Attribute attribute = cluster.getAttribute(attributeId);
 
-            Object value = null;
-            switch(attribute.getZigBeeType()) {
-                case Bitmap16bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case Bitmap24bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case Bitmap32bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case Bitmap8bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case Boolean:
-                    value = Boolean.parseBoolean(args[4]);
-                    break;
-                case CharacterString:
-                    value = new String(args[4]);
-                    break;
-                case Data16bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case Data24bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case Data32bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case Data8bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case DoublePrecision:
-                    value = Double.parseDouble(args[4]);
-                    break;
-                case Enumeration16bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case Enumeration8bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case IEEEAddress:
-                    value =  new ZToolAddress64(Long.parseLong(args[4]));
-                    break;
-                case LongCharacterString:
-                    value = new String(args[4]);
-                    break;
-                case LongOctectString:
-                    value = new String(args[4]);
-                    break;
-                case OctectString:
-                    value = new String(args[4]);
-                    break;
-                case SemiPrecision:
-                    throw new UnsupportedOperationException("SemiPrecision parsing not implemented");
-                case SignedInteger16bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case SignedInteger24bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case SignedInteger32bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case SignedInteger8bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case SinglePrecision:
-                    throw new UnsupportedOperationException("SinglePrecision parsing not implemented");
-                case UnsignedInteger16bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case UnsignedInteger24bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case UnsignedInteger32bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                case UnsignedInteger8bit:
-                    value = Integer.parseInt(args[4]);
-                    break;
-                default:
-                    break;
-            }
+            final Object value = parseValue(args[4], attribute.getZigBeeType());
 
             final CommandResult result = zigbeeApi.write(device, clusterId, attributeId, value).get();
             if (result.isSuccess()) {
@@ -1596,4 +1539,97 @@ public final class SimpleZigBeeConsole {
         }
     }
 
+    /**
+     * Parses string value to Object.
+     * @param stringValue the string value
+     * @param zigBeeType the ZigBee type
+     * @return the value Object
+     */
+    private Object parseValue(String stringValue, ZigBeeType zigBeeType) {
+        Object value = null;
+        switch (zigBeeType) {
+            case Bitmap16bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case Bitmap24bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case Bitmap32bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case Bitmap8bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case Boolean:
+                value = Boolean.parseBoolean(stringValue);
+                break;
+            case CharacterString:
+                value = new String(stringValue);
+                break;
+            case Data16bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case Data24bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case Data32bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case Data8bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case DoublePrecision:
+                value = Double.parseDouble(stringValue);
+                break;
+            case Enumeration16bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case Enumeration8bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case IEEEAddress:
+                value = new ZToolAddress64(Long.parseLong(stringValue));
+                break;
+            case LongCharacterString:
+                value = new String(stringValue);
+                break;
+            case LongOctectString:
+                value = new String(stringValue);
+                break;
+            case OctectString:
+                value = new String(stringValue);
+                break;
+            case SemiPrecision:
+                throw new UnsupportedOperationException("SemiPrecision parsing not implemented");
+            case SignedInteger16bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case SignedInteger24bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case SignedInteger32bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case SignedInteger8bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case SinglePrecision:
+                throw new UnsupportedOperationException("SinglePrecision parsing not implemented");
+            case UnsignedInteger16bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case UnsignedInteger24bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case UnsignedInteger32bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            case UnsignedInteger8bit:
+                value = Integer.parseInt(stringValue);
+                break;
+            default:
+                break;
+        }
+        return value;
+    }
 }
