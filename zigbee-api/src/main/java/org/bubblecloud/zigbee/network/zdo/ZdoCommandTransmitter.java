@@ -172,6 +172,13 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
                         getZToolAddress16(userDescriptorRequest.getDestinationAddress()),
                         getZToolAddress16(userDescriptorRequest.getNetworkAddressOfInterest())));
             }
+            if (command instanceof ManagementLqiRequest) {
+                final ManagementLqiRequest managementLqiRequest = (ManagementLqiRequest) command;
+                networkManager.sendCommand(new ZDO_MGMT_LQI_REQ(
+                        getZToolAddress16(managementLqiRequest.getNetworkAddress()),
+                        managementLqiRequest.getStartIndex()
+                ));
+            }
         }
     }
 
@@ -356,6 +363,35 @@ public class ZdoCommandTransmitter implements AsynchronousCommandListener {
                     message.Status
             );
             notifyCommandReceived(command);
+            return;
+        }
+
+        if (packet.getCMD().get16BitValue() == ZToolCMD.ZDO_MGMT_LQI_RSP) {
+            final ZDO_MGMT_LQI_RSP message = (ZDO_MGMT_LQI_RSP) packet;
+
+            final ZDO_MGMT_LQI_RSP.NeighborLqiListItemClass[] neighborItems = message.getNeighborLqiList();
+            final ManagementLqiResponse.Neighbor[] neighbors = new ManagementLqiResponse.Neighbor[neighborItems.length];
+            for (int i = 0; i < neighbors.length; i++) {
+                neighbors[i] = new ManagementLqiResponse.Neighbor(
+                        neighborItems[i].Depth,
+                        neighborItems[i].ExtendedPanID,
+                        neighborItems[i].ExtendedAddress.getLong(),
+                        neighborItems[i].NetworkAddress.get16BitValue(),
+                        neighborItems[i].Reserved_Relationship_RxOnWhenIdle_DeviceType,
+                        neighborItems[i].Reserved_PermitJoining,
+                        neighborItems[i].RxLQI);
+            }
+
+            final ManagementLqiResponse command = new ManagementLqiResponse(
+                    message.Status,
+                    message.SrcAddress.get16BitValue(),
+                    message.getStartIndex(),
+                    message.getNeighborLQICount(),
+                    neighbors
+            );
+
+            notifyCommandReceived(command);
+
             return;
         }
     }
