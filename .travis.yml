@@ -8,7 +8,7 @@ install:
 - git clone https://github.com/$TRAVIS_REPO_SLUG.git $HOME/$TRAVIS_REPO_SLUG
 - cd $HOME/$TRAVIS_REPO_SLUG
 - git checkout -qf $TRAVIS_COMMIT
-script: mvn cobertura:cobertura coveralls:report
+script: mvn clean test jacoco:report coveralls:report
 notifications:
   email:
   - tommi.s.e.laukkanen@gmail.com
