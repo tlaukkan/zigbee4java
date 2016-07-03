@@ -123,8 +123,8 @@
                 <version>0.7.6.201602180812</version>
                 <configuration>
                     <excludes>
-                        <exclude>/org/bubblecloud/zigbee/api/**</exclude>
-                        <exclude>/org/bubblecloud/zigbee/network/**</exclude>
+                        <exclude>org/bubblecloud/zigbee/api/**/*.class</exclude>
+                        <exclude>org/bubblecloud/zigbee/network/**/*.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
