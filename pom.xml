@@ -4,7 +4,7 @@
 
     <groupId>org.bubblecloud.zigbee4java</groupId>
     <artifactId>zigbee4java</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -16,7 +16,7 @@
         <url>https://github.com/tlaukkan/zigbee4java.git</url>
         <connection>scm:git:https://github.com/tlaukkan/zigbee4java.git</connection>
         <developerConnection>scm:git:https://github.com/tlaukkan/zigbee4java.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>zigbee4java-3.0.0</tag>
     </scm>
 
     <repositories>
