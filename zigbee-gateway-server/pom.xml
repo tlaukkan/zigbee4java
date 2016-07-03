@@ -27,6 +27,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.bubblecloud.zigbee4java</groupId>
+            <artifactId>zigbee-api</artifactId>
+            <version>3.0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.briandilley.jsonrpc4j</groupId>
             <artifactId>jsonrpc4j</artifactId>
             <version>1.2.0</version>
