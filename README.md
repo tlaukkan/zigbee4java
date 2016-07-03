@@ -42,7 +42,7 @@ Hardware
 
 This library provides API to ZigBee network through CC2531 dongle.
 
-NOTE: Support for other dongles can be implemented by implementing ZigBeeDongle interface.
+NOTE: To support other dongles it is necessary to implement ZigBeeDongle interface.
 
 Example hardware that can be controlled with zigbee4java:
 
