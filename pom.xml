@@ -49,10 +49,10 @@
                 </property>
             </activation>
             <modules>
-                <module>zigbee-api</module>
+                <module>legacy-modules/zigbee-api</module>
                 <module>zigbee-serial-android</module>
-                <module>zigbee-console-android</module>
-                <module>zigbee-console-common</module>
+                <module>legacy-modules/zigbee-console-android</module>
+                <module>legacy-modules/zigbee-console-common</module>
             </modules>
         </profile>
         <profile>
@@ -65,10 +65,10 @@
                 </property>
             </activation>
             <modules>
-                <module>zigbee-api</module>
+                <module>legacy-modules/zigbee-api</module>
                 <module>zigbee-serial-javase</module>
-                <module>zigbee-console-javase</module>
-                <module>zigbee-console-common</module>
+                <module>legacy-modules/zigbee-console-javase</module>
+                <module>legacy-modules/zigbee-console-common</module>
             </modules>
         </profile>
         <profile>
@@ -81,11 +81,15 @@
                 </property>
             </activation>
             <modules>
-                <module>zigbee-api</module>
+                <module>zigbee-common</module>
+                <module>zigbee-dongle-cc2531</module>
+                <module>zigbee-gateway-client</module>
+                <module>zigbee-gateway-server</module>
+                <module>legacy-modules/zigbee-api</module>
                 <module>zigbee-serial-javase</module>
                 <module>zigbee-serial-android</module>
-                <module>zigbee-console-javase</module>
-                <module>zigbee-console-common</module>
+                <module>legacy-modules/zigbee-console-javase</module>
+                <module>legacy-modules/zigbee-console-common</module>
             </modules>
         </profile>
     </profiles>

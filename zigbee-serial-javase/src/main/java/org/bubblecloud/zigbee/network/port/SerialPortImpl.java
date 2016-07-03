@@ -3,7 +3,7 @@ package org.bubblecloud.zigbee.network.port;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
-import org.bubblecloud.zigbee.network.SerialPort;
+import org.bubblecloud.zigbee.v3.SerialPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

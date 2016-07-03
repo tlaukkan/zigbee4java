@@ -1,0 +1,79 @@
+# Modules
+
+## New gateway modules
+
+
+### zigbee-common
+
+- Common classes, including serial port implementations.
+
+### zigbee-cc2531
+
+- CC2531 related implementation.
+
+### zigbee-gateway-server
+
+- ZigBee gateway offers combined rest interface and local console.
+
+### zigbee-gateway-client
+
+- ZigBee client offers remote client API to rest interface and command console.
+
+
+## Legacy gateway modules
+
+### zigbee-api
+
+- The legacy ZigBee API and related tightly bound CC2531 cluster implementations.
+
+### zigbee-console-common
+
+- The legacy console common classes.
+
+### zigbee-console-javase
+
+- The legacy console javase classes.
+
+### zigbee-console-android
+
+- The legacy console android classes.
+
+
+# Class hierarchy
+
+ZigBeeApiRemote extends SimpleZigBeeApi
+- uses ZigBeeClient as ZigBeeDongle and ZigBeeNetworkState implementation for SimpleZigBeeApi
+
+ZigBeeApiClient implements ZigBeeDongle, ZigBeeNetworkState
+- uses ZigBeeRpcApi as ZigBeeDongle and ZigBeeNetworkState delegate
+
+---
+
+ZigBeeApiServer implements ZigBeeRpcApi
+- uses ZigBeeLocal
+
+---
+
+ZigBeeApiLocal extends SimpleZigBeeApi
+- uses ZigBee dongle implementation
+- uses ZigBeeNetworkState implementation
+- uses ZigBeeNetworkDiscoverer
+
+SimpleZigBeeApi
+- uses ZigBeeNetwork implementation
+
+ZigBeeNetworkStateImpl implements ZigBeeNetworkState
+- Simple in memory implementation of ZigBeeNetworkState
+
+ZigBeeDongleTiCc2531Impl implements ZigBeeDongle
+- uses legacy ZigBeeNetworkManager to implement dongle interface
+
+ZigBeeDongle implements ZigBeeNetwork
+- Hardware dongle interface
+
+ZigBeeNetworkState
+- Devices in the network
+
+ZigBeeNetwork
+- Command input and output
+
