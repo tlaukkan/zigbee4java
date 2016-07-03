@@ -39,6 +39,8 @@ Hardware
 
 This library provides API to ZigBee network through CC2531 dongle.
 
+NOTE: Support for other dongles can be implemented by implementing ZigBeeDongle interface.
+
 Example hardware that can be controlled with zigbee4java:
 
 1. Philips Hue Bulb
@@ -93,12 +95,6 @@ Maven:
       <artifactId>zigbee-api</artifactId>
       <version>2.0.11</version>
       <type>pom</type>
-    </dependency>
-
-    <dependency>
-        <groupId>org.bubblecloud.zigbee4java</groupId>
-        <artifactId>zigbee-serial-javase</artifactId>
-        <version>2.0.11</version>
     </dependency>
 </dependencies>
 ```
