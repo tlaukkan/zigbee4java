@@ -7,7 +7,10 @@
 ZigBee API for Java
 ===================
 
-Zigbee API for Java provides simple Java interface to ZigBee network.
+ZigBee API for Java provides simple Java interface to ZigBee network. ZigBee API for Java version 3 can be used in 
+embedded or gateway mode. In gateway mode a gateway process is run to provide simultaneous administrator shell access
+and JSON RPC interface to ZigBee network. ZigBee Gateway Client library can be used to connect to gateway.
+See 'Usage'-chapter for examples. 
 
 ZigBee API for Java is originally a fork of ZB4OSGI.
 
@@ -83,33 +86,6 @@ Serial-comm and zigbee4java dependencies can be found from the following reposit
 </repositories>
 ```
 
-Using as a Dependency
----------------------
-
-Maven:
-
-```
-<dependencies>
-    <dependency>
-      <groupId>org.bubblecloud.zigbee4java</groupId>
-      <artifactId>zigbee-api</artifactId>
-      <version>2.0.11</version>
-      <type>pom</type>
-    </dependency>
-</dependencies>
-```
-
-Gradle:
-
-```
-dependencies
-{
-    compile 'org.bubblecloud.zigbee:zigbee-api:2.0.10'
-    compile 'org.bubblecloud.zigbee:zigbee-serial-javase:2.0.10'
-}
-```
-
-
 Building from Sources
 ---------------------
 
@@ -123,88 +99,128 @@ mvn clean install
 
 Gradle:
 
+NOTE: Gradle build is currently broken in 3.0.
+
 ```
 git clone https://github.com/tlaukkan/zigbee4java.git zigbee4java
 cd zigbee4java
 gradlew clean build
 ```
 
+Embedded Usage
+--------------
 
-Usage
------
-
-Simple usage example:
-
-```
-final SerialPortImpl serialPort = new SerialPortImpl("/dev/ttyACM0", 38400);
-final ZigBeeApi zigBeeApi = new ZigBeeApi(serialPort, 4951, 11, false, DiscoveryMode.ALL);
-zigBeeApi.startup();
-
-...
-
-final Device lamp = zigBeeApi.getZigBeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
-
-final Basic basic = lamp.getCluster(Basic);
-final String manufactureName = basic.getManufacturerName();
-
-final OnOff onOff = lamp.getCluster(OnOff.class);
-onOff.on();
-
-final int onOffAttributeIndex = 0;
-final Reporter reporter = onOff.getAttribute(onOffAttributeIndex).getReporter();
-reporter.addReportListener(reportListener);
-```
-
-Complete startup and shutdown example including network state loading:
+Maven build dependencies:
 
 ```
-final boolean resetNetwork = false;
-final SerialPortImpl serialPort = new SerialPortImpl("COM5", 38400);
-final ZigBeeApi zigBeeApi = new ZigBeeApi(serialPort, 4951, 11, false, DiscoveryMode.ALL);
+<dependencies>
+    <dependency>
+      <groupId>org.bubblecloud.zigbee4java</groupId>
+      <artifactId>zigbee-dongle-cc2531</artifactId>
+      <version>3.0.0</version>
+      <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>org.bubblecloud.zigbee4java</groupId>
+      <artifactId>zigbee-serial-javase</artifactId>
+      <version>3.0.0</version>
+      <type>pom</type>
+    </dependency>
+</dependencies>
+```
 
-final File networkStateFile = new File("network.json");
-final boolean networkStateExists = networkStateFile.exists();
-if (!resetNetwork && networkStateExists) {
-    LOGGER.info("ZigBeeApi loading network state...");
-    final String networkState = FileUtils.readFileToString(networkStateFile);
-    zigBeeApi.deserializeNetworkState(networkState);
-    LOGGER.info("ZigBeeApi loading network state done.");
+Gradle build dependencies:
+
+```
+dependencies
+{
+    compile 'org.bubblecloud.zigbee:zigbee-dongle-cc2531:3.0.0'
+    compile 'org.bubblecloud.zigbee:zigbee-serial-javase:3.0.0'
 }
+```
 
-LOGGER.info("ZigBeeApi startup...");
-if (!zigBeeApi.startup()) {
-    LOGGER.error("Error initializing ZigBeeApi.");
-    return;
+Example:
+
+```
+final SerialPort port = new SerialPortImpl("COM5");
+final ZigBeeDongle dongle = new ZigBeeDongleTiCc2531Impl(port, 4951, 11, false);
+final ZigBeeApiDongleImpl api = new ZigBeeApiDongleImpl(dongle, false);
+
+api.startup();
+
+final ZigBeeDevice device = api.getZigBeeDevices().get(3);
+
+api.on(device);
+Thread.sleep(1000);
+api.color(device, 1.0, 0.0, 0.0, 1.0);
+Thread.sleep(1000);
+api.color(device, 0.0, 1.0, 0.0, 1.0);
+Thread.sleep(1000);
+api.color(device, 0.0, 0.0, 1.0, 1.0);
+Thread.sleep(1000);
+api.off(device);
+
+api.shutdown();
+port.close();
+```
+
+Gateway Usage
+-------------
+
+You can run ZigBee gateway as a separate process from command line and connect to it with ZigBee Gateway Client.
+ZigBee Gateway Client provides ZigBee API and console commands remotely.
+
+Run server by building zigbee4java with maven and executing gateway shell script under zigbee-gateway-server.
+
+Maven build dependencies:
+
+```
+<dependencies>
+    <dependency>
+      <groupId>org.bubblecloud.zigbee4java</groupId>
+      <artifactId>zigbee-gateway-client</artifactId>
+      <version>3.0.0</version>
+      <type>pom</type>
+    </dependency>
+</dependencies>
+```
+
+Gradle build dependencies:
+
+```
+dependencies
+{
+    compile 'org.bubblecloud.zigbee:zigbee-gateway-client:3.0.0'
 }
-LOGGER.info("ZigBeeApi startup done.");
+```
 
-if (!networkStateExists) {
-    LOGGER.info("ZigBeeApi initial browsing...");
-    while (!zigBeeApi.isInitialBrowsingComplete()) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-        }
-        LOGGER.info("Waiting for initial browsing to complete.");
+Example:
+
+```
+final ZigBeeGatewayClient api = new ZigBeeGatewayClient("http://127.0.0.1:5000/", "secret");
+
+api.startup();
+
+api.addCommandListener(new CommandListener() {
+    @Override
+    public void commandReceived(final Command command) {
+        System.out.println(command);
     }
-    LOGGER.info("ZigBeeApi initial browsing done.");
-}
+});
 
-LOGGER.info("ZigBeeApi listing devices...");
-final List<Device> devices = zigBeeApi.getDevices();
-for (final Device device : devices) {
-    LOGGER.info(device.getNetworkAddress() + ")" + device.getDeviceType());
-}
-LOGGER.info("ZigBeeApi listing devices done.");
+final ZigBeeDevice device = api.getZigBeeDevices().get(3);
 
-LOGGER.info("ZigBeeApi shutdown...");
-zigBeeApi.shutdown();
-serialPort.close();
-LOGGER.info("ZigBeeApi shutdown done.");
+api.on(device);
+Thread.sleep(1000);
+api.color(device, 1.0, 0.0, 0.0, 1.0);
+Thread.sleep(1000);
+api.color(device, 0.0, 1.0, 0.0, 1.0);
+Thread.sleep(1000);
+api.color(device, 0.0, 0.0, 1.0, 1.0);
+Thread.sleep(1000);
+api.off(device);
 
-LOGGER.info("ZigBeeApi saving network state...");
-FileUtils.writeStringToFile(networkStateFile, zigBeeApi.serializeNetworkState(), false);
-LOGGER.info("ZigBeeApi saving network state done.");
+api.shutdown();
 ```
 
 This is an example how to interface directly with ZCL commands to accept IAS zone enroll request:
@@ -236,10 +252,10 @@ if (command instanceof ZoneEnrollRequestCommand) {
 }
 ```
 
-Examples
---------
+More API Examples
+-----------------
 
-1. ZigBeeConsole.java
+1. ZigBeeGateway.java
 
 Contributing
 ------------
@@ -263,7 +279,7 @@ Release can be done only from master branch by tagging the head revision with th
 For example:
 
 ```
-2.0.10-release-ready
+3.0.0-release-ready
 ```
 
 This will trigger a release build by the build agent.

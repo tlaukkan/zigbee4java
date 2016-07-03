@@ -12,4 +12,8 @@ public class ZigBeeConstants {
      * Unicast address.
      */
     public static final byte UNICAST_ADRESS = 0x02;
+    /**
+     * The default baud rate.
+     */
+	public static final int DEFAULT_BAUD_RATE = 38400;
 }

@@ -2,6 +2,7 @@ package org.bubblecloud.zigbee.v3;
 
 import org.apache.log4j.xml.DOMConfigurator;
 import org.bubblecloud.zigbee.network.port.SerialPortImpl;
+import org.bubblecloud.zigbee.util.ZigBeeConstants;
 import org.bubblecloud.zigbee.v3.rpc.AccessLevel;
 import org.bubblecloud.zigbee.v3.rpc.AuthorizationProvider;
 import org.bubblecloud.zigbee.v3.rpc.ZigBeeRpcServer;
@@ -17,10 +18,6 @@ public class ZigBeeGatewayMain {
      * The {@link org.slf4j.Logger}.
      */
     private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeGatewayMain.class);
-    /**
-     * The default baud rate.
-     */
-	private static final int DEFAULT_BAUD_RATE = 38400;
     /**
      * The usage.
      */
@@ -93,9 +90,9 @@ public class ZigBeeGatewayMain {
 			return;
 		}
 
-		final SerialPort serialPort = new SerialPortImpl(serialPortName, DEFAULT_BAUD_RATE);
+		final SerialPort serialPort = new SerialPortImpl(serialPortName, ZigBeeConstants.DEFAULT_BAUD_RATE);
         final ZigBeeDongle dongle = new ZigBeeDongleTiCc2531Impl(serialPort, pan, channel, resetNetwork);
-		final ZigBeeGateway console = new ZigBeeGateway(dongle, resetNetwork);
+		final ZigBeeGateway gateway = new ZigBeeGateway(dongle, resetNetwork);
 
         final AuthorizationProvider authorizationProvider = new AuthorizationProvider() {
             @Override
@@ -109,7 +106,7 @@ public class ZigBeeGatewayMain {
         if (args.length > 5) {
             final ZigBeeRpcServer zigBeeRpcServer;
             try {
-                zigBeeRpcServer = new ZigBeeRpcServer(console, port, keystorePath, password, sslProtocols,
+                zigBeeRpcServer = new ZigBeeRpcServer(gateway, port, keystorePath, password, sslProtocols,
                         authorizationProvider);
                 zigBeeRpcServer.start();
             } catch (final IOException e) {
@@ -128,7 +125,7 @@ public class ZigBeeGatewayMain {
 
         }
 
-        console.start();
+        gateway.start();
 
 	}
 
