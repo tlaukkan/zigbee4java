@@ -10,11 +10,11 @@ import java.util.List;
 /**
  * Test class for local ZigBee API.
  */
-public class ZigBeeApiDongleImplTest {
+public class ZigBeeApiCc2531ImplTest {
     /**
      * The LOGGER.
      */
-    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeApiDongleImplTest.class);
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeApiCc2531ImplTest.class);
 
 
     /**

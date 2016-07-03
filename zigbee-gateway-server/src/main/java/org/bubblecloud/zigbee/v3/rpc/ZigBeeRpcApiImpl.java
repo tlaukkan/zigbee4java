@@ -21,15 +21,15 @@ public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, CommandListener {
     /**
      * The ZigBee console.
      */
-    private final ZigBeeConsole zigBeeConsole;
+    private final ZigBeeGateway zigBeeGateway;
 
     /**
      * Constructor for setting the ZigBeeConsole.
-     * @param zigBeeConsole the ZigBeeConsole
+     * @param zigBeeGateway the ZigBeeConsole
      */
-    public ZigBeeRpcApiImpl(final ZigBeeConsole zigBeeConsole) {
-        this.zigBeeConsole = zigBeeConsole;
-        this.zigBeeConsole.getZigBeeApi().getNetwork().addCommandListener(this);
+    public ZigBeeRpcApiImpl(final ZigBeeGateway zigBeeGateway) {
+        this.zigBeeGateway = zigBeeGateway;
+        this.zigBeeGateway.getZigBeeApi().getNetwork().addCommandListener(this);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, CommandListener {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         final PrintStream out = new PrintStream(outputStream);
         try {
-            zigBeeConsole.processInputLine(command, out);
+            zigBeeGateway.processInputLine(command, out);
         } catch (final Exception e) {
             LOGGER.error("Error in ZigBeeConsole API execute command.", e);
             out.println("Error: " + e.getMessage());
@@ -48,7 +48,7 @@ public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, CommandListener {
     @Override
     public int send(Command command) throws ZigBeeException {
         try {
-            return zigBeeConsole.getZigBeeApi().getNetwork().sendCommand(command);
+            return zigBeeGateway.getZigBeeApi().getNetwork().sendCommand(command);
         } catch (ZigBeeNetworkManagerException e) {
             LOGGER.error("Error sending ZCL command message, e");
             throw new ZigBeeException("Error sending ZCL command message", e);
@@ -98,7 +98,7 @@ public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, CommandListener {
 
     @Override
     public List<ZigBeeDevice> getZigBeeDevices() {
-        return zigBeeConsole.getZigBeeApi().getZigBeeDevices();
+        return zigBeeGateway.getZigBeeApi().getZigBeeDevices();
     }
 
     @Override

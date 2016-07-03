@@ -1,9 +1,13 @@
-package org.bubblecloud.zigbee.v3;
+package org.bubblecloud.zigbee.v3.rpc;
+
+import org.bubblecloud.zigbee.v3.Command;
+import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.ZigBeeException;
 
 import java.util.List;
 
 /**
- * ZigBee Console API.
+ * ZigBee RPC API to be used with JSON RPC.
  *
  * @author Tommi S.E. Laukkanen
  */

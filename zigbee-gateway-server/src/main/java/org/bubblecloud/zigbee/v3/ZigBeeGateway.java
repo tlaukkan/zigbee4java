@@ -23,7 +23,7 @@ import java.util.*;
  * ZigBee command line console is an example usage of simple ZigBee API.
  * This implementation is experimental.
  */
-public final class ZigBeeConsole {
+public final class ZigBeeGateway {
     /**
      * The main thread.
      */
@@ -55,7 +55,7 @@ public final class ZigBeeConsole {
      * @param dongle the dongle
      * @param resetNetwork whether network is to be reset
      */
-    public ZigBeeConsole(final ZigBeeDongle dongle, final boolean resetNetwork) {
+    public ZigBeeGateway(final ZigBeeDongle dongle, final boolean resetNetwork) {
 
 		commands.put("quit", 		new QuitCommand());
 		commands.put("help", 		new HelpCommand());

@@ -12,11 +12,11 @@ import java.io.IOException;
 /**
  * The ZigBee gateway server.
  */
-public class ZigBeeGatewayServer {
+public class ZigBeeGatewayMain {
     /**
      * The {@link org.slf4j.Logger}.
      */
-    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeGatewayServer.class);
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ZigBeeGatewayMain.class);
     /**
      * The default baud rate.
      */
@@ -30,7 +30,7 @@ public class ZigBeeGatewayServer {
     /**
      * Private constructor to disable constructing main class.
      */
-	private ZigBeeGatewayServer() {
+	private ZigBeeGatewayMain() {
     }
 
     /**
@@ -95,7 +95,7 @@ public class ZigBeeGatewayServer {
 
 		final SerialPort serialPort = new SerialPortImpl(serialPortName, DEFAULT_BAUD_RATE);
         final ZigBeeDongle dongle = new ZigBeeDongleTiCc2531Impl(serialPort, pan, channel, resetNetwork);
-		final ZigBeeConsole console = new ZigBeeConsole(dongle, resetNetwork);
+		final ZigBeeGateway console = new ZigBeeGateway(dongle, resetNetwork);
 
         final AuthorizationProvider authorizationProvider = new AuthorizationProvider() {
             @Override
@@ -107,11 +107,11 @@ public class ZigBeeGatewayServer {
 
 
         if (args.length > 5) {
-            final ZigBeeRpcServer zigBeeConsoleServer;
+            final ZigBeeRpcServer zigBeeRpcServer;
             try {
-                zigBeeConsoleServer = new ZigBeeRpcServer(console, port, keystorePath, password, sslProtocols,
+                zigBeeRpcServer = new ZigBeeRpcServer(console, port, keystorePath, password, sslProtocols,
                         authorizationProvider);
-                zigBeeConsoleServer.start();
+                zigBeeRpcServer.start();
             } catch (final IOException e) {
                 LOGGER.error("Error starting ZigBeeConsole HTTP server in port: " + port, e);
                 return;
@@ -120,8 +120,8 @@ public class ZigBeeGatewayServer {
             Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (zigBeeConsoleServer != null) {
-                        zigBeeConsoleServer.stop();
+                    if (zigBeeRpcServer != null) {
+                        zigBeeRpcServer.stop();
                     }
                 }
             }));

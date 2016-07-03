@@ -1,14 +1,9 @@
-package org.bubblecloud.zigbee.rpc;
+package org.bubblecloud.zigbee.v3.rpc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 import com.googlecode.jsonrpc4j.ProxyUtil;
-import org.bubblecloud.zigbee.v3.ZigBeeException;
-import org.bubblecloud.zigbee.v3.Command;
-import org.bubblecloud.zigbee.v3.CommandListener;
-import org.bubblecloud.zigbee.v3.ZigBeeNetwork;
-import org.bubblecloud.zigbee.v3.ZigBeeDevice;
-import org.bubblecloud.zigbee.v3.ZigBeeRpcApi;
+import org.bubblecloud.zigbee.v3.*;
 import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;

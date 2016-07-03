@@ -1,8 +1,6 @@
-package org.bubblecloud.zigbee;
+package org.bubblecloud.zigbee.v3;
 
-import org.bubblecloud.zigbee.v3.ZigBeeException;
-import org.bubblecloud.zigbee.rpc.ZigBeeRpcClient;
-import org.bubblecloud.zigbee.v3.*;
+import org.bubblecloud.zigbee.v3.rpc.ZigBeeRpcClient;
 
 import java.util.List;
 
