@@ -19,12 +19,14 @@ import org.bubblecloud.zigbee.api.cluster.impl.core.AbstractCommand;
 import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLFrame;
 import org.bubblecloud.zigbee.network.ApplicationFrameworkMessageListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
+import org.bubblecloud.zigbee.network.packet.ResponseStatus;
 import org.bubblecloud.zigbee.v3.CommandListener;
 import org.bubblecloud.zigbee.network.impl.*;
 import org.bubblecloud.zigbee.network.packet.af.AF_DATA_CONFIRM;
 import org.bubblecloud.zigbee.network.packet.af.AF_DATA_REQUEST;
 import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
 import org.bubblecloud.zigbee.v3.ZigBeeException;
+import org.bubblecloud.zigbee.v3.model.Status;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.util.ByteUtils;
 import org.slf4j.Logger;
@@ -227,7 +229,8 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
 
             if (response.getStatus()  != 0) {
                 throw new ZigBeeException("Unable to send cluster on the ZigBee network due to: "
-                        + response.getStatus() + " (" + response.getErrorMsg() + ")");
+                        + ResponseStatus.getStatus(response.getStatus())
+                        + " " + (response.getErrorMsg() != null ? " - " + response.getErrorMsg() : "") + ")");
             }
 
             return commandMessage.getTransactionId();

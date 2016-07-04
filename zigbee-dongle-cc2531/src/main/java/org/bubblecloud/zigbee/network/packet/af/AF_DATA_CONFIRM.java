@@ -79,9 +79,8 @@ public class AF_DATA_CONFIRM extends ZToolPacket/* implements ICONFIRMATION, IAF
         profiler.debug("AF_DATA_CONFIRM: object created");
     }
 
-    public byte getStatus() {
-        byte value = (byte) super.packet[ZToolPacket.PAYLOAD_START_INDEX];
-        return value;
+    public int getStatus() {
+        return super.packet[ZToolPacket.PAYLOAD_START_INDEX];
     }
 
     @Override

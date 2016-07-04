@@ -5,6 +5,7 @@ import org.bubblecloud.zigbee.v3.model.ZToolAddress16;
 import org.bubblecloud.zigbee.v3.zcl.ZclCommand;
 import org.bubblecloud.zigbee.v3.zcl.field.AttributeIdentifier;
 import org.bubblecloud.zigbee.v3.zcl.field.AttributeReportingConfigurationRecord;
+import org.bubblecloud.zigbee.v3.zcl.field.Unsigned16BitInteger;
 import org.bubblecloud.zigbee.v3.zcl.field.WriteAttributeRecord;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclAttributeType;
 import org.bubblecloud.zigbee.v3.zcl.protocol.command.color.control.MoveToColorCommand;
@@ -13,6 +14,10 @@ import org.bubblecloud.zigbee.v3.zcl.protocol.command.door.lock.UnlockDoorComman
 import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.ConfigureReportingCommand;
 import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.ReadAttributesCommand;
 import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.WriteAttributesCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.command.groups.AddGroupCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.command.groups.GetGroupMembershipCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.command.groups.RemoveGroupCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.command.groups.ViewGroupCommand;
 import org.bubblecloud.zigbee.v3.zcl.protocol.command.ias.wd.SquawkCommand;
 import org.bubblecloud.zigbee.v3.zcl.protocol.command.ias.wd.StartWarningCommand;
 import org.bubblecloud.zigbee.v3.zcl.protocol.command.level.control.MoveToLevelCommand;
@@ -149,7 +154,8 @@ public class ZigBeeApi {
      * @param clusterId the cluster ID
      * @return TRUE if no errors occurred in sending.
      */
-    public Future<CommandResult> unbind(final ZigBeeDevice source, final ZigBeeDevice destination, final int clusterId) {
+    public Future<CommandResult> unbind(final ZigBeeDevice source, final ZigBeeDevice destination,
+                                        final int clusterId) {
         final int destinationAddress = source.getNetworkAddress();
         final long bindSourceAddress = source.getIeeeAddress();
         final int bindSourceEndpoint = source.getEndpoint();
@@ -203,7 +209,8 @@ public class ZigBeeApi {
      * @param time the in seconds
      * @return the command result future.
      */
-    public Future<CommandResult> color(final ZigBeeDevice device, final double red, final double green, final double blue, double time) {
+    public Future<CommandResult> color(final ZigBeeDevice device, final double red, final double green,
+                                       final double blue, double time) {
         final MoveToColorCommand command = new MoveToColorCommand();
 
         final Cie cie = Cie.rgb2cie(red, green ,blue);
@@ -316,7 +323,7 @@ public class ZigBeeApi {
      * @param duration the duration
      * @return the command result future
      */
-    public Future<CommandResult> warn(ZigBeeDevice device, int mode, int strobe, int duration) {
+    public Future<CommandResult> warn(final ZigBeeDevice device, final int mode, final int strobe, final int duration) {
         final StartWarningCommand command = new StartWarningCommand();
 
         final int header = (strobe << 4) | mode;
@@ -338,7 +345,8 @@ public class ZigBeeApi {
      * @param value the value
      * @return the command result future
      */
-    public Future<CommandResult> write(ZigBeeDevice device, int clusterId, int attributeId, Object value) {
+    public Future<CommandResult> write(final ZigBeeDevice device, final int clusterId, final int attributeId,
+                                       final Object value) {
 
         final WriteAttributesCommand command = new WriteAttributesCommand();
         command.setClusterId(clusterId);
@@ -363,7 +371,7 @@ public class ZigBeeApi {
      * @param attributeId the attribute ID
      * @return the command result future
      */
-    public Future<CommandResult> read(ZigBeeDevice device, int clusterId, int attributeId) {
+    public Future<CommandResult> read(final ZigBeeDevice device, final int clusterId, final int attributeId) {
         final ReadAttributesCommand command = new ReadAttributesCommand();
 
         command.setClusterId(clusterId);
@@ -387,7 +395,8 @@ public class ZigBeeApi {
      * @param reportableChange the reportable change
      * @return the command result future
      */
-    public Future<CommandResult> report(ZigBeeDevice device, int clusterId, int attributeId, int minInterval, int maxInterval, Object reportableChange) {
+    public Future<CommandResult> report(final ZigBeeDevice device, final int clusterId, final int attributeId,
+                                        final int minInterval, final int maxInterval, final Object reportableChange) {
         final ConfigureReportingCommand command = new ConfigureReportingCommand();
 
         command.setClusterId(clusterId);
@@ -431,6 +440,72 @@ public class ZigBeeApi {
         } catch (final ZigBeeException e) {
             throw new ZigBeeApiException("Error sending permit join command.", e);
         }
+    }
+
+    /**
+     * Adds group membership to device.
+     * @param device the device
+     * @param groupId the group ID
+     * @param groupName the group name
+     * @return the command result future
+     */
+    public Future<CommandResult> addGroup(final ZigBeeDevice device, final int groupId, final String groupName) {
+        final AddGroupCommand command = new AddGroupCommand();
+        command.setGroupId(groupId);
+        command.setGroupName(groupName);
+
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+
+        return send(command, new ZclCustomResponseMatcher());
+    }
+
+    /**
+     * Gets group memberships from device.
+     * @param device the device
+     * @return the command result future
+     */
+    public Future<CommandResult> getGroupMemberships(final ZigBeeDevice device) {
+        final GetGroupMembershipCommand command = new GetGroupMembershipCommand();
+
+        command.setGroupCount(0);
+        command.setGroupList(Collections.<Unsigned16BitInteger>emptyList());
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+
+        return send(command, new ZclCustomResponseMatcher());
+    }
+
+    /**
+     * Views group membership from device.
+     * @param device the device
+     * @param groupId the group ID
+     * @return the command result future
+     */
+    public Future<CommandResult> viewGroup(final ZigBeeDevice device, final int groupId) {
+        final ViewGroupCommand command = new ViewGroupCommand();
+        command.setGroupId(groupId);
+
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+
+        return send(command, new ZclCustomResponseMatcher());
+    }
+
+    /**
+     * Removes group membership from device.
+     * @param device the device
+     * @param groupId the group ID
+     * @return the command result future
+     */
+    public Future<CommandResult> removeGroup(final ZigBeeDevice device, final int groupId) {
+        final RemoveGroupCommand command = new RemoveGroupCommand();
+        command.setGroupId(groupId);
+
+        command.setDestinationAddress(device.getNetworkAddress());
+        command.setDestinationEndpoint(device.getEndpoint());
+
+        return send(command, new ZclCustomResponseMatcher());
     }
 
     /**

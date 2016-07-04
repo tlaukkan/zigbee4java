@@ -362,7 +362,7 @@ public class ZigBeeEndpointImpl implements ZigBeeEndpoint, ApplicationFrameworkM
                 throw new ZigBeeNetworkManagerException("Unable to send cluster on the ZigBee network due to general error - is the device sleeping?");
             } else if (response.getStatus() != 0) {
                 removeAFMessageListener();
-                final ResponseStatus responseStatus = ResponseStatus.getStatus(Integers.getByteAsInteger(response.getStatus(), 0));
+                final ResponseStatus responseStatus = ResponseStatus.getStatus(response.getStatus());
 
                 /*if (responseStatus == ResponseStatus.Z_MAC_NO_ACK)  {
                     logger.info("Removing unresponsive device: " + getIeeeAddress());

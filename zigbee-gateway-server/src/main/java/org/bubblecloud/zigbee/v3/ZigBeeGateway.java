@@ -4,14 +4,18 @@ import org.apache.commons.lang.StringUtils;
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
+import org.bubblecloud.zigbee.api.cluster.impl.api.general.groups.GetGroupMembershipResponse;
 import org.bubblecloud.zigbee.util.IEEEAddress;
 import org.bubblecloud.zigbee.v3.model.Status;
 import org.bubblecloud.zigbee.v3.model.ZigBeeType;
 import org.bubblecloud.zigbee.v3.model.ZToolAddress64;
+import org.bubblecloud.zigbee.v3.zcl.field.Unsigned16BitInteger;
 import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.ConfigureReportingResponseCommand;
 import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.ReadAttributesResponseCommand;
 import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.ReportAttributesCommand;
 import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.WriteAttributesResponseCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.command.groups.GetGroupMembershipResponseCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.command.groups.ViewGroupResponseCommand;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -81,6 +85,11 @@ public final class ZigBeeGateway {
         commands.put("lock", new DoorLockCommand());
         commands.put("unlock", new DoorUnlockCommand());
         commands.put("enroll", new EnrollCommand());
+
+        commands.put("groupadd", new GroupAddCommand());
+        commands.put("groupremove", new GroupRemoveCommand());
+        commands.put("groupview", new GroupViewCommand());
+        commands.put("groups", new GroupMembershipsCommand());
 
         zigBeeApi = new ZigBeeApiDongleImpl(dongle, resetNetwork);
     }
@@ -502,13 +511,7 @@ public final class ZigBeeGateway {
                 return false;
             }
             final CommandResult response = zigBeeApi.bind(source, destination, clusterId).get();
-            if (response.isSuccess()) {
-                out.println("Success response received.");
-                return true;
-            } else {
-                out.println("Error executing command: " + response.getMessage());
-                return true;
-            }
+            return defaultResponseProcessing(response, out);
         }
     }
 
@@ -550,13 +553,7 @@ public final class ZigBeeGateway {
                 return false;
             }
             final CommandResult response = zigBeeApi.unbind(source, destination, clusterId).get();
-            if (response.isSuccess()) {
-                out.println("Success response received.");
-                return true;
-            } else {
-                out.println("Error executing command: " + response.getMessage());
-                return true;
-            }
+            return defaultResponseProcessing(response, out);
         }
     }
 
@@ -590,13 +587,7 @@ public final class ZigBeeGateway {
             }
 
             final CommandResult response = zigbeeApi.on(device).get();
-            if (response.isSuccess()) {
-                out.println("Success response received.");
-                return true;
-            } else {
-                out.println("Error executing command: " + response.getMessage());
-                return true;
-            }
+            return defaultResponseProcessing(response, out);
 
         }
     }
@@ -631,13 +622,7 @@ public final class ZigBeeGateway {
             }
 
             final CommandResult response = zigbeeApi.off(device).get();
-            if (response.isSuccess()) {
-                out.println("Success response received.");
-                return true;
-            } else {
-                out.println("Error executing command: " + response.getMessage());
-                return true;
-            }
+            return defaultResponseProcessing(response, out);
         }
     }
 
@@ -690,13 +675,7 @@ public final class ZigBeeGateway {
             }
 
             final CommandResult response = zigbeeApi.color(device, red, green, blue, 1).get();
-            if (response.isSuccess()) {
-                out.println("Success response received.");
-                return true;
-            } else {
-                out.println("Error executing command: " + response.getMessage());
-                return true;
-            }
+            return defaultResponseProcessing(response, out);
         }
     }
 
@@ -733,13 +712,7 @@ public final class ZigBeeGateway {
             device.setLabel(label);
             zigbeeApi.getNetworkState().updateDevice(device);
             final CommandResult response = zigbeeApi.describe(device, label).get();
-            if (response.isSuccess()) {
-                out.println("Success response received.");
-                return true;
-            } else {
-                out.println("Error executing command: " + response.getMessage());
-                return true;
-            }
+            return defaultResponseProcessing(response, out);
         }
     }
 
@@ -780,13 +753,7 @@ public final class ZigBeeGateway {
             }
 
             final CommandResult response = zigbeeApi.level(device, level, 1.0).get();
-            if (response.isSuccess()) {
-                out.println("Success response received.");
-                return true;
-            } else {
-                out.println("Error executing command: " + response.getMessage());
-                return true;
-            }
+            return defaultResponseProcessing(response, out);
         }
     }
 
@@ -822,13 +789,7 @@ public final class ZigBeeGateway {
             final String pinCode = args[2];
 
             final CommandResult response = zigbeeApi.lock(device, pinCode).get();
-            if (response.isSuccess()) {
-                out.println("Success response received.");
-                return true;
-            } else {
-                out.println("Error executing command: " + response.getMessage());
-                return true;
-            }
+            return defaultResponseProcessing(response, out);
         }
     }
 
@@ -864,13 +825,7 @@ public final class ZigBeeGateway {
             final String pinCode = args[2];
 
             final CommandResult response = zigbeeApi.unlock(device, pinCode).get();
-            if (response.isSuccess()) {
-                out.println("Success response received.");
-                return true;
-            } else {
-                out.println("Error executing command: " + response.getMessage());
-                return true;
-            }
+            return defaultResponseProcessing(response, out);
         }
     }
 
@@ -1319,13 +1274,7 @@ public final class ZigBeeGateway {
             }
 
             final CommandResult response = zigbeeApi.warn(device, mode, strobe, duration).get();
-            if (response.isSuccess()) {
-                out.println("Success response received.");
-                return true;
-            } else {
-                out.println("Error executing command: " + response.getMessage());
-                return true;
-            }
+            return defaultResponseProcessing(response, out);
 
         }
 
@@ -1389,13 +1338,7 @@ public final class ZigBeeGateway {
             }
 
             final CommandResult response = zigbeeApi.squawk(device, mode, strobe, level).get();
-            if (response.isSuccess()) {
-                out.println("Success response received.");
-                return true;
-            } else {
-                out.println("Error executing command: " + response.getMessage());
-                return true;
-            }
+            return defaultResponseProcessing(response, out);
 
         }
 
@@ -1450,7 +1393,7 @@ public final class ZigBeeGateway {
          * {@inheritDoc}
          */
         public String getDescription() {
-            return "Enrolls IAS Zone device to this CIE device by setting own address as CIE address to the\n" +
+            return "Enrolls IAS Zone device to this CIE device by setting own address as CIE address to the " +
                     " IAS Zone device.";
         }
         /**
@@ -1503,6 +1446,219 @@ public final class ZigBeeGateway {
 //
 //            return true;
             throw new UnsupportedOperationException();
+        }
+    }
+
+    /**
+     * Add group membership to device.
+     */
+    private class GroupAddCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Add group membership.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "groupadd [DEVICE] [GROUPID] [GROUPNAME]";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out)
+                throws Exception {
+            if (args.length != 4) {
+                return false;
+            }
+
+            final ZigBeeDevice device = getDevice(zigbeeApi, args[1]);
+            if (device == null) {
+                print("Device not found.", out);
+                return false;
+            }
+
+            final int groupId;
+            try {
+                groupId = Integer.parseInt(args[2]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+
+            final String groupName = args[3];
+
+            final CommandResult result = zigbeeApi.addGroup(device, groupId, groupName).get();
+
+            return defaultResponseProcessing(result, out);
+
+        }
+    }
+
+    /**
+     * Remove group membership from device.
+     */
+    private class GroupRemoveCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Remove group membership.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "groupremove [DEVICE] [GROUPID]";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out)
+                throws Exception {
+            if (args.length != 3) {
+                return false;
+            }
+
+            final ZigBeeDevice device = getDevice(zigbeeApi, args[1]);
+            if (device == null) {
+                print("Device not found.", out);
+                return false;
+            }
+
+            final int groupId;
+            try {
+                groupId = Integer.parseInt(args[2]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+
+            final CommandResult result = zigbeeApi.removeGroup(device, groupId).get();
+
+            return defaultResponseProcessing(result, out);
+        }
+    }
+
+    /**
+     * View group name from device.
+     */
+    private class GroupViewCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "View group name.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "groupview [DEVICE] [GROUPID]";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out)
+                throws Exception {
+            if (args.length != 3) {
+                return false;
+            }
+
+            final ZigBeeDevice device = getDevice(zigbeeApi, args[1]);
+            if (device == null) {
+                print("Device not found.", out);
+                return false;
+            }
+
+            final int groupId;
+            try {
+                groupId = Integer.parseInt(args[2]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+
+            final CommandResult result = zigbeeApi.viewGroup(device, groupId).get();
+
+            if (result.isSuccess()) {
+                final ViewGroupResponseCommand response = result.getResponse();
+                final int statusCode = response.getStatus();
+                if (statusCode == 0) {
+                    out.println("Group name: " + response.getGroupName());
+                } else {
+                    final Status status = Status.getStatus((byte) statusCode);
+                    out.println("Error reading group name: " + status);
+                }
+                return true;
+            } else {
+                out.println("Error executing command: " + result.getMessage());
+                return true;
+            }
+        }
+    }
+
+    /**
+     * View group memberships from device.
+     */
+    private class GroupMembershipsCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Get group memberships.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "groups [DEVICE]";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out)
+                throws Exception {
+            if (args.length != 2) {
+                return false;
+            }
+
+            final ZigBeeDevice device = getDevice(zigbeeApi, args[1]);
+            if (device == null) {
+                print("Device not found.", out);
+                return false;
+            }
+
+            final CommandResult result = zigbeeApi.getGroupMemberships(device).get();
+
+            if (result.isSuccess()) {
+                final GetGroupMembershipResponseCommand response = result.getResponse();
+                out.print("Member of groups:");
+                for (final Unsigned16BitInteger value :  response.getGroupList()) {
+                    out.print(' ');
+                    out.print(value.getValue());
+                }
+                out.println();
+                return true;
+            } else {
+                out.println("Error executing command: " + result.getMessage());
+                return true;
+            }
+        }
+    }
+
+    /**
+     * Default processing for command result.
+     * @param result the command result
+     * @param out the output
+     * @return
+     */
+    private boolean defaultResponseProcessing(CommandResult result, PrintStream out) {
+        if (result.isSuccess()) {
+            out.println("Success response received.");
+            return true;
+        } else {
+            out.println("Error executing command: " + result.getMessage());
+            return true;
         }
     }
 
