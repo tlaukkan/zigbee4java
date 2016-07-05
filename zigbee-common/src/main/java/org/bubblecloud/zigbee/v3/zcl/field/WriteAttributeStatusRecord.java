@@ -58,7 +58,9 @@ public class WriteAttributeStatusRecord implements ZclListItemField {
     @Override
     public void deserialize(final ZBDeserializer deserializer) {
         status = deserializer.read_byte() & (0xFF);
-        attributeIdentifier = deserializer.read_short() & (0xFFFF);
+        if (status != 0) {
+            attributeIdentifier = deserializer.read_short() & (0xFFFF);
+        }
     }
 
     @Override
