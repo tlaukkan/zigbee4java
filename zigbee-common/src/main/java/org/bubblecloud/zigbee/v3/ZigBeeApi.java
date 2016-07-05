@@ -121,7 +121,7 @@ public class ZigBeeApi {
             networkState.addGroup(new ZigBeeGroup(groupId, label));
         } else {
             final ZigBeeGroup group = networkState.getGroup(groupId);
-            group.setName(label);
+            group.setLabel(label);
             networkState.updateGroup(group);
         }
     }
@@ -256,15 +256,14 @@ public class ZigBeeApi {
 
     /**
      * Colors device light.
-     *
-     * @param device the device
+     * @param destination the destination
      * @param red the red component [0..1]
      * @param green the green component [0..1]
      * @param blue the blue component [0..1]
      * @param time the in seconds
      * @return the command result future.
      */
-    public Future<CommandResult> color(final ZigBeeDevice device, final double red, final double green,
+    public Future<CommandResult> color(final ZigBeeDestination destination, final double red, final double green,
                                        final double blue, double time) {
         final MoveToColorCommand command = new MoveToColorCommand();
 
@@ -283,19 +282,17 @@ public class ZigBeeApi {
         command.setColorY(y);
         command.setTransitionTime((int) (time * 10));
 
-        command.setDestinationAddress(device.getNetworkAddress());
-        command.setDestinationEndpoint(device.getEndpoint());
-        return unicast(command);
+        return send(destination, command);
     }
 
     /**
      * Moves device level.
-     * @param device the device
+     * @param destination the destination
      * @param level the level
      * @param time the transition time
      * @return the command result future.
      */
-    public Future<CommandResult> level(final ZigBeeDevice device, final double level, final double time) {
+    public Future<CommandResult> level(final ZigBeeDestination destination, final double level, final double time) {
 
         final MoveToLevelCommand command = new MoveToLevelCommand();
 
@@ -310,86 +307,71 @@ public class ZigBeeApi {
         command.setLevel(l);
         command.setTransitionTime((int) (time * 10));
 
-        command.setDestinationAddress(device.getNetworkAddress());
-        command.setDestinationEndpoint(device.getEndpoint());
-
-        return unicast(command);
+        return send(destination, command);
     }
 
     /**
      * Locks door.
-     * @param device the device
+     * @param destination the destination
      * @param pinCode the pin code
      * @return the command result future.
      */
-    public Future<CommandResult> lock(final ZigBeeDevice device, final String pinCode) {
+    public Future<CommandResult> lock(final ZigBeeDestination destination, final String pinCode) {
         final LockDoorCommand command = new LockDoorCommand();
 
         command.setPinCode(pinCode);
 
-        command.setDestinationAddress(device.getNetworkAddress());
-        command.setDestinationEndpoint(device.getEndpoint());
-
-        return unicast(command);
+        return send(destination, command);
     }
 
     /**
      * Unlocks door.
-     * @param device the device
+     * @param destination the destination
      * @param pinCode the pin code
      * @return the command result future.
      */
-    public Future<CommandResult> unlock(final ZigBeeDevice device, final String pinCode) {
+    public Future<CommandResult> unlock(final ZigBeeDestination destination, final String pinCode) {
         final UnlockDoorCommand command = new UnlockDoorCommand();
 
         command.setPinCode(pinCode);
 
-        command.setDestinationAddress(device.getNetworkAddress());
-        command.setDestinationEndpoint(device.getEndpoint());
-
-        return unicast(command);
+        return send(destination, command);
     }
 
     /**
      * This command uses the WD capabilities to emit a quick audible/visible pulse called a "squawk".
-     * @param device the device
+     * @param destination the destination
      * @param mode the mode
      * @param strobe the strobe
      * @param level the level
      * @return the command result future
      */
-    public Future<CommandResult> squawk(final ZigBeeDevice device, final int mode, final int strobe, final int level) {
+    public Future<CommandResult> squawk(final ZigBeeDestination destination, final int mode, final int strobe, final int level) {
         final SquawkCommand command = new SquawkCommand();
 
         final int header = (level << 6) | (strobe << 4) | mode;
 
         command.setHeader(header);
-        command.setDestinationAddress(device.getNetworkAddress());
-        command.setDestinationEndpoint(device.getEndpoint());
 
-        return unicast(command);
+        return send(destination, command);
     }
 
     /**
      * Starts warning.
-     * @param device the device
+     * @param destination the destination
      * @param mode the mode
      * @param strobe the strobe
      * @param duration the duration
      * @return the command result future
      */
-    public Future<CommandResult> warn(final ZigBeeDevice device, final int mode, final int strobe, final int duration) {
+    public Future<CommandResult> warn(final ZigBeeDestination destination, final int mode, final int strobe, final int duration) {
         final StartWarningCommand command = new StartWarningCommand();
 
         final int header = (strobe << 4) | mode;
         command.setHeader(header);
         command.setWarningDuration(duration);
 
-        command.setDestinationAddress(device.getNetworkAddress());
-        command.setDestinationEndpoint(device.getEndpoint());
-
-        return unicast(command);
-
+        return send(destination, command);
     }
 
     /**

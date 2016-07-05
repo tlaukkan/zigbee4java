@@ -11,9 +11,9 @@ public class ZigBeeGroup extends ZigBeeDestination {
     private int groupId;
 
     /**
-     * The group name.
+     * The group label.
      */
-    private String name;
+    private String label;
 
     /**
      * Default constructor.
@@ -24,11 +24,11 @@ public class ZigBeeGroup extends ZigBeeDestination {
     /**
      * Constructor which sets group ID.
      * @param groupId the group ID
-     * @param name the group name
+     * @param label the group label
      */
-    public ZigBeeGroup(final int groupId, final String name) {
+    public ZigBeeGroup(final int groupId, final String label) {
         this.groupId = groupId;
-        this.name = name;
+        this.label = label;
     }
 
     /**
@@ -48,18 +48,18 @@ public class ZigBeeGroup extends ZigBeeDestination {
     }
 
     /**
-     * Gets group name.
-     * @return the group name
+     * Gets group label.
+     * @return the group label
      */
-    public String getName() {
-        return name;
+    public String getLabel() {
+        return label;
     }
 
     /**
      * Sets group name.
-     * @param name the group name
+     * @param label the group label
      */
-    public void setName(final String name) {
-        this.name = name;
+    public void setLabel(final String label) {
+        this.label = label;
     }
 }
