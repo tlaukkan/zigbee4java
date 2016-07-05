@@ -117,7 +117,7 @@ public class ZigBeeApi {
         final UserDescriptorSet command = new UserDescriptorSet(device.getNetworkAddress(), device.getNetworkAddress(),
                 descriptor);
 
-        return send(command);
+        return unicast(command);
     }
 
     /**
@@ -144,7 +144,7 @@ public class ZigBeeApi {
                 bindDestinationAddress,
                 bindDestinationEndpoint
         );
-        return send(command);
+        return unicast(command);
     }
 
     /**
@@ -172,31 +172,28 @@ public class ZigBeeApi {
                 bindDestinationAddress,
                 bindDestinationEndpoint
         );
-        return send(command);
+        return unicast(command);
     }
 
     /**
-     * Switches device on.
-     * @param device the device
+     * Switches destination on.
+     * @param destination the destination
      * @return the command result future.
      */
-    public Future<CommandResult> on(final ZigBeeDevice device) {
+    public Future<CommandResult> on(final ZigBeeDestination destination) {
         final OnCommand command = new OnCommand();
-        command.setDestinationAddress(device.getNetworkAddress());
-        command.setDestinationEndpoint(device.getEndpoint());
-        return send(command);
+        return send(destination, command);
+
     }
 
     /**
-     * Switches device off.
-     * @param device the device
+     * Switches destination off.
+     * @param destination the destination
      * @return the command result future.
      */
-    public Future<CommandResult> off(final ZigBeeDevice device) {
+    public Future<CommandResult> off(final ZigBeeDestination destination) {
         final OffCommand command = new OffCommand();
-        command.setDestinationAddress(device.getNetworkAddress());
-        command.setDestinationEndpoint(device.getEndpoint());
-        return send(command);
+        return send(destination, command);
     }
 
     /**
@@ -230,7 +227,7 @@ public class ZigBeeApi {
 
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
-        return send(command);
+        return unicast(command);
     }
 
     /**
@@ -258,7 +255,7 @@ public class ZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command);
+        return unicast(command);
     }
 
     /**
@@ -275,7 +272,7 @@ public class ZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command);
+        return unicast(command);
     }
 
     /**
@@ -292,7 +289,7 @@ public class ZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command);
+        return unicast(command);
     }
 
     /**
@@ -312,7 +309,7 @@ public class ZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command);
+        return unicast(command);
     }
 
     /**
@@ -333,7 +330,7 @@ public class ZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command);
+        return unicast(command);
 
     }
 
@@ -360,7 +357,7 @@ public class ZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command, new ZclCustomResponseMatcher());
+        return unicast(command, new ZclCustomResponseMatcher());
 
     }
 
@@ -382,7 +379,7 @@ public class ZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command, new ZclCustomResponseMatcher());
+        return unicast(command, new ZclCustomResponseMatcher());
     }
 
     /**
@@ -414,7 +411,7 @@ public class ZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command, new ZclCustomResponseMatcher());
+        return unicast(command, new ZclCustomResponseMatcher());
     }
 
     /**
@@ -457,7 +454,7 @@ public class ZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command, new ZclCustomResponseMatcher());
+        return unicast(command, new ZclCustomResponseMatcher());
     }
 
     /**
@@ -473,7 +470,7 @@ public class ZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command, new ZclCustomResponseMatcher());
+        return unicast(command, new ZclCustomResponseMatcher());
     }
 
     /**
@@ -489,7 +486,7 @@ public class ZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command, new ZclCustomResponseMatcher());
+        return unicast(command, new ZclCustomResponseMatcher());
     }
 
     /**
@@ -505,7 +502,24 @@ public class ZigBeeApi {
         command.setDestinationAddress(device.getNetworkAddress());
         command.setDestinationEndpoint(device.getEndpoint());
 
-        return send(command, new ZclCustomResponseMatcher());
+        return unicast(command, new ZclCustomResponseMatcher());
+    }
+
+    /**
+     * Sends command to destination.
+     * @param destination the destination
+     * @param command the command
+     * @return the command result future
+     */
+    private Future<CommandResult> send(ZigBeeDestination destination, ZclCommand command) {
+        if (destination.isGroup()) {
+            command.setDestinationGroupId(((ZigBeeGroup) destination).getGroupId());
+            return broadcast(command);
+        } else {
+            command.setDestinationAddress(((ZigBeeDevice) destination).getNetworkAddress());
+            command.setDestinationEndpoint(((ZigBeeDevice) destination).getEndpoint());
+            return unicast(command);
+        }
     }
 
     /**
@@ -513,7 +527,7 @@ public class ZigBeeApi {
      * @param command the command
      * @return the command result future.
      */
-    public Future<CommandResult> send(final Command command) {
+    public Future<CommandResult> unicast(final Command command) {
 
         final CommandResponseMatcher responseMatcher;
         if (command instanceof ZclCommand) {
@@ -522,7 +536,7 @@ public class ZigBeeApi {
             responseMatcher = new ZdoResponseMatcher();
         }
 
-        return send(command, responseMatcher);
+        return unicast(command, responseMatcher);
     }
 
     /**
@@ -531,7 +545,7 @@ public class ZigBeeApi {
      * @param responseMatcher the response matcher.
      * @return the command result future.
      */
-    private Future<CommandResult> send(final Command command, final CommandResponseMatcher responseMatcher) {
+    private Future<CommandResult> unicast(final Command command, final CommandResponseMatcher responseMatcher) {
         synchronized (command) {
             final CommandResultFuture future = new CommandResultFuture(this);
             final CommandExecution commandExecution = new CommandExecution(
@@ -566,6 +580,26 @@ public class ZigBeeApi {
                 future.set(new CommandResult(e.toString()));
                 removeCommandExecution(commandExecution);
             }
+            return future;
+        }
+    }
+
+    /**
+     * Broadcasts command i.e. does not wait for response.
+     * @param command the command
+     * @return the command result future.
+     */
+    private Future<CommandResult> broadcast(final Command command) {
+        synchronized (command) {
+            final CommandResultFuture future = new CommandResultFuture(this);
+
+            try {
+                network.sendCommand(command);
+                future.set(new CommandResult(new BroadcastResponse()));
+            } catch (final ZigBeeException e) {
+                future.set(new CommandResult(e.toString()));
+            }
+
             return future;
         }
     }

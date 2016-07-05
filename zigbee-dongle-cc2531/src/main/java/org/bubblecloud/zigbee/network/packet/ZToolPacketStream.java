@@ -25,10 +25,7 @@
 
 package org.bubblecloud.zigbee.network.packet;
 
-import org.bubblecloud.zigbee.network.packet.af.AF_DATA_CONFIRM;
-import org.bubblecloud.zigbee.network.packet.af.AF_DATA_SRSP;
-import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
-import org.bubblecloud.zigbee.network.packet.af.AF_REGISTER_SRSP;
+import org.bubblecloud.zigbee.network.packet.af.*;
 import org.bubblecloud.zigbee.network.packet.simple.*;
 import org.bubblecloud.zigbee.network.packet.system.*;
 import org.bubblecloud.zigbee.network.packet.util.UTIL_GET_DEVICE_INFO_RESPONSE;
@@ -186,7 +183,7 @@ public class ZToolPacketStream
             }
             return response;
         } catch (Exception e) {
-            //log.error("Failed due to exception", e);
+            log.error("Packet parsing failed due to exception.", e);
             exception = e;
         }
         final ZToolPacket exceptionResponse = new ErrorPacket();
@@ -231,6 +228,8 @@ public class ZToolPacketStream
                 return new AF_DATA_CONFIRM(payload);
             case ZToolCMD.AF_DATA_SRSP:
                 return new AF_DATA_SRSP(payload);
+            case ZToolCMD.AF_DATA_SRSP_EXT:
+                return new AfDataSrspExt(payload);
             case ZToolCMD.AF_INCOMING_MSG:
                 return new AF_INCOMING_MSG(payload);
             case ZToolCMD.AF_REGISTER_SRSP:
@@ -351,6 +350,7 @@ public class ZToolPacketStream
             case ZToolCMD.UTIL_GET_DEVICE_INFO_RESPONSE:
                 return new UTIL_GET_DEVICE_INFO_RESPONSE(payload);
             default:
+                log.warn("Unknown command ID: 0x" + Integer.toHexString(cmdId.get16BitValue()));
                 return new ZToolPacket(cmdId, payload);
         }
     }

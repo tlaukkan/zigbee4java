@@ -27,6 +27,10 @@ public class ZclCommand extends Command {
      */
     private int destinationEndpoint;
     /**
+     * The destination group ID which can be used instead of destination address and endpoint.
+     */
+    private Integer destinationGroupId;
+    /**
      * The type.
      */
     private ZclCommandType type;
@@ -55,6 +59,7 @@ public class ZclCommand extends Command {
         this.sourceEnpoint = commandMessage.getSourceEnpoint();
         this.destinationAddress = commandMessage.getDestinationAddress();
         this.destinationEndpoint = commandMessage.getDestinationEndpoint();
+        this.destinationGroupId = commandMessage.getDestinationGroupId();
         this.type = commandMessage.getType();
         this.clusterId = commandMessage.getClusterId();
         this.transactionId = commandMessage.getTransactionId();
@@ -106,6 +111,22 @@ public class ZclCommand extends Command {
      */
     public void setDestinationEndpoint(final int destinationEndpoint) {
         this.destinationEndpoint = destinationEndpoint;
+    }
+
+    /**
+     * Gets destination group ID
+     * @return the destination group ID
+     */
+    public Integer getDestinationGroupId() {
+        return destinationGroupId;
+    }
+
+    /**
+     * Sets destination group ID
+     * @param destinationGroupId the destination group ID
+     */
+    public void setDestinationGroupId(final Integer destinationGroupId) {
+        this.destinationGroupId = destinationGroupId;
     }
 
     /**
@@ -182,6 +203,7 @@ public class ZclCommand extends Command {
         commandMessage.setSourceEnpoint(sourceEnpoint);
         commandMessage.setDestinationAddress(destinationAddress);
         commandMessage.setDestinationEndpoint(destinationEndpoint);
+        commandMessage.setDestinationGroupId(destinationGroupId);
         commandMessage.setType(type);
         commandMessage.setClusterId(clusterId);
         commandMessage.setTransactionId(transactionId);

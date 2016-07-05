@@ -1159,6 +1159,14 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         return result;
     }
 
+    public AfDataSrspExt sendAFDataRequestExt(AfDataRequestExt request) {
+        if (!waitForNetwork()) {
+            return null;
+        }
+        AfDataSrspExt response = (AfDataSrspExt) sendSynchrouns(commandInterface, request);
+        return response;
+    }
+
     public ZDO_BIND_RSP sendZDOBind(ZDO_BIND_REQ request) {
         if (!waitForNetwork()) {
         	return null;

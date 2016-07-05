@@ -258,6 +258,29 @@ public final class ZigBeeGateway {
     }
 
     /**
+     * Gets destination by device identifier or group ID.
+     * @param zigbeeApi the ZigBee API
+     * @param destinationIdentifier the device identifier or group ID
+     * @return the device
+     */
+    private ZigBeeDestination getDestination(final ZigBeeApiDongleImpl zigbeeApi, final String destinationIdentifier
+            ,final PrintStream out) {
+        final ZigBeeDevice device = getDevice(zigbeeApi, destinationIdentifier);
+
+        if (device != null) {
+            return device;
+        }
+
+        try {
+            final ZigBeeGroup zigBeeGroup = new ZigBeeGroup(Integer.parseInt(destinationIdentifier));
+            out.println("Broadcasting to ZigBee group: " + destinationIdentifier);
+            return zigBeeGroup;
+        } catch (final NumberFormatException e) {
+            return null;
+        }
+    }
+
+    /**
      * Gets device by device identifier.
      * @param zigbeeApi the ZigBee API
      * @param deviceIdentifier the device identifier
@@ -274,7 +297,7 @@ public final class ZigBeeGateway {
         }
         return null;
     }
-    
+
     /**
      * Interface for console commands.
      */
@@ -571,7 +594,7 @@ public final class ZigBeeGateway {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "on DEVICEID";
+            return "on DEVICEID/DEVICELABEL/GROUPID";
         }
         /**
          * {@inheritDoc}
@@ -581,12 +604,12 @@ public final class ZigBeeGateway {
                 return false;
             }
 
-            final ZigBeeDevice device = getDevice(zigbeeApi, args[1]);
-            if (device == null) {
+            final ZigBeeDestination destination = getDestination(zigbeeApi, args[1], out);
+            if (destination == null) {
                 return false;
             }
 
-            final CommandResult response = zigbeeApi.on(device).get();
+            final CommandResult response = zigbeeApi.on(destination).get();
             return defaultResponseProcessing(response, out);
 
         }
@@ -606,7 +629,7 @@ public final class ZigBeeGateway {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "off DEVICEID";
+            return "off DEVICEID/DEVICELABEL/GROUPID";
         }
         /**
          * {@inheritDoc}
@@ -616,12 +639,12 @@ public final class ZigBeeGateway {
                 return false;
             }
 
-            final ZigBeeDevice device = getDevice(zigbeeApi, args[1]);
-            if (device == null) {
+            final ZigBeeDestination destination = getDestination(zigbeeApi, args[1], out);
+            if (destination == null) {
                 return false;
             }
 
-            final CommandResult response = zigbeeApi.off(device).get();
+            final CommandResult response = zigbeeApi.off(destination).get();
             return defaultResponseProcessing(response, out);
         }
     }
@@ -1364,7 +1387,7 @@ public final class ZigBeeGateway {
             if (args.length != 2) {
                 return false;
             }
-            
+
             final boolean join;
             if(args[1].toLowerCase().equals("enable")) {
             	join = true;

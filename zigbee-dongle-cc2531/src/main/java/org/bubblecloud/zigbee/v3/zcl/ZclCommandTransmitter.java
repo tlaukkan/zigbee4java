@@ -20,11 +20,9 @@ import org.bubblecloud.zigbee.api.cluster.impl.core.ZCLFrame;
 import org.bubblecloud.zigbee.network.ApplicationFrameworkMessageListener;
 import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.packet.ResponseStatus;
+import org.bubblecloud.zigbee.network.packet.af.*;
 import org.bubblecloud.zigbee.v3.CommandListener;
 import org.bubblecloud.zigbee.network.impl.*;
-import org.bubblecloud.zigbee.network.packet.af.AF_DATA_CONFIRM;
-import org.bubblecloud.zigbee.network.packet.af.AF_DATA_REQUEST;
-import org.bubblecloud.zigbee.network.packet.af.AF_INCOMING_MSG;
 import org.bubblecloud.zigbee.v3.ZigBeeException;
 import org.bubblecloud.zigbee.v3.model.Status;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclCommandType;
@@ -215,25 +213,42 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
             final byte afTransactionId = af.getNextTransactionId(sender);
             final byte[] msg = input.getClusterMsg();
 
-            AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
-                    commandMessage.getDestinationAddress(), (short) commandMessage.getDestinationEndpoint(), sender,
-                    input.getId(), afTransactionId, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg));
+            if (commandMessage.getDestinationGroupId() == null) {
+                final AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
+                        commandMessage.getDestinationAddress(), (short) commandMessage.getDestinationEndpoint(), sender,
+                        input.getId(), afTransactionId, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg));
 
-            commandMessage.setTransactionId(zclFrame.getHeader().getTransactionId());
-            LOGGER.debug(">>> " + commandMessage.toString());
+                commandMessage.setTransactionId(zclFrame.getHeader().getTransactionId());
+                LOGGER.debug(">>> " + commandMessage.toString());
 
-            if (response == null) {
-                throw new ZigBeeException(
-                        "Unable to send cluster on the ZigBee network due to general error.");
+                if (response == null) {
+                    throw new ZigBeeException(
+                            "Unable to send cluster on the ZigBee network due to general error.");
+                }
+
+                if (response.getStatus()  != 0) {
+                    throw new ZigBeeException("Unable to send cluster on the ZigBee network due to: "
+                            + ResponseStatus.getStatus(response.getStatus())
+                            + " " + (response.getErrorMsg() != null ? " - " + response.getErrorMsg() : "") + ")");
+                }
+
+                return commandMessage.getTransactionId();
+
+            } else {
+               final AfDataSrspExt response = networkManager.sendAFDataRequestExt(new AfDataRequestExt(
+                        commandMessage.getDestinationGroupId(), sender,
+                        input.getId(), afTransactionId, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg));
+                commandMessage.setTransactionId(zclFrame.getHeader().getTransactionId());
+                LOGGER.debug(">>> " + commandMessage.toString());
+
+                if (response.getStatus()  != 0) {
+                    throw new ZigBeeException("Unable to send cluster on the ZigBee network due to: "
+                            + ResponseStatus.getStatus(response.getStatus()));
+                }
+
+                return commandMessage.getTransactionId();
             }
 
-            if (response.getStatus()  != 0) {
-                throw new ZigBeeException("Unable to send cluster on the ZigBee network due to: "
-                        + ResponseStatus.getStatus(response.getStatus())
-                        + " " + (response.getErrorMsg() != null ? " - " + response.getErrorMsg() : "") + ")");
-            }
-
-            return commandMessage.getTransactionId();
         }
     }
 

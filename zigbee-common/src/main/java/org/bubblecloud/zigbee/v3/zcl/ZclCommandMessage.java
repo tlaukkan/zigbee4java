@@ -46,6 +46,10 @@ public class ZclCommandMessage {
      */
     private int destinationEndpoint;
     /**
+     * The destination group ID which can be used instead of destination address and endpoint.
+     */
+    private Integer destinationGroupId;
+    /**
      * The type.
      */
     private ZclCommandType type;
@@ -65,30 +69,6 @@ public class ZclCommandMessage {
      * Default constructor for inbound messages.
      */
     public ZclCommandMessage() {
-    }
-
-    /**
-     * Constructor for outbound messages.
-     * @param destinationAddress the destination address
-     * @param destinationEndpoint the destination endpoint
-     * @param type the type
-     * @param transactionId the transaction ID
-     */
-    public ZclCommandMessage(final int destinationAddress, int destinationEndpoint, final ZclCommandType type,
-                             final Byte transactionId) {
-        this.destinationAddress = destinationAddress;
-        this.destinationEndpoint = destinationEndpoint;
-        this.transactionId = transactionId;
-        this.type = type;
-    }
-
-    /**
-     * Add field to message.
-     * @param field the field
-     * @param value the value
-     */
-    public void addField(final ZclFieldType field, final Object value) {
-        fields.put(field, value);
     }
 
     /**
@@ -137,6 +117,22 @@ public class ZclCommandMessage {
      */
     public void setDestinationEndpoint(final int destinationEndpoint) {
         this.destinationEndpoint = destinationEndpoint;
+    }
+
+    /**
+     * Gets destination group ID
+     * @return the destination group ID
+     */
+    public Integer getDestinationGroupId() {
+        return destinationGroupId;
+    }
+
+    /**
+     * Sets destination group ID
+     * @param destinationGroupId the destination group ID
+     */
+    public void setDestinationGroupId(final Integer destinationGroupId) {
+        this.destinationGroupId = destinationGroupId;
     }
 
     /**

@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Value object for ZigBee device.
  */
-public class ZigBeeDevice {
+public class ZigBeeDevice extends ZigBeeDestination {
     /**
      * The IEEE address.
      */

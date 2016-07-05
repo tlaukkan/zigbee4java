@@ -41,9 +41,17 @@ public class ZToolCMD {
 	 */
 	public static final int AF_DATA_REQUEST = 0x2401;
 	/**
+	 * This command is used by tester to build and send a data request message
+	 */
+	public static final int AF_DATA_REQUEST_EXT = 0x2402;
+	/**
 	 * Response for AF_DATA_REQUEST
 	 */
 	public static final int AF_DATA_SRSP = 0x6401;
+	/**
+	 * Response for AF_DATA_REQUEST
+	 */
+	public static final int AF_DATA_SRSP_EXT = 0x6402;
 	/**
 	 * Incoming AF data.
 	 */
