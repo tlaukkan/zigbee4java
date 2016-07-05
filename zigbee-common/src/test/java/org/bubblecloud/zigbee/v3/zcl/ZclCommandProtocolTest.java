@@ -126,8 +126,8 @@ public class ZclCommandProtocolTest {
         final WriteAttributesResponseCommand command = new WriteAttributesResponseCommand();
         final List<WriteAttributeStatusRecord> list = new ArrayList<WriteAttributeStatusRecord>();
         final WriteAttributeStatusRecord data = new WriteAttributeStatusRecord();
-        data.setStatus(0);
-        data.setAttributeIdentifier(1);
+        data.setStatus(1);
+        data.setAttributeIdentifier(2);
         list.add(data);
         command.setRecords(list);
         testSerialization(command);
