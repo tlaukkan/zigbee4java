@@ -7,6 +7,37 @@ import java.util.List;
  */
 public interface ZigBeeNetworkState {
     /**
+     * Adds group.
+     * @param group the group to add
+     */
+    void addGroup(ZigBeeGroup group);
+
+    /**
+     * Updates group.
+     * @param group the group to update
+     */
+    void updateGroup(ZigBeeGroup group);
+
+    /**
+     * Removes group by network address.
+     * @param groupId the group ID
+     */
+    void removeGroup(int groupId);
+
+    /**
+     * Gets group by network address.
+     * @param groupId the group ID
+     * @return the ZigBee group or null if no exists with given group ID.
+     */
+    ZigBeeGroup getGroup(int groupId);
+
+    /**
+     * Gets all groups.
+     * @return list of groups.
+     */
+    List<ZigBeeGroup> getGroups();
+
+    /**
      * Adds device.
      * @param device the device to add
      */
@@ -33,7 +64,7 @@ public interface ZigBeeNetworkState {
 
     /**
      * Gets all devices.
-     * @return list od devices.
+     * @return list of devices.
      */
     List<ZigBeeDevice> getDevices();
 

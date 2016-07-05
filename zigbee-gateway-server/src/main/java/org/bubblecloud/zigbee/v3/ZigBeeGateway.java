@@ -4,7 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.bubblecloud.zigbee.api.ZigBeeApiConstants;
 import org.bubblecloud.zigbee.api.cluster.Cluster;
 import org.bubblecloud.zigbee.api.cluster.impl.api.core.Attribute;
-import org.bubblecloud.zigbee.api.cluster.impl.api.general.groups.GetGroupMembershipResponse;
 import org.bubblecloud.zigbee.util.IEEEAddress;
 import org.bubblecloud.zigbee.v3.model.Status;
 import org.bubblecloud.zigbee.v3.model.ZigBeeType;
@@ -63,9 +62,12 @@ public final class ZigBeeGateway {
 
 		commands.put("quit", 		new QuitCommand());
 		commands.put("help", 		new HelpCommand());
-		commands.put("list", 		new ListCommand());
+		commands.put("devicelist", 		new DeviceListCommand());
+        commands.put("grouplist", 		new GroupListCommand());
 		commands.put("desc", 		new DescribeCommand());
-        commands.put("label", 		new LabelCommand());
+        commands.put("descriptor",  new SetDescriptorCommand());
+        commands.put("devicelabel", new DeviceLabelCommand());
+        commands.put("grouplabel", new GroupLabelCommand());
 		commands.put("bind", 		new BindCommand());
 		commands.put("unbind", 		new UnbindCommand());
 		commands.put("on", 			new OnCommand());
@@ -272,9 +274,20 @@ public final class ZigBeeGateway {
         }
 
         try {
-            final ZigBeeGroup zigBeeGroup = new ZigBeeGroup(Integer.parseInt(destinationIdentifier));
-            out.println("Broadcasting to ZigBee group: " + destinationIdentifier);
-            return zigBeeGroup;
+            for (final ZigBeeGroup group : zigbeeApi.getGroups()) {
+                if (destinationIdentifier.equals(group.getName())) {
+                    out.println("Broadcasting to ZigBee group: " + group.getName() + "(" + group.getGroupId() + ")");
+                    return group;
+                }
+            }
+            final int groupId = Integer.parseInt(destinationIdentifier);
+            ZigBeeGroup group = zigbeeApi.getGroup(groupId);
+            if (group == null) {
+                zigBeeApi.setGroupLabel(groupId, Integer.toString(groupId));
+            }
+            group = zigbeeApi.getGroup(groupId);
+            out.println("Broadcasting to ZigBee group: " + group.getName() + "(" + group.getGroupId() + ")");
+            return group;
         } catch (final NumberFormatException e) {
             return null;
         }
@@ -397,7 +410,7 @@ public final class ZigBeeGateway {
     /**
      * Prints list of devices to console.
      */
-    private class ListCommand implements ConsoleCommand {
+    private class DeviceListCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
@@ -408,16 +421,44 @@ public final class ZigBeeGateway {
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "list";
+            return "devicelist";
         }
         /**
          * {@inheritDoc}
          */
         public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) {
-            final List<ZigBeeDevice> devices = zigbeeApi.getNetworkState().getDevices();
+            final List<ZigBeeDevice> devices = zigbeeApi.getDevices();
             for (int i = 0; i < devices.size(); i++) {
                 final ZigBeeDevice device = devices.get(i);
                 print(getDeviceSummary(device), out);
+            }
+            return true;
+        }
+    }
+
+    /**
+     * Prints list of groups to console.
+     */
+    private class GroupListCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Lists labeled groups.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "grouplist";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) {
+            final List<ZigBeeGroup> groups = zigbeeApi.getGroups();
+            for (final ZigBeeGroup group : groups) {
+                print(StringUtils.leftPad(Integer.toString(group.getGroupId()), 10) + "      " + group.getName(), out);
             }
             return true;
         }
@@ -705,18 +746,18 @@ public final class ZigBeeGateway {
     /**
      * Sets device label.
      */
-    private class LabelCommand implements ConsoleCommand {
+    private class DeviceLabelCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
         public String getDescription() {
-            return "Sets device label (user descriptor) to 0-16 US-ASCII character string.";
+            return "Sets device label.";
         }
         /**
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "label DEVICEID DEVICELABEL";
+            return "devicelabel DEVICEID DEVICELABEL";
         }
         /**
          * {@inheritDoc}
@@ -733,11 +774,84 @@ public final class ZigBeeGateway {
 
             final String label = args[2];
             device.setLabel(label);
-            zigbeeApi.getNetworkState().updateDevice(device);
+            zigbeeApi.setDeviceLabel(device.getNetworkAddress(), device.getEndpoint(), label);
+            return true;
+        }
+    }
+
+    /**
+     * Sets group label.
+     */
+    private class GroupLabelCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Sets group label.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "grouplabel GROUPID GROUPLABEL";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+            if (args.length != 3) {
+                return false;
+            }
+
+            final int groupId;
+            try {
+                groupId = Integer.parseInt(args[1]);
+            } catch (final NumberFormatException e) {
+                return false;
+            }
+
+            final String label = args[2];
+            zigbeeApi.setGroupLabel(groupId, label);
+
+            return true;
+        }
+    }
+
+    /**
+     * Sets device label.
+     */
+    private class SetDescriptorCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Sets device user descriptor to 0-16 US-ASCII character string.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "descriptor DEVICEID DEVICELABEL";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+            if (args.length != 3) {
+                return false;
+            }
+
+            final ZigBeeDevice device = getDevice(zigbeeApi, args[1]);
+            if (device == null) {
+                return false;
+            }
+
+            final String label = args[2];
             final CommandResult response = zigbeeApi.describe(device, label).get();
             return defaultResponseProcessing(response, out);
         }
     }
+
 
     /**
      * Changes a device level for example lamp brightness.

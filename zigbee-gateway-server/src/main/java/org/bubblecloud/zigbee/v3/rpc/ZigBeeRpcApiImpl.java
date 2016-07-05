@@ -97,8 +97,28 @@ public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, CommandListener {
     }
 
     @Override
-    public List<ZigBeeDevice> getZigBeeDevices() {
-        return zigBeeGateway.getZigBeeApi().getZigBeeDevices();
+    public void setDeviceLabel(int networkAddress, int endPointId, String label) {
+        zigBeeGateway.getZigBeeApi().setDeviceLabel(networkAddress, endPointId, label);
+    }
+
+    @Override
+    public void setGroupLabel(int groupId, String label) {
+        zigBeeGateway.getZigBeeApi().setGroupLabel(groupId, label);
+    }
+
+    @Override
+    public ZigBeeGroup getGroup(int groupId) {
+        return zigBeeGateway.getZigBeeApi().getGroup(groupId);
+    }
+
+    @Override
+    public List<ZigBeeGroup> getGroups() {
+        return zigBeeGateway.getZigBeeApi().getGroups();
+    }
+
+    @Override
+    public List<ZigBeeDevice> getZigDevices() {
+        return zigBeeGateway.getZigBeeApi().getDevices();
     }
 
     @Override

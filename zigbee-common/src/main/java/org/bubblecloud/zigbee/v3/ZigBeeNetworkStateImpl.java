@@ -21,6 +21,10 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
      */
     private Map<String, ZigBeeDevice> devices = new TreeMap<String, ZigBeeDevice>();
     /**
+     * The groups in the ZigBee network.
+     */
+    private Map<Integer, ZigBeeGroup> groups = new TreeMap<Integer, ZigBeeGroup>();
+    /**
      * The listeners of the ZigBee network.
      */
     private List<ZigBeeNetworkStateListener> listeners = Collections.unmodifiableList(
@@ -79,6 +83,44 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
         }
         LOGGER.info("ZigBeeApi saving network state done.");
     }
+
+    @Override
+    public void addGroup(final ZigBeeGroup group) {
+        synchronized (groups) {
+            groups.put(group.getGroupId(), group);
+        }
+    }
+
+    @Override
+    public void updateGroup(ZigBeeGroup group) {
+        synchronized (groups) {
+            groups.put(group.getGroupId(), group);
+        }
+    }
+
+    @Override
+    public ZigBeeGroup getGroup(final int groupId) {
+        synchronized (groups) {
+            return groups.get(groupId);
+        }
+    }
+
+    @Override
+    public void removeGroup(final int groupId) {
+        final ZigBeeGroup group;
+        synchronized (groups) {
+            group = groups.remove(groupId);
+        }
+    }
+
+    @Override
+    public List<ZigBeeGroup> getGroups() {
+        synchronized (groups) {
+            return new ArrayList<ZigBeeGroup>(groups.values());
+        }
+    }
+
+
 
     @Override
     public void addDevice(final ZigBeeDevice device) {

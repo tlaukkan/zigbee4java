@@ -100,11 +100,69 @@ public class ZigBeeApi {
     }
 
     /**
+     * Sets device label.
+     * @param networkAddress the network address
+     * @param endPointId the end point ID
+     * @param label the label
+     */
+    public void setDeviceLabel(final int networkAddress, final int endPointId, final String label) {
+        final ZigBeeDevice device = networkState.getDevice(networkAddress, endPointId);
+        device.setLabel(label);
+        networkState.updateDevice(device);
+    }
+
+    /**
+     * Sets group label.
+     * @param groupId the group ID
+     * @param label the label
+     */
+    public void setGroupLabel(final int groupId, final String label) {
+        if (networkState.getGroup(groupId) == null) {
+            networkState.addGroup(new ZigBeeGroup(groupId, label));
+        } else {
+            final ZigBeeGroup group = networkState.getGroup(groupId);
+            group.setName(label);
+            networkState.updateGroup(group);
+        }
+    }
+
+    /**
+     * Gets group by network address.
+     * @param groupId the group ID
+     * @return the ZigBee group or null if no exists with given group ID.
+     */
+    public ZigBeeGroup getGroup(final int groupId) {
+        return networkState.getGroup(groupId);
+    }
+
+    /**
+     * Gets all groups.
+     * @return list of groups.
+     */
+    public List<ZigBeeGroup> getGroups() {
+        return networkState.getGroups();
+    }
+
+    /**
      * Gets ZigBee devices.
      * @return list of ZigBee devices
      */
-    public List<ZigBeeDevice> getZigBeeDevices() {
+    public List<ZigBeeDevice> getDevices() {
         return getNetworkState().getDevices();
+    }
+
+    /**
+     * Labels destination.
+     * @param destination the destination
+     */
+    public void label(final ZigBeeDestination destination, final String label) {
+        if (destination.isGroup()) {
+            final ZigBeeGroup group = (ZigBeeGroup) destination;
+            this.setGroupLabel(group.getGroupId(), label);
+        } else {
+            final ZigBeeDevice device = (ZigBeeDevice) destination;
+            this.setDeviceLabel(device.getNetworkAddress(), device.getEndpoint(), label);
+        }
     }
 
     /**

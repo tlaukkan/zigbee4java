@@ -3,6 +3,7 @@ package org.bubblecloud.zigbee.v3.rpc;
 import org.bubblecloud.zigbee.v3.Command;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
 import org.bubblecloud.zigbee.v3.ZigBeeException;
+import org.bubblecloud.zigbee.v3.ZigBeeGroup;
 
 import java.util.List;
 
@@ -52,8 +53,36 @@ public interface ZigBeeRpcApi {
     List<Command> receive(final String receiveQueueId) throws ZigBeeException;
 
     /**
+     * Sets device label.
+     * @param networkAddress the network address
+     * @param endPointId the end point ID
+     * @param label the label
+     */
+    void setDeviceLabel(int networkAddress, int endPointId, String label);
+
+    /**
+     * Sets group label.
+     * @param groupId the group ID
+     * @param label the label
+     */
+    void setGroupLabel(int groupId, String label);
+
+    /**
+     * Gets group by network address.
+     * @param groupId the group ID
+     * @return the ZigBee group or null if no exists with given group ID.
+     */
+    ZigBeeGroup getGroup(int groupId);
+
+    /**
+     * Gets all groups.
+     * @return list of groups.
+     */
+    List<ZigBeeGroup> getGroups();
+
+    /**
      * Gets ZigBee devices.
      * @return list of ZigBee devices
      */
-    List<ZigBeeDevice> getZigBeeDevices();
+    List<ZigBeeDevice> getZigDevices();
 }

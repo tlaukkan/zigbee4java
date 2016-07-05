@@ -7,6 +7,7 @@ import org.bubblecloud.zigbee.v3.zcl.ZclCommand;
 import org.bubblecloud.zigbee.v3.zcl.ZclCommandTransmitter;
 import org.bubblecloud.zigbee.v3.zdo.ZdoCommand;
 import org.bubblecloud.zigbee.v3.zdo.ZdoCommandTransmitter;
+import org.bubblecloud.zigbee.v3.zdo.command.UserDescriptorSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

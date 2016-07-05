@@ -42,7 +42,7 @@ public class ZigBeeGatewayClientTest {
         readAttributesCommand.setIdentifiers(new ArrayList<AttributeIdentifier>(Arrays.asList(new AttributeIdentifier())));
         client.sendCommand(readAttributesCommand);
 
-        final ZigBeeDevice device = client.getZigBeeDevices().get(3);
+        final ZigBeeDevice device = client.getDevices().get(3);
 
         Assert.assertTrue(client.on(device).get().isSuccess());
 
