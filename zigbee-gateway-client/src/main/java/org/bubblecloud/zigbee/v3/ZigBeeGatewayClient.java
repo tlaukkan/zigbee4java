@@ -58,8 +58,28 @@ public class ZigBeeGatewayClient extends ZigBeeApi implements ZigBeeNetwork {
     }
 
     @Override
+    public void setDeviceLabel(final int networkAddress, final int endPointId, final String label) {
+        rpcClient.getZigBeeRpcApi().setDeviceLabel(networkAddress, endPointId, label);
+    }
+
+    @Override
+    public void removeDevice(final int networkAddress) {
+        rpcClient.getZigBeeRpcApi().removeDevice(networkAddress);
+    }
+
+    @Override
     public List<ZigBeeDevice> getDevices() {
-        return rpcClient.getZigBeeRpcApi().getZigDevices();
+        return rpcClient.getZigBeeRpcApi().getDevices();
+    }
+
+    @Override
+    public void addMembership(final int groupId, final String label) {
+        rpcClient.getZigBeeRpcApi().addGroup(groupId, label);
+    }
+
+    @Override
+    public void removeMembership(final int groupId) {
+        rpcClient.getZigBeeRpcApi().removeGroup(groupId);
     }
 
     @Override
@@ -70,17 +90,6 @@ public class ZigBeeGatewayClient extends ZigBeeApi implements ZigBeeNetwork {
     @Override
     public List<ZigBeeGroup> getGroups() {
         return rpcClient.getZigBeeRpcApi().getGroups();
-    }
-
-
-    @Override
-    public void setDeviceLabel(final int networkAddress, final int endPointId, final String label) {
-        rpcClient.getZigBeeRpcApi().setDeviceLabel(networkAddress, endPointId, label);
-    }
-
-    @Override
-    public void setGroupLabel(final int groupId, final String label) {
-        rpcClient.getZigBeeRpcApi().setGroupLabel(groupId, label);
     }
 
     @Override

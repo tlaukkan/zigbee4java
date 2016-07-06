@@ -60,38 +60,42 @@ public final class ZigBeeGateway {
      */
     public ZigBeeGateway(final ZigBeeDongle dongle, final boolean resetNetwork) {
 
-		commands.put("quit", 		new QuitCommand());
-		commands.put("help", 		new HelpCommand());
-		commands.put("devicelist", 		new DeviceListCommand());
-        commands.put("grouplist", 		new GroupListCommand());
-		commands.put("desc", 		new DescribeCommand());
-        commands.put("descriptor",  new SetDescriptorCommand());
+        commands.put("devicelist", new DeviceListCommand());
         commands.put("devicelabel", new DeviceLabelCommand());
-        commands.put("grouplabel", new GroupLabelCommand());
-		commands.put("bind", 		new BindCommand());
-		commands.put("unbind", 		new UnbindCommand());
-		commands.put("on", 			new OnCommand());
-		commands.put("off", 		new OffCommand());
-		commands.put("color",		new ColorCommand());
-		commands.put("level", 		new LevelCommand());
-		commands.put("listen", 	    new ListenCommand());
-		commands.put("unlisten",    new UnlistenCommand());
-		commands.put("subscribe", 	new SubscribeCommand());
+        commands.put("deviceremove", new DeviceRemoveCommand());
+
+        commands.put("groupadd", new GroupAddCommand());
+        commands.put("groupremove", new GroupRemoveCommand());
+        commands.put("grouplist", new GroupListCommand());
+
+        commands.put("membershipadd", new MembershipAddCommand());
+        commands.put("membershipremove", new MembershipRemoveCommand());
+        commands.put("membershipview", new MembershipViewCommand());
+        commands.put("membershiplist", new MembershipListCommand());
+
+        commands.put("quit", new QuitCommand());
+		commands.put("help", new HelpCommand());
+		commands.put("desc", new DescribeCommand());
+        commands.put("descriptor", new SetDescriptorCommand());
+		commands.put("bind", new BindCommand());
+		commands.put("unbind", new UnbindCommand());
+		commands.put("on", new OnCommand());
+		commands.put("off", new OffCommand());
+		commands.put("color", new ColorCommand());
+		commands.put("level", new LevelCommand());
+		commands.put("listen", new ListenCommand());
+		commands.put("unlisten", new UnlistenCommand());
+		commands.put("subscribe", new SubscribeCommand());
 		commands.put("unsubscribe", new UnsubscribeCommand());
 		commands.put("read", new ReadCommand());
 		commands.put("write", new WriteCommand());
 		commands.put("join", new JoinCommand());
-		commands.put("lqi", 		new LqiCommand());
-        commands.put("warn",        new WarnCommand());
+		commands.put("lqi", new LqiCommand());
+        commands.put("warn", new WarnCommand());
         commands.put("squawk", new SquawkCommand());
         commands.put("lock", new DoorLockCommand());
         commands.put("unlock", new DoorUnlockCommand());
         commands.put("enroll", new EnrollCommand());
-
-        commands.put("groupadd", new GroupAddCommand());
-        commands.put("groupremove", new GroupRemoveCommand());
-        commands.put("groupview", new GroupViewCommand());
-        commands.put("groups", new GroupMembershipsCommand());
 
         zigBeeApi = new ZigBeeApiDongleImpl(dongle, resetNetwork);
     }
@@ -276,17 +280,15 @@ public final class ZigBeeGateway {
         try {
             for (final ZigBeeGroup group : zigbeeApi.getGroups()) {
                 if (destinationIdentifier.equals(group.getLabel())) {
-                    out.println("Broadcasting to ZigBee group: " + group.getLabel() + "(" + group.getGroupId() + ")");
                     return group;
                 }
             }
             final int groupId = Integer.parseInt(destinationIdentifier);
             ZigBeeGroup group = zigbeeApi.getGroup(groupId);
             if (group == null) {
-                zigBeeApi.setGroupLabel(groupId, Integer.toString(groupId));
+                zigBeeApi.addMembership(groupId, Integer.toString(groupId));
             }
             group = zigbeeApi.getGroup(groupId);
-            out.println("Broadcasting to ZigBee group: " + group.getLabel() + "(" + group.getGroupId() + ")");
             return group;
         } catch (final NumberFormatException e) {
             return null;
@@ -436,14 +438,14 @@ public final class ZigBeeGateway {
     }
 
     /**
-     * Prints list of groups to console.
+     * Lists groups in gateway network state.
      */
     private class GroupListCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
         public String getDescription() {
-            return "Lists labeled groups.";
+            return "Lists groups in gateway network state.";
         }
         /**
          * {@inheritDoc}
@@ -781,20 +783,20 @@ public final class ZigBeeGateway {
     }
 
     /**
-     * Sets group label.
+     * Adds group to gateway network state. Does not affect actual ZigBee network.
      */
-    private class GroupLabelCommand implements ConsoleCommand {
+    private class GroupAddCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
         public String getDescription() {
-            return "Sets group label.";
+            return "Adds group to gateway network state.";
         }
         /**
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "grouplabel GROUPID GROUPLABEL";
+            return "groupadd GROUPID GROUPLABEL";
         }
         /**
          * {@inheritDoc}
@@ -812,14 +814,87 @@ public final class ZigBeeGateway {
             }
 
             final String label = args[2];
-            zigbeeApi.setGroupLabel(groupId, label);
+            zigbeeApi.addMembership(groupId, label);
 
             return true;
         }
     }
 
     /**
-     * Sets device label.
+     * Removes device from network state but does not affect actual ZigBeet network.
+     * Device will be eventually rediscovered if it is still in the network.
+     */
+    private class DeviceRemoveCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Removes device from gateway network state.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "deviceremove DEVICE";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+            if (args.length != 2) {
+                return false;
+            }
+
+            final ZigBeeDevice device = getDevice(zigbeeApi, args[1]);
+            if (device == null) {
+                return false;
+            }
+
+            zigbeeApi.removeDevice(device.getNetworkAddress());
+            return true;
+        }
+    }
+
+    /**
+     * Removes group from network state but does not affect actual ZigBeet network.
+     */
+    private class GroupRemoveCommand implements ConsoleCommand {
+        /**
+         * {@inheritDoc}
+         */
+        public String getDescription() {
+            return "Removes group from gateway network state.";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public String getSyntax() {
+            return "groupremove GROUP";
+        }
+        /**
+         * {@inheritDoc}
+         */
+        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+            if (args.length != 2) {
+                return false;
+            }
+
+            final ZigBeeDestination destination = getDestination(zigbeeApi, args[1], out);
+            if (destination == null) {
+                return false;
+            }
+            if (!(destination instanceof ZigBeeGroup)) {
+                return false;
+            }
+
+            final ZigBeeGroup group = (ZigBeeGroup) destination;
+            zigbeeApi.removeMembership(group.getGroupId());
+            return true;
+        }
+    }
+
+    /**
+     * Sets device user descriptor.
      */
     private class SetDescriptorCommand implements ConsoleCommand {
         /**
@@ -1589,20 +1664,20 @@ public final class ZigBeeGateway {
     }
 
     /**
-     * Add group membership to device.
+     * Adds group membership to device.
      */
-    private class GroupAddCommand implements ConsoleCommand {
+    private class MembershipAddCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
         public String getDescription() {
-            return "Add group membership.";
+            return "Adds group membership to device.";
         }
         /**
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "groupadd [DEVICE] [GROUPID] [GROUPNAME]";
+            return "membershipadd [DEVICE] [GROUPID] [GROUPNAME]";
         }
         /**
          * {@inheritDoc}
@@ -1628,7 +1703,7 @@ public final class ZigBeeGateway {
 
             final String groupName = args[3];
 
-            final CommandResult result = zigbeeApi.addGroup(device, groupId, groupName).get();
+            final CommandResult result = zigbeeApi.addMembership(device, groupId, groupName).get();
 
             return defaultResponseProcessing(result, out);
 
@@ -1636,20 +1711,20 @@ public final class ZigBeeGateway {
     }
 
     /**
-     * Remove group membership from device.
+     * Removes device group membership from device.
      */
-    private class GroupRemoveCommand implements ConsoleCommand {
+    private class MembershipRemoveCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
         public String getDescription() {
-            return "Remove group membership.";
+            return "Removes group membership from device.";
         }
         /**
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "groupremove [DEVICE] [GROUPID]";
+            return "membershipremove [DEVICE] [GROUPID]";
         }
         /**
          * {@inheritDoc}
@@ -1673,27 +1748,27 @@ public final class ZigBeeGateway {
                 return false;
             }
 
-            final CommandResult result = zigbeeApi.removeGroup(device, groupId).get();
+            final CommandResult result = zigbeeApi.removeMembership(device, groupId).get();
 
             return defaultResponseProcessing(result, out);
         }
     }
 
     /**
-     * View group name from device.
+     * Views group name from device group membership.
      */
-    private class GroupViewCommand implements ConsoleCommand {
+    private class MembershipViewCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
         public String getDescription() {
-            return "View group name.";
+            return "Views group name from device group membership.";
         }
         /**
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "groupview [DEVICE] [GROUPID]";
+            return "membershipview [DEVICE] [GROUPID]";
         }
         /**
          * {@inheritDoc}
@@ -1717,7 +1792,7 @@ public final class ZigBeeGateway {
                 return false;
             }
 
-            final CommandResult result = zigbeeApi.viewGroup(device, groupId).get();
+            final CommandResult result = zigbeeApi.viewMembership(device, groupId).get();
 
             if (result.isSuccess()) {
                 final ViewGroupResponseCommand response = result.getResponse();
@@ -1737,20 +1812,20 @@ public final class ZigBeeGateway {
     }
 
     /**
-     * View group memberships from device.
+     * Lists group memberships from device.
      */
-    private class GroupMembershipsCommand implements ConsoleCommand {
+    private class MembershipListCommand implements ConsoleCommand {
         /**
          * {@inheritDoc}
          */
         public String getDescription() {
-            return "Get group memberships.";
+            return "Lists group memberships from device.";
         }
         /**
          * {@inheritDoc}
          */
         public String getSyntax() {
-            return "groups [DEVICE]";
+            return "membershiplist [DEVICE]";
         }
         /**
          * {@inheritDoc}

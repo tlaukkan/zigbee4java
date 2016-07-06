@@ -61,11 +61,29 @@ public interface ZigBeeRpcApi {
     void setDeviceLabel(int networkAddress, int endPointId, String label);
 
     /**
+     * Removes device(s) by network address.
+     * @param networkAddress the network address
+     */
+    void removeDevice(int networkAddress);
+
+    /**
+     * Gets ZigBee devices.
+     * @return list of ZigBee devices
+     */
+    List<ZigBeeDevice> getDevices();
+
+    /**
      * Sets group label.
      * @param groupId the group ID
      * @param label the label
      */
-    void setGroupLabel(int groupId, String label);
+    void addGroup(int groupId, String label);
+
+    /**
+     * Removes group label.
+     * @param groupId the group ID
+     */
+    void removeGroup(int groupId);
 
     /**
      * Gets group by network address.
@@ -80,9 +98,4 @@ public interface ZigBeeRpcApi {
      */
     List<ZigBeeGroup> getGroups();
 
-    /**
-     * Gets ZigBee devices.
-     * @return list of ZigBee devices
-     */
-    List<ZigBeeDevice> getZigDevices();
 }

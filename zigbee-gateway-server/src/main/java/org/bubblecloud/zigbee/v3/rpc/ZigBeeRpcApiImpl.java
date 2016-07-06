@@ -102,8 +102,18 @@ public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, CommandListener {
     }
 
     @Override
-    public void setGroupLabel(int groupId, String label) {
-        zigBeeGateway.getZigBeeApi().setGroupLabel(groupId, label);
+    public void removeDevice(int networkAddress) {
+        zigBeeGateway.getZigBeeApi().removeDevice(networkAddress);
+    }
+
+    @Override
+    public void addGroup(int groupId, String label) {
+        zigBeeGateway.getZigBeeApi().addMembership(groupId, label);
+    }
+
+    @Override
+    public void removeGroup(int groupId) {
+        zigBeeGateway.getZigBeeApi().removeMembership(groupId);
     }
 
     @Override
@@ -117,7 +127,7 @@ public class ZigBeeRpcApiImpl implements ZigBeeRpcApi, CommandListener {
     }
 
     @Override
-    public List<ZigBeeDevice> getZigDevices() {
+    public List<ZigBeeDevice> getDevices() {
         return zigBeeGateway.getZigBeeApi().getDevices();
     }
 

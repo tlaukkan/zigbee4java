@@ -112,11 +112,38 @@ public class ZigBeeApi {
     }
 
     /**
+     * Removes device(s) by network address.
+     * @param networkAddress the network address
+     */
+    public void removeDevice(final int networkAddress) {
+        final List<ZigBeeDevice> devices = networkState.getDevices();
+        final List<ZigBeeDevice> devicesToRemove = new ArrayList<ZigBeeDevice>();
+        for (final ZigBeeDevice device : devices) {
+            if (device.getNetworkAddress() == networkAddress) {
+                devicesToRemove.add(device);
+            }
+        }
+
+        for (final ZigBeeDevice device : devicesToRemove) {
+            networkState.removeDevice(device.getNetworkAddress(), device.getEndpoint());
+        }
+    }
+
+
+    /**
+     * Gets ZigBee devices.
+     * @return list of ZigBee devices
+     */
+    public List<ZigBeeDevice> getDevices() {
+        return getNetworkState().getDevices();
+    }
+
+    /**
      * Sets group label.
      * @param groupId the group ID
      * @param label the label
      */
-    public void setGroupLabel(final int groupId, final String label) {
+    public void addMembership(final int groupId, final String label) {
         if (networkState.getGroup(groupId) == null) {
             networkState.addGroup(new ZigBeeGroup(groupId, label));
         } else {
@@ -124,6 +151,14 @@ public class ZigBeeApi {
             group.setLabel(label);
             networkState.updateGroup(group);
         }
+    }
+
+    /**
+     * Removes group label.
+     * @param groupId the group ID
+     */
+    public void removeMembership(final int groupId) {
+        networkState.removeGroup(groupId);
     }
 
     /**
@@ -144,21 +179,13 @@ public class ZigBeeApi {
     }
 
     /**
-     * Gets ZigBee devices.
-     * @return list of ZigBee devices
-     */
-    public List<ZigBeeDevice> getDevices() {
-        return getNetworkState().getDevices();
-    }
-
-    /**
      * Labels destination.
      * @param destination the destination
      */
     public void label(final ZigBeeDestination destination, final String label) {
         if (destination.isGroup()) {
             final ZigBeeGroup group = (ZigBeeGroup) destination;
-            this.setGroupLabel(group.getGroupId(), label);
+            this.addMembership(group.getGroupId(), label);
         } else {
             final ZigBeeDevice device = (ZigBeeDevice) destination;
             this.setDeviceLabel(device.getNetworkAddress(), device.getEndpoint(), label);
@@ -486,7 +513,7 @@ public class ZigBeeApi {
      * @param groupName the group name
      * @return the command result future
      */
-    public Future<CommandResult> addGroup(final ZigBeeDevice device, final int groupId, final String groupName) {
+    public Future<CommandResult> addMembership(final ZigBeeDevice device, final int groupId, final String groupName) {
         final AddGroupCommand command = new AddGroupCommand();
         command.setGroupId(groupId);
         command.setGroupName(groupName);
@@ -519,7 +546,7 @@ public class ZigBeeApi {
      * @param groupId the group ID
      * @return the command result future
      */
-    public Future<CommandResult> viewGroup(final ZigBeeDevice device, final int groupId) {
+    public Future<CommandResult> viewMembership(final ZigBeeDevice device, final int groupId) {
         final ViewGroupCommand command = new ViewGroupCommand();
         command.setGroupId(groupId);
 
@@ -535,7 +562,7 @@ public class ZigBeeApi {
      * @param groupId the group ID
      * @return the command result future
      */
-    public Future<CommandResult> removeGroup(final ZigBeeDevice device, final int groupId) {
+    public Future<CommandResult> removeMembership(final ZigBeeDevice device, final int groupId) {
         final RemoveGroupCommand command = new RemoveGroupCommand();
         command.setGroupId(groupId);
 
