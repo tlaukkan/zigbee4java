@@ -24,7 +24,7 @@ public class ZigBeeApiCc2531ImplTest {
     @Ignore
     public void testZigBeeApiLocal() {
         final SerialPort port = new SerialPortImpl("COM5");
-        final ZigBeeDongle dongle = new ZigBeeDongleTiCc2531Impl(port, 4951, 11, false);
+        final ZigBeeDongle dongle = new ZigBeeDongleTiCc2531Impl(port, 4951, 11, null, false);
 
         final ZigBeeApiDongleImpl api = new ZigBeeApiDongleImpl(dongle, false);
 

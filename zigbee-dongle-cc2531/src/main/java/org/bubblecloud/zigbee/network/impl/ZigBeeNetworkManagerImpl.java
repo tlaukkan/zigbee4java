@@ -21,6 +21,7 @@
  */
 package org.bubblecloud.zigbee.network.impl;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.bubblecloud.zigbee.network.*;
 import org.bubblecloud.zigbee.network.packet.*;
 import org.bubblecloud.zigbee.network.packet.af.*;
@@ -102,7 +103,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
     private short pan = AUTO_PANID;
     private byte channel;
     private long extendedPanId; // do not initialize to use dongle defaults (the IEEE address)
-    private long networkKey;  // do not initialize to use dongle defaults
+    private byte[] networkKey;  // 16 byte network key
     private boolean distributeNetworkKey = true; // distribute network key in clear (be careful)
     private int securityMode = 1; // int for future extensibility
 
@@ -123,7 +124,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
 
     private final HashMap<Class<?>, Thread> conversation3Way = new HashMap<Class<?>, Thread>();
 
-    public ZigBeeNetworkManagerImpl(SerialPort port, NetworkMode mode, int pan, int channel, long timeout) {
+    public ZigBeeNetworkManagerImpl(SerialPort port, NetworkMode mode, int pan, int channel, byte[] networkKey, long timeout) {
 
         int aux = RESEND_TIMEOUT_DEFAULT;
         try {
@@ -192,6 +193,7 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         setSerialPort(port);
         setZigBeeNetwork((byte) channel, (short) pan);
         setZigBeeNodeMode(mode);
+        setZigBeeNetworkKey(networkKey);
     }
 
     public boolean startup() {
@@ -358,12 +360,35 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         }
         if ((value = getZigBeeNodeMode()) != mode.ordinal()) {
             logger.warn(
-                    "The NetworkMode configuration differ from the channel configuration in use: " +
+                    "The NetworkMode configuration differ from the NetworkMode configuration in use: " +
                             "in use {}, while the configured is {}.\n" +
                             "The ZigBee network should be reconfigured or configuration corrected.",
                     value, mode.ordinal()
             );
             mismatch = true;
+        }
+
+        if (networkKey != null) {
+            final byte[] readNetworkKey = getZigBeeNetworkKey();
+            if (readNetworkKey == null) {
+                logger.warn("Could not read preconfigured network key.");
+                mismatch = true;
+            } else {
+                boolean networkKeyMismatch = false;
+                for (int i = 0; i < 16; i++) {
+                    if (networkKey[i] != readNetworkKey[i]) {
+                        networkKeyMismatch = true;
+                        break;
+                    }
+                }
+                if (networkKeyMismatch) {
+                    logger.warn(
+                            "The NetworkKey configuration differ from the NetworkKey configuration in use.",
+                            Hex.toHexString(networkKey), Hex.toHexString(readNetworkKey)
+                    );
+                    mismatch = true;
+                }
+            }
         }
 
         return mismatch;
@@ -416,8 +441,8 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
         		logger.trace("EXT_PANID set");
         	}
         }
-        if (networkKey != 0) {
-        	logger.debug("Setting Network Key to {}.", String.format("%08X", networkKey));
+        if (networkKey != null) {
+        	logger.debug("Setting NETWORK_KEY.");
         	if (!dongleSetNetworkKey()) {
         		logger.error("Unable to set NETWORK_KEY for ZigBee Network");
         		return false;
@@ -503,6 +528,14 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                     "if driver is CLOSED while it is:" + state);
         }
         mode = networkMode;
+    }
+
+    public void setZigBeeNetworkKey(byte[] networkKey) {
+        if (state != DriverStatus.CLOSED) {
+            throw new IllegalStateException("Network key can be changed only " +
+                    "if driver is CLOSED while it is:" + state);
+        }
+        this.networkKey = networkKey;
     }
 
     public void setZigBeeNetwork(byte ch, short panId) {
@@ -989,14 +1022,22 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
                         new ZB_WRITE_CONFIGURATION(
                                 ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_PRECFGKEY,
                                 new int[]{
-                                        Integers.getByteAsInteger(networkKey, 0),
-                                        Integers.getByteAsInteger(networkKey, 1),
-                                        Integers.getByteAsInteger(networkKey, 2),
-                                        Integers.getByteAsInteger(networkKey, 3),
-                                        Integers.getByteAsInteger(networkKey, 4),
-                                        Integers.getByteAsInteger(networkKey, 5),
-                                        Integers.getByteAsInteger(networkKey, 6),
-                                        Integers.getByteAsInteger(networkKey, 7),
+                                        networkKey[0],
+                                        networkKey[1],
+                                        networkKey[2],
+                                        networkKey[3],
+                                        networkKey[4],
+                                        networkKey[5],
+                                        networkKey[6],
+                                        networkKey[7],
+                                        networkKey[8],
+                                        networkKey[9],
+                                        networkKey[10],
+                                        networkKey[11],
+                                        networkKey[12],
+                                        networkKey[13],
+                                        networkKey[14],
+                                        networkKey[15]
                                 }
                         )
                 );
@@ -1421,6 +1462,37 @@ public class ZigBeeNetworkManagerImpl implements ZigBeeNetworkManager {
             return response.Value[0];
         } else {
             return -1;
+        }
+    }
+
+    public byte[] getZigBeeNetworkKey() {
+        ZB_READ_CONFIGURATION_RSP response =
+                (ZB_READ_CONFIGURATION_RSP) sendSynchrouns(
+                        commandInterface,
+                        new ZB_READ_CONFIGURATION(ZB_WRITE_CONFIGURATION.CONFIG_ID.ZCD_NV_PRECFGKEY)
+                );
+        if (response != null && response.Status == 0) {
+            byte[] readNetworkKey = new byte[16];
+            readNetworkKey[0] = (byte) response.Value[0];
+            readNetworkKey[1] = (byte) response.Value[1];
+            readNetworkKey[2] = (byte) response.Value[2];
+            readNetworkKey[3] = (byte) response.Value[3];
+            readNetworkKey[4] = (byte) response.Value[4];
+            readNetworkKey[5] = (byte) response.Value[5];
+            readNetworkKey[6] = (byte) response.Value[6];
+            readNetworkKey[7] = (byte) response.Value[7];
+            readNetworkKey[8] = (byte) response.Value[8];
+            readNetworkKey[9] = (byte) response.Value[9];
+            readNetworkKey[10] = (byte) response.Value[10];
+            readNetworkKey[11] = (byte) response.Value[11];
+            readNetworkKey[12] = (byte) response.Value[12];
+            readNetworkKey[13] = (byte) response.Value[13];
+            readNetworkKey[14] = (byte) response.Value[14];
+            readNetworkKey[15] = (byte) response.Value[15];
+            return readNetworkKey;
+        } else {
+            logger.error("Error reading zigbee network key: " + ResponseStatus.getStatus(response.Status));
+            return null;
         }
     }
 

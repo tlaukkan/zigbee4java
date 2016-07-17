@@ -1,6 +1,8 @@
 package org.bubblecloud.zigbee.v3;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.bouncycastle.util.encoders.Hex;
 import org.bubblecloud.zigbee.network.port.SerialPortImpl;
 import org.bubblecloud.zigbee.util.ZigBeeConstants;
 import org.bubblecloud.zigbee.v3.rpc.AccessLevel;
@@ -40,6 +42,7 @@ public class ZigBeeGatewayMain {
 		final String serialPortName;
 		final int channel;
 		final int pan;
+        final byte[] networkKey;
 		final boolean resetNetwork;
         final int port;
         final String apiAccessToken;
@@ -49,33 +52,52 @@ public class ZigBeeGatewayMain {
 		try {
 			serialPortName = args[0];
 			channel        = Integer.parseInt(args[1]);
-			pan            = parseDecimalOrHexInt(args[2]);			
-			resetNetwork   = args[3].equals("true");
+			pan            = parseDecimalOrHexInt(args[2]);
 
-            if (args.length > 4) {
-                port = Integer.parseInt(args[4]);
+            if (!StringUtils.isEmpty(System.getenv("ZIGBEE_NETWORK_KEY"))) {
+                LOGGER.info("ZigBee network key defined by environment variable.");
+                networkKey = Hex.decode(System.getenv("ZIGBEE_NETWORK_KEY"));
+            } else if (args[3].equals("00000000000000000000000000000000")) {
+                LOGGER.info("ZigBee network key left as default according to command argument.");
+                networkKey = null;
+            } else {
+                LOGGER.info("ZigBee network key defined by command argument.");
+                networkKey = Hex.decode(args[3]);
+            }
+            if (networkKey != null && networkKey.length != 16) {
+                LOGGER.warn("ZigBee network key length should be 16 bytes.");
+                return;
+            }
+
+
+
+            resetNetwork   = args[4].equals("true");
+
+
+            if (args.length > 5) {
+                port = Integer.parseInt(args[5]);
             } else {
                 port = -1;
             }
-            if (args.length > 5) {
-                apiAccessToken = args[5];
+            if (args.length > 6) {
+                apiAccessToken = args[6];
             } else {
                 apiAccessToken = null;
             }
-            if (args.length > 6) {
-                keystorePath = args[6];
+            if (args.length > 7) {
+                keystorePath = args[7];
             } else {
                 keystorePath = null;
             }
-            if (args.length > 7) {
-                sslProtocols = args[7].split(",");
+            if (args.length > 8) {
+                sslProtocols = args[8].split(",");
             } else {
                 sslProtocols = null;
             }
-            if (args.length > 6) {
+            if (args.length > 7) {
                 System.out.printf("Please enter your password: ");
                 char[] passwordInput = System.console().readPassword();
-                if (passwordInput.length > 6) {
+                if (passwordInput.length > 0) {
                     password = passwordInput;
                 } else {
                     password = null;
@@ -91,7 +113,7 @@ public class ZigBeeGatewayMain {
 		}
 
 		final SerialPort serialPort = new SerialPortImpl(serialPortName, ZigBeeConstants.DEFAULT_BAUD_RATE);
-        final ZigBeeDongle dongle = new ZigBeeDongleTiCc2531Impl(serialPort, pan, channel, resetNetwork);
+        final ZigBeeDongle dongle = new ZigBeeDongleTiCc2531Impl(serialPort, pan, channel, networkKey, resetNetwork);
 		final ZigBeeGateway gateway = new ZigBeeGateway(dongle, resetNetwork);
 
         final AuthorizationProvider authorizationProvider = new AuthorizationProvider() {

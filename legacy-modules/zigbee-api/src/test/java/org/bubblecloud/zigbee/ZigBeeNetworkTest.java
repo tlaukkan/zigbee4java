@@ -36,7 +36,7 @@ public abstract class ZigBeeNetworkTest {
     public void testOpenNetwork() throws Exception {
 
         final ZigBeeNetworkManagerImpl zigbeeNetwork = new ZigBeeNetworkManagerImpl(
-                port, NetworkMode.Coordinator, 4951, 22, 2500L);
+                port, NetworkMode.Coordinator, 4951, 22, null, 2500L);
         zigbeeNetwork.startup();
 
         while (true) {
@@ -54,7 +54,7 @@ public abstract class ZigBeeNetworkTest {
     public void testDiscoverNetwork() throws Exception {
 
         final ZigBeeNetworkManagerImpl zigbeeNetworkManager = new ZigBeeNetworkManagerImpl(
-                port, NetworkMode.Coordinator, 4951, 22, 2500L);
+                port, NetworkMode.Coordinator, 4951, 22, null, 2500L);
 
         final ZigBeeDiscoveryManager zigbeeDiscoveryManager = new ZigBeeDiscoveryManager(zigbeeNetworkManager, DiscoveryMode.ALL);
         zigbeeDiscoveryManager.startup();
@@ -81,7 +81,7 @@ public abstract class ZigBeeNetworkTest {
         
         final Set<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
         discoveryModes.remove(DiscoveryMode.LinkQuality);
-        final ZigBeeApi zigbeeApi = new ZigBeeApi(port, 4951, 11, false, discoveryModes);
+        final ZigBeeApi zigbeeApi = new ZigBeeApi(port, 4951, 11, null, false, discoveryModes);
         zigbeeApi.startup();
 
         Thread.sleep(1000);

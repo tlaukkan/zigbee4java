@@ -105,7 +105,7 @@ public final class ZigBeeConsole {
         final Set<DiscoveryMode> discoveryModes = new HashSet<DiscoveryMode>();
         discoveryModes.add(DiscoveryMode.Addressing);
         discoveryModes.add(DiscoveryMode.Announce);
-        zigBeeApi = new ZigBeeApi(port, pan, channel, resetNetwork, discoveryModes);
+        zigBeeApi = new ZigBeeApi(port, pan, channel, null, resetNetwork, discoveryModes);
     }
 
 	/**

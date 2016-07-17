@@ -44,48 +44,12 @@ public class ZigBeeConsoleJavaSE {
 		final int channel;
 		final int pan;
 		final boolean resetNetwork;
-        final int port;
-        final String apiAccessToken;
-        final String keystorePath;
-        final char[] password;
-        final String[] sslProtocols;
+
 		try {
 			serialPortName = args[0];
 			channel        = Integer.parseInt(args[1]);
 			pan            = parseDecimalOrHexInt(args[2]);			
 			resetNetwork   = args[3].equals("true");
-
-            if (args.length > 4) {
-                port = Integer.parseInt(args[4]);
-            } else {
-                port = -1;
-            }
-            if (args.length > 5) {
-                apiAccessToken = args[5];
-            } else {
-                apiAccessToken = null;
-            }
-            if (args.length > 6) {
-                keystorePath = args[6];
-            } else {
-                keystorePath = null;
-            }
-            if (args.length > 7) {
-                sslProtocols = args[7].split(",");
-            } else {
-                sslProtocols = null;
-            }
-            if (args.length > 6) {
-                System.out.printf("Please enter your password: ");
-                char[] passwordInput = System.console().readPassword();
-                if (passwordInput.length > 6) {
-                    password = passwordInput;
-                } else {
-                    password = null;
-                }
-            } else {
-                password = null;
-            }
 
 		} catch (final Throwable t) {
             t.printStackTrace();
@@ -95,37 +59,6 @@ public class ZigBeeConsoleJavaSE {
 
 		final SerialPort serialPort = new SerialPortImpl(serialPortName, DEFAULT_BAUD_RATE);
 		final ZigBeeConsole console = new ZigBeeConsole(serialPort,pan,channel,resetNetwork);
-
-        /*final AuthorizationProvider authorizationProvider = new AuthorizationProvider() {
-            @Override
-            public AccessLevel getAccessLevel(final String accessToken) {
-                return apiAccessToken != null &&
-                        apiAccessToken.equals(accessToken) ? AccessLevel.ADMINISTRATION : AccessLevel.NONE;
-            }
-        };
-
-        final ZigBeeRpcServer zigBeeConsoleServer;
-        if (args.length > 5) {
-            try {
-                zigBeeConsoleServer = new ZigBeeRpcServer(console, port, keystorePath, password, sslProtocols,
-                        authorizationProvider);
-                zigBeeConsoleServer.start();
-            } catch (final IOException e) {
-                LOGGER.error("Error starting ZigBeeConsole HTTP server in port: " + port, e);
-                return;
-            }
-        } else {
-            zigBeeConsoleServer = null;
-        }*/
-
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                /*if (zigBeeConsoleServer != null) {
-                    zigBeeConsoleServer.stop();
-                }*/
-            }
-        }));
 
         console.start();
 

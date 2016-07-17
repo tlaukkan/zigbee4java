@@ -129,13 +129,14 @@ public class ZigBeeApi implements EndpointListener, ZigBeeNetwork {
      * @param port           the ZigBee interface port (reference implementation provided by the zigbee4java-serialPort module)
      * @param pan            the pan
      * @param channel        the channel
+     * @param networkKey     the network key or null for default testing key
      * @param resetNetwork   the flag indicating network reset on startup
      */
-    public ZigBeeApi(final SerialPort port, final int pan, final int channel,
+    public ZigBeeApi(final SerialPort port, final int pan, final int channel, final byte[] networkKey,
                      final boolean resetNetwork, final Set<DiscoveryMode> discoveryModes) {
     	this.resetNetwork = resetNetwork;
 
-        networkManager = new ZigBeeNetworkManagerImpl(port, NetworkMode.Coordinator, pan, channel, 2500L);
+        networkManager = new ZigBeeNetworkManagerImpl(port, NetworkMode.Coordinator, pan, channel, networkKey, 2500L);
         zclCommandTransmitter = new ZclCommandTransmitter(networkManager);
         zdoCommandTransmitter = new ZdoCommandTransmitter(networkManager);
 

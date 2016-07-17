@@ -7,11 +7,8 @@ import org.bubblecloud.zigbee.v3.zcl.ZclCommand;
 import org.bubblecloud.zigbee.v3.zcl.ZclCommandTransmitter;
 import org.bubblecloud.zigbee.v3.zdo.ZdoCommand;
 import org.bubblecloud.zigbee.v3.zdo.ZdoCommandTransmitter;
-import org.bubblecloud.zigbee.v3.zdo.command.UserDescriptorSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 /**
  * ZigBee Dongle TI CC2531 implementation.
@@ -44,13 +41,14 @@ public class ZigBeeDongleTiCc2531Impl implements ZigBeeDongle {
      * @param serialPort     the serial port
      * @param pan            the pan
      * @param channel        the channel
+     * @param networkKey     the network key or null for default testing key
      * @param resetNetwork   the reset network flag
      */
     public ZigBeeDongleTiCc2531Impl(final SerialPort serialPort, final int pan, final int channel,
-                                    final boolean resetNetwork) {
+                                    final byte[] networkKey, final boolean resetNetwork) {
     	this.resetNetwork = resetNetwork;
 
-        networkManager = new ZigBeeNetworkManagerImpl(serialPort, NetworkMode.Coordinator, pan, channel, 2500L);
+        networkManager = new ZigBeeNetworkManagerImpl(serialPort, NetworkMode.Coordinator, pan, channel, networkKey, 2500L);
         zclCommandTransmitter = new ZclCommandTransmitter(networkManager);
         zdoCommandTransmitter = new ZdoCommandTransmitter(networkManager);
     }
