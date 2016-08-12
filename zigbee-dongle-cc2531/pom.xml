@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.bubblecloud.zigbee4java</groupId>
         <artifactId>zigbee4java</artifactId>
-        <version>3.0.2-SNAPSHOT</version>
+        <version>3.0.2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -17,13 +17,13 @@
         <dependency>
             <groupId>org.bubblecloud.zigbee4java</groupId>
             <artifactId>zigbee-common</artifactId>
-            <version>3.0.2-SNAPSHOT</version>
+            <version>3.0.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.bubblecloud.zigbee4java</groupId>
             <artifactId>zigbee-serial-javase</artifactId>
-            <version>3.0.2-SNAPSHOT</version>
+            <version>3.0.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
