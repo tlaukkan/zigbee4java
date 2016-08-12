@@ -117,13 +117,13 @@ Maven build dependencies:
     <dependency>
       <groupId>org.bubblecloud.zigbee4java</groupId>
       <artifactId>zigbee-dongle-cc2531</artifactId>
-      <version>3.0.0</version>
+      <version>3.x.x</version>
       <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.bubblecloud.zigbee4java</groupId>
       <artifactId>zigbee-serial-javase</artifactId>
-      <version>3.0.0</version>
+      <version>3.x.x</version>
       <type>pom</type>
     </dependency>
 </dependencies>
@@ -134,8 +134,8 @@ Gradle build dependencies:
 ```
 dependencies
 {
-    compile 'org.bubblecloud.zigbee:zigbee-dongle-cc2531:3.0.0'
-    compile 'org.bubblecloud.zigbee:zigbee-serial-javase:3.0.0'
+    compile 'org.bubblecloud.zigbee:zigbee-dongle-cc2531:3.x.x'
+    compile 'org.bubblecloud.zigbee:zigbee-serial-javase:3.x.x'
 }
 ```
 
@@ -180,7 +180,7 @@ Maven build dependencies:
     <dependency>
       <groupId>org.bubblecloud.zigbee4java</groupId>
       <artifactId>zigbee-gateway-client</artifactId>
-      <version>3.0.0</version>
+      <version>3.x.x</version>
       <type>pom</type>
     </dependency>
 </dependencies>
@@ -191,7 +191,7 @@ Gradle build dependencies:
 ```
 dependencies
 {
-    compile 'org.bubblecloud.zigbee:zigbee-gateway-client:3.0.0'
+    compile 'org.bubblecloud.zigbee:zigbee-gateway-client:3.x.x'
 }
 ```
 
