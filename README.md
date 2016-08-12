@@ -142,8 +142,9 @@ dependencies
 Example:
 
 ```
+final byte[] networkKey = null; // Default network key
 final SerialPort port = new SerialPortImpl("COM5");
-final ZigBeeDongle dongle = new ZigBeeDongleTiCc2531Impl(port, 4951, 11, false);
+final ZigBeeDongle dongle = new ZigBeeDongleTiCc2531Impl(port, 4951, 11, networkKey, false);
 final ZigBeeApiDongleImpl api = new ZigBeeApiDongleImpl(dongle, false);
 
 api.startup();
