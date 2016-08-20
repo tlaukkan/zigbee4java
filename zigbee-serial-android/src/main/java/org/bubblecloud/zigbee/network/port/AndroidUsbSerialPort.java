@@ -2,6 +2,7 @@
 package org.bubblecloud.zigbee.network.port;
 
 import android.hardware.usb.*;
+import org.bubblecloud.zigbee.v3.SerialPort;
 import org.bubblecloud.zigbee.util.ByteUtils;
 import org.bubblecloud.zigbee.util.CircularFIFOByteBufferImpl;
 import org.bubblecloud.zigbee.util.FIFOBuffers;
@@ -23,7 +24,7 @@ import java.util.Map;
  * Tested on a Samsung Galaxy S2 with OTG cable.
  * @author <a href="mailto:christopherhattonuk@gmail.com">Chris Hatton</a>
  */
-public class AndroidUsbSerialPort implements ZigBeePort
+public class AndroidUsbSerialPort implements SerialPort
 {
     private static Logger logger = LoggerFactory.getLogger(AndroidUsbSerialPort.class);
 

@@ -4,7 +4,7 @@
 
     <groupId>org.bubblecloud.zigbee4java</groupId>
     <artifactId>zigbee4java</artifactId>
-    <version>2.0.3-SNAPSHOT</version>
+    <version>3.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -14,32 +14,28 @@
 
     <scm>
         <url>https://github.com/tlaukkan/zigbee4java.git</url>
-        <connection>scm:git:git://github.com:tlaukkan/zigbee4java.git</connection>
-        <developerConnection>scm:git:git@github.com:tlaukkan/zigbee4java.git</developerConnection>
+        <connection>scm:git:https://github.com/tlaukkan/zigbee4java.git</connection>
+        <developerConnection>scm:git:https://github.com/tlaukkan/zigbee4java.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
     <repositories>
         <repository>
-            <id>bubblecloud-cloudbees-release</id>
-            <name>bubblecloud-cloudbees-release</name>
-            <url>http://repository-bubblecloud.forge.cloudbees.com/release/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-tlaukkan-bubblecloud</id>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/tlaukkan/bubblecloud</url>
         </repository>
     </repositories>
 
-    <!-- Deploy releases and snapshots to the CloudBees maven repositories -->
     <distributionManagement>
-        <downloadUrl>http://repository-bubblecloud.forge.cloudbees.com/snapshot/</downloadUrl>
         <repository>
-            <id>bubblecloud-cloudbees-release</id>
-            <name>bubblecloud-cloudbees-release</name>
-            <url>dav:https://repository-bubblecloud.forge.cloudbees.com/release/</url>
+            <id>bintray-tlaukkan-bubblecloud</id>
+            <name>tlaukkan-bubblecloud</name>
+            <url>https://api.bintray.com/maven/tlaukkan/bubblecloud/zigbee4java/;publish=1</url>
         </repository>
-        <snapshotRepository>
-            <id>bubblecloud-cloudbees-snapshot</id>
-            <name>bubblecloud-cloudbees-snapshot</name>
-            <url>dav:https://repository-bubblecloud.forge.cloudbees.com/snapshot/</url>
-        </snapshotRepository>
     </distributionManagement>
 
     <profiles>
@@ -53,10 +49,10 @@
                 </property>
             </activation>
             <modules>
-                <module>zigbee-api</module>
+                <module>legacy-modules/zigbee-api</module>
                 <module>zigbee-serial-android</module>
-                <module>zigbee-console-android</module>
-                <module>zigbee-console-common</module>
+                <module>legacy-modules/zigbee-console-android</module>
+                <module>legacy-modules/zigbee-console-common</module>
             </modules>
         </profile>
         <profile>
@@ -69,10 +65,10 @@
                 </property>
             </activation>
             <modules>
-                <module>zigbee-api</module>
+                <module>legacy-modules/zigbee-api</module>
                 <module>zigbee-serial-javase</module>
-                <module>zigbee-console-javase</module>
-                <module>zigbee-console-common</module>
+                <module>legacy-modules/zigbee-console-javase</module>
+                <module>legacy-modules/zigbee-console-common</module>
             </modules>
         </profile>
         <profile>
@@ -85,28 +81,21 @@
                 </property>
             </activation>
             <modules>
-                <module>zigbee-api</module>
+                <module>zigbee-common</module>
+                <module>zigbee-dongle-cc2531</module>
+                <module>zigbee-gateway-client</module>
+                <module>zigbee-gateway-server</module>
+                <module>legacy-modules/zigbee-api</module>
                 <module>zigbee-serial-javase</module>
                 <module>zigbee-serial-android</module>
-                <module>zigbee-console-javase</module>
-                <module>zigbee-console-common</module>
+                <module>legacy-modules/zigbee-console-javase</module>
+                <module>legacy-modules/zigbee-console-common</module>
             </modules>
         </profile>
     </profiles>
 
     <build>
         <plugins>
-            <!--<plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.4.2</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.scm</groupId>
-                        <artifactId>maven-scm-provider-gitexe</artifactId>
-                        <version>1.8.1</version>
-                    </dependency>
-                </dependencies>
-            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -115,16 +104,48 @@
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
-            </plugin>    
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <failOnError>false</failOnError>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.2.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.6.201602180812</version>
+                <configuration>
+                    <excludes>
+                        <exclude>org/bubblecloud/zigbee/api/**/*.class</exclude>
+                        <exclude>org/bubblecloud/zigbee/network/**/*.class</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+            </plugin>
         </plugins>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav-jackrabbit</artifactId>
-                <version>1.0-beta-7</version>
-            </extension>
-        </extensions>
     </build>
+
+    <reporting>
+    </reporting>
 
     <dependencies>
 

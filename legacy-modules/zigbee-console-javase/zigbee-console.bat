@@ -1,0 +1,1 @@
+java -jar target/zigbee-console-javase-3.0.0-SNAPSHOT.jar COM5 11 4951 false 5000 secret
