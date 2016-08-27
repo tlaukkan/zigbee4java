@@ -8,13 +8,13 @@ import org.bubblecloud.zigbee.util.IEEEAddress;
 import org.bubblecloud.zigbee.v3.model.Status;
 import org.bubblecloud.zigbee.v3.model.ZigBeeType;
 import org.bubblecloud.zigbee.v3.model.ZToolAddress64;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.ConfigureReportingResponse;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.ReadAttributesResponse;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.ReportAttributesCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.WriteAttributesResponse;
+import org.bubblecloud.zigbee.v3.zcl.clusters.groups.GetGroupMembershipResponse;
+import org.bubblecloud.zigbee.v3.zcl.clusters.groups.ViewGroupResponse;
 import org.bubblecloud.zigbee.v3.zcl.field.Unsigned16BitInteger;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.ConfigureReportingResponseCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.ReadAttributesResponseCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.ReportAttributesCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.WriteAttributesResponseCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.groups.GetGroupMembershipResponseCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.groups.ViewGroupResponseCommand;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -199,7 +199,7 @@ public final class ZigBeeGateway {
         }
     }
 
-    public ZigBeeApiDongleImpl getZigBeeApi() {
+    public ZigBeeApi getZigBeeApi() {
         return zigBeeApi;
     }
 
@@ -269,7 +269,7 @@ public final class ZigBeeGateway {
      * @param destinationIdentifier the device identifier or group ID
      * @return the device
      */
-    private ZigBeeDestination getDestination(final ZigBeeApiDongleImpl zigbeeApi, final String destinationIdentifier
+    private ZigBeeDestination getDestination(final ZigBeeApi zigbeeApi, final String destinationIdentifier
             ,final PrintStream out) {
         final ZigBeeDevice device = getDevice(zigbeeApi, destinationIdentifier);
 
@@ -301,7 +301,7 @@ public final class ZigBeeGateway {
      * @param deviceIdentifier the device identifier
      * @return the device
      */
-    private ZigBeeDevice getDevice(ZigBeeApiDongleImpl zigbeeApi, final String deviceIdentifier) {
+    private ZigBeeDevice getDevice(ZigBeeApi zigbeeApi, final String deviceIdentifier) {
         for (final ZigBeeDevice zigBeeDevice : zigbeeApi.getNetworkState().getDevices()) {
             if (deviceIdentifier.equals(zigBeeDevice.getNetworkAddress() + "/" + zigBeeDevice.getEndpoint())) {
                 return zigBeeDevice;
@@ -1171,7 +1171,7 @@ public final class ZigBeeGateway {
 
             final CommandResult result = zigbeeApi.report(device, clusterId, attributeId, minInterval, maxInterval, reportableChange).get();
             if (result.isSuccess()) {
-                final ConfigureReportingResponseCommand response = result.getResponse();
+                final ConfigureReportingResponse response = result.getResponse();
                 final int statusCode = response.getRecords().get(0).getStatus();
                 if (statusCode == 0) {
                     out.println("Attribute value configure reporting success.");
@@ -1235,7 +1235,7 @@ public final class ZigBeeGateway {
 
             final CommandResult result = zigbeeApi.report(device, clusterId, attributeId, 0, 0xffff, reportableChange).get();
             if (result.isSuccess()) {
-                final ConfigureReportingResponseCommand response = result.getResponse();
+                final ConfigureReportingResponse response = result.getResponse();
                 final int statusCode = response.getRecords().get(0).getStatus();
                 if (statusCode == 0) {
                     out.println("Attribute value configure reporting success.");
@@ -1299,7 +1299,7 @@ public final class ZigBeeGateway {
             final CommandResult result = zigbeeApi.read(device, clusterId, attributeId).get();
 
             if (result.isSuccess()) {
-                final ReadAttributesResponseCommand response = result.getResponse();
+                final ReadAttributesResponse response = result.getResponse();
 
                 final int statusCode = response.getRecords().get(0).getStatus();
                 if (statusCode == 0) {
@@ -1369,7 +1369,7 @@ public final class ZigBeeGateway {
 
             final CommandResult result = zigbeeApi.write(device, clusterId, attributeId, value).get();
             if (result.isSuccess()) {
-                final WriteAttributesResponseCommand response = result.getResponse();
+                final WriteAttributesResponse response = result.getResponse();
                 final int statusCode = response.getRecords().get(0).getStatus();
                 if (statusCode == 0) {
                     out.println("Attribute value write success.");
@@ -1795,7 +1795,7 @@ public final class ZigBeeGateway {
             final CommandResult result = zigbeeApi.viewMembership(device, groupId).get();
 
             if (result.isSuccess()) {
-                final ViewGroupResponseCommand response = result.getResponse();
+                final ViewGroupResponse response = result.getResponse();
                 final int statusCode = response.getStatus();
                 if (statusCode == 0) {
                     out.println("Group name: " + response.getGroupName());
@@ -1843,9 +1843,8 @@ public final class ZigBeeGateway {
             }
 
             final CommandResult result = zigbeeApi.getGroupMemberships(device).get();
-
             if (result.isSuccess()) {
-                final GetGroupMembershipResponseCommand response = result.getResponse();
+                final GetGroupMembershipResponse response = result.getResponse();
                 out.print("Member of groups:");
                 for (final Unsigned16BitInteger value :  response.getGroupList()) {
                     out.print(' ');

@@ -1,8 +1,8 @@
 package org.bubblecloud.zigbee;
 
 import org.bubblecloud.zigbee.v3.ZigBeeGatewayClient;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.ReadAttributesCommand;
 import org.bubblecloud.zigbee.v3.zcl.field.AttributeIdentifier;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.ReadAttributesCommand;
 import org.bubblecloud.zigbee.v3.Command;
 import org.junit.Assert;
 import org.bubblecloud.zigbee.v3.CommandListener;

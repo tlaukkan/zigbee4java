@@ -17,7 +17,6 @@ package org.bubblecloud.zigbee.v3.zcl;
 
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclClusterType;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclCommandType;
-import org.bubblecloud.zigbee.v3.zcl.protocol.ZclCommandTypeRegistrar;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclFieldType;
 
 import java.util.Map;
@@ -232,9 +231,5 @@ public class ZclCommandMessage {
                 + destinationAddress + "." + destinationEndpoint  + " tid=" + transactionId + " " + fields);
         
         return sb.toString();
-    }
-
-    static {
-        ZclCommandTypeRegistrar.register();
     }
 }

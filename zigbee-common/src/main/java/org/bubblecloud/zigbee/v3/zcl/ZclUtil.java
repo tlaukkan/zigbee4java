@@ -41,36 +41,25 @@ public class ZclUtil {
      * Mapping between ZclCommandType enumeration value and specialized ZclCommand value object class.
      */
     private static Map<ZclCommandType, Class<? extends ZclCommand>> commandTypeClassMap = new HashMap();
-    /**
-     * Mapping between specialized ZclCommand value object class and ZclCommandType enumeration value.
-     */
-    private static Map<Class<? extends ZclCommand>, ZclCommandType> commandClassTypeMap = new HashMap();
-    /**
-     * Register command type and class mapping.
-     * @param commandType the command type
-     * @param commandClass the command class
-     */
-    public static void registerCommandTypeClassMapping(ZclCommandType commandType, Class<? extends ZclCommand> commandClass) {
-        commandTypeClassMap.put(commandType, commandClass);
-        commandClassTypeMap.put(commandClass, commandType);
-    }
+
     /**
      * Converts message to command.
      * @param message the message
      * @return the command
      */
     public static ZclCommand toCommand(final ZclCommandMessage message) {
-        final Class<? extends ZclCommand> commandClass = commandTypeClassMap.get(message.getType());
+//        final Class<? extends ZclCommand> commandClass = commandTypeClassMap.get(message.getType());
         final ZclCommand command;
         try {
-            command = commandClass.getConstructor(ZclCommandMessage.class).newInstance(message);
+        	command = message.getType().getCommandClass().getConstructor(ZclCommandMessage.class).newInstance(message);
+//            command = commandClass.getConstructor(ZclCommandMessage.class).newInstance(message);
         } catch (final Exception e) {
             throw new IllegalArgumentException("Error in converting message to command: " + message, e);
         }
         return command;
     }
     /**
-     * Converts command to nessage.
+     * Converts command to message.
      * @param command the command
      * @return the message
      */
@@ -122,19 +111,19 @@ public class ZclUtil {
             case UNSIGNED_8_BIT_INTEGER:
                 zigBeeType = ZigBeeType.UnsignedInteger8bit;
                 break;
-            case _16_BIT_BITMAP:
+            case BITMAP_16_BIT:
                 zigBeeType = ZigBeeType.Bitmap16bit;
                 break;
-            case _16_BIT_ENUMERATION:
+            case ENUMERATION_16_BIT:
                 zigBeeType = ZigBeeType.Enumeration16bit;
                 break;
-            case _8_BIT_BITMAP:
+            case BITMAP_8_BIT:
                 zigBeeType = ZigBeeType.Bitmap8bit;
                 break;
-            case _8_BIT_DATA:
+            case DATA_8_BIT:
                 zigBeeType = ZigBeeType.Data8bit;
                 break;
-            case _8_BIT_ENUMERATION:
+            case ENUMERATION_8_BIT:
                 zigBeeType = ZigBeeType.Enumeration8bit;
                 break;
             case BOOLEAN:

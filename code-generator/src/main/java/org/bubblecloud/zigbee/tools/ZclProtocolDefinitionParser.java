@@ -1,5 +1,9 @@
 package org.bubblecloud.zigbee.tools;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.bubblecloud.zigbee.tools.zcl.*;
 
@@ -7,12 +11,45 @@ import org.bubblecloud.zigbee.tools.zcl.*;
  * Created by tlaukkan on 4/10/2016.
  */
 public class ZclProtocolDefinitionParser {
-
+	final static Map<String, String> dataTypeMapping =  new HashMap<String, String>() {{
+		put("CHARACTER_STRING", "String");
+		put("CHARACTER_STRING", "String");
+		put("IEEE_ADDRESS","Long");
+        put("N_X_EXTENSION_FIELD_SET","List<ExtensionFieldSet>");
+        put("N_X_NEIGHBORS_INFORMATION","List<NeighborInformation>");
+        put("N_X_UNSIGNED_16_BIT_INTEGER","List<Unsigned16BitInteger>");
+        put("N_X_UNSIGNED_8_BIT_INTEGER","List<Unsigned8BitInteger>");
+        put("N_X_ATTRIBUTE_IDENTIFIER","List<AttributeIdentifier>");
+        put("N_X_READ_ATTRIBUTE_STATUS_RECORD","List<ReadAttributeStatusRecord>");
+        put("N_X_WRITE_ATTRIBUTE_RECORD","List<WriteAttributeRecord>");
+        put("N_X_WRITE_ATTRIBUTE_STATUS_RECORD","List<WriteAttributeStatusRecord>");
+        put("N_X_ATTRIBUTE_REPORTING_CONFIGURATION_RECORD","List<AttributeReportingConfigurationRecord>");
+        put("N_X_ATTRIBUTE_STATUS_RECORD","List<AttributeStatusRecord>");
+        put("N_X_ATTRIBUTE_RECORD","List<AttributeRecord>");
+        put("N_X_ATTRIBUTE_REPORT","List<AttributeReport>");
+        put("N_X_ATTRIBUTE_INFORMATION","List<AttributeInformation>");
+        put("N_X_ATTRIBUTE_SELECTOR","Object");
+        put("BOOLEAN","Boolean");
+        put("SIGNED_32_BIT_INTEGER","Integer");
+        put("SIGNED_16_BIT_INTEGER","Integer");
+        put("SIGNED_8_BIT_INTEGER","Integer");
+        put("UNSIGNED_16_BIT_INTEGER","Integer");
+        put("UNSIGNED_32_BIT_INTEGER","Integer");
+        put("UNSIGNED_8_BIT_INTEGER","Integer");
+        put("BITMAP_16_BIT","Integer");
+        put("BITMAP_8_BIT","Integer");
+        put("ENUMERATION_16_BIT","Integer");
+        put("ENUMERATION_8_BIT","Integer");
+        put("DATA_8_BIT","Integer");
+        put("OCTET_STRING","String");
+        put("UTCTIME","Calendar");
+	}};
+	
     public static void parseProfiles(Context context) {
         while (context.lines.size() > 0) {
             final String line = context.lines.remove(0);
 
-            if (line.startsWith("* ") && line.contains("[")) {
+            if (line.startsWith("# ") && line.contains("[")) {
                 context.profile = new Profile();
                 context.profile.profileName = getHeaderTitle(line);
                 context.profile.profileType = CodeGeneratorUtil.labelToEnumerationValue(context.profile.profileName);
@@ -29,12 +66,12 @@ public class ZclProtocolDefinitionParser {
             final String line = context.lines.remove(0);
 
             // Returning to previous level.
-            if (line.startsWith("* ") && line.contains("[")) {
+            if (line.startsWith("# ") && line.contains("[")) {
                 context.lines.add(0, line);
                 return;
             }
 
-            if (line.startsWith("* ")) {
+            if (line.startsWith("# ")) {
                 final String functionalDomainName = getHeaderTitle(line);
                 System.out.println(" Functional domain: " + functionalDomainName);
 
@@ -48,16 +85,19 @@ public class ZclProtocolDefinitionParser {
             final String line = context.lines.remove(0);
 
             // Returning to previous level.
-            if (line.startsWith("* ")) {
+            if (line.startsWith("# ")) {
                 context.lines.add(0, line);
                 return;
             }
-
-            if (line.startsWith("** ")) {
+            
+            if (line.startsWith("## ")) {
                 context.cluster = new Cluster();
                 context.cluster.clusterName = getHeaderTitle(line);
+                context.cluster.clusterDescription = new ArrayList<String>();
                 context.cluster.clusterType = CodeGeneratorUtil.labelToEnumerationValue(context.cluster.clusterName);
                 context.cluster.clusterId = getHeaderId(line);
+                context.cluster.nameUpperCamelCase = CodeGeneratorUtil.labelToUpperCamelCase(context.cluster.clusterName);
+                context.cluster.nameLowerCamelCase = CodeGeneratorUtil.upperCamelCaseToLowerCamelCase(context.cluster.clusterName);
                 context.profile.clusters.put(context.cluster.clusterId, context.cluster);
                 System.out.println("  " + CodeGeneratorUtil.toHex(context.cluster.clusterId) + ") " + context.cluster.clusterName);
 
@@ -67,41 +107,82 @@ public class ZclProtocolDefinitionParser {
     }
 
     private static void parseDirections(Context context) {
-        while (context.lines.size() > 0) {
+    	boolean addBreak = false;
+    	while (context.lines.size() > 0) {
             final String line = context.lines.remove(0);
 
             // Returning to previous level.
-            if (line.startsWith("* ") || line.startsWith("** ")) {
+            if (line.startsWith("# ") || line.startsWith("## ")) {
                 context.lines.add(0, line);
                 return;
             }
 
-            if (line.startsWith("*** ")) {
-                context.received = line.toLowerCase().contains("received");
+            if (line.startsWith("### ")) {
+            	addBreak = false;
+            	
+            	context.received = line.toLowerCase().contains("received");
+                context.generated = line.toLowerCase().contains("generated");
+                context.attribute = line.toLowerCase().contains("attributes");
                 if (context.received) {
                     System.out.println("   Received:");
-                } else {
+                } else if(context.generated) {
                     System.out.println("   Generated:");
+                } else if(context.attribute) {
+                    System.out.println("   Attributes:");
+                    
+                    parseAttributes(context);
+                    continue;
+                }
+                else {
+                    System.out.println("   Unknown:");
                 }
 
                 parseCommands(context);
+                
+                continue;
             }
+            
+            if(context.cluster.clusterDescription.size() == 0 && line.trim().length() == 0) {
+            	continue;
+            }
+            if(line.trim().length() == 0) {
+            	addBreak = true;
+            	continue;
+            }
+            if(addBreak) {
+            	context.cluster.clusterDescription.add("<br>");
+                addBreak = false;            	
+            }
+            context.cluster.clusterDescription.add(line.trim());
         }
     }
 
     private static void parseCommands(Context context) {
-        while (context.lines.size() > 0) {
+    	while (context.lines.size() > 0) {
             final String line = context.lines.remove(0);
 
             // Returning to previous level.
-            if (line.startsWith("* ") || line.startsWith("** ") || line.startsWith("*** ")) {
+            if (line.startsWith("# ") || line.startsWith("## ") || line.startsWith("### ")) {
                 context.lines.add(0, line);
                 return;
             }
-
-            if (line.startsWith("**** ")) {
+            
+            if (line.startsWith("#### ")) {
                 context.command = new Command();
                 context.command.commandLabel = getHeaderTitle(line);
+                String splits[] = context.command.commandLabel.split(" ");
+
+                if("RESPONSE".equals(splits[splits.length-2].toUpperCase()) && "COMMAND".equals(splits[splits.length-1].toUpperCase())) {
+                	StringBuilder sb = new StringBuilder();
+                	for(int c = 0; c < splits.length-1; c++) {
+                		sb.append(" ");
+                		sb.append(splits[c]);
+                	}
+                	
+                	context.command.commandLabel = sb.toString();
+                }
+                
+                context.command.commandDescription = new ArrayList<String>();
                 context.command.commandType = CodeGeneratorUtil.labelToEnumerationValue(context.command.commandLabel);
                 context.command.commandId = getHeaderId(line);
                 context.command.nameUpperCamelCase = CodeGeneratorUtil.labelToUpperCamelCase(context.command.commandLabel);
@@ -120,11 +201,12 @@ public class ZclProtocolDefinitionParser {
 
     private static void parseField(Context context) {
         int fieldIndex = 0;
+        boolean addBreak = false;
         while (context.lines.size() > 0) {
             final String line = context.lines.remove(0);
 
             // Returning to previous level.
-            if (line.startsWith("*")) {
+            if (line.startsWith("#")) {
                 context.lines.add(0, line);
                 return;
             }
@@ -140,72 +222,16 @@ public class ZclProtocolDefinitionParser {
                 field.nameUpperCamelCase = CodeGeneratorUtil.labelToUpperCamelCase(field.fieldLabel);
                 field.nameLowerCamelCase = CodeGeneratorUtil.upperCamelCaseToLowerCamelCase(field.nameUpperCamelCase);
                 field.dataType = CodeGeneratorUtil.labelToEnumerationValue(columns[1].trim());
-                if ("0123456789".indexOf(field.dataType.charAt(0)) >= 0) {
-                    field.dataType = "_" + field.dataType;
-                }
+
                 final DataType dataType = new DataType();
                 dataType.dataTypeName = columns[1].trim();
                 dataType.dataTypeType = field.dataType;
 
-                if (field.dataType.equals("CHARACTER_STRING")) {
-                    dataType.dataTypeClass = "String";
-                } else if (field.dataType.equals("IEEE_ADDRESS")) {
-                    dataType.dataTypeClass = "Long";
-                } else if (field.dataType.equals("N_X_EXTENSION_FIELD_SET")) {
-                    dataType.dataTypeClass = "List<ExtensionFieldSet>";
-                } else if (field.dataType.equals("N_X_NEIGHBORS_INFORMATION")) {
-                    dataType.dataTypeClass = "List<NeighborInformation>";
-                } else if (field.dataType.equals("N_X_UNSIGNED_16_BIT_INTEGER")) {
-                    dataType.dataTypeClass = "List<Unsigned16BitInteger>";
-                } else if (field.dataType.equals("N_X_UNSIGNED_8_BIT_INTEGER")) {
-                    dataType.dataTypeClass = "List<Unsigned8BitInteger>";
-                } else if (field.dataType.equals("N_X_ATTRIBUTE_IDENTIFIER")) {
-                    dataType.dataTypeClass = "List<AttributeIdentifier>";
-                } else if (field.dataType.equals("N_X_READ_ATTRIBUTE_STATUS_RECORD")) {
-                    dataType.dataTypeClass = "List<ReadAttributeStatusRecord>";
-                } else if (field.dataType.equals("N_X_WRITE_ATTRIBUTE_RECORD")) {
-                    dataType.dataTypeClass = "List<WriteAttributeRecord>";
-                } else if (field.dataType.equals("N_X_WRITE_ATTRIBUTE_STATUS_RECORD")) {
-                    dataType.dataTypeClass = "List<WriteAttributeStatusRecord>";
-                } else if (field.dataType.equals("N_X_ATTRIBUTE_REPORTING_CONFIGURATION_RECORD")) {
-                    dataType.dataTypeClass = "List<AttributeReportingConfigurationRecord>";
-                } else if (field.dataType.equals("N_X_ATTRIBUTE_STATUS_RECORD")) {
-                    dataType.dataTypeClass = "List<AttributeStatusRecord>";
-                } else if (field.dataType.equals("N_X_ATTRIBUTE_RECORD")) {
-                    dataType.dataTypeClass = "List<AttributeRecord>";
-                } else if (field.dataType.equals("N_X_ATTRIBUTE_REPORT")) {
-                    dataType.dataTypeClass = "List<AttributeReport>";
-                } else if (field.dataType.equals("N_X_ATTRIBUTE_INFORMATION")) {
-                    dataType.dataTypeClass = "List<AttributeInformation>";
-                } else if (field.dataType.equals("N_X_ATTRIBUTE_SELECTOR")) {
-                    dataType.dataTypeClass = "Object";
-                } else if (field.dataType.equals("BOOLEAN")) {
-                    dataType.dataTypeClass = "Boolean";
-                } else if (field.dataType.equals("SIGNED_16_BIT_INTEGER")) {
-                    dataType.dataTypeClass = "Integer";
-                } else if (field.dataType.equals("SIGNED_8_BIT_INTEGER")) {
-                    dataType.dataTypeClass = "Integer";
-                } else if (field.dataType.equals("UNSIGNED_16_BIT_INTEGER")) {
-                    dataType.dataTypeClass = "Integer";
-                } else if (field.dataType.equals("UNSIGNED_32_BIT_INTEGER")) {
-                    dataType.dataTypeClass = "Integer";
-                } else if (field.dataType.equals("UNSIGNED_8_BIT_INTEGER")) {
-                    dataType.dataTypeClass = "Integer";
-                } else if (field.dataType.equals("_16_BIT_BITMAP")) {
-                    dataType.dataTypeClass = "Integer";
-                } else if (field.dataType.equals("_16_BIT_ENUMERATION")) {
-                    dataType.dataTypeClass = "Integer";
-                } else if (field.dataType.equals("_8_BIT_BITMAP")) {
-                    dataType.dataTypeClass = "Integer";
-                } else if (field.dataType.equals("_8_BIT_DATA")) {
-                    dataType.dataTypeClass = "Integer";
-                } else if (field.dataType.equals("_8_BIT_ENUMERATION")) {
-                    dataType.dataTypeClass = "Integer";
-                }  else if (field.dataType.equals("OCTET_STRING")) {
-                    dataType.dataTypeClass = "String";
-                } else {
+                dataType.dataTypeClass = dataTypeMapping.get(field.dataType); 
+                if(dataType.dataTypeClass == null) {
                     throw new IllegalArgumentException("Type not mapped: " + field.dataType);
                 }
+                
                 field.dataTypeClass = dataType.dataTypeClass;
 
                 context.dataTypes.put(field.dataType, dataType);
@@ -213,11 +239,29 @@ public class ZclProtocolDefinitionParser {
                 System.out.println("      " + CodeGeneratorUtil.toHex(fieldIndex) + ") " +   field.fieldLabel + ": " +  dataType.dataTypeName);
                 fieldIndex++;
             }
+            
+            if (line.startsWith("|")) {
+            	addBreak = false;
+            	continue;
+            }
+            
+            if(context.command.commandDescription.size() == 0 && line.trim().length() == 0) {
+            	continue;
+            }
+            if(line.trim().length() == 0) {
+            	addBreak = true;
+            	continue;
+            }
+            if(addBreak) {
+                context.command.commandDescription.add("<br>");
+                addBreak = false;            	
+            }
+            context.command.commandDescription.add(line.trim());
         }
     }
 
     private static String getHeaderTitle(String line) {
-        line = line.substring(line.lastIndexOf("*") + 1);
+        line = line.substring(line.lastIndexOf("#") + 1);
         if (line.contains("[")) {
             return StringUtils.substringBefore(line, "[").trim();
         } else {
@@ -229,4 +273,75 @@ public class ZclProtocolDefinitionParser {
         final String headerIdString = StringUtils.substringBetween(line, "[", "]").trim();
         return CodeGeneratorUtil.fromHex(headerIdString);
     }
+    
+    private static void parseAttributes(Context context) {
+    	Attribute attribute = null;
+    	boolean addBreak = false;
+    	while (context.lines.size() > 0) {
+            final String line = context.lines.remove(0);
+
+            // Returning to previous level.
+            if (line.startsWith("# ") || line.startsWith("## ") || line.startsWith("### ")) {
+                context.lines.add(0, line);
+                return;
+            }
+
+            if (line.startsWith("|") && !line.startsWith("|Id") && !line.startsWith("|-")) {
+            	parseAttribute(context, line);
+            }
+
+            if (line.startsWith("#### ")) {
+            	attribute = null;
+            	for(Attribute attr : context.cluster.attributes.values()) {
+            		if(attr.attributeLabel.equals(getHeaderTitle(line).substring(0, getHeaderTitle(line).indexOf(" ")))) {
+            			attribute = attr;
+            			break;
+            		}
+            	}
+            	
+            	continue;
+            }
+            
+            if(attribute == null || (attribute.attributeDescription.size() == 0 && line.trim().length() == 0)) {
+            	continue;
+            }
+            if(line.trim().length() == 0) {
+            	addBreak = true;
+            	continue;
+            }
+            if(addBreak) {
+            	attribute.attributeDescription.add("<br>");
+                addBreak = false;            	
+            }
+            attribute.attributeDescription.add(line.trim());
+        }
+    }
+
+    private static void parseAttribute(Context context, String line) {
+        final String row = line.trim().substring(1, line.length() - 1);
+        final String[] columns = row.split("\\|");
+        final Attribute attribute = new Attribute();
+        attribute.attributeId = Integer.parseInt(columns[0].trim().substring(2), 16);
+        attribute.attributeLabel = columns[1].trim();
+        attribute.attributeDescription = new ArrayList<String>();
+        attribute.attributeAccess = columns[3].trim();
+        attribute.attributeImplementation = columns[4].trim();
+        attribute.nameUpperCamelCase = CodeGeneratorUtil.labelToEnumerationValue(attribute.attributeLabel);
+        attribute.nameUpperCamelCase = CodeGeneratorUtil.labelToUpperCamelCase(attribute.attributeLabel);
+        attribute.nameLowerCamelCase = CodeGeneratorUtil.upperCamelCaseToLowerCamelCase(attribute.nameUpperCamelCase);
+        attribute.dataType = CodeGeneratorUtil.labelToEnumerationValue(columns[2].trim());
+        attribute.enumName = "ATTR_" + attribute.attributeLabel.toUpperCase();
+        final DataType dataType = new DataType();
+        dataType.dataTypeName = columns[2].trim();
+        dataType.dataTypeType = attribute.dataType;
+        dataType.dataTypeClass = dataTypeMapping.get(attribute.dataType); 
+        if(dataType.dataTypeClass == null) {
+            throw new IllegalArgumentException("Type not mapped: " + attribute.dataType);
+        }
+        attribute.dataTypeClass = dataType.dataTypeClass;
+
+        context.dataTypes.put(attribute.dataType, dataType);
+        context.cluster.attributes.put(attribute.attributeId, attribute);
+    }
+
 }

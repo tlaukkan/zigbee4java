@@ -1,5 +1,6 @@
 package org.bubblecloud.zigbee.tools.zcl;
 
+import java.util.List;
 import java.util.TreeMap;
 
 /**
@@ -7,8 +8,12 @@ import java.util.TreeMap;
  */
 public class Cluster {
     public int clusterId;
+    public List<String> clusterDescription;
     public String clusterName;
     public String clusterType;
+    public String nameUpperCamelCase;
+    public String nameLowerCamelCase;
     public TreeMap<Integer, Command> received = new TreeMap<Integer, Command>();
     public TreeMap<Integer, Command> generated = new TreeMap<Integer, Command>();
+    public TreeMap<Integer, Attribute> attributes = new TreeMap<Integer, Attribute>();
 }
