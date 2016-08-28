@@ -23,7 +23,7 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
     /**
      * The groups in the ZigBee network.
      */
-    private Map<Integer, ZigBeeGroup> groups = new TreeMap<Integer, ZigBeeGroup>();
+    private Map<Integer, ZigBeeGroupAddress> groups = new TreeMap<Integer, ZigBeeGroupAddress>();
     /**
      * The listeners of the ZigBee network.
      */
@@ -85,21 +85,21 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
     }
 
     @Override
-    public void addGroup(final ZigBeeGroup group) {
+    public void addGroup(final ZigBeeGroupAddress group) {
         synchronized (groups) {
             groups.put(group.getGroupId(), group);
         }
     }
 
     @Override
-    public void updateGroup(ZigBeeGroup group) {
+    public void updateGroup(ZigBeeGroupAddress group) {
         synchronized (groups) {
             groups.put(group.getGroupId(), group);
         }
     }
 
     @Override
-    public ZigBeeGroup getGroup(final int groupId) {
+    public ZigBeeGroupAddress getGroup(final int groupId) {
         synchronized (groups) {
             return groups.get(groupId);
         }
@@ -107,16 +107,16 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
 
     @Override
     public void removeGroup(final int groupId) {
-        final ZigBeeGroup group;
+        final ZigBeeGroupAddress group;
         synchronized (groups) {
             group = groups.remove(groupId);
         }
     }
 
     @Override
-    public List<ZigBeeGroup> getGroups() {
+    public List<ZigBeeGroupAddress> getGroups() {
         synchronized (groups) {
-            return new ArrayList<ZigBeeGroup>(groups.values());
+            return new ArrayList<ZigBeeGroupAddress>(groups.values());
         }
     }
 
@@ -137,7 +137,7 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
     @Override
     public void updateDevice(ZigBeeDevice device) {
         synchronized (devices) {
-            devices.put(device.getNetworkAddress() + "/" + device.getEndpoint(), device);
+            devices.put(device.getDeviceAddress().toString(), device);
         }
         synchronized (this) {
             for (final ZigBeeNetworkStateListener listener : listeners) {
@@ -147,9 +147,14 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
     }
 
     @Override
-    public ZigBeeDevice getDevice(final int networkAddress, int endpoint) {
+    public ZigBeeDevice getDevice(final ZigBeeAddress networkAddress) {
+    	if(networkAddress.isGroup()) {
+    		return null;
+    	}
+    	
         synchronized (devices) {
-            return devices.get(networkAddress + "/" + endpoint);
+        	// TODO Maybe this should just use the network address as the key?
+            return devices.get(networkAddress.toString());
         }
     }
 

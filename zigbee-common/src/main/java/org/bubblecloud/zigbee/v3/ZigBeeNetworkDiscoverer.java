@@ -93,8 +93,10 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
         // 0. ZCL command received from remote node. Request IEEE address if it is not yet known.
         if (command instanceof ZclCommand) {
             final ZclCommand zclCommand = (ZclCommand) command;
-            if (networkState.getDevice(zclCommand.getSourceAddress(), zclCommand.getSourceEnpoint()) == null) {
-                requestNodeIeeeAddressAndAssociatedNodes(zclCommand.getSourceAddress());
+            if (networkState.getDevice(zclCommand.getSourceAddress()) == null) {
+            	// TODO: Protect against group address?
+            	ZigBeeDeviceAddress address = (ZigBeeDeviceAddress) zclCommand.getSourceAddress();
+                requestNodeIeeeAddressAndAssociatedNodes(address.getAddress());
             }
         }
 
@@ -262,14 +264,14 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
                                    final NodeDescriptorResponse nodeDescriptorResponse,
                                    final SimpleDescriptorResponse simpleDescriptorResponse) {
         final ZigBeeDevice device;
-        final boolean newDevice = networkState.getDevice(ieeeAddressResponse.getNetworkAddress(),
-                simpleDescriptorResponse.getEndpoint()) == null;
+        final boolean newDevice = networkState.getDevice(new ZigBeeDeviceAddress(ieeeAddressResponse.getNetworkAddress(),
+                simpleDescriptorResponse.getEndpoint())) == null;
 
         if (newDevice) {
             device = new ZigBeeDevice();
         } else {
-            device = networkState.getDevice(ieeeAddressResponse.getNetworkAddress(),
-                    simpleDescriptorResponse.getEndpoint());
+            device = networkState.getDevice(new ZigBeeDeviceAddress(ieeeAddressResponse.getNetworkAddress(),
+                    simpleDescriptorResponse.getEndpoint()));
         }
 
         device.setNetworkAddress(ieeeAddressResponse.getNetworkAddress());
