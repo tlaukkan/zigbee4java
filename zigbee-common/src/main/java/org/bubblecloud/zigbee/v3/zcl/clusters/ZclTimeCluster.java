@@ -5,6 +5,7 @@ import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Time</b> cluster implementation (<i>Cluster ID 0x000A</i>).
@@ -51,7 +52,7 @@ public class ZclTimeCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setTime(final Object value) {
-        return write(ATTR_TIME, value);
+        return write(ATTR_TIME, ZclDataType.UTCTIME, value);
     }
 
 
@@ -89,7 +90,7 @@ public class ZclTimeCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setTimeStatus(final Object value) {
-        return write(ATTR_TIMESTATUS, value);
+        return write(ATTR_TIMESTATUS, ZclDataType.UNSIGNED_16_BIT_INTEGER, value);
     }
 
 
@@ -123,7 +124,7 @@ public class ZclTimeCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setTimeZone(final Object value) {
-        return write(ATTR_TIMEZONE, value);
+        return write(ATTR_TIMEZONE, ZclDataType.SIGNED_32_BIT_INTEGER, value);
     }
 
 
@@ -158,7 +159,7 @@ public class ZclTimeCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setDstStart(final Object value) {
-        return write(ATTR_DSTSTART, value);
+        return write(ATTR_DSTSTART, ZclDataType.UNSIGNED_32_BIT_INTEGER, value);
     }
 
 
@@ -206,7 +207,7 @@ public class ZclTimeCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setDstEnd(final Object value) {
-        return write(ATTR_DSTEND, value);
+        return write(ATTR_DSTEND, ZclDataType.UNSIGNED_32_BIT_INTEGER, value);
     }
 
 
@@ -259,7 +260,7 @@ public class ZclTimeCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setDstShift(final Object value) {
-        return write(ATTR_DSTSHIFT, value);
+        return write(ATTR_DSTSHIFT, ZclDataType.SIGNED_32_BIT_INTEGER, value);
     }
 
 
@@ -320,6 +321,16 @@ public class ZclTimeCluster extends ZclCluster {
      */
     public Future<CommandResult> getLocalTime() {
         return read(ATTR_LOCALTIME);
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }

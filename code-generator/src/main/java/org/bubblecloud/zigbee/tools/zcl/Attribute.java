@@ -11,6 +11,7 @@ public class Attribute {
     public String nameUpperCamelCase;
     public String nameLowerCamelCase;
 	public String attributeAccess;
+	public String attributeReporting;
 	public String enumName;
 	public Integer attributeId;
 	public String attributeImplementation;

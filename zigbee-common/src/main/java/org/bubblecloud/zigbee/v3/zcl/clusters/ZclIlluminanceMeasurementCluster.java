@@ -60,6 +60,33 @@ public class ZclIlluminanceMeasurementCluster extends ZclCluster {
 
 
     /**
+     * Configure reporting for the <i>MeasuredValue</i> attribute
+     * <p>
+     * MeasuredValue represents the Illuminance in Lux (symbol lx) as follows:-
+     * <br>
+     * MeasuredValue = 10,000 x log10 Illuminance + 1
+     * <br>
+     * Where 1 lx <= Illuminance <=3.576 Mlx, corresponding to a MeasuredValue in
+     * the range 1 to 0xfffe.
+     * <br>
+     * The following special values of MeasuredValue apply.
+     * <li>0x0000 indicates a value of Illuminance that is too low to be measured.</li>
+     * <li>0xffff indicates that the Illuminance measurement is invalid.</li>
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configMeasuredValueReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_MEASUREDVALUE, minInterval, maxInterval, reportableChange);
+    }
+
+
+    /**
      * Get the <i>MinMeasuredValue</i> attribute
      * <p>
      * <br>
@@ -116,6 +143,27 @@ public class ZclIlluminanceMeasurementCluster extends ZclCluster {
 
 
     /**
+     * Configure reporting for the <i>Tolerance</i> attribute
+     * <p>
+     * <br>
+     * The Tolerance attribute indicates the magnitude of the possible error that is
+     * associated with MeasuredValue . The true value is located in the range
+     * (MeasuredValue – Tolerance) to (MeasuredValue + Tolerance).
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configToleranceReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_TOLERANCE, minInterval, maxInterval, reportableChange);
+    }
+
+
+    /**
      * Get the <i>LightSensorType</i> attribute
      * <p>
      * <br>
@@ -128,6 +176,16 @@ public class ZclIlluminanceMeasurementCluster extends ZclCluster {
      */
     public Future<CommandResult> getLightSensorType() {
         return read(ATTR_LIGHTSENSORTYPE);
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }

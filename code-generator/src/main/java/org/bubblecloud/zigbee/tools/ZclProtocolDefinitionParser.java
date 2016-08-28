@@ -326,6 +326,7 @@ public class ZclProtocolDefinitionParser {
         attribute.attributeDescription = new ArrayList<String>();
         attribute.attributeAccess = columns[3].trim();
         attribute.attributeImplementation = columns[4].trim();
+        attribute.attributeReporting = columns[5].trim();
         attribute.nameUpperCamelCase = CodeGeneratorUtil.labelToEnumerationValue(attribute.attributeLabel);
         attribute.nameUpperCamelCase = CodeGeneratorUtil.labelToUpperCamelCase(attribute.attributeLabel);
         attribute.nameLowerCamelCase = CodeGeneratorUtil.upperCamelCaseToLowerCamelCase(attribute.nameUpperCamelCase);

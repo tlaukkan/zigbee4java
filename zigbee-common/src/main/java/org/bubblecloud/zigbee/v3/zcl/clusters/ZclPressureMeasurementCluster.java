@@ -23,6 +23,11 @@ public class ZclPressureMeasurementCluster extends ZclCluster {
     private final int ATTR_MINMEASUREDVALUE = 0x0001;
     private final int ATTR_MAXMEASUREDVALUE = 0x0002;
     private final int ATTR_TOLERANCE = 0x0003;
+    private final int ATTR_SCALEDVALUE = 0x0010;
+    private final int ATTR_MINSCALEDVALUE = 0x0011;
+    private final int ATTR_MAXSCALEDVALUE = 0x0012;
+    private final int ATTR_SCALEDTOLERANCE = 0x0013;
+    private final int ATTR_SCALE = 0x0014;
 
     /**
      * Default constructor.
@@ -55,6 +60,34 @@ public class ZclPressureMeasurementCluster extends ZclCluster {
      */
     public Future<CommandResult> getMeasuredValue() {
         return read(ATTR_MEASUREDVALUE);
+    }
+
+
+    /**
+     * Configure reporting for the <i>MeasuredValue</i> attribute
+     * <p>
+     * MeasuredValue represents the pressure in kPa as follows:-
+     * <br>
+     * MeasuredValue = 10 x Pressure
+     * <br>
+     * Where -3276.7 kPa <= Pressure <= 3276.7 kPa, corresponding to a
+     * MeasuredValue in the range 0x8001 to 0x7fff.
+     * <br>
+     * Note:- The maximum resolution this format allows is 0.1 kPa.
+     * <br>
+     * A MeasuredValue of 0x8000 indicates that the pressure measurement is invalid.
+     * MeasuredValue is updated continuously as new measurements are made.
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configMeasuredValueReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_MEASUREDVALUE, minInterval, maxInterval, reportableChange);
     }
 
 
@@ -97,6 +130,30 @@ public class ZclPressureMeasurementCluster extends ZclCluster {
 
 
     /**
+     * Configure reporting for the <i>MaxMeasuredValue</i> attribute
+     * <p>
+     * <br>
+     * The MaxMeasuredValue attribute indicates the maximum value of MeasuredValue
+     * that can be measured. A value of 0x8000 means this attribute is not defined.
+     * <br>
+     * MaxMeasuredValue shall be greater than MinMeasuredValue.
+     * <br>
+     * MinMeasuredValue and MaxMeasuredValue define the range of the sensor.
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configMaxMeasuredValueReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_MAXMEASUREDVALUE, minInterval, maxInterval, reportableChange);
+    }
+
+
+    /**
      * Get the <i>Tolerance</i> attribute
      * <p>
      * <br>
@@ -111,6 +168,113 @@ public class ZclPressureMeasurementCluster extends ZclCluster {
      */
     public Future<CommandResult> getTolerance() {
         return read(ATTR_TOLERANCE);
+    }
+
+
+    /**
+     * Get the <i>ScaledValue</i> attribute
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> getScaledValue() {
+        return read(ATTR_SCALEDVALUE);
+    }
+
+
+    /**
+     * Configure reporting for the <i>ScaledValue</i> attribute
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configScaledValueReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_SCALEDVALUE, minInterval, maxInterval, reportableChange);
+    }
+
+
+    /**
+     * Get the <i>MinScaledValue</i> attribute
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> getMinScaledValue() {
+        return read(ATTR_MINSCALEDVALUE);
+    }
+
+
+    /**
+     * Get the <i>MaxScaledValue</i> attribute
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> getMaxScaledValue() {
+        return read(ATTR_MAXSCALEDVALUE);
+    }
+
+
+    /**
+     * Get the <i>ScaledTolerance</i> attribute
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> getScaledTolerance() {
+        return read(ATTR_SCALEDTOLERANCE);
+    }
+
+
+    /**
+     * Configure reporting for the <i>ScaledTolerance</i> attribute
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configScaledToleranceReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_SCALEDTOLERANCE, minInterval, maxInterval, reportableChange);
+    }
+
+
+    /**
+     * Get the <i>Scale</i> attribute
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> getScale() {
+        return read(ATTR_SCALE);
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }

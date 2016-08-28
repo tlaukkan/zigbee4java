@@ -6,6 +6,7 @@ import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.basic.ResetToFactoryDefaultsCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Basic</b> cluster implementation (<i>Cluster ID 0x0000</i>).
@@ -194,7 +195,7 @@ public class ZclBasicCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setLocationDescription(final Object value) {
-        return write(ATTR_LOCATIONDESCRIPTION, value);
+        return write(ATTR_LOCATIONDESCRIPTION, ZclDataType.CHARACTER_STRING, value);
     }
 
 
@@ -229,7 +230,7 @@ public class ZclBasicCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setPhysicalEnvironment(final Object value) {
-        return write(ATTR_PHYSICALENVIRONMENT, value);
+        return write(ATTR_PHYSICALENVIRONMENT, ZclDataType.ENUMERATION_8_BIT, value);
     }
 
 
@@ -264,7 +265,7 @@ public class ZclBasicCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setDeviceEnabled(final Object value) {
-        return write(ATTR_DEVICEENABLED, value);
+        return write(ATTR_DEVICEENABLED, ZclDataType.BOOLEAN, value);
     }
 
 
@@ -299,7 +300,7 @@ public class ZclBasicCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setAlarmMask(final Object value) {
-        return write(ATTR_ALARMMASK, value);
+        return write(ATTR_ALARMMASK, ZclDataType.BITMAP_8_BIT, value);
     }
 
 
@@ -338,7 +339,7 @@ public class ZclBasicCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setDisableLocalConfig(final Object value) {
-        return write(ATTR_DISABLELOCALCONFIG, value);
+        return write(ATTR_DISABLELOCALCONFIG, ZclDataType.BITMAP_8_BIT, value);
     }
 
 
@@ -370,6 +371,16 @@ public class ZclBasicCluster extends ZclCluster {
      */
     public Future<CommandResult> resetToFactoryDefaultsCommand() {
         return send(new ResetToFactoryDefaultsCommand());
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }

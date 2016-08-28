@@ -56,6 +56,35 @@ public class ZclTemperatureMeasurementCluster extends ZclCluster {
 
 
     /**
+     * Configure reporting for the <i>MeasuredValue</i> attribute
+     * <p>
+     * MeasuredValue represents the temperature in degrees Celsius as follows:-
+     * MeasuredValue = 100 x temperature in degrees Celsius.
+     * <br>
+     * Where -273.15°C <= temperature <= 327.67 ºC, corresponding to a
+     * <br>
+     * MeasuredValue in the range 0x954d to 0x7fff. The maximum resolution this
+     * format allows is 0.01 ºC.
+     * <br>
+     * A MeasuredValue of 0x8000 indicates that the temperature measurement is
+     * invalid.
+     * <br>
+     * MeasuredValue is updated continuously as new measurements are made.
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configMeasuredValueReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_MEASUREDVALUE, minInterval, maxInterval, reportableChange);
+    }
+
+
+    /**
      * Get the <i>MinMeasuredValue</i> attribute
      * <p>
      * <br>
@@ -111,6 +140,37 @@ public class ZclTemperatureMeasurementCluster extends ZclCluster {
      */
     public Future<CommandResult> getTolerance() {
         return read(ATTR_TOLERANCE);
+    }
+
+
+    /**
+     * Configure reporting for the <i>Tolerance</i> attribute
+     * <p>
+     * <br>
+     * The Tolerance attribute indicates the magnitude of the possible error that is
+     * associated with MeasuredValue . The true value is located in the range
+     * (MeasuredValue – Tolerance) to (MeasuredValue + Tolerance).
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configToleranceReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_TOLERANCE, minInterval, maxInterval, reportableChange);
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }

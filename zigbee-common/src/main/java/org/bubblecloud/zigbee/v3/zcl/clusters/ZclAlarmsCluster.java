@@ -125,4 +125,14 @@ public class ZclAlarmsCluster extends ZclCluster {
         return send(new GetAlarmResponse());
     }
 
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
+    }
+
 }

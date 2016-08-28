@@ -6,11 +6,9 @@ import org.bubblecloud.zigbee.tools.zcl.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -702,6 +700,22 @@ public class ZclProtocolCodeGenerator {
                 out.println();
 
                 Set<String> imports = new HashSet<String>();
+
+                boolean addAttributeTypes = false;
+                boolean readAttributes = false;
+                for (final Attribute attribute : cluster.attributes.values()) {
+                	if(attribute.attributeAccess.toLowerCase().contains("write")) {
+                		addAttributeTypes = true;
+                	}
+                	if(attribute.attributeAccess.toLowerCase().contains("read")) {
+                		readAttributes = true;
+                	}
+                }
+                
+                if(addAttributeTypes) {
+                	imports.add("org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType");
+                }
+                
                 imports.add(packageRoot + packageZcl + ".ZclCluster");
 //                imports.add(packageRoot + packageZcl + ".ZclCommand");
 //                imports.add(packageRoot + packageZcl + ".ZclCommandMessage");
@@ -764,7 +778,7 @@ public class ZclProtocolCodeGenerator {
                 	if(attribute.attributeAccess.toLowerCase().contains("write")) {
                     	outputAttributeJavaDoc(out, "Set", attribute);
                 		out.println("    public Future<CommandResult> set" + attribute.nameUpperCamelCase + "(final Object value) {");
-                		out.println("        return write(" + attribute.enumName + ", value);");
+                		out.println("        return write(" + attribute.enumName + ", ZclDataType." + attribute.dataType + ", value);");
                 		out.println("    }");
                 		out.println();
                 	}
@@ -773,6 +787,14 @@ public class ZclProtocolCodeGenerator {
                     	outputAttributeJavaDoc(out, "Get", attribute);
                 		out.println("    public Future<CommandResult> get" + attribute.nameUpperCamelCase + "() {");
                 		out.println("        return read(" + attribute.enumName + ");");
+                		out.println("    }");
+                		out.println();
+                	}
+
+                	if(attribute.attributeAccess.toLowerCase().contains("read") && attribute.attributeReporting.toLowerCase().equals("mandatory")) {
+                    	outputAttributeJavaDoc(out, "Configure reporting for", attribute);
+                		out.println("    public Future<CommandResult> config" + attribute.nameUpperCamelCase + "Reporting(final int minInterval, final int maxInterval, final Object reportableChange) {");
+                		out.println("        return report(" + attribute.enumName + ", minInterval, maxInterval, reportableChange);");
                 		out.println("    }");
                 		out.println();
                 	}
@@ -797,6 +819,21 @@ public class ZclProtocolCodeGenerator {
                     out.println("    }");
                     out.println();
                 }
+
+                
+                if(readAttributes) {
+                	out.println();
+                	out.println("    /**");
+               		out.println("     * Add a binding for this cluster to the local node");
+                	out.println("     *");
+            		out.println("     * @return the {@link Future<CommandResult>} command result future");
+                	out.println("     */");
+                	out.println("    public Future<CommandResult> bind() {");
+                    out.println("        return bind();");
+                    out.println("    }");
+                    out.println();            	
+                }
+
                 out.println("}");
 
                 out.flush();
@@ -821,6 +858,11 @@ public class ZclProtocolCodeGenerator {
     	out.println("     *");
     	if("Set".equals(type)) {
     		out.println("     * @param " + attribute.nameLowerCamelCase + " the {@link " + attribute.dataTypeClass + "} attribute value to be set");
+    	}
+    	if("Configure reporting for".equals(type)) {
+    		out.println("     * @param minInterval {@link int} minimum reporting period");
+			out.println("     * @param maxInterval {@link int} minimum reporting period");
+    		out.println("     * @param reportableChange {@link Object} delta required to trigger report");
     	}
 		out.println("     * @return the {@link Future<CommandResult>} command result future");
     	out.println("     */");

@@ -48,6 +48,24 @@ public class ZclOnOffCluster extends ZclCluster {
 
 
     /**
+     * Configure reporting for the <i>OnOff</i> attribute
+     * <p>
+     * The OnOff attribute has the following values: 0 = Off, 1 = On
+     * </p>
+     * The attribute is of type {@link Boolean}<br>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configOnOffReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_ONOFF, minInterval, maxInterval, reportableChange);
+    }
+
+
+    /**
      * The Off Command
      *
      * @return the {@link Future<CommandResult>} command result future
@@ -74,6 +92,16 @@ public class ZclOnOffCluster extends ZclCluster {
      */
     public Future<CommandResult> toggleCommand() {
         return send(new ToggleCommand());
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }

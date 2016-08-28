@@ -100,21 +100,21 @@ Home Automation ZigBee cluster library protocol description is used to code gene
 
 ### Attributes
 
-|Id     |Name                 |Type                       |Access     |Implement |
-|-------|---------------------|---------------------------|-----------|----------|
-|0x0000 |ZCLVersion           |Unsigned 8-bit integer     |Read Only  |Mandatory |
-|0x0001 |ApplicationVersion   |Unsigned 8-bit integer     |Read Only  |Mandatory |
-|0x0002 |StackVersion         |Unsigned 8-bit integer     |Read Only  |Mandatory |
-|0x0003 |HWVersion            |Unsigned 8-bit integer     |Read Only  |Mandatory |
-|0x0004 |ManufacturerName     |Character string           |Read Only  |Mandatory |
-|0x0005 |ModelIdentifier      |Character string           |Read Only  |Mandatory |
-|0x0006 |DateCode             |Character string           |Read Only  |Mandatory |
-|0x0007 |PowerSource          |8-bit enumeration          |Read Only  |Mandatory |
-|0x0010 |LocationDescription  |Character string           |Read/Write |Mandatory |
-|0x0011 |PhysicalEnvironment  |8-bit enumeration          |Read/Write |Mandatory |
-|0x0012 |DeviceEnabled        |Boolean                    |Read/Write |Mandatory |
-|0x0013 |AlarmMask            |8-bit bitmap               |Read/Write |Mandatory |
-|0x0014 |DisableLocalConfig   |8-bit bitmap               |Read/Write |Mandatory |
+|Id     |Name                 |Type                       |Access     |Implement |Reporting |
+|-------|---------------------|---------------------------|-----------|----------|----------|
+|0x0000 |ZCLVersion           |Unsigned 8-bit integer     |Read Only  |Mandatory |          |
+|0x0001 |ApplicationVersion   |Unsigned 8-bit integer     |Read Only  |Mandatory |          |
+|0x0002 |StackVersion         |Unsigned 8-bit integer     |Read Only  |Mandatory |          |
+|0x0003 |HWVersion            |Unsigned 8-bit integer     |Read Only  |Mandatory |          |
+|0x0004 |ManufacturerName     |Character string           |Read Only  |Mandatory |          |
+|0x0005 |ModelIdentifier      |Character string           |Read Only  |Mandatory |          |
+|0x0006 |DateCode             |Character string           |Read Only  |Mandatory |          |
+|0x0007 |PowerSource          |8-bit enumeration          |Read Only  |Mandatory |          |
+|0x0010 |LocationDescription  |Character string           |Read/Write |Mandatory |          |
+|0x0011 |PhysicalEnvironment  |8-bit enumeration          |Read/Write |Mandatory |          |
+|0x0012 |DeviceEnabled        |Boolean                    |Read/Write |Mandatory |          |
+|0x0013 |AlarmMask            |8-bit bitmap               |Read/Write |Mandatory |          |
+|0x0014 |DisableLocalConfig   |8-bit bitmap               |Read/Write |Mandatory |          |
 
 #### ZCLVersion Attribute
 The ZCLVersion attribute is 8 bits in length and specifies the version number of
@@ -195,22 +195,22 @@ and for configuring under/over voltage alarms.
 
 ### Attributes
 
-|Id     |Name                      |Type                       |Access     |Implement |
-|-------|--------------------------|---------------------------|-----------|----------|
-|0x0000 |MainsVoltage              |Unsigned 16-bit integer    |Read only  |Optional  |
-|0x0001 |MainsFrequency            |Unsigned 16-bit integer    |Read only  |Optional  |
-|0x0010 |MainsAlarmMask            |8-bit Bitmap               |Read/Write |Optional  |
-|0x0011 |MainsVoltageMinThreshold  |Unsigned 16-bit integer    |Read/Write |Optional  |
-|0x0012 |MainsVoltageMaxThreshold  |Unsigned 16-bit integer    |Read/Write |Optional  |
-|0x0013 |MainsVoltageDwellTripPoint|Unsigned 16-bit integer    |Read/Write |Optional  |
-|0x0020 |BatteryVoltage            |Unsigned 8-bit integer     |Read       |Optional  |
-|0x0030 |BatteryManufacturer       |Character string           |Read/Write |Optional  |
-|0x0031 |BatterySize               |8-bit Enumeration          |Read/Write |Optional  |
-|0x0032 |BatteryAHrRating          |Unsigned 16-bit integer    |Read/Write |Optional  |
-|0x0033 |BatteryQuantity           |Unsigned 8-bit integer     |Read/Write |Optional  |
-|0x0034 |BatteryRatedVoltage       |Unsigned 8-bit integer     |Read/Write |Optional  |
-|0x0035 |BatteryAlarmMask          |8-bit Bitmap               |Read/Write |Optional  |
-|0x0036 |BatteryVoltageMinThreshold|Unsigned 8-bit integer     |Read/Write |Optional  |
+|Id     |Name                      |Type                       |Access     |Implement |Reporting |
+|-------|--------------------------|---------------------------|-----------|----------|----------|
+|0x0000 |MainsVoltage              |Unsigned 16-bit integer    |Read only  |Optional  |          |
+|0x0001 |MainsFrequency            |Unsigned 16-bit integer    |Read only  |Optional  |          |
+|0x0010 |MainsAlarmMask            |8-bit Bitmap               |Read/Write |Optional  |          |
+|0x0011 |MainsVoltageMinThreshold  |Unsigned 16-bit integer    |Read/Write |Optional  |          |
+|0x0012 |MainsVoltageMaxThreshold  |Unsigned 16-bit integer    |Read/Write |Optional  |          |
+|0x0013 |MainsVoltageDwellTripPoint|Unsigned 16-bit integer    |Read/Write |Optional  |          |
+|0x0020 |BatteryVoltage            |Unsigned 8-bit integer     |Read       |Optional  |          |
+|0x0030 |BatteryManufacturer       |Character string           |Read/Write |Optional  |          |
+|0x0031 |BatterySize               |8-bit Enumeration          |Read/Write |Optional  |          |
+|0x0032 |BatteryAHrRating          |Unsigned 16-bit integer    |Read/Write |Optional  |          |
+|0x0033 |BatteryQuantity           |Unsigned 8-bit integer     |Read/Write |Optional  |          |
+|0x0034 |BatteryRatedVoltage       |Unsigned 8-bit integer     |Read/Write |Optional  |          |
+|0x0035 |BatteryAlarmMask          |8-bit Bitmap               |Read/Write |Optional  |          |
+|0x0036 |BatteryVoltageMinThreshold|Unsigned 8-bit integer     |Read/Write |Optional  |          |
 
 
 
@@ -350,9 +350,9 @@ setting of the DeviceEnable attribute in the Basic cluster.
 
 ### Attributes
 
-|Id     |Name                 |Type                       |Access     |Implement |
-|-------|---------------------|---------------------------|-----------|----------|
-|0x0000 |IdentifyTime         |Unsigned 16-bit integer    |Read/Write |Mandatory |
+|Id     |Name                 |Type                       |Access     |Implement |Reporting |
+|-------|---------------------|---------------------------|-----------|----------|----------|
+|0x0000 |IdentifyTime         |Unsigned 16-bit integer    |Read/Write |Mandatory |          |
 
 #### IdentifyTime Attribute
 The IdentifyTime attribute specifies the remaining length of time, in seconds, that
@@ -484,14 +484,14 @@ not be multicast or broadcast.
 
 ### Attributes
 
-|Id     |Name                 |Type                       |Access     |Implement |
-|-------|---------------------|---------------------------|-----------|----------|
-|0x0000 |SceneCount           |Unsigned 8-bit integer     |Read only  |Mandatory |
-|0x0001 |CurrentScene         |Unsigned 8-bit integer     |Read only  |Mandatory |
-|0x0002 |CurrentGroup         |Unsigned 16-bit integer    |Read only  |Mandatory |
-|0x0003 |SceneValid           |Boolean                    |Read only  |Mandatory |
-|0x0004 |NameSupport          |8-bit bitmap               |Read only  |Mandatory |
-|0x0005 |LastConfiguredBy     |IEEE Address               |Read only  |Optional  |
+|Id     |Name                 |Type                       |Access     |Implement |Reporting |
+|-------|---------------------|---------------------------|-----------|----------|----------|
+|0x0000 |SceneCount           |Unsigned 8-bit integer     |Read only  |Mandatory |          |
+|0x0001 |CurrentScene         |Unsigned 8-bit integer     |Read only  |Mandatory |          |
+|0x0002 |CurrentGroup         |Unsigned 16-bit integer    |Read only  |Mandatory |          |
+|0x0003 |SceneValid           |Boolean                    |Read only  |Mandatory |          |
+|0x0004 |NameSupport          |8-bit bitmap               |Read only  |Mandatory |          |
+|0x0005 |LastConfiguredBy     |IEEE Address               |Read only  |Optional  |          |
 
 #### SceneCount Attribute
 The SceneCount attribute specifies the number of scenes currently in the device's
@@ -642,9 +642,9 @@ Attributes and commands for switching devices between ‘On’ and ‘Off’ sta
 
 ### Attributes
 
-|Id     |Name                 |Type                       |Access     |Implement |
-|-------|---------------------|---------------------------|-----------|----------|
-|0x0000 |OnOff                |Boolean                    |Read Only  |Mandatory |
+|Id     |Name                 |Type                       |Access     |Implement |Reporting |
+|-------|---------------------|---------------------------|-----------|----------|----------|
+|0x0000 |OnOff                |Boolean                    |Read Only  |Mandatory |Mandatory |
 
 #### OnOff Attribute
 The OnOff attribute has the following values: 0 = Off, 1 = On
@@ -686,12 +686,12 @@ a door, or the power output of a heater.
 
 ### Attributes
 
-|Id     |Name                 |Type                       |Access     |Implement |
-|-------|---------------------|---------------------------|-----------|----------|
-|0x0000 |CurrentLevel         |Unsigned 8-bit integer     |Read Only  |Mandatory |
-|0x0000 |RemainingTime        |Unsigned 16-bit integer    |Read Only  |Optional  |
-|0x0000 |OnOffTransitionTime  |Unsigned 16-bit integer    |Read/Write |Optional  |
-|0x0000 |OnLevel              |Unsigned 8-bit integer     |Read/Write |Optional  |
+|Id     |Name                 |Type                       |Access     |Implement |Reporting |
+|-------|---------------------|---------------------------|-----------|----------|----------|
+|0x0000 |CurrentLevel         |Unsigned 8-bit integer     |Read Only  |Mandatory |Mandatory |
+|0x0000 |RemainingTime        |Unsigned 16-bit integer    |Read Only  |Optional  |          |
+|0x0000 |OnOffTransitionTime  |Unsigned 16-bit integer    |Read/Write |Optional  |          |
+|0x0000 |OnLevel              |Unsigned 8-bit integer     |Read/Write |Optional  |          |
 
 #### CurrentLevel Attribute
 The CurrentLevel attribute represents the current level of this device. The
@@ -782,9 +782,9 @@ Alarms may either reset automatically when the conditions that cause are no
 longer active, or may need to be explicitly reset.
 
 ### Attributes
-|Id     |Name                 |Type                       |Access     |Implement |
-|-------|---------------------|---------------------------|-----------|----------|
-|0x0000 |AlarmCount           |Unsigned 16-bit integer    |Read Only  |Optional  |
+|Id     |Name                 |Type                       |Access     |Implement |Reporting |
+|-------|---------------------|---------------------------|-----------|----------|----------|
+|0x0000 |AlarmCount           |Unsigned 16-bit integer    |Read Only  |Optional  |          |
 
 #### AlarmCount Attribute
 The AlarmCount attribute is 16-bits in length and specifies the number of entries
@@ -833,16 +833,16 @@ If alarm logging is not implemented this attribute shall always take the value
 ## Time [0x000a]
 
 ### Attributes
-|Id     |Name                 |Type                       |Access     |Implement |
-|-------|---------------------|---------------------------|-----------|----------|
-|0x0000 |Time                 |UTCTime                    |Read/Write |Mandatory |
-|0x0001 |TimeStatus           |Unsigned 16-bit integer    |Read/Write |Optional  |
-|0x0002 |TimeZone             |Signed 32-bit integer      |Read/Write |Optional  |
-|0x0003 |DstStart             |Unsigned 32-bit integer    |Read/Write |Optional  |
-|0x0004 |DstEnd               |Unsigned 32-bit integer    |Read/Write |Optional  |
-|0x0005 |DstShift             |Signed 32-bit integer      |Read/Write |Optional  |
-|0x0006 |StandardTime         |Signed 32-bit integer      |Read Only  |Optional  |
-|0x0007 |LocalTime            |Signed 32-bit integer      |Read Only  |Optional  |
+|Id     |Name                 |Type                       |Access     |Implement |Reporting |
+|-------|---------------------|---------------------------|-----------|----------|----------|
+|0x0000 |Time                 |UTCTime                    |Read/Write |Mandatory |          |
+|0x0001 |TimeStatus           |Unsigned 16-bit integer    |Read/Write |Optional  |          |
+|0x0002 |TimeZone             |Signed 32-bit integer      |Read/Write |Optional  |          |
+|0x0003 |DstStart             |Unsigned 32-bit integer    |Read/Write |Optional  |          |
+|0x0004 |DstEnd               |Unsigned 32-bit integer    |Read/Write |Optional  |          |
+|0x0005 |DstShift             |Signed 32-bit integer      |Read/Write |Optional  |          |
+|0x0006 |StandardTime         |Signed 32-bit integer      |Read Only  |Optional  |          |
+|0x0007 |LocalTime            |Signed 32-bit integer      |Read Only  |Optional  |          |
 
 #### Time Attribute
 The Time attribute is 32-bits in length and holds the time value of a real time
@@ -912,21 +912,21 @@ No cluster specific commands.
 ## RSSI Location [0x000b]
 
 ### Attributes
-|Id     |Name                  |Type                       |Access     |Implement |
-|-------|----------------------|---------------------------|-----------|----------|
-|0x0000 |LocationType          |8-bit Data                 |Read only  |Mandatory |
-|0x0001 |LocationMethod        |8-bit Enumeration          |Read only  |Mandatory |
-|0x0002 |LocationAge           |Unsigned 16-bit Integer    |Read only  |Optional  |
-|0x0003 |QualityMeasure        |Unsigned 8-bit Integer     |Read only  |Optional  |
-|0x0004 |NumberOfDevices       |Unsigned 8-bit Integer     |Read only  |Optional  |
-|0x0010 |Coordinate1           |Signed 16-bit integer      |Read/Write |Mandatory |
-|0x0011 |Coordinate2           |Signed 16-bit integer      |Read/Write |Mandatory |
-|0x0012 |Coordinate3           |Signed 16-bit integer      |Read/Write |Optional  |
-|0x0013 |Power                 |Signed 16-bit integer      |Read/Write |Mandatory |
-|0x0010 |PathLossExponent      |Signed 16-bit integer      |Read/Write |Mandatory |
-|0x0010 |ReportingPeriod       |Signed 16-bit integer      |Read/Write |Optional  |
-|0x0010 |CalculationPeriod     |Signed 16-bit integer      |Read/Write |Optional  |
-|0x0010 |NumberRSSIMeasurements|Signed 16-bit integer      |Read/Write |Optional  |
+|Id     |Name                  |Type                       |Access     |Implement |Reporting |
+|-------|----------------------|---------------------------|-----------|----------|----------|
+|0x0000 |LocationType          |8-bit Data                 |Read only  |Mandatory |          |
+|0x0001 |LocationMethod        |8-bit Enumeration          |Read only  |Mandatory |          |
+|0x0002 |LocationAge           |Unsigned 16-bit Integer    |Read only  |Optional  |          |
+|0x0003 |QualityMeasure        |Unsigned 8-bit Integer     |Read only  |Optional  |          |
+|0x0004 |NumberOfDevices       |Unsigned 8-bit Integer     |Read only  |Optional  |          |
+|0x0010 |Coordinate1           |Signed 16-bit integer      |Read/Write |Mandatory |          |
+|0x0011 |Coordinate2           |Signed 16-bit integer      |Read/Write |Mandatory |          |
+|0x0012 |Coordinate3           |Signed 16-bit integer      |Read/Write |Optional  |          |
+|0x0013 |Power                 |Signed 16-bit integer      |Read/Write |Mandatory |          |
+|0x0014 |PathLossExponent      |Signed 16-bit integer      |Read/Write |Mandatory |          |
+|0x0015 |ReportingPeriod       |Signed 16-bit integer      |Read/Write |Optional  |          |
+|0x0016 |CalculationPeriod     |Signed 16-bit integer      |Read/Write |Optional  |          |
+|0x0017 |NumberRSSIMeasurements|Signed 16-bit integer      |Read/Write |Optional  |          |
 
 #### LocationType Attribute
 The LocationType attribute is 8 bits long and is divided into bit fields.
@@ -1381,17 +1381,17 @@ specification CIE 1931 Color Space, [B4]. Color control is carried out in terms 
 x,y values, as defined by this specification. 
 
 ### Attributes
-|Id     |Name                  |Type                       |Access     |Implement |
-|-------|----------------------|---------------------------|-----------|----------|
-|0x0000 |CurrentHue            |Unsigned 8-bit Integer     |Read only  |Optional  |
-|0x0001 |CurrentSaturation     |Unsigned 8-bit Integer     |Read only  |Optional  |
-|0x0002 |RemainingTime         |Unsigned 16-bit Integer    |Read only  |Optional  |
-|0x0003 |CurrentX              |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0004 |CurrentY              |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0005 |DriftCompensation     |8-bit Enumeration          |Read only  |Optional  |
-|0x0006 |CompensationText      |Character string           |Read only  |Optional  |
-|0x0007 |ColorTemperature      |Unsigned 16-bit Integer    |Read only  |Optional  |
-|0x0008 |ColorMode             |8-bit Enumeration          |Read only  |Optional  |
+|Id     |Name                  |Type                       |Access     |Implement |Reporting |
+|-------|----------------------|---------------------------|-----------|----------|----------|
+|0x0000 |CurrentHue            |Unsigned 8-bit Integer     |Read only  |Optional  |Mandatory |
+|0x0001 |CurrentSaturation     |Unsigned 8-bit Integer     |Read only  |Optional  |Mandatory |
+|0x0002 |RemainingTime         |Unsigned 16-bit Integer    |Read only  |Optional  |          |
+|0x0003 |CurrentX              |Unsigned 16-bit Integer    |Read only  |Mandatory |Mandatory |
+|0x0004 |CurrentY              |Unsigned 16-bit Integer    |Read only  |Mandatory |Mandatory |
+|0x0005 |DriftCompensation     |8-bit Enumeration          |Read only  |Optional  |          |
+|0x0006 |CompensationText      |Character string           |Read only  |Optional  |          |
+|0x0007 |ColorTemperature      |Unsigned 16-bit Integer    |Read only  |Optional  |Mandatory |
+|0x0008 |ColorMode             |8-bit Enumeration          |Read only  |Optional  |          |
 
 #### CurrentHue Attribute
 The CurrentHue attribute contains the current hue value of the light. It is updated
@@ -1557,13 +1557,13 @@ including configuration and provision of notifications of illuminance
 measurements.
 
 ### Attributes
-|Id     |Name                  |Type                       |Access     |Implement |
-|-------|----------------------|---------------------------|-----------|----------|
-|0x0000 |MeasuredValue         |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0001 |MinMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0002 |MaxMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0003 |Tolerance             |Unsigned 16-bit Integer    |Read only  |Optional  |
-|0x0004 |LightSensorType       |8-bit Enumeration          |Read only  |Optional  |
+|Id     |Name                  |Type                       |Access     |Implement |Reporting |
+|-------|----------------------|---------------------------|-----------|----------|----------|
+|0x0000 |MeasuredValue         |Unsigned 16-bit Integer    |Read only  |Mandatory |Mandatory |
+|0x0001 |MinMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |          |
+|0x0002 |MaxMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |          |
+|0x0003 |Tolerance             |Unsigned 16-bit Integer    |Read only  |Optional  |Mandatory |
+|0x0004 |LightSensorType       |8-bit Enumeration          |Read only  |Optional  |          |
 
 #### MeasuredValue Attribute
 MeasuredValue represents the Illuminance in Lux (symbol lx) as follows:-
@@ -1611,10 +1611,10 @@ including configuration and provision of notifications of whether the illuminanc
 is within, above or below a target band.
 
 ### Attributes
-|Id     |Name                  |Type                       |Access     |Implement |
-|-------|----------------------|---------------------------|-----------|----------|
-|0x0000 |LevelStatus           |8-bit Enumeration          |Read only  |Mandatory |
-|0x0001 |LightSensorType       |8-bit Enumeration          |Read only  |Optional  |
+|Id     |Name                  |Type                       |Access     |Implement |Reporting |
+|-------|----------------------|---------------------------|-----------|----------|----------|
+|0x0000 |LevelStatus           |8-bit Enumeration          |Read only  |Mandatory |Mandatory |
+|0x0001 |LightSensorType       |8-bit Enumeration          |Read only  |Optional  |          |
 
 #### LevelStatus Attribute
 The LevelStatus attribute indicates whether the measured illuminance is above,
@@ -1651,12 +1651,12 @@ No cluster specific commands.
 ## Temperature measurement [0x0402]
 
 ### Attributes
-|Id     |Name                  |Type                       |Access     |Implement |
-|-------|----------------------|---------------------------|-----------|----------|
-|0x0000 |MeasuredValue         |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0001 |MinMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0002 |MaxMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0003 |Tolerance             |Unsigned 16-bit Integer    |Read only  |Optional  |
+|Id     |Name                  |Type                       |Access     |Implement |Reporting |
+|-------|----------------------|---------------------------|-----------|----------|----------|
+|0x0000 |MeasuredValue         |Unsigned 16-bit Integer    |Read only  |Mandatory |Mandatory |
+|0x0001 |MinMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |          |
+|0x0002 |MaxMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |          |
+|0x0003 |Tolerance             |Unsigned 16-bit Integer    |Read only  |Optional  |Mandatory |
 
 #### MeasuredValue Attribute
 MeasuredValue represents the temperature in degrees Celsius as follows:-
@@ -1705,12 +1705,19 @@ The cluster provides an interface to pressure measurement functionality,
 including configuration and provision of notifications of pressure measurements.
 
 ### Attributes
-|Id     |Name                  |Type                       |Access     |Implement |
-|-------|----------------------|---------------------------|-----------|----------|
-|0x0000 |MeasuredValue         |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0001 |MinMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0002 |MaxMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0003 |Tolerance             |Unsigned 16-bit Integer    |Read only  |Optional  |
+|Id     |Name                  |Type                       |Access     |Implement |Reporting |
+|-------|----------------------|---------------------------|-----------|----------|----------|
+|0x0000 |MeasuredValue         |Unsigned 16-bit Integer    |Read only  |Mandatory |Mandatory |
+|0x0001 |MinMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |          |
+|0x0002 |MaxMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |Mandatory |
+|0x0003 |Tolerance             |Unsigned 16-bit Integer    |Read only  |Optional  |          |
+|0x0010 |ScaledValue           |Unsigned 16-bit Integer    |Read only  |Optional  |Mandatory |
+|0x0011 |MinScaledValue        |Unsigned 16-bit Integer    |Read only  |Optional  |          |
+|0x0012 |MaxScaledValue        |Unsigned 16-bit Integer    |Read only  |Optional  |          |
+|0x0013 |ScaledTolerance       |Unsigned 16-bit Integer    |Read only  |Optional  |Mandatory |
+|0x0014 |Scale                 |Unsigned 8-bit Integer     |Read only  |Optional  |          |
+
+
 
 #### MeasuredValue Attribute
 MeasuredValue represents the pressure in kPa as follows:-
@@ -1751,14 +1758,16 @@ No cluster specific commands.
 No cluster specific commands.
 
 ## Flow measurement [0x0404]
+The server cluster provides an interface to flow measurement functionality,
+including configuration and provision of notifications of flow measurements.
 
 ### Attributes
-|Id     |Name                  |Type                       |Access     |Implement |
-|-------|----------------------|---------------------------|-----------|----------|
-|0x0000 |MeasuredValue         |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0001 |MinMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0002 |MaxMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0003 |Tolerance             |Unsigned 16-bit Integer    |Read only  |Optional  |
+|Id     |Name                  |Type                       |Access     |Implement |Reporting |
+|-------|----------------------|---------------------------|-----------|----------|----------|
+|0x0000 |MeasuredValue         |Unsigned 16-bit Integer    |Read only  |Mandatory |Mandatory |
+|0x0001 |MinMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |          |
+|0x0002 |MaxMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |          |
+|0x0003 |Tolerance             |Unsigned 16-bit Integer    |Read only  |Optional  |Mandatory |
 
 #### MeasuredValue Attribute
 MeasuredValue represents the flow in m3/h as follows:-
@@ -1802,14 +1811,17 @@ No cluster specific commands.
 No cluster specific commands.
 
 ## Relative humidity measurement [0x0405]
+The server cluster provides an interface to relative humidity measurement
+functionality, including configuration and provision of notifications of relative
+humidity measurements.
 
 ### Attributes
-|Id     |Name                  |Type                       |Access     |Implement |
-|-------|----------------------|---------------------------|-----------|----------|
-|0x0000 |MeasuredValue         |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0001 |MinMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0002 |MaxMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |
-|0x0003 |Tolerance             |Unsigned 16-bit Integer    |Read only  |Optional  |
+|Id     |Name                  |Type                       |Access     |Implement |Reporting |
+|-------|----------------------|---------------------------|-----------|----------|----------|
+|0x0000 |MeasuredValue         |Unsigned 16-bit Integer    |Read only  |Mandatory |Mandatory |
+|0x0001 |MinMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |          |
+|0x0002 |MaxMeasuredValue      |Unsigned 16-bit Integer    |Read only  |Mandatory |          |
+|0x0003 |Tolerance             |Unsigned 16-bit Integer    |Read only  |Optional  |Mandatory |
 
 #### MeasuredValue Attribute
 MeasuredValue represents the relative humidity in % as follows:-
@@ -1855,14 +1867,15 @@ The cluster provides an interface to occupancy sensing functionality,
 including configuration and provision of notifications of occupancy status. 
 
 ### Attributes
-|Id     |Name                               |Type                       |Access     |Implement |
-|-------|-----------------------------------|---------------------------|-----------|----------|
-|0x0000 |Occupancy                          |8-bit Bitmap               |Read only  |Mandatory |
-|0x0001 |OccupancySensorType                |8-bit Enumeration          |Read only  |Mandatory |
-|0x0010 |PIROccupiedToUnoccupiedDelay       |Unsigned 8-bit Integer     |Read/Write |Optional  |
-|0x0011 |PIRUnoccupiedToOccupiedDelay       |Unsigned 8-bit Integer     |Read/Write |Optional  |
-|0x0020 |UltraSonicOccupiedToUnoccupiedDelay|Unsigned 8-bit Integer     |Read/Write |Optional  |
-|0x0021 |UltraSonicUnoccupiedToOccupiedDelay|Unsigned 8-bit Integer     |Read/Write |Optional  |
+|Id     |Name                                   |Type                       |Access     |Implement |Reporting |
+|-------|---------------------------------------|---------------------------|-----------|----------|----------|
+|0x0000 |Occupancy                              |8-bit Bitmap               |Read only  |Mandatory |Mandatory |
+|0x0001 |OccupancySensorType                    |8-bit Enumeration          |Read only  |Mandatory |          |
+|0x0010 |PIROccupiedToUnoccupiedDelay           |Unsigned 8-bit Integer     |Read/Write |Optional  |          |
+|0x0011 |PIRUnoccupiedToOccupiedDelay           |Unsigned 8-bit Integer     |Read/Write |Optional  |          |
+|0x0020 |UltraSonicOccupiedToUnoccupiedDelay    |Unsigned 8-bit Integer     |Read/Write |Optional  |          |
+|0x0021 |UltraSonicUnoccupiedToOccupiedDelay    |Unsigned 8-bit Integer     |Read/Write |Optional  |          |
+|0x0022 |UltrasonicUnoccupiedToOccupiedThreshold|Unsigned 8-bit Integer     |Read/Write |Optional  |          |
 
 #### Occupancy Attribute
 The Occupancy attribute is a bitmap.
@@ -1915,12 +1928,12 @@ reports and supervision of the IAS network.
 
 ### Attributes
 
-|Id     |Name                 |Type                       |Access     |Implement |
-|-------|---------------------|---------------------------|-----------|----------|
-|0x0000 |ZoneState            |8-bit Enumeration          |Read only  |Mandatory |
-|0x0001 |ZoneType             |8-bit Enumeration          |Read only  |Mandatory |
-|0x0002 |ZoneStatus           |16-bit Bitmap              |Read only  |Mandatory |
-|0x0010 |IAS_CIE_Address      |IEEE Address               |Read/Write |Mandatory |
+|Id     |Name                 |Type                       |Access     |Implement |Reporting |
+|-------|---------------------|---------------------------|-----------|----------|----------|
+|0x0000 |ZoneState            |8-bit Enumeration          |Read only  |Mandatory |          |
+|0x0001 |ZoneType             |8-bit Enumeration          |Read only  |Mandatory |          |
+|0x0002 |ZoneStatus           |16-bit Bitmap              |Read only  |Mandatory |          |
+|0x0010 |IAS_CIE_Address      |IEEE Address               |Read/Write |Mandatory |          |
 
 #### ZoneState Attribute
 
@@ -2047,12 +2060,12 @@ indications (siren, strobe lighting, etc.) when a system alarm condition is dete
 
 ### Attributes
 
-|Id     |Name                 |Type                       |Access     |Implement |
-|-------|---------------------|---------------------------|-----------|----------|
-|0x0000 |MaxDuration          |Unsigned 16-bit Integer    |Read/Write |Mandatory |
-|0x0001 |ZoneType             |8-bit Enumeration          |Read only  |Mandatory |
-|0x0002 |ZoneStatus           |16-bit Bitmap              |Read only  |Mandatory |
-|0x0010 |IAS_CIE_Address      |IEEE Address               |Read/Write |Mandatory |
+|Id     |Name                 |Type                       |Access     |Implement |Reporting |
+|-------|---------------------|---------------------------|-----------|----------|----------|
+|0x0000 |MaxDuration          |Unsigned 16-bit Integer    |Read/Write |Mandatory |          |
+|0x0001 |ZoneType             |8-bit Enumeration          |Read only  |Mandatory |          |
+|0x0002 |ZoneStatus           |16-bit Bitmap              |Read only  |Mandatory |          |
+|0x0010 |IAS_CIE_Address      |IEEE Address               |Read/Write |Mandatory |          |
 
 #### MaxDuration Attribute
 The MaxDuration attribute specifies the maximum time in seconds that the siren

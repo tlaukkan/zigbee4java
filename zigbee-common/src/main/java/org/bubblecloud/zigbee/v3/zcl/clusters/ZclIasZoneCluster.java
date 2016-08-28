@@ -8,6 +8,7 @@ import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.iaszone.ZoneEnrollRequestCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.iaszone.ZoneEnrollResponse;
 import org.bubblecloud.zigbee.v3.zcl.clusters.iaszone.ZoneStatusChangeNotificationCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>IAS Zone</b> cluster implementation (<i>Cluster ID 0x0500</i>).
@@ -102,7 +103,7 @@ public class ZclIasZoneCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setIas_Cie_Address(final Object value) {
-        return write(ATTR_IAS_CIE_ADDRESS, value);
+        return write(ATTR_IAS_CIE_ADDRESS, ZclDataType.IEEE_ADDRESS, value);
     }
 
 
@@ -157,6 +158,16 @@ public class ZclIasZoneCluster extends ZclCluster {
      */
     public Future<CommandResult> zoneEnrollRequestCommand() {
         return send(new ZoneEnrollRequestCommand());
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }

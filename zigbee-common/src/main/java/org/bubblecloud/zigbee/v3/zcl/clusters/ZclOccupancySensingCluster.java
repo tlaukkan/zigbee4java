@@ -5,6 +5,7 @@ import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Occupancy sensing</b> cluster implementation (<i>Cluster ID 0x0406</i>).
@@ -25,6 +26,7 @@ public class ZclOccupancySensingCluster extends ZclCluster {
     private final int ATTR_PIRUNOCCUPIEDTOOCCUPIEDDELAY = 0x0011;
     private final int ATTR_ULTRASONICOCCUPIEDTOUNOCCUPIEDDELAY = 0x0020;
     private final int ATTR_ULTRASONICUNOCCUPIEDTOOCCUPIEDDELAY = 0x0021;
+    private final int ATTR_ULTRASONICUNOCCUPIEDTOOCCUPIEDTHRESHOLD = 0x0022;
 
     /**
      * Default constructor.
@@ -54,6 +56,27 @@ public class ZclOccupancySensingCluster extends ZclCluster {
 
 
     /**
+     * Configure reporting for the <i>Occupancy</i> attribute
+     * <p>
+     * The Occupancy attribute is a bitmap.
+     * <br>
+     * Bit 0 specifies the sensed occupancy as follows: 1 = occupied, 0 = unoccupied.
+     * All other bits are reserved.
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configOccupancyReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_OCCUPANCY, minInterval, maxInterval, reportableChange);
+    }
+
+
+    /**
      * Get the <i>OccupancySensorType</i> attribute
      * <p>
      * <br>
@@ -79,7 +102,7 @@ public class ZclOccupancySensingCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setPirOccupiedToUnoccupiedDelay(final Object value) {
-        return write(ATTR_PIROCCUPIEDTOUNOCCUPIEDDELAY, value);
+        return write(ATTR_PIROCCUPIEDTOUNOCCUPIEDDELAY, ZclDataType.UNSIGNED_8_BIT_INTEGER, value);
     }
 
 
@@ -106,7 +129,7 @@ public class ZclOccupancySensingCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setPirUnoccupiedToOccupiedDelay(final Object value) {
-        return write(ATTR_PIRUNOCCUPIEDTOOCCUPIEDDELAY, value);
+        return write(ATTR_PIRUNOCCUPIEDTOOCCUPIEDDELAY, ZclDataType.UNSIGNED_8_BIT_INTEGER, value);
     }
 
 
@@ -140,7 +163,7 @@ public class ZclOccupancySensingCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setUltraSonicOccupiedToUnoccupiedDelay(final Object value) {
-        return write(ATTR_ULTRASONICOCCUPIEDTOUNOCCUPIEDDELAY, value);
+        return write(ATTR_ULTRASONICOCCUPIEDTOUNOCCUPIEDDELAY, ZclDataType.UNSIGNED_8_BIT_INTEGER, value);
     }
 
 
@@ -179,7 +202,7 @@ public class ZclOccupancySensingCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setUltraSonicUnoccupiedToOccupiedDelay(final Object value) {
-        return write(ATTR_ULTRASONICUNOCCUPIEDTOOCCUPIEDDELAY, value);
+        return write(ATTR_ULTRASONICUNOCCUPIEDTOOCCUPIEDDELAY, ZclDataType.UNSIGNED_8_BIT_INTEGER, value);
     }
 
 
@@ -198,6 +221,43 @@ public class ZclOccupancySensingCluster extends ZclCluster {
      */
     public Future<CommandResult> getUltraSonicUnoccupiedToOccupiedDelay() {
         return read(ATTR_ULTRASONICUNOCCUPIEDTOOCCUPIEDDELAY);
+    }
+
+
+    /**
+     * Set the <i>UltrasonicUnoccupiedToOccupiedThreshold</i> attribute
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @param ultrasonicUnoccupiedToOccupiedThreshold the {@link Integer} attribute value to be set
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> setUltrasonicUnoccupiedToOccupiedThreshold(final Object value) {
+        return write(ATTR_ULTRASONICUNOCCUPIEDTOOCCUPIEDTHRESHOLD, ZclDataType.UNSIGNED_8_BIT_INTEGER, value);
+    }
+
+
+    /**
+     * Get the <i>UltrasonicUnoccupiedToOccupiedThreshold</i> attribute
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> getUltrasonicUnoccupiedToOccupiedThreshold() {
+        return read(ATTR_ULTRASONICUNOCCUPIEDTOOCCUPIEDTHRESHOLD);
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }

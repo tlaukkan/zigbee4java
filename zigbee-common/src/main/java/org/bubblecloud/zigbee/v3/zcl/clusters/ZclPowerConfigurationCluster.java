@@ -5,6 +5,7 @@ import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Power configuration</b> cluster implementation (<i>Cluster ID 0x0001</i>).
@@ -103,7 +104,7 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setMainsAlarmMask(final Object value) {
-        return write(ATTR_MAINSALARMMASK, value);
+        return write(ATTR_MAINSALARMMASK, ZclDataType.BITMAP_8_BIT, value);
     }
 
 
@@ -151,7 +152,7 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setMainsVoltageMinThreshold(final Object value) {
-        return write(ATTR_MAINSVOLTAGEMINTHRESHOLD, value);
+        return write(ATTR_MAINSVOLTAGEMINTHRESHOLD, ZclDataType.UNSIGNED_16_BIT_INTEGER, value);
     }
 
 
@@ -212,7 +213,7 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setMainsVoltageMaxThreshold(final Object value) {
-        return write(ATTR_MAINSVOLTAGEMAXTHRESHOLD, value);
+        return write(ATTR_MAINSVOLTAGEMAXTHRESHOLD, ZclDataType.UNSIGNED_16_BIT_INTEGER, value);
     }
 
 
@@ -264,7 +265,7 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setMainsVoltageDwellTripPoint(final Object value) {
-        return write(ATTR_MAINSVOLTAGEDWELLTRIPPOINT, value);
+        return write(ATTR_MAINSVOLTAGEDWELLTRIPPOINT, ZclDataType.UNSIGNED_16_BIT_INTEGER, value);
     }
 
 
@@ -321,7 +322,7 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setBatteryManufacturer(final Object value) {
-        return write(ATTR_BATTERYMANUFACTURER, value);
+        return write(ATTR_BATTERYMANUFACTURER, ZclDataType.CHARACTER_STRING, value);
     }
 
 
@@ -356,7 +357,7 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setBatterySize(final Object value) {
-        return write(ATTR_BATTERYSIZE, value);
+        return write(ATTR_BATTERYSIZE, ZclDataType.ENUMERATION_8_BIT, value);
     }
 
 
@@ -391,7 +392,7 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setBatteryAHrRating(final Object value) {
-        return write(ATTR_BATTERYAHRRATING, value);
+        return write(ATTR_BATTERYAHRRATING, ZclDataType.UNSIGNED_16_BIT_INTEGER, value);
     }
 
 
@@ -426,7 +427,7 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setBatteryQuantity(final Object value) {
-        return write(ATTR_BATTERYQUANTITY, value);
+        return write(ATTR_BATTERYQUANTITY, ZclDataType.UNSIGNED_8_BIT_INTEGER, value);
     }
 
 
@@ -461,7 +462,7 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setBatteryRatedVoltage(final Object value) {
-        return write(ATTR_BATTERYRATEDVOLTAGE, value);
+        return write(ATTR_BATTERYRATEDVOLTAGE, ZclDataType.UNSIGNED_8_BIT_INTEGER, value);
     }
 
 
@@ -496,7 +497,7 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setBatteryAlarmMask(final Object value) {
-        return write(ATTR_BATTERYALARMMASK, value);
+        return write(ATTR_BATTERYALARMMASK, ZclDataType.BITMAP_8_BIT, value);
     }
 
 
@@ -539,7 +540,7 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setBatteryVoltageMinThreshold(final Object value) {
-        return write(ATTR_BATTERYVOLTAGEMINTHRESHOLD, value);
+        return write(ATTR_BATTERYVOLTAGEMINTHRESHOLD, ZclDataType.UNSIGNED_8_BIT_INTEGER, value);
     }
 
 
@@ -565,6 +566,16 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
      */
     public Future<CommandResult> getBatteryVoltageMinThreshold() {
         return read(ATTR_BATTERYVOLTAGEMINTHRESHOLD);
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }

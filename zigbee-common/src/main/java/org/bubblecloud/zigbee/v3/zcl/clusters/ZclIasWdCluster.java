@@ -7,6 +7,7 @@ import org.bubblecloud.zigbee.v3.ZigBeeDevice;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.iaswd.SquawkCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.iaswd.StartWarningCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>IAS WD</b> cluster implementation (<i>Cluster ID 0x0502</i>).
@@ -50,7 +51,7 @@ public class ZclIasWdCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setMaxDuration(final Object value) {
-        return write(ATTR_MAXDURATION, value);
+        return write(ATTR_MAXDURATION, ZclDataType.UNSIGNED_16_BIT_INTEGER, value);
     }
 
 
@@ -106,7 +107,7 @@ public class ZclIasWdCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setIas_Cie_Address(final Object value) {
-        return write(ATTR_IAS_CIE_ADDRESS, value);
+        return write(ATTR_IAS_CIE_ADDRESS, ZclDataType.IEEE_ADDRESS, value);
     }
 
 
@@ -147,6 +148,16 @@ public class ZclIasWdCluster extends ZclCluster {
      */
     public Future<CommandResult> squawkCommand() {
         return send(new SquawkCommand());
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }

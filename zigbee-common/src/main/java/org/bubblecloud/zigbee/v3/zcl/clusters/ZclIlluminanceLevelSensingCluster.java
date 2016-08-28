@@ -49,6 +49,25 @@ public class ZclIlluminanceLevelSensingCluster extends ZclCluster {
 
 
     /**
+     * Configure reporting for the <i>LevelStatus</i> attribute
+     * <p>
+     * The LevelStatus attribute indicates whether the measured illuminance is above,
+     * below, or within a band around IlluminanceTargetLevel .
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configLevelStatusReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_LEVELSTATUS, minInterval, maxInterval, reportableChange);
+    }
+
+
+    /**
      * Get the <i>LightSensorType</i> attribute
      * <p>
      * <br>
@@ -61,6 +80,16 @@ public class ZclIlluminanceLevelSensingCluster extends ZclCluster {
      */
     public Future<CommandResult> getLightSensorType() {
         return read(ATTR_LIGHTSENSORTYPE);
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }

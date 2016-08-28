@@ -8,6 +8,7 @@ import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.identify.IdentifyCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.identify.IdentifyQueryCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.identify.IdentifyQueryResponse;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Identify</b> cluster implementation (<i>Cluster ID 0x0003</i>).
@@ -59,7 +60,7 @@ public class ZclIdentifyCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setIdentifyTime(final Object value) {
-        return write(ATTR_IDENTIFYTIME, value);
+        return write(ATTR_IDENTIFYTIME, ZclDataType.UNSIGNED_16_BIT_INTEGER, value);
     }
 
 
@@ -122,6 +123,16 @@ public class ZclIdentifyCluster extends ZclCluster {
      */
     public Future<CommandResult> identifyQueryResponse() {
         return send(new IdentifyQueryResponse());
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }

@@ -13,6 +13,7 @@ import org.bubblecloud.zigbee.v3.zcl.clusters.levelcontrol.StepCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.levelcontrol.StepWithOnOffCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.levelcontrol.Stop2Command;
 import org.bubblecloud.zigbee.v3.zcl.clusters.levelcontrol.StopCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Level Control</b> cluster implementation (<i>Cluster ID 0x0008</i>).
@@ -53,7 +54,7 @@ public class ZclLevelControlCluster extends ZclCluster {
      * @return the {@link Future<CommandResult>} command result future
      */
     public Future<CommandResult> setOnLevel(final Object value) {
-        return write(ATTR_ONLEVEL, value);
+        return write(ATTR_ONLEVEL, ZclDataType.UNSIGNED_8_BIT_INTEGER, value);
     }
 
 
@@ -151,6 +152,16 @@ public class ZclLevelControlCluster extends ZclCluster {
      */
     public Future<CommandResult> stop2Command() {
         return send(new Stop2Command());
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }

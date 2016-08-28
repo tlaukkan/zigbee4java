@@ -74,6 +74,31 @@ public class ZclColorControlCluster extends ZclCluster {
 
 
     /**
+     * Configure reporting for the <i>CurrentHue</i> attribute
+     * <p>
+     * The CurrentHue attribute contains the current hue value of the light. It is updated
+     * as fast as practical during commands that change the hue.
+     * <br>
+     * The hue in degrees shall be related to the CurrentHue attribute by the relationship
+     * Hue = CurrentHue x 360 / 254 (CurrentHue in the range 0 - 254 inclusive)
+     * <br>
+     * If this attribute is implemented then the CurrentSaturation and ColorMode
+     * attributes shall also be implemented.
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configCurrentHueReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_CURRENTHUE, minInterval, maxInterval, reportableChange);
+    }
+
+
+    /**
      * Get the <i>CurrentSaturation</i> attribute
      * <p>
      * <br>
@@ -92,6 +117,31 @@ public class ZclColorControlCluster extends ZclCluster {
      */
     public Future<CommandResult> getCurrentSaturation() {
         return read(ATTR_CURRENTSATURATION);
+    }
+
+
+    /**
+     * Configure reporting for the <i>CurrentSaturation</i> attribute
+     * <p>
+     * <br>
+     * The CurrentSaturation attribute holds the current saturation value of the light. It is
+     * updated as fast as practical during commands that change the saturation.
+     * The saturation shall be related to the CurrentSaturation attribute by the
+     * relationship
+     * Saturation = CurrentSaturation/254 (CurrentSaturation in the range 0 - 254 inclusive)
+     * If this attribute is implemented then the CurrentHue and ColorMode attributes
+     * shall also be implemented.
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configCurrentSaturationReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_CURRENTSATURATION, minInterval, maxInterval, reportableChange);
     }
 
 
@@ -135,6 +185,31 @@ public class ZclColorControlCluster extends ZclCluster {
 
 
     /**
+     * Configure reporting for the <i>CurrentX</i> attribute
+     * <p>
+     * <br>
+     * The CurrentX attribute contains the current value of the normalized chromaticity
+     * value x, as defined in the CIE xyY Color Space. It is updated as fast as practical
+     * during commands that change the color.
+     * <br>
+     * The value of x shall be related to the CurrentX attribute by the relationship
+     * <br>
+     * x = CurrentX / 65535 (CurrentX in the range 0 to 65279 inclusive)
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configCurrentXReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_CURRENTX, minInterval, maxInterval, reportableChange);
+    }
+
+
+    /**
      * Get the <i>CurrentY</i> attribute
      * <p>
      * <br>
@@ -153,6 +228,31 @@ public class ZclColorControlCluster extends ZclCluster {
      */
     public Future<CommandResult> getCurrentY() {
         return read(ATTR_CURRENTY);
+    }
+
+
+    /**
+     * Configure reporting for the <i>CurrentY</i> attribute
+     * <p>
+     * <br>
+     * The CurrentY attribute contains the current value of the normalized chromaticity
+     * value y, as defined in the CIE xyY Color Space. It is updated as fast as practical
+     * during commands that change the color.
+     * <br>
+     * The value of y shall be related to the CurrentY attribute by the relationship
+     * <br>
+     * y = CurrentY / 65535 (CurrentY in the range 0 to 65279 inclusive)
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configCurrentYReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_CURRENTY, minInterval, maxInterval, reportableChange);
     }
 
 
@@ -215,6 +315,37 @@ public class ZclColorControlCluster extends ZclCluster {
      */
     public Future<CommandResult> getColorTemperature() {
         return read(ATTR_COLORTEMPERATURE);
+    }
+
+
+    /**
+     * Configure reporting for the <i>ColorTemperature</i> attribute
+     * <p>
+     * <br>
+     * The ColorTemperature attribute contains a scaled inverse of the current value of
+     * the color temperature. It is updated as fast as practical during commands that
+     * change the color.
+     * <br>
+     * The color temperature value in Kelvins shall be related to the ColorTemperature
+     * attribute by the relationship
+     * <br>
+     * Color temperature = 1,000,000 / ColorTemperature (ColorTemperature in the
+     * range 1 to 65279 inclusive, giving a color temperature range from 1,000,000
+     * Kelvins to 15.32 Kelvins).
+     * <br>
+     * The value ColorTemperature = 0 indicates an undefined value. The value
+     * ColorTemperature = 65535 indicates an invalid value.
+     * </p>
+     * The attribute is of type {@link Integer}<br>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @param minInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} minimum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> configColorTemperatureReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return report(ATTR_COLORTEMPERATURE, minInterval, maxInterval, reportableChange);
     }
 
 
@@ -342,6 +473,16 @@ public class ZclColorControlCluster extends ZclCluster {
      */
     public Future<CommandResult> moveToColorTemperatureCommand() {
         return send(new MoveToColorTemperatureCommand());
+    }
+
+
+    /**
+     * Add a binding for this cluster to the local node
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     */
+    public Future<CommandResult> bind() {
+        return bind();
     }
 
 }
