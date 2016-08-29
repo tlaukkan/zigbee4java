@@ -21,10 +21,6 @@ public class ZclCommand extends Command {
      */
     private ZigBeeAddress destinationAddress;
     /**
-     * The destination group ID which can be used instead of destination address and endpoint.
-     */
-//    private Integer destinationGroupId;
-    /**
      * The type.
      */
     private ZclCommandType type;
@@ -50,10 +46,7 @@ public class ZclCommand extends Command {
      */
     public ZclCommand(final ZclCommandMessage commandMessage) {
         this.sourceAddress = commandMessage.getSourceAddress();
-//        this.sourceEnpoint = commandMessage.getSourceEnpoint();
         this.destinationAddress = commandMessage.getDestinationAddress();
-//        this.destinationEndpoint = commandMessage.getDestinationEndpoint();
-//        this.destinationGroupId = commandMessage.getDestinationGroupId();
         this.type = commandMessage.getType();
         this.clusterId = commandMessage.getClusterId();
         this.transactionId = commandMessage.getTransactionId();
@@ -92,38 +85,6 @@ public class ZclCommand extends Command {
     }
 
     /**
-     * Gets destination endpoint.
-     * @return the destination endpoint
-     */
-//    public ZigBeeDestination getDestinationEndpoint() {
-  //      return destinationEndpoint;
-    //}
-
-    /**
-     * Sets destination endpoint
-     * @param destinationEndpoint the destination endpoint
-     */
-//    public void setDestinationEndpoint(final int destinationEndpoint) {
-  //      this.destinationEndpoint = destinationEndpoint;
-    //}
-
-    /**
-     * Gets destination group ID
-     * @return the destination group ID
-     */
-//    public Integer getDestinationGroupId() {
-  //      return destinationGroupId;
-    //}
-
-    /**
-     * Sets destination group ID
-     * @param destinationGroupId the destination group ID
-     */
-//    public void setDestinationGroupId(final Integer destinationGroupId) {
-  //      this.destinationGroupId = destinationGroupId;
-    //}
-
-    /**
      * Gets source address.
      * @return the source address
      */
@@ -138,22 +99,6 @@ public class ZclCommand extends Command {
     public void setSourceAddress(final ZigBeeAddress sourceAddress) {
         this.sourceAddress = sourceAddress;
     }
-
-    /**
-     * Gets source endpoint.
-     * @return the source endpoint
-     */
-//    public int getSourceEnpoint() {
-  //      return sourceEnpoint;
-    //}
-
-    /**
-     * Sets source endpoint.
-     * @param sourceEnpoint the source endpoint
-     */
-//    public void setSourceEnpoint(final int sourceEnpoint) {
-  //      this.sourceEnpoint = sourceEnpoint;
-    //}
 
     /**
      * Gets the cluster ID for generic messages.
@@ -194,10 +139,7 @@ public class ZclCommand extends Command {
     public ZclCommandMessage toCommandMessage() {
         final ZclCommandMessage commandMessage = new ZclCommandMessage();
         commandMessage.setSourceAddress(sourceAddress);
-//        commandMessage.setSourceEnpoint(sourceEnpoint);
         commandMessage.setDestinationAddress(destinationAddress);
-//        commandMessage.setDestinationEndpoint(destinationEndpoint);
-//        commandMessage.setDestinationGroupId(destinationGroupId);
         commandMessage.setType(type);
         commandMessage.setClusterId(clusterId);
         commandMessage.setTransactionId(transactionId);

@@ -15,7 +15,8 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
     /**
      * The logger.
      */
-    private final static Logger LOGGER = LoggerFactory.getLogger(ZigBeeNetworkStateImpl.class);
+    private final static Logger LOGGER = LoggerFactory
+            .getLogger(ZigBeeNetworkStateImpl.class);
     /**
      * The devices in the ZigBee network.
      */
@@ -27,8 +28,8 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
     /**
      * The listeners of the ZigBee network.
      */
-    private List<ZigBeeNetworkStateListener> listeners = Collections.unmodifiableList(
-            new ArrayList<ZigBeeNetworkStateListener>());
+    private List<ZigBeeNetworkStateListener> listeners = Collections
+            .unmodifiableList(new ArrayList<ZigBeeNetworkStateListener>());
     /**
      * The network reset flag.
      */
@@ -41,7 +42,9 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
     /**
      * Constructor which configures whether network shoule be reset at startup
      * or loaded from serialized file.
-     * @param resetNetwork the network reset flag
+     * 
+     * @param resetNetwork
+     *            the network reset flag
      */
     public ZigBeeNetworkStateImpl(boolean resetNetwork) {
         this.resetNetwork = resetNetwork;
@@ -57,9 +60,11 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
             LOGGER.info("Loading network state...");
             final String networkStateString;
             try {
-                networkStateString = FileUtils.readFileToString(networkStateFile);
+                networkStateString = FileUtils
+                        .readFileToString(networkStateFile);
             } catch (final IOException e) {
-                LOGGER.error("Error loading network state from file: " + networkStateFile.getAbsolutePath());
+                LOGGER.error("Error loading network state from file: "
+                        + networkStateFile.getAbsolutePath());
                 return;
             }
             final ZigBeeNetworkStateSerializer serializer = new ZigBeeNetworkStateSerializer();
@@ -76,9 +81,11 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
         final ZigBeeNetworkStateSerializer serializer = new ZigBeeNetworkStateSerializer();
         final File networkStateFile = new File(networkStateFilePath);
         try {
-            FileUtils.writeStringToFile(networkStateFile, serializer.serialize(this), false);
+            FileUtils.writeStringToFile(networkStateFile,
+                    serializer.serialize(this), false);
         } catch (final IOException e) {
-            LOGGER.error("Error loading network state from file: " + networkStateFile.getAbsolutePath());
+            LOGGER.error("Error loading network state from file: "
+                    + networkStateFile.getAbsolutePath());
             return;
         }
         LOGGER.info("ZigBeeApi saving network state done.");
@@ -120,12 +127,12 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
         }
     }
 
-
-
     @Override
     public void addDevice(final ZigBeeDevice device) {
         synchronized (devices) {
-            devices.put(device.getNetworkAddress() + "/" + device.getEndpoint(), device);
+            devices.put(
+                    device.getNetworkAddress() + "/" + device.getEndpoint(),
+                    device);
         }
         synchronized (this) {
             for (final ZigBeeNetworkStateListener listener : listeners) {
@@ -148,12 +155,12 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
 
     @Override
     public ZigBeeDevice getDevice(final ZigBeeAddress networkAddress) {
-    	if(networkAddress.isGroup()) {
-    		return null;
-    	}
-    	
+        if (networkAddress.isGroup()) {
+            return null;
+        }
+
         synchronized (devices) {
-        	// TODO Maybe this should just use the network address as the key?
+            // TODO Maybe this should just use the network address as the key?
             return devices.get(networkAddress.toString());
         }
     }
@@ -181,7 +188,8 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
     }
 
     @Override
-    public void addNetworkListener(final ZigBeeNetworkStateListener networkListener) {
+    public void addNetworkListener(
+            final ZigBeeNetworkStateListener networkListener) {
         synchronized (this) {
             final List<ZigBeeNetworkStateListener> modifiedListeners = new ArrayList<ZigBeeNetworkStateListener>(
                     listeners);
@@ -191,7 +199,8 @@ public class ZigBeeNetworkStateImpl implements ZigBeeNetworkState {
     }
 
     @Override
-    public void removeNetworkListener(final ZigBeeNetworkStateListener networkListener) {
+    public void removeNetworkListener(
+            final ZigBeeNetworkStateListener networkListener) {
         synchronized (this) {
             final List<ZigBeeNetworkStateListener> modifiedListeners = new ArrayList<ZigBeeNetworkStateListener>(
                     listeners);

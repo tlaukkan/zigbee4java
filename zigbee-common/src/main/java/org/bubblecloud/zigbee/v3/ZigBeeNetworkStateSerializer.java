@@ -20,9 +20,8 @@ public class ZigBeeNetworkStateSerializer {
         final ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enableDefaultTyping();
         objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        final List<ZigBeeAddress> destinations = new ArrayList<ZigBeeAddress>();
-        // TODO!!!!
-//        destinations.addAll(networkState.getDevices());
+        final List<Object> destinations = new ArrayList<Object>();
+        destinations.addAll(networkState.getDevices());
         destinations.addAll(networkState.getGroups());
         try {
             return objectMapper.writeValueAsString(destinations);
@@ -37,22 +36,20 @@ public class ZigBeeNetworkStateSerializer {
      * @param networkStateString the network state as {@link String}
      */
     public void deserialize(final ZigBeeNetworkState networkState, final String networkStateString) {
-    	if(true) return;
         final ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enableDefaultTyping();
         objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        final List<ZigBeeAddress> devices;
+        final List<Object> devices;
         try {
             devices = objectMapper.readValue(networkStateString, ArrayList.class);
         } catch (final IOException e) {
             throw new RuntimeException("Error serializing network state.", e);
         }
-        for (final ZigBeeAddress destination : devices) {
-            if (destination.isGroup()) {
+        for (final Object destination : devices) {
+            if (destination instanceof ZigBeeGroupAddress) {
                 networkState.addGroup((ZigBeeGroupAddress) destination);
             } else {
-                // TODO!!!!
-//                networkState.addDevice((ZigBeeDevice) destination);
+                networkState.addDevice((ZigBeeDevice) destination);
             }
         }
     }

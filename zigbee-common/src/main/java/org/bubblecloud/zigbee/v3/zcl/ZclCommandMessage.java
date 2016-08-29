@@ -16,6 +16,7 @@
 package org.bubblecloud.zigbee.v3.zcl;
 
 import org.bubblecloud.zigbee.v3.ZigBeeAddress;
+import org.bubblecloud.zigbee.v3.ZigBeeGroupAddress;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclClusterType;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclCommandTypeRegistrar;
@@ -35,21 +36,9 @@ public class ZclCommandMessage {
      */
     private ZigBeeAddress sourceAddress;
     /**
-     * The source endpoint.
-     */
-//    private int sourceEnpoint;
-    /**
      * The destination address.
      */
     private ZigBeeAddress destinationAddress;
-    /**
-     * The destination endpoint.
-     */
-//    private int destinationEndpoint;
-    /**
-     * The destination group ID which can be used instead of destination address and endpoint.
-     */
-    private Integer destinationGroupId;
     /**
      * The type.
      */
@@ -66,6 +55,7 @@ public class ZclCommandMessage {
      * The fields and their values.
      */
     Map<ZclFieldType, Object> fields = new TreeMap<ZclFieldType, Object>();
+
     /**
      * Default constructor for inbound messages.
      */
@@ -74,6 +64,7 @@ public class ZclCommandMessage {
 
     /**
      * Gets the type
+     * 
      * @return the type
      */
     public ZclCommandType getType() {
@@ -82,7 +73,9 @@ public class ZclCommandMessage {
 
     /**
      * Sets the command
-     * @param type the command
+     * 
+     * @param type
+     *            the command
      */
     public void setType(final ZclCommandType type) {
         this.type = type;
@@ -90,6 +83,7 @@ public class ZclCommandMessage {
 
     /**
      * Gets destination address.
+     * 
      * @return the destination address.
      */
     public ZigBeeAddress getDestinationAddress() {
@@ -98,46 +92,39 @@ public class ZclCommandMessage {
 
     /**
      * Sets destination address.
-     * @param destinationAddress the destination address.
+     * 
+     * @param destinationAddress
+     *            the destination address.
      */
     public void setDestinationAddress(final ZigBeeAddress destinationAddress) {
         this.destinationAddress = destinationAddress;
     }
 
     /**
-     * Gets destination endpoint.
-     * @return the destination endpoint
-     */
-//    public int getDestinationEndpoint() {
-  //      return destinationEndpoint;
-    //}
-
-    /**
-     * Sets destination endpoint
-     * @param destinationEndpoint the destination endpoint
-     */
-//    public void setDestinationEndpoint(final int destinationEndpoint) {
-  //      this.destinationEndpoint = destinationEndpoint;
-    //}
-
-    /**
      * Gets destination group ID
+     * 
      * @return the destination group ID
      */
     public Integer getDestinationGroupId() {
-        return destinationGroupId;
+        if (destinationAddress instanceof ZigBeeGroupAddress) {
+            return ((ZigBeeGroupAddress) destinationAddress).getGroupId();
+        }
+        return 0;
     }
 
     /**
      * Sets destination group ID
-     * @param destinationGroupId the destination group ID
+     * 
+     * @param destinationGroupId
+     *            the destination group ID
      */
     public void setDestinationGroupId(final Integer destinationGroupId) {
-        this.destinationGroupId = destinationGroupId;
+        this.destinationAddress = new ZigBeeGroupAddress(destinationGroupId);
     }
 
     /**
      * Gets the fields
+     * 
      * @return the fields
      */
     public Map<ZclFieldType, Object> getFields() {
@@ -146,7 +133,9 @@ public class ZclCommandMessage {
 
     /**
      * Sets the fields.
-     * @param fields the fields
+     * 
+     * @param fields
+     *            the fields
      */
     public void setFields(final Map<ZclFieldType, Object> fields) {
         this.fields = fields;
@@ -154,6 +143,7 @@ public class ZclCommandMessage {
 
     /**
      * Gets source address.
+     * 
      * @return the source address
      */
     public ZigBeeAddress getSourceAddress() {
@@ -162,30 +152,17 @@ public class ZclCommandMessage {
 
     /**
      * Sets source address.
-     * @param sourceAddress the source address
+     * 
+     * @param sourceAddress
+     *            the source address
      */
     public void setSourceAddress(final ZigBeeAddress sourceAddress) {
         this.sourceAddress = sourceAddress;
     }
 
     /**
-     * Gets source endpoint.
-     * @return the source endpoint
-     */
-//    public int getSourceEnpoint() {
-  //      return sourceEnpoint;
-    //}
-
-    /**
-     * Sets source endpoint.
-     * @param sourceEnpoint the source endpoint
-     */
-    public void setSourceEndpoint(final int sourceEnpoint) {
-//        this.sourceEnpoint = sourceEnpoint;
-    }
-
-    /**
      * Gets the cluster ID for generic messages.
+     * 
      * @return the cluster ID.
      */
     public Integer getClusterId() {
@@ -194,7 +171,9 @@ public class ZclCommandMessage {
 
     /**
      * Sets the cluster ID for generic messages.
-     * @param clusterId the cluster ID
+     * 
+     * @param clusterId
+     *            the cluster ID
      */
     public void setClusterId(Integer clusterId) {
         this.clusterId = clusterId;
@@ -202,6 +181,7 @@ public class ZclCommandMessage {
 
     /**
      * Gets the transaction ID.
+     * 
      * @return the transaction ID
      */
     public Byte getTransactionId() {
@@ -210,7 +190,9 @@ public class ZclCommandMessage {
 
     /**
      * Sets the transaction ID.
-     * @param transactionId the transaction ID
+     * 
+     * @param transactionId
+     *            the transaction ID
      */
     public void setTransactionId(final Byte transactionId) {
         this.transactionId = transactionId;
@@ -222,16 +204,16 @@ public class ZclCommandMessage {
         StringBuilder sb = new StringBuilder();
         if (resolvedClusterId == null && type != null) {
             resolvedClusterId = type.getClusterType().getId();
-            
-            sb.append(ZclClusterType.getValueById(resolvedClusterId).getLabel() + " - " + type + " ");
+
+            sb.append(ZclClusterType.getValueById(resolvedClusterId).getLabel()
+                    + " - " + type + " ");
+        } else {
+            sb.append("ZCL unknown ");
         }
-        else {
-        	sb.append("ZCL unknown ");
-        }
-        
-        sb.append(sourceAddress + " -> "
-                + destinationAddress  + " tid=" + transactionId + " " + fields);
-        
+
+        sb.append(sourceAddress + " -> " + destinationAddress + " tid="
+                + transactionId + " " + fields);
+
         return sb.toString();
     }
 

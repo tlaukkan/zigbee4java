@@ -180,7 +180,7 @@ public class ZigBeeApi {
 
     /**
      * Labels destination.
-     * @param destination the destination
+     * @param destination the {@link ZigBeeAddress}
      */
     public void label(final ZigBeeAddress destination, final String label) {
         if (destination.isGroup()) {
@@ -262,7 +262,7 @@ public class ZigBeeApi {
 
     /**
      * Switches destination on.
-     * @param destination the destination
+     * @param destination the {@link ZigBeeAddress}
      * @return the command result future.
      */
     public Future<CommandResult> on(final ZigBeeAddress destination) {
@@ -273,7 +273,7 @@ public class ZigBeeApi {
 
     /**
      * Switches destination off.
-     * @param destination the destination
+     * @param destination the {@link ZigBeeAddress}
      * @return the command result future.
      */
     public Future<CommandResult> off(final ZigBeeAddress destination) {
@@ -283,7 +283,7 @@ public class ZigBeeApi {
 
     /**
      * Colors device light.
-     * @param destination the destination
+     * @param destination the {@link ZigBeeAddress}
      * @param red the red component [0..1]
      * @param green the green component [0..1]
      * @param blue the blue component [0..1]
@@ -314,7 +314,7 @@ public class ZigBeeApi {
 
     /**
      * Moves device level.
-     * @param destination the destination
+     * @param destination the {@link ZigBeeAddress}
      * @param level the level
      * @param time the transition time
      * @return the command result future.
@@ -339,7 +339,7 @@ public class ZigBeeApi {
 
     /**
      * Locks door.
-     * @param destination the destination
+     * @param destination the {@link ZigBeeAddress}
      * @param pinCode the pin code
      * @return the command result future.
      */
@@ -353,7 +353,7 @@ public class ZigBeeApi {
 
     /**
      * Unlocks door.
-     * @param destination the destination
+     * @param destination the {@link ZigBeeAddress}
      * @param pinCode the pin code
      * @return the command result future.
      */
@@ -367,7 +367,7 @@ public class ZigBeeApi {
 
     /**
      * This command uses the WD capabilities to emit a quick audible/visible pulse called a "squawk".
-     * @param destination the destination
+     * @param destination the {@link ZigBeeAddress}
      * @param mode the mode
      * @param strobe the strobe
      * @param level the level
@@ -385,7 +385,7 @@ public class ZigBeeApi {
 
     /**
      * Starts warning.
-     * @param destination the destination
+     * @param destination the {@link ZigBeeAddress}
      * @param mode the mode
      * @param strobe the strobe
      * @param duration the duration
@@ -445,8 +445,6 @@ public class ZigBeeApi {
         command.setIdentifiers(Collections.singletonList(attributeIdentifier));
 
         command.setDestinationAddress(device.getDeviceAddress());
-//        command.setDestinationAddress(device.getNetworkAddress());
-  //      command.setDestinationEndpoint(device.getEndpoint());
 
         return unicast(command, new ZclCustomResponseMatcher());
     }
@@ -478,8 +476,6 @@ public class ZigBeeApi {
         command.setRecords(Collections.singletonList(record));
 
         command.setDestinationAddress(device.getDeviceAddress());
-//        command.setDestinationAddress(device.getNetworkAddress());
-  //      command.setDestinationEndpoint(device.getEndpoint());
 
         return unicast(command, new ZclCustomResponseMatcher());
     }
@@ -522,8 +518,6 @@ public class ZigBeeApi {
         command.setGroupName(groupName);
 
         command.setDestinationAddress(device.getDeviceAddress());
-//        command.setDestinationAddress(device.getNetworkAddress());
-  //      command.setDestinationEndpoint(device.getEndpoint());
 
         return unicast(command, new ZclCustomResponseMatcher());
     }
@@ -539,8 +533,6 @@ public class ZigBeeApi {
         command.setGroupCount(0);
         command.setGroupList(Collections.<Unsigned16BitInteger>emptyList());
         command.setDestinationAddress(device.getDeviceAddress());
-//        command.setDestinationAddress(device.getNetworkAddress());
-  //      command.setDestinationEndpoint(device.getEndpoint());
 
         return unicast(command, new ZclCustomResponseMatcher());
     }
@@ -556,8 +548,6 @@ public class ZigBeeApi {
         command.setGroupId(groupId);
 
         command.setDestinationAddress(device.getDeviceAddress());
-//        command.setDestinationAddress(device.getNetworkAddress());
-  //      command.setDestinationEndpoint(device.getEndpoint());
 
         return unicast(command, new ZclCustomResponseMatcher());
     }
@@ -573,14 +563,12 @@ public class ZigBeeApi {
         command.setGroupId(groupId);
 
         command.setDestinationAddress(device.getDeviceAddress());
-//        command.setDestinationAddress(device.getNetworkAddress());
-  //      command.setDestinationEndpoint(device.getEndpoint());
 
         return unicast(command, new ZclCustomResponseMatcher());
     }
 
     /**
-     * Sends command to destination.
+     * Sends command to {@link ZigBeeAddress}.
      * @param destination the destination
      * @param command the command
      * @return the command result future
@@ -588,11 +576,8 @@ public class ZigBeeApi {
     private Future<CommandResult> send(ZigBeeAddress destination, ZclCommand command) {
         command.setDestinationAddress(destination);
         if (destination.isGroup()) {
-//            command.setDestinationGroupId(((ZigBeeGroupDestination) destination).getGroupId());
             return broadcast(command);
         } else {
-//            command.setDestinationAddress(((ZigBeeDevice) destination).getNetworkAddress());
-  //          command.setDestinationEndpoint(((ZigBeeDevice) destination).getEndpoint());
             return unicast(command);
         }
     }
