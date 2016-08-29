@@ -83,12 +83,12 @@ public class ZigBeeGatewayClient extends ZigBeeApi implements ZigBeeNetwork {
     }
 
     @Override
-    public ZigBeeGroup getGroup(final int groupId) {
+    public ZigBeeGroupAddress getGroup(final int groupId) {
         return rpcClient.getZigBeeRpcApi().getGroup(groupId);
     }
 
     @Override
-    public List<ZigBeeGroup> getGroups() {
+    public List<ZigBeeGroupAddress> getGroups() {
         return rpcClient.getZigBeeRpcApi().getGroups();
     }
 

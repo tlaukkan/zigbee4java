@@ -22,6 +22,7 @@ import org.bubblecloud.zigbee.network.ClusterMessage;
 import org.bubblecloud.zigbee.network.packet.ResponseStatus;
 import org.bubblecloud.zigbee.network.packet.af.*;
 import org.bubblecloud.zigbee.v3.CommandListener;
+import org.bubblecloud.zigbee.v3.ZigBeeDeviceAddress;
 import org.bubblecloud.zigbee.network.impl.*;
 import org.bubblecloud.zigbee.v3.ZigBeeException;
 import org.bubblecloud.zigbee.v3.model.Status;
@@ -93,7 +94,7 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
         final boolean isDefaultResponseEnabled = frame.getHeader().getFramecontrol().isDefaultResponseEnabled();
 
         final int sourceAddress = clusterMessage.getSrcAddr();
-        final short sourceEnpoint = clusterMessage.getSrcEndpoint();
+        final short sourceEndpoint = clusterMessage.getSrcEndpoint();
         final int destinationAddress = 0;
         final short destinationEndpoint = clusterMessage.getDstEndpoint();
 
@@ -119,10 +120,10 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
 
         final ZclCommandMessage commandMessage = new ZclCommandMessage();
         commandMessage.setClusterId(clusterId);
-        commandMessage.setSourceAddress(sourceAddress);
-        commandMessage.setSourceEnpoint(sourceEnpoint & (0xFFFF));
-        commandMessage.setDestinationAddress(destinationAddress);
-        commandMessage.setDestinationEndpoint(destinationEndpoint & (0xFFFF));
+        commandMessage.setSourceAddress(new ZigBeeDeviceAddress(sourceAddress, sourceEndpoint & 0xffff));
+//        commandMessage.setSourceEndpoint(sourceEnpoint & (0xFFFF));
+        commandMessage.setDestinationAddress(new ZigBeeDeviceAddress(destinationAddress, destinationEndpoint & 0xffff));
+//        commandMessage.setDestinationEndpoint(destinationEndpoint & (0xFFFF));
         commandMessage.setTransactionId(transactionId);
 
         ZclCommandType command = null;
@@ -182,8 +183,8 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
             final ApplicationFrameworkLayer af = ApplicationFrameworkLayer.getAFLayer(networkManager);
 
             // TODO load properly dongle source address
-            final int sourceAddress = commandMessage.getSourceAddress();
-            commandMessage.setSourceAddress(sourceAddress);
+//            final int sourceAddress = commandMessage.getSourceAddress();
+  //          commandMessage.setSourceAddress(sourceAddress);
 
             final int clusterId;
             if (commandMessage.getType().isGeneric()) {
@@ -193,7 +194,7 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
             }
             commandMessage.setClusterId(clusterId);
 
-            commandMessage.setSourceEnpoint(
+            commandMessage.setSourceEndpoint(
                     af.getSendingEndpoint(commandMessage.getType().getClusterType().getProfileType().getId(),
                     clusterId));
 
@@ -214,8 +215,9 @@ public class ZclCommandTransmitter implements ApplicationFrameworkMessageListene
             final byte[] msg = input.getClusterMsg();
 
             if (commandMessage.getDestinationGroupId() == null) {
+            	ZigBeeDeviceAddress destination = (ZigBeeDeviceAddress) commandMessage.getDestinationAddress();
                 final AF_DATA_CONFIRM response = networkManager.sendAFDataRequest(new AF_DATA_REQUEST(
-                        commandMessage.getDestinationAddress(), (short) commandMessage.getDestinationEndpoint(), sender,
+                		destination.getAddress(), (short) destination.getEndpoint(), sender,
                         input.getId(), afTransactionId, (byte) (0) /*options*/, (byte) 0 /*radius*/, msg));
 
                 commandMessage.setTransactionId(zclFrame.getHeader().getTransactionId());

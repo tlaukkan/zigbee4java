@@ -10,13 +10,13 @@ public interface ZigBeeNetworkState {
      * Adds group.
      * @param group the group to add
      */
-    void addGroup(ZigBeeGroup group);
+    void addGroup(ZigBeeGroupAddress group);
 
     /**
      * Updates group.
      * @param group the group to update
      */
-    void updateGroup(ZigBeeGroup group);
+    void updateGroup(ZigBeeGroupAddress group);
 
     /**
      * Removes group by network address.
@@ -29,13 +29,13 @@ public interface ZigBeeNetworkState {
      * @param groupId the group ID
      * @return the ZigBee group or null if no exists with given group ID.
      */
-    ZigBeeGroup getGroup(int groupId);
+    ZigBeeGroupAddress getGroup(int groupId);
 
     /**
      * Gets all groups.
      * @return list of groups.
      */
-    List<ZigBeeGroup> getGroups();
+    List<ZigBeeGroupAddress> getGroups();
 
     /**
      * Adds device.
@@ -57,10 +57,10 @@ public interface ZigBeeNetworkState {
 
     /**
      * Gets device by network address.
-     * @param networkAddress the network address
+     * @param zigBeeDestination the network address
      * @return the ZigBee device or null if no exists with given network address.
      */
-    ZigBeeDevice getDevice(int networkAddress, int endpoint);
+    ZigBeeDevice getDevice(ZigBeeAddress zigBeeDestination);
 
     /**
      * Gets all devices.

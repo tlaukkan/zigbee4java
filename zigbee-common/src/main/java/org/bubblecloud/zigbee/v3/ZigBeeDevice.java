@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Value object for ZigBee device.
  */
-public class ZigBeeDevice extends ZigBeeDestination {
+public class ZigBeeDevice {
     /**
      * The IEEE address.
      */
@@ -13,11 +13,12 @@ public class ZigBeeDevice extends ZigBeeDestination {
     /**
      * The network address.
      */
-    private int networkAddress;
+    ZigBeeDeviceAddress networkDestination = new ZigBeeDeviceAddress();
+//    private int networkAddress;
     /**
      * The end point.
      */
-    private int endpoint;
+//    private int endpoint;
     /**
      * The profile ID.
      */
@@ -87,7 +88,7 @@ public class ZigBeeDevice extends ZigBeeDestination {
      * @return the end point
      */
     public int getEndpoint() {
-        return endpoint;
+        return networkDestination.getEndpoint();
     }
 
     /**
@@ -95,7 +96,7 @@ public class ZigBeeDevice extends ZigBeeDestination {
      * @param endpoint the end point
      */
     public void setEndpoint(int endpoint) {
-        this.endpoint = endpoint;
+    	networkDestination.setEndpoint(endpoint);
     }
 
     /**
@@ -135,7 +136,11 @@ public class ZigBeeDevice extends ZigBeeDestination {
      * @return the network address
      */
     public int getNetworkAddress() {
-        return networkAddress;
+        return networkDestination.getAddress();
+    }
+    
+    public ZigBeeDeviceAddress getDeviceAddress() {
+        return networkDestination;
     }
 
     /**
@@ -143,7 +148,7 @@ public class ZigBeeDevice extends ZigBeeDestination {
      * @param networkAddress the network address
      */
     public void setNetworkAddress(int networkAddress) {
-        this.networkAddress = networkAddress;
+    	networkDestination.setAddress(networkAddress);
     }
 
     /**
@@ -230,8 +235,7 @@ public class ZigBeeDevice extends ZigBeeDestination {
     public String toString() {
         return "ZigBeeDevice " +
                 "label=" + label +
-                ", networkAddress=" + networkAddress +
-                ", endpoint=" + endpoint +
+                ", networkAddress=" + networkDestination.toString() +
                 ", ieeeAddress=" + ieeeAddress +
                 ", profileId=" + profileId +
                 ", deviceType=" + deviceType +

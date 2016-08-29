@@ -3,7 +3,7 @@ package org.bubblecloud.zigbee.v3;
 /**
  * ZigBee group.
  */
-public class ZigBeeGroup extends ZigBeeDestination {
+public class ZigBeeGroupAddress extends ZigBeeAddress {
 
     /**
      * The group ID.
@@ -18,7 +18,7 @@ public class ZigBeeGroup extends ZigBeeDestination {
     /**
      * Default constructor.
      */
-    public ZigBeeGroup() {
+    public ZigBeeGroupAddress() {
     }
 
     /**
@@ -26,7 +26,7 @@ public class ZigBeeGroup extends ZigBeeDestination {
      * @param groupId the group ID
      * @param label the group label
      */
-    public ZigBeeGroup(final int groupId, final String label) {
+    public ZigBeeGroupAddress(final int groupId, final String label) {
         this.groupId = groupId;
         this.label = label;
     }
@@ -62,4 +62,9 @@ public class ZigBeeGroup extends ZigBeeDestination {
     public void setLabel(final String label) {
         this.label = label;
     }
+
+	@Override
+	public boolean isGroup() {
+		return true;
+	}
 }
