@@ -1,7 +1,7 @@
 package org.bubblecloud.zigbee.v3;
 
 import org.bubblecloud.zigbee.v3.zcl.ZclCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.DefaultResponseCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.DefaultResponse;
 
 /**
  * ZCL custom response matcher.
@@ -12,8 +12,8 @@ public class ZclCustomResponseMatcher implements CommandResponseMatcher {
             if (((ZclCommand) request).getTransactionId() != null) {
                 final byte transactionId = ((ZclCommand) request).getTransactionId();
                 if (new Byte(transactionId).equals(((ZclCommand) response).getTransactionId())) {
-                    if (response instanceof DefaultResponseCommand) {
-                        if (((DefaultResponseCommand) response).getStatusCode() == 0) {
+                    if (response instanceof DefaultResponse) {
+                        if (((DefaultResponse) response).getStatusCode() == 0) {
                             return false; // Default response success another response incoming, skip this one.
                         } else {
                             return true; // Default response failure, return this one.

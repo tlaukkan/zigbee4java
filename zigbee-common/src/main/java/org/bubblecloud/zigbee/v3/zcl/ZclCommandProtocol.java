@@ -15,6 +15,7 @@
  */
 package org.bubblecloud.zigbee.v3.zcl;
 
+import org.bubblecloud.zigbee.v3.zcl.ZclCommandFormat;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclFieldType;
 

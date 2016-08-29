@@ -1,5 +1,6 @@
 package org.bubblecloud.zigbee.tools.zcl;
 
+import java.util.List;
 import java.util.TreeMap;
 
 /**
@@ -8,7 +9,10 @@ import java.util.TreeMap;
 public class Command {
     public int commandId;
     public String commandLabel;
+    public List<String> commandDescription;
     public String commandType;
+    public String dataType;
+    public String dataTypeClass;
     public String nameUpperCamelCase;
     public String nameLowerCamelCase;
 
