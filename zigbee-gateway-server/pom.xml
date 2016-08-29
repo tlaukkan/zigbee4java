@@ -28,9 +28,8 @@
 
         <dependency>
             <groupId>org.bubblecloud.zigbee4java</groupId>
-            <artifactId>zigbee-api</artifactId>
+            <artifactId>zigbee-common</artifactId>
             <version>3.0.3-SNAPSHOT</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
