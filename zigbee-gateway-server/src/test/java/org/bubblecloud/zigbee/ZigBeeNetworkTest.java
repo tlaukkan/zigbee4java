@@ -75,45 +75,4 @@ public abstract class ZigBeeNetworkTest {
         zigbeeNetworkManager.shutdown();
     }
 
-    @Test
-    @Ignore
-    public void testZigBeeApi() throws Exception {
-        
-        final Set<DiscoveryMode> discoveryModes = DiscoveryMode.ALL;
-        discoveryModes.remove(DiscoveryMode.LinkQuality);
-        final ZigBeeApi zigbeeApi = new ZigBeeApi(port, 4951, 11, null, false, discoveryModes);
-        zigbeeApi.startup();
-
-        Thread.sleep(1000);
-
-        logger.info("Listing devices:");
-        for (final Device device : zigbeeApi.getZigBeeApiContext().getDevices()) {
-            logger.info(device.getClass().getSimpleName() + " : " + device.getEndpoint().getEndpointId());
-        }
-
-        while (true) {
-            try {
-                final Device switchDevice = zigbeeApi.getZigBeeApiContext().getDevice("00:12:4B:00:01:DD:8B:21/2");
-                final Device lampDevice = zigbeeApi.getZigBeeApiContext().getDevice("00:17:88:01:00:BE:51:EC/11");
-
-                if (lampDevice == null) {
-                    continue;
-                }
-
-                Thread.sleep(1000);
-
-                final OnOff onOff = lampDevice.getCluster(OnOff.class);
-                onOff.off();
-
-                break;
-            } catch (final Throwable t) {
-                logger.error("Error getting information for device.", t);
-                break;
-            }
-        }
-
-        zigbeeApi.shutdown();
-    }
-
-
 }
