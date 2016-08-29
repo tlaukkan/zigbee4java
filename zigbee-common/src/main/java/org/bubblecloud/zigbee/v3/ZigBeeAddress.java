@@ -1,23 +1,21 @@
 package org.bubblecloud.zigbee.v3;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 /**
  * ZigBee destination can be either group or device.
  */
-public class ZigBeeDestination {
+public abstract class ZigBeeAddress {
     /**
      * Check whether this destination is ZigBee group.
      * @return TRUE if this is ZigBee group.
      */
-    public boolean isGroup() {
-        return this instanceof ZigBeeGroup;
-    }
+    public abstract boolean isGroup();
+  //      return this instanceof ZigBeeGroupDestination;
+//    }
 
     /**
      * Dummy setter for JSON RPC deserialization.
      * @param value the dummy value
      */
-    public void setGroup(final boolean value) {
-    }
+//    public void setGroup(final boolean value) {
+  //  }
 }
