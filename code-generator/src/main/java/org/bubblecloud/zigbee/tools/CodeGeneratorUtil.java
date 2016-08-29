@@ -1,5 +1,7 @@
 package org.bubblecloud.zigbee.tools;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 
@@ -16,7 +18,19 @@ public class CodeGeneratorUtil {
     }
 
     public static String labelToEnumerationValue(String dataType) {
-        return dataType.trim().toUpperCase().replace(" ", "_").replace("-", "_").replace("/", "_").replace("(", "_").replace(")", "_");
+        String val = dataType.trim().toUpperCase().replace(" ", "_").replace("-", "_").replace("/", "_").replace("(", "_").replace(")", "_");
+        if ("0123456789".indexOf(val.charAt(0)) >= 0) {
+        	// Swap the last word to the beginning
+        	String partsInitial[] = val.split("_");
+        	StringBuilder sb = new StringBuilder();
+        	sb.append(partsInitial[partsInitial.length-1]);
+        	for(int c = 0; c < partsInitial.length-1; c++) {
+        		sb.append("_");
+        		sb.append(partsInitial[c]);
+        	}
+            return sb.toString();
+        }
+        return val;
     }
 
     public static String labelToUpperCamelCase(String value) {

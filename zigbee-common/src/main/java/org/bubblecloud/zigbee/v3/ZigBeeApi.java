@@ -2,32 +2,36 @@ package org.bubblecloud.zigbee.v3;
 
 import org.bubblecloud.zigbee.util.ZigBeeConstants;
 import org.bubblecloud.zigbee.v3.model.ZToolAddress16;
+import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.ZclCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.ZclOnOffCluster;
+import org.bubblecloud.zigbee.v3.zcl.clusters.colorcontrol.MoveToColorCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.doorlock.LockDoorCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.doorlock.UnlockDoorCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.ConfigureReportingCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.ReadAttributesCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.WriteAttributesCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.groups.AddGroupCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.groups.GetGroupMembershipCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.groups.RemoveGroupCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.groups.ViewGroupCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.iaswd.SquawkCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.iaswd.StartWarningCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.levelcontrol.MoveToLevelCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.onoff.OffCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.onoff.OnCommand;
 import org.bubblecloud.zigbee.v3.zcl.field.AttributeIdentifier;
 import org.bubblecloud.zigbee.v3.zcl.field.AttributeReportingConfigurationRecord;
 import org.bubblecloud.zigbee.v3.zcl.field.Unsigned16BitInteger;
 import org.bubblecloud.zigbee.v3.zcl.field.WriteAttributeRecord;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclAttributeType;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.color.control.MoveToColorCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.door.lock.LockDoorCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.door.lock.UnlockDoorCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.ConfigureReportingCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.ReadAttributesCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.WriteAttributesCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.groups.AddGroupCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.groups.GetGroupMembershipCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.groups.RemoveGroupCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.groups.ViewGroupCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.ias.wd.SquawkCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.ias.wd.StartWarningCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.level.control.MoveToLevelCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.on.off.OffCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.on.off.OnCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclClusterType;
 import org.bubblecloud.zigbee.v3.zdo.command.*;
 import org.bubblecloud.zigbee.util.Cie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Constructor;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -266,8 +270,11 @@ public class ZigBeeApi {
      * @return the command result future.
      */
     public Future<CommandResult> on(final ZigBeeDestination destination) {
-        final OnCommand command = new OnCommand();
-        return send(destination, command);
+        ZclOnOffCluster cluster = (ZclOnOffCluster)getCluster(ZclClusterType.ON_OFF, destination);
+        return cluster.onCommand();
+
+//        final OnCommand command = new OnCommand();
+//        return send(destination, command);
 
     }
 
@@ -578,7 +585,7 @@ public class ZigBeeApi {
      * @param command the command
      * @return the command result future
      */
-    private Future<CommandResult> send(ZigBeeDestination destination, ZclCommand command) {
+    public Future<CommandResult> send(ZigBeeDestination destination, ZclCommand command) {
         if (destination.isGroup()) {
             command.setDestinationGroupId(((ZigBeeGroup) destination).getGroupId());
             return broadcast(command);
@@ -703,6 +710,17 @@ public class ZigBeeApi {
         network.removeCommandListener(expiredCommandExecution.getCommandListener());
         synchronized (expiredCommandExecution.getFuture()) {
             expiredCommandExecution.getFuture().notify();
+        }
+    }
+
+    ZclCluster getCluster(final ZclClusterType clusterType, final ZigBeeDestination zigbeeDevice) {
+        Constructor<? extends ZclCluster> constructor;
+        try {
+            constructor = clusterType.getClusterClass().getConstructor(ZigBeeApi.class, ZigBeeDevice.class);
+            return constructor.newInstance(this, zigbeeDevice);
+        } catch (Exception e) {
+        	LOGGER.error("Command processor error");
+        	return null;
         }
     }
 

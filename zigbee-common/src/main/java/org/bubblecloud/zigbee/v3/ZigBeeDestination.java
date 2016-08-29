@@ -1,7 +1,5 @@
 package org.bubblecloud.zigbee.v3;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 /**
  * ZigBee destination can be either group or device.
  */

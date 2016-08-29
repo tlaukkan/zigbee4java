@@ -15,6 +15,8 @@ public class Context {
     public Command command;
 
     public boolean received;
+    public boolean generated;
+    public boolean attribute;
 
     public TreeMap<String, DataType> dataTypes = new TreeMap<String, DataType>();
     public TreeMap<Integer, Profile> profiles = new TreeMap<Integer, Profile>();

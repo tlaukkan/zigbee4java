@@ -1,14 +1,26 @@
 package org.bubblecloud.zigbee.v3.zcl;
 
 import org.bubblecloud.zigbee.v3.model.ZigBeeType;
+import org.bubblecloud.zigbee.v3.zcl.clusters.doorlock.LockDoorCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.doorlock.UnlockDoorCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.ConfigureReportingCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.ConfigureReportingResponse;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.DiscoverAttributesCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.DiscoverAttributesResponse;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.ReadAttributesCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.ReadAttributesResponse;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.ReadReportingConfigurationCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.ReadReportingConfigurationResponse;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.ReportAttributesCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.WriteAttributesCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.WriteAttributesNoResponse;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.WriteAttributesResponse;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.WriteAttributesUndividedCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.groups.GetGroupMembershipCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.iasace.BypassCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.rssilocation.ReportRssiMeasurementsCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.scenes.AddSceneCommand;
 import org.bubblecloud.zigbee.v3.zcl.field.*;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.door.lock.LockDoorCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.door.lock.UnlockDoorCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.*;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.groups.GetGroupMembershipCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.ias.ace.BypassCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.rssi.location.ReportRssiMeasurementsCommand;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.scenes.AddSceneCommand;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -46,7 +58,7 @@ public class ZclCommandProtocolTest {
 
     @Test
     public void testDiscoverAttributesResponseCommand() throws Exception {
-        final DiscoverAttributesResponseCommand command = new DiscoverAttributesResponseCommand();
+        final DiscoverAttributesResponse command = new DiscoverAttributesResponse();
         command.setCommandIdentifier(true);
         final List<AttributeInformation> list = new ArrayList<AttributeInformation>();
         final AttributeInformation data = new AttributeInformation();
@@ -70,7 +82,7 @@ public class ZclCommandProtocolTest {
 
     @Test
     public void testReadAttributesResponseCommand() throws Exception {
-        final ReadAttributesResponseCommand command = new ReadAttributesResponseCommand();
+        final ReadAttributesResponse command = new ReadAttributesResponse();
         final List<ReadAttributeStatusRecord> list = new ArrayList<ReadAttributeStatusRecord>();
         final ReadAttributeStatusRecord data = new ReadAttributeStatusRecord();
         data.setAttributeIdentifier(1);
@@ -110,7 +122,7 @@ public class ZclCommandProtocolTest {
 
     @Test
     public void testWriteAttributesNoResponseCommand() throws Exception {
-        final WriteAttributesNoResponseCommand command = new WriteAttributesNoResponseCommand();
+        final WriteAttributesNoResponse command = new WriteAttributesNoResponse();
         final List<WriteAttributeRecord> list = new ArrayList<WriteAttributeRecord>();
         final WriteAttributeRecord data = new WriteAttributeRecord();
         data.setAttributeIdentifier(1);
@@ -123,7 +135,7 @@ public class ZclCommandProtocolTest {
 
     @Test
     public void testWriteAttributesResponseCommand() throws Exception {
-        final WriteAttributesResponseCommand command = new WriteAttributesResponseCommand();
+        final WriteAttributesResponse command = new WriteAttributesResponse();
         final List<WriteAttributeStatusRecord> list = new ArrayList<WriteAttributeStatusRecord>();
         final WriteAttributeStatusRecord data = new WriteAttributeStatusRecord();
         data.setStatus(1);
@@ -151,7 +163,7 @@ public class ZclCommandProtocolTest {
 
     @Test
     public void testConfigureReportingResponseCommand() throws Exception {
-        final ConfigureReportingResponseCommand command = new ConfigureReportingResponseCommand();
+        final ConfigureReportingResponse command = new ConfigureReportingResponse();
         final List<AttributeStatusRecord> list = new ArrayList<AttributeStatusRecord>();
         final AttributeStatusRecord data = new AttributeStatusRecord();
         data.setStatus(0);
@@ -176,7 +188,7 @@ public class ZclCommandProtocolTest {
 
     @Test
     public void testReadReportingConfigurationResponseCommand() throws Exception {
-        final ReadReportingConfigurationResponseCommand command = new ReadReportingConfigurationResponseCommand();
+        final ReadReportingConfigurationResponse command = new ReadReportingConfigurationResponse();
         final List<AttributeReportingConfigurationRecord> list = new ArrayList<AttributeReportingConfigurationRecord>();
         final AttributeReportingConfigurationRecord data = new AttributeReportingConfigurationRecord();
         data.setAttributeIdentifier(1);
