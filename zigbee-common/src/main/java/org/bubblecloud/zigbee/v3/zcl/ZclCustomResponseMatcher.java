@@ -1,6 +1,7 @@
-package org.bubblecloud.zigbee.v3;
+package org.bubblecloud.zigbee.v3.zcl;
 
-import org.bubblecloud.zigbee.v3.zcl.ZclCommand;
+import org.bubblecloud.zigbee.v3.Command;
+import org.bubblecloud.zigbee.v3.CommandResponseMatcher;
 import org.bubblecloud.zigbee.v3.zcl.clusters.general.DefaultResponse;
 
 /**

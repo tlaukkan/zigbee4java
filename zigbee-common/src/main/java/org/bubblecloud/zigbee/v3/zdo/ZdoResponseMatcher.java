@@ -1,7 +1,7 @@
-package org.bubblecloud.zigbee.v3;
+package org.bubblecloud.zigbee.v3.zdo;
 
-import org.bubblecloud.zigbee.v3.zdo.ZdoRequest;
-import org.bubblecloud.zigbee.v3.zdo.ZdoResponse;
+import org.bubblecloud.zigbee.v3.Command;
+import org.bubblecloud.zigbee.v3.CommandResponseMatcher;
 
 /**
  * The ZDO response matcher.
