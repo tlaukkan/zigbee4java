@@ -27,7 +27,7 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
     /**
      * The ZigBee command interface.
      */
-    private ZigBeeNetwork commandInterface;
+    private ZigBeeNetworkManager commandInterface;
     /**
      * The received IEEE addresses.
      */
@@ -62,12 +62,12 @@ public class ZigBeeNetworkDiscoverer implements CommandListener {
     /**
      * Discovers ZigBee network state.
      * @param networkState the network state
-     * @param commandInterface the command interface
+     * @param dongle the command interface
      */
     public ZigBeeNetworkDiscoverer(final ZigBeeNetworkState networkState,
-                                   final ZigBeeNetwork commandInterface) {
+                                   final ZigBeeNetworkManager networkManager) {
         this.networkState = networkState;
-        this.commandInterface = commandInterface;
+        this.commandInterface = networkManager;
     }
 
     /**

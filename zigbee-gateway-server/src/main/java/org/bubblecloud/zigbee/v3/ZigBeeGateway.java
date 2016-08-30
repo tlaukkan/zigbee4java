@@ -50,8 +50,10 @@ public final class ZigBeeGateway {
     /**
      * The ZigBee API.
      */
-    private ZigBeeApiDongleImpl zigBeeApi;
+    private ZigBeeApi zigBeeApi;
 
+    private ZigBeeNetworkManager networkManager;
+    
     /**
      * Constructor which configures ZigBee API and constructs commands.
      *
@@ -97,7 +99,8 @@ public final class ZigBeeGateway {
         commands.put("unlock", new DoorUnlockCommand());
         commands.put("enroll", new EnrollCommand());
 
-        zigBeeApi = new ZigBeeApiDongleImpl(dongle, resetNetwork);
+        networkManager = new ZigBeeNetworkManager(dongle, resetNetwork);
+        zigBeeApi = new ZigBeeApi(networkManager);
     }
 
 	/**
@@ -107,7 +110,7 @@ public final class ZigBeeGateway {
         mainThread = Thread.currentThread();
         System.out.print("ZigBee API starting up...");
 
-        if (!zigBeeApi.startup()) {
+        if (!networkManager.startup()) {
             print("ZigBee API starting up ... [FAIL]", System.out);
             return;
         } else {
@@ -165,7 +168,7 @@ public final class ZigBeeGateway {
             processInputLine(inputLine, System.out);
         }
 
-        zigBeeApi.shutdown();
+        networkManager.shutdown();
     }
 
     /**
@@ -199,7 +202,7 @@ public final class ZigBeeGateway {
         }
     }
 
-    public ZigBeeApiDongleImpl getZigBeeApi() {
+    public ZigBeeApi getZigBeeApi() {
         return zigBeeApi;
     }
 
@@ -210,7 +213,7 @@ public final class ZigBeeGateway {
      * @param args the arguments including the command
      * @param out the output stream
      */
-    private void executeCommand(final ZigBeeApiDongleImpl zigbeeApi, final String command, final String[] args, final PrintStream out) {
+    private void executeCommand(final ZigBeeApi zigbeeApi, final String command, final String[] args, final PrintStream out) {
         final ConsoleCommand consoleCommand = commands.get(command);
         try {
             if (!consoleCommand.process(zigbeeApi, args, out)) {
@@ -269,7 +272,7 @@ public final class ZigBeeGateway {
      * @param destinationIdentifier the device identifier or group ID
      * @return the device
      */
-    private ZigBeeDestination getDestination(final ZigBeeApiDongleImpl zigbeeApi, final String destinationIdentifier
+    private ZigBeeDestination getDestination(final ZigBeeApi zigbeeApi, final String destinationIdentifier
             ,final PrintStream out) {
         final ZigBeeDevice device = getDevice(zigbeeApi, destinationIdentifier);
 
@@ -301,7 +304,7 @@ public final class ZigBeeGateway {
      * @param deviceIdentifier the device identifier
      * @return the device
      */
-    private ZigBeeDevice getDevice(ZigBeeApiDongleImpl zigbeeApi, final String deviceIdentifier) {
+    private ZigBeeDevice getDevice(ZigBeeApi zigbeeApi, final String deviceIdentifier) {
         for (final ZigBeeDevice zigBeeDevice : zigbeeApi.getNetworkState().getDevices()) {
             if (deviceIdentifier.equals(zigBeeDevice.getNetworkAddress() + "/" + zigBeeDevice.getEndpoint())) {
                 return zigBeeDevice;
@@ -336,7 +339,7 @@ public final class ZigBeeGateway {
          * @param out the output PrintStream
          * @return true if command syntax was correct.
          */
-        boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception;
+        boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception;
     }
 
     /**
@@ -358,7 +361,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             shutdown = true;
             return true;
         }
@@ -383,7 +386,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
 
             if (args.length == 2) {
                 if (commands.containsKey(args[1])) {
@@ -428,7 +431,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             final List<ZigBeeDevice> devices = zigbeeApi.getDevices();
             for (final ZigBeeDevice device : devices) {
                 print(getDeviceSummary(device), out);
@@ -456,7 +459,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             final List<ZigBeeGroup> groups = zigbeeApi.getGroups();
             for (final ZigBeeGroup group : groups) {
                 print(StringUtils.leftPad(Integer.toString(group.getGroupId()), 10) + "      " + group.getLabel(), out);
@@ -484,7 +487,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 2) {
                 return false;
             }
@@ -557,7 +560,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 4) {
                 return false;
             }
@@ -599,7 +602,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 4) {
                 return false;
             }
@@ -641,7 +644,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 2) {
                 return false;
             }
@@ -677,7 +680,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 2) {
                 return false;
             }
@@ -712,7 +715,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 5) {
                 return false;
             }
@@ -765,7 +768,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 3) {
                 return false;
             }
@@ -801,7 +804,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 3) {
                 return false;
             }
@@ -840,7 +843,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 2) {
                 return false;
             }
@@ -874,7 +877,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 2) {
                 return false;
             }
@@ -912,7 +915,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 3) {
                 return false;
             }
@@ -949,7 +952,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 3) {
                 return false;
             }
@@ -990,7 +993,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 3) {
                 return false;
             }
@@ -1026,7 +1029,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 3) {
                 return false;
             }
@@ -1062,7 +1065,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 1) {
                 return false;
             }
@@ -1094,7 +1097,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 1) {
                 return false;
             }
@@ -1126,7 +1129,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 6 && args.length != 7) {
                 return false;
             }
@@ -1207,7 +1210,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 4 && args.length != 5) {
                 return false;
             }
@@ -1272,7 +1275,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 4) {
                 return false;
             }
@@ -1337,7 +1340,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 5) {
                 return false;
             }
@@ -1404,7 +1407,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
 //            ZigBeeDiscoveryManager discoveryMan = zigbeeApi.getZigBeeDiscoveryManager();
 //            NetworkNeighbourLinks neighbors = discoveryMan.getLinkQualityInfo();
 //            final List<ZigBeeNode> nodes = zigbeeApi.getNodes();
@@ -1443,7 +1446,7 @@ public final class ZigBeeGateway {
         }
 
         @Override
-        public boolean process(ZigBeeApiDongleImpl zigbeeApi, String[] args, PrintStream out) throws Exception {
+        public boolean process(ZigBeeApi zigbeeApi, String[] args, PrintStream out) throws Exception {
             if (args.length != 5) {
                 return false;
             }
@@ -1507,7 +1510,7 @@ public final class ZigBeeGateway {
         }
 
         @Override
-        public boolean process(ZigBeeApiDongleImpl zigbeeApi, String[] args, PrintStream out) throws Exception {
+        public boolean process(ZigBeeApi zigbeeApi, String[] args, PrintStream out) throws Exception {
             if (args.length != 5) {
                 return false;
             }
@@ -1574,7 +1577,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) throws Exception {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) throws Exception {
             if (args.length != 2) {
                 return false;
             }
@@ -1619,7 +1622,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out) {
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out) {
             if (args.length != 2) {
                 return false;
             }
@@ -1682,7 +1685,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out)
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out)
                 throws Exception {
             if (args.length != 4) {
                 return false;
@@ -1729,7 +1732,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out)
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out)
                 throws Exception {
             if (args.length != 3) {
                 return false;
@@ -1773,7 +1776,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out)
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out)
                 throws Exception {
             if (args.length != 3) {
                 return false;
@@ -1830,7 +1833,7 @@ public final class ZigBeeGateway {
         /**
          * {@inheritDoc}
          */
-        public boolean process(final ZigBeeApiDongleImpl zigbeeApi, final String[] args, PrintStream out)
+        public boolean process(final ZigBeeApi zigbeeApi, final String[] args, PrintStream out)
                 throws Exception {
             if (args.length != 2) {
                 return false;

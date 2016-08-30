@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 /**
  * ZigBee Dongle TI CC2531 implementation.
  */
-public class ZigBeeDongleTiCc2531Impl implements ZigBeeDongle {
+public class ZigBeeDongleTiCc2531Impl implements ZigBeeDongle, CommandListener {
     /**
      * The {@link Logger}.
      */
@@ -33,22 +33,30 @@ public class ZigBeeDongleTiCc2531Impl implements ZigBeeDongle {
     /**
      * Flag to reset the network on startup
      */
-	private boolean resetNetwork = false;
+    private boolean resetNetwork = false;
+    
+    private ZigBeeNetwork zigbeeNetwork;
 
     /**
      * Constructor to configure the port interface.
      *
-     * @param serialPort     the serial port
-     * @param pan            the pan
-     * @param channel        the channel
-     * @param networkKey     the network key or null for default testing key
-     * @param resetNetwork   the reset network flag
+     * @param serialPort
+     *            the serial port
+     * @param pan
+     *            the pan
+     * @param channel
+     *            the channel
+     * @param networkKey
+     *            the network key or null for default testing key
+     * @param resetNetwork
+     *            the reset network flag
      */
     public ZigBeeDongleTiCc2531Impl(final SerialPort serialPort, final int pan, final int channel,
-                                    final byte[] networkKey, final boolean resetNetwork) {
-    	this.resetNetwork = resetNetwork;
+            final byte[] networkKey, final boolean resetNetwork) {
+        this.resetNetwork = resetNetwork;
 
-        networkManager = new ZigBeeNetworkManagerImpl(serialPort, NetworkMode.Coordinator, pan, channel, networkKey, 2500L);
+        networkManager = new ZigBeeNetworkManagerImpl(serialPort, NetworkMode.Coordinator, pan,
+                channel, networkKey, 2500L);
         zclCommandTransmitter = new ZclCommandTransmitter(networkManager);
         zdoCommandTransmitter = new ZdoCommandTransmitter(networkManager);
     }
@@ -82,6 +90,9 @@ public class ZigBeeDongleTiCc2531Impl implements ZigBeeDongle {
 
         ApplicationFrameworkLayer.getAFLayer(networkManager).createDefaultSendingEndPoint();
 
+        zclCommandTransmitter.addCommandListener(this);
+        zdoCommandTransmitter.addCommandListener(this);
+
         return true;
     }
 
@@ -92,24 +103,23 @@ public class ZigBeeDongleTiCc2531Impl implements ZigBeeDongle {
 
     @Override
     public int sendCommand(org.bubblecloud.zigbee.v3.Command command) throws ZigBeeException {
-        if (command instanceof  ZclCommand) {
-            return zclCommandTransmitter.sendCommand(((ZclCommand)command).toCommandMessage());
-        }  else {
+        if (command instanceof ZclCommand) {
+            return zclCommandTransmitter.sendCommand(((ZclCommand) command).toCommandMessage());
+        } else {
             zdoCommandTransmitter.sendCommand((ZdoCommand) command);
             return -1;
         }
     }
 
     @Override
-    public void addCommandListener(final CommandListener commandListener) {
-        this.zclCommandTransmitter.addCommandListener(commandListener);
-        this.zdoCommandTransmitter.addCommandListener(commandListener);
+    public void commandReceived(Command command) {
+        zigbeeNetwork.receiveCommand(command);
     }
-
+    
     @Override
-    public void removeCommandListener(final CommandListener commandListener) {
-        this.zclCommandTransmitter.removeCommandListener(commandListener);
-        this.zdoCommandTransmitter.removeCommandListener(commandListener);
+    public 
+    void setZigBeeNetwork(ZigBeeNetwork zigbeeNetwork) {
+        this.zigbeeNetwork = zigbeeNetwork;
     }
 
 }
