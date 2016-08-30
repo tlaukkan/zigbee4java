@@ -2,6 +2,7 @@ package org.bubblecloud.zigbee.v3;
 
 import org.bubblecloud.zigbee.v3.model.Status;
 import org.bubblecloud.zigbee.v3.zcl.clusters.general.DefaultResponse;
+import org.bubblecloud.zigbee.v3.zdo.ZdoResponse;
 
 /**
  * Value class containing command response.

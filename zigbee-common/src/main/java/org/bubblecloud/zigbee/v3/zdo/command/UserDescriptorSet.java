@@ -1,7 +1,7 @@
 package org.bubblecloud.zigbee.v3.zdo.command;
 
 import org.bubblecloud.zigbee.v3.zdo.ZdoCommand;
-import org.bubblecloud.zigbee.v3.ZdoRequest;
+import org.bubblecloud.zigbee.v3.zdo.ZdoRequest;
 
 /**
  * UserDescriptorSet.

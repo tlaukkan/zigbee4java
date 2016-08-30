@@ -1,4 +1,4 @@
-package org.bubblecloud.zigbee.v3;
+package org.bubblecloud.zigbee.v3.zdo;
 
 /**
  * Common interface for response commands..
