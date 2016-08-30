@@ -1,7 +1,10 @@
 package org.bubblecloud.zigbee.v3;
 
 /**
- * The ZCL response matcher.
+ * The ZDO response matcher.
+ * 
+ * The matcher will return true if the the response packet is a {@link ZdoResponse}
+ * and the response source address matches the destination of the request.
  */
 public class ZdoResponseMatcher implements CommandResponseMatcher {
 

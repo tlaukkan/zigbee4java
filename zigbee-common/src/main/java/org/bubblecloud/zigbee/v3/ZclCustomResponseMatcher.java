@@ -5,6 +5,10 @@ import org.bubblecloud.zigbee.v3.zcl.clusters.general.DefaultResponse;
 
 /**
  * ZCL custom response matcher.
+ * 
+ * Implements {@link CommandResponseMatcher} to check if a ZCL transaction matches a request.
+ * The matcher will return true if the request and response transaction IDs match.
+ * If the response matches the {@link DefaultResponse} class, then the status code is mustn't be 0.
  */
 public class ZclCustomResponseMatcher implements CommandResponseMatcher {
         @Override

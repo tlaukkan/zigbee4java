@@ -4,6 +4,9 @@ import org.bubblecloud.zigbee.v3.zcl.ZclCommand;
 
 /**
  * The ZCL response matcher.
+ * 
+ * Implements {@link CommandResponseMatcher} to check if a ZCL transaction matches a request.
+ * The matcher will return true if the request and response transaction IDs match.
  */
 public class ZclResponseMatcher implements CommandResponseMatcher {
 
