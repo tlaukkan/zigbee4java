@@ -1,9 +1,12 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
@@ -27,6 +30,21 @@ public class ZclOccupancySensingCluster extends ZclCluster {
     private final int ATTR_ULTRASONICOCCUPIEDTOUNOCCUPIEDDELAY = 0x0020;
     private final int ATTR_ULTRASONICUNOCCUPIEDTOOCCUPIEDDELAY = 0x0021;
     private final int ATTR_ULTRASONICUNOCCUPIEDTOOCCUPIEDTHRESHOLD = 0x0022;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(7);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.BITMAP_8_BIT, true, 0x0, 1));
+        attributeMap.put(1, new ZclAttribute(1, ZclDataType.ENUMERATION_8_BIT, true, 0xFF, 1));
+        attributeMap.put(16, new ZclAttribute(16, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(17, new ZclAttribute(17, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(32, new ZclAttribute(32, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(33, new ZclAttribute(33, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(34, new ZclAttribute(34, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.
@@ -67,7 +85,7 @@ public class ZclOccupancySensingCluster extends ZclCluster {
      * The implementation of this attribute by a device is MANDATORY
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */

@@ -1,9 +1,12 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.alarms.AlarmCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.alarms.GetAlarmCommand;
@@ -11,6 +14,7 @@ import org.bubblecloud.zigbee.v3.zcl.clusters.alarms.GetAlarmResponse;
 import org.bubblecloud.zigbee.v3.zcl.clusters.alarms.ResetAlarmCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.alarms.ResetAlarmLogCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.alarms.ResetAllAlarmsCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Alarms</b> cluster implementation (<i>Cluster ID 0x0009</i>).
@@ -36,6 +40,15 @@ public class ZclAlarmsCluster extends ZclCluster {
 
     // Attribute constants
     private final int ATTR_ALARMCOUNT = 0x0000;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(1);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.

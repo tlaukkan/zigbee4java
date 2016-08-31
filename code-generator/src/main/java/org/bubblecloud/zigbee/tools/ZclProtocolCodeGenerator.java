@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -717,7 +718,8 @@ public class ZclProtocolCodeGenerator {
                 }
                 
                 imports.add(packageRoot + packageZcl + ".ZclCluster");
-//                imports.add(packageRoot + packageZcl + ".ZclCommand");
+                imports.add(packageRoot + packageZclProtocol + ".ZclDataType");
+//              imports.add(packageRoot + packageZcl + ".ZclCommand");
 //                imports.add(packageRoot + packageZcl + ".ZclCommandMessage");
                    
 //                imports.add(packageRoot + ".ZigBeeDestination");
@@ -725,7 +727,11 @@ public class ZclProtocolCodeGenerator {
                 imports.add(packageRoot + ".ZigBeeApi");
                 imports.add(packageRoot + ".CommandResult");
                 imports.add(packageRoot + ".ZigBeeDevice");
+                imports.add(packageRoot + packageZcl + ".ZclAttribute");
+                imports.add("java.util.Map");
+                imports.add("java.util.HashMap");
                 imports.add("java.util.concurrent.Future");
+//                imports.add("org.bubblecloud.zigbee.v3.model.ZigBeeType");
 
                 for (final Command command : commands) {
                 	imports.add(getClusterCommandPackage(packageRoot, cluster) + "." + command.nameUpperCamelCase);
@@ -764,6 +770,24 @@ public class ZclProtocolCodeGenerator {
 	                }
 	                out.println();
                 }
+                
+                out.println("    // Attribute initialisation");
+                out.println("    protected Map<Integer, ZclAttribute> initializeAttributes() {");
+                out.println("        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(" + cluster.attributes.size() + ");");
+                out.println();
+                if(cluster.attributes.size() != 0) {
+                    for (final Attribute attribute : cluster.attributes.values()) {
+                        out.println("        attributeMap.put(" + attribute.attributeId + ", new ZclAttribute(" + attribute.attributeId + ", ZclDataType." + attribute.dataType + ", " +
+                                "mandatory".equals(attribute.attributeImplementation.toLowerCase()) + ", " +
+                                String.format("0x%X", ZclDataType.getDataTypeMapping().get(attribute.dataType).invalid) + ", " +
+                                ZclDataType.getDataTypeMapping().get(attribute.dataType).length +
+                                "));");
+                    }
+                }
+                out.println();
+                out.println("        return attributeMap;");
+                out.println("    }");
+                out.println();
                 
                 out.println("    /**");
                 out.println("     * Default constructor.");
@@ -861,7 +885,7 @@ public class ZclProtocolCodeGenerator {
     	}
     	if("Configure reporting for".equals(type)) {
     		out.println("     * @param minInterval {@link int} minimum reporting period");
-			out.println("     * @param maxInterval {@link int} minimum reporting period");
+			out.println("     * @param maxInterval {@link int} maximum reporting period");
     		out.println("     * @param reportableChange {@link Object} delta required to trigger report");
     	}
 		out.println("     * @return the {@link Future<CommandResult>} command result future");

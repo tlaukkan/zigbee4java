@@ -1,9 +1,12 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.rssilocation.AnchorNodeAnnounceCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.rssilocation.CompactLocationDataNotificationCommand;
@@ -44,6 +47,27 @@ public class ZclRssiLocationCluster extends ZclCluster {
     private final int ATTR_REPORTINGPERIOD = 0x0015;
     private final int ATTR_CALCULATIONPERIOD = 0x0016;
     private final int ATTR_NUMBERRSSIMEASUREMENTS = 0x0017;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(13);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.DATA_8_BIT, true, 0x0, 1));
+        attributeMap.put(1, new ZclAttribute(1, ZclDataType.ENUMERATION_8_BIT, true, 0xFF, 1));
+        attributeMap.put(2, new ZclAttribute(2, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(3, new ZclAttribute(3, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(4, new ZclAttribute(4, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(16, new ZclAttribute(16, ZclDataType.SIGNED_16_BIT_INTEGER, true, 0x8000, 2));
+        attributeMap.put(17, new ZclAttribute(17, ZclDataType.SIGNED_16_BIT_INTEGER, true, 0x8000, 2));
+        attributeMap.put(18, new ZclAttribute(18, ZclDataType.SIGNED_16_BIT_INTEGER, false, 0x8000, 2));
+        attributeMap.put(19, new ZclAttribute(19, ZclDataType.SIGNED_16_BIT_INTEGER, true, 0x8000, 2));
+        attributeMap.put(20, new ZclAttribute(20, ZclDataType.SIGNED_16_BIT_INTEGER, true, 0x8000, 2));
+        attributeMap.put(21, new ZclAttribute(21, ZclDataType.SIGNED_16_BIT_INTEGER, false, 0x8000, 2));
+        attributeMap.put(22, new ZclAttribute(22, ZclDataType.SIGNED_16_BIT_INTEGER, false, 0x8000, 2));
+        attributeMap.put(23, new ZclAttribute(23, ZclDataType.SIGNED_16_BIT_INTEGER, false, 0x8000, 2));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.

@@ -1,9 +1,12 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
@@ -24,6 +27,22 @@ public class ZclTimeCluster extends ZclCluster {
     private final int ATTR_DSTSHIFT = 0x0005;
     private final int ATTR_STANDARDTIME = 0x0006;
     private final int ATTR_LOCALTIME = 0x0007;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(8);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UTCTIME, true, 0xFFFFFFFF, 4));
+        attributeMap.put(1, new ZclAttribute(1, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(2, new ZclAttribute(2, ZclDataType.SIGNED_32_BIT_INTEGER, false, 0x80000000, 4));
+        attributeMap.put(3, new ZclAttribute(3, ZclDataType.UNSIGNED_32_BIT_INTEGER, false, 0xFFFFFFFF, 4));
+        attributeMap.put(4, new ZclAttribute(4, ZclDataType.UNSIGNED_32_BIT_INTEGER, false, 0xFFFFFFFF, 4));
+        attributeMap.put(5, new ZclAttribute(5, ZclDataType.SIGNED_32_BIT_INTEGER, false, 0x80000000, 4));
+        attributeMap.put(6, new ZclAttribute(6, ZclDataType.SIGNED_32_BIT_INTEGER, false, 0x80000000, 4));
+        attributeMap.put(7, new ZclAttribute(7, ZclDataType.SIGNED_32_BIT_INTEGER, false, 0x80000000, 4));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.

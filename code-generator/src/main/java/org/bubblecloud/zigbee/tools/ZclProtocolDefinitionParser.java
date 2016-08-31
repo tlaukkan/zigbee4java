@@ -11,40 +11,6 @@ import org.bubblecloud.zigbee.tools.zcl.*;
  * Created by tlaukkan on 4/10/2016.
  */
 public class ZclProtocolDefinitionParser {
-	final static Map<String, String> dataTypeMapping =  new HashMap<String, String>() {{
-		put("CHARACTER_STRING", "String");
-		put("CHARACTER_STRING", "String");
-		put("IEEE_ADDRESS","Long");
-        put("N_X_EXTENSION_FIELD_SET","List<ExtensionFieldSet>");
-        put("N_X_NEIGHBORS_INFORMATION","List<NeighborInformation>");
-        put("N_X_UNSIGNED_16_BIT_INTEGER","List<Unsigned16BitInteger>");
-        put("N_X_UNSIGNED_8_BIT_INTEGER","List<Unsigned8BitInteger>");
-        put("N_X_ATTRIBUTE_IDENTIFIER","List<AttributeIdentifier>");
-        put("N_X_READ_ATTRIBUTE_STATUS_RECORD","List<ReadAttributeStatusRecord>");
-        put("N_X_WRITE_ATTRIBUTE_RECORD","List<WriteAttributeRecord>");
-        put("N_X_WRITE_ATTRIBUTE_STATUS_RECORD","List<WriteAttributeStatusRecord>");
-        put("N_X_ATTRIBUTE_REPORTING_CONFIGURATION_RECORD","List<AttributeReportingConfigurationRecord>");
-        put("N_X_ATTRIBUTE_STATUS_RECORD","List<AttributeStatusRecord>");
-        put("N_X_ATTRIBUTE_RECORD","List<AttributeRecord>");
-        put("N_X_ATTRIBUTE_REPORT","List<AttributeReport>");
-        put("N_X_ATTRIBUTE_INFORMATION","List<AttributeInformation>");
-        put("N_X_ATTRIBUTE_SELECTOR","Object");
-        put("BOOLEAN","Boolean");
-        put("SIGNED_32_BIT_INTEGER","Integer");
-        put("SIGNED_16_BIT_INTEGER","Integer");
-        put("SIGNED_8_BIT_INTEGER","Integer");
-        put("UNSIGNED_16_BIT_INTEGER","Integer");
-        put("UNSIGNED_32_BIT_INTEGER","Integer");
-        put("UNSIGNED_8_BIT_INTEGER","Integer");
-        put("BITMAP_16_BIT","Integer");
-        put("BITMAP_8_BIT","Integer");
-        put("ENUMERATION_16_BIT","Integer");
-        put("ENUMERATION_8_BIT","Integer");
-        put("DATA_8_BIT","Integer");
-        put("OCTET_STRING","String");
-        put("UTCTIME","Calendar");
-	}};
-	
     public static void parseProfiles(Context context) {
         while (context.lines.size() > 0) {
             final String line = context.lines.remove(0);
@@ -227,7 +193,7 @@ public class ZclProtocolDefinitionParser {
                 dataType.dataTypeName = columns[1].trim();
                 dataType.dataTypeType = field.dataType;
 
-                dataType.dataTypeClass = dataTypeMapping.get(field.dataType); 
+                dataType.dataTypeClass = ZclDataType.getDataTypeMapping().get(field.dataType).dataClass; 
                 if(dataType.dataTypeClass == null) {
                     throw new IllegalArgumentException("Type not mapped: " + field.dataType);
                 }
@@ -335,7 +301,7 @@ public class ZclProtocolDefinitionParser {
         final DataType dataType = new DataType();
         dataType.dataTypeName = columns[2].trim();
         dataType.dataTypeType = attribute.dataType;
-        dataType.dataTypeClass = dataTypeMapping.get(attribute.dataType); 
+        dataType.dataTypeClass = ZclDataType.getDataTypeMapping().get(attribute.dataType).dataClass; 
         if(dataType.dataTypeClass == null) {
             throw new IllegalArgumentException("Type not mapped: " + attribute.dataType);
         }

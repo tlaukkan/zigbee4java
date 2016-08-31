@@ -1,9 +1,12 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.identify.IdentifyCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.identify.IdentifyQueryCommand;
@@ -28,6 +31,15 @@ public class ZclIdentifyCluster extends ZclCluster {
 
     // Attribute constants
     private final int ATTR_IDENTIFYTIME = 0x0000;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(1);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.

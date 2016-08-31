@@ -1,9 +1,12 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
@@ -34,6 +37,28 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
     private final int ATTR_BATTERYRATEDVOLTAGE = 0x0034;
     private final int ATTR_BATTERYALARMMASK = 0x0035;
     private final int ATTR_BATTERYVOLTAGEMINTHRESHOLD = 0x0036;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(14);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(1, new ZclAttribute(1, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(16, new ZclAttribute(16, ZclDataType.BITMAP_8_BIT, false, 0x0, 1));
+        attributeMap.put(17, new ZclAttribute(17, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(18, new ZclAttribute(18, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(19, new ZclAttribute(19, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(32, new ZclAttribute(32, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(48, new ZclAttribute(48, ZclDataType.CHARACTER_STRING, false, 0x0, -1));
+        attributeMap.put(49, new ZclAttribute(49, ZclDataType.ENUMERATION_8_BIT, false, 0xFF, 1));
+        attributeMap.put(50, new ZclAttribute(50, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(51, new ZclAttribute(51, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(52, new ZclAttribute(52, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(53, new ZclAttribute(53, ZclDataType.BITMAP_8_BIT, false, 0x0, 1));
+        attributeMap.put(54, new ZclAttribute(54, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.

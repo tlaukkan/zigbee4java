@@ -1,9 +1,12 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.basic.ResetToFactoryDefaultsCommand;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
@@ -30,6 +33,27 @@ public class ZclBasicCluster extends ZclCluster {
     private final int ATTR_DEVICEENABLED = 0x0012;
     private final int ATTR_ALARMMASK = 0x0013;
     private final int ATTR_DISABLELOCALCONFIG = 0x0014;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(13);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_8_BIT_INTEGER, true, 0xFF, 1));
+        attributeMap.put(1, new ZclAttribute(1, ZclDataType.UNSIGNED_8_BIT_INTEGER, true, 0xFF, 1));
+        attributeMap.put(2, new ZclAttribute(2, ZclDataType.UNSIGNED_8_BIT_INTEGER, true, 0xFF, 1));
+        attributeMap.put(3, new ZclAttribute(3, ZclDataType.UNSIGNED_8_BIT_INTEGER, true, 0xFF, 1));
+        attributeMap.put(4, new ZclAttribute(4, ZclDataType.CHARACTER_STRING, true, 0x0, -1));
+        attributeMap.put(5, new ZclAttribute(5, ZclDataType.CHARACTER_STRING, true, 0x0, -1));
+        attributeMap.put(6, new ZclAttribute(6, ZclDataType.CHARACTER_STRING, true, 0x0, -1));
+        attributeMap.put(7, new ZclAttribute(7, ZclDataType.ENUMERATION_8_BIT, true, 0xFF, 1));
+        attributeMap.put(16, new ZclAttribute(16, ZclDataType.CHARACTER_STRING, true, 0x0, -1));
+        attributeMap.put(17, new ZclAttribute(17, ZclDataType.ENUMERATION_8_BIT, true, 0xFF, 1));
+        attributeMap.put(18, new ZclAttribute(18, ZclDataType.BOOLEAN, true, 0xFF, 1));
+        attributeMap.put(19, new ZclAttribute(19, ZclDataType.BITMAP_8_BIT, true, 0x0, 1));
+        attributeMap.put(20, new ZclAttribute(20, ZclDataType.BITMAP_8_BIT, true, 0x0, 1));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.

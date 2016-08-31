@@ -1,10 +1,14 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Pressure measurement</b> cluster implementation (<i>Cluster ID 0x0403</i>).
@@ -28,6 +32,23 @@ public class ZclPressureMeasurementCluster extends ZclCluster {
     private final int ATTR_MAXSCALEDVALUE = 0x0012;
     private final int ATTR_SCALEDTOLERANCE = 0x0013;
     private final int ATTR_SCALE = 0x0014;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(9);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
+        attributeMap.put(1, new ZclAttribute(1, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
+        attributeMap.put(2, new ZclAttribute(2, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
+        attributeMap.put(3, new ZclAttribute(3, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(16, new ZclAttribute(16, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(17, new ZclAttribute(17, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(18, new ZclAttribute(18, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(19, new ZclAttribute(19, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(20, new ZclAttribute(20, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.
@@ -82,7 +103,7 @@ public class ZclPressureMeasurementCluster extends ZclCluster {
      * The implementation of this attribute by a device is MANDATORY
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */
@@ -144,7 +165,7 @@ public class ZclPressureMeasurementCluster extends ZclCluster {
      * The implementation of this attribute by a device is MANDATORY
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */
@@ -191,7 +212,7 @@ public class ZclPressureMeasurementCluster extends ZclCluster {
      * The implementation of this attribute by a device is OPTIONAL
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */
@@ -246,7 +267,7 @@ public class ZclPressureMeasurementCluster extends ZclCluster {
      * The implementation of this attribute by a device is OPTIONAL
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */

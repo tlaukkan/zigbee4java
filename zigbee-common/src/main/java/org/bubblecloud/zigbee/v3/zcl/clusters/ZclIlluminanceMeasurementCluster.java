@@ -1,10 +1,14 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Illuminance measurement</b> cluster implementation (<i>Cluster ID 0x0400</i>).
@@ -25,6 +29,19 @@ public class ZclIlluminanceMeasurementCluster extends ZclCluster {
     private final int ATTR_MAXMEASUREDVALUE = 0x0002;
     private final int ATTR_TOLERANCE = 0x0003;
     private final int ATTR_LIGHTSENSORTYPE = 0x0004;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(5);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
+        attributeMap.put(1, new ZclAttribute(1, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
+        attributeMap.put(2, new ZclAttribute(2, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
+        attributeMap.put(3, new ZclAttribute(3, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(4, new ZclAttribute(4, ZclDataType.ENUMERATION_8_BIT, false, 0xFF, 1));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.
@@ -77,7 +94,7 @@ public class ZclIlluminanceMeasurementCluster extends ZclCluster {
      * The implementation of this attribute by a device is MANDATORY
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */
@@ -154,7 +171,7 @@ public class ZclIlluminanceMeasurementCluster extends ZclCluster {
      * The implementation of this attribute by a device is OPTIONAL
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */

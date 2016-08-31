@@ -1,9 +1,12 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.colorcontrol.MoveColorCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.colorcontrol.MoveHueCommand;
@@ -16,6 +19,7 @@ import org.bubblecloud.zigbee.v3.zcl.clusters.colorcontrol.MoveToSaturationComma
 import org.bubblecloud.zigbee.v3.zcl.clusters.colorcontrol.StepColorCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.colorcontrol.StepHueCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.colorcontrol.StepSaturationCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Color control</b> cluster implementation (<i>Cluster ID 0x0300</i>).
@@ -41,6 +45,23 @@ public class ZclColorControlCluster extends ZclCluster {
     private final int ATTR_COMPENSATIONTEXT = 0x0006;
     private final int ATTR_COLORTEMPERATURE = 0x0007;
     private final int ATTR_COLORMODE = 0x0008;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(9);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(1, new ZclAttribute(1, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(2, new ZclAttribute(2, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(3, new ZclAttribute(3, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
+        attributeMap.put(4, new ZclAttribute(4, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
+        attributeMap.put(5, new ZclAttribute(5, ZclDataType.ENUMERATION_8_BIT, false, 0xFF, 1));
+        attributeMap.put(6, new ZclAttribute(6, ZclDataType.CHARACTER_STRING, false, 0x0, -1));
+        attributeMap.put(7, new ZclAttribute(7, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(8, new ZclAttribute(8, ZclDataType.ENUMERATION_8_BIT, false, 0xFF, 1));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.
@@ -89,7 +110,7 @@ public class ZclColorControlCluster extends ZclCluster {
      * The implementation of this attribute by a device is OPTIONAL
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */
@@ -136,7 +157,7 @@ public class ZclColorControlCluster extends ZclCluster {
      * The implementation of this attribute by a device is OPTIONAL
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */
@@ -200,7 +221,7 @@ public class ZclColorControlCluster extends ZclCluster {
      * The implementation of this attribute by a device is MANDATORY
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */
@@ -247,7 +268,7 @@ public class ZclColorControlCluster extends ZclCluster {
      * The implementation of this attribute by a device is MANDATORY
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */
@@ -340,7 +361,7 @@ public class ZclColorControlCluster extends ZclCluster {
      * The implementation of this attribute by a device is OPTIONAL
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */

@@ -1,9 +1,12 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.commissioning.ResetStartupParametersCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.commissioning.ResetStartupParametersResponse;
@@ -13,6 +16,7 @@ import org.bubblecloud.zigbee.v3.zcl.clusters.commissioning.RestoreStartupParame
 import org.bubblecloud.zigbee.v3.zcl.clusters.commissioning.RestoreStartupParametersResponse;
 import org.bubblecloud.zigbee.v3.zcl.clusters.commissioning.SaveStartupParametersCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.commissioning.SaveStartupParametersResponse;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Commissioning</b> cluster implementation (<i>Cluster ID 0x0015</i>).
@@ -21,6 +25,14 @@ import org.bubblecloud.zigbee.v3.zcl.clusters.commissioning.SaveStartupParameter
 public class ZclCommissioningCluster extends ZclCluster {
     // Cluster ID
     private static final int CLUSTER_ID = 0x0015;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(0);
+
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.

@@ -1,10 +1,14 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Illuminance level sensing</b> cluster implementation (<i>Cluster ID 0x0401</i>).
@@ -22,6 +26,16 @@ public class ZclIlluminanceLevelSensingCluster extends ZclCluster {
     // Attribute constants
     private final int ATTR_LEVELSTATUS = 0x0000;
     private final int ATTR_LIGHTSENSORTYPE = 0x0001;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(2);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.ENUMERATION_8_BIT, true, 0xFF, 1));
+        attributeMap.put(1, new ZclAttribute(1, ZclDataType.ENUMERATION_8_BIT, false, 0xFF, 1));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.
@@ -58,7 +72,7 @@ public class ZclIlluminanceLevelSensingCluster extends ZclCluster {
      * The implementation of this attribute by a device is MANDATORY
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */

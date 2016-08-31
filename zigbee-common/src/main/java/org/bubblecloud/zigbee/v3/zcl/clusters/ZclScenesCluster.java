@@ -1,9 +1,12 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.scenes.AddSceneCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.scenes.AddSceneResponse;
@@ -18,6 +21,7 @@ import org.bubblecloud.zigbee.v3.zcl.clusters.scenes.StoreSceneCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.scenes.StoreSceneResponse;
 import org.bubblecloud.zigbee.v3.zcl.clusters.scenes.ViewSceneCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.scenes.ViewSceneResponse;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Scenes</b> cluster implementation (<i>Cluster ID 0x0005</i>).
@@ -45,6 +49,20 @@ public class ZclScenesCluster extends ZclCluster {
     private final int ATTR_SCENEVALID = 0x0003;
     private final int ATTR_NAMESUPPORT = 0x0004;
     private final int ATTR_LASTCONFIGUREDBY = 0x0005;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(6);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_8_BIT_INTEGER, true, 0xFF, 1));
+        attributeMap.put(1, new ZclAttribute(1, ZclDataType.UNSIGNED_8_BIT_INTEGER, true, 0xFF, 1));
+        attributeMap.put(2, new ZclAttribute(2, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
+        attributeMap.put(3, new ZclAttribute(3, ZclDataType.BOOLEAN, true, 0xFF, 1));
+        attributeMap.put(4, new ZclAttribute(4, ZclDataType.BITMAP_8_BIT, true, 0x0, 1));
+        attributeMap.put(5, new ZclAttribute(5, ZclDataType.IEEE_ADDRESS, false, 0xFFFFFFFF, 8));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.

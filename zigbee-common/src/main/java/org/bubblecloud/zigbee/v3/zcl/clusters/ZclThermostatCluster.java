@@ -1,11 +1,15 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.thermostat.SetpointRaiseLowerCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>Thermostat</b> cluster implementation (<i>Cluster ID 0x0201</i>).
@@ -14,6 +18,14 @@ import org.bubblecloud.zigbee.v3.zcl.clusters.thermostat.SetpointRaiseLowerComma
 public class ZclThermostatCluster extends ZclCluster {
     // Cluster ID
     private static final int CLUSTER_ID = 0x0201;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(0);
+
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.

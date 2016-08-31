@@ -1,9 +1,12 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.iasace.ArmCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.iasace.ArmResponse;
@@ -15,6 +18,7 @@ import org.bubblecloud.zigbee.v3.zcl.clusters.iasace.GetZoneIdMapResponse;
 import org.bubblecloud.zigbee.v3.zcl.clusters.iasace.GetZoneInformationCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.iasace.GetZoneInformationResponse;
 import org.bubblecloud.zigbee.v3.zcl.clusters.iasace.PanicCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>IAS ACE</b> cluster implementation (<i>Cluster ID 0x0501</i>).
@@ -29,6 +33,14 @@ import org.bubblecloud.zigbee.v3.zcl.clusters.iasace.PanicCommand;
 public class ZclIasAceCluster extends ZclCluster {
     // Cluster ID
     private static final int CLUSTER_ID = 0x0501;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(0);
+
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.

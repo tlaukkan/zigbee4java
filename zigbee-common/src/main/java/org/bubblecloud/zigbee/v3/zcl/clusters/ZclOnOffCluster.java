@@ -1,13 +1,17 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.onoff.OffCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.onoff.OnCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.onoff.ToggleCommand;
+import org.bubblecloud.zigbee.v3.zcl.protocol.ZclDataType;
 
 /**
  * <b>On/Off</b> cluster implementation (<i>Cluster ID 0x0006</i>).
@@ -22,6 +26,15 @@ public class ZclOnOffCluster extends ZclCluster {
 
     // Attribute constants
     private final int ATTR_ONOFF = 0x0000;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(1);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.BOOLEAN, true, 0xFF, 1));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.
@@ -56,7 +69,7 @@ public class ZclOnOffCluster extends ZclCluster {
      * The implementation of this attribute by a device is MANDATORY
      *
      * @param minInterval {@link int} minimum reporting period
-     * @param maxInterval {@link int} minimum reporting period
+     * @param maxInterval {@link int} maximum reporting period
      * @param reportableChange {@link Object} delta required to trigger report
      * @return the {@link Future<CommandResult>} command result future
      */

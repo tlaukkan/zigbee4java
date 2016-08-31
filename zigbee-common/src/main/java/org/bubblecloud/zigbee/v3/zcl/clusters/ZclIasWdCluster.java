@@ -1,9 +1,12 @@
 package org.bubblecloud.zigbee.v3.zcl.clusters;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 import org.bubblecloud.zigbee.v3.CommandResult;
 import org.bubblecloud.zigbee.v3.ZigBeeApi;
 import org.bubblecloud.zigbee.v3.ZigBeeDevice;
+import org.bubblecloud.zigbee.v3.zcl.ZclAttribute;
 import org.bubblecloud.zigbee.v3.zcl.ZclCluster;
 import org.bubblecloud.zigbee.v3.zcl.clusters.iaswd.SquawkCommand;
 import org.bubblecloud.zigbee.v3.zcl.clusters.iaswd.StartWarningCommand;
@@ -28,6 +31,18 @@ public class ZclIasWdCluster extends ZclCluster {
     private final int ATTR_ZONETYPE = 0x0001;
     private final int ATTR_ZONESTATUS = 0x0002;
     private final int ATTR_IAS_CIE_ADDRESS = 0x0010;
+
+    // Attribute initialisation
+    protected Map<Integer, ZclAttribute> initializeAttributes() {
+        Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(4);
+
+        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
+        attributeMap.put(1, new ZclAttribute(1, ZclDataType.ENUMERATION_8_BIT, true, 0xFF, 1));
+        attributeMap.put(2, new ZclAttribute(2, ZclDataType.BITMAP_16_BIT, true, 0x0, 2));
+        attributeMap.put(16, new ZclAttribute(16, ZclDataType.IEEE_ADDRESS, true, 0xFFFFFFFF, 8));
+
+        return attributeMap;
+    }
 
     /**
      * Default constructor.
