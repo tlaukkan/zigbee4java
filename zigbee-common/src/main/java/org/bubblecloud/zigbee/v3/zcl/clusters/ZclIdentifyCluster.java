@@ -36,7 +36,8 @@ public class ZclIdentifyCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(1);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
+        attributeMap.put(ATTR_IDENTIFYTIME, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                true, true, true, false));
 
         return attributeMap;
     }

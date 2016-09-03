@@ -36,10 +36,14 @@ public class ZclIasZoneCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(4);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.ENUMERATION_8_BIT, true, 0xFF, 1));
-        attributeMap.put(1, new ZclAttribute(1, ZclDataType.ENUMERATION_8_BIT, true, 0xFF, 1));
-        attributeMap.put(2, new ZclAttribute(2, ZclDataType.BITMAP_16_BIT, true, 0x0, 2));
-        attributeMap.put(16, new ZclAttribute(16, ZclDataType.IEEE_ADDRESS, true, 0xFFFFFFFF, 8));
+        attributeMap.put(ATTR_ZONESTATE, new ZclAttribute(0, ZclDataType.ENUMERATION_8_BIT, 
+                true, true, false, false));
+        attributeMap.put(ATTR_ZONETYPE, new ZclAttribute(1, ZclDataType.ENUMERATION_8_BIT, 
+                true, true, false, false));
+        attributeMap.put(ATTR_ZONESTATUS, new ZclAttribute(2, ZclDataType.BITMAP_16_BIT, 
+                true, true, false, false));
+        attributeMap.put(ATTR_IAS_CIE_ADDRESS, new ZclAttribute(16, ZclDataType.IEEE_ADDRESS, 
+                true, true, true, false));
 
         return attributeMap;
     }

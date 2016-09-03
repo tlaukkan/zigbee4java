@@ -42,20 +42,34 @@ public class ZclPowerConfigurationCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(14);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(1, new ZclAttribute(1, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(16, new ZclAttribute(16, ZclDataType.BITMAP_8_BIT, false, 0x0, 1));
-        attributeMap.put(17, new ZclAttribute(17, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(18, new ZclAttribute(18, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(19, new ZclAttribute(19, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(32, new ZclAttribute(32, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
-        attributeMap.put(48, new ZclAttribute(48, ZclDataType.CHARACTER_STRING, false, 0x0, -1));
-        attributeMap.put(49, new ZclAttribute(49, ZclDataType.ENUMERATION_8_BIT, false, 0xFF, 1));
-        attributeMap.put(50, new ZclAttribute(50, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(51, new ZclAttribute(51, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
-        attributeMap.put(52, new ZclAttribute(52, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
-        attributeMap.put(53, new ZclAttribute(53, ZclDataType.BITMAP_8_BIT, false, 0x0, 1));
-        attributeMap.put(54, new ZclAttribute(54, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(ATTR_MAINSVOLTAGE, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, false, false));
+        attributeMap.put(ATTR_MAINSFREQUENCY, new ZclAttribute(1, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, false, false));
+        attributeMap.put(ATTR_MAINSALARMMASK, new ZclAttribute(16, ZclDataType.BITMAP_8_BIT, 
+                false, true, true, false));
+        attributeMap.put(ATTR_MAINSVOLTAGEMINTHRESHOLD, new ZclAttribute(17, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_MAINSVOLTAGEMAXTHRESHOLD, new ZclAttribute(18, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_MAINSVOLTAGEDWELLTRIPPOINT, new ZclAttribute(19, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_BATTERYVOLTAGE, new ZclAttribute(32, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                false, true, false, false));
+        attributeMap.put(ATTR_BATTERYMANUFACTURER, new ZclAttribute(48, ZclDataType.CHARACTER_STRING, 
+                false, true, true, false));
+        attributeMap.put(ATTR_BATTERYSIZE, new ZclAttribute(49, ZclDataType.ENUMERATION_8_BIT, 
+                false, true, true, false));
+        attributeMap.put(ATTR_BATTERYAHRRATING, new ZclAttribute(50, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_BATTERYQUANTITY, new ZclAttribute(51, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_BATTERYRATEDVOLTAGE, new ZclAttribute(52, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_BATTERYALARMMASK, new ZclAttribute(53, ZclDataType.BITMAP_8_BIT, 
+                false, true, true, false));
+        attributeMap.put(ATTR_BATTERYVOLTAGEMINTHRESHOLD, new ZclAttribute(54, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                false, true, true, false));
 
         return attributeMap;
     }

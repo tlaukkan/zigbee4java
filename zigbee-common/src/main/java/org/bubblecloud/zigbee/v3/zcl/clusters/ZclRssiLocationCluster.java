@@ -52,19 +52,32 @@ public class ZclRssiLocationCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(13);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.DATA_8_BIT, true, 0x0, 1));
-        attributeMap.put(1, new ZclAttribute(1, ZclDataType.ENUMERATION_8_BIT, true, 0xFF, 1));
-        attributeMap.put(2, new ZclAttribute(2, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(3, new ZclAttribute(3, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
-        attributeMap.put(4, new ZclAttribute(4, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
-        attributeMap.put(16, new ZclAttribute(16, ZclDataType.SIGNED_16_BIT_INTEGER, true, 0x8000, 2));
-        attributeMap.put(17, new ZclAttribute(17, ZclDataType.SIGNED_16_BIT_INTEGER, true, 0x8000, 2));
-        attributeMap.put(18, new ZclAttribute(18, ZclDataType.SIGNED_16_BIT_INTEGER, false, 0x8000, 2));
-        attributeMap.put(19, new ZclAttribute(19, ZclDataType.SIGNED_16_BIT_INTEGER, true, 0x8000, 2));
-        attributeMap.put(20, new ZclAttribute(20, ZclDataType.SIGNED_16_BIT_INTEGER, true, 0x8000, 2));
-        attributeMap.put(21, new ZclAttribute(21, ZclDataType.SIGNED_16_BIT_INTEGER, false, 0x8000, 2));
-        attributeMap.put(22, new ZclAttribute(22, ZclDataType.SIGNED_16_BIT_INTEGER, false, 0x8000, 2));
-        attributeMap.put(23, new ZclAttribute(23, ZclDataType.SIGNED_16_BIT_INTEGER, false, 0x8000, 2));
+        attributeMap.put(ATTR_LOCATIONTYPE, new ZclAttribute(0, ZclDataType.DATA_8_BIT, 
+                true, true, false, false));
+        attributeMap.put(ATTR_LOCATIONMETHOD, new ZclAttribute(1, ZclDataType.ENUMERATION_8_BIT, 
+                true, true, false, false));
+        attributeMap.put(ATTR_LOCATIONAGE, new ZclAttribute(2, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, false, false));
+        attributeMap.put(ATTR_QUALITYMEASURE, new ZclAttribute(3, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                false, true, false, false));
+        attributeMap.put(ATTR_NUMBEROFDEVICES, new ZclAttribute(4, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                false, true, false, false));
+        attributeMap.put(ATTR_COORDINATE1, new ZclAttribute(16, ZclDataType.SIGNED_16_BIT_INTEGER, 
+                true, true, true, false));
+        attributeMap.put(ATTR_COORDINATE2, new ZclAttribute(17, ZclDataType.SIGNED_16_BIT_INTEGER, 
+                true, true, true, false));
+        attributeMap.put(ATTR_COORDINATE3, new ZclAttribute(18, ZclDataType.SIGNED_16_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_POWER, new ZclAttribute(19, ZclDataType.SIGNED_16_BIT_INTEGER, 
+                true, true, true, false));
+        attributeMap.put(ATTR_PATHLOSSEXPONENT, new ZclAttribute(20, ZclDataType.SIGNED_16_BIT_INTEGER, 
+                true, true, true, false));
+        attributeMap.put(ATTR_REPORTINGPERIOD, new ZclAttribute(21, ZclDataType.SIGNED_16_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_CALCULATIONPERIOD, new ZclAttribute(22, ZclDataType.SIGNED_16_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_NUMBERRSSIMEASUREMENTS, new ZclAttribute(23, ZclDataType.SIGNED_16_BIT_INTEGER, 
+                false, true, true, false));
 
         return attributeMap;
     }

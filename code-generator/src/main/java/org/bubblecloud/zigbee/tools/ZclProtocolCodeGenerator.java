@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -777,10 +776,11 @@ public class ZclProtocolCodeGenerator {
                 out.println();
                 if(cluster.attributes.size() != 0) {
                     for (final Attribute attribute : cluster.attributes.values()) {
-                        out.println("        attributeMap.put(" + attribute.attributeId + ", new ZclAttribute(" + attribute.attributeId + ", ZclDataType." + attribute.dataType + ", " +
+                        out.println("        attributeMap.put(" + attribute.enumName + ", new ZclAttribute(" + attribute.attributeId + ", ZclDataType." + attribute.dataType + ", " +
                                 "mandatory".equals(attribute.attributeImplementation.toLowerCase()) + ", " +
-                                String.format("0x%X", ZclDataType.getDataTypeMapping().get(attribute.dataType).invalid) + ", " +
-                                ZclDataType.getDataTypeMapping().get(attribute.dataType).length +
+                                attribute.attributeAccess.toLowerCase().contains("read") + ", " +
+                                attribute.attributeAccess.toLowerCase().contains("write") + ", " +
+                                "mandatory".equals(attribute.attributeReporting.toLowerCase()) +
                                 "));");
                     }
                 }

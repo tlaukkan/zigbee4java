@@ -31,7 +31,8 @@ public class ZclOnOffCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(1);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.BOOLEAN, true, 0xFF, 1));
+        attributeMap.put(ATTR_ONOFF, new ZclAttribute(0, ZclDataType.BOOLEAN, 
+                true, true, false, true));
 
         return attributeMap;
     }

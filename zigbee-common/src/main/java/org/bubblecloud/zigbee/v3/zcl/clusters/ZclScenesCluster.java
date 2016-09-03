@@ -54,12 +54,18 @@ public class ZclScenesCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(6);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_8_BIT_INTEGER, true, 0xFF, 1));
-        attributeMap.put(1, new ZclAttribute(1, ZclDataType.UNSIGNED_8_BIT_INTEGER, true, 0xFF, 1));
-        attributeMap.put(2, new ZclAttribute(2, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
-        attributeMap.put(3, new ZclAttribute(3, ZclDataType.BOOLEAN, true, 0xFF, 1));
-        attributeMap.put(4, new ZclAttribute(4, ZclDataType.BITMAP_8_BIT, true, 0x0, 1));
-        attributeMap.put(5, new ZclAttribute(5, ZclDataType.IEEE_ADDRESS, false, 0xFFFFFFFF, 8));
+        attributeMap.put(ATTR_SCENECOUNT, new ZclAttribute(0, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                true, true, false, false));
+        attributeMap.put(ATTR_CURRENTSCENE, new ZclAttribute(1, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                true, true, false, false));
+        attributeMap.put(ATTR_CURRENTGROUP, new ZclAttribute(2, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                true, true, false, false));
+        attributeMap.put(ATTR_SCENEVALID, new ZclAttribute(3, ZclDataType.BOOLEAN, 
+                true, true, false, false));
+        attributeMap.put(ATTR_NAMESUPPORT, new ZclAttribute(4, ZclDataType.BITMAP_8_BIT, 
+                true, true, false, false));
+        attributeMap.put(ATTR_LASTCONFIGUREDBY, new ZclAttribute(5, ZclDataType.IEEE_ADDRESS, 
+                false, true, false, false));
 
         return attributeMap;
     }

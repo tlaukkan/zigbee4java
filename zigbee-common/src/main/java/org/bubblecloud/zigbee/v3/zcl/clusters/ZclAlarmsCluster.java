@@ -45,7 +45,8 @@ public class ZclAlarmsCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(1);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
+        attributeMap.put(ATTR_ALARMCOUNT, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, false, false));
 
         return attributeMap;
     }

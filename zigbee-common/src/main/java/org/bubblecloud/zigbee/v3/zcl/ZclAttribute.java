@@ -13,29 +13,25 @@ public class ZclAttribute {
     private final int id;
 
     /**
-     * Defines if the attribute must be implemented
-     */
-    private final boolean mandatory;
-
-    /**
-     * Length of the data
-     */
-    private int length;
-    
-    /**
-     * Value that defines an invalid or unset value;
-     */
-    private int invalid;
-    
-    /**
      * Defines the ZigBee data type.
      */
     private final ZclDataType dataType;
 
     /**
+     * Defines if this attribute is mandatory to be implemented
+     */
+    private final boolean mandatory;
+
+    /**
      * Defines if the attribute is implemented by the device
      */
     private boolean implemented;
+
+    private boolean readable;
+
+    private boolean writeable;
+
+    private boolean reportable;
 
     /**
      * The minimum reporting interval field is 16-bits in length and shall
@@ -85,18 +81,24 @@ public class ZclAttribute {
 
     /**
      * Constructor used to set the static information
+     * 
      * @param id
      * @param dataType
      * @param mandatory
+     * @param readable
+     * @param writeable
+     * @param reportable
      */
-    public ZclAttribute(int id, ZclDataType dataType, boolean mandatory, int invalid, int length) {
+    public ZclAttribute(final int id, final ZclDataType dataType, final boolean mandatory, final boolean readable,
+            final boolean writeable, final boolean reportable) {
         this.id = id;
         this.dataType = dataType;
         this.mandatory = mandatory;
-        this.invalid = invalid;
-        this.length = length;
+        this.readable = readable;
+        this.writeable = writeable;
+        this.reportable = reportable;
     }
-    
+
     /**
      * Gets the attribute ID
      * 
@@ -108,8 +110,7 @@ public class ZclAttribute {
 
     /**
      * Returns true if the implementation of this attribute in the cluster is
-     * mandatory as required by the ZigBee standard.
-     * <br>
+     * mandatory as required by the ZigBee standard. <br>
      * Note that this does not necessarily mean that the attribute is actually
      * implemented in any device if it does not conform to the standard.
      * 
@@ -126,6 +127,18 @@ public class ZclAttribute {
      */
     public boolean isImplemented() {
         return implemented;
+    }
+
+    public boolean isReadable() {
+        return readable;
+    }
+
+    public boolean isWritable() {
+        return writeable;
+    }
+
+    public boolean isReportable() {
+        return reportable;
     }
 
     /**
@@ -195,6 +208,7 @@ public class ZclAttribute {
 
     /**
      * Gets the last reported value of this attribute
+     * 
      * @return the last value, or null if no update has been received
      */
     public Object getLastValue() {
@@ -203,7 +217,9 @@ public class ZclAttribute {
 
     /**
      * Gets the last report time of this attribute
-     * @return the time of the last report, or null if not reports have been received
+     * 
+     * @return the time of the last report, or null if not reports have been
+     *         received
      */
     public Calendar getLastReportTime() {
         return lastReportTime;

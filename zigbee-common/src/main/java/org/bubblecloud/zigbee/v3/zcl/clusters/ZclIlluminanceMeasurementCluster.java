@@ -34,11 +34,16 @@ public class ZclIlluminanceMeasurementCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(5);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
-        attributeMap.put(1, new ZclAttribute(1, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
-        attributeMap.put(2, new ZclAttribute(2, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
-        attributeMap.put(3, new ZclAttribute(3, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(4, new ZclAttribute(4, ZclDataType.ENUMERATION_8_BIT, false, 0xFF, 1));
+        attributeMap.put(ATTR_MEASUREDVALUE, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                true, true, false, true));
+        attributeMap.put(ATTR_MINMEASUREDVALUE, new ZclAttribute(1, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                true, true, false, false));
+        attributeMap.put(ATTR_MAXMEASUREDVALUE, new ZclAttribute(2, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                true, true, false, false));
+        attributeMap.put(ATTR_TOLERANCE, new ZclAttribute(3, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, false, true));
+        attributeMap.put(ATTR_LIGHTSENSORTYPE, new ZclAttribute(4, ZclDataType.ENUMERATION_8_BIT, 
+                false, true, false, false));
 
         return attributeMap;
     }

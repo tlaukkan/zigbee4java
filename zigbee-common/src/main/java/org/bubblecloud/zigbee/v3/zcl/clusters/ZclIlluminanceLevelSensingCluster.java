@@ -31,8 +31,10 @@ public class ZclIlluminanceLevelSensingCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(2);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.ENUMERATION_8_BIT, true, 0xFF, 1));
-        attributeMap.put(1, new ZclAttribute(1, ZclDataType.ENUMERATION_8_BIT, false, 0xFF, 1));
+        attributeMap.put(ATTR_LEVELSTATUS, new ZclAttribute(0, ZclDataType.ENUMERATION_8_BIT, 
+                true, true, false, true));
+        attributeMap.put(ATTR_LIGHTSENSORTYPE, new ZclAttribute(1, ZclDataType.ENUMERATION_8_BIT, 
+                false, true, false, false));
 
         return attributeMap;
     }

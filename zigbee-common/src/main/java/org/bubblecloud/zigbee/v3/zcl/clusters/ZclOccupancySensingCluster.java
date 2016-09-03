@@ -35,13 +35,20 @@ public class ZclOccupancySensingCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(7);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.BITMAP_8_BIT, true, 0x0, 1));
-        attributeMap.put(1, new ZclAttribute(1, ZclDataType.ENUMERATION_8_BIT, true, 0xFF, 1));
-        attributeMap.put(16, new ZclAttribute(16, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
-        attributeMap.put(17, new ZclAttribute(17, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
-        attributeMap.put(32, new ZclAttribute(32, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
-        attributeMap.put(33, new ZclAttribute(33, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
-        attributeMap.put(34, new ZclAttribute(34, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(ATTR_OCCUPANCY, new ZclAttribute(0, ZclDataType.BITMAP_8_BIT, 
+                true, true, false, true));
+        attributeMap.put(ATTR_OCCUPANCYSENSORTYPE, new ZclAttribute(1, ZclDataType.ENUMERATION_8_BIT, 
+                true, true, false, false));
+        attributeMap.put(ATTR_PIROCCUPIEDTOUNOCCUPIEDDELAY, new ZclAttribute(16, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_PIRUNOCCUPIEDTOOCCUPIEDDELAY, new ZclAttribute(17, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_ULTRASONICOCCUPIEDTOUNOCCUPIEDDELAY, new ZclAttribute(32, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_ULTRASONICUNOCCUPIEDTOOCCUPIEDDELAY, new ZclAttribute(33, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_ULTRASONICUNOCCUPIEDTOOCCUPIEDTHRESHOLD, new ZclAttribute(34, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                false, true, true, false));
 
         return attributeMap;
     }

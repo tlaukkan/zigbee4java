@@ -38,7 +38,8 @@ public class ZclLevelControlCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(1);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(ATTR_ONLEVEL, new ZclAttribute(0, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                false, true, true, false));
 
         return attributeMap;
     }

@@ -32,14 +32,22 @@ public class ZclTimeCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(8);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UTCTIME, true, 0xFFFFFFFF, 4));
-        attributeMap.put(1, new ZclAttribute(1, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(2, new ZclAttribute(2, ZclDataType.SIGNED_32_BIT_INTEGER, false, 0x80000000, 4));
-        attributeMap.put(3, new ZclAttribute(3, ZclDataType.UNSIGNED_32_BIT_INTEGER, false, 0xFFFFFFFF, 4));
-        attributeMap.put(4, new ZclAttribute(4, ZclDataType.UNSIGNED_32_BIT_INTEGER, false, 0xFFFFFFFF, 4));
-        attributeMap.put(5, new ZclAttribute(5, ZclDataType.SIGNED_32_BIT_INTEGER, false, 0x80000000, 4));
-        attributeMap.put(6, new ZclAttribute(6, ZclDataType.SIGNED_32_BIT_INTEGER, false, 0x80000000, 4));
-        attributeMap.put(7, new ZclAttribute(7, ZclDataType.SIGNED_32_BIT_INTEGER, false, 0x80000000, 4));
+        attributeMap.put(ATTR_TIME, new ZclAttribute(0, ZclDataType.UTCTIME, 
+                true, true, true, false));
+        attributeMap.put(ATTR_TIMESTATUS, new ZclAttribute(1, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_TIMEZONE, new ZclAttribute(2, ZclDataType.SIGNED_32_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_DSTSTART, new ZclAttribute(3, ZclDataType.UNSIGNED_32_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_DSTEND, new ZclAttribute(4, ZclDataType.UNSIGNED_32_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_DSTSHIFT, new ZclAttribute(5, ZclDataType.SIGNED_32_BIT_INTEGER, 
+                false, true, true, false));
+        attributeMap.put(ATTR_STANDARDTIME, new ZclAttribute(6, ZclDataType.SIGNED_32_BIT_INTEGER, 
+                false, true, false, false));
+        attributeMap.put(ATTR_LOCALTIME, new ZclAttribute(7, ZclDataType.SIGNED_32_BIT_INTEGER, 
+                false, true, false, false));
 
         return attributeMap;
     }

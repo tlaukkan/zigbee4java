@@ -38,19 +38,32 @@ public class ZclBasicCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(13);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_8_BIT_INTEGER, true, 0xFF, 1));
-        attributeMap.put(1, new ZclAttribute(1, ZclDataType.UNSIGNED_8_BIT_INTEGER, true, 0xFF, 1));
-        attributeMap.put(2, new ZclAttribute(2, ZclDataType.UNSIGNED_8_BIT_INTEGER, true, 0xFF, 1));
-        attributeMap.put(3, new ZclAttribute(3, ZclDataType.UNSIGNED_8_BIT_INTEGER, true, 0xFF, 1));
-        attributeMap.put(4, new ZclAttribute(4, ZclDataType.CHARACTER_STRING, true, 0x0, -1));
-        attributeMap.put(5, new ZclAttribute(5, ZclDataType.CHARACTER_STRING, true, 0x0, -1));
-        attributeMap.put(6, new ZclAttribute(6, ZclDataType.CHARACTER_STRING, true, 0x0, -1));
-        attributeMap.put(7, new ZclAttribute(7, ZclDataType.ENUMERATION_8_BIT, true, 0xFF, 1));
-        attributeMap.put(16, new ZclAttribute(16, ZclDataType.CHARACTER_STRING, true, 0x0, -1));
-        attributeMap.put(17, new ZclAttribute(17, ZclDataType.ENUMERATION_8_BIT, true, 0xFF, 1));
-        attributeMap.put(18, new ZclAttribute(18, ZclDataType.BOOLEAN, true, 0xFF, 1));
-        attributeMap.put(19, new ZclAttribute(19, ZclDataType.BITMAP_8_BIT, true, 0x0, 1));
-        attributeMap.put(20, new ZclAttribute(20, ZclDataType.BITMAP_8_BIT, true, 0x0, 1));
+        attributeMap.put(ATTR_ZCLVERSION, new ZclAttribute(0, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                true, true, false, false));
+        attributeMap.put(ATTR_APPLICATIONVERSION, new ZclAttribute(1, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                true, true, false, false));
+        attributeMap.put(ATTR_STACKVERSION, new ZclAttribute(2, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                true, true, false, false));
+        attributeMap.put(ATTR_HWVERSION, new ZclAttribute(3, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                true, true, false, false));
+        attributeMap.put(ATTR_MANUFACTURERNAME, new ZclAttribute(4, ZclDataType.CHARACTER_STRING, 
+                true, true, false, false));
+        attributeMap.put(ATTR_MODELIDENTIFIER, new ZclAttribute(5, ZclDataType.CHARACTER_STRING, 
+                true, true, false, false));
+        attributeMap.put(ATTR_DATECODE, new ZclAttribute(6, ZclDataType.CHARACTER_STRING, 
+                true, true, false, false));
+        attributeMap.put(ATTR_POWERSOURCE, new ZclAttribute(7, ZclDataType.ENUMERATION_8_BIT, 
+                true, true, false, false));
+        attributeMap.put(ATTR_LOCATIONDESCRIPTION, new ZclAttribute(16, ZclDataType.CHARACTER_STRING, 
+                true, true, true, false));
+        attributeMap.put(ATTR_PHYSICALENVIRONMENT, new ZclAttribute(17, ZclDataType.ENUMERATION_8_BIT, 
+                true, true, true, false));
+        attributeMap.put(ATTR_DEVICEENABLED, new ZclAttribute(18, ZclDataType.BOOLEAN, 
+                true, true, true, false));
+        attributeMap.put(ATTR_ALARMMASK, new ZclAttribute(19, ZclDataType.BITMAP_8_BIT, 
+                true, true, true, false));
+        attributeMap.put(ATTR_DISABLELOCALCONFIG, new ZclAttribute(20, ZclDataType.BITMAP_8_BIT, 
+                true, true, true, false));
 
         return attributeMap;
     }

@@ -37,15 +37,24 @@ public class ZclPressureMeasurementCluster extends ZclCluster {
     protected Map<Integer, ZclAttribute> initializeAttributes() {
         Map<Integer, ZclAttribute> attributeMap = new HashMap<Integer, ZclAttribute>(9);
 
-        attributeMap.put(0, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
-        attributeMap.put(1, new ZclAttribute(1, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
-        attributeMap.put(2, new ZclAttribute(2, ZclDataType.UNSIGNED_16_BIT_INTEGER, true, 0xFFFF, 2));
-        attributeMap.put(3, new ZclAttribute(3, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(16, new ZclAttribute(16, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(17, new ZclAttribute(17, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(18, new ZclAttribute(18, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(19, new ZclAttribute(19, ZclDataType.UNSIGNED_16_BIT_INTEGER, false, 0xFFFF, 2));
-        attributeMap.put(20, new ZclAttribute(20, ZclDataType.UNSIGNED_8_BIT_INTEGER, false, 0xFF, 1));
+        attributeMap.put(ATTR_MEASUREDVALUE, new ZclAttribute(0, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                true, true, false, true));
+        attributeMap.put(ATTR_MINMEASUREDVALUE, new ZclAttribute(1, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                true, true, false, false));
+        attributeMap.put(ATTR_MAXMEASUREDVALUE, new ZclAttribute(2, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                true, true, false, true));
+        attributeMap.put(ATTR_TOLERANCE, new ZclAttribute(3, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, false, false));
+        attributeMap.put(ATTR_SCALEDVALUE, new ZclAttribute(16, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, false, true));
+        attributeMap.put(ATTR_MINSCALEDVALUE, new ZclAttribute(17, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, false, false));
+        attributeMap.put(ATTR_MAXSCALEDVALUE, new ZclAttribute(18, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, false, false));
+        attributeMap.put(ATTR_SCALEDTOLERANCE, new ZclAttribute(19, ZclDataType.UNSIGNED_16_BIT_INTEGER, 
+                false, true, false, true));
+        attributeMap.put(ATTR_SCALE, new ZclAttribute(20, ZclDataType.UNSIGNED_8_BIT_INTEGER, 
+                false, true, false, false));
 
         return attributeMap;
     }
