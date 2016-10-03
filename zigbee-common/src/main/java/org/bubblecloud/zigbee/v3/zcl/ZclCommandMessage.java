@@ -218,11 +218,20 @@ public class ZclCommandMessage {
     @Override
     public String toString() {
         Integer resolvedClusterId = getClusterId();
-        if (resolvedClusterId == null) {
+        StringBuilder sb = new StringBuilder();
+        if (resolvedClusterId == null && type != null) {
             resolvedClusterId = type.getClusterType().getId();
+            
+            sb.append(ZclClusterType.getValueById(resolvedClusterId).getLabel() + " - " + type + " ");
         }
-        return ZclClusterType.getValueById(resolvedClusterId).getLabel() + " - " + type + " " + sourceAddress + "." + sourceEnpoint + " -> "
-                + destinationAddress + "." + destinationEndpoint  + " tid=" + transactionId + " " + fields;
+        else {
+        	sb.append("ZCL unknown ");
+        }
+        
+        sb.append(sourceAddress + "." + sourceEnpoint + " -> "
+                + destinationAddress + "." + destinationEndpoint  + " tid=" + transactionId + " " + fields);
+        
+        return sb.toString();
     }
 
     static {
