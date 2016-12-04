@@ -70,6 +70,7 @@ public interface ZigBeeNetworkState {
 
     /**
      * Adds network listener.
+     * The listener will be notified about device additions, removals and updates within the network.
      * @param networkListener the network listener
      */
     void addNetworkListener(ZigBeeNetworkStateListener networkListener);

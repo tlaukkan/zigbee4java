@@ -2,6 +2,7 @@ package org.bubblecloud.zigbee.v3;
 
 /**
  * ZigBee network listener.
+ * Provides notifications on devices - eg devices added to the network, removed from the network, or updated. 
  */
 public interface ZigBeeNetworkStateListener {
     /**
