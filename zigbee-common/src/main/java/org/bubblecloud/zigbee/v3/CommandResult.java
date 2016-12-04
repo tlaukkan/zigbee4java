@@ -1,7 +1,8 @@
 package org.bubblecloud.zigbee.v3;
 
 import org.bubblecloud.zigbee.v3.model.Status;
-import org.bubblecloud.zigbee.v3.zcl.protocol.command.general.DefaultResponseCommand;
+import org.bubblecloud.zigbee.v3.zcl.clusters.general.DefaultResponse;
+import org.bubblecloud.zigbee.v3.zdo.ZdoResponse;
 
 /**
  * Value class containing command response.
@@ -81,7 +82,7 @@ public class CommandResult {
      */
     public boolean hasStatusCode() {
         if (response != null) {
-            return response instanceof DefaultResponseCommand || response instanceof ZdoResponse;
+            return response instanceof DefaultResponse || response instanceof ZdoResponse;
         } else {
             return false;
         }
@@ -93,8 +94,8 @@ public class CommandResult {
      */
     public Integer getStatusCode() {
         if (hasStatusCode()) {
-            if (response instanceof DefaultResponseCommand) {
-                return ((DefaultResponseCommand) response).getStatusCode();
+            if (response instanceof DefaultResponse) {
+                return ((DefaultResponse) response).getStatusCode();
             } else {
                 return ((ZdoResponse) response).getStatus();
             }

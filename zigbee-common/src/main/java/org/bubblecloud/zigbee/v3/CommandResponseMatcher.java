@@ -1,7 +1,7 @@
 package org.bubblecloud.zigbee.v3;
 
 /**
- * Matches command for response.
+ * Defines the interface for the response matcher
  */
 public interface CommandResponseMatcher {
     /**

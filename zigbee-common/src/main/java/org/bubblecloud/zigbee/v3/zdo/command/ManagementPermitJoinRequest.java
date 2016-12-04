@@ -1,7 +1,7 @@
 package org.bubblecloud.zigbee.v3.zdo.command;
 
 import org.bubblecloud.zigbee.v3.zdo.ZdoCommand;
-import org.bubblecloud.zigbee.v3.ZdoRequest;
+import org.bubblecloud.zigbee.v3.zdo.ZdoRequest;
 
 /**
  * ManagementPermitJoinRequest.
@@ -16,7 +16,7 @@ public class ManagementPermitJoinRequest extends ZdoCommand implements ZdoReques
      */
     private int destinationAddress;
     /**
-     * Dduration to permit joining.  0 = join disabled.  0xff = join enabled. 0x01-0xfe = number of seconds to permit joining.
+     * Duration to permit joining.  0 = join disabled.  0xff = join enabled. 0x01-0xfe = number of seconds to permit joining.
      */
     private int duration;
     /**

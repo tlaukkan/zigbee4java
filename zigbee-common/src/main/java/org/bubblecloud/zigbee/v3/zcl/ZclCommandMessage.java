@@ -17,7 +17,6 @@ package org.bubblecloud.zigbee.v3.zcl;
 
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclClusterType;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclCommandType;
-import org.bubblecloud.zigbee.v3.zcl.protocol.ZclCommandTypeRegistrar;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclFieldType;
 
 import java.util.Map;
@@ -218,14 +217,19 @@ public class ZclCommandMessage {
     @Override
     public String toString() {
         Integer resolvedClusterId = getClusterId();
-        if (resolvedClusterId == null) {
+        StringBuilder sb = new StringBuilder();
+        if (resolvedClusterId == null && type != null) {
             resolvedClusterId = type.getClusterType().getId();
+            
+            sb.append(ZclClusterType.getValueById(resolvedClusterId).getLabel() + " - " + type + " ");
         }
-        return ZclClusterType.getValueById(resolvedClusterId).getLabel() + " - " + type + " " + sourceAddress + "." + sourceEnpoint + " -> "
-                + destinationAddress + "." + destinationEndpoint  + " tid=" + transactionId + " " + fields;
-    }
-
-    static {
-        ZclCommandTypeRegistrar.register();
+        else {
+        	sb.append("ZCL unknown ");
+        }
+        
+        sb.append(sourceAddress + "." + sourceEnpoint + " -> "
+                + destinationAddress + "." + destinationEndpoint  + " tid=" + transactionId + " " + fields);
+        
+        return sb.toString();
     }
 }

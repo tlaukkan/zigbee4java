@@ -1,7 +1,7 @@
 package org.bubblecloud.zigbee.v3.zdo.command;
 
 import org.bubblecloud.zigbee.v3.zdo.ZdoCommand;
-import org.bubblecloud.zigbee.v3.ZdoResponse;
+import org.bubblecloud.zigbee.v3.zdo.ZdoResponse;
 
 import java.util.Arrays;
 
