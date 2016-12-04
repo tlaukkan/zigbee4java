@@ -315,8 +315,8 @@ public class ZigBeeApi {
     /**
      * Moves device level.
      * @param destination the {@link ZigBeeAddress}
-     * @param level the level
-     * @param time the transition time
+     * @param level the level in range [0, 1] which will be mapped to [0, 254] in ZigBee layer
+     * @param time the transition time in seconds which will be mapped to 1 tenth of seconds in ZigBee layer
      * @return the command result future.
      */
     public Future<CommandResult> level(final ZigBeeAddress destination, final double level, final double time) {
