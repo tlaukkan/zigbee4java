@@ -21,6 +21,7 @@ import org.bubblecloud.zigbee.v3.zcl.protocol.ZclClusterType;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclCommandType;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclCommandTypeRegistrar;
 import org.bubblecloud.zigbee.v3.zcl.protocol.ZclFieldType;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -105,21 +106,12 @@ public class ZclCommandMessage {
      * 
      * @return the destination group ID
      */
+    @JsonIgnore
     public Integer getDestinationGroupId() {
         if (destinationAddress instanceof ZigBeeGroupAddress) {
             return ((ZigBeeGroupAddress) destinationAddress).getGroupId();
         }
         return 0;
-    }
-
-    /**
-     * Sets destination group ID
-     * 
-     * @param destinationGroupId
-     *            the destination group ID
-     */
-    public void setDestinationGroupId(final Integer destinationGroupId) {
-        this.destinationAddress = new ZigBeeGroupAddress(destinationGroupId);
     }
 
     /**

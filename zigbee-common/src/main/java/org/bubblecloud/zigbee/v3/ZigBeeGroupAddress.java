@@ -19,6 +19,7 @@ public class ZigBeeGroupAddress extends ZigBeeAddress {
      * Default constructor.
      */
     public ZigBeeGroupAddress() {
+        int i = 0;
     }
 
     /**
@@ -85,5 +86,10 @@ public class ZigBeeGroupAddress extends ZigBeeAddress {
     @Override
     public boolean isGroup() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return groupId + "/" + label;
     }
 }
