@@ -3,7 +3,7 @@ package org.bubblecloud.zigbee.v3;
 /**
  * ZigBee group.
  */
-public class ZigBeeGroup extends ZigBeeDestination {
+public class ZigBeeGroupAddress extends ZigBeeAddress {
 
     /**
      * The group ID.
@@ -18,21 +18,35 @@ public class ZigBeeGroup extends ZigBeeDestination {
     /**
      * Default constructor.
      */
-    public ZigBeeGroup() {
+    public ZigBeeGroupAddress() {
     }
 
     /**
      * Constructor which sets group ID.
-     * @param groupId the group ID
-     * @param label the group label
+     * 
+     * @param groupId
+     *            the group ID
      */
-    public ZigBeeGroup(final int groupId, final String label) {
+    public ZigBeeGroupAddress(final int groupId) {
+        this.groupId = groupId;
+    }
+
+    /**
+     * Constructor which sets group ID and label.
+     * 
+     * @param groupId
+     *            the group ID
+     * @param label
+     *            the group label
+     */
+    public ZigBeeGroupAddress(final int groupId, final String label) {
         this.groupId = groupId;
         this.label = label;
     }
 
     /**
      * Gets group ID.
+     * 
      * @return the group ID.
      */
     public int getGroupId() {
@@ -41,7 +55,9 @@ public class ZigBeeGroup extends ZigBeeDestination {
 
     /**
      * Sets group ID.
-     * @param groupId the group ID
+     * 
+     * @param groupId
+     *            the group ID
      */
     public void setGroupId(final int groupId) {
         this.groupId = groupId;
@@ -49,6 +65,7 @@ public class ZigBeeGroup extends ZigBeeDestination {
 
     /**
      * Gets group label.
+     * 
      * @return the group label
      */
     public String getLabel() {
@@ -57,9 +74,16 @@ public class ZigBeeGroup extends ZigBeeDestination {
 
     /**
      * Sets group name.
-     * @param label the group label
+     * 
+     * @param label
+     *            the group label
      */
     public void setLabel(final String label) {
         this.label = label;
+    }
+
+    @Override
+    public boolean isGroup() {
+        return true;
     }
 }

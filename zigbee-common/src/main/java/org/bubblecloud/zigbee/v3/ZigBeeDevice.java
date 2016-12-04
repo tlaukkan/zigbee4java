@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Value object for ZigBee device.
  */
-public class ZigBeeDevice extends ZigBeeDestination {
+public class ZigBeeDevice {
     /**
      * The IEEE address.
      */
@@ -13,11 +13,7 @@ public class ZigBeeDevice extends ZigBeeDestination {
     /**
      * The network address.
      */
-    private int networkAddress;
-    /**
-     * The end point.
-     */
-    private int endpoint;
+    private final ZigBeeDeviceAddress networkAddress = new ZigBeeDeviceAddress();
     /**
      * The profile ID.
      */
@@ -50,8 +46,10 @@ public class ZigBeeDevice extends ZigBeeDestination {
      * Label.
      */
     private String label;
+
     /**
      * Gets the device ID.
+     * 
      * @return the device ID
      */
     public int getDeviceId() {
@@ -60,7 +58,9 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Sets the device ID.
-     * @param deviceId the device ID.
+     * 
+     * @param deviceId
+     *            the device ID.
      */
     public void setDeviceId(int deviceId) {
         this.deviceId = deviceId;
@@ -68,6 +68,7 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Gets device version.
+     * 
      * @return the device version
      */
     public int getDeviceVersion() {
@@ -76,7 +77,9 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Sets device version.
-     * @param deviceVersion the device version
+     * 
+     * @param deviceVersion
+     *            the device version
      */
     public void setDeviceVersion(int deviceVersion) {
         this.deviceVersion = deviceVersion;
@@ -84,22 +87,26 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Gets end point.
+     * 
      * @return the end point
      */
     public int getEndpoint() {
-        return endpoint;
+        return networkAddress.getEndpoint();
     }
 
     /**
      * Sets end point
-     * @param endpoint the end point
+     * 
+     * @param endpoint
+     *            the end point
      */
     public void setEndpoint(int endpoint) {
-        this.endpoint = endpoint;
+        networkAddress.setEndpoint(endpoint);
     }
 
     /**
      * Gets IEEE Address.
+     * 
      * @return the IEEE address
      */
     public long getIeeeAddress() {
@@ -108,7 +115,9 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Sets IEEE Address.
-     * @param ieeeAddress the IEEE address
+     * 
+     * @param ieeeAddress
+     *            the IEEE address
      */
     public void setIeeeAddress(long ieeeAddress) {
         this.ieeeAddress = ieeeAddress;
@@ -116,6 +125,7 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Gets input cluster IDs.
+     * 
      * @return the input cluster IDs
      */
     public int[] getInputClusterIds() {
@@ -124,7 +134,9 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Sets input cluster IDs.
-     * @param inputClusterIds the input cluster IDs
+     * 
+     * @param inputClusterIds
+     *            the input cluster IDs
      */
     public void setInputClusterIds(int[] inputClusterIds) {
         this.inputClusterIds = inputClusterIds;
@@ -132,22 +144,35 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Gets network address.
+     * 
      * @return the network address
      */
     public int getNetworkAddress() {
+        return networkAddress.getAddress();
+    }
+
+    /**
+     * Gets the device address
+     * 
+     * @return the {@link ZigBeeDeviceAddress}
+     */
+    public ZigBeeDeviceAddress getDeviceAddress() {
         return networkAddress;
     }
 
     /**
      * Sets network address.
-     * @param networkAddress the network address
+     * 
+     * @param networkAddress
+     *            the network address
      */
     public void setNetworkAddress(int networkAddress) {
-        this.networkAddress = networkAddress;
+        this.networkAddress.setAddress(networkAddress);
     }
 
     /**
      * Gets output cluster IDs.
+     * 
      * @return the output cluster IDs
      */
     public int[] getOutputClusterIds() {
@@ -156,14 +181,17 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Sets output cluster IDs.
-     * @param outputClusterIds the output cluster IDs
+     * 
+     * @param outputClusterIds
+     *            the output cluster IDs
      */
-   public void setOutputClusterIds(int[] outputClusterIds) {
+    public void setOutputClusterIds(int[] outputClusterIds) {
         this.outputClusterIds = outputClusterIds;
     }
 
     /**
      * Gets profile ID.
+     * 
      * @return the profile ID.
      */
     public int getProfileId() {
@@ -172,7 +200,9 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Sets profile ID
-     * @param profileId the profile ID
+     * 
+     * @param profileId
+     *            the profile ID
      */
     public void setProfileId(int profileId) {
         this.profileId = profileId;
@@ -180,6 +210,7 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Gets device logical type.
+     * 
      * @return the device logical type.
      */
     public int getDeviceType() {
@@ -188,7 +219,9 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Sets device logical type.
-     * @param deviceType the device logical type
+     * 
+     * @param deviceType
+     *            the device logical type
      */
     public void setDeviceType(int deviceType) {
         this.deviceType = deviceType;
@@ -196,6 +229,7 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Gets manufacturer code.
+     * 
      * @return the manufacturer code.
      */
     public int getManufacturerCode() {
@@ -204,7 +238,9 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Sets manufacturer code.
-     * @param manufacturerCode the manufacturer code.
+     * 
+     * @param manufacturerCode
+     *            the manufacturer code.
      */
     public void setManufacturerCode(int manufacturerCode) {
         this.manufacturerCode = manufacturerCode;
@@ -212,6 +248,7 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Gets label.
+     * 
      * @return the label
      */
     public String getLabel() {
@@ -220,7 +257,9 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     /**
      * Sets label.
-     * @param label the label
+     * 
+     * @param label
+     *            the label
      */
     public void setLabel(String label) {
         this.label = label;
@@ -228,17 +267,12 @@ public class ZigBeeDevice extends ZigBeeDestination {
 
     @Override
     public String toString() {
-        return "ZigBeeDevice " +
-                "label=" + label +
-                ", networkAddress=" + networkAddress +
-                ", endpoint=" + endpoint +
-                ", ieeeAddress=" + ieeeAddress +
-                ", profileId=" + profileId +
-                ", deviceType=" + deviceType +
-                ", deviceId=" + deviceId +
-                ", manufacturerCode=" + manufacturerCode +
-                ", deviceVersion=" + deviceVersion +
-                ", inputClusterIds=" + Arrays.toString(inputClusterIds) +
-                ", outputClusterIds=" + Arrays.toString(outputClusterIds);
+        return "ZigBeeDevice " + "label=" + label + ", networkAddress="
+                + networkAddress.toString() + ", ieeeAddress=" + ieeeAddress
+                + ", profileId=" + profileId + ", deviceType=" + deviceType
+                + ", deviceId=" + deviceId + ", manufacturerCode="
+                + manufacturerCode + ", deviceVersion=" + deviceVersion
+                + ", inputClusterIds=" + Arrays.toString(inputClusterIds)
+                + ", outputClusterIds=" + Arrays.toString(outputClusterIds);
     }
 }
