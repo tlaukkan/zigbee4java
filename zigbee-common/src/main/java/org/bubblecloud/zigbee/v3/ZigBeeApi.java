@@ -470,7 +470,7 @@ public class ZigBeeApi {
         record.setAttributeIdentifier(attributeId);
         record.setAttributeDataType(ZclAttributeType.get(clusterId, attributeId).getZigBeeType().getId());
         record.setMinimumReportingInterval(minInterval);
-        record.setMinimumReportingInterval(maxInterval);
+        record.setMaximumReportingInterval(maxInterval);
         record.setReportableChange(reportableChange);
         record.setTimeoutPeriod(0);
         command.setRecords(Collections.singletonList(record));
