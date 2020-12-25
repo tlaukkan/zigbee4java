@@ -135,10 +135,15 @@ Maven build dependencies:
 Gradle build dependencies:
 
 ```
-dependencies
-{
-    compile 'org.bubblecloud.zigbee:zigbee-dongle-cc2531:3.x.x'
-    compile 'org.bubblecloud.zigbee:zigbee-serial-javase:3.x.x'
+repositories {
+    maven {
+        url "https://dl.bintray.com/tlaukkan/bubblecloud"
+    }
+}
+
+dependencies {
+    implementation 'org.bubblecloud.zigbee4java:zigbee-dongle-cc2531:3.x.x'
+    implementation 'org.bubblecloud.zigbee4java:zigbee-serial-javase:3.x.x'
 }
 ```
 
@@ -152,7 +157,7 @@ final ZigBeeApiDongleImpl api = new ZigBeeApiDongleImpl(dongle, false);
 
 api.startup();
 
-final ZigBeeDevice device = api.getZigBeeDevices().get(3);
+final ZigBeeDevice device = api.getDevices().get(3);
 
 api.on(device);
 Thread.sleep(1000);
@@ -192,9 +197,14 @@ Maven build dependencies:
 Gradle build dependencies:
 
 ```
-dependencies
-{
-    compile 'org.bubblecloud.zigbee:zigbee-gateway-client:3.x.x'
+repositories {
+    maven {
+        url "https://dl.bintray.com/tlaukkan/bubblecloud"
+    }
+}
+
+dependencies {
+    implementation 'org.bubblecloud.zigbee4java:zigbee-gateway-client:3.x.x'
 }
 ```
 
@@ -212,7 +222,7 @@ api.addCommandListener(new CommandListener() {
     }
 });
 
-final ZigBeeDevice device = api.getZigBeeDevices().get(3);
+final ZigBeeDevice device = api.getDevices().get(3);
 
 api.on(device);
 Thread.sleep(1000);
