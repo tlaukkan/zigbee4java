@@ -1,0 +1,18 @@
+apply from: '../build-common-javase.gradle'
+apply from: '../build-common.gradle'
+
+repositories {
+    jcenter()
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repository-bubblecloud.forge.cloudbees.com/release/" }
+    maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+    implementation 'com.fazecast:jSerialComm:2.6.2'
+    implementation project(':zigbee-api')
+
+    testCompile project(':zigbee-api')
+    testCompile project(path: ':zigbee-api', configuration: 'testOutput')
+}
