@@ -37,6 +37,7 @@ public class SerialPortJSC implements org.bubblecloud.zigbee.v3.SerialPort {
 
     /**
      * Constructor setting port name and baud rate.
+     *
      * @param portName the port name
      * @param baudRate the baud rate
      */
@@ -75,6 +76,9 @@ public class SerialPortJSC implements org.bubblecloud.zigbee.v3.SerialPort {
 
     @Override
     public void close() {
+        if (serialPort == null)
+            return;
+
         try {
             inputStream.close();
             outputStream.flush();
